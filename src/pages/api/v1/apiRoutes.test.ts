@@ -31,10 +31,11 @@ describe('Access Free Tools API routes', () => {
     const body = await response.json();
     expect(response.headers.get('cache-control')).toBe(METADATA_CACHE_CONTROL);
     expect(body.ok).toBe(true);
-    expect(body.tools.length).toBeGreaterThanOrEqual(23);
+    expect(body.tools.length).toBeGreaterThanOrEqual(24);
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('absolute-value-calculator');
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('ai-token-cost-calculator');
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('amp-hours-to-watt-hours-calculator');
+    expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('amps-to-watts-calculator');
     expect(response.headers.get('cache-control')).toMatch(/public/);
   });
 
@@ -170,6 +171,19 @@ describe('Access Free Tools API routes', () => {
     expect(body.run.tool_url).toBe('https://accessfreetools.com/tools/amp-hours-to-watt-hours-calculator/');
   });
 
+  it('runs the amps to watts API tool', async () => {
+    const response = await runPost({
+      clientAddress: '127.0.0.1',
+      params: { slug: 'amps-to-watts-calculator' },
+      request: request({ inputs: { amps: 12.5, phase: 'dc', powerFactor: 1, volts: 120 } }),
+    } as never);
+    const body = await response.json();
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    expect(body.ok).toBe(true);
+    expect(body.run.answer).toContain('1500 watts');
+    expect(body.run.tool_url).toBe('https://accessfreetools.com/tools/amps-to-watts-calculator/');
+  });
+
   it('rejects invalid tool input', async () => {
     const response = await runPost({
       clientAddress: '127.0.0.1',
@@ -232,6 +246,18 @@ describe('Access Free Tools API routes', () => {
     expect(body.ok).toBe(true);
     expect(body.route.tool_slug).toBe('amp-hours-to-watt-hours-calculator');
     expect(body.run.answer).toContain('3600 Wh');
+  });
+
+  it('routes amps to watts Ask questions through the deterministic runner', async () => {
+    const response = await askPost({
+      clientAddress: '127.0.0.5',
+      request: request({ message: 'Convert 12.5 amps at 120 volts to watts.' }),
+    } as never);
+    const body = await response.json();
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    expect(body.ok).toBe(true);
+    expect(body.route.tool_slug).toBe('amps-to-watts-calculator');
+    expect(body.run.answer).toContain('1500 watts');
   });
 
   it('runs the same deterministic result through MCP run_tool', async () => {

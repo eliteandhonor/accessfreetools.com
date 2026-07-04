@@ -5,10 +5,11 @@ import { ApiToolValidationError, listApiTools, runApiTool, searchApiTools } from
 describe('api tool registry', () => {
   it('lists starter tools with schemas and links', () => {
     const tools = listApiTools();
-    expect(tools.length).toBeGreaterThanOrEqual(23);
+    expect(tools.length).toBeGreaterThanOrEqual(24);
     expect(tools.find((tool) => tool.slug === 'absolute-value-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'ai-token-cost-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'amp-hours-to-watt-hours-calculator')?.input_schema).toBeTruthy();
+    expect(tools.find((tool) => tool.slug === 'amps-to-watts-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'percentage-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'binary-calculator')?.input_schema).toBeTruthy();
     expect(tools.every((tool) => tool.tool_url.startsWith('https://accessfreetools.com/tools/'))).toBe(true);
@@ -47,6 +48,9 @@ describe('api tool registry', () => {
     const wattHours = runApiTool('amp-hours-to-watt-hours-calculator', { ampHours: 300, volts: 12 });
     expect(wattHours.answer).toContain('3600 Wh');
     expect(JSON.stringify(wattHours.result)).toContain('kilowattHours');
+    const watts = runApiTool('amps-to-watts-calculator', { amps: 12.5, phase: 'dc', powerFactor: 1, volts: 120 });
+    expect(watts.answer).toContain('1500 watts');
+    expect(JSON.stringify(watts.result)).toContain('kilowatts');
     expect(runApiTool('basic-calculator', { left: 18, operator: '+', right: 24 }).answer).toContain('42');
     expect(runApiTool('average-calculator', { values: [10, 12, 14] }).answer).toContain('12');
     expect(runApiTool('area-calculator', { length: 12, shape: 'rectangle', width: 10 }).answer).toContain('120');
@@ -129,6 +133,9 @@ describe('ask tool router parser', () => {
     const wattHoursAnswer = await answerUtilityQuestion('Convert 300 Ah at 12 V to watt-hours.');
     expect(wattHoursAnswer.route.tool_slug).toBe('amp-hours-to-watt-hours-calculator');
     expect(wattHoursAnswer.answer).toContain('3600 Wh');
+    const wattsAnswer = await answerUtilityQuestion('Convert 12.5 amps at 120 volts to watts.');
+    expect(wattsAnswer.route.tool_slug).toBe('amps-to-watts-calculator');
+    expect(wattsAnswer.answer).toContain('1500 watts');
   });
 });
 

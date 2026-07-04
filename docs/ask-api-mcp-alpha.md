@@ -123,9 +123,9 @@ used the model.
 ## Current Starter Tools
 
 The alpha starts with percentage, absolute value, AI token cost, amp hours to
-watt hours, tip, BMI, mortgage, concrete, paint, download time, watts to amps,
-word counter, JSON formatter, Base64, URL encode/decode, password generator,
-subnet, and date difference.
+watt hours, amps to watts, tip, BMI, mortgage, concrete, paint, download time,
+watts to amps, word counter, JSON formatter, Base64, URL encode/decode,
+password generator, subnet, and date difference.
 
 ## Key Rotation
 

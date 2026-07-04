@@ -57,8 +57,12 @@ function normalizeRouteInputs(slug: string, inputs: Record<string, unknown>) {
     normalized.fileUnit = normalized.fileUnit.toUpperCase();
   }
 
-  if (slug === 'watts-to-amps-calculator' && typeof normalized.phase === 'string') {
+  if (
+    ['amps-to-watts-calculator', 'watts-to-amps-calculator'].includes(slug) &&
+    typeof normalized.phase === 'string'
+  ) {
     const phase = normalized.phase.toLowerCase().replace(/_/g, '-');
+    if (phase === 'dc') normalized.phase = 'dc';
     if (phase === 'single' || phase === 'single-phase') normalized.phase = 'single-phase';
     if (phase === 'three' || phase === 'three-phase') normalized.phase = 'three-phase';
   }
@@ -163,6 +167,32 @@ function parseSupportedToolQuestion(message: string): ToolCallRoute | null {
         },
         source: 'parser',
         tool_slug: 'amp-hours-to-watt-hours-calculator',
+      };
+    }
+  }
+
+  if (lower.includes('amps') || lower.includes('amp') || /\ba\b/.test(lower)) {
+    const ampsToWattsMatch = lower.match(
+      /(\d[\d,]*(?:\.\d+)?)\s*(?:amps?|a)\b.*?(\d[\d,]*(?:\.\d+)?)\s*(?:volts?|v)\b/,
+    );
+    if (ampsToWattsMatch && (lower.includes('watt') || lower.includes('power'))) {
+      const powerFactorMatch = lower.match(/(?:power factor|pf)\s*(?:is|of|=)?\s*(\d+(?:\.\d+)?)/);
+      const phase = lower.includes('three-phase') || lower.includes('3 phase') || lower.includes('three phase')
+        ? 'three-phase'
+        : lower.includes('single-phase') || lower.includes('single phase')
+          ? 'single-phase'
+          : 'dc';
+
+      return {
+        confidence: 'high',
+        inputs: {
+          amps: parseLooseNumber(ampsToWattsMatch[1]),
+          phase,
+          powerFactor: powerFactorMatch ? Number(powerFactorMatch[1]) : 1,
+          volts: parseLooseNumber(ampsToWattsMatch[2]),
+        },
+        source: 'parser',
+        tool_slug: 'amps-to-watts-calculator',
       };
     }
   }

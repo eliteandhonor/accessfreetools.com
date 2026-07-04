@@ -1,4 +1,5 @@
 const site = (process.env.AFT_SITE_URL || 'https://accessfreetools.com').replace(/\/$/, '');
+const cacheBust = `codex_check=${Date.now()}`;
 
 async function readJson(response) {
   const text = await response.text();
@@ -10,7 +11,9 @@ async function readJson(response) {
 }
 
 async function checkTools() {
-  const response = await fetch(`${site}/api/v1/tools`, { headers: { accept: 'application/json' } });
+  const response = await fetch(`${site}/api/v1/tools?${cacheBust}`, {
+    headers: { accept: 'application/json', 'cache-control': 'no-cache' },
+  });
   const body = await readJson(response);
   if (!response.ok || !body.ok || !Array.isArray(body.tools) || body.tools.length < 10) {
     throw new Error(`/api/v1/tools did not return the real tool registry. Status ${response.status}.`);

@@ -4,6 +4,7 @@ import {
   calculateAbsoluteValue,
   calculateAiTokenCost,
   calculateAmpHoursToWattHours,
+  calculateAmpsToWatts,
   calculateBigIntegerOperation,
   calculateBinary,
   calculateBinaryIntegerOperation,
@@ -190,6 +191,13 @@ const aiTokenCostInput = z.object({
 
 const ampHoursToWattHoursInput = z.object({
   ampHours: z.number().positive(),
+  volts: z.number().positive(),
+});
+
+const ampsToWattsInput = z.object({
+  amps: z.number().positive(),
+  phase: z.enum(['dc', 'single-phase', 'three-phase']).default('dc'),
+  powerFactor: z.number().positive().max(1).default(1),
   volts: z.number().positive(),
 });
 
@@ -728,6 +736,39 @@ export const apiTools = [
         result: { duration: durationText(result.seconds), ...result },
         steps: [`Effective speed: ${formatNumber(input.speedMbps)} Mbps x ${formatNumber(input.efficiencyPercent, '%')} = ${formatNumber(result.effectiveMbps)} Mbps`, `Convert file size to bits, then divide by effective Mbps`, `Seconds: ${formatNumber(result.seconds)} (${durationText(result.seconds)})`],
         warnings: ['Actual downloads can change because of Wi-Fi, server limits, congestion, and background traffic.'],
+      });
+    },
+  },
+  {
+    category: 'electrical',
+    description: 'Convert amps to watts using voltage, phase, and power factor.',
+    examples: [
+      { label: '12.5 amps at 120 volts', inputs: { amps: 12.5, phase: 'dc', powerFactor: 1, volts: 120 } },
+      { label: '20 amps at 208 volts three-phase', inputs: { amps: 20, phase: 'three-phase', powerFactor: 0.85, volts: 208 } },
+    ],
+    inputSchema: ampsToWattsInput,
+    keywords: ['amps', 'watts', 'volts', 'current', 'electrical'],
+    name: 'Amps to Watts Calculator',
+    risk: 'electrical',
+    slug: 'amps-to-watts-calculator',
+    summary: 'Estimate real power from current, voltage, phase, and power factor.',
+    run(input) {
+      const result = calculateAmpsToWatts({ ...input, phase: input.phase as ElectricalPowerPhase });
+      return withUrls('amps-to-watts-calculator', {
+        answer: `${formatNumber(input.amps)} amps at ${formatNumber(input.volts)} volts is about ${formatNumber(result.watts)} watts, or ${formatNumber(result.kilowatts)} kW.`,
+        assumptions: [
+          'DC and simple resistive loads can use power factor 1.',
+          'Single-phase and DC use a phase factor of 1; three-phase uses square root of 3.',
+        ],
+        result,
+        steps: [
+          `Formula: watts = amps x volts x phase factor x power factor`,
+          `${formatNumber(input.amps)} x ${formatNumber(input.volts)} x ${formatNumber(result.phaseFactor)} x ${formatNumber(input.powerFactor)} = ${formatNumber(result.watts)} watts`,
+          `${formatNumber(result.watts)} W / 1,000 = ${formatNumber(result.kilowatts)} kW`,
+        ],
+        warnings: [
+          'This is a simplified electrical estimate. Use rated equipment data and qualified advice before sizing circuits, breakers, wires, or parts.',
+        ],
       });
     },
   },
