@@ -355,7 +355,7 @@ export default function NumberTheoryCalculator({ variant }: Props) {
         )}
       </div>
 
-      <aside className="advanced-side-panel" aria-label={`${config.title} history`}>
+      <section className="advanced-side-panel" aria-label={`${config.title} history`}>
         <section>
           <h2>Recent answers</h2>
           {history.length > 0 ? (
@@ -402,7 +402,7 @@ export default function NumberTheoryCalculator({ variant }: Props) {
             </>
           )}
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

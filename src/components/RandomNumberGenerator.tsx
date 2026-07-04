@@ -250,7 +250,7 @@ export default function RandomNumberGenerator() {
         </div>
       </div>
 
-      <aside className="random-side-panel" aria-label="Random number examples and history">
+      <section className="random-side-panel" aria-label="Random number examples and history">
         <section>
           <h2>Examples</h2>
           <div className="random-example-list">
@@ -285,7 +285,7 @@ export default function RandomNumberGenerator() {
             passwords, gambling, legal drawings, or security-critical decisions.
           </p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

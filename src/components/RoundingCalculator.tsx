@@ -266,7 +266,7 @@ export default function RoundingCalculator() {
         )}
       </div>
 
-      <aside className="advanced-side-panel" aria-label="Rounding calculator history">
+      <section className="advanced-side-panel" aria-label="Rounding calculator history">
         <section>
           <h2>Recent answers</h2>
           {history.length > 0 ? (
@@ -288,7 +288,7 @@ export default function RoundingCalculator() {
           <p>For place value mode, exponent 2 means nearest 100 and exponent -2 means nearest 0.01.</p>
           <p>Nearest uses standard half-away-from-zero rounding.</p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

@@ -282,7 +282,7 @@ export default function QuadraticFormulaCalculator() {
         )}
       </div>
 
-      <aside className="quadratic-side-panel" aria-label="Quadratic examples and history">
+      <section className="quadratic-side-panel" aria-label="Quadratic examples and history">
         <section>
           <h2>Graph details</h2>
           <div className="quadratic-detail-list">
@@ -322,7 +322,7 @@ export default function QuadraticFormulaCalculator() {
           <p>Enter the equation in standard form ax^2 + bx + c = 0.</p>
           <p>Coefficient a cannot be zero. If a is zero, the equation is linear instead of quadratic.</p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

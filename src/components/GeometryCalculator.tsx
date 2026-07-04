@@ -860,7 +860,7 @@ export default function GeometryCalculator({ variant }: Props) {
         )}
       </div>
 
-      <aside className="advanced-side-panel" aria-label={`${config.title} history`}>
+      <section className="advanced-side-panel" aria-label={`${config.title} history`}>
         <section>
           <h2>Recent answers</h2>
           {history.length > 0 ? (
@@ -882,7 +882,7 @@ export default function GeometryCalculator({ variant }: Props) {
           <p>Geometry answers and history stay in this browser tab while you work.</p>
           <p>Copy answer only writes the current result to your clipboard when you press it.</p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

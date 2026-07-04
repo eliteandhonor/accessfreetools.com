@@ -305,7 +305,7 @@ export default function BinaryCalculator() {
         )}
       </div>
 
-      <aside className="binary-side-panel" aria-label="Binary conversions and history">
+      <section className="binary-side-panel" aria-label="Binary conversions and history">
         <section className="binary-converter-card">
           <h2>Quick conversions</h2>
           <label className="binary-field">
@@ -353,7 +353,7 @@ export default function BinaryCalculator() {
           <p>Use only 0 and 1. Spaces are allowed for readability, such as 1111 0000.</p>
           <p>Division shows a quotient and remainder when the binary numbers do not divide evenly.</p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

@@ -205,7 +205,7 @@ export default function LogCalculator() {
         )}
       </div>
 
-      <aside className="log-side-panel" aria-label="Log calculator history">
+      <section className="log-side-panel" aria-label="Log calculator history">
         <section>
           <h2>Recent answers</h2>
           {history.length > 0 ? (
@@ -227,7 +227,7 @@ export default function LogCalculator() {
           <p>The value must be greater than zero.</p>
           <p>The base must be greater than zero and cannot equal 1. Enter e for a natural log base.</p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

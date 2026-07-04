@@ -256,7 +256,7 @@ export default function ScientificNotationCalculator() {
         )}
       </div>
 
-      <aside className="advanced-side-panel" aria-label="Scientific notation calculator history">
+      <section className="advanced-side-panel" aria-label="Scientific notation calculator history">
         <section>
           <h2>Recent answers</h2>
           {history.length > 0 ? (
@@ -280,7 +280,7 @@ export default function ScientificNotationCalculator() {
           <p>Positive exponents move the decimal right. Negative exponents move it left.</p>
           <p>For exact huge-integer arithmetic, use the Big Number Calculator instead.</p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

@@ -260,7 +260,7 @@ export default function ExponentCalculator() {
         )}
       </div>
 
-      <aside className="exponent-side-panel" aria-label="Exponent calculator history">
+      <section className="exponent-side-panel" aria-label="Exponent calculator history">
         <section>
           <h2>Recent answers</h2>
           {history.length > 0 ? (
@@ -282,7 +282,7 @@ export default function ExponentCalculator() {
           <p>Use whole numbers, decimals, or simple fractions like 1/2 in the exponent box.</p>
           <p>Negative bases work with whole-number exponents only in this calculator.</p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

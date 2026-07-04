@@ -208,7 +208,7 @@ export default function RootCalculator() {
         )}
       </div>
 
-      <aside className="root-side-panel" aria-label="Root calculator history">
+      <section className="root-side-panel" aria-label="Root calculator history">
         <section>
           <h2>Recent answers</h2>
           {history.length > 0 ? (
@@ -230,7 +230,7 @@ export default function RootCalculator() {
           <p>Use index 2 for square roots and index 3 for cube roots.</p>
           <p>Negative radicands need an odd whole-number root index for real-number answers.</p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

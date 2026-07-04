@@ -228,7 +228,7 @@ export default function PercentErrorCalculator() {
         )}
       </div>
 
-      <aside className="percent-error-side-panel" aria-label="Percent error examples and history">
+      <section className="percent-error-side-panel" aria-label="Percent error examples and history">
         <section>
           <h2>Examples</h2>
           <div className="percent-error-example-list">
@@ -255,7 +255,7 @@ export default function PercentErrorCalculator() {
             <p>Recent percent error answers will appear here.</p>
           )}
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

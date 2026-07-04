@@ -312,7 +312,7 @@ export default function MatrixCalculator() {
         )}
       </div>
 
-      <aside className="advanced-side-panel" aria-label="Matrix calculator history">
+      <section className="advanced-side-panel" aria-label="Matrix calculator history">
         <section>
           <h2>Recent answers</h2>
           {history.length > 0 ? (
@@ -335,7 +335,7 @@ export default function MatrixCalculator() {
           <p>Matrix multiplication uses rows of Matrix A and columns of Matrix B, so order matters.</p>
           <p>Determinant and transpose only use Matrix A on this page.</p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

@@ -339,7 +339,7 @@ export default function FractionCalculator() {
         )}
       </div>
 
-      <aside className="fraction-side-panel" aria-label="Fraction calculator examples and history">
+      <section className="fraction-side-panel" aria-label="Fraction calculator examples and history">
         <section>
           <h2>Examples</h2>
           <div className="fraction-example-list">
@@ -366,7 +366,7 @@ export default function FractionCalculator() {
             <p>Recent fraction answers will appear here.</p>
           )}
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

@@ -89,7 +89,7 @@ function HistoryPanel({
   note: string[];
 }) {
   return (
-    <aside className="advanced-side-panel" aria-label={title}>
+    <section className="advanced-side-panel" aria-label={title}>
       <section>
         <h2>{title}</h2>
         {history.length > 0 ? (
@@ -112,7 +112,7 @@ function HistoryPanel({
           <p key={item}>{item}</p>
         ))}
       </section>
-    </aside>
+    </section>
   );
 }
 

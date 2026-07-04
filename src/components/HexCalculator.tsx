@@ -322,7 +322,7 @@ export default function HexCalculator() {
         )}
       </div>
 
-      <aside className="binary-side-panel" aria-label="Hex conversions and history">
+      <section className="binary-side-panel" aria-label="Hex conversions and history">
         <section className="binary-converter-card">
           <h2>Quick conversions</h2>
           <label className="binary-field">
@@ -375,7 +375,7 @@ export default function HexCalculator() {
           <p>Use 0-9 and A-F. Optional 0x prefixes, spaces, and underscores are accepted.</p>
           <p>Division shows a quotient and remainder when the hex values do not divide evenly.</p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

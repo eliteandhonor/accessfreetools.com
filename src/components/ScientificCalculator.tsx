@@ -168,7 +168,7 @@ export default function ScientificCalculator() {
         </div>
       </div>
 
-      <aside className="scientific-history" aria-label="Scientific calculation history">
+      <section className="scientific-history" aria-label="Scientific calculation history">
         <div>
           <h2>History</h2>
           <p>Recent expressions stay in this page while you work.</p>
@@ -196,7 +196,7 @@ export default function ScientificCalculator() {
         ) : (
           <p className="empty-history">Your recent expressions will appear here.</p>
         )}
-      </aside>
+      </section>
     </section>
   );
 }

@@ -349,7 +349,7 @@ export default function RatioCalculator() {
         )}
       </div>
 
-      <aside className="ratio-side-panel" aria-label="Ratio calculator history">
+      <section className="ratio-side-panel" aria-label="Ratio calculator history">
         <section>
           <h2>Recent answers</h2>
           {history.length > 0 ? (
@@ -371,7 +371,7 @@ export default function RatioCalculator() {
           <p>Simplify mode accepts two-part or three-part ratios.</p>
           <p>Use Split total when a total amount needs to be divided by ratio parts.</p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

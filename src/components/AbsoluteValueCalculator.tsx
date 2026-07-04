@@ -255,7 +255,7 @@ export default function AbsoluteValueCalculator() {
         )}
       </div>
 
-      <aside className="absolute-side-panel" aria-label="Absolute value examples and history">
+      <section className="absolute-side-panel" aria-label="Absolute value examples and history">
         <section className="absolute-guide-card">
           <h2>Guide and visual check</h2>
           <p>{visualModel.title}. The bar shows the distance the result is measuring.</p>
@@ -312,7 +312,7 @@ export default function AbsoluteValueCalculator() {
           <p>Leave Compare with blank for a single absolute value like |−12.5|.</p>
           <p>Enter both boxes when you want the absolute difference or distance between two numbers.</p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

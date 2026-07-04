@@ -402,7 +402,7 @@ export default function HalfLifeCalculator() {
         )}
       </div>
 
-      <aside className="half-life-side-panel" aria-label="Half-life examples and history">
+      <section className="half-life-side-panel" aria-label="Half-life examples and history">
         <section>
           <h2>Examples</h2>
           <div className="half-life-example-list">
@@ -435,7 +435,7 @@ export default function HalfLifeCalculator() {
           <p>Use matching time units for elapsed time and half-life, such as hours with hours.</p>
           <p>This is a math helper for study and planning examples, not medical or radiation safety advice.</p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

@@ -376,7 +376,7 @@ export default function BasicCalculator({ variant = 'standard' }: Props) {
         </div>
       </div>
 
-      <aside className="history-panel" aria-label="Calculation history">
+      <section className="history-panel" aria-label="Calculation history">
         <div>
           <h2>Calculation History</h2>
           <p>Keep recent totals while you compare numbers.</p>
@@ -394,7 +394,7 @@ export default function BasicCalculator({ variant = 'standard' }: Props) {
         ) : (
           <p className="empty-history">Your recent calculations will appear here.</p>
         )}
-      </aside>
+      </section>
     </section>
   );
 }

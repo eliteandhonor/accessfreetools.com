@@ -257,7 +257,7 @@ export default function BigNumberCalculator() {
         )}
       </div>
 
-      <aside className="advanced-side-panel" aria-label="Big number calculator history">
+      <section className="advanced-side-panel" aria-label="Big number calculator history">
         <section>
           <h2>Recent answers</h2>
           {history.length > 0 ? (
@@ -280,7 +280,7 @@ export default function BigNumberCalculator() {
           <p>Decimals, fractions, and scientific notation are not accepted in this exact-integer tool.</p>
           <p>Division returns an exact integer quotient and a remainder when needed.</p>
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

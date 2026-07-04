@@ -331,7 +331,7 @@ const articleStructuredData = {
         </section>
       </div>
 
-      <aside class="article-sidecar">
+      <aside class="article-sidecar" aria-label="Related tool links">
         <h2>Open the tool</h2>
         <p>{sidecarText}</p>
         {tool && <a class="button-primary" href={`/tools/${tool.slug}/`}>{tool.name}</a>}
