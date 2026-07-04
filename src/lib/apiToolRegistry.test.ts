@@ -8,8 +8,13 @@ describe('api tool registry', () => {
     expect(tools.length).toBeGreaterThanOrEqual(24);
     expect(tools.find((tool) => tool.slug === 'absolute-value-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'ai-token-cost-calculator')?.input_schema).toBeTruthy();
+    expect(tools.find((tool) => tool.slug === 'api-pricing-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'amp-hours-to-watt-hours-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'amps-to-watts-calculator')?.input_schema).toBeTruthy();
+    expect(tools.find((tool) => tool.slug === 'baking-pan-conversion-calculator')?.input_schema).toBeTruthy();
+    expect(tools.find((tool) => tool.slug === 'bandwidth-calculator')?.input_schema).toBeTruthy();
+    expect(tools.find((tool) => tool.slug === 'bra-size-calculator')?.input_schema).toBeTruthy();
+    expect(tools.find((tool) => tool.slug === 'btu-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'percentage-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'binary-calculator')?.input_schema).toBeTruthy();
     expect(tools.every((tool) => tool.tool_url.startsWith('https://accessfreetools.com/tools/'))).toBe(true);
@@ -45,6 +50,15 @@ describe('api tool registry', () => {
     });
     expect(tokenCost.answer).toContain('$64.00');
     expect(JSON.stringify(tokenCost.result)).toContain('costPerRequest');
+    const apiPricing = runApiTool('api-pricing-calculator', {
+      platformFee: 0,
+      pricePerUnit: 0.04,
+      requests: 1000,
+      retryPercent: 5,
+      unitsPerRequest: 1,
+    });
+    expect(apiPricing.answer).toContain('$42.00');
+    expect(JSON.stringify(apiPricing.result)).toContain('averageCostPerRequest');
     const wattHours = runApiTool('amp-hours-to-watt-hours-calculator', { ampHours: 300, volts: 12 });
     expect(wattHours.answer).toContain('3600 Wh');
     expect(JSON.stringify(wattHours.result)).toContain('kilowattHours');
@@ -54,10 +68,32 @@ describe('api tool registry', () => {
     expect(runApiTool('basic-calculator', { left: 18, operator: '+', right: 24 }).answer).toContain('42');
     expect(runApiTool('average-calculator', { values: [10, 12, 14] }).answer).toContain('12');
     expect(runApiTool('area-calculator', { length: 12, shape: 'rectangle', width: 10 }).answer).toContain('120');
+    expect(
+      runApiTool('baking-pan-conversion-calculator', {
+        newLengthInches: 8,
+        newWidthInches: 8,
+        oldLengthInches: 13,
+        oldWidthInches: 9,
+        originalServings: 12,
+      }).answer,
+    ).toContain('0.547x');
+    expect(runApiTool('bandwidth-calculator', { dataAmount: 5, dataUnit: 'GB', speedAmount: 100, speedUnit: 'Mbps' }).answer).toContain(
+      '6m 40s',
+    );
     expect(runApiTool('binary-calculator', { left: '1011', operator: '+', right: '110' }).answer).toContain('10001');
     expect(runApiTool('big-number-calculator', { left: '999999999999999999', operator: '+', right: '1' }).answer).toContain(
       '1,000,000,000,000,000,000',
     );
+    expect(runApiTool('bra-size-calculator', { bustInches: 36, underbustInches: 32 }).answer).toContain('32D');
+    expect(
+      runApiTool('btu-calculator', {
+        ceilingHeightFeet: 8,
+        kitchen: false,
+        people: 2,
+        squareFeet: 300,
+        sunlight: 'normal',
+      }).answer,
+    ).toContain('7000 BTU/h');
   });
 
   it('returns useful validation issues', () => {

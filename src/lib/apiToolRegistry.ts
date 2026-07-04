@@ -2,13 +2,18 @@ import { z } from 'zod';
 import {
   analyzeText,
   calculateAbsoluteValue,
+  calculateApiPricing,
   calculateAiTokenCost,
   calculateAmpHoursToWattHours,
   calculateAmpsToWatts,
+  calculateBakingPanConversion,
   calculateBigIntegerOperation,
+  calculateBandwidthTime,
   calculateBinary,
   calculateBinaryIntegerOperation,
   calculateBmi,
+  calculateBraSize,
+  calculateBtuEstimate,
   calculateConcrete,
   calculateDateDifference,
   calculateDownloadTime,
@@ -189,6 +194,14 @@ const aiTokenCostInput = z.object({
   requests: z.number().positive(),
 });
 
+const apiPricingInput = z.object({
+  platformFee: z.number().nonnegative().default(0),
+  pricePerUnit: z.number().nonnegative(),
+  requests: z.number().positive(),
+  retryPercent: z.number().min(0).max(500).default(0),
+  unitsPerRequest: z.number().positive(),
+});
+
 const ampHoursToWattHoursInput = z.object({
   ampHours: z.number().positive(),
   volts: z.number().positive(),
@@ -234,6 +247,34 @@ const bigNumberInput = z.object({
   left: z.string().min(1).max(512),
   operator: calculatorOperatorInput.default('+'),
   right: z.string().min(1).max(512),
+});
+
+const bakingPanConversionInput = z.object({
+  newLengthInches: z.number().positive(),
+  newWidthInches: z.number().positive(),
+  oldLengthInches: z.number().positive(),
+  oldWidthInches: z.number().positive(),
+  originalServings: z.number().positive().optional(),
+});
+
+const bandwidthInput = z.object({
+  dataAmount: z.number().positive(),
+  dataUnit: z.enum(['KB', 'MB', 'GB', 'TB']).default('GB'),
+  speedAmount: z.number().positive(),
+  speedUnit: z.enum(['Kbps', 'Mbps', 'Gbps']).default('Mbps'),
+});
+
+const braSizeInput = z.object({
+  bustInches: z.number().positive(),
+  underbustInches: z.number().positive(),
+});
+
+const btuInput = z.object({
+  ceilingHeightFeet: z.number().positive().default(8),
+  kitchen: z.boolean().default(false),
+  people: z.number().int().min(0).default(2),
+  squareFeet: z.number().positive(),
+  sunlight: z.enum(['normal', 'shaded', 'sunny']).default('normal'),
 });
 
 const tipInput = z.object({
@@ -484,6 +525,50 @@ export const apiTools = [
     },
   },
   {
+    category: 'developer-tools',
+    description: 'Estimate API usage cost from request volume, billable units, unit price, fixed fees, and retry overhead.',
+    examples: [
+      {
+        label: 'Image API batch',
+        inputs: { platformFee: 0, pricePerUnit: 0.04, requests: 1000, retryPercent: 5, unitsPerRequest: 1 },
+      },
+      {
+        label: 'Message API month',
+        inputs: { platformFee: 10, pricePerUnit: 0.002, requests: 50000, retryPercent: 3, unitsPerRequest: 1 },
+      },
+    ],
+    inputSchema: apiPricingInput,
+    keywords: ['api pricing', 'api cost', 'request cost', 'usage billing', 'billable units'],
+    name: 'API Pricing Calculator',
+    risk: 'low',
+    slug: 'api-pricing-calculator',
+    summary: 'Estimate API usage cost, billable units, total cost, and average cost per request.',
+    run(input) {
+      const result = calculateApiPricing(
+        input.requests,
+        input.unitsPerRequest,
+        input.pricePerUnit,
+        input.platformFee,
+        input.retryPercent,
+      );
+
+      return withUrls('api-pricing-calculator', {
+        answer: `Estimated API cost is ${preciseMoney(result.totalCost)} total, or ${preciseMoney(result.averageCostPerRequest)} per request.`,
+        assumptions: [
+          'Price per unit is the amount charged for one billable unit.',
+          'Retry percent adds extra billable units for retries, overhead, or failed attempts you still pay for.',
+        ],
+        result,
+        steps: [
+          `Billable units: ${formatNumber(input.requests)} x ${formatNumber(input.unitsPerRequest)} x ${formatNumber(1 + input.retryPercent / 100)} = ${formatNumber(result.billableUnits)}`,
+          `Usage cost: ${formatNumber(result.billableUnits)} x ${preciseMoney(input.pricePerUnit)} = ${preciseMoney(result.usageCost)}`,
+          `Total cost: ${preciseMoney(result.usageCost)} + ${preciseMoney(input.platformFee)} = ${preciseMoney(result.totalCost)}`,
+        ],
+        warnings: ['This is a planning estimate. Real provider bills can include tiers, credits, taxes, minimums, and region-specific pricing.'],
+      });
+    },
+  },
+  {
     category: 'calculators',
     description: 'Run a basic arithmetic operation with two numbers.',
     examples: [
@@ -610,6 +695,78 @@ export const apiTools = [
   },
   {
     category: 'everyday',
+    description: 'Compare rectangular baking pan areas and estimate recipe scale or servings.',
+    examples: [
+      {
+        label: '9 x 13 pan to 8 x 8 pan',
+        inputs: { newLengthInches: 8, newWidthInches: 8, oldLengthInches: 13, oldWidthInches: 9, originalServings: 12 },
+      },
+      {
+        label: '8 x 8 pan to 9 x 13 pan',
+        inputs: { newLengthInches: 13, newWidthInches: 9, oldLengthInches: 8, oldWidthInches: 8 },
+      },
+    ],
+    inputSchema: bakingPanConversionInput,
+    keywords: ['baking pan', 'recipe scale', 'pan conversion', 'servings'],
+    name: 'Baking Pan Conversion Calculator',
+    risk: 'low',
+    slug: 'baking-pan-conversion-calculator',
+    summary: 'Estimate recipe scaling when switching between rectangular baking pans.',
+    run(input) {
+      const result = calculateBakingPanConversion(
+        input.oldLengthInches,
+        input.oldWidthInches,
+        input.newLengthInches,
+        input.newWidthInches,
+        input.originalServings,
+      );
+      const servingsText =
+        result.scaledServings === null ? '' : `, with about ${formatNumber(result.scaledServings)} scaled serving(s)`;
+
+      return withUrls('baking-pan-conversion-calculator', {
+        answer: `The new pan is ${formatNumber(result.scaleFactor, 'x')} the original pan area${servingsText}.`,
+        assumptions: ['Both pans are rectangular.', 'Area scaling is only a starting point for recipe quantity, not baking time or doneness.'],
+        result,
+        steps: [
+          `Original area: ${formatNumber(input.oldLengthInches)} x ${formatNumber(input.oldWidthInches)} = ${formatNumber(result.oldAreaSquareInches)} sq in`,
+          `New area: ${formatNumber(input.newLengthInches)} x ${formatNumber(input.newWidthInches)} = ${formatNumber(result.newAreaSquareInches)} sq in`,
+          `Scale factor: ${formatNumber(result.newAreaSquareInches)} / ${formatNumber(result.oldAreaSquareInches)} = ${formatNumber(result.scaleFactor)}`,
+        ],
+        warnings: ['Different pan depth, batter thickness, oven behavior, and recipe type can change bake time and texture.'],
+      });
+    },
+  },
+  {
+    category: 'technology',
+    description: 'Estimate transfer time from a data amount and a bandwidth rate.',
+    examples: [
+      { label: '5 GB at 100 Mbps', inputs: { dataAmount: 5, dataUnit: 'GB', speedAmount: 100, speedUnit: 'Mbps' } },
+      { label: '700 MB at 25 Mbps', inputs: { dataAmount: 700, dataUnit: 'MB', speedAmount: 25, speedUnit: 'Mbps' } },
+    ],
+    inputSchema: bandwidthInput,
+    keywords: ['bandwidth', 'data transfer', 'Mbps', 'file transfer', 'network speed'],
+    name: 'Bandwidth Calculator',
+    risk: 'low',
+    slug: 'bandwidth-calculator',
+    summary: 'Estimate ideal transfer time from decimal data units and network bandwidth units.',
+    run(input) {
+      const result = calculateBandwidthTime(input.dataAmount, input.dataUnit, input.speedAmount, input.speedUnit);
+
+      return withUrls('bandwidth-calculator', {
+        answer: `Estimated transfer time is about ${durationText(result.seconds)}.`,
+        assumptions: ['Data units use decimal bytes.', 'Bandwidth units use decimal bits per second.'],
+        result: { duration: durationText(result.seconds), ...result },
+        steps: [
+          `Convert ${formatNumber(input.dataAmount)} ${input.dataUnit} to bits`,
+          `Convert ${formatNumber(input.speedAmount)} ${input.speedUnit} to bits per second`,
+          `Divide total bits by bits per second = ${formatNumber(result.seconds)} seconds`,
+        ],
+        warnings: ['Real transfers can be slower because of Wi-Fi, server limits, congestion, protocol overhead, VPNs, and device limits.'],
+      });
+    },
+  },
+  {
+    category: 'everyday',
     description: 'Calculate tip amount, tax amount, total, and split per person.',
     examples: [{ label: '$64 subtotal, 18% tip, 2 people', inputs: { people: 2, subtotal: 64, taxPercent: 0, tipPercent: 18 } }],
     inputSchema: tipInput,
@@ -626,6 +783,35 @@ export const apiTools = [
         result,
         steps: [`Tip: ${money(input.subtotal)} x ${formatNumber(input.tipPercent, '%')} = ${money(result.tipAmount)}`, `Tax: ${money(input.subtotal)} x ${formatNumber(input.taxPercent, '%')} = ${money(result.taxAmount)}`, `Total: subtotal + tip + tax = ${money(result.total)}`],
         warnings: [],
+      });
+    },
+  },
+  {
+    category: 'everyday',
+    description: 'Estimate a US bra size from underbust and bust measurements in inches.',
+    examples: [
+      { label: '32 in underbust, 36 in bust', inputs: { bustInches: 36, underbustInches: 32 } },
+      { label: '34 in underbust, 39 in bust', inputs: { bustInches: 39, underbustInches: 34 } },
+    ],
+    inputSchema: braSizeInput,
+    keywords: ['bra size', 'band size', 'cup size', 'underbust', 'bust'],
+    name: 'Bra Size Calculator',
+    risk: 'low',
+    slug: 'bra-size-calculator',
+    summary: 'Estimate band size, cup size, and bust-minus-band difference.',
+    run(input) {
+      const result = calculateBraSize(input.underbustInches, input.bustInches);
+
+      return withUrls('bra-size-calculator', {
+        answer: `Estimated US bra size is ${result.sizeLabel}.`,
+        assumptions: ['Underbust and bust are measured in inches.', 'The underbust is rounded up to the next even band size.'],
+        result,
+        steps: [
+          `Band size: round ${formatNumber(input.underbustInches)} up to the next even size = ${formatNumber(result.bandSize)}`,
+          `Bust minus band: ${formatNumber(input.bustInches)} - ${formatNumber(result.bandSize)} = ${formatNumber(result.differenceInches)} in`,
+          `Map the difference to cup size ${result.cupSize}`,
+        ],
+        warnings: ['Bra sizing varies by brand, style, body shape, and region. Treat this as a fitting starting point.'],
       });
     },
   },
@@ -647,6 +833,41 @@ export const apiTools = [
         result,
         steps: [`Height in meters: ${formatNumber(input.heightCm)} / 100 = ${formatNumber(input.heightCm / 100)}`, `BMI: ${formatNumber(input.weightKg)} / height^2 = ${formatNumber(result.bmi)}`],
         warnings: ['BMI is a broad screening estimate, not a medical diagnosis. Ask a qualified health professional for personal medical advice.'],
+      });
+    },
+  },
+  {
+    category: 'home-projects',
+    description: 'Estimate room air-conditioner cooling capacity in BTU per hour from room size and simple adjustments.',
+    examples: [
+      { label: '300 sq ft bedroom', inputs: { ceilingHeightFeet: 8, kitchen: false, people: 2, squareFeet: 300, sunlight: 'normal' } },
+      { label: '450 sq ft sunny kitchen', inputs: { ceilingHeightFeet: 9, kitchen: true, people: 3, squareFeet: 450, sunlight: 'sunny' } },
+    ],
+    inputSchema: btuInput,
+    keywords: ['btu', 'air conditioner', 'cooling capacity', 'hvac', 'room size'],
+    name: 'BTU Calculator',
+    risk: 'low',
+    slug: 'btu-calculator',
+    summary: 'Estimate cooling BTU/h from square footage, ceiling height, sunlight, people, and kitchen heat.',
+    run(input) {
+      const result = calculateBtuEstimate({
+        ceilingHeightFeet: input.ceilingHeightFeet,
+        kitchen: input.kitchen,
+        people: input.people,
+        squareFeet: input.squareFeet,
+        sunlight: input.sunlight,
+      });
+
+      return withUrls('btu-calculator', {
+        answer: `Recommended cooling capacity is about ${formatNumber(result.recommendedBtu)} BTU/h.`,
+        assumptions: ['The estimate starts from a room-size table for an 8-foot ceiling.', 'Adjustments are simple shopping estimates, not a Manual J load calculation.'],
+        result,
+        steps: [
+          `Base table value for ${formatNumber(input.squareFeet)} sq ft = ${formatNumber(result.baseBtu)} BTU/h`,
+          `Adjust for ceiling height, sunlight, people, and kitchen heat = ${formatNumber(result.adjustedBtu)} BTU/h`,
+          `Round to a practical 500 BTU increment = ${formatNumber(result.recommendedBtu)} BTU/h`,
+        ],
+        warnings: ['Oversized air conditioners can cool without dehumidifying well. Use a qualified HVAC load calculation for important sizing decisions.'],
       });
     },
   },

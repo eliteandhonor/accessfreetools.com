@@ -34,8 +34,13 @@ describe('Access Free Tools API routes', () => {
     expect(body.tools.length).toBeGreaterThanOrEqual(24);
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('absolute-value-calculator');
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('ai-token-cost-calculator');
+    expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('api-pricing-calculator');
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('amp-hours-to-watt-hours-calculator');
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('amps-to-watts-calculator');
+    expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('baking-pan-conversion-calculator');
+    expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('bandwidth-calculator');
+    expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('bra-size-calculator');
+    expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('btu-calculator');
     expect(response.headers.get('cache-control')).toMatch(/public/);
   });
 
@@ -197,6 +202,55 @@ describe('Access Free Tools API routes', () => {
     expect(body.ok).toBe(true);
     expect(body.run.answer).toContain('3600 Wh');
     expect(body.run.tool_url).toBe('https://accessfreetools.com/tools/amp-hours-to-watt-hours-calculator/');
+  });
+
+  it('runs the next low-risk API tool batch', async () => {
+    const cases = [
+      {
+        expected: '$42.00',
+        inputs: { platformFee: 0, pricePerUnit: 0.04, requests: 1000, retryPercent: 5, unitsPerRequest: 1 },
+        slug: 'api-pricing-calculator',
+      },
+      {
+        expected: '0.547x',
+        inputs: {
+          newLengthInches: 8,
+          newWidthInches: 8,
+          oldLengthInches: 13,
+          oldWidthInches: 9,
+          originalServings: 12,
+        },
+        slug: 'baking-pan-conversion-calculator',
+      },
+      {
+        expected: '6m 40s',
+        inputs: { dataAmount: 5, dataUnit: 'GB', speedAmount: 100, speedUnit: 'Mbps' },
+        slug: 'bandwidth-calculator',
+      },
+      {
+        expected: '32D',
+        inputs: { bustInches: 36, underbustInches: 32 },
+        slug: 'bra-size-calculator',
+      },
+      {
+        expected: '7000 BTU/h',
+        inputs: { ceilingHeightFeet: 8, kitchen: false, people: 2, squareFeet: 300, sunlight: 'normal' },
+        slug: 'btu-calculator',
+      },
+    ];
+
+    for (const item of cases) {
+      const response = await runPost({
+        clientAddress: '127.0.0.1',
+        params: { slug: item.slug },
+        request: request({ inputs: item.inputs }),
+      } as never);
+      const body = await response.json();
+      expect(response.headers.get('cache-control')).toBe('no-store');
+      expect(body.ok).toBe(true);
+      expect(body.run.answer).toContain(item.expected);
+      expect(body.run.tool_url).toBe(`https://accessfreetools.com/tools/${item.slug}/`);
+    }
   });
 
   it('runs the amps to watts API tool', async () => {
