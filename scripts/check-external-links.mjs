@@ -61,6 +61,7 @@ async function fetchWithTimeout(url, method) {
 
 async function checkUrl(url) {
   let lastError;
+  let lastStatus = 0;
 
   for (const method of ['HEAD', 'GET', 'GET']) {
     try {
@@ -75,6 +76,7 @@ async function checkUrl(url) {
         };
       }
 
+      lastStatus = response.status;
       lastError = `${response.status} ${response.statusText}`;
     } catch (error) {
       lastError = error instanceof Error ? error.message : 'request failed';
@@ -88,9 +90,23 @@ async function checkUrl(url) {
   return {
     url,
     ok: false,
-    status: 0,
+    status: lastStatus,
     statusText: lastError ?? 'request failed',
   };
+}
+
+function classifyFailure(result) {
+  if (result.ok) return 'ok';
+  if (result.status === 404 || result.status === 410) return 'confirmed-broken';
+  if (result.status === 401 || result.status === 403) return 'blocked';
+  if (/aborted|timeout/i.test(result.statusText)) return 'timeout';
+  if (result.status >= 500) return 'server-error';
+  return 'review';
+}
+
+function formatRows(rows) {
+  if (rows.length === 0) return '- None';
+  return rows.map((result) => `- ${result.url} -> ${result.status || 'request failed'} ${result.statusText}`.trim()).join('\n');
 }
 
 const externalLinks = new Set();
@@ -120,17 +136,48 @@ for (const batch of chunk(urls, CONCURRENCY)) {
 }
 
 const broken = results.filter((result) => !result.ok);
+const confirmedBroken = broken.filter((result) => classifyFailure(result) === 'confirmed-broken');
+const blocked = broken.filter((result) => classifyFailure(result) === 'blocked');
+const timeouts = broken.filter((result) => classifyFailure(result) === 'timeout');
+const serverErrors = broken.filter((result) => classifyFailure(result) === 'server-error');
+const otherReview = broken.filter((result) => classifyFailure(result) === 'review');
 const report = {
   checkedAt: new Date().toISOString(),
   strict: STRICT,
   totalLinks: urls.length,
   reviewCount: broken.length,
+  confirmedBrokenCount: confirmedBroken.length,
+  blockedCount: blocked.length,
+  timeoutCount: timeouts.length,
+  serverErrorCount: serverErrors.length,
+  otherReviewCount: otherReview.length,
   timeoutMs: TIMEOUT_MS,
+  confirmedBrokenLinks: confirmedBroken,
+  blockedLinks: blocked,
+  timeoutLinks: timeouts,
+  serverErrorLinks: serverErrors,
+  otherReviewLinks: otherReview,
   reviewLinks: broken,
 };
 
 mkdirSync(outputDir, { recursive: true });
 writeFileSync(join(outputDir, 'external-link-audit.json'), `${JSON.stringify(report, null, 2)}\n`);
+writeFileSync(
+  join(outputDir, 'external-link-audit.md'),
+  `# External Link Audit\n\n` +
+    `- Checked at: ${report.checkedAt}\n` +
+    `- Unique external links: ${report.totalLinks}\n` +
+    `- Confirmed broken links: ${report.confirmedBrokenCount}\n` +
+    `- Bot-blocked links: ${report.blockedCount}\n` +
+    `- Timeout links: ${report.timeoutCount}\n` +
+    `- Server-error links: ${report.serverErrorCount}\n` +
+    `- Other review links: ${report.otherReviewCount}\n\n` +
+    `## Confirmed Broken\n\n${formatRows(confirmedBroken)}\n\n` +
+    `## Bot Blocked\n\n${formatRows(blocked)}\n\n` +
+    `## Timeouts\n\n${formatRows(timeouts)}\n\n` +
+    `## Server Errors\n\n${formatRows(serverErrors)}\n\n` +
+    `## Other Review\n\n${formatRows(otherReview)}\n`,
+);
 
 if (broken.length > 0) {
   console.warn(
@@ -141,7 +188,7 @@ if (broken.length > 0) {
 }
 
 console.log(
-  `Checked ${urls.length} unique external links. ${broken.length} need review.${STRICT ? ' Strict mode enabled.' : ' Non-blocking report.'}`,
+  `Checked ${urls.length} unique external links. ${confirmedBroken.length} confirmed broken, ${blocked.length} bot-blocked, ${timeouts.length} timed out, ${serverErrors.length} server errors, ${otherReview.length} other review.${STRICT ? ' Strict mode enabled.' : ' Non-blocking report.'}`,
 );
 console.log(`Saved report to ${join(outputDir, 'external-link-audit.json')}`);
 
