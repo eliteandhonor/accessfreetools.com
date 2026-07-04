@@ -80,6 +80,7 @@
     "search-console:submit-discovery": "node scripts/search-console.mjs --submit-discovery",
     "search-console:inspect-key-urls": "node scripts/search-console.mjs --inspect-key-urls",
     "search-console:import-coverage": "node scripts/import-google-coverage-export.mjs",
+    "search-console:import-coverage-drilldown": "node scripts/import-search-console-coverage-drilldown.mjs",
     "search-console:import-performance": "node scripts/import-search-console-performance-export.mjs",
     "crawlscout:import": "node scripts/import-crawlscout-export.mjs",
     "seo:self-evaluate": "node scripts/seo-agent-self-evaluation.mjs",

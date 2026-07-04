@@ -36,6 +36,7 @@ const evidencePaths = {
   seoEvaluation: 'output/seo-agent-self-evaluation.json',
   searchConsole: 'output/search-console-url-inspection.json',
   searchConsoleCoverageExport: 'output/search-console-coverage-export.json',
+  searchConsoleCoverageDrilldown: 'output/search-console-coverage-drilldown.json',
   searchConsoleIndexingRequests: 'docs/search-console-indexing-requests.json',
   searchConsolePerformanceExport: 'output/search-console/performance-latest.json',
   dataForSeoAccount: 'output/dataforseo-account.json',
@@ -375,6 +376,19 @@ function getCoverageExportSummary() {
     totals: report.totals ?? null,
     criticalIssues: report.criticalIssues ?? [],
     actions: report.actions ?? [],
+  };
+}
+
+function getCoverageDrilldownSummary() {
+  const report = readJson(evidencePaths.searchConsoleCoverageDrilldown);
+  if (!report || report.parseError) return null;
+
+  return {
+    actions: report.actions ?? [],
+    generatedAt: report.generatedAt ?? '',
+    issue: report.metadata?.Issue ?? 'unknown',
+    newestExamples: report.newestExamples ?? [],
+    totals: report.totals ?? null,
   };
 }
 
@@ -897,6 +911,7 @@ function promoteNextCommand(command) {
 function indexingGapsCommand(command) {
   const gaps = getIndexingGaps();
   const coverageExport = getCoverageExportSummary();
+  const coverageDrilldown = getCoverageDrilldownSummary();
   const performanceExport = getPerformanceExportSummary();
   const indexingRequests = getSearchConsoleIndexingRequests();
   const gapsWithRequestProof = gaps.map((gap) => {
@@ -914,6 +929,7 @@ function indexingGapsCommand(command) {
   });
   const payload = {
     count: gaps.length,
+    coverageDrilldown,
     coverageExport,
     gaps: gapsWithRequestProof.slice(0, 20),
     indexingRequests: {
@@ -938,13 +954,22 @@ function indexingGapsCommand(command) {
     ...(coverageExport?.criticalIssues?.length
       ? coverageExport.criticalIssues.map((issue) => `- ${issue.reason}: ${issue.pages} page(s), validation ${issue.validation}`)
       : []),
+    coverageDrilldown
+      ? `Coverage drilldown: ${coverageDrilldown.issue}, ${coverageDrilldown.totals?.rowCount ?? 0} URL example(s); types ${Object.entries(
+          coverageDrilldown.totals?.rowsByType ?? {},
+        )
+          .map(([type, count]) => `${type} ${count}`)
+          .join(', ') || 'unknown'}.`
+      : 'Coverage drilldown: not imported yet. Run npm run search-console:import-coverage-drilldown after downloading a Coverage Drilldown export.',
     performanceExport
       ? `Performance/deindex export: ${performanceExport.totals?.deindexedRows ?? 0} deindexed URLs, ${performanceExport.totals?.pageImpressions ?? 'unknown'} page impressions, ${performanceExport.totals?.pageClicks ?? 'unknown'} page clicks.`
       : 'Performance/deindex export: not imported yet. Run npm run search-console:import-performance after downloading Search Performance CSVs.',
     ...(performanceExport?.tierARecovery?.length
       ? [`Tier A recovery sample: ${performanceExport.tierARecovery.slice(0, 5).map((item) => item.path).join(', ')}`]
       : []),
-    coverageExport?.actions?.length
+    coverageDrilldown?.actions?.length
+      ? `Coverage drilldown action: ${coverageDrilldown.actions[0].priority}: ${coverageDrilldown.actions[0].task}`
+      : coverageExport?.actions?.length
       ? `Coverage action: ${coverageExport.actions[0].priority}: ${coverageExport.actions[0].task}`
       : indexingGapRecommendation(gaps, indexingRequests),
   ]);
