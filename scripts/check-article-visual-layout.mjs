@@ -8,6 +8,7 @@ const ROOT = path.resolve('dist');
 const OUTPUT_DIR = path.resolve('output', 'article-visual-layout');
 const ARTICLE_PATH = '/blog/free-ai-skills-open-source-tools-organic-growth/';
 const MIN_HEADING_NOTE_GAP = 3;
+const MIN_SOURCE_NOTE_PAIRS = 6;
 const HORIZONTAL_OVERFLOW_TOLERANCE = 4;
 
 const VIEWPORTS = [
@@ -77,6 +78,7 @@ const report = {
   articlePath: ARTICLE_PATH,
   generatedAt: new Date().toISOString(),
   minHeadingNoteGap: MIN_HEADING_NOTE_GAP,
+  minSourceNotePairs: MIN_SOURCE_NOTE_PAIRS,
   horizontalOverflowTolerance: HORIZONTAL_OVERFLOW_TOLERANCE,
   viewports: [],
 };
@@ -89,12 +91,45 @@ try {
 
     await page.goto(`${baseURL}${ARTICLE_PATH}`, { waitUntil: 'networkidle' });
 
-    const result = await page.evaluate(({ minGap, overflowTolerance }) => {
+    const result = await page.evaluate(({ minGap, minSourceNotePairs, overflowTolerance }) => {
       const failures = [];
       const html = document.documentElement;
       const horizontalOverflow = html.scrollWidth > html.clientWidth + overflowTolerance;
       if (horizontalOverflow) {
         failures.push(`document horizontally overflows: scrollWidth ${html.scrollWidth}, clientWidth ${html.clientWidth}`);
+      }
+
+      function checkTextLineBoxes(element, label) {
+        const elementRect = element.getBoundingClientRect();
+        const range = document.createRange();
+        range.selectNodeContents(element);
+
+        for (const rect of range.getClientRects()) {
+          if (rect.width < 1 || rect.height < 1) continue;
+          if (rect.left < elementRect.left - 1 || rect.right > elementRect.right + 1) {
+            failures.push(
+              `${label} text line escapes its container: line ${rect.left.toFixed(1)}-${rect.right.toFixed(
+                1,
+              )}, container ${elementRect.left.toFixed(1)}-${elementRect.right.toFixed(1)}`,
+            );
+          }
+        }
+      }
+
+      const articleBody = document.querySelector('.blog-article-body');
+      const sidecar = document.querySelector('.article-sidecar');
+      if (articleBody && sidecar) {
+        const bodyRect = articleBody.getBoundingClientRect();
+        const sidecarRect = sidecar.getBoundingClientRect();
+        const boxesIntersect =
+          bodyRect.left < sidecarRect.right &&
+          bodyRect.right > sidecarRect.left &&
+          bodyRect.top < sidecarRect.bottom &&
+          bodyRect.bottom > sidecarRect.top;
+
+        if (boxesIntersect) {
+          failures.push('article body and sidecar overlap');
+        }
       }
 
       const sections = [...document.querySelectorAll('.editorial-article .article-flow-section')];
@@ -125,16 +160,30 @@ try {
         if (sourceNote.scrollWidth > sourceNote.clientWidth + 1) {
           failures.push(`"${headingText}" source note text overflows its box`);
         }
+
+        checkTextLineBoxes(heading, `"${headingText}" heading`);
+        checkTextLineBoxes(sourceNote, `"${headingText}" source note`);
+      }
+
+      const sourceNotes = document.querySelectorAll('.article-source-note').length;
+      if (sourceNotes < minSourceNotePairs || checkedPairs < minSourceNotePairs) {
+        failures.push(
+          `expected at least ${minSourceNotePairs} heading/source-note pairs, found ${checkedPairs} checked pairs and ${sourceNotes} source notes`,
+        );
       }
 
       return {
         checkedPairs,
         failures,
         horizontalOverflow,
-        sourceNotes: document.querySelectorAll('.article-source-note').length,
+        sourceNotes,
         headingLinks: document.querySelectorAll('.article-heading-link').length,
       };
-    }, { minGap: MIN_HEADING_NOTE_GAP, overflowTolerance: HORIZONTAL_OVERFLOW_TOLERANCE });
+    }, {
+      minGap: MIN_HEADING_NOTE_GAP,
+      minSourceNotePairs: MIN_SOURCE_NOTE_PAIRS,
+      overflowTolerance: HORIZONTAL_OVERFLOW_TOLERANCE,
+    });
 
     const screenshotPath = path.join(OUTPUT_DIR, `${viewport.name}.png`);
     await page.screenshot({ path: screenshotPath, fullPage: true });

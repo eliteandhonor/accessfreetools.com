@@ -57,9 +57,8 @@ export function checkApiAccess(request: Request) {
 
   const headerToken = request.headers.get('x-aft-api-token') || '';
   const bearerToken = request.headers.get('authorization')?.match(/^Bearer\s+(.+)$/i)?.[1] || '';
-  const queryToken = new URL(request.url).searchParams.get('token') || '';
 
-  if (headerToken === betaToken || bearerToken === betaToken || queryToken === betaToken) {
+  if (headerToken === betaToken || bearerToken === betaToken) {
     return null;
   }
 

@@ -626,9 +626,6 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
           }
 
           window.localStorage.setItem(tokenStorageKey, token);
-          if (new URLSearchParams(location.search).has('token') && window.history?.replaceState) {
-            window.history.replaceState({}, '', location.pathname);
-          }
           showDashboard();
           renderReports(body.reports || []);
           setRefreshMessage('Safe refresh is ready.');
@@ -693,7 +690,7 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
         }
       };
 
-      loadReports(new URLSearchParams(location.search).get('token') || window.localStorage.getItem(tokenStorageKey) || '');
+      loadReports(window.localStorage.getItem(tokenStorageKey) || '');
 
       if (tokenForm) {
         tokenForm.addEventListener('submit', (event) => {

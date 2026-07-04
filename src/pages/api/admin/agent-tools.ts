@@ -20,7 +20,7 @@ function jsonResponse(body: Record<string, unknown>, status = 200) {
 }
 
 function getToken(request: Request) {
-  return request.headers.get('x-aft-analytics-token') ?? new URL(request.url).searchParams.get('token') ?? '';
+  return request.headers.get('x-aft-analytics-token') ?? '';
 }
 
 function parseKind(value: unknown): AgentToolKind | 'all' {

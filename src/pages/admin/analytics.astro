@@ -36,7 +36,7 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
       <button class="button-primary" type="submit">Open analytics</button>
     </form>
     <p class="analytics-opt-out-status" data-analytics-message>
-      Open your private shortcut once, or enter the token from your private local config file.
+      Enter the token from your private local config file or use the admin hub shortcut.
     </p>
     <p><a href="/admin/">Use the easier private admin login page</a>.</p>
   </section>
@@ -272,23 +272,19 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
           const body = await response.json().catch(() => ({}));
 
           if (!response.ok || !body.summary) {
-            showMessage(body.message || 'Analytics token was not accepted. Use the private shortcut or enter the saved token.');
+            showMessage(body.message || 'Analytics token was not accepted. Use the admin hub or enter the saved token.');
             return;
           }
 
           window.localStorage.setItem(tokenStorageKey, token);
-          if (urlToken && window.history?.replaceState) {
-            window.history.replaceState({}, '', location.pathname);
-          }
           renderSummary(body.summary);
         } catch {
           showMessage('Analytics endpoint is not available yet. Check Hostinger PHP/Node deployment settings.');
         }
       };
 
-      const urlToken = new URLSearchParams(location.search).get('token') || '';
       const storedToken = window.localStorage.getItem(tokenStorageKey) || '';
-      loadSummary(urlToken || storedToken);
+      loadSummary(storedToken);
 
       if (tokenForm) {
         tokenForm.addEventListener('submit', (event) => {

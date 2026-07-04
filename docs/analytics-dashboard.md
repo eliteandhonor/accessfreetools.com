@@ -79,17 +79,15 @@ https://accessfreetools.com/admin/
 Enter the private token once, then use the buttons for Analytics or Agent Tools. The page stores
 the token in this browser only.
 
-The direct private analytics link also works:
-
-```text
-https://accessfreetools.com/private-analytics/?token=YOUR_PRIVATE_TOKEN
-```
-
-The page stores the token in this browser only, so later visits can use:
+The direct private analytics link also works, but tokens should not be placed in
+the URL:
 
 ```text
 https://accessfreetools.com/private-analytics/
 ```
+
+Enter the token in the form once. The page stores the token in this browser only
+and sends it to the API with the `x-aft-analytics-token` header.
 
 ## Privacy Rules
 

@@ -377,8 +377,8 @@ const sourceLinks = {
     label: 'The Home Depot: Flooring installation instructions',
   },
   doeInsulation: {
-    href: 'https://www.energy.gov/energysaver/insulation',
-    label: 'U.S. Department of Energy: Insulation guidance',
+    href: 'https://www.energystar.gov/products/energy_star_home_upgrade/attic_insulation',
+    label: 'ENERGY STAR: Attic insulation guidance',
   },
   energyStarInsulationRValues: {
     href: 'https://www.energystar.gov/saveathome/seal_insulate/identify-problems-you-want-fix/diy-checks-inspections/insulation-r-values',
@@ -417,12 +417,12 @@ const sourceLinks = {
     label: 'U.S. EPA: Miles Per Gallon math',
   },
   doeFuelEconomy: {
-    href: 'https://www.energy.gov/index.php/energysaver/fuel-economy',
-    label: 'U.S. Department of Energy: Fuel Economy',
+    href: 'https://www.epa.gov/fueleconomy',
+    label: 'U.S. EPA: Fuel Economy',
   },
   doeDrivingEfficiently: {
-    href: 'https://www.energy.gov/energysaver/driving-more-efficiently',
-    label: 'U.S. Department of Energy: Driving more efficiently',
+    href: 'https://www.epa.gov/fueleconomy',
+    label: 'U.S. EPA: Fuel economy guidance',
   },
   eiaGasolinePrices: {
     href: 'https://www.eia.gov/petroleum/gasdiesel/',
@@ -469,8 +469,8 @@ const sourceLinks = {
     label: 'ENERGY STAR: Room air conditioner sizing guidance',
   },
   doeAc: {
-    href: 'https://www.energy.gov/energysaver/room-air-conditioners',
-    label: 'U.S. Department of Energy: Room air conditioners',
+    href: 'https://www.energystar.gov/productfinder/product/certified-room-air-conditioners/',
+    label: 'ENERGY STAR: Certified room air conditioners',
   },
   oshaStairs: {
     href: 'https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.25',
@@ -517,12 +517,12 @@ const sourceLinks = {
     label: 'National Weather Service: Why dew point can explain humidity better',
   },
   doeRoomAc: {
-    href: 'https://www.energy.gov/energysaver/room-air-conditioners',
-    label: 'U.S. Department of Energy: Room air conditioners',
+    href: 'https://www.energystar.gov/productfinder/product/certified-room-air-conditioners/',
+    label: 'ENERGY STAR: Certified room air conditioners',
   },
   doeApplianceEnergy: {
-    href: 'https://www.energy.gov/energysaver/articles/estimating-appliance-and-home-electronic-energy-use',
-    label: 'U.S. Department of Energy: Estimating appliance energy use',
+    href: 'https://www.eia.gov/energyexplained/use-of-energy/electricity-use-in-homes.php',
+    label: 'U.S. EIA: Electricity use in homes',
   },
   eiaKwh: {
     href: 'https://www.eia.gov/energyexplained/electricity/electricity-in-the-us-generation-capacity-and-sales.php',
@@ -837,7 +837,7 @@ const sourceLinks = {
     label: 'CMHA: Segmental Retaining Wall Design',
   },
   allanBlockRetainingWallPlanning: {
-    href: 'https://www.allanblock.com/docs/Commercial_Installation_Manual/retaining-wall-planning.html',
+    href: 'https://allanblock.com/installation/commercial-installation/retaining-wall-planning',
     label: 'Allan Block: Retaining Wall Planning Guide',
   },
   usgaScoreDifferential: {

@@ -873,7 +873,7 @@ export default function AiBrowserTool({ variant }: Props) {
         )}
       </div>
 
-      <aside className="advanced-side-panel ai-side-panel">
+      <section aria-label="Examples, recent results, and privacy notes" className="advanced-side-panel ai-side-panel">
         {config.sampleTexts.length > 0 && (
           <div>
             <h2>Examples</h2>
@@ -908,7 +908,7 @@ export default function AiBrowserTool({ variant }: Props) {
           <p>{config.modelNote}</p>
           <p>No upload to Access Free Tools. No account needed.</p>
         </div>
-      </aside>
+      </section>
     </section>
   );
 }

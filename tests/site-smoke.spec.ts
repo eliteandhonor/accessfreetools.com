@@ -47,6 +47,9 @@ const accessibilityPages = [
   '/terms/',
   '/admin/',
   '/admin/agent-tools/',
+  '/ask/',
+  '/blog/free-ai-skills-open-source-tools-organic-growth/',
+  '/tools/percentage-calculator/',
   '/tools/watts-to-amps-calculator/',
   '/tools/image-to-text-ocr-tool/',
 ];
@@ -188,14 +191,21 @@ test.describe('site smoke coverage', () => {
 
 test.describe('accessibility smoke coverage', () => {
   for (const path of accessibilityPages) {
-    test(`${path} has no serious automated accessibility violations`, async ({ page }) => {
+    test(`${path} has no serious or landmark automated accessibility violations`, async ({ page }) => {
       await page.goto(path);
-      const results = await new AxeBuilder({ page }).include('main').analyze();
-      const seriousViolations = results.violations.filter((violation) =>
-        violation.impact === 'serious' || violation.impact === 'critical',
+      let axe = new AxeBuilder({ page }).include('main');
+      if (path === '/blog/free-ai-skills-open-source-tools-organic-growth/') {
+        axe = axe.exclude('iframe[src*="youtube"]');
+      }
+      const results = await axe.analyze();
+      const blockingViolations = results.violations.filter(
+        (violation) =>
+          violation.impact === 'serious' ||
+          violation.impact === 'critical' ||
+          (violation.impact === 'moderate' && violation.id.startsWith('landmark')),
       );
 
-      expect(seriousViolations).toEqual([]);
+      expect(blockingViolations).toEqual([]);
     });
   }
 });

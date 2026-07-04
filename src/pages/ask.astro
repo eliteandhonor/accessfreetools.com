@@ -33,7 +33,7 @@ const askChecks = [
 
   <section class="section-band ask-layout" aria-label="Ask Access Free Tools demo">
     <AskToolChat client:load />
-    <aside class="ask-tool-panel">
+    <section aria-label="API-ready starter tools" class="ask-tool-panel">
       <h2>API-ready starter tools</h2>
       <p>
         This alpha starts with a focused set of calculators and developer utilities.
@@ -43,7 +43,7 @@ const askChecks = [
         {tools.map((tool) => <li><a href={tool.tool_url}>{tool.name}</a></li>)}
       </ul>
       <a class="card-link" href="/developers/mcp/">Developer and MCP setup</a>
-    </aside>
+    </section>
   </section>
 
   <section class="section-band section-band-soft">

@@ -1,6 +1,6 @@
 # Google Search Central Notes
 
-Last reviewed: 2026-07-03
+Last reviewed: 2026-07-04
 
 These notes are the current SEO baseline for Access Free Tools. Use them before
 changing indexing, redirect, sitemap, content-quality, or promotion logic.
@@ -101,6 +101,28 @@ discovery source, no longer submits `/feed.xml` by default, and prunes any older
 feed sitemap submission when the API permits it. The feed remains live for RSS
 readers and intentionally returns `noindex,follow`, so submitting it as a sitemap
 only adds noise to Page indexing reports.
+
+### 2026-07-04 Page Indexing Watch Lane
+
+If Search Console reports that page-indexing fixes failed after the feed sitemap
+cleanup, treat it as a watch-and-sample lane unless live checks show a hard
+blocker. Do not restart validation immediately and do not bulk-edit every
+`Crawled - currently not indexed` URL.
+
+Use this sequence after Google has had time to recrawl:
+
+```bash
+npm run search-console:import-coverage
+npm run search-console:inspect-key-urls
+npm run check:production-sitemap
+npm run aft -- site-sitemap
+```
+
+Then inspect a rotating sample from the latest Coverage Drilldown export. A
+sample URL should have successful page fetch, indexing allowed, a matching
+canonical, and no noindex/meta robots conflict. If those checks pass, the next
+action is content quality or internal-link prioritization for the exact sampled
+URL, not a sitewide sitemap or robots change.
 
 ## 2026-05-09 Discovery Follow-Up
 

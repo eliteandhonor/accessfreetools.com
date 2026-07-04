@@ -7937,7 +7937,7 @@ export default function UtilityCalculator({ variant }: Props) {
         )}
       </div>
 
-      <aside className="advanced-side-panel">
+      <section aria-label="Examples, recent answers, and privacy notes" className="advanced-side-panel">
         <div>
           <h2>Examples</h2>
           <div className="advanced-quick-grid utility-example-grid">
@@ -7969,7 +7969,7 @@ export default function UtilityCalculator({ variant }: Props) {
           <p>{config.privacyNote}</p>
           <p>Inputs and recent answers stay in this browser tab and are not sent to a server.</p>
         </div>
-      </aside>
+      </section>
     </section>
   );
 }

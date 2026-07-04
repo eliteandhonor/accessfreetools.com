@@ -8,8 +8,8 @@ import { POST as mcpPost } from '../../mcp';
 
 const METADATA_CACHE_CONTROL = 'public, max-age=300, stale-while-revalidate=600';
 
-function request(body?: unknown, headers?: HeadersInit) {
-  return new Request('https://accessfreetools.com/api/test', {
+function request(body?: unknown, headers?: HeadersInit, url = 'https://accessfreetools.com/api/test') {
+  return new Request(url, {
     body: body === undefined ? undefined : JSON.stringify(body),
     headers: body === undefined ? headers : { 'content-type': 'application/json', ...(headers ?? {}) },
     method: body === undefined ? 'GET' : 'POST',
@@ -23,6 +23,7 @@ describe('Access Free Tools API routes', () => {
 
   afterEach(() => {
     delete process.env.AFT_ASK_FORCE_FALLBACK;
+    delete process.env.AFT_API_BETA_TOKEN;
   });
 
   it('lists API-ready tools', async () => {
@@ -77,6 +78,35 @@ describe('Access Free Tools API routes', () => {
     expect(response.headers.get('cache-control')).toBe('no-store');
     expect(body.ok).toBe(true);
     expect(body.run.answer).toContain('43.2');
+  });
+
+  it('accepts API beta tokens from headers, not query strings', async () => {
+    process.env.AFT_API_BETA_TOKEN = 'test-beta-token';
+
+    const queryTokenResponse = await runPost({
+      clientAddress: '127.0.0.1',
+      params: { slug: 'percentage-calculator' },
+      request: request(
+        { inputs: { mode: 'percent-of', percent: 18, value: 240 } },
+        undefined,
+        'https://accessfreetools.com/api/v1/run/percentage-calculator?token=test-beta-token',
+      ),
+    } as never);
+    const queryTokenBody = await queryTokenResponse.json();
+    expect(queryTokenResponse.status).toBe(401);
+    expect(queryTokenBody.ok).toBe(false);
+
+    const headerTokenResponse = await runPost({
+      clientAddress: '127.0.0.1',
+      params: { slug: 'percentage-calculator' },
+      request: request(
+        { inputs: { mode: 'percent-of', percent: 18, value: 240 } },
+        { 'x-aft-api-token': 'test-beta-token' },
+      ),
+    } as never);
+    const headerTokenBody = await headerTokenResponse.json();
+    expect(headerTokenResponse.status).toBe(200);
+    expect(headerTokenBody.ok).toBe(true);
   });
 
   it('runs a newly API-ready tool', async () => {

@@ -191,9 +191,6 @@ const pagePath = '/admin/';
           if (save) window.localStorage.setItem(tokenStorageKey, token);
           setUnlocked(true);
           setMessage('Access is ready on this browser. Open Analytics or Agent Tools below.');
-          if (new URLSearchParams(location.search).has('token') && window.history?.replaceState) {
-            window.history.replaceState({}, '', location.pathname);
-          }
         } catch {
           setUnlocked(false);
           setMessage('Admin API is not available yet. Check the Node deployment and try again.');
@@ -201,9 +198,8 @@ const pagePath = '/admin/';
       };
 
       setUnlocked(false);
-      const urlToken = new URLSearchParams(location.search).get('token') || '';
       const storedToken = window.localStorage.getItem(tokenStorageKey) || '';
-      validateToken(urlToken || storedToken, { save: Boolean(urlToken) });
+      validateToken(storedToken);
 
       if (form) {
         form.addEventListener('submit', (event) => {

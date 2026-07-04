@@ -748,7 +748,7 @@ const sourceLinks = {
     label: 'CFPB: Closing Disclosure explainer',
   },
   ftcHomeEquityLoans: {
-    href: 'https://consumer.ftc.gov/articles/home-equity-loans-home-equity-lines-credit',
+    href: 'https://consumer.ftc.gov/articles/home-equity-loans-and-home-equity-lines-credit',
     label: 'FTC: Home equity loans and lines of credit',
   },
   irsPub936HomeMortgageInterest: {
@@ -816,7 +816,7 @@ const sourceLinks = {
     label: 'OpenStax Financial Accounting: Financial statement analysis',
   },
   openStaxProfitabilityRatios: {
-    href: 'https://openstax.org/books/principles-finance/pages/6-3-profitability-ratios-and-the-dupont-method',
+    href: 'https://openstax.org/books/principles-finance/pages/6-6-profitability-ratios-and-the-dupont-method',
     label: 'OpenStax Principles of Finance: Profitability ratios and the DuPont method',
   },
   openStaxMarketValueRatios: {

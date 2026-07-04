@@ -32,7 +32,7 @@ export const POST: APIRoute = async ({ clientAddress, request }) => {
 };
 
 export const GET: APIRoute = async ({ request }) => {
-  const token = request.headers.get('x-aft-analytics-token') ?? new URL(request.url).searchParams.get('token') ?? '';
+  const token = request.headers.get('x-aft-analytics-token') ?? '';
 
   if (!isAnalyticsAdminToken(token)) {
     return jsonResponse({ ok: false, message: 'Analytics token required.' }, 401);

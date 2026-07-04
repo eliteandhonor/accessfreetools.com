@@ -127,8 +127,8 @@ const openStaxQuadratics = {
 };
 
 const nasaNumberSystems = {
-  href: 'https://www.nasa.gov/wp-content/uploads/2023/03/ps-03435-deepspacecomm-508.pdf',
-  label: 'NASA: Deep Space Communications number systems activity',
+  href: 'https://www.nasa.gov/communicating-with-missions/dsn/',
+  label: 'NASA: Deep Space Network',
 };
 
 const rfc4648 = {
@@ -852,7 +852,7 @@ const openStaxSolvencyRatios = {
 };
 
 const openStaxProfitabilityRatios = {
-  href: 'https://openstax.org/books/principles-finance/pages/6-3-profitability-ratios-and-the-dupont-method',
+  href: 'https://openstax.org/books/principles-finance/pages/6-6-profitability-ratios-and-the-dupont-method',
   label: 'OpenStax Principles of Finance: Profitability ratios and the DuPont method',
 };
 
@@ -1472,7 +1472,7 @@ const cfpbClosingDisclosure = {
 };
 
 const ftcHomeEquityLoans = {
-  href: 'https://consumer.ftc.gov/articles/home-equity-loans-home-equity-lines-credit',
+  href: 'https://consumer.ftc.gov/articles/home-equity-loans-and-home-equity-lines-credit',
   label: 'FTC: Home equity loans and lines of credit',
 };
 
@@ -2087,8 +2087,8 @@ const quikreteStepsRamps = {
 };
 
 const doeInsulation = {
-  href: 'https://www.energy.gov/energysaver/insulation',
-  label: 'U.S. Department of Energy: Insulation guidance',
+  href: 'https://www.energystar.gov/products/energy_star_home_upgrade/attic_insulation',
+  label: 'ENERGY STAR: Attic insulation guidance',
 };
 
 const energyStarInsulationRValues = {
@@ -2347,7 +2347,7 @@ const cmhaSegmentalRetainingWallDesign = {
 };
 
 const allanBlockRetainingWallPlanning = {
-  href: 'https://www.allanblock.com/docs/Commercial_Installation_Manual/retaining-wall-planning.html',
+  href: 'https://allanblock.com/installation/commercial-installation/retaining-wall-planning',
   label: 'Allan Block: Retaining Wall Planning Guide',
 };
 
@@ -2392,13 +2392,13 @@ const epaMpgMath = {
 };
 
 const doeFuelEconomy = {
-  href: 'https://www.energy.gov/index.php/energysaver/fuel-economy',
-  label: 'U.S. Department of Energy: Fuel Economy',
+  href: 'https://www.epa.gov/fueleconomy',
+  label: 'U.S. EPA: Fuel Economy',
 };
 
 const doeDrivingEfficiently = {
-  href: 'https://www.energy.gov/energysaver/driving-more-efficiently',
-  label: 'U.S. Department of Energy: Driving more efficiently',
+  href: 'https://www.epa.gov/fueleconomy',
+  label: 'U.S. EPA: Fuel economy guidance',
 };
 
 const eiaGasolinePrices = {
@@ -2477,8 +2477,8 @@ const nwsDewPointVsHumidity = {
 };
 
 const doeRoomAirConditioners = {
-  href: 'https://www.energy.gov/energysaver/room-air-conditioners',
-  label: 'U.S. Department of Energy: Room air conditioners',
+  href: 'https://www.energystar.gov/productfinder/product/certified-room-air-conditioners/',
+  label: 'ENERGY STAR: Certified room air conditioners',
 };
 
 const oshaStairs = {
@@ -2507,8 +2507,8 @@ const oshaFallProtectionConstruction = {
 };
 
 const doeApplianceEnergy = {
-  href: 'https://www.energy.gov/energysaver/articles/estimating-appliance-and-home-electronic-energy-use',
-  label: 'U.S. Department of Energy: Estimating appliance energy use',
+  href: 'https://www.eia.gov/energyexplained/use-of-energy/electricity-use-in-homes.php',
+  label: 'U.S. EIA: Electricity use in homes',
 };
 
 const eiaKwh = {

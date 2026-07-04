@@ -412,7 +412,7 @@ export default function PercentageCalculator() {
         )}
       </div>
 
-      <aside className="percentage-side-panel" aria-label="Percentage examples and history">
+      <section className="percentage-side-panel" aria-label="Percentage examples and history">
         <section>
           <h2>Examples</h2>
           <div className="percentage-example-list">
@@ -439,7 +439,7 @@ export default function PercentageCalculator() {
             <p>Recent percentage answers will appear here.</p>
           )}
         </section>
-      </aside>
+      </section>
     </section>
   );
 }

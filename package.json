@@ -109,7 +109,7 @@
     "automation:chrome-check": "node scripts/check-chrome-control-plugin.mjs"
   },
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=24 <25"
   },
   "dependencies": {
     "@astrojs/node": "^11.0.1",
