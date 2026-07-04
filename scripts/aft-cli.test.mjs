@@ -107,6 +107,91 @@ describe('aft CLI indexing gaps', () => {
     expect(result.status).toBe(0);
     expect(result.stdout).toContain('improve contextual internal links, submit discovery');
   });
+
+  it('uses feed sitemap cleanup proof before repeating coverage drilldown confirmation work', () => {
+    const root = makeRoot();
+
+    writeFixture(
+      root,
+      'output/search-console-coverage-drilldown.json',
+      JSON.stringify(
+        {
+          actions: [
+            {
+              priority: 'high',
+              task: 'Confirm /sitemap/ and /feed.xml return noindex,follow and are absent from XML sitemaps; then deploy and wait for Google to recrawl before restarting validation.',
+            },
+            {
+              priority: 'medium',
+              task: 'Review newest affected tool/blog URLs with the SEO workbench.',
+            },
+          ],
+          generatedAt: '2026-07-04T10:16:58.934Z',
+          metadata: {
+            Issue: 'Crawled - currently not indexed',
+          },
+          totals: {
+            rowCount: 338,
+            rowsByType: {
+              blog: 188,
+              feed: 1,
+              'html-sitemap': 1,
+              tool: 146,
+            },
+          },
+        },
+        null,
+        2,
+      ),
+    );
+    writeFixture(
+      root,
+      'output/search-console-discovery.json',
+      JSON.stringify(
+        {
+          pruned: ['https://accessfreetools.com/feed.xml'],
+          submissions: ['https://accessfreetools.com/sitemap.xml'],
+        },
+        null,
+        2,
+      ),
+    );
+    writeFixture(
+      root,
+      'output/production-sitemap-check.json',
+      JSON.stringify(
+        {
+          hardFailures: 0,
+        },
+        null,
+        2,
+      ),
+    );
+    writeFixture(
+      root,
+      'output/indexing-protection/2026-07-04/summary.json',
+      JSON.stringify(
+        {
+          generatedAt: '2026-07-04T09:43:07.369Z',
+          totals: {
+            highIssues: 0,
+          },
+        },
+        null,
+        2,
+      ),
+    );
+
+    const result = spawnSync(process.execPath, [aftCli, 'indexing-gaps'], {
+      cwd: root,
+      encoding: 'utf8',
+    });
+
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain('Coverage drilldown action: watch: Feed/html sitemap cleanup has current local proof');
+    expect(result.stdout).toContain('Wait for Google recrawl');
+    expect(result.stdout).not.toContain('Confirm /sitemap/ and /feed.xml');
+  });
 });
 
 describe('aft CLI site sitemap', () => {

@@ -37,8 +37,10 @@ const evidencePaths = {
   searchConsole: 'output/search-console-url-inspection.json',
   searchConsoleCoverageExport: 'output/search-console-coverage-export.json',
   searchConsoleCoverageDrilldown: 'output/search-console-coverage-drilldown.json',
+  searchConsoleDiscovery: 'output/search-console-discovery.json',
   searchConsoleIndexingRequests: 'docs/search-console-indexing-requests.json',
   searchConsolePerformanceExport: 'output/search-console/performance-latest.json',
+  productionSitemapCheck: 'output/production-sitemap-check.json',
   dataForSeoAccount: 'output/dataforseo-account.json',
   dataForSeoStatus: 'output/dataforseo-status.json',
   hostingerStatus: 'output/hostinger/status.json',
@@ -51,6 +53,8 @@ const evidencePaths = {
 };
 
 const analyticsEventsPath = resolve(root, process.env.AFT_ANALYTICS_DIR ?? '.local/analytics', 'events.ndjson');
+const feedUrl = `${SITE_ORIGIN}/feed.xml`;
+const rootSitemapUrl = `${SITE_ORIGIN}/sitemap.xml`;
 
 const genericPhrases = [
   "in today's digital world",
@@ -379,16 +383,52 @@ function getCoverageExportSummary() {
   };
 }
 
+function getCoverageDrilldownWatchProof() {
+  const discovery = readJson(evidencePaths.searchConsoleDiscovery);
+  const productionSitemap = readJson(evidencePaths.productionSitemapCheck);
+  const indexingProtection = newestReportUnder('output/indexing-protection')?.report ?? null;
+
+  return {
+    feedSitemapPruned: Array.isArray(discovery?.pruned) && discovery.pruned.includes(feedUrl),
+    indexingProtectionClean: Number(indexingProtection?.totals?.highIssues ?? NaN) === 0,
+    productionSitemapClean: Number(productionSitemap?.hardFailures ?? NaN) === 0,
+    rootSitemapSubmitted: Array.isArray(discovery?.submissions) && discovery.submissions.includes(rootSitemapUrl),
+  };
+}
+
+function coverageDrilldownCleanupProven(proof) {
+  return proof.feedSitemapPruned && proof.rootSitemapSubmitted && proof.productionSitemapClean && proof.indexingProtectionClean;
+}
+
+function coverageDrilldownActions(report, proof) {
+  const actions = report.actions ?? [];
+  const rowsByType = report.totals?.rowsByType ?? {};
+  const hasFeedOrHtmlSitemap = Number(rowsByType.feed ?? 0) > 0 || Number(rowsByType['html-sitemap'] ?? 0) > 0;
+
+  if (!hasFeedOrHtmlSitemap || !coverageDrilldownCleanupProven(proof)) return actions;
+
+  return [
+    {
+      priority: 'watch',
+      task:
+        'Feed/html sitemap cleanup has current local proof: /feed.xml was pruned from Search Console sitemap submissions, the root XML sitemap was submitted, production XML sitemap check has 0 hard failures, and indexing protection has 0 high issues. Wait for Google recrawl, then re-import Coverage Drilldown; do not restart validation or bulk-edit pages unless sampled URLs show current defects.',
+    },
+    ...actions.filter((action) => !/\/sitemap\/|\/feed\.xml/i.test(action.task ?? '')),
+  ];
+}
+
 function getCoverageDrilldownSummary() {
   const report = readJson(evidencePaths.searchConsoleCoverageDrilldown);
   if (!report || report.parseError) return null;
+  const watchProof = getCoverageDrilldownWatchProof();
 
   return {
-    actions: report.actions ?? [],
+    actions: coverageDrilldownActions(report, watchProof),
     generatedAt: report.generatedAt ?? '',
     issue: report.metadata?.Issue ?? 'unknown',
     newestExamples: report.newestExamples ?? [],
     totals: report.totals ?? null,
+    watchProof,
   };
 }
 
