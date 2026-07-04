@@ -122,6 +122,49 @@ export default function AbsoluteValueCalculator() {
 
     return formatCalculatorNumber(calculation.result.signedDifference);
   }, [calculation]);
+  const visualModel = useMemo(() => {
+    const { value, comparisonValue } = calculation.result;
+    const comparison = comparisonValue;
+    const rawValues = comparison === undefined ? [0, value] : [0, value, comparison];
+    const minValue = Math.min(...rawValues);
+    const maxValue = Math.max(...rawValues);
+    const padding = Math.max((maxValue - minValue) * 0.16, 1);
+    const start = minValue - padding;
+    const end = maxValue + padding;
+    const range = end - start || 1;
+    const markerValues = rawValues
+      .map((markerValue, index) => ({
+        key: `${markerValue}-${index}`,
+        label:
+          markerValue === 0
+            ? 'Zero'
+            : comparison !== undefined && markerValue === comparison
+              ? 'Compare'
+              : 'Value',
+        value: markerValue,
+        percent: ((markerValue - start) / range) * 100,
+      }))
+      .filter(
+        (marker, index, markers) =>
+          markers.findIndex((candidate) => candidate.label === marker.label && candidate.value === marker.value) ===
+          index,
+      );
+    const barEndpoints = comparison === undefined ? [0, value] : [value, comparison];
+    const barStart = ((Math.min(...barEndpoints) - start) / range) * 100;
+    const barEnd = ((Math.max(...barEndpoints) - start) / range) * 100;
+
+    return {
+      barStart,
+      barWidth: Math.max(barEnd - barStart, 0.8),
+      endLabel: formatCalculatorNumber(end),
+      markerValues,
+      startLabel: formatCalculatorNumber(start),
+      title:
+        comparison === undefined
+          ? `Distance from zero is ${formatCalculatorNumber(calculation.result.absoluteValue)}`
+          : `Distance between values is ${formatCalculatorNumber(calculation.result.absoluteDifference ?? 0)}`,
+    };
+  }, [calculation]);
   const modeText = calculation.result.comparisonValue === undefined ? 'Absolute value' : 'Absolute difference';
 
   const updateInput = (key: keyof AbsoluteValueInputs, value: string) => {
@@ -164,14 +207,6 @@ export default function AbsoluteValueCalculator() {
             value={inputs.comparisonValue}
             onChange={(value) => updateInput('comparisonValue', value)}
           />
-        </div>
-
-        <div className="absolute-quick-grid" aria-label="Quick absolute value examples">
-          {examples.map((example) => (
-            <button key={example.label} onClick={() => loadExample(example)} type="button">
-              {example.label}
-            </button>
-          ))}
         </div>
 
         <div className="absolute-actions">
@@ -221,6 +256,30 @@ export default function AbsoluteValueCalculator() {
       </div>
 
       <aside className="absolute-side-panel" aria-label="Absolute value examples and history">
+        <section className="absolute-guide-card">
+          <h2>Guide and visual check</h2>
+          <p>{visualModel.title}. The bar shows the distance the result is measuring.</p>
+          <div className="absolute-number-line" aria-hidden="true">
+            <span
+              className="absolute-distance-bar"
+              style={{ left: `${visualModel.barStart}%`, width: `${visualModel.barWidth}%` }}
+            />
+            {visualModel.markerValues.map((marker) => (
+              <span className="absolute-marker" key={marker.key} style={{ left: `${marker.percent}%` }}>
+                <strong>{marker.label}</strong>
+                <em>{formatCalculatorNumber(marker.value)}</em>
+              </span>
+            ))}
+          </div>
+          <div className="absolute-number-line-scale" aria-hidden="true">
+            <span>{visualModel.startLabel}</span>
+            <span>{visualModel.endLabel}</span>
+          </div>
+          <a className="button-secondary" href="/blog/how-to-use-absolute-value-calculator/">
+            Read the absolute value guide
+          </a>
+        </section>
+
         <section>
           <h2>Examples</h2>
           <div className="absolute-quick-grid absolute-example-list">

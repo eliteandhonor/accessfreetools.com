@@ -1953,6 +1953,15 @@ main {
   margin-bottom: 14px;
 }
 
+.tool-title-actions {
+  align-items: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
 .alias-notice {
   background: color-mix(in srgb, var(--surface) 88%, var(--primary) 12%);
   border: 1px solid var(--border);
@@ -4119,6 +4128,98 @@ main {
   padding: 22px;
 }
 
+.absolute-guide-card {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #ffffff 92%, #e1dcff), color-mix(in srgb, #e1dcff 28%, #ffffff));
+  border: 1px solid color-mix(in srgb, #6656b8 24%, var(--border));
+  border-radius: var(--radius);
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.absolute-guide-card p {
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.absolute-guide-card .button-secondary {
+  justify-self: start;
+  min-height: 40px;
+}
+
+.absolute-number-line {
+  height: 92px;
+  margin: 4px 0 0;
+  position: relative;
+}
+
+.absolute-number-line::before {
+  background: color-mix(in srgb, #6656b8 28%, var(--border));
+  border-radius: 999px;
+  content: "";
+  height: 4px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 46px;
+}
+
+.absolute-distance-bar {
+  background: linear-gradient(90deg, #6656b8, color-mix(in srgb, #6656b8 72%, #c8f7e7));
+  border-radius: 999px;
+  height: 8px;
+  position: absolute;
+  top: 44px;
+  z-index: 1;
+}
+
+.absolute-marker {
+  align-items: center;
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  min-width: 62px;
+  position: absolute;
+  top: 14px;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.absolute-marker::after {
+  background: #6656b8;
+  border: 3px solid #fff;
+  border-radius: 999px;
+  box-shadow: 0 8px 20px rgba(53, 40, 104, 0.22);
+  content: "";
+  height: 16px;
+  width: 16px;
+}
+
+.absolute-marker strong {
+  color: var(--text);
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+.absolute-marker em {
+  color: var(--primary-strong);
+  font-size: 0.84rem;
+  font-style: normal;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.absolute-number-line-scale {
+  color: var(--muted);
+  display: flex;
+  font-size: 0.74rem;
+  font-weight: 850;
+  justify-content: space-between;
+  margin-top: -10px;
+}
+
 .log-side-panel ol,
 .ratio-side-panel ol,
 .absolute-side-panel ol,
@@ -4133,6 +4234,16 @@ main {
 .root-side-panel li {
   display: grid;
   gap: 4px;
+}
+
+.absolute-example-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.absolute-quick-grid button {
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
 .log-side-panel li span,
@@ -7224,8 +7335,32 @@ main {
 }
 
 .blog-search-panel {
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 18%, var(--border));
+  border-radius: var(--radius);
+  box-shadow: var(--soft-shadow);
   display: grid;
   gap: 14px;
+  margin: 0 0 22px;
+  padding: 18px;
+}
+
+.blog-search-heading {
+  display: grid;
+  gap: 6px;
+}
+
+.blog-search-heading h2 {
+  font-size: 2rem;
+  line-height: 1.08;
+  margin: 0;
+}
+
+.blog-search-heading p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+  max-width: 720px;
 }
 
 .blog-search-bar {
@@ -7545,6 +7680,10 @@ main {
     display: grid;
   }
 
+  .tool-title-actions {
+    justify-content: flex-start;
+  }
+
   .site-nav {
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -7649,6 +7788,17 @@ main {
     font-size: 2.4rem;
   }
 
+  .tool-title-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .tool-title-actions .button-primary,
+  .tool-title-actions .button-secondary {
+    width: 100%;
+  }
+
   .tool-grid,
   .category-grid,
   .category-snapshot-tools,
@@ -7732,9 +7882,21 @@ main {
     display: grid;
   }
 
+  .absolute-guide-card .button-secondary {
+    justify-self: stretch;
+  }
+
+  .absolute-marker {
+    min-width: 50px;
+  }
+
   .blog-hero h1,
   .blog-article-header h1 {
     font-size: 3rem;
+  }
+
+  .blog-search-heading h2 {
+    font-size: 1.55rem;
   }
 
   .tools-launchpad {

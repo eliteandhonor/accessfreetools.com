@@ -256,6 +256,13 @@ const recoveryGuideShortcuts = [
       </p>
     </div>
 
+    <BlogSearch
+      posts={initialBlogPosts}
+      searchIndexUrl="/blog-search-index.json"
+      totalPostCount={blogSearchIndex.length}
+      client:load
+    />
+
     {editorialHighlights.length > 0 && (
       <section class="guide-feature-panel guide-feature-panel-soft" aria-labelledby="owner-notes-heading">
         <div>
@@ -352,12 +359,5 @@ const recoveryGuideShortcuts = [
         ))}
       </div>
     </section>
-
-    <BlogSearch
-      posts={initialBlogPosts}
-      searchIndexUrl="/blog-search-index.json"
-      totalPostCount={blogSearchIndex.length}
-      client:load
-    />
   </section>
 </BaseLayout>

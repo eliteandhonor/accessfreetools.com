@@ -1893,7 +1893,10 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         <h1>{displayName}</h1>
         <p>{displayDescription}</p>
       </div>
-      <a class="button-secondary" href="/tools/">All tools</a>
+      <div class="tool-title-actions" aria-label="Tool page actions">
+        <a class="button-primary" href={guidePath}>Read guide</a>
+        <a class="button-secondary" href="/tools/">All tools</a>
+      </div>
     </div>
 
     {

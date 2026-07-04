@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Search } from 'lucide-react';
 import type { BlogSearchItem } from '../data/blogSearchIndex';
 
-const INITIAL_VISIBLE_GUIDE_LIMIT = 96;
+const INITIAL_VISIBLE_GUIDE_LIMIT = 36;
 
 interface Props {
   posts: BlogSearchItem[];
@@ -99,6 +99,10 @@ export default function BlogSearch({ posts, searchIndexUrl, totalPostCount }: Pr
 
   return (
     <section className="blog-search-panel" aria-label="Search blog guides">
+      <div className="blog-search-heading">
+        <h2>Search the guide library</h2>
+        <p>Type a tool name, formula, or project word to jump straight to the matching guide.</p>
+      </div>
       <div className="blog-search-bar">
         <Search size={20} strokeWidth={2.4} />
         <label htmlFor="blog-guide-search">Search guides</label>
