@@ -133,16 +133,12 @@ function getSourceLinks(toolSlug: string) {
   if (toolSlug === 'army-body-fat-calculator') {
     return [
       {
-        href: 'https://www.armyresilience.army.mil/abcp/index.html',
-        label: 'U.S. Army DPRR: Army Body Composition Program',
+        href: 'https://www.army.mil/article/267605/army_rolls_out_new_army_body_composition_program',
+        label: 'U.S. Army: Army Body Composition Program rollout',
       },
       {
-        href: 'https://www.armyresilience.army.mil/abcp/BodyFatCalculator.html',
-        label: 'U.S. Army DPRR: ABCP body fat calculator',
-      },
-      {
-        href: 'https://www.armyresilience.army.mil/ard/images/pdf/Policy/ALARACT_0322025.pdf',
-        label: 'U.S. Army: ALARACT 032/2025 ABCP method update',
+        href: 'https://www.army.mil/article/267486/army_publishes_new_body_fat_assessment_guidance',
+        label: 'U.S. Army: body fat assessment guidance',
       },
       {
         href: 'https://recruiting.army.mil/Portals/15/DA5500.pdf',

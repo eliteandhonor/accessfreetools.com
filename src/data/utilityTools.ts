@@ -8597,7 +8597,7 @@ export const utilityTools: ToolDefinition[] = [
       {
         question: 'What happens if my URL already has a question mark?',
         answer:
-          'The builder keeps existing query parameters and adds the UTM values after them. For example, https://example.com/landing?page=1 becomes https://example.com/landing?page=1&utm_source=newsletter&utm_medium=email&utm_campaign=spring-tools.',
+          'The builder keeps existing query parameters and adds the UTM values after them. For example, https://example.com/?page=1 becomes https://example.com/?page=1&utm_source=newsletter&utm_medium=email&utm_campaign=spring-tools.',
       },
       {
         question: 'Can I put customer names or email addresses in UTM fields?',

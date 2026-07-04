@@ -7153,7 +7153,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       {
         title: 'Existing query values and encoded text',
         paragraphs: [
-          'Some landing pages already have query values, such as https://example.com/landing?page=1. The builder keeps that page value and adds the UTM labels after it with ampersands.',
+          'Some landing pages already have query values, such as https://example.com/?page=1. The builder keeps that page value and adds the UTM labels after it with ampersands.',
           'The finished URL may encode spaces or punctuation so the link stays valid. That is why a paid-search term like free calculators can appear as free+calculators in the final URL.',
         ],
       },

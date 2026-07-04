@@ -341,9 +341,9 @@ const googleCampaignUrls = {
   label: 'Google Analytics Help: Collect campaign data with custom URLs',
 };
 
-const esuRomanNumerals = {
-  href: 'https://www.esu.edu/tutoring/documents/21-22/numeration/roman_va.pdf',
-  label: 'East Stroudsburg University Tutoring: Roman Numeration System',
+const nationalArchivesRomanNumerals = {
+  href: 'https://www.nationalarchives.gov.uk/help-with-your-research/reading-old-documents/roman-numerals/',
+  label: 'The National Archives: Roman numerals',
 };
 
 const rfc4632 = {
@@ -1941,19 +1941,14 @@ const armyBodyCompositionProgram = {
   label: 'U.S. Army: AR 600-9 Body Composition Program',
 };
 
-const armyAbcpProgram = {
-  href: 'https://www.armyresilience.army.mil/abcp/index.html',
-  label: 'U.S. Army DPRR: Army Body Composition Program',
+const armyAbcpRollout = {
+  href: 'https://www.army.mil/article/267605/army_rolls_out_new_army_body_composition_program',
+  label: 'U.S. Army: Army Body Composition Program rollout',
 };
 
-const armyAbcpCalculator = {
-  href: 'https://www.armyresilience.army.mil/abcp/BodyFatCalculator.html',
-  label: 'U.S. Army DPRR: ABCP body fat calculator',
-};
-
-const armyAlaract0322025 = {
-  href: 'https://www.armyresilience.army.mil/ard/images/pdf/Policy/ALARACT_0322025.pdf',
-  label: 'U.S. Army: ALARACT 032/2025 ABCP method update',
+const armyAbcpAssessmentGuidance = {
+  href: 'https://www.army.mil/article/267486/army_publishes_new_body_fat_assessment_guidance',
+  label: 'U.S. Army: body fat assessment guidance',
 };
 
 const armyDa5500 = {
@@ -4698,7 +4693,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     batch: 'gsc-dataforseo-page-sprint-2026-06-03',
     reviewedOn: '2026-06-03',
     scope: commonMathScope,
-    sources: [armyAbcpProgram, armyAbcpCalculator, armyAlaract0322025, armyDa5500, armyDa5501, armyBodyCompositionProgram],
+    sources: [armyAbcpRollout, armyAbcpAssessmentGuidance, armyDa5500, armyDa5501, armyBodyCompositionProgram],
     findings: [
       'The calculator now uses the current Army one-site tape equation from the June 2023 DA Form 5500/5501 worksheets instead of the older multi-site Navy-style circumference equation.',
       'The UI asks for sex, age, weight in pounds, and abdomen circumference in inches; age is used only for the AR 600-9 Table B-2 reference limit.',
@@ -7072,7 +7067,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     batch: 'school-math-date-converter-manual-pass-1-2026-04-30',
     reviewedOn: '2026-04-30',
     scope: commonMathScope,
-    sources: [esuRomanNumerals, nistSi],
+    sources: [nationalArchivesRomanNumerals, nistSi],
     findings: [
       'The Roman numeral helper supports standard modern values from 1 through 3,999 and validates subtractive notation.',
       'Tests cover converting 3,999 to MMMCMXCIX and decoding the same value back.',
@@ -8811,7 +8806,7 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
 
   if (tool.category === 'health-fitness') {
     if (includesAny(key, ['army-body-fat', 'army body fat', 'abcp'])) {
-      return sourceBackstop([armyAbcpProgram, armyAbcpCalculator, armyAlaract0322025, armyDa5500, armyDa5501, armyBodyCompositionProgram]);
+      return sourceBackstop([armyAbcpRollout, armyAbcpAssessmentGuidance, armyDa5500, armyDa5501, armyBodyCompositionProgram]);
     }
 
     if (includesAny(key, ['body-fat', 'body fat', 'navy-style tape', 'navy body fat'])) {
