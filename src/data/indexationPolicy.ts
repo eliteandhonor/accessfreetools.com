@@ -10,6 +10,20 @@ export interface IndexationPolicy {
 }
 
 const explicitPolicies: Record<string, Partial<IndexationPolicy>> = {
+  '/feed.xml': {
+    follow: true,
+    includeInXmlSitemap: false,
+    index: false,
+    priorityTier: 'noindex',
+    reason: 'RSS feed is a discovery resource for subscribers and crawlers, not a search landing page.',
+  },
+  '/pinterest-feed.xml': {
+    follow: true,
+    includeInXmlSitemap: false,
+    index: false,
+    priorityTier: 'noindex',
+    reason: 'Pinterest RSS feed is a promotion feed resource, not a search landing page.',
+  },
   '/sitemap/': {
     follow: true,
     includeInXmlSitemap: false,

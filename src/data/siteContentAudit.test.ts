@@ -860,7 +860,9 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts.typecheck).toBe('tsc --noEmit');
     expect(PACKAGE_JSON.scripts['audit:site']).toBe('vitest run --configLoader runner src/data/siteContentAudit.test.ts');
     expect(PACKAGE_JSON.scripts['check:links']).toBe('node scripts/check-internal-links.mjs');
-    expect(INTERNAL_LINK_CHECK_SOURCE).toContain("serverRenderedPublicPaths = new Set(['/sitemap/'])");
+    expect(INTERNAL_LINK_CHECK_SOURCE).toContain(
+      "serverRenderedPublicPaths = new Set(['/sitemap/', '/feed.xml', '/pinterest-feed.xml'])",
+    );
     expect(PACKAGE_JSON.scripts['check:site']).toBe('node scripts/check-built-site.mjs');
     expect(PACKAGE_JSON.scripts['check:article-visual']).toBe('node scripts/check-article-visual-layout.mjs');
     expect(PACKAGE_JSON.scripts['check:structured-data']).toBe('node scripts/check-structured-data.mjs');
@@ -876,6 +878,12 @@ describe('site content audit guardrails', () => {
     expect(MIDDLEWARE_SOURCE).toContain('X-Robots-Tag');
     expect(MIDDLEWARE_SOURCE).toContain('noindex, follow');
     expect(MIDDLEWARE_SOURCE).toContain("pathname === '/sitemap/'");
+    expect(MIDDLEWARE_SOURCE).toContain("pathname === '/feed.xml'");
+    expect(FEED_SOURCE).toContain("'X-Robots-Tag': robotsContentForPath('/feed.xml').replace(',', ', ')");
+    expect(HTACCESS_SOURCE).toContain(
+      'SetEnvIf Request_URI "^/(?:feed|pinterest-feed)\\.xml$" aft_noindex_feed=1',
+    );
+    expect(HTACCESS_SOURCE).toContain('Header always set X-Robots-Tag "noindex, follow" env=aft_noindex_feed');
     expect(HTML_SITEMAP_SOURCE).toContain('export const prerender = false');
     expect(HTML_SITEMAP_SOURCE).toContain("Astro.response.headers.set('X-Robots-Tag', 'noindex, follow')");
     expect(PRODUCTION_SITEMAP_CHECK_SOURCE).toContain('output/search-console-performance.json');

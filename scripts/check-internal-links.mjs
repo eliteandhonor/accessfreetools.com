@@ -4,7 +4,7 @@ import { join, normalize } from 'node:path';
 const distDir = join(process.cwd(), 'dist');
 const publicDistDir = existsSync(join(distDir, 'client')) ? join(distDir, 'client') : distDir;
 const htmlFiles = [];
-const serverRenderedPublicPaths = new Set(['/sitemap/']);
+const serverRenderedPublicPaths = new Set(['/sitemap/', '/feed.xml', '/pinterest-feed.xml']);
 
 function walk(directory) {
   for (const entry of readdirSync(directory, { withFileTypes: true })) {

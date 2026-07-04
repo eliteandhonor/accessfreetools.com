@@ -17,11 +17,14 @@ RewriteCond %{REQUEST_URI} !\.[a-z0-9]{2,8}$ [NC]
 RewriteRule ^(.+)$ /$1/ [R=301,L]
 
 <IfModule mod_headers.c>
+  SetEnvIf Request_URI "^/(?:feed|pinterest-feed)\.xml$" aft_noindex_feed=1
+
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
   Header always set X-Content-Type-Options "nosniff"
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header always set X-Robots-Tag "noindex, follow" env=aft_noindex_feed
   <FilesMatch "\.(?:css|js|mjs|png|jpe?g|webp|gif|svg|ico|woff2?|wasm|onnx|gz)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>

@@ -136,13 +136,19 @@ function groupCounts(items, keyFn) {
 function buildActions(metadata, rows) {
   const issue = String(metadata.Issue ?? '').toLowerCase();
   const hasHtmlSitemap = rows.some((row) => row.type === 'html-sitemap');
+  const hasFeed = rows.some((row) => row.type === 'feed');
   const hasToolOrBlog = rows.some((row) => row.type === 'tool' || row.type === 'blog');
   const actions = [];
 
-  if (hasHtmlSitemap) {
+  if (hasHtmlSitemap || hasFeed) {
+    const resources = [
+      hasHtmlSitemap ? '/sitemap/' : '',
+      hasFeed ? '/feed.xml' : '',
+    ].filter(Boolean).join(' and ');
+
     actions.push({
       priority: 'high',
-      task: 'Confirm /sitemap/ is noindex,follow and absent from XML sitemaps; then wait for Google to recrawl before restarting validation.',
+      task: `Confirm ${resources} return noindex,follow and are absent from XML sitemaps; then deploy and wait for Google to recrawl before restarting validation.`,
     });
   }
 

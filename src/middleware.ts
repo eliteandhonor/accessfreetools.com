@@ -1,10 +1,12 @@
 import { defineMiddleware } from 'astro:middleware';
 import { getRedirectedBlogGuidePath } from './data/blogGuideCanonicals';
+import { robotsContentForPath } from './data/indexationPolicy';
 
 const CANONICAL_HOST = 'accessfreetools.com';
 const WWW_HOST = `www.${CANONICAL_HOST}`;
 const HTML_CACHE_CONTROL = 'public, max-age=300, s-maxage=3600, stale-while-revalidate=86400';
 const HSTS_HEADER = 'max-age=31536000; includeSubDomains';
+const NOINDEX_FOLLOW_HEADER = 'noindex, follow';
 const LEGACY_REDIRECTS = new Map<string, string>([
   ['/calculators', '/categories/calculators/'],
   ['/deep-research', '/categories/ai-tools/'],
@@ -43,8 +45,14 @@ function isCacheableHtmlPath(pathname: string) {
   return pathname === '/' || pathname.endsWith('/');
 }
 
-function isHtmlSitemapPath(pathname: string) {
-  return pathname === '/sitemap/';
+function isNoindexResourcePath(pathname: string) {
+  return pathname === '/sitemap/' || pathname === '/feed.xml' || pathname === '/pinterest-feed.xml';
+}
+
+function noindexHeaderForPath(pathname: string) {
+  if (!isNoindexResourcePath(pathname)) return '';
+  if (robotsContentForPath(pathname) === 'noindex,follow') return NOINDEX_FOLLOW_HEADER;
+  return robotsContentForPath(pathname).replace(',', ', ');
 }
 
 function applyResponseHeaders(response: Response, url: URL) {
@@ -60,8 +68,9 @@ function applyResponseHeaders(response: Response, url: URL) {
     response.headers.set('Cache-Control', HTML_CACHE_CONTROL);
   }
 
-  if (isHtmlSitemapPath(url.pathname)) {
-    response.headers.set('X-Robots-Tag', 'noindex, follow');
+  const noindexHeader = noindexHeaderForPath(url.pathname);
+  if (noindexHeader) {
+    response.headers.set('X-Robots-Tag', noindexHeader);
   }
 
   return response;

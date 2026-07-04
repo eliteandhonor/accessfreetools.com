@@ -30,4 +30,17 @@ describe('indexation policy', () => {
     expect(shouldIncludeInXmlSitemap('/sitemap/')).toBe(false);
     expect(robotsContentForPath('/sitemap/')).toBe('noindex,follow');
   });
+
+  it('keeps RSS feed resources crawlable but out of Google landing pages', () => {
+    for (const path of ['/feed.xml', '/pinterest-feed.xml']) {
+      const policy = getIndexationPolicy(path);
+
+      expect(policy.index).toBe(false);
+      expect(policy.follow).toBe(true);
+      expect(policy.includeInXmlSitemap).toBe(false);
+      expect(policy.priorityTier).toBe('noindex');
+      expect(shouldIncludeInXmlSitemap(path)).toBe(false);
+      expect(robotsContentForPath(path)).toBe('noindex,follow');
+    }
+  });
 });

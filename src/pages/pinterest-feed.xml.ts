@@ -1,5 +1,5 @@
-export const prerender = true;
 import type { APIRoute } from 'astro';
+import { robotsContentForPath } from '../data/indexationPolicy';
 import { getPinterestFeedItems } from '../data/pinterestFeed';
 import { renderPinterestRssFeed } from '../data/pinterestFeedXml';
 
@@ -16,6 +16,7 @@ export const GET: APIRoute = () => {
   return new Response(body, {
     headers: {
       'Content-Type': 'application/rss+xml; charset=utf-8',
+      'X-Robots-Tag': robotsContentForPath('/pinterest-feed.xml').replace(',', ', '),
     },
   });
 };
