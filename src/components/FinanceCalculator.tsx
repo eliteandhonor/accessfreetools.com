@@ -2,6 +2,7 @@ import { useMemo, useState, type HTMLAttributes, type KeyboardEvent } from 'reac
 import {
   calculateAmortizationSummary,
   calculateAdRevenueEstimate,
+  calculateApyEstimate,
   calculateAutoLoanSummary,
   calculateAnnuity,
   calculateAnnuityPayout,
@@ -96,6 +97,7 @@ export type FinanceToolVariant =
   | '401k'
   | 'house-affordability'
   | 'savings'
+  | 'apy'
   | 'rent'
   | 'annuity'
   | 'credit-card'
@@ -644,6 +646,32 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
           { label: '$300/month goal', inputs: { currentSavings: '2500', monthlyDeposit: '300', annualRatePercent: '4', years: '5', targetAmount: '25000' } },
           { label: 'Emergency fund', inputs: { currentSavings: '1000', monthlyDeposit: '250', annualRatePercent: '3.5', years: '2', targetAmount: '8000' } },
           { label: 'Longer horizon', inputs: { currentSavings: '5000', monthlyDeposit: '200', annualRatePercent: '4.5', years: '10', targetAmount: '40000' } },
+        ],
+      },
+    ],
+  },
+  apy: {
+    title: 'APY Calculator',
+    buttonLabel: 'Estimate APY',
+    emptyHistory: 'Recent APY estimates will appear here.',
+    privacyNote:
+      'APY estimates stay in this browser tab. They do not read bank disclosures, fees, balance tiers, bonuses, withdrawals, taxes, or account-specific rules.',
+    modes: [
+      {
+        id: 'apy',
+        label: 'APY',
+        symbol: 'APY',
+        fields: [
+          numberField('principal', 'Starting deposit ($)'),
+          numberField('annualRatePercent', 'Stated annual interest rate (%)'),
+          selectField('compoundFrequency', 'Compounding frequency', compoundOptions),
+          numberField('termDays', 'Term length (days)'),
+        ],
+        defaultInputs: { principal: '1000', annualRatePercent: '4', compoundFrequency: '12', termDays: '365' },
+        examples: [
+          { label: 'Monthly compounding', inputs: { principal: '1000', annualRatePercent: '4', compoundFrequency: '12', termDays: '365' } },
+          { label: 'Daily compounding', inputs: { principal: '5000', annualRatePercent: '4.25', compoundFrequency: '365', termDays: '365' } },
+          { label: 'Six-month estimate', inputs: { principal: '10000', annualRatePercent: '3.8', compoundFrequency: '12', termDays: '182' } },
         ],
       },
     ],
@@ -2937,6 +2965,33 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Compound the balance monthly using the annual rate you entered.',
           'Compare the projected balance with your target amount.',
         ],
+      };
+    }
+    case 'apy': {
+      const result = calculateApyEstimate({
+        principal: parseNumber(inputs.principal, 'Starting deposit'),
+        annualRatePercent: parseNumber(inputs.annualRatePercent, 'Annual interest rate'),
+        compoundFrequency: parseNumber(inputs.compoundFrequency, 'Compounding frequency'),
+        termDays: parseNumber(inputs.termDays, 'Term days'),
+      });
+
+      return {
+        label: 'Estimated APY',
+        expression: `${compactMoney(result.principal)} at ${percent(result.annualRatePercent)} compounded ${formatCalculatorNumber(result.compoundFrequency)}x/year`,
+        answer: roundedPercent(result.annualPercentageYield, 3),
+        metrics: [
+          { label: 'Estimated interest for term', value: money(result.termInterest) },
+          { label: 'Ending balance estimate', value: money(result.endingBalance) },
+          { label: 'Term length', value: `${formatCalculatorNumber(result.termDays)} days` },
+        ],
+        steps: [
+          'Convert the stated annual interest rate to a decimal rate.',
+          'Divide that rate by the number of compounding periods per year.',
+          'Compound it across one year to estimate annual percentage yield.',
+          'Apply the same annual growth pattern across the term days to estimate interest and ending balance.',
+        ],
+        note:
+          'This is APY math for planning only. Real deposit disclosures can use exact account terms, daily-balance rules, fees, minimum balances, balance tiers, bonuses, taxes, and other bank or credit union details not modeled here.',
       };
     }
     case 'rent': {

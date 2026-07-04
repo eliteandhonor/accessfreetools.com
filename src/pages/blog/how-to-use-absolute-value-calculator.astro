@@ -1,0 +1,156 @@
+---
+export const prerender = true;
+import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+---
+
+<CalculatorGuideArticle
+  toolSlug="absolute-value-calculator"
+  label="Absolute value guide"
+  title="How to use the Absolute Value Calculator"
+  description="Learn how to find absolute value, distance from zero, signed difference, and absolute difference with number-line examples and common mistakes."
+  path="/blog/how-to-use-absolute-value-calculator/"
+  intro="Use the Absolute Value Calculator when a problem asks for |x|, distance from zero, or the size of the difference between two numbers. It keeps the signed difference visible when you compare two values, then shows the absolute difference so you can tell direction apart from distance."
+  quickStart={[
+    'Enter one number in the Value box to find its absolute value.',
+    'Leave Compare with blank when you only need |x|.',
+    'Enter a second number in Compare with when you need |a - b|.',
+    'Press Calculate absolute value.',
+    'Read the result card, signed difference, distance note, and steps together.',
+    'Copy the answer only after checking whether your problem needs direction or just distance.',
+  ]}
+  sections={[
+    {
+      title: 'Quick answer',
+      paragraphs: [
+        'Absolute value tells you how far a number is from zero. That distance is never negative. So |-12.5| equals 12.5, |8| equals 8, and |0| equals 0.',
+        'Absolute difference does the same distance idea between two numbers. First subtract, then take the absolute value. For 82 and 57, |82 - 57| equals 25. For 57 and 82, |57 - 82| also equals 25.',
+      ],
+    },
+    {
+      title: 'What the inputs mean',
+      paragraphs: [
+        'Value is the number inside the absolute value bars when you are solving a one-number question. If the problem says |-14|, type -14 in Value and leave Compare with blank.',
+        'Compare with is optional. Use it when you need the distance between two values. If the problem says the distance between -4 and 11, type -4 in Value and 11 in Compare with. The calculator shows the signed difference first, then the absolute difference.',
+        'The two-box mode is useful because it shows both pieces. The signed difference tells direction. The absolute difference tells size.',
+      ],
+    },
+    {
+      title: 'How the calculator math works',
+      paragraphs: [
+        'For one number, the calculator uses |x|. If x is negative, the answer drops the negative sign. If x is positive or zero, the answer stays the same.',
+        'For two numbers, the calculator uses |a - b|. It subtracts the comparison value from the first value, then takes the absolute value of that difference. That is why the final gap stays positive even when the signed difference is negative.',
+        'This is not a rounding trick. It is number-line distance. Distance has size, but it does not have a left or right direction by itself.',
+      ],
+    },
+    {
+      title: 'Example: absolute value of a negative number',
+      paragraphs: [
+        'Enter -12.5 in Value and leave Compare with blank. The calculator shows |-12.5| = 12.5.',
+        'That means -12.5 is 12.5 units away from zero. The original number is still negative, but its distance from zero is positive.',
+      ],
+    },
+    {
+      title: 'Example: absolute difference between two numbers',
+      paragraphs: [
+        'Enter 82 in Value and 57 in Compare with. The signed difference is 82 - 57 = 25, and the absolute difference is |25| = 25.',
+        'If you swap the numbers, the signed difference becomes 57 - 82 = -25. The absolute difference still equals 25. That is the reason absolute difference is useful when order should not change the size of the gap.',
+      ],
+    },
+    {
+      title: 'Example: distance across zero',
+      paragraphs: [
+        'Enter -4 in Value and 11 in Compare with. The signed difference is -4 - 11 = -15, and the absolute difference is 15.',
+        'This catches a common number-line mistake. Crossing zero does not mean you subtract 4 from 11. The distance from -4 to 0 is 4, and the distance from 0 to 11 is 11, so the total distance is 15.',
+      ],
+    },
+    {
+      title: 'Signed difference versus absolute difference',
+      paragraphs: [
+        'Signed difference answers, "which direction and how far?" Absolute difference answers, "how far, ignoring direction?"',
+        'Use signed difference when direction matters, such as a price went down, a measurement was low, or a temperature increased. Use absolute difference when the size of the gap matters more than direction.',
+      ],
+      bullets: [
+        '82 - 57 = 25 means the first value is 25 higher.',
+        '57 - 82 = -25 means the first value is 25 lower.',
+        '|82 - 57| = 25 and |57 - 82| = 25 both describe the same distance.',
+      ],
+    },
+    {
+      title: 'Where this connects to other calculators',
+      paragraphs: [
+        'Percent error uses absolute error as one step, then divides by the accepted value and multiplies by 100. Percent change is different because it keeps the original value as the base and usually keeps direction.',
+        'The Scientific Calculator can handle abs(-4) inside a longer expression. This page is better when you want a simple, readable absolute value or absolute difference answer with steps.',
+      ],
+      links: [
+        { href: '/tools/percent-error-calculator/', label: 'Percent Error Calculator' },
+        { href: '/tools/percentage-calculator/', label: 'Percentage Calculator' },
+        { href: '/tools/scientific-calculator/', label: 'Scientific Calculator' },
+      ],
+    },
+    {
+      title: 'Common mistakes to avoid',
+      paragraphs: [
+        'The main mistake is treating absolute value like it changes the original situation. It does not. It only returns a non-negative distance.',
+        'Another common mistake is using absolute difference when direction matters. If a lab measurement is lower than the accepted value, the signed difference tells that story. Absolute difference only tells the size of the error.',
+      ],
+      bullets: [
+        'Do not write a negative absolute value for a real number.',
+        'Do not forget that |0| is 0, not 1.',
+        'Do not swap signed difference and absolute difference in explanations.',
+        'Do not use absolute difference for percent change unless the question explicitly asks for an unsigned gap.',
+        'Check decimal signs before copying an answer.',
+      ],
+    },
+    {
+      title: 'Sources and references',
+      paragraphs: [
+        'The page wording follows standard classroom definitions: absolute value as distance from zero, and absolute-value expressions as distance-style math on a number line.',
+      ],
+      links: [
+        { href: 'https://www.khanacademy.org/math/cc-sixth-grade-math/cc-6th-negative-number-topic/cc-6th-absolute-value/a/intro-to-absolute-value', label: 'Khan Academy absolute value introduction' },
+        { href: 'https://openstax.org/books/college-algebra-2e/pages/3-6-absolute-value-functions', label: 'OpenStax absolute value functions' },
+        { href: 'https://openstax.org/books/college-algebra-2e/pages/2-7-linear-inequalities-and-absolute-value-inequalities', label: 'OpenStax absolute value as distance' },
+      ],
+    },
+  ]}
+  faqItems={[
+    {
+      question: 'What is absolute value in plain language?',
+      answer:
+        'Absolute value is distance from zero. The answer is never negative because distance is zero or positive.',
+    },
+    {
+      question: 'Why is |-12.5| equal to 12.5?',
+      answer:
+        '-12.5 is 12.5 units away from zero on the number line. Absolute value keeps that distance and removes the negative direction.',
+    },
+    {
+      question: 'How do I use the calculator for absolute difference?',
+      answer:
+        'Enter the first number in Value and the second number in Compare with. The calculator subtracts them, then takes the absolute value of the difference.',
+    },
+    {
+      question: 'Can absolute difference ever be negative?',
+      answer:
+        'No. The signed difference can be negative, but the absolute difference is always zero or positive.',
+    },
+    {
+      question: 'When does absolute difference equal zero?',
+      answer:
+        'It equals zero when the two compared numbers are the same, because there is no distance between them.',
+    },
+    {
+      question: 'Should I use absolute value for percent change?',
+      answer:
+        'Not by default. Percent change usually keeps direction because increase and decrease mean different things. Use absolute value only when the question asks for an unsigned gap.',
+    },
+    {
+      question: 'Is the calculation private?',
+      answer:
+        'Yes. The calculator runs in your browser tab, and recent answers stay only in that tab while you use the page.',
+    },
+  ]}
+  sidecarText="Use the Absolute Value Calculator while you follow the examples, then compare the signed difference with the absolute difference."
+  bestUsesIntro="Use this guide when you need to decide whether a problem wants direction, distance, or both."
+  keepExploringIntro="If the absolute value is one step in a bigger problem, these nearby tools keep the workflow moving."
+/>

@@ -2423,7 +2423,7 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       'Use this free percent off calculator to estimate final sale price, savings before tax, effective discount, and tax after one or two discounts.',
     seoTitle: 'Percent Off Calculator | Sale Price, Savings & Tax',
     seoDescription:
-      'Calculate final sale price, savings, effective discount, and optional tax after one or two percent-off discounts. See why stacked discounts do not simply add.',
+      'Calculate final sale price, savings, effective discount, and optional sales tax after one or two percent-off discounts. Check why stacked discounts do not simply add.',
     icon: 'calculator-discount',
     aliases: [
       'sale price calculator',
@@ -2475,6 +2475,11 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
         question: 'Can I use this for coupon stacking?',
         answer:
           'Use it for one or two percentage coupons. It does not handle fixed-dollar coupons, buy-one-get-one deals, reward credits, minimum-spend rules, or exclusions that remove an item from the promotion.',
+      },
+      {
+        question: 'How do I calculate 40% off plus another 20% off?',
+        answer:
+          'Apply 40% off first, then apply 20% to the reduced price. On a $100 item, 40% off leaves $60. Another 20% off removes $12, leaving $48 before tax. The effective discount is 52%, not 60%.',
       },
     ],
     formulaCheck:
@@ -4001,6 +4006,82 @@ export const financeTools: ToolDefinition[] = [
     limitFollowup:
       'Compare the estimate with the account disclosure or bank calculator before relying on the exact interest amount.',
     relatedSlugs: ['compound-interest-calculator', 'investment-calculator', 'finance-calculator'],
+  }),
+  makeFinanceTool({
+    slug: 'apy-calculator',
+    name: 'APY Calculator',
+    summary: 'Estimate annual percentage yield from a stated rate and compounding frequency.',
+    description:
+      'Use this free APY calculator to estimate annual percentage yield, term interest, and ending balance from a deposit amount, stated annual interest rate, compounding frequency, and term length.',
+    seoTitle: 'APY Calculator | Annual Percentage Yield From Rate',
+    seoDescription:
+      'Estimate APY from a stated annual interest rate and compounding frequency. See term interest, ending balance, and key bank-disclosure limits.',
+    icon: 'calculator-apy',
+    aliases: ['annual percentage yield calculator', 'apy interest calculator', 'savings apy calculator', 'interest rate to apy calculator'],
+    formula:
+      'The calculator estimates APY as ((1 + stated annual rate / compounding periods) raised to the number of compounding periods, minus 1) x 100. It then applies the same annual growth pattern across the term days to estimate interest and ending balance.',
+    limit:
+      'This is educational APY math, not an official bank disclosure, account quote, savings recommendation, or CD offer. It does not include fees, minimum-balance rules, balance tiers, bonuses, withdrawals, changing rates, leap-year rules, taxes, promotional terms, or account-specific daily-balance methods.',
+    useCases: [
+      'Convert a stated deposit interest rate into an estimated APY.',
+      'Compare monthly, quarterly, annual, and daily compounding assumptions.',
+      'Estimate interest for a one-year or shorter deposit term.',
+      'Check whether two bank offers are using rate and APY language differently.',
+    ],
+    examples: [
+      { label: 'Monthly compounding', expression: '$1,000 deposit, 4% stated annual rate, monthly compounding, 365 days', result: 'About 4.074% APY and $40.74 interest' },
+      { label: 'Daily compounding', expression: '$5,000 deposit, 4.25% stated annual rate, daily compounding, 365 days', result: 'About 4.341% APY and $217.07 interest' },
+      { label: 'Six-month estimate', expression: '$10,000 deposit, 3.8% stated annual rate, monthly compounding, 182 days', result: 'About 3.867% APY and about $190.98 interest' },
+    ],
+    inputExplanations: [
+      { term: 'Starting deposit', meaning: 'the amount you want to use for the interest estimate.' },
+      { term: 'Stated annual interest rate', meaning: 'the nominal yearly rate shown before compounding. Enter 4 for 4%, not 0.04.' },
+      { term: 'Compounding frequency', meaning: 'how many times per year interest is added in the estimate, such as 12 for monthly or 365 for daily.' },
+      { term: 'Term length', meaning: 'how many days you want to estimate interest for. Use 365 for a simple one-year comparison.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'What is APY?',
+        answer:
+          'APY means annual percentage yield. CFPB Regulation DD treats APY as the yearly rate that reflects the total amount of interest paid on an account based on the interest rate and compounding frequency. That makes APY useful when comparing deposit accounts that compound differently.',
+      },
+      {
+        question: 'Is APY the same as the interest rate?',
+        answer:
+          'Not always. The stated annual interest rate is the rate before compounding. APY includes compounding, so monthly or daily compounding can make the APY higher than the stated rate when the rate is positive.',
+      },
+      {
+        question: 'Why does daily compounding usually show a higher APY than annual compounding?',
+        answer:
+          'Daily compounding adds interest more often. Each small interest credit can itself earn interest for the rest of the year, so the annual yield rises slightly compared with annual compounding at the same stated rate.',
+      },
+      {
+        question: 'Can I use this for CDs and savings accounts?',
+        answer:
+          'Yes, for a quick comparison of rate and compounding assumptions. For a real CD or savings account, use the bank or credit union disclosure because the official APY, maturity date, fees, penalties, balance tiers, and account rules control the actual return.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'Does this calculator include bonuses or fees?',
+        answer:
+          'No. CFPB disclosure rules treat APY carefully, and real accounts can have fees, bonuses, minimum balances, and other terms. This page only estimates the compounding math from the numbers you enter.',
+      },
+      {
+        question: 'Should I compare bank accounts by APY or interest rate?',
+        answer:
+          'APY is usually easier for deposit-account comparisons because it includes compounding. Still compare fees, access limits, withdrawal rules, minimum balances, insurance coverage, and how long the rate is guaranteed.',
+      },
+    ],
+    formulaCheck:
+      'If the APY looks too high or low, check that the rate is entered as a percent, the compounding frequency matches the offer, and the term is in days.',
+    resultReading:
+      'Estimated APY is the one-year yield from the rate and compounding frequency. Term interest and ending balance show what that same growth pattern would produce for the days entered.',
+    doubleCheck:
+      'Check whether the account disclosure already gives APY. If it does, do not reverse-engineer it from a different stated rate unless you know the compounding rule matches.',
+    limitFollowup:
+      'Use the account disclosure, bank calculator, or credit union terms for the official APY and actual payout.',
+    relatedSlugs: ['savings-calculator', 'cd-calculator', 'compound-interest-calculator', 'interest-calculator'],
   }),
   makeFinanceTool({
     slug: 'rent-calculator',

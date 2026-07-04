@@ -57,6 +57,7 @@ import {
   generateRandomNumbers,
   calculateAge,
   calculateAiTokenCost,
+  calculateAbsoluteValue,
   calculateApiPricing,
   analyzeText,
   calculateAsphaltEstimate,
@@ -101,6 +102,7 @@ import {
   calculateAdRevenueEstimate,
   calculateAnnuity,
   calculateAnnuityPayout,
+  calculateApyEstimate,
   calculateAprEstimate,
   calculateAssetLease,
   calculateAutoLease,
@@ -444,6 +446,22 @@ describe('percentage helpers', () => {
 
   it('rejects percent error with a zero accepted value', () => {
     expect(() => calculatePercentError(10, 0)).toThrow('Accepted value cannot be zero');
+  });
+
+  it('calculates absolute value and absolute difference', () => {
+    const single = calculateAbsoluteValue(-12.5);
+    const comparison = calculateAbsoluteValue(82, 57);
+
+    expect(formatCalculatorNumber(single.absoluteValue)).toBe('12.5');
+    expect(formatCalculatorNumber(comparison.signedDifference ?? 0)).toBe('25');
+    expect(formatCalculatorNumber(comparison.absoluteDifference ?? 0)).toBe('25');
+  });
+
+  it('keeps absolute difference positive when the signed difference is negative', () => {
+    const result = calculateAbsoluteValue(-4, 11);
+
+    expect(formatCalculatorNumber(result.signedDifference ?? 0)).toBe('-15');
+    expect(formatCalculatorNumber(result.absoluteDifference ?? 0)).toBe('15');
   });
 });
 
@@ -1516,6 +1534,35 @@ describe('finance helpers', () => {
     expect(goalCleared.endingBalance).toBeCloseTo(19090.78, 2);
     expect(goalCleared.targetGap).toBeCloseTo(-1090.78, 2);
     expect(goalCleared.targetMet).toBe(true);
+  });
+
+  it('keeps APY calculator examples stable', () => {
+    const monthly = calculateApyEstimate({
+      principal: 1000,
+      annualRatePercent: 4,
+      compoundFrequency: 12,
+      termDays: 365,
+    });
+    const daily = calculateApyEstimate({
+      principal: 5000,
+      annualRatePercent: 4.25,
+      compoundFrequency: 365,
+      termDays: 365,
+    });
+    const shortTerm = calculateApyEstimate({
+      principal: 10000,
+      annualRatePercent: 3.8,
+      compoundFrequency: 12,
+      termDays: 182,
+    });
+
+    expect(monthly.annualPercentageYield).toBeCloseTo(4.074, 3);
+    expect(monthly.termInterest).toBeCloseTo(40.74, 2);
+    expect(monthly.endingBalance).toBeCloseTo(1040.74, 2);
+    expect(daily.annualPercentageYield).toBeCloseTo(4.341, 3);
+    expect(daily.termInterest).toBeCloseTo(217.07, 2);
+    expect(shortTerm.annualPercentageYield).toBeCloseTo(3.867, 3);
+    expect(shortTerm.termInterest).toBeCloseTo(190.98, 2);
   });
 
   it('keeps pension calculator examples stable', () => {

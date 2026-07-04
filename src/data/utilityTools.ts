@@ -154,7 +154,7 @@ export const utilityTools: ToolDefinition[] = [
     aliases: ['Birthday Calculator', 'Exact Age Calculator', 'Age Difference Calculator', 'Age in Days Calculator'],
     seoTitle: 'Age Calculator | Exact Age, Total Days, Next Birthday',
     seoDescription:
-      'Calculate age from a birth date to any as-of date. See years, months, days, total days lived, and next birthday timing.',
+      'Calculate age from a birth date to today or a future cutoff date. See years, months, days, total days lived, and next birthday timing.',
     formula:
       'The calculator compares two valid calendar dates, subtracts full years, then remaining months and days. It also counts total days using UTC calendar dates.',
     limit:
@@ -194,6 +194,11 @@ export const utilityTools: ToolDefinition[] = [
           'Use it as a quick check only. Legal age, school eligibility, sports groups, insurance, and age-restricted services may define their own cutoff date or leap-day rule.',
       },
       {
+        question: 'Can I calculate age on a school or sports cutoff date?',
+        answer:
+          'Yes. Put the cutoff date in the as-of date field instead of today. Then check the official rule, because some schools, leagues, and programs use their own birthday or leap-day policy.',
+      },
+      {
         question: 'What date format should I use?',
         answer:
           'Use the browser date picker when it appears. The stored value is a YYYY-MM-DD date, which keeps month and day order clear across different countries.',
@@ -214,6 +219,7 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Born Jan 1, 2000', expression: '2000-01-01 to 2026-04-30', result: '26 years, 3 months, 29 days' },
       { label: 'Leap day birthday', expression: '2004-02-29 to 2026-04-30', result: '22 years, 2 months, 1 day' },
       { label: 'Birthday today', expression: '2010-04-30 to 2026-04-30', result: '16 years, 0 months, 0 days' },
+      { label: 'Cutoff date', expression: '2012-09-10 to 2026-08-31', result: '13 years, 11 months, 21 days' },
     ],
     relatedSlugs: ['date-calculator', 'time-calculator', 'hours-calculator'],
   }),
@@ -7512,12 +7518,12 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'gdp-calculator',
     name: 'GDP Calculator',
     category: 'finance',
-    summary: 'Estimate gross domestic product from consumption, investment, government spending, exports, and imports.',
+    summary: 'Estimate gross domestic product with C + I + G + net exports, then check GDP per person.',
     description:
       'Use this free GDP calculator to learn the expenditure approach: consumption plus investment plus government spending plus net exports.',
-    seoTitle: 'GDP Calculator | Expenditure Approach And Per Person',
+    seoTitle: 'GDP Calculator | C + I + G + Net Exports',
     seoDescription:
-      'Estimate GDP with C + I + G + exports minus imports, then check GDP per person with clear scale warnings and official-data limits.',
+      'Calculate a classroom GDP estimate with C + I + G + exports minus imports, GDP per person, scale checks, and official BEA data limits.',
     icon: 'calculator-gdp',
     aliases: ['Gross Domestic Product Calculator', 'GDP Per Capita Calculator', 'Expenditure Approach Calculator'],
     formula:
@@ -7546,9 +7552,19 @@ export const utilityTools: ToolDefinition[] = [
           'Start with estimated GDP, then check net exports and GDP per person. Net exports show whether imports pulled the total down, and GDP per person only makes sense when the population scale matches the money scale.',
       },
       {
+        question: 'What does C + I + G + NX mean?',
+        answer:
+          'C means consumption, I means investment, G means government spending, and NX means net exports. Net exports are exports minus imports, so the calculator uses C + I + G + (exports - imports).',
+      },
+      {
         question: 'Is this official GDP data?',
         answer:
           'No. This calculator does not fetch BEA releases, country tables, revision dates, annualized rates, real GDP, chained-dollar series, or currency conversions. It only helps you understand the formula with numbers you enter.',
+      },
+      {
+        question: 'Does this calculate real GDP or nominal GDP?',
+        answer:
+          'It calculates a simple nominal-style total from the values you enter. It does not adjust for inflation, convert currencies, annualize quarterly results, or use chained-dollar real GDP methods.',
       },
       {
         question: 'Why are imports subtracted from GDP?',
@@ -7573,6 +7589,7 @@ export const utilityTools: ToolDefinition[] = [
     ],
     useCases: [
       'Practice GDP homework examples with the expenditure formula.',
+      'Check what C + I + G + net exports means with your own numbers.',
       'See how imports reduce net exports in the GDP identity.',
       'Estimate GDP per person when population is known.',
       'Compare how each spending category changes the headline GDP number.',

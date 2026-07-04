@@ -101,6 +101,21 @@ const openStaxRadicals = {
   label: 'OpenStax Algebra and Trigonometry: Radicals and rational exponents',
 };
 
+const openStaxAbsoluteValueFunctions = {
+  href: 'https://openstax.org/books/college-algebra-2e/pages/3-6-absolute-value-functions',
+  label: 'OpenStax College Algebra: Absolute value functions',
+};
+
+const openStaxAbsoluteValueDistance = {
+  href: 'https://openstax.org/books/college-algebra-2e/pages/2-7-linear-inequalities-and-absolute-value-inequalities',
+  label: 'OpenStax College Algebra: Absolute value as distance',
+};
+
+const khanAbsoluteValue = {
+  href: 'https://www.khanacademy.org/math/cc-sixth-grade-math/cc-6th-negative-number-topic/cc-6th-absolute-value/a/intro-to-absolute-value',
+  label: 'Khan Academy: Intro to absolute value',
+};
+
 const openStaxLogarithms = {
   href: 'https://openstax.org/books/college-algebra-corequisite-support-2e/pages/6-3-logarithmic-functions',
   label: 'OpenStax College Algebra: Logarithmic functions',
@@ -974,6 +989,11 @@ const investorSimpleInterest = {
 const cfpbCompoundInterest = {
   href: 'https://www.consumerfinance.gov/ask-cfpb/how-does-compound-interest-work-en-1683/',
   label: 'CFPB: How compound interest works',
+};
+
+const cfpbApyCalculation = {
+  href: 'https://www.consumerfinance.gov/rules-policy/regulations/1030/a/',
+  label: 'CFPB Regulation DD Appendix A: annual percentage yield calculation',
 };
 
 const fdicCompoundInterest = {
@@ -2579,6 +2599,46 @@ const inchWireSize = {
 const commonMathScope = [...DEEP_AUDIT_REQUIRED_SCOPE];
 
 const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
+  {
+    slug: 'apy-calculator',
+    status: 'deep-reviewed',
+    batch: 'new-tool-validation-2026-07-04',
+    reviewedOn: '2026-07-04',
+    scope: commonMathScope,
+    sources: [cfpbApyCalculation, cfpbCompoundInterest, fdicCompoundInterest, cfpbCdAdvertising],
+    findings: [
+      'The new APY tool fills a finance search gap that existing savings and CD pages only mentioned indirectly.',
+      'The calculator uses standard stated-rate-to-APY compounding math and separates estimated APY from term interest and ending balance.',
+      'The page copy and guide avoid overclaiming: they call the output educational APY math and defer official APY, fees, balance tiers, bonuses, penalties, and account rules to bank or credit union disclosures.',
+    ],
+    improvements: [
+      'Added the APY Calculator tool, matching guide detail, CFPB-backed source links, examples for monthly, daily, and shorter-term compounding, focused FAQs, related finance links, sitemap date metadata, and queued smoke-kawaii art prompts.',
+    ],
+    followUps: [
+      'Generate and approve page-specific smoke-kawaii tool and guide art before marking the visual standard fully complete.',
+      'After deploy, inspect the APY tool and guide in Search Console and submit IndexNow for the two new URLs.',
+    ],
+  },
+  {
+    slug: 'absolute-value-calculator',
+    status: 'deep-reviewed',
+    batch: 'new-tool-validation-2026-07-04',
+    reviewedOn: '2026-07-04',
+    scope: commonMathScope,
+    sources: [khanAbsoluteValue, openStaxAbsoluteValueFunctions, openStaxAbsoluteValueDistance],
+    findings: [
+      'The new Absolute Value Calculator fills the only uncaptured opportunity in the APY, CAGR, percent change, days-from-date, absolute value, and cubic-yard validation batch.',
+      'Existing pages mentioned absolute value inside Scientific Calculator and Percent Error Calculator, but there was no direct canonical page for |x|, distance from zero, or |a - b| absolute difference intent.',
+      'The calculator separates signed difference from absolute difference so users can tell direction from distance before copying an answer.',
+    ],
+    improvements: [
+      'Added the Absolute Value Calculator tool, matching guide, OpenStax and Khan Academy source links, examples for negative numbers, positive numbers, absolute difference, and distance across zero, focused FAQs, related math links, sitemap date metadata, and queued smoke-kawaii art prompts.',
+    ],
+    followUps: [
+      'Generate and approve page-specific smoke-kawaii tool and guide art before marking the visual standard fully complete.',
+      'After deploy, inspect the Absolute Value Calculator tool and guide in Search Console and submit IndexNow for the two new URLs.',
+    ],
+  },
   {
     slug: 'exponent-calculator',
     status: 'deep-reviewed',
@@ -8500,6 +8560,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
       return sourceBackstop([investorCompound, cfpbCompoundInterest, investorGovCompoundCalculator, consumerBudgetWorksheet]);
     }
 
+    if (includesAny(key, ['apy-calculator', 'apy calculator', 'annual percentage yield'])) {
+      return sourceBackstop([cfpbApyCalculation, cfpbCompoundInterest, fdicCompoundInterest, cfpbCdAdvertising]);
+    }
+
     if (includesAny(key, ['college-cost', 'college cost'])) {
       return sourceBackstop([educationCollegeAffordability, educationNetPrice, educationCollegeScorecard, cfpbCollegePath, cfpbCollegeNumbers, investorCompound]);
     }
@@ -8692,6 +8756,10 @@ function getProfileSources(tool: ToolDefinition): SourceLink[] {
 
     if (includesAny(key, ['inflation'])) {
       return sourceBackstop([blsInflation, investorCompound]);
+    }
+
+    if (includesAny(key, ['apy-calculator', 'apy calculator', 'annual percentage yield'])) {
+      return sourceBackstop([cfpbApyCalculation, cfpbCompoundInterest, fdicCompoundInterest, cfpbCdAdvertising]);
     }
 
     if (includesAny(key, ['savings'])) {

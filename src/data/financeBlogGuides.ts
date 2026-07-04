@@ -47,6 +47,10 @@ const sourceLinks = {
     href: 'https://www.consumerfinance.gov/ask-cfpb/how-does-compound-interest-work-en-1683/',
     label: 'CFPB: How compound interest works',
   },
+  cfpbApyCalculation: {
+    href: 'https://www.consumerfinance.gov/rules-policy/regulations/1030/a/',
+    label: 'CFPB Regulation DD Appendix A: annual percentage yield calculation',
+  },
   fdicCompoundInterest: {
     href: 'https://www.fdic.gov/consumer-resource-center/chapter-5-compound-interest',
     label: 'FDIC: Compound interest',
@@ -896,6 +900,15 @@ function getSourceLinks(toolSlug: string) {
       sourceLinks.investorGovCompoundCalculator,
       sourceLinks.fdicCompoundInterest,
       sourceLinks.consumerBudgetWorksheet,
+    ];
+  }
+
+  if (toolSlug === 'apy-calculator') {
+    return [
+      sourceLinks.cfpbApyCalculation,
+      sourceLinks.cfpbCompoundInterest,
+      sourceLinks.fdicCompoundInterest,
+      sourceLinks.cfpbCdAdvertising,
     ];
   }
 
@@ -2166,6 +2179,32 @@ const guideDetails: Record<string, GuideDetail> = {
       'Do not compare savings and investments as if their risk is the same.',
     ],
     next: ['Use Compound Interest Calculator for compounding frequency controls.', 'Use Budget Calculator to see whether the monthly deposit fits.', 'Use Investment Calculator for longer risk-based growth scenarios.'],
+  },
+  'apy-calculator': {
+    summary: 'Learn how a stated deposit rate and compounding frequency become an estimated annual percentage yield.',
+    purpose:
+      'The APY Calculator turns a stated annual interest rate into estimated annual percentage yield, then shows rough interest and ending balance for the term days you enter. It is useful when a savings account, money market account, or CD offer talks about rate and APY separately.',
+    enter: [
+      'Enter the starting deposit you want to estimate.',
+      'Enter the stated annual interest rate as a percent, such as 4 for 4%.',
+      'Choose how often interest compounds, such as monthly or daily.',
+      'Enter 365 days for a one-year APY comparison, or a shorter term for a rough interest estimate.',
+    ],
+    example: [
+      '$1,000 at a 4% stated annual interest rate with monthly compounding gives about 4.074% APY.',
+      'For 365 days, that same example estimates about $40.74 interest and a $1,040.74 ending balance.',
+    ],
+    read: [
+      'Estimated APY is the one-year yield from the rate and compounding frequency.',
+      'Estimated interest for term shows the rough dollar interest for the days entered.',
+      'Ending balance estimate adds that interest to the starting deposit.',
+    ],
+    mistakes: [
+      'Do not enter 0.04 when the field asks for 4%.',
+      'Do not compare a stated interest rate from one account with APY from another account as if they are the same number.',
+      'Do not ignore fees, minimum balances, bonuses, balance tiers, taxes, penalties, or account-specific disclosure rules.',
+    ],
+    next: ['Use Savings Calculator to add monthly deposits and a target.', 'Use CD Calculator when the bank already gives APY and a CD term.', 'Use Compound Interest Calculator for wider compounding scenarios.'],
   },
   'rent-calculator': {
     summary: 'Learn how to estimate a rent ceiling from income, debts, utilities, and a rent target.',
@@ -3671,6 +3710,7 @@ const guideDetails: Record<string, GuideDetail> = {
     example: [
       '$80 with 25% off drops to $60 before any second discount.',
       'An extra 10% off is then applied to $60, not to the original $80, giving a stronger but not additive discount.',
+      '$100 with 40% off plus another 20% off leaves $48 before tax, so the real discount is 52%, not 60%.',
     ],
     read: [
       'Final price is the amount after discounts and optional tax.',
@@ -3789,6 +3829,10 @@ function getGuideTitle(tool: (typeof financeTools)[number]) {
 
   if (tool.slug === 'savings-calculator') {
     return 'Savings Calculator Guide';
+  }
+
+  if (tool.slug === 'apy-calculator') {
+    return 'APY Calculator Guide';
   }
 
   if (tool.slug === 'rent-calculator') {
@@ -4090,6 +4134,10 @@ function buildFinanceMetaDescription(tool: (typeof financeTools)[number], summar
     return 'Project savings from current balance, monthly deposit, rate, and time. See estimated interest and whether the goal is still short.';
   }
 
+  if (tool.slug === 'apy-calculator') {
+    return 'Estimate APY from a stated annual interest rate and compounding frequency, with term interest, ending balance, and disclosure limits.';
+  }
+
   if (tool.slug === 'rent-calculator') {
     return 'Estimate max rent from income, rent target, debts, and utilities, with deposit, lease-fee, and landlord-rule cautions.';
   }
@@ -4175,6 +4223,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
   const is401kGuide = tool.slug === '401k-calculator';
   const isHouseAffordabilityGuide = tool.slug === 'house-affordability-calculator';
   const isSavingsGuide = tool.slug === 'savings-calculator';
+  const isApyGuide = tool.slug === 'apy-calculator';
   const isRentGuide = tool.slug === 'rent-calculator';
   const isAnnuityGuide = tool.slug === 'annuity-calculator';
   const isCreditCardGuide = tool.slug === 'credit-card-calculator';
@@ -4233,6 +4282,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'A house budget is not just the biggest mortgage a lender might allow. This guide shows how income, existing debts, down payment, rate, property tax, insurance, HOA, and a debt-to-income target shape a home price estimate.'
       : isSavingsGuide
       ? 'A savings goal is easier to trust when the deposits, interest, and gap are split apart. This guide shows how current savings, monthly deposits, rate, time, and a target amount turn into a plan you can check.'
+      : isApyGuide
+      ? 'APY is easy to misread when a bank offer also shows a stated interest rate. This guide shows how compounding turns a rate into estimated annual percentage yield, then what the result still leaves out.'
       : isRentGuide
       ? 'A rent number can look fine until debts, utilities, deposits, and lease fees hit. This guide shows how income, a rent target, monthly debts, and utilities turn into a rent ceiling you can compare with listings.'
       : isAnnuityGuide
@@ -4359,6 +4410,14 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           'Add the estimated annual rate, time in years, and target amount.',
           'Calculate, then compare projected balance, total deposits, estimated interest, and target gap.',
           'Check account fees, rate changes, withdrawals, APY wording, and minimum balances before trusting the exact interest amount.',
+        ]
+      : isApyGuide
+      ? [
+          'Open the APY Calculator.',
+          'Enter the starting deposit you want to test.',
+          'Enter the stated annual interest rate as a percent, such as 4 for 4%.',
+          'Choose the compounding frequency and enter the term in days.',
+          'Calculate, then compare estimated APY, term interest, and ending balance against the official account disclosure.',
         ]
       : isRentGuide
       ? [

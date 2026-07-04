@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../components/BaseLayout.astro';
 import AiBrowserTool, { type AiToolVariant } from '../../components/AiBrowserTool';
+import AbsoluteValueCalculator from '../../components/AbsoluteValueCalculator';
 import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
 import BasicCalculator from '../../components/BasicCalculator';
 import BinaryCalculator from '../../components/BinaryCalculator';
@@ -135,6 +136,7 @@ const isScientificTool = tool.slug === 'scientific-calculator';
 const isFractionTool = tool.slug === 'fraction-calculator';
 const isPercentageTool = tool.slug === 'percentage-calculator';
 const isPercentErrorTool = tool.slug === 'percent-error-calculator';
+const isAbsoluteValueTool = tool.slug === 'absolute-value-calculator';
 const isHalfLifeTool = tool.slug === 'half-life-calculator';
 const isExponentTool = tool.slug === 'exponent-calculator';
 const isLogTool = tool.slug === 'log-calculator';
@@ -234,6 +236,7 @@ const financeToolVariants = {
   '401k-calculator': '401k',
   'house-affordability-calculator': 'house-affordability',
   'savings-calculator': 'savings',
+  'apy-calculator': 'apy',
   'rent-calculator': 'rent',
   'annuity-calculator': 'annuity',
   'credit-card-calculator': 'credit-card',
@@ -459,6 +462,7 @@ const hasInteractiveTool =
   isCalculatorTool ||
   isPercentageTool ||
   isPercentErrorTool ||
+  isAbsoluteValueTool ||
   isHalfLifeTool ||
   isExponentTool ||
   isLogTool ||
@@ -1704,6 +1708,13 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       'Add a unit label if it helps your answer read clearly.',
       'Press Calculate percent error to see absolute percent error, signed percent error, and steps.',
     ]
+  : isAbsoluteValueTool
+  ? [
+      'Enter one number in Value when you need its absolute value.',
+      'Leave Compare with blank for a one-number answer, or enter a second number for absolute difference.',
+      'Press Calculate absolute value to see the result, signed difference, and steps.',
+      'Use examples, recent answers, or copy answer while checking whether direction matters.',
+    ]
   : isHalfLifeTool
   ? [
       'Choose whether you want remaining amount, elapsed time, or half-life.',
@@ -2301,6 +2312,17 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
           </span>
           <span>Example inputs</span>
           <span>Tab-only history</span>
+        </div>
+      )
+    }
+
+    {
+      isAbsoluteValueTool && (
+        <div class="absolute-tool-points" aria-label="Absolute value calculator highlights">
+          <span>Distance from zero</span>
+          <span>Absolute difference</span>
+          <span>Signed difference</span>
+          <span>Step-by-step work</span>
         </div>
       )
     }
@@ -3890,6 +3912,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         {isCalculatorTool && <BasicCalculator variant={isKawaiiTool ? 'kawaii' : 'standard'} client:load />}
         {isPercentageTool && <PercentageCalculator client:load />}
         {isPercentErrorTool && <PercentErrorCalculator client:load />}
+        {isAbsoluteValueTool && <AbsoluteValueCalculator client:load />}
         {isHalfLifeTool && <HalfLifeCalculator client:load />}
         {isExponentTool && <ExponentCalculator client:load />}
         {isLogTool && <LogCalculator client:load />}

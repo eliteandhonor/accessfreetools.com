@@ -995,6 +995,13 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
         ],
       },
       {
+        title: 'Age on a future cutoff date',
+        paragraphs: [
+          'For school, sport, camp, insurance, or form checks, the important date is often not today. Put the official cutoff date in the as-of field so the calculator answers the same question the form is asking.',
+          'For example, a birth date of 2012-09-10 checked against 2026-08-31 returns 13 years, 11 months, and 21 days. That is different from checking age on the birthday or on today.',
+        ],
+      },
+      {
         title: 'Calendar age vs total days',
         paragraphs: [
           'Calendar age feels natural because people talk in years, months, and days. Total days is better when the exact continuous day count matters. They are both useful, but they answer different questions.',
@@ -6331,7 +6338,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     inputMatch:
       'consumption, investment, government spending, exports, imports, and optional population, using the same scale',
     logicNote:
-      'A good quick check is the net export line. If imports are bigger than exports, net exports are negative and pull the GDP estimate down.',
+      'A good quick check is the net export line. If imports are bigger than exports, net exports are negative and pull the GDP estimate down. In shorthand, this is C + I + G + NX, where NX means exports minus imports.',
     readIntro:
       'Read the estimated GDP first, then check net exports and GDP per person. Those smaller lines explain whether trade or population scale changed the answer.',
     mistakeIntro:
@@ -6345,6 +6352,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Estimated GDP is the total after adding net exports.',
       'Net exports can be negative when imports are larger than exports.',
       'GDP per person divides the GDP result by the population scale you entered.',
+      'GDP per person is not the same as wages, household income, wealth, or standard of living.',
     ],
     mistakes: [
       'Do not mix dollars, millions, and billions in the same calculation.',
@@ -6354,10 +6362,21 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
     extraSections: [
       {
+        title: 'Example: C + I + G + NX',
+        paragraphs: [
+          'Say consumption is 18,000, investment is 5,000, government spending is 6,500, exports are 3,200, and imports are 4,100. Net exports are -900 because 3,200 - 4,100 = -900.',
+          'The GDP estimate is 18,000 + 5,000 + 6,500 - 900, or 28,600. If the population scale is 0.34, GDP per person is about 84,118 in the same money scale.',
+        ],
+      },
+      {
         title: 'Official data limits',
         paragraphs: [
           'This page does not fetch live national accounts. Official GDP releases can use source data, seasonal adjustment, annualized rates, inflation adjustment, and later revisions.',
           'Use this calculator when you already have the inputs and want to understand the math. Use BEA or another official statistics office when you need the real published number.',
+        ],
+        links: [
+          { href: '/tools/inflation-calculator/', label: 'Use the Inflation Calculator for buying-power context' },
+          { href: '/tools/percentage-calculator/', label: 'Use the Percentage Calculator for growth-rate checks' },
         ],
       },
       {

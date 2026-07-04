@@ -324,15 +324,18 @@ const guideDetails: Record<string, GuideDetail> = {
       'The BMI category says whether the result is below 18.5, not why it is there.',
       'The "to BMI 18.5" metric shows the difference from the lower adult healthy-BMI boundary.',
       'The safety note matters: eating-disorder concerns need professional support, not a calculator label.',
+      'A BMI inside the usual range does not rule out restriction, purging, over-exercise, distress, or another health concern.',
     ],
     mistakes: [
       'Do not call someone anorexic from a BMI number.',
       'Do not use this page as a goal to reach a lower weight.',
       'Do not ignore symptoms, restriction, over-exercise, fear of weight gain, or body-image distress because BMI looks normal.',
+      'Do not use the "to BMI 18.5" number as a treatment target without qualified care.',
     ],
     next: [
       'Use BMI Calculator for the broader category view.',
       'Use Healthy Weight Calculator for the full adult BMI reference range.',
+      'Use professional medical or mental-health support when eating, weight, exercise, or body image feels hard to control.',
     ],
   },
   'overweight-calculator': {

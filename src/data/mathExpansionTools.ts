@@ -2,6 +2,90 @@ import type { ToolDefinition } from './tools';
 
 export const mathExpansionTools: ToolDefinition[] = [
   {
+    slug: 'absolute-value-calculator',
+    name: 'Absolute Value Calculator',
+    category: 'calculators',
+    summary: 'Find absolute value, distance from zero, and absolute difference between two numbers.',
+    description:
+      'Use this free absolute value calculator to find |x|, compare two numbers with |a - b|, see the signed difference, and read clear distance-from-zero steps.',
+    icon: 'calculator-fx',
+    aliases: ['Absolute Difference Calculator', 'Distance From Zero Calculator', 'Absolute Value Difference Calculator'],
+    seoTitle: 'Absolute Value Calculator | Absolute Difference Tool',
+    seoDescription:
+      'Find absolute value, distance from zero, signed difference, and absolute difference between two numbers with clear steps.',
+    useCases: [
+      'Turn a negative number into its distance from zero, such as |-12.5| = 12.5.',
+      'Compare two measurements with absolute difference instead of signed direction.',
+      'Check math homework that uses absolute value bars, number lines, or distance language.',
+      'Separate signed change from absolute difference before using a percent error or percent change formula.',
+    ],
+    examples: [
+      {
+        label: 'Negative number',
+        expression: '|-12.5|',
+        result: '12.5',
+      },
+      {
+        label: 'Already positive',
+        expression: '|8|',
+        result: '8',
+      },
+      {
+        label: 'Absolute difference',
+        expression: '|82 - 57|',
+        result: '25',
+      },
+      {
+        label: 'Temperature distance',
+        expression: '|-4 - 11|',
+        result: '15',
+      },
+    ],
+    faq: [
+      {
+        question: 'What does absolute value mean?',
+        answer:
+          'Absolute value is the distance a number is from zero on a number line. It is never negative, so |-12.5| is 12.5 and |8| is 8.',
+      },
+      {
+        question: 'How do I calculate absolute difference?',
+        answer:
+          'Subtract one value from the other, then take the absolute value of that signed difference. For 82 and 57, the signed difference is 25 and the absolute difference is also 25.',
+      },
+      {
+        question: 'Does order matter for absolute difference?',
+        answer:
+          'The signed difference changes when you swap the order, but the absolute difference does not. |82 - 57| and |57 - 82| both equal 25.',
+      },
+      {
+        question: 'Is absolute value always positive?',
+        answer:
+          'Absolute value is always zero or positive. It can be 0 when the input is 0 or when two compared values are equal.',
+      },
+      {
+        question: 'What is the difference between signed difference and absolute difference?',
+        answer:
+          'Signed difference keeps direction. It can be negative or positive. Absolute difference removes direction and keeps only the size of the gap.',
+      },
+      {
+        question: 'Can I enter decimals or negative numbers?',
+        answer:
+          'Yes. Decimals and negative numbers work as long as each box contains a valid number.',
+      },
+      {
+        question: 'When should I use Percent Error Calculator instead?',
+        answer:
+          'Use Percent Error Calculator when you need absolute error divided by an accepted value and multiplied by 100. Use this page when you only need absolute value or absolute difference.',
+      },
+      {
+        question: 'Is my absolute value history private?',
+        answer:
+          'Yes. The calculation runs in your browser tab and recent answers stay only in that tab while you use the page.',
+      },
+    ],
+    relatedSlugs: ['scientific-calculator', 'percent-error-calculator', 'distance-calculator', 'percentage-calculator'],
+  },
+  {
     slug: 'prime-factorization-calculator',
     name: 'Prime Factorization Calculator',
     category: 'calculators',

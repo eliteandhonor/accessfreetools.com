@@ -34,6 +34,14 @@ export interface PercentErrorResult {
   signedPercentError: number;
 }
 
+export interface AbsoluteValueResult {
+  value: number;
+  absoluteValue: number;
+  comparisonValue?: number;
+  signedDifference?: number;
+  absoluteDifference?: number;
+}
+
 export interface ExponentResult {
   base: number;
   exponent: number;
@@ -478,6 +486,31 @@ export function calculatePercentError(measuredValue: number, acceptedValue: numb
     percentError: relativeError * 100,
     signedPercentError,
   };
+}
+
+export function calculateAbsoluteValue(value: number, comparisonValue?: number): AbsoluteValueResult {
+  if (!Number.isFinite(value)) {
+    throw new Error('Value must be a number');
+  }
+
+  if (comparisonValue !== undefined && !Number.isFinite(comparisonValue)) {
+    throw new Error('Comparison value must be a number');
+  }
+
+  const result: AbsoluteValueResult = {
+    value,
+    absoluteValue: Math.abs(value),
+  };
+
+  if (comparisonValue !== undefined) {
+    const signedDifference = value - comparisonValue;
+
+    result.comparisonValue = comparisonValue;
+    result.signedDifference = signedDifference;
+    result.absoluteDifference = Math.abs(signedDifference);
+  }
+
+  return result;
 }
 
 export function parseExponentInput(input: string): number {
@@ -3547,6 +3580,16 @@ export interface CompoundInterestResult {
   totalInterest: number;
 }
 
+export interface ApyEstimateResult {
+  principal: number;
+  annualRatePercent: number;
+  compoundFrequency: number;
+  termDays: number;
+  annualPercentageYield: number;
+  termInterest: number;
+  endingBalance: number;
+}
+
 export interface InflationAdjustmentResult {
   amount: number;
   annualInflationPercent: number;
@@ -4444,6 +4487,44 @@ export function calculateCompoundInterest(
     endingBalance,
     totalContributions,
     totalInterest: endingBalance - totalContributions,
+  };
+}
+
+export function calculateApyEstimate(input: {
+  principal: number;
+  annualRatePercent: number;
+  compoundFrequency: number;
+  termDays?: number;
+}): ApyEstimateResult {
+  assertPositiveNumber(input.principal, 'Principal');
+  assertNonNegativeNumber(input.annualRatePercent, 'Annual interest rate');
+  assertPositiveNumber(input.compoundFrequency, 'Compound frequency');
+
+  if (!Number.isInteger(input.compoundFrequency)) {
+    throw new Error('Compound frequency must be a whole number');
+  }
+
+  const termDays = input.termDays ?? 365;
+  assertPositiveNumber(termDays, 'Term days');
+
+  if (!Number.isInteger(termDays)) {
+    throw new Error('Term days must be a whole number');
+  }
+
+  const annualRate = input.annualRatePercent / 100;
+  const annualGrowth = annualRate === 0 ? 1 : (1 + annualRate / input.compoundFrequency) ** input.compoundFrequency;
+  const annualPercentageYield = (annualGrowth - 1) * 100;
+  const termGrowth = annualGrowth ** (termDays / 365);
+  const endingBalance = input.principal * termGrowth;
+
+  return {
+    principal: input.principal,
+    annualRatePercent: input.annualRatePercent,
+    compoundFrequency: input.compoundFrequency,
+    termDays,
+    annualPercentageYield,
+    termInterest: endingBalance - input.principal,
+    endingBalance,
   };
 }
 

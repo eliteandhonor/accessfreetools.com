@@ -3717,6 +3717,7 @@ main {
 
 .log-calculator,
 .ratio-calculator,
+.absolute-calculator,
 .root-calculator {
   display: grid;
   gap: 18px;
@@ -3725,6 +3726,7 @@ main {
 
 .log-tool-points,
 .ratio-tool-points,
+.absolute-tool-points,
 .root-tool-points {
   display: flex;
   flex-wrap: wrap;
@@ -3734,6 +3736,7 @@ main {
 
 .log-tool-points span,
 .ratio-tool-points span,
+.absolute-tool-points span,
 .root-tool-points span {
   border: 1px solid color-mix(in srgb, var(--primary) 22%, var(--border));
   border-radius: 8px;
@@ -3755,6 +3758,12 @@ main {
   border-color: color-mix(in srgb, #d88916 24%, var(--border));
 }
 
+.absolute-tool-points span {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, #e1dcff 58%, white), color-mix(in srgb, #c8f7e7 30%, white));
+  border-color: color-mix(in srgb, #6656b8 24%, var(--border));
+}
+
 .root-tool-points span {
   background:
     linear-gradient(135deg, color-mix(in srgb, #d9e8ff 58%, white), color-mix(in srgb, #fff2aa 34%, white));
@@ -3765,6 +3774,8 @@ main {
 .log-side-panel,
 .ratio-panel,
 .ratio-side-panel,
+.absolute-panel,
+.absolute-side-panel,
 .root-panel,
 .root-side-panel {
   backdrop-filter: blur(16px);
@@ -3782,6 +3793,13 @@ main {
   border-color: color-mix(in srgb, #d88916 24%, var(--border));
 }
 
+.absolute-panel,
+.absolute-side-panel {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), color-mix(in srgb, #e1dcff 20%, rgba(255, 255, 255, 0.84)));
+  border-color: color-mix(in srgb, #6656b8 24%, var(--border));
+}
+
 .root-panel,
 .root-side-panel {
   background:
@@ -3791,6 +3809,7 @@ main {
 
 .log-panel,
 .ratio-panel,
+.absolute-panel,
 .root-panel {
   display: grid;
   gap: 16px;
@@ -3799,9 +3818,11 @@ main {
 
 .log-fields,
 .ratio-fields,
+.absolute-fields,
 .root-fields,
 .log-quick-grid,
 .ratio-quick-grid,
+.absolute-quick-grid,
 .root-quick-grid,
 .ratio-mode-grid {
   display: grid;
@@ -3809,6 +3830,7 @@ main {
 }
 
 .log-fields,
+.absolute-fields,
 .root-fields {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -3818,6 +3840,7 @@ main {
 }
 
 .log-quick-grid,
+.absolute-quick-grid,
 .root-quick-grid,
 .ratio-quick-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -3829,6 +3852,7 @@ main {
 
 .log-field,
 .ratio-field,
+.absolute-field,
 .root-field {
   display: grid;
   gap: 6px;
@@ -3836,6 +3860,7 @@ main {
 
 .log-field span,
 .ratio-field span,
+.absolute-field span,
 .root-field span {
   color: var(--muted);
   font-size: 0.78rem;
@@ -3850,6 +3875,7 @@ main {
 
 .log-field input,
 .ratio-field input,
+.absolute-field input,
 .root-field input {
   background: var(--surface-solid);
   border: 1px solid var(--border);
@@ -3865,6 +3891,7 @@ main {
 
 .log-field input:focus,
 .ratio-field input:focus,
+.absolute-field input:focus,
 .root-field input:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
@@ -3872,13 +3899,16 @@ main {
 
 .log-quick-grid button,
 .ratio-quick-grid button,
+.absolute-quick-grid button,
 .root-quick-grid button,
 .ratio-mode-grid button,
 .log-side-panel li,
 .ratio-side-panel li,
+.absolute-side-panel li,
 .root-side-panel li,
 .log-note,
 .ratio-note,
+.absolute-note,
 .root-note {
   background: var(--surface-solid);
   border: 1px solid var(--border);
@@ -3888,6 +3918,7 @@ main {
 
 .log-quick-grid button,
 .ratio-quick-grid button,
+.absolute-quick-grid button,
 .root-quick-grid button,
 .ratio-mode-grid button {
   color: var(--primary-strong);
@@ -3908,6 +3939,7 @@ main {
 
 .log-actions,
 .ratio-actions,
+.absolute-actions,
 .root-actions {
   display: grid;
   gap: 10px;
@@ -3916,6 +3948,7 @@ main {
 
 .log-actions button:disabled,
 .ratio-actions button:disabled,
+.absolute-actions button:disabled,
 .root-actions button:disabled {
   cursor: not-allowed;
   opacity: 0.58;
@@ -3923,6 +3956,7 @@ main {
 
 .log-result-card,
 .ratio-result-card,
+.absolute-result-card,
 .root-result-card {
   background:
     radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.12), transparent 24%),
@@ -3940,6 +3974,12 @@ main {
     linear-gradient(135deg, color-mix(in srgb, #5d3307 78%, black), color-mix(in srgb, var(--text) 88%, black));
 }
 
+.absolute-result-card {
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.12), transparent 24%),
+    linear-gradient(135deg, color-mix(in srgb, #352868 78%, black), color-mix(in srgb, var(--text) 88%, black));
+}
+
 .root-result-card {
   background:
     radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.12), transparent 24%),
@@ -3948,6 +3988,7 @@ main {
 
 .log-result-card > span,
 .ratio-result-card > span,
+.absolute-result-card > span,
 .root-result-card > span {
   color: color-mix(in srgb, #c8f7e7 82%, white);
   font-size: 0.84rem;
@@ -3960,6 +4001,11 @@ main {
   color: color-mix(in srgb, #ffe6a8 82%, white);
 }
 
+.absolute-result-card > span,
+.absolute-result-card dt {
+  color: color-mix(in srgb, #e1dcff 82%, white);
+}
+
 .root-result-card > span,
 .root-result-card dt {
   color: color-mix(in srgb, #d9e8ff 82%, white);
@@ -3967,6 +4013,7 @@ main {
 
 .log-result-card > strong,
 .ratio-result-card > strong,
+.absolute-result-card > strong,
 .root-result-card > strong {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   font-size: clamp(1.75rem, 4.6vw, 3rem);
@@ -3976,6 +4023,7 @@ main {
 
 .log-result-card dl,
 .ratio-result-card dl,
+.absolute-result-card dl,
 .root-result-card dl {
   display: grid;
   gap: 10px;
@@ -3985,6 +4033,7 @@ main {
 
 .log-result-card dl div,
 .ratio-result-card dl div,
+.absolute-result-card dl div,
 .root-result-card dl div {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -3994,6 +4043,7 @@ main {
 
 .log-result-card dt,
 .ratio-result-card dt,
+.absolute-result-card dt,
 .root-result-card dt {
   color: color-mix(in srgb, #c8f7e7 80%, white);
   font-size: 0.74rem;
@@ -4003,6 +4053,7 @@ main {
 
 .log-result-card dd,
 .ratio-result-card dd,
+.absolute-result-card dd,
 .root-result-card dd {
   color: #fff;
   font-weight: 950;
@@ -4012,6 +4063,7 @@ main {
 
 .log-steps,
 .ratio-steps,
+.absolute-steps,
 .root-steps {
   background: color-mix(in srgb, var(--surface-solid) 80%, var(--bg));
   border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
@@ -4021,9 +4073,11 @@ main {
 
 .log-steps h2,
 .ratio-steps h2,
+.absolute-steps h2,
 .root-steps h2,
 .log-side-panel h2,
 .ratio-side-panel h2,
+.absolute-side-panel h2,
 .root-side-panel h2 {
   font-size: 1.2rem;
   line-height: 1.1;
@@ -4032,9 +4086,11 @@ main {
 
 .log-steps ol,
 .ratio-steps ol,
+.absolute-steps ol,
 .root-steps ol,
 .log-side-panel ol,
 .ratio-side-panel ol,
+.absolute-side-panel ol,
 .root-side-panel ol {
   display: grid;
   gap: 10px;
@@ -4044,9 +4100,11 @@ main {
 
 .log-steps li,
 .ratio-steps li,
+.absolute-steps li,
 .root-steps li,
 .log-note p,
 .ratio-note p,
+.absolute-note p,
 .root-note p {
   color: var(--muted);
   line-height: 1.55;
@@ -4054,6 +4112,7 @@ main {
 
 .log-side-panel,
 .ratio-side-panel,
+.absolute-side-panel,
 .root-side-panel {
   display: grid;
   gap: 18px;
@@ -4062,6 +4121,7 @@ main {
 
 .log-side-panel ol,
 .ratio-side-panel ol,
+.absolute-side-panel ol,
 .root-side-panel ol {
   list-style: none;
   padding: 0;
@@ -4069,6 +4129,7 @@ main {
 
 .log-side-panel li,
 .ratio-side-panel li,
+.absolute-side-panel li,
 .root-side-panel li {
   display: grid;
   gap: 4px;
@@ -4076,6 +4137,7 @@ main {
 
 .log-side-panel li span,
 .ratio-side-panel li span,
+.absolute-side-panel li span,
 .root-side-panel li span {
   color: var(--muted);
   font-size: 0.88rem;
@@ -4083,6 +4145,7 @@ main {
 
 .log-side-panel li strong,
 .ratio-side-panel li strong,
+.absolute-side-panel li strong,
 .root-side-panel li strong {
   color: var(--primary-strong);
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
@@ -4092,12 +4155,14 @@ main {
 
 .log-note p,
 .ratio-note p,
+.absolute-note p,
 .root-note p {
   margin: 0;
 }
 
 .log-note p + p,
 .ratio-note p + p,
+.absolute-note p + p,
 .root-note p + p {
   margin-top: 8px;
 }
@@ -4108,6 +4173,8 @@ main {
 .ratio-quick-grid button:focus-visible,
 .ratio-mode-grid button:hover,
 .ratio-mode-grid button:focus-visible,
+.absolute-quick-grid button:hover,
+.absolute-quick-grid button:focus-visible,
 .root-quick-grid button:hover,
 .root-quick-grid button:focus-visible {
   border-color: var(--primary);
@@ -7452,6 +7519,7 @@ main {
   .exponent-calculator,
   .log-calculator,
   .ratio-calculator,
+  .absolute-calculator,
   .root-calculator,
   .quadratic-calculator,
   .binary-calculator,
@@ -7478,7 +7546,9 @@ main {
   }
 
   .site-nav {
+    flex-wrap: wrap;
     justify-content: flex-start;
+    row-gap: 4px;
   }
 
   .theme-picker {
@@ -7500,6 +7570,8 @@ main {
   .log-fields,
   .ratio-quick-grid,
   .ratio-fields,
+  .absolute-quick-grid,
+  .absolute-fields,
   .root-quick-grid,
   .root-fields,
   .quadratic-quick-grid,
@@ -7550,6 +7622,7 @@ main {
   }
 
   .site-nav {
+    flex-wrap: nowrap;
     overflow-x: auto;
     padding-bottom: 4px;
     width: 100%;

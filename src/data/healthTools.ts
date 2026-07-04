@@ -299,7 +299,7 @@ export const healthTools: ToolDefinition[] = [
       'Use this free underweight BMI calculator to compare adult BMI with the BMI 18.5 screening threshold and healthy BMI reference range.',
     seoTitle: 'Underweight BMI Calculator | Adult BMI 18.5 Screen',
     seoDescription:
-      'Check adult BMI against the underweight threshold below 18.5, see the distance to BMI 18.5, and read eating-disorder safety limits.',
+      'Check adult BMI against the underweight threshold below 18.5, see the distance to BMI 18.5, and read safer eating-disorder limits.',
     aliases: [
       'adult underweight bmi calculator',
       'bmi 18.5 calculator',
@@ -339,6 +339,21 @@ export const healthTools: ToolDefinition[] = [
         question: 'Can children, teens, pregnant people, or athletes use this the same way?',
         answer:
           'No. Children and teens use BMI-for-age percentiles, pregnancy changes weight for a different reason, and athletes may have body composition that BMI cannot explain. Use qualified guidance for those situations.',
+      },
+      {
+        question: 'When is this calculator not enough?',
+        answer:
+          'A calculator is not enough if eating, exercise, body image, weight change, dizziness, fainting, missed periods, chest pain, or weakness feels hard to manage. Use qualified medical or mental-health support instead of relying on a BMI label.',
+      },
+      {
+        question: 'Why does this page avoid "anorexic BMI" wording?',
+        answer:
+          'BMI alone cannot diagnose anorexia or any eating disorder, and turning a low BMI into a target can be harmful. This page uses underweight-screening language and points back to professional support.',
+      },
+      {
+        question: 'Can someone need help if BMI is not underweight?',
+        answer:
+          'Yes. Eating disorders and nutrition problems can exist at many body sizes. If eating, restriction, purging, over-exercise, or body image is causing distress, the BMI number should not be used as reassurance by itself.',
       },
     ],
     relatedSlugs: ['bmi-calculator', 'healthy-weight-calculator', 'ideal-weight-calculator'],

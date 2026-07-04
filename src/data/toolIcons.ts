@@ -59,6 +59,7 @@ export type CalculatorIconMark =
   | '401k'
   | 'house'
   | 'savings'
+  | 'apy'
   | 'rent'
   | 'annuity'
   | 'credit-card'
@@ -337,6 +338,7 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'calculator-401k': '401k',
   'calculator-house-affordability': 'house',
   'calculator-savings': 'savings',
+  'calculator-apy': 'apy',
   'calculator-rent': 'rent',
   'calculator-annuity': 'annuity',
   'calculator-credit-card': 'credit-card',

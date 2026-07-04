@@ -69,6 +69,13 @@ const blogPostCandidates: BlogPostDefinition[] = [
       'Learn square roots, cube roots, nth roots, decimal radicands, exponent form, power checks, negative-root limits, and common mistakes.',
   },
   {
+    slug: 'how-to-use-absolute-value-calculator',
+    title: 'Absolute Value Calculator Guide',
+    label: 'Absolute value guide',
+    summary:
+      'Learn absolute value, distance from zero, signed difference, absolute difference, number-line examples, and common mistakes.',
+  },
+  {
     slug: 'how-to-use-quadratic-formula-calculator',
     title: 'How to use the Quadratic Formula Calculator',
     label: 'Quadratic formula guide',

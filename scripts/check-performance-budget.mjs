@@ -22,11 +22,9 @@ const budgets = {
 const requiredWatchPaths = [
   'tools/index.html',
   'blog/index.html',
-  'feed.xml',
   'sitemap.xml',
   'sitemap-tools.xml',
   'sitemap-blog.xml',
-  'pinterest-feed.xml',
   'pinterest/free-online-calculators.xml',
   'pinterest/home-project-calculators.xml',
   'pinterest/finance-calculators.xml',

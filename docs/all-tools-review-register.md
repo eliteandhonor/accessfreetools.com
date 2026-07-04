@@ -4,11 +4,11 @@ This register is the work tracker for the whole library. It exists so the top 25
 
 ## Scope
 
-- Canonical tools: 299.
+- Canonical tools: 301.
 - Alias URLs: 4.
-- Public tool URLs: 303.
-- Blog guides: 299.
-- Current manual deep-review records: 299.
+- Public tool URLs: 305.
+- Blog guides: 301.
+- Current manual deep-review records: 301.
 - Current baseline-review records: 0.
 - Current alias-review records: 4.
 
@@ -18,8 +18,8 @@ The source of truth for review status is `src/data/toolDeepAudit.ts`. The site a
 
 Manual review completion status: complete for the current canonical library.
 
-- Deep-reviewed canonical tools: 299 of 299.
-- Baseline-reviewed canonical tools still needing individual manual review: 0 of 299.
+- Deep-reviewed canonical tools: 301 of 301.
+- Baseline-reviewed canonical tools still needing individual manual review: 0 of 301.
 - Alias-reviewed public URLs: 4 of 4.
 
 Do not mark a future full-library manual review complete while any canonical tool remains `baseline-reviewed`. A tool can only move from `baseline-reviewed` to `deep-reviewed` after that exact tool has been opened, tested, read, improved where needed, and checked against its guide, FAQ, examples, sources, SEO, privacy behavior, and layout.
@@ -144,18 +144,18 @@ Each tool must eventually pass this manual checklist:
 
 ## Progress Rule
 
-Do not change a generated or baseline record to `deep-reviewed` in bulk. Promotion must happen one tool at a time or in a clearly reviewed batch where each tool was actually opened, tested, and read. For the current 299-tool canonical library, the manual queue is complete; this rule applies to every future new tool or reopened tool.
+Do not change a generated or baseline record to `deep-reviewed` in bulk. Promotion must happen one tool at a time or in a clearly reviewed batch where each tool was actually opened, tested, and read. For the current 301-tool canonical library, the manual queue is complete; this rule applies to every future new tool or reopened tool.
 
 ## Completion Rule
 
 Full-library review is complete only when:
 
-- All 299 canonical tools are manually checked and truthfully marked `deep-reviewed`.
+- All 301 canonical tools are manually checked and truthfully marked `deep-reviewed`.
 - All 4 alias URLs are checked for canonical routing, search intent, and duplicate-content risk.
-- All 299 blog guides are read against the actual tool page.
+- All 301 blog guides are read against the actual tool page.
 - High-trust topics have clear limitations and professional-advice disclaimers.
 - Every changed tool passes the per-tool checklist above.
 - `npm run check` passes after the final batch.
 - Browser preview and production spot checks pass for representative pages.
 
-For the current canonical library, the correct public status is that Access Free Tools has complete manual deep-review coverage for 299 canonical tools, alias review coverage for 4 alias URLs, and a repeatable review program for future tools.
+For the current canonical library, the correct public status is that Access Free Tools has complete manual deep-review coverage for 301 canonical tools, alias review coverage for 4 alias URLs, and a repeatable review program for future tools.
