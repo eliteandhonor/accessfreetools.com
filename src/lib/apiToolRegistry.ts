@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import {
   analyzeText,
+  calculateAbsoluteValue,
   calculateBigIntegerOperation,
   calculateBinary,
   calculateBinaryIntegerOperation,
@@ -161,6 +162,11 @@ const percentageInput = z.object({
   percent: z.number().optional(),
   value: z.number().optional(),
   whole: z.number().optional(),
+});
+
+const absoluteValueInput = z.object({
+  comparisonValue: z.number().optional(),
+  value: z.number(),
 });
 
 const calculatorOperatorInput = z.enum(['+', '-', '*', '/']);
@@ -340,6 +346,47 @@ export const apiTools = [
         assumptions: ['Percent means parts per 100.'],
         result: { amount },
         steps: [`${formatNumber(input.percent)} / 100 = ${formatNumber(input.percent / 100)}`, `${formatNumber(input.percent / 100)} x ${formatNumber(input.value)} = ${formatNumber(amount)}`],
+        warnings: [],
+      });
+    },
+  },
+  {
+    category: 'calculators',
+    description: 'Find absolute value or absolute difference between two numbers.',
+    examples: [
+      { label: '|-12.5|', inputs: { value: -12.5 } },
+      { label: 'Absolute difference between 82 and 57', inputs: { comparisonValue: 57, value: 82 } },
+    ],
+    inputSchema: absoluteValueInput,
+    keywords: ['absolute value', 'absolute difference', 'distance from zero', 'distance between numbers'],
+    name: 'Absolute Value Calculator',
+    risk: 'low',
+    slug: 'absolute-value-calculator',
+    summary: 'Calculate absolute value, distance from zero, and absolute difference.',
+    run(input) {
+      const result = calculateAbsoluteValue(input.value, input.comparisonValue);
+
+      if (input.comparisonValue !== undefined) {
+        const signedDifference = result.signedDifference ?? 0;
+        const absoluteDifference = result.absoluteDifference ?? 0;
+
+        return withUrls('absolute-value-calculator', {
+          answer: `The absolute difference between ${formatNumber(input.value)} and ${formatNumber(input.comparisonValue)} is ${formatNumber(absoluteDifference)}.`,
+          assumptions: ['Absolute difference ignores direction and measures distance between the two numbers.'],
+          result,
+          steps: [
+            `Signed difference: ${formatNumber(input.value)} - ${formatNumber(input.comparisonValue)} = ${formatNumber(signedDifference)}`,
+            `Absolute difference: |${formatNumber(signedDifference)}| = ${formatNumber(absoluteDifference)}`,
+          ],
+          warnings: [],
+        });
+      }
+
+      return withUrls('absolute-value-calculator', {
+        answer: `The absolute value of ${formatNumber(input.value)} is ${formatNumber(result.absoluteValue)}.`,
+        assumptions: ['Absolute value is distance from zero.'],
+        result,
+        steps: [`Write the number with absolute value bars: |${formatNumber(input.value)}|`, `Distance from zero = ${formatNumber(result.absoluteValue)}`],
         warnings: [],
       });
     },

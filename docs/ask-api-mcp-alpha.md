@@ -122,9 +122,9 @@ used the model.
 
 ## Current Starter Tools
 
-The alpha starts with percentage, tip, BMI, mortgage, concrete, paint, download
-time, watts to amps, word counter, JSON formatter, Base64, URL encode/decode,
-password generator, subnet, and date difference.
+The alpha starts with percentage, absolute value, tip, BMI, mortgage, concrete,
+paint, download time, watts to amps, word counter, JSON formatter, Base64, URL
+encode/decode, password generator, subnet, and date difference.
 
 ## Key Rotation
 

@@ -227,6 +227,30 @@ function parseSupportedToolQuestion(message: string): ToolCallRoute | null {
     }
   }
 
+  const absoluteDifferenceMatch = lower.match(
+    /absolute difference\s*(?:between|of)?\s*(-?\d+(?:\.\d+)?)\s*(?:and|,|to)\s*(-?\d+(?:\.\d+)?)/,
+  );
+  if (absoluteDifferenceMatch) {
+    return {
+      confidence: 'high',
+      inputs: { comparisonValue: Number(absoluteDifferenceMatch[2]), value: Number(absoluteDifferenceMatch[1]) },
+      source: 'parser',
+      tool_slug: 'absolute-value-calculator',
+    };
+  }
+
+  const absoluteBarsMatch = lower.match(/\|\s*(-?\d+(?:\.\d+)?)\s*\|/);
+  const absoluteValueMatch =
+    absoluteBarsMatch ?? lower.match(/(?:absolute value|abs)\s*(?:of|\()?\s*(-?\d+(?:\.\d+)?)\)?/);
+  if (absoluteValueMatch) {
+    return {
+      confidence: 'high',
+      inputs: { value: Number(absoluteValueMatch[1]) },
+      source: 'parser',
+      tool_slug: 'absolute-value-calculator',
+    };
+  }
+
   if (lower.includes('bmi')) {
     const metricMatch = lower.match(/(\d+(?:\.\d+)?)\s*kg.*?(\d+(?:\.\d+)?)\s*cm/);
     if (metricMatch) {

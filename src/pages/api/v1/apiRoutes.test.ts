@@ -31,7 +31,8 @@ describe('Access Free Tools API routes', () => {
     const body = await response.json();
     expect(response.headers.get('cache-control')).toBe(METADATA_CACHE_CONTROL);
     expect(body.ok).toBe(true);
-    expect(body.tools.length).toBeGreaterThanOrEqual(20);
+    expect(body.tools.length).toBeGreaterThanOrEqual(21);
+    expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('absolute-value-calculator');
     expect(response.headers.get('cache-control')).toMatch(/public/);
   });
 
@@ -118,6 +119,19 @@ describe('Access Free Tools API routes', () => {
     const body = await response.json();
     expect(body.ok).toBe(true);
     expect(body.run.answer).toContain('10001');
+  });
+
+  it('runs the absolute value API tool', async () => {
+    const response = await runPost({
+      clientAddress: '127.0.0.1',
+      params: { slug: 'absolute-value-calculator' },
+      request: request({ inputs: { comparisonValue: 57, value: 82 } }),
+    } as never);
+    const body = await response.json();
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    expect(body.ok).toBe(true);
+    expect(body.run.answer).toContain('25');
+    expect(body.run.tool_url).toBe('https://accessfreetools.com/tools/absolute-value-calculator/');
   });
 
   it('rejects invalid tool input', async () => {
