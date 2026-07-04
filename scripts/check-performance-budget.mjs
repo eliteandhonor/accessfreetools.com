@@ -16,7 +16,8 @@ const budgets = {
   '.json': { warn: 300 * 1024, fail: 900 * 1024 },
   '.xml': { warn: 160 * 1024, fail: 600 * 1024 },
   '.jpg': { warn: 260 * 1024, fail: 600 * 1024 },
-  aiAsset: { warn: 8 * 1024 * 1024, fail: 95 * 1024 * 1024 },
+  aiAsset: { warn: 32 * 1024 * 1024, fail: 95 * 1024 * 1024 },
+  aiRuntime: { warn: 32 * 1024 * 1024, fail: 95 * 1024 * 1024 },
 };
 
 const requiredWatchPaths = [
@@ -54,6 +55,10 @@ function relativeDistPath(file) {
   return relative(publicDistDir, file).replace(/\\/g, '/');
 }
 
+function isLazyAiRuntime(rel) {
+  return /^_astro\/(?:ort-wasm|transformers\.web)[.-]/.test(rel);
+}
+
 const files = walk(publicDistDir);
 const warnings = [];
 const issues = [];
@@ -63,8 +68,12 @@ for (const file of files) {
   const ext = extname(file).toLowerCase();
   const size = statSync(file).size;
   const rel = relativeDistPath(file);
-  const budget = rel.startsWith('ai-models/') ? budgets.aiAsset : budgets[ext];
-  const budgetLabel = rel.startsWith('ai-models/') ? 'ai model asset' : ext;
+  const budget = rel.startsWith('ai-models/') ? budgets.aiAsset : isLazyAiRuntime(rel) ? budgets.aiRuntime : budgets[ext];
+  const budgetLabel = rel.startsWith('ai-models/')
+    ? 'lazy ai model asset'
+    : isLazyAiRuntime(rel)
+      ? 'lazy ai runtime asset'
+      : ext;
 
   if (!budget) {
     continue;
@@ -114,4 +123,5 @@ if (issues.length > 0) {
 }
 
 console.log(`Checked performance budgets for ${measuredFiles.length} built assets and ${htmlFiles.length} HTML pages.`);
+console.log('Lazy AI model/runtime assets use a separate budget; npm run check:ai-assets verifies they do not load before user action.');
 console.log(`Largest measured assets:\n${topAssets}`);

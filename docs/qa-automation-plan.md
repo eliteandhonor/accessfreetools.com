@@ -92,4 +92,4 @@ npm run seo:self-evaluate
 
 ## Performance And AI Asset Lane
 
-`npm run check:performance` reports soft budget warnings and hard budget failures for built pages and assets. `npm run check:ai-assets` verifies that self-hosted AI models and runtime files are not statically requested by ordinary non-AI pages.
+`npm run check:performance` reports soft budget warnings and hard budget failures for built pages and assets. Lazy AI model and runtime files use a separate budget because they are large by design. `npm run check:ai-assets` verifies both that ordinary non-AI pages do not statically reference those assets and that AI tool pages do not request model/runtime files before the user presses the tool action.
