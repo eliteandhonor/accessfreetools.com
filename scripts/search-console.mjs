@@ -36,7 +36,6 @@ const CANONICAL_DISCOVERY_URLS = [
   `https://${TARGET_DOMAIN}/sitemap-categories.xml`,
   `https://${TARGET_DOMAIN}/sitemap-gallery.xml`,
   `https://${TARGET_DOMAIN}/sitemap-images.xml`,
-  CANONICAL_FEED_URL,
 ];
 const KEY_INSPECTION_URLS = [
   CANONICAL_SITE_URL,
@@ -414,6 +413,16 @@ async function submitSitemap(siteUrl, sitemapUrl, token) {
   );
 }
 
+async function deleteSitemap(siteUrl, sitemapUrl, token) {
+  return googleApi(
+    `/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/sitemaps/${encodeURIComponent(sitemapUrl)}`,
+    token,
+    {
+      method: 'DELETE',
+    },
+  );
+}
+
 async function listSitemaps(siteUrl, token) {
   return googleApi(`/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/sitemaps`, token);
 }
@@ -571,8 +580,9 @@ async function main() {
       throw new Error('No verified accessfreetools.com Search Console property is available for sitemap submission.');
     }
 
-    const discoveryUrls = args.submitAllSitemaps ? CANONICAL_DISCOVERY_URLS : [CANONICAL_SITEMAP_URL, CANONICAL_FEED_URL];
+    const discoveryUrls = args.submitAllSitemaps ? CANONICAL_DISCOVERY_URLS : [CANONICAL_SITEMAP_URL];
     const submissions = [];
+    const pruned = [];
 
     for (const discoveryUrl of discoveryUrls) {
       console.log(`Submitting ${discoveryUrl} to ${site.siteUrl}`);
@@ -580,11 +590,20 @@ async function main() {
       submissions.push(discoveryUrl);
     }
 
+    try {
+      console.log(`Removing old feed sitemap submission ${CANONICAL_FEED_URL} from ${site.siteUrl}`);
+      await deleteSitemap(site.siteUrl, CANONICAL_FEED_URL, token);
+      pruned.push(CANONICAL_FEED_URL);
+    } catch (error) {
+      console.log(`Feed sitemap submission prune skipped: ${error.message}`);
+    }
+
     const sitemaps = await listSitemaps(site.siteUrl, token);
     const report = {
       generatedAt: new Date().toISOString(),
       site,
       submissions,
+      pruned,
       sitemaps,
     };
     writeJson(DISCOVERY_REPORT_PATH, report);
@@ -698,7 +717,6 @@ async function main() {
     console.log(`Canonical HTTPS property permission: ${canonicalSite.permissionLevel}`);
     console.log(`Submitting sitemap: ${CANONICAL_SITEMAP_URL}`);
     await submitSitemap(CANONICAL_SITE_URL, CANONICAL_SITEMAP_URL, token);
-    await submitSitemap(CANONICAL_SITE_URL, CANONICAL_FEED_URL, token);
     const sitemaps = await listSitemaps(CANONICAL_SITE_URL, token);
     const report = {
       generatedAt: new Date().toISOString(),

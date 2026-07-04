@@ -95,7 +95,12 @@ npm run indexnow:submit
 ```
 
 Then wait for Search Console to reprocess the old URLs. Redirect warnings for
-old moved URLs can be normal, but 5xx errors are not.
+old moved URLs can be normal, but 5xx errors are not. As of 2026-07-04, the
+Search Console submission helper uses the XML sitemap set as the Google
+discovery source, no longer submits `/feed.xml` by default, and prunes any older
+feed sitemap submission when the API permits it. The feed remains live for RSS
+readers and intentionally returns `noindex,follow`, so submitting it as a sitemap
+only adds noise to Page indexing reports.
 
 ## 2026-05-09 Discovery Follow-Up
 
@@ -109,6 +114,8 @@ the same topics.
 The homepage now links directly to Watts to Amps, Wallpaper, OCR, the matching
 guides, `/tools/`, and `/blog/`. The daily Search Console inspection set also
 tracks those priority pages so agents do not miss the remaining discovery gap.
+Keep the RSS feed discoverable for subscribers, but do not submit it as a Google
+sitemap unless a later Search Console test shows a clear benefit.
 
 ## 2026-05-10 Fresh Inspection Notes
 

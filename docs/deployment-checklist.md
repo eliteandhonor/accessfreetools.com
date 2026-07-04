@@ -99,7 +99,7 @@ These steps need the site owner account:
 
 - Verify the domain property for `accessfreetools.com`.
 - Submit `https://accessfreetools.com/sitemap.xml`.
-- Submit `https://accessfreetools.com/feed.xml` as a secondary discovery feed.
+- Do not submit `https://accessfreetools.com/feed.xml` as a Google sitemap by default. It stays live for RSS readers and is intentionally `noindex,follow`; XML sitemaps are the Google discovery source. The Search Console helper prunes older feed sitemap submissions when it submits discovery.
 - Do not submit `https://accessfreetools.com/pinterest-feed.xml` as the main Google discovery feed. It is a curated Pinterest auto-publish feed with Pin images, not the normal guide RSS feed.
 - Inspect `https://accessfreetools.com/`, `https://accessfreetools.com/free-calculator-resources/`, one new tool URL, one new blog guide URL, and `https://accessfreetools.com/sitemap.xml` after deployment.
 - Confirm URL Inspection says "Page fetch: Successful", "Indexing allowed", and the user-declared canonical matches the production URL.
