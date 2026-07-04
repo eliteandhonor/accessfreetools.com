@@ -43,6 +43,10 @@ function isCacheableHtmlPath(pathname: string) {
   return pathname === '/' || pathname.endsWith('/');
 }
 
+function isHtmlSitemapPath(pathname: string) {
+  return pathname === '/sitemap/';
+}
+
 function applyResponseHeaders(response: Response, url: URL) {
   if (!isLocalHost(url)) {
     response.headers.set('Strict-Transport-Security', HSTS_HEADER);
@@ -54,6 +58,10 @@ function applyResponseHeaders(response: Response, url: URL) {
 
   if (!isLocalHost(url) && isCacheableHtmlPath(url.pathname)) {
     response.headers.set('Cache-Control', HTML_CACHE_CONTROL);
+  }
+
+  if (isHtmlSitemapPath(url.pathname)) {
+    response.headers.set('X-Robots-Tag', 'noindex, follow');
   }
 
   return response;

@@ -65,6 +65,10 @@ const TOOLS_LAUNCHPAD_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/ToolsLaunchpad.tsx', import.meta.url)),
   'utf8',
 );
+const INTERNAL_LINK_CHECK_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../scripts/check-internal-links.mjs', import.meta.url)),
+  'utf8',
+);
 const AI_BROWSER_TOOL_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/AiBrowserTool.tsx', import.meta.url)),
   'utf8',
@@ -72,6 +76,10 @@ const AI_BROWSER_TOOL_SOURCE = readFileSync(
 const PUBLIC_AI_MODELS_DIR = fileURLToPath(new URL('../../public/ai-models/', import.meta.url));
 const SITEMAP_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/sitemap.xml.ts', import.meta.url)),
+  'utf8',
+);
+const HTML_SITEMAP_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/sitemap.astro', import.meta.url)),
   'utf8',
 );
 const FEED_SOURCE = readFileSync(fileURLToPath(new URL('../pages/feed.xml.ts', import.meta.url)), 'utf8');
@@ -852,6 +860,7 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts.typecheck).toBe('tsc --noEmit');
     expect(PACKAGE_JSON.scripts['audit:site']).toBe('vitest run --configLoader runner src/data/siteContentAudit.test.ts');
     expect(PACKAGE_JSON.scripts['check:links']).toBe('node scripts/check-internal-links.mjs');
+    expect(INTERNAL_LINK_CHECK_SOURCE).toContain("serverRenderedPublicPaths = new Set(['/sitemap/'])");
     expect(PACKAGE_JSON.scripts['check:site']).toBe('node scripts/check-built-site.mjs');
     expect(PACKAGE_JSON.scripts['check:article-visual']).toBe('node scripts/check-article-visual-layout.mjs');
     expect(PACKAGE_JSON.scripts['check:structured-data']).toBe('node scripts/check-structured-data.mjs');
@@ -864,6 +873,11 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts['gallery:qa']).toBe('node scripts/check-gallery-pages.mjs');
     expect(PACKAGE_JSON.scripts['check:external-links']).toBe('node scripts/check-external-links.mjs');
     expect(PACKAGE_JSON.scripts['check:production-sitemap']).toBe('node scripts/check-production-sitemap.mjs');
+    expect(MIDDLEWARE_SOURCE).toContain('X-Robots-Tag');
+    expect(MIDDLEWARE_SOURCE).toContain('noindex, follow');
+    expect(MIDDLEWARE_SOURCE).toContain("pathname === '/sitemap/'");
+    expect(HTML_SITEMAP_SOURCE).toContain('export const prerender = false');
+    expect(HTML_SITEMAP_SOURCE).toContain("Astro.response.headers.set('X-Robots-Tag', 'noindex, follow')");
     expect(PRODUCTION_SITEMAP_CHECK_SOURCE).toContain('output/search-console-performance.json');
     expect(PRODUCTION_SITEMAP_CHECK_SOURCE).toContain('LEGACY_URLS');
     expect(PRODUCTION_SITEMAP_CHECK_SOURCE).toContain('Hard failures');

@@ -1,5 +1,5 @@
 ---
-export const prerender = true;
+export const prerender = false;
 import BaseLayout from '../components/BaseLayout.astro';
 import BreadcrumbStructuredData from '../components/BreadcrumbStructuredData.astro';
 import CollectionStructuredData from '../components/CollectionStructuredData.astro';
@@ -9,6 +9,8 @@ import { editorialBlogPosts } from '../data/editorialBlogPosts';
 import { gallerySitemapEntries, hubSitemapEntries, staticSitemapEntries } from '../data/discovery';
 import { topicalHubs } from '../data/hubs';
 import { tools } from '../data/tools';
+
+Astro.response.headers.set('X-Robots-Tag', 'noindex, follow');
 
 const publicPages = staticSitemapEntries.filter((entry) => !entry.path.startsWith('/admin/'));
 const categoryGroups = categories

@@ -4,6 +4,7 @@ import { join, normalize } from 'node:path';
 const distDir = join(process.cwd(), 'dist');
 const publicDistDir = existsSync(join(distDir, 'client')) ? join(distDir, 'client') : distDir;
 const htmlFiles = [];
+const serverRenderedPublicPaths = new Set(['/sitemap/']);
 
 function walk(directory) {
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
@@ -53,6 +54,11 @@ for (const htmlFile of htmlFiles) {
       value.startsWith('/cdn-cgi/') ||
       value.includes('{{')
     ) {
+      continue;
+    }
+
+    const cleanValue = value.split('#')[0].split('?')[0];
+    if (serverRenderedPublicPaths.has(cleanValue)) {
       continue;
     }
 
