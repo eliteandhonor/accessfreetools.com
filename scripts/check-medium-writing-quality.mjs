@@ -611,6 +611,7 @@ function lintArticle(file, heroAssetReport) {
   const heroImage = extractHeroImage(article);
   const canonicalUrl = extractFrontmatterValue(content, 'canonical_url_to_set');
   const sourceUrl = extractFrontmatterValue(content, 'source_url');
+  const originalMediumArticle = extractFrontmatterValue(content, 'original_medium_article') === 'true';
   const heroImageUrl = extractFrontmatterValue(content, 'hero_image_url');
   const heroImagePath = extractFrontmatterValue(content, 'hero_image_path');
   const heroAlt = extractFrontmatterValue(content, 'hero_alt');
@@ -663,7 +664,7 @@ function lintArticle(file, heroAssetReport) {
     errors.push(`Primary phrase missing from public article: "${rules.primaryPhrase}".`);
   }
 
-  if (!canonicalUrl.startsWith('https://accessfreetools.com/')) {
+  if (!originalMediumArticle && !canonicalUrl.startsWith('https://accessfreetools.com/')) {
     errors.push('Missing canonical_url_to_set frontmatter for the matching Access Free Tools source.');
   }
 
@@ -735,11 +736,11 @@ function lintArticle(file, heroAssetReport) {
     errors.push(`Missing reader-facing source tool link: ${sourceUrl}.`);
   }
 
-  if (canonicalUrl && canonicalUrl !== sourceUrl && !article.includes(canonicalUrl)) {
+  if (!originalMediumArticle && canonicalUrl && canonicalUrl !== sourceUrl && !article.includes(canonicalUrl)) {
     errors.push(`Missing reader-facing guide/canonical link: ${canonicalUrl}.`);
   }
 
-  const requiredUniqueLinks = canonicalUrl && canonicalUrl !== sourceUrl ? 2 : 1;
+  const requiredUniqueLinks = !originalMediumArticle && canonicalUrl && canonicalUrl !== sourceUrl ? 2 : 1;
   if (uniqueAccessLinks.length < requiredUniqueLinks) {
     errors.push(
       `Needs ${requiredUniqueLinks}+ unique Access Free Tools reader-facing link(s); found ${uniqueAccessLinks.length}.`,

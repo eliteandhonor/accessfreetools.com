@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import sharp from 'sharp';
 
@@ -75,6 +75,16 @@ const heroes = [
     title: 'Clean Markdown tables without hand-spacing rows',
     detail: 'Headers, rows, preview, copy.',
     colors: ['#f5f3ff', '#f0fdfa', '#6d28d9', '#17132d'],
+  },
+];
+
+const staticHeroes = [
+  {
+    slug: 'codex-backlink-workflow',
+    expectedWidth: 1200,
+    expectedHeight: 675,
+    detailLines: ['Custom smoke-kawaii hero image; no generated text overlay.'],
+    titleLines: ['How I used a Codex backlink workflow'],
   },
 ];
 
@@ -303,6 +313,41 @@ async function main() {
       width: 1200,
       height: 675,
     });
+  }
+
+  for (const hero of staticHeroes) {
+    const outputPath = resolve(OUTPUT_DIR, `${hero.slug}.jpg`);
+    const errors = [];
+    let metadata = null;
+
+    if (!existsSync(outputPath)) {
+      errors.push(`Static Medium hero image is missing: ${outputPath}`);
+    } else {
+      metadata = await sharp(outputPath).metadata();
+      if (metadata.width !== hero.expectedWidth || metadata.height !== hero.expectedHeight) {
+        errors.push(
+          `Static Medium hero image should be ${hero.expectedWidth}x${hero.expectedHeight}; found ${metadata.width}x${metadata.height}.`,
+        );
+      }
+    }
+
+    layoutChecks.push({
+      slug: hero.slug,
+      status: errors.length > 0 ? 'failed' : 'passed',
+      errors,
+      detailLines: hero.detailLines,
+      titleLines: hero.titleLines,
+    });
+
+    if (errors.length === 0) {
+      results.push({
+        slug: hero.slug,
+        path: outputPath,
+        url: `https://accessfreetools.com/medium/${hero.slug}.jpg`,
+        width: metadata.width,
+        height: metadata.height,
+      });
+    }
   }
 
   mkdirSync(dirname(REPORT_PATH), { recursive: true });

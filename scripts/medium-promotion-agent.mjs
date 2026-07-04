@@ -782,7 +782,7 @@ function renderBullets(items) {
 }
 
 function renderContextualLink(post) {
-  return `If you want to test the numbers while reading, open the matching Access Free Tools page here: ${post.sourceUrl}`;
+  return `If you want to try the page while reading, open the matching Access Free Tools page here: ${post.sourceUrl}`;
 }
 
 function renderFinalLinks(post) {
