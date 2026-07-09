@@ -37,6 +37,15 @@ This must pass before release:
 - Optional Playwright desktop/mobile smoke and accessibility checks for representative pages.
 - Regenerate PNG social preview cards with `npm run assets:social` after changing major category, blog, or homepage positioning.
 
+## TypeScript Toolchain
+
+This project uses TypeScript 7 for the fast CLI `tsc` check and keeps the
+TypeScript 6 compiler API available for Astro-adjacent tooling that imports
+`typescript`. Run `npm run typecheck` for the normal TS 7 check and
+`npm run typecheck:ts6` after dependency, Astro, script, or tool-art manifest
+changes. Do not switch compiler-API consumers to TypeScript 7 until Astro and
+the TypeScript 7 API support are proven.
+
 ## Browser Proof
 
 Open the local preview and check these pages:
