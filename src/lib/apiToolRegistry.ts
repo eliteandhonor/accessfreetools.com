@@ -14,17 +14,22 @@ import {
   calculateBmi,
   calculateBraSize,
   calculateBtuEstimate,
+  calculateCircleFromMeasurement,
   calculateConcrete,
   calculateDateDifference,
   calculateDownloadTime,
+  calculateMeanConfidenceInterval,
   calculateMortgagePayment,
   calculatePaintEstimate,
   calculatePercentOf,
   calculatePercentageOf,
+  calculateProportionConfidenceInterval,
   calculateShapeArea,
   calculateSubnet,
   calculateTip,
   calculateWattsToAmps,
+  convertButter,
+  convertMeasurement,
   decodeBase64,
   decodeUrlComponentValue,
   encodeBase64,
@@ -276,6 +281,64 @@ const btuInput = z.object({
   squareFeet: z.number().positive(),
   sunlight: z.enum(['normal', 'shaded', 'sunny']).default('normal'),
 });
+
+const butterInput = z.object({
+  amount: z.number().positive(),
+  unit: z.enum(['teaspoon', 'tablespoon', 'cup', 'stick', 'ounce', 'gram', 'pound']).default('stick'),
+});
+
+const circleInput = z.object({
+  knownMeasure: z.enum(['radius', 'diameter', 'circumference', 'area']).default('radius'),
+  value: z.number().positive(),
+});
+
+const confidenceLevelInput = z.union([
+  z.literal(80),
+  z.literal(85),
+  z.literal(90),
+  z.literal(95),
+  z.literal(98),
+  z.literal(99),
+]);
+
+const confidenceIntervalInput = z.discriminatedUnion('mode', [
+  z.object({
+    confidenceLevel: confidenceLevelInput.default(95),
+    mode: z.literal('mean'),
+    sampleMean: z.number(),
+    sampleSize: z.number().int().positive(),
+    standardDeviation: z.number().positive(),
+  }),
+  z.object({
+    confidenceLevel: confidenceLevelInput.default(95),
+    mode: z.literal('proportion'),
+    sampleSize: z.number().int().positive(),
+    successes: z.number().int().min(0),
+  }),
+]);
+
+const lengthUnitInput = z.enum(['millimeter', 'centimeter', 'meter', 'kilometer', 'inch', 'foot', 'yard', 'mile']);
+const massUnitInput = z.enum(['milligram', 'gram', 'kilogram', 'ounce', 'pound', 'ton']);
+const volumeUnitInput = z.enum([
+  'milliliter',
+  'liter',
+  'cubic-meter',
+  'teaspoon',
+  'tablespoon',
+  'fluid-ounce',
+  'cup',
+  'pint',
+  'quart',
+  'gallon',
+]);
+const temperatureUnitInput = z.enum(['celsius', 'fahrenheit', 'kelvin']);
+
+const conversionInput = z.discriminatedUnion('category', [
+  z.object({ category: z.literal('length'), fromUnit: lengthUnitInput, toUnit: lengthUnitInput, value: z.number() }),
+  z.object({ category: z.literal('mass'), fromUnit: massUnitInput, toUnit: massUnitInput, value: z.number() }),
+  z.object({ category: z.literal('volume'), fromUnit: volumeUnitInput, toUnit: volumeUnitInput, value: z.number() }),
+  z.object({ category: z.literal('temperature'), fromUnit: temperatureUnitInput, toUnit: temperatureUnitInput, value: z.number() }),
+]);
 
 const tipInput = z.object({
   people: z.number().int().min(1).max(1000).default(1),
@@ -619,6 +682,48 @@ export const apiTools = [
     },
   },
   {
+    category: 'statistics',
+    description: 'Calculate a z confidence interval for a sample mean or a sample proportion.',
+    examples: [
+      { label: 'Mean interval', inputs: { confidenceLevel: 95, mode: 'mean', sampleMean: 68, sampleSize: 36, standardDeviation: 3 } },
+      { label: 'Proportion interval', inputs: { confidenceLevel: 95, mode: 'proportion', sampleSize: 100, successes: 52 } },
+    ],
+    inputSchema: confidenceIntervalInput,
+    keywords: ['confidence interval', 'margin of error', 'statistics', 'mean', 'proportion'],
+    name: 'Confidence Interval Calculator',
+    risk: 'low',
+    slug: 'confidence-interval-calculator',
+    summary: 'Calculate z confidence intervals for means and proportions.',
+    run(input) {
+      const result =
+        input.mode === 'mean'
+          ? calculateMeanConfidenceInterval(input.sampleMean, input.standardDeviation, input.sampleSize, input.confidenceLevel)
+          : calculateProportionConfidenceInterval(input.successes, input.sampleSize, input.confidenceLevel);
+      const proportionPercent =
+        result.mode === 'proportion'
+          ? `, or ${formatNumber(result.lowerBound * 100, '%')} to ${formatNumber(result.upperBound * 100, '%')}`
+          : '';
+
+      return withUrls('confidence-interval-calculator', {
+        answer: `The ${formatNumber(result.confidenceLevel, '%')} confidence interval is ${formatNumber(result.lowerBound)} to ${formatNumber(result.upperBound)}${proportionPercent}.`,
+        assumptions: [
+          'This uses z-score interval formulas.',
+          result.mode === 'mean' ? 'The standard deviation is treated as the known or planning standard deviation.' : 'The sample proportion is successes divided by sample size.',
+        ],
+        result,
+        steps: [
+          `Use z = ${formatNumber(result.zScore)} for ${formatNumber(result.confidenceLevel, '%')} confidence`,
+          `Standard error = ${formatNumber(result.standardError)}`,
+          `Margin of error = ${formatNumber(result.marginOfError)}`,
+          `Interval = ${formatNumber(result.pointEstimate)} +/- ${formatNumber(result.marginOfError)}`,
+        ],
+        warnings: [
+          'Confidence intervals depend on sampling design and assumptions. Small samples, biased samples, and non-normal data can make this estimate misleading.',
+        ],
+      });
+    },
+  },
+  {
     category: 'geometry',
     description: 'Calculate area for rectangles, triangles, circles, trapezoids, and parallelograms.',
     examples: [
@@ -638,6 +743,35 @@ export const apiTools = [
         assumptions: ['All measurements use the same unit.', 'The answer is in square units of whatever unit you entered.'],
         result,
         steps: [`Formula: ${result.formula}`, `Measurements: ${result.metrics.map((metric) => `${metric.label} ${formatNumber(metric.value)}`).join(', ')}`, `Area = ${formatNumber(result.value)} square units`],
+        warnings: [],
+      });
+    },
+  },
+  {
+    category: 'geometry',
+    description: 'Find radius, diameter, circumference, and area from one known circle measurement.',
+    examples: [
+      { label: 'Radius 5', inputs: { knownMeasure: 'radius', value: 5 } },
+      { label: 'Diameter 10', inputs: { knownMeasure: 'diameter', value: 10 } },
+    ],
+    inputSchema: circleInput,
+    keywords: ['circle', 'radius', 'diameter', 'circumference', 'area'],
+    name: 'Circle Calculator',
+    risk: 'low',
+    slug: 'circle-calculator',
+    summary: 'Convert one circle measurement into the full circle summary.',
+    run(input) {
+      const result = calculateCircleFromMeasurement(input.knownMeasure, input.value);
+
+      return withUrls('circle-calculator', {
+        answer: `Circle radius is ${formatNumber(result.radius)}, diameter is ${formatNumber(result.diameter)}, circumference is ${formatNumber(result.circumference)}, and area is ${formatNumber(result.area)}.`,
+        assumptions: ['The input describes one full circle.', 'Use one consistent unit for length measurements; area is in square units.'],
+        result,
+        steps: [
+          `Start from ${input.knownMeasure}: ${formatNumber(input.value)}`,
+          `Convert to radius: ${formatNumber(result.radius)}`,
+          `Use diameter = 2 x radius, circumference = 2 x pi x radius, and area = pi x radius squared`,
+        ],
         warnings: [],
       });
     },
@@ -872,6 +1006,35 @@ export const apiTools = [
     },
   },
   {
+    category: 'everyday',
+    description: 'Convert butter between teaspoons, tablespoons, cups, sticks, ounces, grams, and pounds.',
+    examples: [
+      { label: '1 stick of butter', inputs: { amount: 1, unit: 'stick' } },
+      { label: '113 grams of butter', inputs: { amount: 113, unit: 'gram' } },
+    ],
+    inputSchema: butterInput,
+    keywords: ['butter', 'recipe conversion', 'tablespoons', 'sticks', 'grams'],
+    name: 'Butter Converter',
+    risk: 'low',
+    slug: 'butter-converter',
+    summary: 'Convert common US butter recipe units side by side.',
+    run(input) {
+      const result = convertButter(input.amount, input.unit);
+
+      return withUrls('butter-converter', {
+        answer: `${formatNumber(result.amount)} ${input.unit} of butter is about ${formatNumber(result.tablespoons)} tablespoons, ${formatNumber(result.cups)} cups, or ${formatNumber(result.grams)} grams.`,
+        assumptions: ['US recipe equivalents are used.', 'One US butter stick is treated as 8 tablespoons or about 113.4 grams.'],
+        result,
+        steps: [
+          `Convert ${formatNumber(input.amount)} ${input.unit} to tablespoons = ${formatNumber(result.tablespoons)}`,
+          `Tablespoons / 16 = ${formatNumber(result.cups)} cups`,
+          `Tablespoons x 14.1747615625 = ${formatNumber(result.grams)} grams`,
+        ],
+        warnings: ['Check package labels when local butter sticks, blocks, or brands use different sizes.'],
+      });
+    },
+  },
+  {
     category: 'finance',
     description: 'Estimate monthly mortgage payment including optional taxes, insurance, PMI, and HOA.',
     examples: [
@@ -1066,6 +1229,35 @@ export const apiTools = [
     },
   },
   {
+    category: 'text-tools',
+    description: 'Count characters, non-space characters, UTF-8 bytes, lines, and supporting text metrics.',
+    examples: [
+      { label: 'Page title', inputs: { text: 'Free calculator tools for quick everyday math.' } },
+      { label: 'Emoji check', inputs: { text: 'Launch day notes: calculators, converters, and design tools 🙂' } },
+    ],
+    inputSchema: textInput,
+    keywords: ['character count', 'characters', 'bytes', 'line count', 'text length'],
+    name: 'Character Counter',
+    risk: 'privacy',
+    slug: 'character-counter',
+    summary: 'Analyze character count, no-space count, byte length, and line count.',
+    run(input) {
+      const result = analyzeText(input.text);
+
+      return withUrls('character-counter', {
+        answer: `The text has ${formatNumber(result.characters)} characters, or ${formatNumber(result.charactersNoSpaces)} without spaces.`,
+        assumptions: ['Characters are counted as Unicode code points.', 'UTF-8 bytes are useful for technical limits, not every social platform limit.'],
+        result,
+        steps: [
+          'Count Unicode code points in the text',
+          'Remove whitespace and count again',
+          'Encode the text as UTF-8 to estimate byte length',
+        ],
+        warnings: ['Some platforms count emoji sequences, line breaks, and rich text differently. Use the target platform count for hard limits.'],
+      });
+    },
+  },
+  {
     category: 'developer-tools',
     description: 'Format JSON and optionally sort object keys.',
     examples: [{ label: 'Small object', inputs: { json: '{"tool":"calculator","live":true}', sortKeys: false } }],
@@ -1169,6 +1361,42 @@ export const apiTools = [
         assumptions: ['IPv4 subnet math is used.', '/31 and /32 are handled as special small subnet cases.'],
         result,
         steps: [`Convert IP and prefix to a 32-bit mask`, `Apply mask to get network: ${result.networkAddress}`, `Use wildcard to get broadcast: ${result.broadcastAddress}`],
+        warnings: [],
+      });
+    },
+  },
+  {
+    category: 'conversions',
+    description: 'Convert length, mass, volume, or temperature values between supported units in the same category.',
+    examples: [
+      { label: '12 feet to meters', inputs: { category: 'length', fromUnit: 'foot', toUnit: 'meter', value: 12 } },
+      { label: '72 F to C', inputs: { category: 'temperature', fromUnit: 'fahrenheit', toUnit: 'celsius', value: 72 } },
+    ],
+    inputSchema: conversionInput,
+    keywords: ['unit conversion', 'measurement', 'length', 'mass', 'volume', 'temperature'],
+    name: 'Conversion Calculator',
+    risk: 'low',
+    slug: 'conversion-calculator',
+    summary: 'Convert supported measurement units within one category.',
+    run(input) {
+      const result = convertMeasurement(input.category, input.value, input.fromUnit, input.toUnit);
+
+      return withUrls('conversion-calculator', {
+        answer: `${formatNumber(result.input)} ${result.fromUnit} equals ${formatNumber(result.result)} ${result.toUnit}.`,
+        assumptions: ['Units must come from the same category.', 'Temperature conversions use Celsius as the intermediate value.'],
+        result,
+        steps:
+          result.category === 'temperature'
+            ? [
+                `Convert ${formatNumber(input.value)} ${input.fromUnit} to Celsius`,
+                `Convert Celsius into ${input.toUnit}`,
+                `Result = ${formatNumber(result.result)} ${input.toUnit}`,
+              ]
+            : [
+                `Convert ${formatNumber(input.value)} ${input.fromUnit} to the category base unit`,
+                `Divide by the ${input.toUnit} factor`,
+                `Result = ${formatNumber(result.result)} ${input.toUnit}`,
+              ],
         warnings: [],
       });
     },

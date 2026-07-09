@@ -31,7 +31,7 @@ describe('Access Free Tools API routes', () => {
     const body = await response.json();
     expect(response.headers.get('cache-control')).toBe(METADATA_CACHE_CONTROL);
     expect(body.ok).toBe(true);
-    expect(body.tools.length).toBeGreaterThanOrEqual(24);
+    expect(body.tools.length).toBeGreaterThanOrEqual(34);
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('absolute-value-calculator');
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('ai-token-cost-calculator');
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('api-pricing-calculator');
@@ -41,6 +41,11 @@ describe('Access Free Tools API routes', () => {
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('bandwidth-calculator');
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('bra-size-calculator');
     expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('btu-calculator');
+    expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('butter-converter');
+    expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('character-counter');
+    expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('circle-calculator');
+    expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('confidence-interval-calculator');
+    expect(body.tools.map((tool: { slug: string }) => tool.slug)).toContain('conversion-calculator');
     expect(response.headers.get('cache-control')).toMatch(/public/);
   });
 
@@ -236,6 +241,31 @@ describe('Access Free Tools API routes', () => {
         expected: '7000 BTU/h',
         inputs: { ceilingHeightFeet: 8, kitchen: false, people: 2, squareFeet: 300, sunlight: 'normal' },
         slug: 'btu-calculator',
+      },
+      {
+        expected: '8 tablespoons',
+        inputs: { amount: 1, unit: 'stick' },
+        slug: 'butter-converter',
+      },
+      {
+        expected: '46 characters',
+        inputs: { text: 'Free calculator tools for quick everyday math.' },
+        slug: 'character-counter',
+      },
+      {
+        expected: '31.4159',
+        inputs: { knownMeasure: 'radius', value: 5 },
+        slug: 'circle-calculator',
+      },
+      {
+        expected: '67.02 to 68.98',
+        inputs: { confidenceLevel: 95, mode: 'mean', sampleMean: 68, sampleSize: 36, standardDeviation: 3 },
+        slug: 'confidence-interval-calculator',
+      },
+      {
+        expected: '3.6576 meter',
+        inputs: { category: 'length', fromUnit: 'foot', toUnit: 'meter', value: 12 },
+        slug: 'conversion-calculator',
       },
     ];
 

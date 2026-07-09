@@ -5,7 +5,7 @@ import { ApiToolValidationError, listApiTools, runApiTool, searchApiTools } from
 describe('api tool registry', () => {
   it('lists starter tools with schemas and links', () => {
     const tools = listApiTools();
-    expect(tools.length).toBeGreaterThanOrEqual(24);
+    expect(tools.length).toBeGreaterThanOrEqual(34);
     expect(tools.find((tool) => tool.slug === 'absolute-value-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'ai-token-cost-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'api-pricing-calculator')?.input_schema).toBeTruthy();
@@ -15,6 +15,11 @@ describe('api tool registry', () => {
     expect(tools.find((tool) => tool.slug === 'bandwidth-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'bra-size-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'btu-calculator')?.input_schema).toBeTruthy();
+    expect(tools.find((tool) => tool.slug === 'butter-converter')?.input_schema).toBeTruthy();
+    expect(tools.find((tool) => tool.slug === 'character-counter')?.input_schema).toBeTruthy();
+    expect(tools.find((tool) => tool.slug === 'circle-calculator')?.input_schema).toBeTruthy();
+    expect(tools.find((tool) => tool.slug === 'confidence-interval-calculator')?.input_schema).toBeTruthy();
+    expect(tools.find((tool) => tool.slug === 'conversion-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'percentage-calculator')?.input_schema).toBeTruthy();
     expect(tools.find((tool) => tool.slug === 'binary-calculator')?.input_schema).toBeTruthy();
     expect(tools.every((tool) => tool.tool_url.startsWith('https://accessfreetools.com/tools/'))).toBe(true);
@@ -94,6 +99,23 @@ describe('api tool registry', () => {
         sunlight: 'normal',
       }).answer,
     ).toContain('7000 BTU/h');
+    expect(runApiTool('butter-converter', { amount: 1, unit: 'stick' }).answer).toContain('8 tablespoons');
+    expect(runApiTool('character-counter', { text: 'Free calculator tools for quick everyday math.' }).answer).toContain(
+      '46 characters',
+    );
+    expect(runApiTool('circle-calculator', { knownMeasure: 'radius', value: 5 }).answer).toContain('31.4159');
+    expect(
+      runApiTool('confidence-interval-calculator', {
+        confidenceLevel: 95,
+        mode: 'mean',
+        sampleMean: 68,
+        sampleSize: 36,
+        standardDeviation: 3,
+      }).answer,
+    ).toContain('67.02 to 68.98');
+    expect(
+      runApiTool('conversion-calculator', { category: 'length', fromUnit: 'foot', toUnit: 'meter', value: 12 }).answer,
+    ).toContain('3.6576 meter');
   });
 
   it('returns useful validation issues', () => {
