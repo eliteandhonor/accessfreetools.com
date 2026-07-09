@@ -1,8 +1,10 @@
 # Access Free Tools Next Agent Tasks
 
-Generated: 2026-07-02
+Generated: 2026-07-09
 
 Use this task board after `npm run aft -- status` and `npm run aft -- seo-console`. Do not use older May or June notes as the source of truth for current SEO recovery.
+
+Fresh handoff: read `docs/july-9-seo-evidence-recovery.md` before choosing the next SEO page. The July 9 data shows an index-selection and CTR recovery sprint, not a sitemap repair sprint.
 
 ## Evidence Snapshot
 

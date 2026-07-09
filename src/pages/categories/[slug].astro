@@ -538,6 +538,197 @@ const categoryGuideConfig: Partial<
   },
 };
 const categoryGuideLinks = categoryGuideConfig[category.slug];
+const categoryRecoveryConfig: Partial<
+  Record<ToolCategory['slug'], { heading: string; text: string; links: { href: string; title: string; text: string }[] }>
+> = {
+  calculators: {
+    heading: 'High-signal calculator shortcuts',
+    text:
+      'Recent search evidence shows these calculators deserve clearer paths from the calculator hub because they answer common zero-click or not-indexed queries.',
+    links: [
+      {
+        href: '/tools/date-calculator/',
+        title: 'Date Calculator',
+        text: 'Add days, subtract days, and count calendar differences without mixing start and end dates.',
+      },
+      {
+        href: '/tools/fraction-calculator/',
+        title: 'Fraction Calculator',
+        text: 'Add, subtract, multiply, divide, and simplify fractions or mixed numbers with visible steps.',
+      },
+      {
+        href: '/tools/area-calculator/',
+        title: 'Area Calculator',
+        text: 'Find common shape areas and compare formulas before trusting a measurement.',
+      },
+      {
+        href: '/tools/matrix-calculator/',
+        title: 'Matrix Calculator',
+        text: 'Add, multiply, transpose, and check determinant-style matrix work in the browser.',
+      },
+      {
+        href: '/tools/triangle-calculator/',
+        title: 'Triangle Calculator',
+        text: 'Solve triangle sides, angles, perimeter, and area while checking impossible inputs.',
+      },
+      {
+        href: '/tools/big-number-calculator/',
+        title: 'Big Number Calculator',
+        text: 'Handle very large whole-number math when normal calculator precision is not enough.',
+      },
+    ],
+  },
+  finance: {
+    heading: 'Money calculators with fresh search demand',
+    text:
+      'These finance pages have current search signals, so the category hub should send clearer crawlable links to the exact calculator or guide.',
+    links: [
+      {
+        href: '/tools/interest-rate-calculator/',
+        title: 'Interest Rate Calculator',
+        text: 'Find the rate hidden inside a fixed payment quote, then compare total interest and APR limits.',
+      },
+      {
+        href: '/tools/sales-tax-calculator/',
+        title: 'Sales Tax Calculator',
+        text: 'Calculate tax amount and final total from a before-tax price and local rate.',
+      },
+      {
+        href: '/tools/ad-revenue-calculator/',
+        title: 'Ad Revenue Calculator',
+        text: 'Estimate pageviews, CTR, CPC, monthly revenue, and page RPM without treating it as a payout.',
+      },
+      {
+        href: '/tools/personal-loan-calculator/',
+        title: 'Personal Loan Calculator',
+        text: 'Compare payment, interest, term, APR-style fee cautions, and total cost assumptions.',
+      },
+      {
+        href: '/blog/how-to-use-currency-calculator/',
+        title: 'Currency conversion guide',
+        text: 'Use manual exchange rates, fees, inverse checks, and provider-rate warnings carefully.',
+      },
+    ],
+  },
+  'home-projects': {
+    heading: 'Project pages to keep close to the hub',
+    text:
+      'Recent not-indexed samples include useful material-estimate pages. These links help crawlers and readers reach the exact project guide faster.',
+    links: [
+      {
+        href: '/tools/siding-calculator/',
+        title: 'Siding Calculator',
+        text: 'Estimate siding area, waste, openings, and material quantities before supplier checks.',
+      },
+      {
+        href: '/tools/brick-calculator/',
+        title: 'Brick Calculator',
+        text: 'Plan brick count from wall size, brick dimensions, mortar gap, and waste.',
+      },
+      {
+        href: '/tools/soil-calculator/',
+        title: 'Soil Calculator',
+        text: 'Estimate soil volume from area and depth, then account for settling and ordering margin.',
+      },
+      {
+        href: '/blog/how-to-use-concrete-calculator/',
+        title: 'Concrete guide',
+        text: 'Check cubic yards, bags, slab depth, footings, and ordering limits before buying.',
+      },
+      {
+        href: '/blog/how-to-use-deck-stain-calculator/',
+        title: 'Deck stain guide',
+        text: 'Estimate stain quantity from area, coats, coverage rate, railings, and weather conditions.',
+      },
+      {
+        href: '/blog/how-to-use-lawn-mowing-calculator/',
+        title: 'Lawn mowing guide',
+        text: 'Estimate mowing time and cost from size, speed, trimming, obstacles, and service assumptions.',
+      },
+    ],
+  },
+  'ai-tools': {
+    heading: 'AI and writing checks with recovery signals',
+    text:
+      'These browser-side helpers answer practical publishing and AI-cost questions, so they should be easy to reach from the AI tools hub.',
+    links: [
+      {
+        href: '/tools/reading-level-checker/',
+        title: 'Reading Level Checker',
+        text: 'Estimate grade level, reading ease, sentence length, and long-word signals before publishing.',
+      },
+      {
+        href: '/tools/ai-token-cost-calculator/',
+        title: 'AI Token Cost Calculator',
+        text: 'Estimate prompt, completion, and model-cost scenarios without confusing tokens and words.',
+      },
+    ],
+  },
+  'developer-tools': {
+    heading: 'Developer utilities with fresh recovery signals',
+    text:
+      'These utilities have search and indexation signals that make them worth clearer paths from the developer hub.',
+    links: [
+      {
+        href: '/tools/color-contrast-checker/',
+        title: 'Color Contrast Checker',
+        text: 'Check text, background, focus, disabled, and selected-state contrast before publishing UI.',
+      },
+      {
+        href: '/tools/markdown-table-generator/',
+        title: 'Markdown Table Generator',
+        text: 'Create GitHub-flavored Markdown tables from headers, rows, and alignment choices.',
+      },
+    ],
+  },
+  'text-tools': {
+    heading: 'Writing and formatting pages to surface',
+    text:
+      'These text pages help with publishing, snippets, docs, and messages, so the text hub should point at them directly.',
+    links: [
+      {
+        href: '/tools/character-counter/',
+        title: 'Character Counter',
+        text: 'Count characters, no-space characters, words, lines, and UTF-8 bytes for limits and snippets.',
+      },
+      {
+        href: '/tools/markdown-table-generator/',
+        title: 'Markdown Table Generator',
+        text: 'Build a readable Markdown table before pasting into docs, READMEs, or issue comments.',
+      },
+    ],
+  },
+  'health-fitness': {
+    heading: 'Health estimate pages to keep visible',
+    text:
+      'Use these links as quick paths to educational estimates with visible limits and professional-advice cautions.',
+    links: [
+      {
+        href: '/tools/calories-burned-calculator/',
+        title: 'Calories Burned Calculator',
+        text: 'Estimate exercise calories from MET, body weight, and duration while reading the limits.',
+      },
+    ],
+  },
+  converters: {
+    heading: 'Converter pages and gallery context',
+    text:
+      'Converter searches often need both the exact converter and the guide or visual context that explains the unit change.',
+    links: [
+      {
+        href: '/tools/conversion-calculator/',
+        title: 'Conversion Calculator',
+        text: 'Convert common length, mass, volume, and temperature units with formula notes.',
+      },
+      {
+        href: '/gallery/converters/',
+        title: 'Converters Gallery',
+        text: 'Browse approved converter images that link back to live converter tools and guides.',
+      },
+    ],
+  },
+};
+const categoryRecoveryLinks = categoryRecoveryConfig[category.slug];
 const categoryTrustNotes: Partial<
   Record<ToolCategory['slug'], { className: string; title: string; text: string }>
 > = {
@@ -774,6 +965,28 @@ const taskNotes = categoryTasks[category.slug] ?? [
             <h2>Priority guides</h2>
             <div class="category-link-list">
               {categoryGuideLinks.links.map((link) => (
+                <a href={link.href}>
+                  <strong>{link.title}</strong>
+                  <span>{link.text}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    {
+      categoryRecoveryLinks && (
+        <div class="category-context-grid">
+          <div>
+            <h2>{categoryRecoveryLinks.heading}</h2>
+            <p>{categoryRecoveryLinks.text}</p>
+          </div>
+          <div>
+            <h2>Recovery shortcuts</h2>
+            <div class="category-link-list">
+              {categoryRecoveryLinks.links.map((link) => (
                 <a href={link.href}>
                   <strong>{link.title}</strong>
                   <span>{link.text}</span>

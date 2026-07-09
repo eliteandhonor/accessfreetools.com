@@ -542,10 +542,10 @@ const staticPageLastmod: Record<string, string> = {
   '/': '2026-05-02',
   '/tools/': '2026-07-04',
   '/ask/': '2026-05-15',
-  '/gallery/': '2026-05-16',
+  '/gallery/': '2026-07-09',
   '/hubs/': LAST_MAJOR_CONTENT_UPDATE,
   '/categories/': '2026-05-02',
-  '/blog/': '2026-07-04',
+  '/blog/': '2026-07-09',
   '/free-calculator-resources/': '2026-07-04',
   '/developers/mcp/': '2026-05-15',
   '/about/': '2026-05-10',
@@ -556,6 +556,17 @@ const staticPageLastmod: Record<string, string> = {
   '/terms/': '2026-04-30',
 };
 
+const categoryLastmodOverrides: Record<string, string> = {
+  calculators: '2026-07-09',
+  converters: '2026-07-09',
+  'text-tools': '2026-07-09',
+  finance: '2026-07-09',
+  'health-fitness': '2026-07-09',
+  'home-projects': '2026-07-09',
+  'developer-tools': '2026-07-09',
+  'ai-tools': '2026-07-09',
+};
+
 export function getStaticPageLastmod(path: string) {
   return staticPageLastmod[path] ?? LAST_MAJOR_CONTENT_UPDATE;
 }
@@ -564,8 +575,8 @@ export function getToolLastmod(slug: string) {
   return toolLastmodOverrides[slug] ?? LAST_MAJOR_CONTENT_UPDATE;
 }
 
-export function getCategoryLastmod(_slug: string) {
-  return LAST_MAJOR_CONTENT_UPDATE;
+export function getCategoryLastmod(slug: string) {
+  return categoryLastmodOverrides[slug] ?? LAST_MAJOR_CONTENT_UPDATE;
 }
 
 export function getBlogDates(slug: string) {

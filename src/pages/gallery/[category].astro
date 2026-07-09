@@ -30,6 +30,31 @@ const categoryGalleryNotes = [
   'Every card sends visitors back to the matching tool or guide page, so the image is connected to the thing it explains.',
   'The gallery shows approved images that match real tools and guides. Draft or placeholder images stay out of the public gallery.',
 ];
+const categoryFocusLinks: Record<string, { href: string; title: string; text: string }[]> = {
+  converters: [
+    {
+      href: '/tools/conversion-calculator/',
+      title: 'Conversion Calculator',
+      text: 'Start here for common length, mass, volume, and temperature conversions.',
+    },
+    {
+      href: '/tools/currency-calculator/',
+      title: 'Currency Calculator',
+      text: 'Use a manual exchange rate, fee percent, inverse-rate check, and provider-rate warning.',
+    },
+    {
+      href: '/tools/oven-temperature-converter/',
+      title: 'Oven Temperature Converter',
+      text: 'Convert Fahrenheit, Celsius, and gas marks for recipes and appliance settings.',
+    },
+    {
+      href: '/tools/cooking-measurement-converter/',
+      title: 'Cooking Measurement Converter',
+      text: 'Convert cups, tablespoons, grams, ounces, and common kitchen units.',
+    },
+  ],
+};
+const focusLinks = categoryFocusLinks[category.slug] ?? [];
 const representativeEntries = category.entries.slice(0, 60);
 const imageStructuredData = {
   '@context': 'https://schema.org',
@@ -143,4 +168,24 @@ const imageStructuredData = {
       {categoryGalleryNotes.map((note) => <p>{note}</p>)}
     </div>
   </section>
+
+  {focusLinks.length > 0 && (
+    <section class="section-band section-band-soft gallery-preview-band" aria-labelledby="gallery-focus-heading">
+      <div class="section-heading">
+        <h2 id="gallery-focus-heading">Start with the matching converter</h2>
+        <p>
+          The gallery is useful when each image points back to a real task. These converter pages
+          are the best places to start before browsing the artwork.
+        </p>
+      </div>
+      <div class="category-link-list">
+        {focusLinks.map((link) => (
+          <a href={link.href}>
+            <strong>{link.title}</strong>
+            <span>{link.text}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 </BaseLayout>

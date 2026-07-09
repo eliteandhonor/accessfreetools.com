@@ -220,6 +220,68 @@ const recoveryGuideShortcuts = [
     text: 'Plan brick counts from wall size, brick size, mortar gap, waste, and layout assumptions before buying material.',
   },
 ];
+const julyIndexRecoveryLinks = [
+  {
+    href: '/tools/color-contrast-checker/',
+    title: 'Color contrast checker',
+    text: 'Check WCAG-style contrast ratios for text, backgrounds, buttons, disabled states, and focus states.',
+  },
+  {
+    href: '/tools/reading-level-checker/',
+    title: 'Reading level checker',
+    text: 'Estimate grade level, reading ease, sentence length, and long-word signals before publishing help copy.',
+  },
+  {
+    href: '/blog/how-to-use-love-calculator/',
+    title: 'Love calculator guide',
+    text: 'Use the playful name match carefully and understand why the result is only for fun.',
+  },
+  {
+    href: '/blog/how-to-use-mileage-calculator/',
+    title: 'Mileage calculator guide',
+    text: 'Compare distance, fuel used, MPG, and unit choices without mixing trip mileage and fuel cost.',
+  },
+  {
+    href: '/blog/how-to-use-concrete-calculator/',
+    title: 'Concrete calculator guide',
+    text: 'Estimate slab, footing, column, and bag needs with cubic-yard checks and ordering limits.',
+  },
+  {
+    href: '/blog/how-to-use-deck-stain-calculator/',
+    title: 'Deck stain calculator guide',
+    text: 'Plan stain quantity from deck area, coats, coverage rate, railings, and weather-related waste.',
+  },
+  {
+    href: '/blog/how-to-use-lawn-mowing-calculator/',
+    title: 'Lawn mowing calculator guide',
+    text: 'Estimate mowing time or price from lawn size, speed, obstacles, and trimming assumptions.',
+  },
+  {
+    href: '/blog/how-to-use-mean-median-mode-range-calculator/',
+    title: 'Mean median mode range guide',
+    text: 'Check average, median, most common value, range, and outlier effects with a small data set.',
+  },
+  {
+    href: '/blog/how-to-use-repayment-calculator/',
+    title: 'Repayment calculator guide',
+    text: 'Compare payment, term, balance, and interest assumptions before trusting a payoff estimate.',
+  },
+  {
+    href: '/blog/how-to-use-right-triangle-calculator/',
+    title: 'Right triangle guide',
+    text: 'Solve missing sides, angles, area, and perimeter while checking hypotenuse and unit mistakes.',
+  },
+  {
+    href: '/blog/how-to-use-rmd-calculator/',
+    title: 'RMD calculator guide',
+    text: 'Estimate required minimum distributions with age, balance, life-expectancy divisor, and IRS-limit cautions.',
+  },
+  {
+    href: '/gallery/converters/',
+    title: 'Converters image gallery',
+    text: 'Browse approved converter artwork tied back to live converter tools and guide pages.',
+  },
+];
 ---
 
 <BaseLayout
@@ -352,6 +414,25 @@ const recoveryGuideShortcuts = [
       </div>
       <div class="discovery-link-grid">
         {recoveryGuideShortcuts.map((guide) => (
+          <a href={guide.href}>
+            <strong>{guide.title}</strong>
+            <span>{guide.text}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="guide-feature-panel" aria-labelledby="july-recovery-heading">
+      <div>
+        <p class="section-kicker">Fresh recovery shortcuts</p>
+        <h2 id="july-recovery-heading">Pages worth making easier to reach</h2>
+        <p>
+          These links point to useful tools and guides that recent search evidence says deserve
+          clearer internal paths from the blog hub.
+        </p>
+      </div>
+      <div class="discovery-link-grid">
+        {julyIndexRecoveryLinks.map((guide) => (
           <a href={guide.href}>
             <strong>{guide.title}</strong>
             <span>{guide.text}</span>
