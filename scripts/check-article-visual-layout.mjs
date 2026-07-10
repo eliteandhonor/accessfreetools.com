@@ -96,7 +96,31 @@ try {
       const html = document.documentElement;
       const horizontalOverflow = html.scrollWidth > html.clientWidth + overflowTolerance;
       if (horizontalOverflow) {
-        failures.push(`document horizontally overflows: scrollWidth ${html.scrollWidth}, clientWidth ${html.clientWidth}`);
+        const offenders = [...document.querySelectorAll('body *')]
+          .map((element) => {
+            const rect = element.getBoundingClientRect();
+            return {
+              element,
+              left: rect.left,
+              right: rect.right,
+              width: rect.width,
+            };
+          })
+          .filter((item) => item.left < -overflowTolerance || item.right > html.clientWidth + overflowTolerance)
+          .sort((left, right) => right.right - left.right)
+          .slice(0, 6)
+          .map((item) => {
+            const element = item.element;
+            const label = [
+              element.tagName.toLowerCase(),
+              element.id ? `#${element.id}` : '',
+              [...element.classList].slice(0, 3).map((name) => `.${name}`).join(''),
+            ].join('');
+            return `${label} (${item.left.toFixed(1)}-${item.right.toFixed(1)}, width ${item.width.toFixed(1)})`;
+          });
+        failures.push(
+          `document horizontally overflows: scrollWidth ${html.scrollWidth}, clientWidth ${html.clientWidth}; offenders: ${offenders.join(', ') || 'none found'}`,
+        );
       }
 
       function checkTextLineBoxes(element, label) {

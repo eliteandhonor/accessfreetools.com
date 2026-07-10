@@ -7579,6 +7579,11 @@ main {
   min-width: 0;
 }
 
+.blog-article-body a,
+.article-sidecar a {
+  overflow-wrap: anywhere;
+}
+
 .editorial-article .article-flow-section {
   backdrop-filter: none;
   background: transparent;
@@ -7633,6 +7638,16 @@ main {
 .article-sidecar .button-primary {
   margin-top: 18px;
   width: 100%;
+}
+
+@media (max-width: 1080px) {
+  .blog-article-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .article-sidecar {
+    position: static;
+  }
 }
 
 .kawaii-guide-visual {
