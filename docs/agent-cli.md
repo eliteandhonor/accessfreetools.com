@@ -47,6 +47,11 @@ The CLI is for agent support only. It must not publish posts, edit live social c
   - Reads Search Console and SEO snapshots in `output/` and lists URLs that are unknown, discovered, crawled but not indexed, or otherwise not passing.
   - Also summarizes the latest imported Google Coverage CSV export when `npm run search-console:import-coverage` has been run.
 
+- `node scripts/search-console.mjs --row-limit=1000 --performance-page=https://accessfreetools.com/tools/example/`
+  - Pulls current Search Console performance evidence for one exact canonical page, including its query rows and page/query pairs.
+  - Use `--start=YYYY-MM-DD` and `--end=YYYY-MM-DD` for a fixed comparison window. The row limit defaults to 1,000 and is capped at the Search Analytics API maximum of 25,000.
+  - Set `GSC_REPORT_PATH=output/search-console/<name>.json` when the page-specific report should not replace the general performance snapshot.
+
 - `npm run aft -- indexing-protection`
   - Runs the local indexing protection audit and summarizes soft-404 risk, sitemap coverage, canonical/indexability issues, legacy redirect proof, Search Console gaps, and CrawlScout signals.
 

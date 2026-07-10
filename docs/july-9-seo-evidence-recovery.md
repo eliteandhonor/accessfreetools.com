@@ -37,3 +37,11 @@ CTR/ranking pages from the July 9 high-impression zero-click set:
 - Use `node scripts/seo-agent-workbench.mjs all <slug> <tool|blog>` for exact page-level claims.
 - Use paid DataForSEO only for selected recovery or CTR pages where intent proof is missing.
 - After meaningful source changes, deploy on Node 24, then run Search Console discovery and IndexNow.
+
+## 2026-07-10 BMR CTR Sprint
+
+- Exact Search Console page filtering found 182 impressions and 0 clicks for `/blog/how-to-use-bmr-calculator/` from 2026-05-01 through 2026-07-08, at average position 6.8.
+- Four visible Mifflin-St Jeor formula-and-source queries accounted for 45 impressions at positions 2.0 to 8.0. Search Console withholds the remaining query text for privacy.
+- The guide already had correct formulas, examples, and a PubMed source, but its generic title did not describe that intent and its generated meta description ended in a cut-off `BM...` fragment.
+- The July 10 change gives the guide a concise Mifflin-St Jeor title and page-specific description, then moves the women/men formulas, units, original paper details, and PubMed link into an early visible section.
+- Baseline evidence: `output/search-console/page-performance-bmr-guide-2026-07-10.json`. Compare the same fixed page and date-length window after Google recrawls; do not claim a CTR gain before new Search Console data exists.

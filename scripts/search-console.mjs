@@ -3,6 +3,11 @@ import { createServer } from 'node:http';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
+import {
+  normalizePerformancePage,
+  parsePerformanceRowLimit,
+  performancePageFilterGroups,
+} from './lib/search-console-performance-query.mjs';
 
 const DEFAULT_SECRET_PATH = resolve('.local/google-search-console-client-secret.json');
 const TOKEN_PATH = resolve(process.env.GSC_TOKEN_PATH ?? '.local/search-console-token.json');
@@ -71,6 +76,10 @@ function parseArgs() {
       parsed.startDate = arg.slice('--start='.length);
     } else if (arg.startsWith('--end=')) {
       parsed.endDate = arg.slice('--end='.length);
+    } else if (arg.startsWith('--row-limit=')) {
+      parsed.rowLimit = arg.slice('--row-limit='.length);
+    } else if (arg.startsWith('--performance-page=')) {
+      parsed.performancePage = arg.slice('--performance-page='.length);
     } else if (arg.startsWith('--url=')) {
       parsed.urls.push(arg.slice('--url='.length));
     } else if (arg === '--reauth') {
@@ -91,6 +100,12 @@ function parseArgs() {
       parsed.listSites = true;
     }
   }
+
+  parsed.rowLimit = parsePerformanceRowLimit(parsed.rowLimit ?? process.env.GSC_ROW_LIMIT);
+  parsed.performancePage = normalizePerformancePage(
+    parsed.performancePage ?? process.env.GSC_PERFORMANCE_PAGE,
+    TARGET_DOMAIN,
+  );
 
   return parsed;
 }
@@ -748,10 +763,12 @@ async function main() {
 
   const startDate = args.startDate ?? isoDateDaysAgo(28);
   const endDate = args.endDate ?? isoDateDaysAgo(2);
+  const dimensionFilterGroups = performancePageFilterGroups(args.performancePage);
   const commonBody = {
     startDate,
     endDate,
-    rowLimit: 25,
+    rowLimit: args.rowLimit,
+    ...(dimensionFilterGroups ? { dimensionFilterGroups } : {}),
   };
   const total = await queryPerformance(site.siteUrl, token, commonBody);
   const byQuery = await queryPerformance(site.siteUrl, token, { ...commonBody, dimensions: ['query'] });
@@ -759,7 +776,6 @@ async function main() {
   const byPageQuery = await queryPerformance(site.siteUrl, token, {
     ...commonBody,
     dimensions: ['page', 'query'],
-    rowLimit: 50,
   });
   const byDate = await queryPerformance(site.siteUrl, token, { ...commonBody, dimensions: ['date'] });
   const totalRows = total.rows ?? [];
@@ -773,6 +789,10 @@ async function main() {
     generatedAt: new Date().toISOString(),
     site,
     range: { startDate, endDate },
+    query: {
+      rowLimit: args.rowLimit,
+      performancePage: args.performancePage || null,
+    },
     totals,
     byQuery: byQuery.rows ?? [],
     byPage: byPage.rows ?? [],
@@ -784,6 +804,8 @@ async function main() {
 
   console.log(`\nConnected Search Console property: ${site.siteUrl} (${site.permissionLevel})`);
   console.log(`Date range: ${startDate} to ${endDate}`);
+  console.log(`Row limit: ${args.rowLimit}`);
+  if (args.performancePage) console.log(`Page filter: ${args.performancePage}`);
   console.log(
     `Totals: clicks ${totals.clicks ?? 0} | impressions ${totals.impressions ?? 0} | CTR ${(((totals.ctr ?? 0) * 100) || 0).toFixed(2)}% | avg position ${((totals.position ?? 0) || 0).toFixed(1)}`,
   );

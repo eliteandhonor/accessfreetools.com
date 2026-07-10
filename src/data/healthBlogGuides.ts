@@ -266,6 +266,10 @@ function getSourceLinks(toolSlug: string) {
 }
 
 interface GuideDetail {
+  title?: string;
+  description?: string;
+  intro?: string;
+  featuredSection?: GuideSection;
   summary: string;
   purpose: string;
   enter: string[];
@@ -448,6 +452,24 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'bmr-calculator': {
+    title: 'BMR Calculator: Mifflin-St Jeor Guide',
+    description:
+      'Use the Mifflin-St Jeor BMR formula for women or men, check the original PubMed source, and follow worked kcal/day examples with clear limits.',
+    intro:
+      "Use the Mifflin-St Jeor equation to estimate BMR from age, formula sex, height, and weight. You can check the women's and men's formulas, the original PubMed source, and worked kcal/day examples on the same page.",
+    featuredSection: {
+      title: 'Mifflin-St Jeor formula for women and men',
+      paragraphs: [
+        'For women, BMR = 10 x weight (kg) + 6.25 x height (cm) - 5 x age (years) - 161. For men, the final adjustment is +5 instead of -161. The result estimates resting energy expenditure in kcal/day.',
+        'Mifflin and colleagues published the equation in The American Journal of Clinical Nutrition in 1990. The PubMed record includes the original formulas, study details, PMID 2305711, and DOI 10.1093/ajcn/51.2.241.',
+      ],
+      links: [
+        {
+          href: 'https://pubmed.ncbi.nlm.nih.gov/2305711/',
+          label: 'Read the original Mifflin-St Jeor study on PubMed',
+        },
+      ],
+    },
     summary: 'Learn what basal metabolic rate means and why it is the base for calorie planning.',
     purpose:
       'The BMR Calculator estimates the calories your body may use at rest with the Mifflin-St Jeor equation. It does not include exercise, work, steps, or daily movement until an activity factor is added.',
@@ -1240,7 +1262,7 @@ export const healthBlogPosts: BlogPostDefinition[] = healthTools.map((tool) => {
 
   return {
     slug: `how-to-use-${tool.slug}`,
-    title: `How to use the ${tool.name}`,
+    title: detail.title ?? `How to use the ${tool.name}`,
     label: `${tool.name.replace(' Calculator', '')} guide`,
     summary: detail.summary,
   };
@@ -1255,10 +1277,12 @@ export const healthBlogGuides: HealthGuideDefinition[] = healthTools.map((tool) 
     slug: `how-to-use-${tool.slug}`,
     toolSlug: tool.slug,
     label: `${tool.name.replace(' Calculator', '')} guide`,
-    title: `How to use the ${tool.name}`,
-    description: buildHealthMetaDescription(tool, detail.summary),
+    title: detail.title ?? `How to use the ${tool.name}`,
+    description: detail.description ?? buildHealthMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
-    intro: `${detail.summary} Enter the inputs carefully, try the example, then read the limits before using or copying the number.`,
+    intro:
+      detail.intro ??
+      `${detail.summary} Enter the inputs carefully, try the example, then read the limits before using or copying the number.`,
     quickStart: [
       `Open the ${tool.name}.`,
       detail.enter[0],
@@ -1273,6 +1297,7 @@ export const healthBlogGuides: HealthGuideDefinition[] = healthTools.map((tool) 
           `Use it when you want to: ${tool.useCases.slice(0, 2).join(' ')}`,
         ],
       },
+      ...(detail.featuredSection ? [detail.featuredSection] : []),
       {
         title: 'What to enter',
         paragraphs: [

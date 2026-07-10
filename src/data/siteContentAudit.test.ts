@@ -285,6 +285,23 @@ describe('site content audit guardrails', () => {
     }
   });
 
+  it('keeps the BMR guide aligned with its proven formula-and-source search intent', () => {
+    const guide = healthBlogGuides.find((item) => item.toolSlug === 'bmr-calculator');
+    const formulaSection = guide?.sections.find((section) => /Mifflin-St Jeor formula/i.test(section.title));
+
+    expect(guide?.title).toBe('BMR Calculator: Mifflin-St Jeor Guide');
+    expect(guide?.description).toContain('original PubMed source');
+    expect(guide?.description).not.toContain('...');
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(formulaSection?.paragraphs.join(' ')).toContain('- 161');
+    expect(formulaSection?.paragraphs.join(' ')).toContain('+5');
+    expect(formulaSection?.links).toContainEqual({
+      href: 'https://pubmed.ncbi.nlm.nih.gov/2305711/',
+      label: 'Read the original Mifflin-St Jeor study on PubMed',
+    });
+  });
+
   it('keeps every canonical tool connected to a useful guide and valid related tools', () => {
     const blogSlugs = new Set(blogPosts.map((post) => post.slug));
     const toolSlugs = new Set(tools.map((tool) => tool.slug));

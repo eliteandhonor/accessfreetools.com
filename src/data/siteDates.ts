@@ -426,7 +426,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-army-body-fat-calculator': '2026-06-03',
   'how-to-use-lean-body-mass-calculator': '2026-06-04',
   'how-to-use-body-fat-calculator': '2026-06-03',
-  'how-to-use-bmr-calculator': '2026-06-03',
+  'how-to-use-bmr-calculator': '2026-07-10',
   'how-to-use-ideal-weight-calculator': '2026-06-03',
   'how-to-use-pace-calculator': '2026-06-03',
   'how-to-use-calories-burned-calculator': '2026-06-26',
