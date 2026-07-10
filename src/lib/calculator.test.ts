@@ -2579,6 +2579,7 @@ describe('utility helpers', () => {
 
   it('calculates competitor tech and AI utility helpers', () => {
     const tokenCost = calculateAiTokenCost(1200, 500, 10000, 0.5, 1.5);
+    const cacheAwareTokenCost = calculateAiTokenCost(1200, 500, 10000, 0.5, 1.5, 800, 0.05);
     const promptEstimate = estimatePromptTokens('abcd efgh', 4);
     const apiPricing = calculateApiPricing(1000, 2, 0.01, 5, 10);
     const download = calculateDownloadTime(50, 'GB', 100, 85);
@@ -2589,6 +2590,17 @@ describe('utility helpers', () => {
 
     expect(tokenCost.totalCost).toBe(13.5);
     expect(formatCalculatorNumber(tokenCost.costPerRequest)).toBe('0.00135');
+    expect(cacheAwareTokenCost.totalUncachedInputTokens).toBe(4_000_000);
+    expect(cacheAwareTokenCost.totalCachedInputTokens).toBe(8_000_000);
+    expect(cacheAwareTokenCost.uncachedInputCost).toBe(2);
+    expect(cacheAwareTokenCost.cachedInputCost).toBeCloseTo(0.4, 10);
+    expect(cacheAwareTokenCost.outputCost).toBe(7.5);
+    expect(cacheAwareTokenCost.totalCost).toBeCloseTo(9.9, 10);
+    expect(cacheAwareTokenCost.cacheSavings).toBeCloseTo(3.6, 10);
+    expect(cacheAwareTokenCost.requestsForOneHundredDollars).toBe(101010);
+    expect(() => calculateAiTokenCost(100, 50, 1, 1, 2, 101, 0.1)).toThrow(
+      'Cached input tokens per request cannot exceed total input tokens per request',
+    );
     expect(promptEstimate.estimatedTokens).toBe(3);
     expect(promptEstimate.words).toBe(2);
     expect(apiPricing.billableUnits).toBe(2200);

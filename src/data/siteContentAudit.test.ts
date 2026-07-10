@@ -77,6 +77,10 @@ const AI_BROWSER_TOOL_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/AiBrowserTool.tsx', import.meta.url)),
   'utf8',
 );
+const UTILITY_CALCULATOR_SOURCE = readFileSync(
+  fileURLToPath(new URL('../components/UtilityCalculator.tsx', import.meta.url)),
+  'utf8',
+);
 const PUBLIC_AI_MODELS_DIR = fileURLToPath(new URL('../../public/ai-models/', import.meta.url));
 const SITEMAP_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/sitemap.xml.ts', import.meta.url)),
@@ -389,6 +393,44 @@ describe('site content audit guardrails', () => {
     expect(TOOLS_ROUTE_SOURCE).toContain('Browser-side readability formulas');
     expect(TOOLS_ROUTE_SOURCE).toContain('Longest sentence first');
     expect(TOOLS_ROUTE_SOURCE).toContain("isReadingLevelTool ? 'formula' : 'model'");
+    expect(`${tool?.seoTitle}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription?.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+  });
+
+  it('keeps the AI Token Cost Calculator cache-aware without hardcoded model prices', () => {
+    const tool = tools.find((item) => item.slug === 'ai-token-cost-calculator');
+    const guide = utilityBlogGuides.find((item) => item.toolSlug === 'ai-token-cost-calculator');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+    const guideText = guide?.sections
+      .flatMap((section) => [section.title, ...section.paragraphs, ...(section.bullets ?? [])])
+      .join(' ') ?? '';
+    const guideLinks = guide?.sections.flatMap((section) => section.links ?? []).map((link) => link.href) ?? [];
+
+    expect(tool?.seoTitle).toBe('AI Token Cost Calculator | Cache-Aware Estimate');
+    expect(tool?.seoDescription).toContain('cached input');
+    expect(faqText).toContain('Uncached input tokens per request = total input tokens - cached input tokens');
+    expect(tool?.examples).toContainEqual({
+      label: 'Cached support bot month',
+      expression:
+        '10,000 requests, 1,200 total input with 800 cached, 500 output, $2 standard input, $0.20 cached input, and $8 output per 1M',
+      result: '$8 uncached input + $1.60 cached input + $40 output = $49.60 total, or $0.00496 per request.',
+    });
+    expect(faqText).toContain('Do not add cached input on top of total input');
+    expect(faqText).toContain("provider's current batch input");
+    expect(faqText).toContain('Requests for $100 is a runway estimate');
+    expect(faqText).not.toContain('best-effort clue or draft');
+    expect(guide?.title).toBe('AI Token Cost Calculator: Cache-Aware Guide');
+    expect(guideText).toContain('Cached input is a subset of total input');
+    expect(guideText).toContain('Use batch rates, not a guessed batch switch');
+    expect(guideText).toContain('$49.60');
+    expect(guideLinks).toContain('https://developers.openai.com/api/docs/models');
+    expect(guideLinks).toContain('https://platform.claude.com/docs/en/about-claude/pricing');
+    expect(guideLinks).toContain('https://ai.google.dev/gemini-api/docs/pricing');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("label: 'Cache-aware cost'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("label: 'Cache savings vs standard'");
+    expect(TOOLS_ROUTE_SOURCE).toContain('batch rates instead');
     expect(`${tool?.seoTitle}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
     expect(tool?.seoDescription?.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
     expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);

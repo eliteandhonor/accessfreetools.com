@@ -1154,10 +1154,10 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Test real wrapping and spacing in your page before publishing.',
   ],
   'ai-token-cost-calculator': [
-    'Enter input tokens, output tokens, request count, and the current prices from your provider rate card.',
-    'Keep input-token and output-token prices separate because many models charge different rates for each side.',
-    'Press Calculate token cost to see input cost, output cost, total cost, and cost per request.',
-    'Adjust the prices yourself for cached tokens, batch discounts, plan credits, or provider price changes.',
+    'Enter total input tokens, then enter the cached part of that total when your usage log reports cache reads.',
+    'Add output tokens, request count, and the current standard-input, cached-input, and output rates from the same provider price card.',
+    'Press Calculate token cost to compare uncached input, cached input, output, total, and per-request cost.',
+    'For batch work, enter the provider\'s batch rates instead of assuming one universal discount. Check cache writes, storage, tool calls, credits, and taxes separately.',
   ],
   'prompt-token-estimator': [
     'Paste the prompt text you want to estimate.',

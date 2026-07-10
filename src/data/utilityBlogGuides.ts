@@ -900,6 +900,22 @@ const sourceLinks = {
     href: 'https://platform.openai.com/tokenizer',
     label: 'OpenAI Platform: Tokenizer',
   },
+  openAiModels: {
+    href: 'https://developers.openai.com/api/docs/models',
+    label: 'OpenAI API: Model catalog and token prices',
+  },
+  anthropicPricing: {
+    href: 'https://platform.claude.com/docs/en/about-claude/pricing',
+    label: 'Claude Platform Docs: Model and cache pricing',
+  },
+  geminiPricing: {
+    href: 'https://ai.google.dev/gemini-api/docs/pricing',
+    label: 'Google AI for Developers: Gemini API pricing',
+  },
+  geminiCaching: {
+    href: 'https://ai.google.dev/gemini-api/docs/caching',
+    label: 'Google AI for Developers: Context caching',
+  },
   rfc9562: {
     href: 'https://www.rfc-editor.org/rfc/rfc9562',
     label: 'RFC 9562: Universally Unique IDentifiers',
@@ -7481,42 +7497,45 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.mdnCssClamp, sourceLinks.wcagContrast],
   },
   'ai-token-cost-calculator': {
-    title: 'AI Token Cost Calculator Guide',
-    summary: 'Learn how input tokens, output tokens, request count, and current model prices turn into an AI usage estimate.',
+    title: 'AI Token Cost Calculator: Cache-Aware Guide',
+    summary: 'Learn how standard input, cached input, output, request count, and current rates become an AI usage estimate.',
     metaDescription:
-      'Use the AI Token Cost Calculator guide to estimate LLM API spend from requests, input tokens, output tokens, and prices per 1M tokens.',
+      'Estimate LLM API cost with total input, cached input, output tokens, request volume, and current rates. Includes formulas, cache rules, and examples.',
     purpose:
-      'The AI Token Cost Calculator helps you do model-budget math without pretending any one price is permanent. You enter your own current input and output prices, then the calculator shows input cost, output cost, total cost, and cost per request.',
+      'The AI Token Cost Calculator helps you do model-budget math without pretending one price card is permanent. You enter current standard-input, cached-input, and output rates, then see each cost separately plus total and per-request cost.',
     intro:
-      'AI usage can feel cheap one request at a time, then get surprising when a feature runs thousands of times. This guide shows how to turn request count, token counts, and prices per 1M tokens into a cost estimate you can sanity-check before a prototype or budget conversation.',
+      'AI usage can look cheap one request at a time, then become noticeable when a feature runs thousands of times. Cached prompt prefixes can lower part of the input bill, but only when the provider reports a cache hit and applies a separate rate. This guide shows how to model both paths without double-counting tokens.',
     inputMatch:
-      'the request count, average input tokens, average output tokens, and current input/output prices for the same model and billing plan',
+      'request count, total input tokens, the cached part of that input, output tokens, and current standard-input, cached-input, and output rates for the same model and service tier',
     logicNote:
-      'For 10,000 requests with 1,200 input tokens and 500 output tokens per request, $2 input per 1M tokens and $8 output per 1M tokens gives $24 input cost plus $40 output cost. The total is $64, or $0.0064 per request.',
+      'For 10,000 requests with 1,200 total input tokens, 800 cached input tokens, and 500 output tokens each, rates of $2 standard input, $0.20 cached input, and $8 output per 1M give $8 uncached input cost, $1.60 cached input cost, and $40 output cost. Total cost is $49.60, or $0.00496 per request.',
     readIntro:
-      'Read the total as a planning estimate. The input/output split tells you whether long prompts, retrieved context, or long answers are driving the cost.',
+      'Read the total as a planning estimate. The three-way split shows whether fresh prompt content, cached context, or generated answers are driving cost. The cache-rate difference shows how the entered cache-read rate compares with pricing those same tokens at the standard input rate.',
     mistakeIntro:
-      'Most bad AI cost estimates come from stale price cards, mixing price units, forgetting hidden prompt/context tokens, or treating cached-token and batch pricing as if it were included automatically.',
+      'Most bad AI cost estimates come from stale price cards, mixing per-thousand and per-million units, adding cached input on top of total input, forgetting hidden context, or treating cache writes and batch pricing as automatic savings.',
     bestUsesIntro:
-      'Best when you already have a rough request count, token estimate, and current provider price card for the model you plan to test.',
+      'Best when you have a rough request count, token estimate, current provider price card, and a cache-read count from logs or a realistic test assumption.',
     referenceIntro:
-      'These references help check token counting, tokenizer behavior, and the people-first writing standard behind this guide.',
+      'These official references help you check current model prices, token counting, and provider-specific cache rules before budgeting.',
     enter: [
       'Enter the request count for the period you care about, such as one day, one month, or one prototype test.',
-      'Enter average input tokens per request, including system instructions, user text, retrieved context, chat history, and tool messages.',
+      'Enter total input tokens per request, including system instructions, user text, retrieved context, chat history, tool messages, and cached input.',
+      'Enter the cached part of total input. Use 0 when you have no cache-read count.',
       'Enter average output tokens per request, which is the model response length you expect.',
-      'Enter current input and output prices per 1 million tokens from the provider rate card for the same model.',
+      'Enter current standard-input, cached-input, and output prices per 1 million tokens from the same model and service-tier rate card.',
     ],
     read: [
       'Total cost is the estimated bill for the requests you entered.',
-      'Input token cost and output token cost are split so you can see which side drives the budget.',
+      'Uncached input, cached input, and output costs are split so you can see which side drives the budget.',
       'Cost per request is useful when comparing models or deciding whether a feature can scale.',
-      'If cost per request looks tiny, multiply it by real traffic before deciding it is safe.',
+      'Cost per 1,000 requests and requests for $100 make a tiny per-request number easier to judge.',
     ],
     mistakes: [
       'Do not use old model prices from memory.',
       'Do not forget that long system prompts, retrieved context, and tool messages can be input tokens too.',
-      'Do not assume cached tokens, batch discounts, free credits, taxes, or minimum charges are included.',
+      'Do not add cached input on top of total input. Cached input is a subset of total input in this calculator.',
+      'Do not use a cache-read price for cache writes or storage unless the provider rate card says they match.',
+      'Do not assume batch rates, free credits, taxes, tool calls, or minimum charges are included.',
       'Do not compare two models unless the request count and token assumptions are the same.',
       'Do not treat a rough text token estimate as an exact bill. Check real usage logs once the feature runs.',
     ],
@@ -7524,20 +7543,27 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       {
         title: 'Quick formula',
         paragraphs: [
-          'The calculator keeps input and output separate because many AI providers charge different rates for each side.',
-          'Input cost = input tokens per request * request count / 1,000,000 * input price per 1M tokens. Output cost uses the same pattern with output tokens and output price. Total cost is both sides added together.',
+          'First subtract cached input from total input to find uncached input. The calculator refuses a cached count larger than total input because that would double-count the request.',
+          'Uncached input cost = uncached input tokens * requests / 1,000,000 * standard input rate. Cached input cost and output cost use the same pattern with their matching token counts and rates. Add all three costs for the total.',
         ],
       },
       {
-        title: 'Example: support bot month',
+        title: 'Example: cached support bot month',
         paragraphs: [
-          'Say you expect 10,000 support-bot requests in a month. Each request sends about 1,200 input tokens and gets about 500 output tokens back. You enter $2 per 1M input tokens and $8 per 1M output tokens as example prices.',
-          'The input side is 12,000,000 tokens, so input cost is $24. The output side is 5,000,000 tokens, so output cost is $40. Total cost is $64, and cost per request is $0.0064.',
+          'Say you expect 10,000 support-bot requests in a month. Each request has 1,200 total input tokens, of which 800 are cache reads, plus 500 output tokens. Use example rates of $2 standard input, $0.20 cached input, and $8 output per 1M.',
+          'The uncached side is 4,000,000 tokens and costs $8. Cached input is 8,000,000 tokens and costs $1.60. Output is 5,000,000 tokens and costs $40. Total cost is $49.60, or $0.00496 per request.',
         ],
         bullets: [
-          'If output answers get longer, the output cost rises first.',
-          'If retrieved context or chat history grows, the input cost rises first.',
+          'At the standard input rate, those cached tokens would cost $16, so the entered cache-read rate changes the estimate by $14.40.',
+          'If the provider reports no cache hit, set cached input to 0 and price all 1,200 input tokens at the standard rate.',
           'If traffic doubles and everything else stays the same, the estimated bill doubles.',
+        ],
+      },
+      {
+        title: 'Use batch rates, not a guessed batch switch',
+        paragraphs: [
+          'Provider batch programs can use different input, cached-input, and output prices. Some also limit supported models or process jobs asynchronously.',
+          'For a batch estimate, copy the current batch rates into the same price fields. This keeps the arithmetic visible and avoids baking a temporary discount into the calculator.',
         ],
       },
       {
@@ -7551,7 +7577,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
         title: 'Where estimates drift',
         paragraphs: [
           'Real bills can move away from the estimate when the model provider changes prices, your app adds hidden system text, users paste longer content, or the feature retries failed requests.',
-          'Cached-token pricing, batch jobs, free credits, plan minimums, taxes, image/audio/video tools, retrieval systems, hosting, and monitoring are separate from this token-only calculation unless you adjust the inputs yourself.',
+          'Cache writes, cache storage, long-context tiers, batch jobs, free credits, plan minimums, taxes, image/audio/video tools, retrieval systems, hosting, and monitoring are separate unless you model them with the correct rates or another cost line.',
         ],
       },
       {
@@ -7568,8 +7594,14 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       },
     ],
     sidecarText:
-      'Open the AI Token Cost Calculator beside this guide. Try the support-bot month example first, then replace the request count, token counts, and prices with your own model assumptions.',
-    sources: [sourceLinks.openAiTokens, sourceLinks.openAiTokenizer, sourceLinks.googleHelpfulContent],
+      'Open the AI Token Cost Calculator beside this guide. Try the cached support-bot example, then replace every token count and rate with one model, service tier, and billing period from your own provider data.',
+    sources: [
+      sourceLinks.openAiModels,
+      sourceLinks.openAiTokens,
+      sourceLinks.anthropicPricing,
+      sourceLinks.geminiPricing,
+      sourceLinks.geminiCaching,
+    ],
   },
   'prompt-token-estimator': {
     title: 'Prompt Token Estimator Guide',

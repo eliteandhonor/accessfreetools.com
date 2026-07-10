@@ -55,6 +55,28 @@ describe('api tool registry', () => {
     });
     expect(tokenCost.answer).toContain('$64.00');
     expect(JSON.stringify(tokenCost.result)).toContain('costPerRequest');
+    const cacheAwareTokenCost = runApiTool('ai-token-cost-calculator', {
+      cachedInputPricePerMillion: 0.2,
+      cachedInputTokensPerRequest: 800,
+      inputPricePerMillion: 2,
+      inputTokensPerRequest: 1200,
+      outputPricePerMillion: 8,
+      outputTokensPerRequest: 500,
+      requests: 10000,
+    });
+    expect(cacheAwareTokenCost.answer).toContain('$49.60');
+    expect(cacheAwareTokenCost.assumptions.join(' ')).toContain('part of total input');
+    expect(JSON.stringify(cacheAwareTokenCost.result)).toContain('cachedInputCost');
+    expect(() =>
+      runApiTool('ai-token-cost-calculator', {
+        cachedInputTokensPerRequest: 1201,
+        inputPricePerMillion: 2,
+        inputTokensPerRequest: 1200,
+        outputPricePerMillion: 8,
+        outputTokensPerRequest: 500,
+        requests: 10000,
+      }),
+    ).toThrow('Tool input did not match the expected schema.');
     const apiPricing = runApiTool('api-pricing-calculator', {
       platformFee: 0,
       pricePerUnit: 0.04,

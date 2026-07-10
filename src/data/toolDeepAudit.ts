@@ -901,6 +901,21 @@ const openAiTokenizer = {
   label: 'OpenAI Platform: Tokenizer',
 };
 
+const openAiModels = {
+  href: 'https://developers.openai.com/api/docs/models',
+  label: 'OpenAI API: Model catalog and token prices',
+};
+
+const anthropicPricing = {
+  href: 'https://platform.claude.com/docs/en/about-claude/pricing',
+  label: 'Claude Platform Docs: Model and cache pricing',
+};
+
+const geminiPricing = {
+  href: 'https://ai.google.dev/gemini-api/docs/pricing',
+  label: 'Google AI for Developers: Gemini API pricing',
+};
+
 const cfpbMortgage = {
   href: 'https://www.consumerfinance.gov/language/cfpb-in-english/mortgages-key-terms/',
   label: 'Consumer Financial Protection Bureau: Mortgage key terms',
@@ -8018,20 +8033,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'ai-token-cost-calculator',
     status: 'deep-reviewed',
-    batch: 'seo-tool-review-ai-token-cost-2026-06-05',
-    reviewedOn: '2026-06-05',
+    batch: 'seo-recovery-ai-token-cost-2026-07-10',
+    reviewedOn: '2026-07-10',
     scope: commonMathScope,
-    sources: [calculatorInnSitemap, openAiTokens, openAiTokenizer, googleHelpfulContent],
+    sources: [calculatorInnSitemap, openAiModels, openAiTokens, openAiTokenizer, anthropicPricing, geminiPricing],
     findings: [
-      'CalculatorInn originally surfaced AI token cost as a Tech & AI gap, and the Access Free Tools version avoids stale hardcoded model prices by asking users to enter current input/output rates.',
-      'Formula review checked input cost, output cost, total cost, and cost per request using request count, input tokens per request, output tokens per request, and separate prices per 1 million tokens.',
-      'FAQ and guide explain what tokens mean, why prices must come from the provider rate card, why input and output rates are separate, and which billing rules are not included.',
+      'Exact Search Console filtering found 37 impressions, 0 clicks, and average position 7.2 for the tool from 2026-05-01 through 2026-07-08; the matching guide had 17 impressions, 0 clicks, and average position 10.8.',
+      'Current URL Inspection reports Crawled - currently not indexed with successful fetch for both URLs, while June proof recorded them as indexed, so this pair is classified as recover rather than noindex or merge.',
+      'Current official provider documentation separates standard input, cached input, and output pricing, while competitor calculators increasingly expose cache assumptions. The previous tool only told readers to adjust rates manually.',
     ],
     improvements: [
-      'Expanded the tool page and matching guide with SEO title/meta, request-count input explanation, exact input/output/total/per-request formula wording, three numeric cost examples, cached-token and plan-rule limits, model comparison guidance, related AI planning links, and 2026-06-05 modified dates.',
+      'Added backward-compatible cache-aware calculator and API inputs, separate uncached/cached/output cost results, cache-rate difference, per-1,000-request cost, $100 request runway, stricter token validation, current provider sources, sharper metadata, and 2026-07-10 modified dates.',
     ],
     followUps: [
-      'Add provider presets only if they are dated, source-linked, and maintained so pricing does not become misleading.',
+      'Keep provider prices user-entered. Add model presets only if there is a dated, source-linked maintenance job and a visible last-checked date.',
     ],
   },
   {

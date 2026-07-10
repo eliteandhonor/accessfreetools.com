@@ -8041,16 +8041,26 @@ export interface BandwidthTimeResult {
 
 export interface AiTokenCostResult {
   inputTokensPerRequest: number;
+  cachedInputTokensPerRequest: number;
+  uncachedInputTokensPerRequest: number;
   outputTokensPerRequest: number;
   requests: number;
   inputPricePerMillion: number;
+  cachedInputPricePerMillion: number;
   outputPricePerMillion: number;
   totalInputTokens: number;
+  totalCachedInputTokens: number;
+  totalUncachedInputTokens: number;
   totalOutputTokens: number;
   inputCost: number;
+  cachedInputCost: number;
+  uncachedInputCost: number;
   outputCost: number;
+  cacheSavings: number;
   totalCost: number;
   costPerRequest: number;
+  costPerThousandRequests: number;
+  requestsForOneHundredDollars: number | null;
 }
 
 export interface PromptTokenEstimateResult {
@@ -11522,31 +11532,60 @@ export function calculateAiTokenCost(
   requests: number,
   inputPricePerMillion: number,
   outputPricePerMillion: number,
+  cachedInputTokensPerRequest = 0,
+  cachedInputPricePerMillion?: number,
 ): AiTokenCostResult {
   assertNonNegativeNumber(inputTokensPerRequest, 'Input tokens per request');
   assertNonNegativeNumber(outputTokensPerRequest, 'Output tokens per request');
   assertPositiveNumber(requests, 'Requests');
   assertNonNegativeNumber(inputPricePerMillion, 'Input price per million tokens');
   assertNonNegativeNumber(outputPricePerMillion, 'Output price per million tokens');
+  assertNonNegativeNumber(cachedInputTokensPerRequest, 'Cached input tokens per request');
+
+  const effectiveCachedInputPricePerMillion = cachedInputPricePerMillion ?? inputPricePerMillion;
+  assertNonNegativeNumber(effectiveCachedInputPricePerMillion, 'Cached input price per million tokens');
+
+  if (cachedInputTokensPerRequest > inputTokensPerRequest) {
+    throw new Error('Cached input tokens per request cannot exceed total input tokens per request');
+  }
 
   const totalInputTokens = inputTokensPerRequest * requests;
+  const uncachedInputTokensPerRequest = inputTokensPerRequest - cachedInputTokensPerRequest;
+  const totalCachedInputTokens = cachedInputTokensPerRequest * requests;
+  const totalUncachedInputTokens = uncachedInputTokensPerRequest * requests;
   const totalOutputTokens = outputTokensPerRequest * requests;
-  const inputCost = (totalInputTokens / 1_000_000) * inputPricePerMillion;
+  const uncachedInputCost = (totalUncachedInputTokens / 1_000_000) * inputPricePerMillion;
+  const cachedInputCost = (totalCachedInputTokens / 1_000_000) * effectiveCachedInputPricePerMillion;
+  const inputCost = uncachedInputCost + cachedInputCost;
   const outputCost = (totalOutputTokens / 1_000_000) * outputPricePerMillion;
   const totalCost = inputCost + outputCost;
+  const costPerRequest = totalCost / requests;
+  const cacheSavings =
+    (totalCachedInputTokens / 1_000_000) *
+    (inputPricePerMillion - effectiveCachedInputPricePerMillion);
 
   return {
     inputTokensPerRequest,
+    cachedInputTokensPerRequest,
+    uncachedInputTokensPerRequest,
     outputTokensPerRequest,
     requests,
     inputPricePerMillion,
+    cachedInputPricePerMillion: effectiveCachedInputPricePerMillion,
     outputPricePerMillion,
     totalInputTokens,
+    totalCachedInputTokens,
+    totalUncachedInputTokens,
     totalOutputTokens,
     inputCost,
+    cachedInputCost,
+    uncachedInputCost,
     outputCost,
+    cacheSavings,
     totalCost,
-    costPerRequest: totalCost / requests,
+    costPerRequest,
+    costPerThousandRequests: costPerRequest * 1_000,
+    requestsForOneHundredDollars: costPerRequest > 0 ? Math.floor(100 / costPerRequest) : null,
   };
 }
 

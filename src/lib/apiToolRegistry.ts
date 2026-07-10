@@ -191,13 +191,20 @@ const absoluteValueInput = z.object({
   value: z.number(),
 });
 
-const aiTokenCostInput = z.object({
-  inputPricePerMillion: z.number().nonnegative(),
-  inputTokensPerRequest: z.number().nonnegative(),
-  outputPricePerMillion: z.number().nonnegative(),
-  outputTokensPerRequest: z.number().nonnegative(),
-  requests: z.number().positive(),
-});
+const aiTokenCostInput = z
+  .object({
+    cachedInputPricePerMillion: z.number().nonnegative().optional(),
+    cachedInputTokensPerRequest: z.number().nonnegative().default(0),
+    inputPricePerMillion: z.number().nonnegative(),
+    inputTokensPerRequest: z.number().nonnegative(),
+    outputPricePerMillion: z.number().nonnegative(),
+    outputTokensPerRequest: z.number().nonnegative(),
+    requests: z.number().positive(),
+  })
+  .refine((input) => input.cachedInputTokensPerRequest <= input.inputTokensPerRequest, {
+    message: 'Cached input tokens per request cannot exceed total input tokens per request.',
+    path: ['cachedInputTokensPerRequest'],
+  });
 
 const apiPricingInput = z.object({
   platformFee: z.number().nonnegative().default(0),
@@ -529,11 +536,14 @@ export const apiTools = [
   },
   {
     category: 'ai-tools',
-    description: 'Estimate LLM API spend from requests, input tokens, output tokens, and model prices per 1M tokens.',
+    description:
+      'Estimate LLM API spend from requests, total input tokens, cached input tokens, output tokens, and current prices per 1M tokens.',
     examples: [
       {
-        label: 'Support bot month',
+        label: 'Cached support bot month',
         inputs: {
+          cachedInputPricePerMillion: 0.2,
+          cachedInputTokensPerRequest: 800,
           inputPricePerMillion: 2,
           inputTokensPerRequest: 1200,
           outputPricePerMillion: 8,
@@ -553,11 +563,11 @@ export const apiTools = [
       },
     ],
     inputSchema: aiTokenCostInput,
-    keywords: ['ai token cost', 'llm cost', 'model pricing', 'api pricing', 'tokens'],
+    keywords: ['ai token cost', 'llm cost', 'cached token cost', 'model pricing', 'api pricing', 'tokens'],
     name: 'AI Token Cost Calculator',
     risk: 'low',
     slug: 'ai-token-cost-calculator',
-    summary: 'Estimate AI model input cost, output cost, total cost, and cost per request.',
+    summary: 'Estimate uncached input, cached input, output, total, and per-request AI model cost.',
     run(input) {
       const result = calculateAiTokenCost(
         input.inputTokensPerRequest,
@@ -565,24 +575,34 @@ export const apiTools = [
         input.requests,
         input.inputPricePerMillion,
         input.outputPricePerMillion,
+        input.cachedInputTokensPerRequest,
+        input.cachedInputPricePerMillion,
       );
 
       return withUrls('ai-token-cost-calculator', {
         answer: `Estimated AI token cost is ${preciseMoney(result.totalCost)} total, or ${preciseMoney(result.costPerRequest)} per request.`,
         assumptions: [
           'Prices are entered in USD per 1 million tokens.',
-          'Cached-token discounts, batch pricing, credits, taxes, and retries are not included unless you adjust the entered prices or request count.',
+          'Cached input is treated as part of total input, not extra input on top.',
+          'Batch pricing, cache-write or storage charges, tool calls, credits, taxes, and retries are not included unless you adjust the entered rates or request count.',
         ],
         result,
         steps: [
           `Input tokens: ${formatNumber(input.inputTokensPerRequest)} x ${formatNumber(input.requests)} = ${formatNumber(result.totalInputTokens)}`,
-          `Input cost: ${formatNumber(result.totalInputTokens)} / 1,000,000 x ${preciseMoney(input.inputPricePerMillion)} = ${preciseMoney(result.inputCost)}`,
+          ...(result.cachedInputTokensPerRequest > 0
+            ? [
+                `Uncached input cost: ${formatNumber(result.totalUncachedInputTokens)} / 1,000,000 x ${preciseMoney(input.inputPricePerMillion)} = ${preciseMoney(result.uncachedInputCost)}`,
+                `Cached input cost: ${formatNumber(result.totalCachedInputTokens)} / 1,000,000 x ${preciseMoney(result.cachedInputPricePerMillion)} = ${preciseMoney(result.cachedInputCost)}`,
+              ]
+            : [
+                `Input cost: ${formatNumber(result.totalInputTokens)} / 1,000,000 x ${preciseMoney(input.inputPricePerMillion)} = ${preciseMoney(result.inputCost)}`,
+              ]),
           `Output tokens: ${formatNumber(input.outputTokensPerRequest)} x ${formatNumber(input.requests)} = ${formatNumber(result.totalOutputTokens)}`,
           `Output cost: ${formatNumber(result.totalOutputTokens)} / 1,000,000 x ${preciseMoney(input.outputPricePerMillion)} = ${preciseMoney(result.outputCost)}`,
           `Total cost: ${preciseMoney(result.inputCost)} + ${preciseMoney(result.outputCost)} = ${preciseMoney(result.totalCost)}`,
         ],
         warnings: [
-          'This is a planning estimate. Check your provider rate card, cached-token rules, discounts, taxes, and real usage logs before budgeting.',
+          'This is a planning estimate. Check the current provider rate card and usage fields before treating cached tokens or batch rates as billable truth.',
         ],
       });
     },

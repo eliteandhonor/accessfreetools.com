@@ -791,10 +791,16 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     phase: 'Choose single/DC or three-phase so the voltage-drop factor matches the circuit type.',
   },
   'ai-token-cost-calculator': {
-    inputTokensPerRequest: 'Prompt, system, tool, and context tokens you expect to send per request.',
+    inputTokensPerRequest:
+      'Total prompt, system, tool, and context tokens sent per request, including any cached part reported inside that total.',
+    cachedInputTokensPerRequest:
+      'The part of total input served from a provider cache. Use 0 when you have no cache-read estimate.',
     outputTokensPerRequest: 'Generated response tokens you expect back per request.',
     requests: 'How many requests, chats, jobs, or users you want to estimate.',
-    inputPricePerMillion: 'Current input price from your model provider, entered as dollars per 1 million tokens.',
+    inputPricePerMillion:
+      'Current standard or uncached input price from your provider, entered as dollars per 1 million tokens.',
+    cachedInputPricePerMillion:
+      'Current cache-read price per 1 million tokens. This does not include cache-write or storage charges.',
     outputPricePerMillion: 'Current output price from your model provider, entered as dollars per 1 million tokens.',
   },
   'prompt-token-estimator': {
@@ -4075,30 +4081,68 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'AI Token Cost Calculator',
     buttonLabel: 'Calculate token cost',
     emptyHistory: 'Recent token cost estimates will appear here.',
-    privacyNote: 'Token cost math stays local. Enter current prices from your provider because model pricing can change.',
+    privacyNote:
+      'Token cost math stays local. Enter current standard, cached-input, and output rates because provider pricing can change.',
     modes: [
       {
         id: 'token-cost',
-        label: 'Token cost',
+        label: 'Cache-aware cost',
         symbol: 'AI $',
         fields: [
-          integerField('inputTokensPerRequest', 'Input tokens per request'),
+          integerField('inputTokensPerRequest', 'Total input tokens per request'),
+          integerField('cachedInputTokensPerRequest', 'Cached input tokens per request'),
           integerField('outputTokensPerRequest', 'Output tokens per request'),
           integerField('requests', 'Requests'),
-          numberField('inputPricePerMillion', 'Input $ / 1M tokens'),
+          numberField('inputPricePerMillion', 'Standard input $ / 1M'),
+          numberField('cachedInputPricePerMillion', 'Cached input $ / 1M'),
           numberField('outputPricePerMillion', 'Output $ / 1M tokens'),
         ],
         defaultInputs: {
           inputTokensPerRequest: '1200',
+          cachedInputTokensPerRequest: '0',
           outputTokensPerRequest: '500',
           requests: '10000',
           inputPricePerMillion: '0.50',
+          cachedInputPricePerMillion: '0.05',
           outputPricePerMillion: '1.50',
         },
         examples: [
-          { label: 'Support bot month', inputs: { inputTokensPerRequest: '1200', outputTokensPerRequest: '500', requests: '10000', inputPricePerMillion: '0.50', outputPricePerMillion: '1.50' } },
-          { label: 'Tiny prototype', inputs: { inputTokensPerRequest: '400', outputTokensPerRequest: '150', requests: '1000', inputPricePerMillion: '0.15', outputPricePerMillion: '0.60' } },
-          { label: 'Long summaries', inputs: { inputTokensPerRequest: '6000', outputTokensPerRequest: '900', requests: '500', inputPricePerMillion: '2', outputPricePerMillion: '8' } },
+          {
+            label: 'Cached support bot',
+            inputs: {
+              inputTokensPerRequest: '1200',
+              cachedInputTokensPerRequest: '800',
+              outputTokensPerRequest: '500',
+              requests: '10000',
+              inputPricePerMillion: '2',
+              cachedInputPricePerMillion: '0.2',
+              outputPricePerMillion: '8',
+            },
+          },
+          {
+            label: 'Tiny prototype',
+            inputs: {
+              inputTokensPerRequest: '400',
+              cachedInputTokensPerRequest: '0',
+              outputTokensPerRequest: '150',
+              requests: '1000',
+              inputPricePerMillion: '0.15',
+              cachedInputPricePerMillion: '0.015',
+              outputPricePerMillion: '0.60',
+            },
+          },
+          {
+            label: 'Long summaries',
+            inputs: {
+              inputTokensPerRequest: '6000',
+              cachedInputTokensPerRequest: '0',
+              outputTokensPerRequest: '900',
+              requests: '500',
+              inputPricePerMillion: '2',
+              cachedInputPricePerMillion: '0.2',
+              outputPricePerMillion: '8',
+            },
+          },
         ],
       },
     ],
@@ -7370,22 +7414,45 @@ function calculateUtility(
         parseNumber(inputs.requests, 'Requests'),
         parseNumber(inputs.inputPricePerMillion, 'Input price per million tokens'),
         parseNumber(inputs.outputPricePerMillion, 'Output price per million tokens'),
+        parseNumber(inputs.cachedInputTokensPerRequest, 'Cached input tokens per request'),
+        parseNumber(inputs.cachedInputPricePerMillion, 'Cached input price per million tokens'),
       );
       return {
         label: 'Estimated AI token cost',
-        expression: `${formatCalculatorNumber(result.requests)} requests`,
+        expression:
+          result.cachedInputTokensPerRequest > 0
+            ? `${formatCalculatorNumber(result.requests)} requests; ${formatCalculatorNumber(result.cachedInputTokensPerRequest)} cached input tokens each`
+            : `${formatCalculatorNumber(result.requests)} requests; no cached input included`,
         answer: moneyPrecise(result.totalCost),
         metrics: [
-          { label: 'Input token cost', value: moneyPrecise(result.inputCost) },
+          { label: 'Uncached input cost', value: moneyPrecise(result.uncachedInputCost) },
+          ...(result.cachedInputTokensPerRequest > 0
+            ? [
+                { label: 'Cached input cost', value: moneyPrecise(result.cachedInputCost) },
+                { label: 'Cache savings vs standard', value: moneyPrecise(result.cacheSavings) },
+              ]
+            : []),
           { label: 'Output token cost', value: moneyPrecise(result.outputCost) },
           { label: 'Cost per request', value: moneyPrecise(result.costPerRequest) },
+          { label: 'Cost per 1,000 requests', value: moneyPrecise(result.costPerThousandRequests) },
+          ...(result.requestsForOneHundredDollars === null
+            ? []
+            : [
+                {
+                  label: 'Requests for $100',
+                  value: formatCalculatorNumber(result.requestsForOneHundredDollars),
+                },
+              ]),
         ],
         steps: [
-          'Multiply input and output tokens by request count.',
-          'Divide each token total by 1,000,000.',
-          'Multiply each side by the matching price per 1 million tokens, then add them.',
+          'Treat cached input as part of total input, then subtract it to find uncached input.',
+          'Multiply uncached input, cached input, and output tokens by request count.',
+          'Apply each matching per-million price, then add the three costs.',
         ],
-        note: 'Model pricing changes. Use the current rate card from your provider before budgeting real usage.',
+        note:
+          result.cachedInputTokensPerRequest > 0
+            ? 'Cache savings compares cached reads with the standard input rate; a negative value means the entered cache rate costs more. Cache writes, storage, batch rates, tool calls, retries, credits, and taxes still need separate checks.'
+            : 'No cached input is included in this result. Add the cached part of total input and the current cache-read rate when your provider usage log reports cache hits. Cache writes, storage, batch rates, tool calls, retries, credits, and taxes still need separate checks.',
       };
     }
     case 'prompt-token-estimator': {
