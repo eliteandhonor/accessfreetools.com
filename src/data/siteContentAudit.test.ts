@@ -85,6 +85,14 @@ const HEALTH_FITNESS_CALCULATOR_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/HealthFitnessCalculator.tsx', import.meta.url)),
   'utf8',
 );
+const BIG_NUMBER_CALCULATOR_SOURCE = readFileSync(
+  fileURLToPath(new URL('../components/BigNumberCalculator.tsx', import.meta.url)),
+  'utf8',
+);
+const BIG_NUMBER_GUIDE_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/blog/how-to-use-big-number-calculator.astro', import.meta.url)),
+  'utf8',
+);
 const PUBLIC_AI_MODELS_DIR = fileURLToPath(new URL('../../public/ai-models/', import.meta.url));
 const SITEMAP_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/sitemap.xml.ts', import.meta.url)),
@@ -349,6 +357,33 @@ describe('site content audit guardrails', () => {
     expect(tool?.seoDescription?.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
     expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
     expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+  });
+
+  it('keeps the Big Number tool transactional and the indexed guide informational', () => {
+    const tool = tools.find((item) => item.slug === 'big-number-calculator');
+    const guide = blogPosts.find((item) => item.slug === 'how-to-use-big-number-calculator');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+
+    expect(tool?.seoTitle).toBe('Big Number Calculator | Exact Large Integer Calculator');
+    expect(tool?.seoDescription).toContain('copy grouped or raw results');
+    expect(tool?.examples).toContainEqual({
+      label: 'Negative division',
+      expression: '-100,000,000,000,000,000,000 / 9',
+      result: '-11,111,111,111,111,111,111 remainder -1 because BigInt truncates toward zero',
+    });
+    expect(faqText).toContain('left = right x quotient + remainder');
+    expect(faqText).toContain('Copy raw result removes digit separators');
+    expect(guide?.title).toBe('Why BigInt Keeps Huge Integer Math Exact');
+    expect(guide?.summary).toContain('safe-integer limit');
+    expect(BIG_NUMBER_CALCULATOR_SOURCE).toContain('Copy raw result');
+    expect(BIG_NUMBER_CALCULATOR_SOURCE).toContain('Check the identity:');
+    expect(BIG_NUMBER_CALCULATOR_SOURCE).toContain('remainder keeps the dividend sign');
+    expect(BIG_NUMBER_GUIDE_SOURCE).toContain('9,007,199,254,740,991');
+    expect(BIG_NUMBER_GUIDE_SOURCE).toContain('https://tc39.es/ecma262/#sec-ecmascript-language-types-bigint-type');
+    expect(BIG_NUMBER_GUIDE_SOURCE).not.toContain('title="How to use the Big Number Calculator"');
+    expect(tool?.seoTitle.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
   });
 
   it('keeps the Date Calculator aligned with proven 90-day shift intent', () => {

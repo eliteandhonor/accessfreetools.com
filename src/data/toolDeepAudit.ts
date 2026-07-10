@@ -96,6 +96,16 @@ const mdnBigInt = {
   label: 'MDN: JavaScript BigInt',
 };
 
+const mdnMaxSafeInteger = {
+  href: 'https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER',
+  label: 'MDN: Number.MAX_SAFE_INTEGER',
+};
+
+const ecmaBigInt = {
+  href: 'https://tc39.es/ecma262/#sec-ecmascript-language-types-bigint-type',
+  label: 'ECMAScript specification: BigInt type',
+};
+
 const openStaxRadicals = {
   href: 'https://openstax.org/books/algebra-and-trigonometry/pages/1-3-radicals-and-rational-exponents',
   label: 'OpenStax Algebra and Trigonometry: Radicals and rational exponents',
@@ -6627,20 +6637,22 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'big-number-calculator',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-06-06',
-    reviewedOn: '2026-06-06',
+    batch: 'seo-recovery-big-number-2026-07-10',
+    reviewedOn: '2026-07-10',
     scope: commonMathScope,
-    sources: [mdnBigInt, mdnArithmeticOperators, openStaxScientificNotation, googleHelpfulContent],
+    sources: [mdnBigInt, mdnMaxSafeInteger, ecmaBigInt, mdnArithmeticOperators, openStaxScientificNotation],
     findings: [
-      'The big-number page now matches the live BigInt behavior: whole integers only, exact addition, subtraction, multiplication, integer quotient, and remainder output.',
-      'The examples show safe-integer overflow context, large multiplication, tiny differences between huge values, and division with a remainder.',
-      'The FAQ explains accepted separators, rejected decimals/fractions/scientific notation, result digit counts, browser responsiveness limits, and privacy behavior.',
+      'Exact Search Console filtering found 50 impressions, 2 clicks, and average position 13.8 for the tool from 2026-05-01 through 2026-07-08. The indexed guide had 211 impressions, 0 clicks, and average position 31.7, mostly around big number and big integer calculator terms.',
+      'Current URL Inspection reports Crawled - currently not indexed with a successful fetch for the tool and Submitted and indexed for the guide. This pair needs transactional versus informational differentiation rather than a merge, noindex, or sitemap change.',
+      'The calculator already used exact BigInt arithmetic, but it did not explain truncation toward zero for negative division, show the division identity, or offer an ungrouped copy path for code and data fields.',
     ],
     improvements: [
-      'Updated SEO aliases, description, examples, FAQ detail, visible input tips, source coverage, related links, and modified date after DataForSEO, competitor-gap, and SEO-agent checks.',
+      'Kept the proven exact-query tool title, added formatted and raw copy controls, input digit counts, negative-division examples, quotient/remainder identity steps, sharper metadata, and current MDN/ECMAScript source proof.',
+      'Retitled the guide around BigInt precision and the safe-integer boundary so it serves informational intent while the tool remains the clear calculator page.',
     ],
     followUps: [
       'Add a separate decimal arbitrary-precision tool only if users need non-integer large-number math with clear rounding rules.',
+      'Wait for a new Google crawl before judging tool recovery or the guide intent split.',
     ],
   },
   {

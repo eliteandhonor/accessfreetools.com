@@ -175,10 +175,10 @@ const blogPostCandidates: BlogPostDefinition[] = [
   },
   {
     slug: 'how-to-use-big-number-calculator',
-    title: 'How to use the Big Number Calculator',
-    label: 'Big number calculator guide',
+    title: 'Why BigInt Keeps Huge Integer Math Exact',
+    label: 'BigInt and huge integer guide',
     summary:
-      'Learn how to add, subtract, multiply, and divide very large whole numbers exactly with quotient and remainder output.',
+      'Learn why normal numbers round past the safe-integer limit and how BigInt keeps exact digits, quotients, and remainders.',
   },
   {
     slug: 'how-to-use-standard-deviation-calculator',

@@ -5,19 +5,20 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
 
 <CalculatorGuideArticle
   toolSlug="big-number-calculator"
-  label="Big number calculator guide"
-  title="How to use the Big Number Calculator"
-  description="Use the Big Number Calculator guide to add, subtract, multiply, and divide huge whole numbers exactly, read digit counts, and handle remainders."
+  label="BigInt and huge integer guide"
+  title="Why BigInt Keeps Huge Integer Math Exact"
+  description="Learn why normal JavaScript numbers round beyond 9,007,199,254,740,991, how BigInt keeps exact digits, and how to verify quotient and remainder."
   path="/blog/how-to-use-big-number-calculator/"
-  intro="A normal calculator can quietly round a very long whole number. The Big Number Calculator is for the times when one missing digit changes the answer: coding checks, number theory homework, base-conversion work, or any huge integer where the exact digits matter."
+  intro="Paste 9,007,199,254,740,993 into an ordinary JavaScript number calculation and one digit can change before the arithmetic starts. BigInt stores the whole integer instead. This guide explains the safe-integer boundary, exact division rules, and the checks behind the Big Number Calculator."
   quickStart={[
     'Enter the left whole number and right whole number. Commas, spaces, and underscores are okay.',
     'Choose add, subtract, multiply, or divide.',
     'Press Calculate big number.',
     'For addition, subtraction, and multiplication, read the exact result and result digit count.',
     'For division, read the whole-number quotient and the remainder.',
+    'Copy the formatted expression for notes or the raw result without commas for code and data fields.',
   ]}
-  bestUsesIntro="Use this guide when you need exact integer digits, not a rounded display number. These are the jobs where the Big Number Calculator is a better fit than a normal decimal calculator."
+  bestUsesIntro="Use this guide when you need to understand why a huge integer changed, how BigInt division behaves, or how to check an exact result before you copy it."
   sections={[
     {
       title: 'What the inputs mean',
@@ -33,10 +34,23 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
       ],
     },
     {
+      title: 'Why 9,007,199,254,740,991 matters',
+      paragraphs: [
+        'JavaScript Number can represent whole integers exactly only through 9,007,199,254,740,991, which is Number.MAX_SAFE_INTEGER. Past that boundary, two different written integers can map to the same floating-point value.',
+        'BigInt stores arbitrary-size whole integers instead of squeezing them into that Number format. It keeps every integer digit, but it does not support decimals or mix directly with ordinary Number values.',
+      ],
+      links: [
+        {
+          href: 'https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER',
+          label: 'MDN: Number.MAX_SAFE_INTEGER',
+        },
+      ],
+    },
+    {
       title: 'How the calculator keeps the digits exact',
       paragraphs: [
         'Many everyday calculators use floating-point number math. That is fine for normal decimal work, but very large integers can lose precision because the display has to round somewhere.',
-        'The Big Number Calculator uses JavaScript BigInt-style integer arithmetic. Addition, subtraction, and multiplication keep the whole-number digits exact. Division returns an integer quotient, and if the division is not even, the leftover amount appears as the remainder.',
+        'The Big Number Calculator uses JavaScript BigInt integer arithmetic. Addition, subtraction, and multiplication keep the whole-number digits exact. Division truncates the quotient toward zero and returns the leftover remainder.',
       ],
       links: [
         {
@@ -64,6 +78,19 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
       ],
     },
     {
+      title: 'Check division with one exact identity',
+      paragraphs: [
+        'For any result on this page, check left number = right number x quotient + remainder. The large example becomes 100,000,000,000,000,000,000 = 9 x 11,111,111,111,111,111,111 + 1.',
+        'Negative inputs need one extra check. BigInt truncates the quotient toward zero, and the remainder keeps the dividend sign. That makes -100,000,000,000,000,000,000 / 9 equal -11,111,111,111,111,111,111 remainder -1.',
+      ],
+      links: [
+        {
+          href: 'https://tc39.es/ecma262/#sec-ecmascript-language-types-bigint-type',
+          label: 'ECMAScript specification: BigInt division and remainder',
+        },
+      ],
+    },
+    {
       title: 'Common mistakes to avoid',
       paragraphs: [
         'Most bad big-number answers come from a messy input, not from the arithmetic itself. Check the original number before you copy the answer into code, notes, or homework.',
@@ -73,6 +100,7 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
         'Do not use scientific notation such as 1e21 when you need exact digits.',
         'Do not enter decimals or fractions; this page is for whole integers only.',
         'Check negative signs carefully, especially when subtracting one huge value from another.',
+        'For negative division, expect truncation toward zero and a remainder with the dividend sign.',
         'For extremely huge pasted inputs, expect the browser to slow down before the math becomes useful.',
       ],
     },
@@ -97,6 +125,10 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
       ],
       links: [
         {
+          href: 'https://tc39.es/ecma262/#sec-ecmascript-language-types-bigint-type',
+          label: 'ECMAScript specification: BigInt type',
+        },
+        {
           href: 'https://openstax.org/books/algebra-and-trigonometry/pages/1-2-exponents-and-scientific-notation',
           label: 'OpenStax Algebra and Trigonometry: exponents and scientific notation',
         },
@@ -120,6 +152,11 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
         'Read the quotient as the whole number of groups that fit. Read the remainder as the amount left over, so 100,000,000,000,000,000,000 divided by 9 gives a quotient of 11,111,111,111,111,111,111 and remainder 1.',
     },
     {
+      question: 'What happens when I divide a negative BigInt?',
+      answer:
+        'BigInt truncates the quotient toward zero, and the remainder keeps the sign of the left number. Check the result with left = right x quotient + remainder.',
+    },
+    {
       question: 'Can I enter decimals, fractions, or scientific notation?',
       answer:
         'No. This guide is for exact whole-number math. Use digits, optional commas, spaces, underscores, and a minus sign when needed. Decimals, fractions, and 1e notation belong in a decimal or scientific-notation tool.',
@@ -135,11 +172,16 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
         'Check the original digits, negative signs, operation, result digit count, and remainder. If another calculator already rounded the input, go back to the source number before trusting the copied answer.',
     },
     {
+      question: 'Should I copy the formatted or raw result?',
+      answer:
+        'Copy formatted when you want the readable expression with grouped digits. Copy raw result when code, a test case, or a data field needs the exact digits without commas.',
+    },
+    {
       question: 'Is my big number history private?',
       answer:
         'Recent answers stay in the current browser tab while you work. They are not sent to a server, but you should still avoid pasting private keys, account IDs, or secrets into any public web tool.',
     },
   ]}
-  sidecarText="Open the Big Number Calculator beside this guide. Try the tiny-difference example first, then replace it with your own exact integers."
+  sidecarText="Open the Big Number Calculator beside this guide. Try the safe-integer example, then copy the same answer in formatted and raw form."
   keepExploringIntro="If your number task is close but not quite this exact-integer job, stay near the same math family with these links."
 />

@@ -777,9 +777,15 @@ describe('big number helpers', () => {
     expect(calculateBigIntegerOperation(12345678901234567890n, '*', 10n).result).toBe(123456789012345678900n);
 
     const division = calculateBigIntegerOperation(100n, '/', 9n);
+    const negativeDivision = calculateBigIntegerOperation(-100000000000000000000n, '/', 9n);
 
     expect(division.quotient).toBe(11n);
     expect(division.remainder).toBe(1n);
+    expect(negativeDivision.quotient).toBe(-11111111111111111111n);
+    expect(negativeDivision.remainder).toBe(-1n);
+    expect(
+      negativeDivision.right * (negativeDivision.quotient ?? 0n) + (negativeDivision.remainder ?? 0n),
+    ).toBe(negativeDivision.left);
   });
 });
 

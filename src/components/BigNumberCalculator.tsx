@@ -17,6 +17,7 @@ interface BigNumberCalculation {
   expression: string;
   result: BigIntegerOperationResult;
   answer: string;
+  rawAnswer: string;
   steps: string[];
 }
 
@@ -43,6 +44,10 @@ const examples: BigNumberExample[] = [
   {
     label: 'Divide with remainder',
     inputs: { left: '100000000000000000000', operator: '/', right: '9' },
+  },
+  {
+    label: 'Negative division',
+    inputs: { left: '-100000000000000000000', operator: '/', right: '9' },
   },
 ];
 
@@ -80,6 +85,19 @@ function formatOperationAnswer(result: BigIntegerOperationResult) {
   return `${formatBigInteger(quotient)} remainder ${formatBigInteger(remainder)}`;
 }
 
+function formatRawOperationAnswer(result: BigIntegerOperationResult) {
+  if (result.operator !== '/') {
+    return result.result.toString();
+  }
+
+  const quotient = result.quotient ?? result.result;
+  const remainder = result.remainder ?? 0n;
+
+  return remainder === 0n
+    ? quotient.toString()
+    : `${quotient.toString()} remainder ${remainder.toString()}`;
+}
+
 function getSteps(result: BigIntegerOperationResult, answer: string) {
   const left = formatBigInteger(result.left);
   const right = formatBigInteger(result.right);
@@ -87,13 +105,18 @@ function getSteps(result: BigIntegerOperationResult, answer: string) {
   if (result.operator === '/') {
     const quotient = result.quotient ?? result.result;
     const remainder = result.remainder ?? 0n;
+    const remainderMagnitude = remainder < 0n ? -remainder : remainder;
+    const remainderTerm = remainder < 0n
+      ? `- ${formatBigInteger(remainderMagnitude)}`
+      : `+ ${formatBigInteger(remainder)}`;
 
     return [
       `Start with ${left} divided by ${right}.`,
-      'Use exact whole-number division.',
+      'Use exact whole-number division. BigInt truncates the quotient toward zero, and the remainder keeps the dividend sign.',
       remainder === 0n
         ? `The quotient is ${formatBigInteger(quotient)}.`
         : `The quotient is ${formatBigInteger(quotient)} and the remainder is ${formatBigInteger(remainder)}.`,
+      `Check the identity: ${left} = (${right} x ${formatBigInteger(quotient)}) ${remainderTerm}.`,
       `The answer is ${answer}.`,
     ];
   }
@@ -113,11 +136,13 @@ function buildCalculation(inputs: BigNumberInputs): BigNumberCalculation {
   const right = parseBigInteger(inputs.right, 'Right value');
   const result = calculateBigIntegerOperation(left, inputs.operator, right);
   const answer = formatOperationAnswer(result);
+  const rawAnswer = formatRawOperationAnswer(result);
 
   return {
     expression: `${formatBigInteger(left)} ${operatorSymbols[inputs.operator]} ${formatBigInteger(right)}`,
     result,
     answer,
+    rawAnswer,
     steps: getSteps(result, answer),
   };
 }
@@ -127,14 +152,16 @@ export default function BigNumberCalculator() {
   const [calculation, setCalculation] = useState<BigNumberCalculation>(() => buildCalculation(defaultInputs));
   const [history, setHistory] = useState<BigNumberCalculation[]>([]);
   const [error, setError] = useState('');
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<'formatted' | 'raw' | null>(null);
 
   const resultDigits = useMemo(() => digitCount(calculation.result.result), [calculation]);
+  const leftDigits = useMemo(() => digitCount(calculation.result.left), [calculation]);
+  const rightDigits = useMemo(() => digitCount(calculation.result.right), [calculation]);
   const hasRemainder = calculation.result.operator === '/' && (calculation.result.remainder ?? 0n) !== 0n;
 
   const updateInput = (key: keyof BigNumberInputs, value: string | CalculatorOperator) => {
     setInputs((current) => ({ ...current, [key]: value }));
-    setCopied(false);
+    setCopied(null);
   };
 
   const calculate = (nextInputs = inputs) => {
@@ -143,10 +170,10 @@ export default function BigNumberCalculator() {
       setCalculation(nextCalculation);
       setHistory((items) => [nextCalculation, ...items].slice(0, 6));
       setError('');
-      setCopied(false);
+      setCopied(null);
     } catch (caughtError) {
       setError(caughtError instanceof Error ? caughtError.message : 'Check the big number inputs');
-      setCopied(false);
+      setCopied(null);
     }
   };
 
@@ -155,10 +182,13 @@ export default function BigNumberCalculator() {
     calculate(example.inputs);
   };
 
-  const copyAnswer = async () => {
+  const copyAnswer = async (format: 'formatted' | 'raw') => {
     if (!navigator.clipboard || error) return;
-    await navigator.clipboard.writeText(`${calculation.expression} = ${calculation.answer}`);
-    setCopied(true);
+    const copyText = format === 'raw'
+      ? calculation.rawAnswer
+      : `${calculation.expression} = ${calculation.answer}`;
+    await navigator.clipboard.writeText(copyText);
+    setCopied(format);
   };
 
   return (
@@ -215,8 +245,11 @@ export default function BigNumberCalculator() {
           <button className="button-primary" onClick={() => calculate()} type="button">
             Calculate big number
           </button>
-          <button className="button-secondary" disabled={Boolean(error)} onClick={copyAnswer} type="button">
-            {copied ? 'Copied' : 'Copy answer'}
+          <button className="button-secondary" disabled={Boolean(error)} onClick={() => copyAnswer('formatted')} type="button">
+            {copied === 'formatted' ? 'Copied' : 'Copy formatted'}
+          </button>
+          <button className="button-secondary" disabled={Boolean(error)} onClick={() => copyAnswer('raw')} type="button">
+            {copied === 'raw' ? 'Copied' : 'Copy raw result'}
           </button>
         </div>
 
@@ -229,8 +262,12 @@ export default function BigNumberCalculator() {
               <strong>{calculation.answer}</strong>
               <dl>
                 <div>
-                  <dt>Operation</dt>
-                  <dd>{operatorLabels[calculation.result.operator]}</dd>
+                  <dt>Left digits</dt>
+                  <dd>{leftDigits}</dd>
+                </div>
+                <div>
+                  <dt>Right digits</dt>
+                  <dd>{rightDigits}</dd>
                 </div>
                 <div>
                   <dt>Result digits</dt>

@@ -2102,9 +2102,10 @@ const baseTools: ToolDefinition[] = [
     slug: 'big-number-calculator',
     name: 'Big Number Calculator',
     category: 'calculators',
-    summary: 'Add, subtract, multiply, and divide very large whole numbers exactly, including division remainders.',
+    summary:
+      'Add, subtract, multiply, and divide very large whole numbers exactly, then copy grouped or raw results and verify division remainders.',
     description:
-      'Use this free big number calculator for exact whole-number addition, subtraction, multiplication, and division with quotient and remainder output beyond normal safe integer limits.',
+      'Use this free big number calculator for exact whole-number arithmetic beyond normal safe integer limits, with quotient, remainder, digit counts, and code-ready raw copying.',
     icon: 'calculator-big-number',
     aliases: [
       'Large Integer Calculator',
@@ -2115,12 +2116,13 @@ const baseTools: ToolDefinition[] = [
     ],
     seoTitle: 'Big Number Calculator | Exact Large Integer Calculator',
     seoDescription:
-      'Use the free Access Free Tools big number calculator to add, subtract, multiply, and divide very large whole numbers exactly with quotient, remainder, and digit counts.',
+      'Add, subtract, multiply, or divide huge whole numbers exactly. See quotient, remainder, digit counts, and copy grouped or raw results in your browser.',
     useCases: [
       'Calculate with integers larger than JavaScript normal-number safe integer limits.',
       'Add, subtract, or multiply long whole numbers without losing trailing digits.',
       'Divide large integers and see a whole-number quotient plus any remainder.',
       'Paste values with commas, spaces, or underscores and keep the integer digits exact.',
+      'Copy a readable grouped answer or raw ungrouped digits for code, tests, or data checks.',
       'Check coding, number theory, base conversion, and study examples before copying an answer.',
     ],
     examples: [
@@ -2143,6 +2145,11 @@ const baseTools: ToolDefinition[] = [
         label: 'Large division',
         expression: '100,000,000,000,000,000,000 / 9',
         result: '11,111,111,111,111,111,111 remainder 1, so 1 is left over after integer division',
+      },
+      {
+        label: 'Negative division',
+        expression: '-100,000,000,000,000,000,000 / 9',
+        result: '-11,111,111,111,111,111,111 remainder -1 because BigInt truncates toward zero',
       },
     ],
     faq: [
@@ -2177,9 +2184,19 @@ const baseTools: ToolDefinition[] = [
           'Division returns a whole-number quotient. If the values do not divide evenly, the calculator also shows the remainder, such as 100,000,000,000,000,000,000 / 9 = 11,111,111,111,111,111,111 remainder 1.',
       },
       {
+        question: 'How does negative BigInt division work?',
+        answer:
+          'JavaScript BigInt truncates the quotient toward zero. The remainder keeps the sign of the left number, so -100,000,000,000,000,000,000 / 9 gives -11,111,111,111,111,111,111 remainder -1. You can check it with left = right x quotient + remainder.',
+      },
+      {
         question: 'What does result digits mean?',
         answer:
           'Result digits counts the digits in the answer, ignoring commas and the minus sign. It helps you spot whether a copied result is missing a digit.',
+      },
+      {
+        question: 'Can I copy the result without commas?',
+        answer:
+          'Yes. Copy formatted includes the readable expression and grouped answer. Copy raw result removes digit separators so you can paste the exact result into code, a test case, or a plain data field.',
       },
       {
         question: 'How large can the numbers be?',

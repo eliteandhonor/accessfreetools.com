@@ -5390,6 +5390,10 @@ main {
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
 }
 
+.advanced-calculator-big-number .advanced-actions {
+  grid-template-columns: minmax(0, 1.15fr) repeat(2, minmax(0, 0.85fr));
+}
+
 .advanced-actions button:disabled {
   cursor: not-allowed;
   opacity: 0.58;
@@ -5538,6 +5542,10 @@ main {
 .advanced-calculator-big-number .advanced-result-card > strong,
 .advanced-calculator-geometry .advanced-result-card > strong {
   font-size: clamp(1.25rem, 3.2vw, 2.2rem);
+}
+
+.advanced-calculator-big-number .advanced-result-card dl {
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
 }
 
 .advanced-calculator-geometry .advanced-result-card dl {
@@ -7947,6 +7955,7 @@ main {
   .random-actions,
   .random-settings-grid,
   .random-toggle-grid,
+  .advanced-calculator-big-number .advanced-actions,
   .advanced-actions,
   .advanced-fields,
   .advanced-mode-grid,

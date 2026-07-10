@@ -1854,7 +1854,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       'Enter two whole numbers, using commas or spaces if that makes long values easier to read.',
       'Choose add, subtract, multiply, or divide.',
       'Press Calculate big number to get an exact integer answer.',
-      'Review quotient and remainder for division, steps, recent answers, and copy output.',
+      'For division, check left = right x quotient + remainder, including the sign on negative remainders.',
+      'Copy the formatted expression for notes or the raw ungrouped result for code and data fields.',
     ]
   : isFractionTool
   ? [
@@ -2186,9 +2187,9 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
       isBigNumberTool && (
         <div class="advanced-tool-points" aria-label="Big number calculator highlights">
           <span>Exact integers</span>
-          <span>Huge values</span>
-          <span>Remainders</span>
-          <span>Copy results</span>
+          <span>Safe-limit check</span>
+          <span>Verified remainders</span>
+          <span>Grouped or raw copy</span>
         </div>
       )
     }

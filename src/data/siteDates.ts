@@ -9,7 +9,7 @@ const DEFAULT_BLOG_PUBLISHED_DATE = '2026-04-30';
 
 const toolLastmodOverrides: Record<string, string> = {
   'basic-calculator': '2026-06-02',
-  'big-number-calculator': '2026-06-05',
+  'big-number-calculator': '2026-07-10',
   'exponent-calculator': '2026-06-27',
   'hex-calculator': '2026-06-27',
   'least-common-multiple-calculator': '2026-06-27',
@@ -275,7 +275,7 @@ const toolLastmodOverrides: Record<string, string> = {
 const blogModifiedOverrides: Record<string, string> = {
   'free-ai-skills-open-source-tools-organic-growth': '2026-07-03',
   'how-to-use-basic-calculator': '2026-06-02',
-  'how-to-use-big-number-calculator': '2026-07-02',
+  'how-to-use-big-number-calculator': '2026-07-10',
   'how-to-use-binary-calculator': '2026-06-27',
   'how-to-use-circle-calculator': '2026-06-27',
   'how-to-use-confidence-interval-calculator': '2026-06-27',
