@@ -144,6 +144,7 @@ import {
   calculateArmyBodyFat,
   calculateBoerLeanBodyMass,
   calculateCaloriesBurned,
+  calculateCaloriesBurnedEstimate,
   calculateCompoundInterest,
   calculateDebtConsolidation,
   calculateDebtRatios,
@@ -1123,11 +1124,27 @@ describe('health and fitness helpers', () => {
   it('calculates fitness pace, calories burned, one-rep max, and target heart rate', () => {
     const pace = calculatePace(5, 25 * 60);
     const calories = calculateCaloriesBurned(3.8, 70, 45);
+    const briskWalk = calculateCaloriesBurnedEstimate(4.8, 70, 45);
+    const houseCleaningLb = calculateCaloriesBurnedEstimate(3.3, 154, 60, 'lb');
     const oneRepMax = calculateOneRepMax(100, 5);
     const heartRate = calculateTargetHeartRate(35, 50, 85, 65);
 
     expect(formatCalculatorNumber(pace.secondsPerUnit)).toBe('300');
     expect(formatCalculatorNumber(calories)).toBe('209.475');
+    expect(briskWalk.grossCalories).toBeCloseTo(264.6, 10);
+    expect(briskWalk.activeCaloriesAboveRest).toBeCloseTo(209.475, 10);
+    expect(briskWalk.restingCalories).toBeCloseTo(55.125, 10);
+    expect(briskWalk.grossCaloriesPerHour).toBeCloseTo(352.8, 10);
+    expect(briskWalk.intensity).toBe('Moderate');
+    expect(houseCleaningLb.weightKg).toBeCloseTo(69.85322498, 8);
+    expect(houseCleaningLb.grossCalories).toBeCloseTo(242.04142456, 8);
+    expect(houseCleaningLb.activeCaloriesAboveRest).toBeCloseTo(168.69553833, 8);
+    expect(() => calculateCaloriesBurnedEstimate(0.9, 70, 30)).toThrow(
+      'Use a MET value from 1 to 25 for this activity estimate',
+    );
+    expect(() => calculateCaloriesBurnedEstimate(25.1, 70, 30)).toThrow(
+      'Use a MET value from 1 to 25 for this activity estimate',
+    );
     expect(formatCalculatorNumber(oneRepMax.epleyKg)).toBe('116.666666667');
     expect(formatCalculatorNumber(heartRate.maxHeartRate)).toBe('185');
     expect(formatCalculatorNumber(heartRate.karvonenLowerBpm ?? 0)).toBe('125');

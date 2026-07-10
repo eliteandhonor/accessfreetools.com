@@ -37,6 +37,8 @@ const extraSafetyNotes: Record<string, string> = {
     'This is an original Access Free Tools label-reading score. It is not Weight Watchers Points, not affiliated with WW, and not a medical nutrition plan.',
   'one-rep-max-calculator':
     'One-rep max estimates are training math, not proof that a heavy single is safe today. Use qualified coaching, safe equipment, and a spotter or safety setup when needed.',
+  'calories-burned-calculator':
+    'Total session calories and active calories above rest answer different questions. Neither is a lab measurement, food target, medical exercise prescription, or promise of exact energy balance.',
   'fat-intake-calculator':
     'Fat gram targets are nutrition-planning estimates. They do not diagnose health, set an eating-disorder recovery plan, replace diabetes, heart, kidney, gallbladder, or pregnancy care, or decide the right saturated-fat limit for you.',
   'bac-calculator':
@@ -106,6 +108,20 @@ function getSourceLinks(toolSlug: string) {
     {
       href: 'https://www.ncbi.nlm.nih.gov/books/NBK610329/',
       label: 'National Academies / NCBI Bookshelf: Acceptable Macronutrient Distribution Range background',
+    },
+  ];
+  const activityEnergySources = [
+    {
+      href: 'https://pacompendium.com/adult-compendium/',
+      label: '2024 Adult Compendium: Current activity MET tables for adults ages 19-59',
+    },
+    {
+      href: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC10818145/',
+      label: 'Journal of Sport and Health Science: 2024 Adult Compendium update',
+    },
+    {
+      href: 'https://www.cdc.gov/physical-activity-basics/measuring/index.html',
+      label: 'CDC: MET intensity bands and the talk test',
     },
   ];
   const fatIntakeSources = [
@@ -191,7 +207,11 @@ function getSourceLinks(toolSlug: string) {
     return strengthSources;
   }
 
-  if (['calorie-calculator', 'bmr-calculator', 'tdee-calculator', 'calories-burned-calculator', 'pace-calculator'].includes(toolSlug)) {
+  if (toolSlug === 'calories-burned-calculator') {
+    return activityEnergySources;
+  }
+
+  if (['calorie-calculator', 'bmr-calculator', 'tdee-calculator', 'pace-calculator'].includes(toolSlug)) {
     return energySources;
   }
 
@@ -658,30 +678,62 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'calories-burned-calculator': {
-    summary: 'Learn how MET, body weight, and duration create a workout calorie estimate.',
+    title: 'How to Calculate Calories Burned With METs',
+    description:
+      'Use the MET x 3.5 x body weight in kg / 200 formula, convert pounds, compare total and active calories, and choose 2024 Compendium values.',
+    intro:
+      'To estimate calories burned, choose a matching MET, convert body weight to kilograms, and multiply by active minutes. This guide shows the arithmetic, explains why total and active calories differ, and links the current 2024 Adult Compendium values behind the activity list.',
+    featuredSection: {
+      title: 'Calories burned formula: total session versus active calories',
+      paragraphs: [
+        'Total session calories = MET x 3.5 x body weight in kg / 200 x active minutes. This is the gross estimate used as the main calculator answer.',
+        'Active calories above rest use MET minus 1 in the same equation. The subtraction is a transparent derived comparison because CDC and the Adult Compendium define 1 MET as the resting baseline. It is useful when a watch reports active calories rather than total session calories.',
+      ],
+      bullets: [
+        'Pounds to kilograms: pounds x 0.45359237.',
+        'CDC absolute intensity: under 3 MET is light, 3 to 5.9 is moderate, and 6 or more is vigorous.',
+        'Count active minutes, not the full clock time when long rest breaks were part of the session.',
+      ],
+      links: [
+        {
+          href: 'https://pacompendium.com/adult-compendium/',
+          label: 'Check the 2024 Adult Compendium activity tables',
+        },
+        {
+          href: 'https://www.cdc.gov/physical-activity-basics/measuring/index.html',
+          label: 'Read CDC guidance on MET intensity',
+        },
+      ],
+    },
+    summary: 'Learn the MET calorie formula, pounds conversion, and total-versus-active calorie difference.',
     purpose:
-      'The Calories Burned Calculator estimates exercise energy from activity intensity, weight, and time. It is best for comparing activities, not measuring exact calories.',
+      'The Calories Burned Calculator estimates activity energy from a 2024 Adult Compendium preset or custom MET, body weight in kilograms or pounds, and active time. It is best for transparent comparisons, not measuring exact metabolism.',
     enter: [
-      'Choose the activity or MET value that most closely matches the workout.',
-      'Enter body weight and workout duration.',
-      'Use the same MET choice when comparing similar sessions.',
+      'Choose the activity description that matches pace and effort, not just the broad activity name. Moderate level walking at 2.8-3.4 mph is 3.8 MET; brisk level walking at 3.5-3.9 mph is 4.8 MET in the 2024 Adult Compendium.',
+      'Enter body weight, choose kilograms or pounds, and enter active minutes. The calculator converts pounds to kilograms before using the formula.',
+      'Use Custom MET only when an appropriate Compendium table or qualified source gives a closer value. Keep custom values from 1 to 25.',
     ],
     example: [
-      'For a brisk walk at 3.8 MET, the calculator multiplies MET by weight and duration.',
-      'A heavier body weight or longer duration increases the estimate.',
+      'For a brisk level walk at 4.8 MET, 70 kg, and 45 active minutes: 4.8 x 3.5 x 70 / 200 x 45 = 264.6, which rounds to 265 total session kcal.',
+      'For active calories above rest, subtract the 1-MET baseline first: 3.8 x 3.5 x 70 / 200 x 45 = 209.475, which rounds to 209 active kcal.',
+      'For 154 lb, the calculator first converts weight to about 69.85 kg. At 3.3 MET for 60 minutes of general house cleaning, the result is about 242 total kcal and 169 active kcal above rest.',
     ],
     read: [
-      'The answer is an estimate of energy used during the activity.',
-      'Calories per hour helps compare activities of different lengths.',
+      'The large answer is total session calories, including the resting-energy portion for the same minutes.',
+      'Active calories above rest remove the 1-MET baseline. Compare this line with a wearable only when the device also labels its result as active calories.',
+      'The CDC intensity band describes absolute MET intensity. Relative effort can feel different depending on fitness, age, disability, heat, terrain, illness, and medication.',
     ],
     mistakes: [
-      'Do not treat watch, machine, and formula calories as exact truth.',
-      'Do not pick a higher MET than the effort really matched.',
-      'Do not use exercise calories as medical nutrition advice.',
+      'Do not call 3.8 MET brisk level walking when the current adult table uses 4.8 MET for 3.5-3.9 mph brisk walking.',
+      'Do not enter pounds while kilograms is selected or add a second manual conversion after choosing pounds.',
+      'Do not count long rest breaks as active minutes or pick a higher MET because the workout felt hard.',
+      'Do not compare total session calories with active calories from a watch as if the definitions match.',
+      'Do not use exercise calories as automatic food credit, medical nutrition advice, or an exact weight-change prediction.',
     ],
     next: [
       'Use Pace Calculator for running or walking pace.',
-      'Use Calorie Calculator to compare workout estimates with daily needs.',
+      'Use Target Heart Rate Calculator for a separate exercise-intensity estimate.',
+      'Use Calorie Calculator only for a separate daily-energy estimate; do not add exercise calories twice if its activity factor already includes normal workouts.',
     ],
   },
   'one-rep-max-calculator': {

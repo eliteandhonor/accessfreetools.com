@@ -66,7 +66,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
     : isCalorieCalculator
       ? 'Enter the formula sex setting, age in years, height in centimeters, weight in kilograms, activity level, and planning goal. Formula sex chooses the +5 or -161 Mifflin-St Jeor adjustment. Activity level is a broad weekly average, so choose the closest normal week rather than one unusually hard or unusually quiet day.'
     : isCaloriesBurnedCalculator
-      ? 'Choose the activity MET estimate, enter body weight in kilograms, and enter the workout duration in minutes. MET is a rough intensity value: a brisk walk is lower than running, and the same activity can still feel different depending on pace, hills, fitness, heat, and breaks.'
+      ? 'Choose a 2024 Adult Compendium activity or enter a custom MET from 1 to 25, then enter body weight in kilograms or pounds and active minutes. Match the description closely: moderate walking at 2.8-3.4 mph is 3.8 MET, while brisk walking at 3.5-3.9 mph is 4.8 MET.'
     : isOneRepMaxCalculator
       ? 'Enter the weight you lifted in kilograms and the number of clean reps you completed. Use a set with full range of motion and consistent form. Do not use failed reps, forced reps, partial reps, or a set above 30 reps as a clean input.'
     : isMacroCalculator
@@ -119,7 +119,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
     : isCalorieCalculator
       ? 'Read the answer as an estimated daily calorie target for the inputs and goal you selected. It is not a medical diet order, pregnancy plan, eating-disorder recovery target, sports-fueling prescription, or promise of weight change. Compare it with real-world trends and qualified guidance before making major nutrition changes.'
     : isCaloriesBurnedCalculator
-      ? 'Read the answer as an exercise-energy estimate for the MET value, body weight, and duration you entered. It is not a lab measurement, wearable calibration, diet permission, injury advice, or exact energy-balance number. Real burn can shift with pace, terrain, form, fitness, weather, and rest breaks.'
+      ? 'Read total session calories as the gross estimate, including the energy your body would have used at rest during those minutes. Active calories above rest subtract a 1-MET baseline. Both are rough activity estimates, not a lab measurement, wearable calibration, diet permission, injury advice, or exact energy-balance number.'
     : isOneRepMaxCalculator
       ? 'Read the Epley estimate as the main training estimate and the Brzycki line as a comparison. If the formulas disagree, treat the gap as uncertainty. Use the number for planning percentages, not as proof that a heavy single is safe today.'
     : isMacroCalculator
@@ -163,6 +163,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Check that the date is the first day bleeding started, that cycle length means start-to-start, and that period length means the number of bleeding days. Do not enter an ovulation date, expected end date, positive test date, or cycle-day number into the last-period field.'
     : isProteinCalculator
       ? 'Check that body weight is in kilograms and that the selected factor is grams per kilogram, not grams per pound. If you have kidney disease, pregnancy or lactation needs, an eating-disorder history, a clinician protein limit, or a registered dietitian target, use that personal guidance instead of a generic preset.'
+    : isCaloriesBurnedCalculator
+      ? 'Check the activity description, MET value, weight unit, and active minutes. Do not enter pounds while kilograms is selected, count rest breaks as active time, or compare the total-session estimate from this page with a wearable active-calorie number as if they use the same definition.'
     : 'Check the units, date, and personal details before reading the answer. For example, pounds and kilograms, inches and centimeters, or a wrong activity level can change the result quickly. If the number feels surprising, rerun it slowly and compare it with the examples.';
 
   return [
@@ -805,12 +807,12 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'calories-burned-calculator',
     name: 'Calories Burned Calculator',
-    summary: 'Estimate exercise calories from MET, body weight, and duration.',
+    summary: 'Estimate total and active exercise calories from MET, weight, and time.',
     description:
-      'Use this free calories burned calculator to estimate exercise energy from activity intensity, body weight, and time.',
-    seoTitle: 'Calories Burned Calculator | MET Workout Estimate',
+      'Use this free calories burned calculator with 2024 Compendium activities or a custom MET, body weight in kg or lb, and active time.',
+    seoTitle: 'Calories Burned Calculator | MET, kg & lb',
     seoDescription:
-      'Estimate workout calories from MET intensity, body weight, and duration for walking, cycling, strength training, jogging, running, or swimming.',
+      'Estimate calories burned with 2024 Compendium MET values, body weight in kg or lb, and time. Compare total session and active calories above rest.',
     aliases: [
       'exercise calorie calculator',
       'workout calorie calculator',
@@ -820,25 +822,57 @@ export const healthTools: ToolDefinition[] = [
     ],
     icon: 'calculator-calories-burned',
     formula:
-      'Calories burned = MET x 3.5 x body weight in kg / 200 x duration in minutes. MET is an activity-intensity estimate, so the result changes when the selected activity, body weight, or session time changes.',
+      'Total session calories = MET x 3.5 x body weight in kg / 200 x minutes. Active calories above rest use the same equation with MET minus 1 because 1 MET represents the resting baseline. Pounds are converted to kilograms first.',
     caution:
-      'This is an educational exercise-energy estimate, not a lab measurement, medical exercise prescription, injury guidance, wearable calibration, or exact calorie-balance plan.',
+      'This is an educational activity-energy estimate, not a lab measurement, medical exercise prescription, injury guidance, wearable calibration, or exact calorie-balance plan. The built-in activity values come from the 2024 Adult Compendium for adults ages 19-59.',
     useCases: [
-      'Estimate calories burned during common activities.',
-      'Compare walking, running, cycling, swimming, and strength sessions.',
-      'See calories per hour from a workout estimate.',
-      'Use activity estimates without treating them as exact energy balance.',
+      'Estimate total session calories for common exercise, sport, home, and garden activities.',
+      'Compare total session calories with active calories above the 1-MET resting baseline.',
+      'Use body weight in kilograms or pounds and a current 2024 Compendium activity value.',
+      'Enter a custom MET when a closer activity description comes from an appropriate Compendium table.',
     ],
     examples: [
-      { label: 'Brisk walk', expression: '3.8 MET, 70 kg, 45 min', result: 'About 209 kcal' },
-      { label: 'Running', expression: '9.8 MET, 80 kg, 30 min', result: 'About 412 kcal' },
-      { label: 'Strength', expression: '5 MET, 72 kg, 50 min', result: 'About 315 kcal' },
+      {
+        label: 'Brisk level walk',
+        expression: '4.8 MET, 70 kg, 45 active min',
+        result: 'About 265 kcal total session; about 209 kcal active above rest',
+      },
+      {
+        label: 'Running near 6 mph',
+        expression: '9.3 MET, 176 lb, 30 active min',
+        result: 'About 390 kcal total session; about 348 kcal active above rest',
+      },
+      {
+        label: 'General house cleaning',
+        expression: '3.3 MET, 154 lb, 60 active min',
+        result: 'About 242 kcal total session; about 169 kcal active above rest',
+      },
     ],
     extraFaq: [
       {
         question: 'What MET values are available in this calories burned calculator?',
         answer:
-          'The built-in choices include walking briskly at 3.8 MET, easy cycling at 4 MET, strength training at 5 MET, jogging at 7 MET, swimming laps at 8 MET, and running at 9.8 MET. Pick the closest honest intensity for the session.',
+          'The activity list includes 20 examples from the 2024 Adult Compendium, including walking by pace, hiking, cycling, weight training, yoga, jogging, running, swimming, cleaning, gardening, soccer, and basketball. Use Custom MET when the Compendium has a closer description for your activity.',
+      },
+      {
+        question: 'What is the difference between total and active calories?',
+        answer:
+          'Total session calories use the full MET value and include the resting energy your body would use during the same minutes. Active calories above rest subtract a 1-MET baseline. A watch or exercise machine may show either definition, so check its label before comparing numbers.',
+      },
+      {
+        question: 'Is MET x 3.5 x body weight / 200 a CDC calorie formula?',
+        answer:
+          'The CDC explains MET intensity, including 1 MET at rest, 3 to 5.9 MET as moderate, and 6 or more as vigorous. Its cited intensity page does not publish this exact personal calorie equation. This calculator uses the common MET energy estimate and activity values from the 2024 Adult Compendium instead of calling it a CDC calorie formula.',
+      },
+      {
+        question: 'Can I use pounds in the calories burned formula?',
+        answer:
+          'Yes. Choose pounds and enter body weight normally. The calculator converts pounds to kilograms with 1 lb = 0.45359237 kg before applying the MET formula, then shows the converted weight in the result.',
+      },
+      {
+        question: 'Are the built-in MET values right for every person?',
+        answer:
+          'No. The built-in list uses the 2024 Adult Compendium for adults ages 19-59. Separate Compendia exist for older adults and wheelchair users, and youth use a Youth Compendium. Fitness, efficiency, terrain, heat, breaks, and health can still change real energy use.',
       },
       {
         question: 'Why can this estimate differ from my watch or treadmill?',

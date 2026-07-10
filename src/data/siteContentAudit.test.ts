@@ -81,6 +81,10 @@ const UTILITY_CALCULATOR_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/UtilityCalculator.tsx', import.meta.url)),
   'utf8',
 );
+const HEALTH_FITNESS_CALCULATOR_SOURCE = readFileSync(
+  fileURLToPath(new URL('../components/HealthFitnessCalculator.tsx', import.meta.url)),
+  'utf8',
+);
 const PUBLIC_AI_MODELS_DIR = fileURLToPath(new URL('../../public/ai-models/', import.meta.url));
 const SITEMAP_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/sitemap.xml.ts', import.meta.url)),
@@ -308,6 +312,43 @@ describe('site content audit guardrails', () => {
       href: 'https://pubmed.ncbi.nlm.nih.gov/2305711/',
       label: 'Read the original Mifflin-St Jeor study on PubMed',
     });
+  });
+
+  it('keeps the Calories Burned Calculator aligned with the 2024 MET tables and formula intent', () => {
+    const tool = tools.find((item) => item.slug === 'calories-burned-calculator');
+    const guide = healthBlogGuides.find((item) => item.toolSlug === 'calories-burned-calculator');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+    const guideText = guide?.sections
+      .flatMap((section) => [section.title, ...section.paragraphs, ...(section.bullets ?? [])])
+      .join(' ') ?? '';
+    const guideLinks = guide?.sections.flatMap((section) => section.links ?? []).map((link) => link.href) ?? [];
+
+    expect(tool?.seoTitle).toBe('Calories Burned Calculator | MET, kg & lb');
+    expect(tool?.seoDescription).toContain('total session and active calories above rest');
+    expect(tool?.examples).toContainEqual({
+      label: 'Brisk level walk',
+      expression: '4.8 MET, 70 kg, 45 active min',
+      result: 'About 265 kcal total session; about 209 kcal active above rest',
+    });
+    expect(faqText).toContain('3 to 5.9 MET as moderate');
+    expect(faqText).toContain('does not publish this exact personal calorie equation');
+    expect(faqText).toContain('1 lb = 0.45359237 kg');
+    expect(guide?.title).toBe('How to Calculate Calories Burned With METs');
+    expect(guideText).toContain('Total session calories = MET x 3.5 x body weight in kg / 200 x active minutes');
+    expect(guideText).toContain('4.8 MET for 3.5-3.9 mph brisk walking');
+    expect(guideText).toContain('about 242 total kcal and 169 active kcal above rest');
+    expect(guideLinks).toContain('https://pacompendium.com/adult-compendium/');
+    expect(guideLinks).toContain('https://pmc.ncbi.nlm.nih.gov/articles/PMC10818145/');
+    expect(guideLinks).toContain('https://www.cdc.gov/physical-activity-basics/measuring/index.html');
+    expect(HEALTH_FITNESS_CALCULATOR_SOURCE).toContain("label: 'Activity list'");
+    expect(HEALTH_FITNESS_CALCULATOR_SOURCE).toContain("label: 'Custom MET'");
+    expect(HEALTH_FITNESS_CALCULATOR_SOURCE).toContain("label: 'Active calories above rest'");
+    expect(HEALTH_FITNESS_CALCULATOR_SOURCE).toContain('Walking: brisk 3.5-3.9 mph (4.8 MET)');
+    expect(HEALTH_FITNESS_CALCULATOR_SOURCE).not.toContain('Walking briskly (3.8 MET)');
+    expect(`${tool?.seoTitle}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription?.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
   });
 
   it('keeps the Date Calculator aligned with proven 90-day shift intent', () => {

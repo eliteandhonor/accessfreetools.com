@@ -9,7 +9,7 @@ import {
   calculateUnderweightBmiCheck,
   calculateBodySurfaceArea,
   calculateBoerLeanBodyMass,
-  calculateCaloriesBurned,
+  calculateCaloriesBurnedEstimate,
   calculateDevineIdealWeight,
   calculateDueDateFromLmp,
   calculateGfr2021CkdEpi,
@@ -26,6 +26,7 @@ import {
   daysBetweenIsoDates,
   estimateBac,
   formatCalculatorNumber,
+  kgToPounds,
   type ActivityLevel,
   type HealthSex,
 } from '../lib/calculator';
@@ -69,6 +70,10 @@ type HealthInputs = Record<string, string>;
 interface SelectOption {
   label: string;
   value: string;
+}
+
+interface ActivityMetOption extends SelectOption {
+  met: number;
 }
 
 interface HealthField {
@@ -155,13 +160,32 @@ const distanceUnitOptions: SelectOption[] = [
   { label: 'Miles', value: 'mi' },
 ];
 
-const activityMetOptions: SelectOption[] = [
-  { label: 'Walking briskly (3.8 MET)', value: '3.8' },
-  { label: 'Cycling easy (4 MET)', value: '4' },
-  { label: 'Strength training (5 MET)', value: '5' },
-  { label: 'Jogging (7 MET)', value: '7' },
-  { label: 'Running (9.8 MET)', value: '9.8' },
-  { label: 'Swimming laps (8 MET)', value: '8' },
+const activityMetOptions: ActivityMetOption[] = [
+  { label: 'Walking: dog walking (3 MET)', value: 'walking-dog', met: 3 },
+  { label: 'Walking: moderate 2.8-3.4 mph (3.8 MET)', value: 'walking-moderate', met: 3.8 },
+  { label: 'Walking: brisk 3.5-3.9 mph (4.8 MET)', value: 'walking-brisk', met: 4.8 },
+  { label: 'Hiking: normal pace, fields and hills (5.3 MET)', value: 'hiking-normal', met: 5.3 },
+  { label: 'Cycling: leisure under 10 mph (4 MET)', value: 'cycling-leisure', met: 4 },
+  { label: 'Cycling: 12-13.9 mph (8 MET)', value: 'cycling-moderate', met: 8 },
+  { label: 'Stationary cycling: general (6.8 MET)', value: 'cycling-stationary', met: 6.8 },
+  { label: 'Weight training: varied exercises (3.5 MET)', value: 'weights-varied', met: 3.5 },
+  { label: 'Weight training: squats or deadlifts (5 MET)', value: 'weights-squats-deadlifts', met: 5 },
+  { label: 'Elliptical: moderate effort (5 MET)', value: 'elliptical-moderate', met: 5 },
+  { label: 'Yoga: Hatha (2.3 MET)', value: 'yoga-hatha', met: 2.3 },
+  { label: 'Jogging: general (7.5 MET)', value: 'jogging-general', met: 7.5 },
+  { label: 'Running: 6-6.3 mph (9.3 MET)', value: 'running-six-mph', met: 9.3 },
+  { label: 'Running: 8 mph (12 MET)', value: 'running-eight-mph', met: 12 },
+  { label: 'Swimming: slow recreational laps (5.8 MET)', value: 'swimming-recreational', met: 5.8 },
+  { label: 'Swimming: fast freestyle laps (9.8 MET)', value: 'swimming-fast', met: 9.8 },
+  { label: 'House cleaning: general (3.3 MET)', value: 'house-cleaning', met: 3.3 },
+  { label: 'Gardening: general moderate effort (3.8 MET)', value: 'gardening-moderate', met: 3.8 },
+  { label: 'Soccer: casual (7 MET)', value: 'soccer-casual', met: 7 },
+  { label: 'Basketball: game (8 MET)', value: 'basketball-game', met: 8 },
+];
+
+const weightUnitOptions: SelectOption[] = [
+  { label: 'Kilograms (kg)', value: 'kg' },
+  { label: 'Pounds (lb)', value: 'lb' },
 ];
 
 const heartZoneOptions: SelectOption[] = [
@@ -473,22 +497,50 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
     title: 'Calories Burned Calculator',
     buttonLabel: 'Estimate calories burned',
     emptyHistory: 'Recent exercise calorie estimates will appear here.',
-    privacyNote: 'Exercise calorie estimates depend on intensity, fitness, body size, and measurement error.',
+    privacyNote:
+      'Exercise calorie estimates depend on intensity, fitness, body size, breaks, and measurement error. Inputs stay in this browser tab.',
     modes: [
       {
-        id: 'calories-burned',
-        label: 'MET estimate',
+        id: 'activity-list',
+        label: 'Activity list',
         symbol: 'MET',
         fields: [
-          selectField('met', 'Activity', activityMetOptions),
-          numberField('weightKg', 'Weight (kg)'),
+          selectField('activity', '2024 Compendium activity', activityMetOptions),
+          numberField('weight', 'Body weight'),
+          selectField('weightUnit', 'Weight unit', weightUnitOptions),
           numberField('minutes', 'Duration (minutes)'),
         ],
-        defaultInputs: { met: '3.8', weightKg: '70', minutes: '45' },
+        defaultInputs: { activity: 'walking-brisk', weight: '70', weightUnit: 'kg', minutes: '45' },
         examples: [
-          { label: 'Brisk walk 45 min', inputs: { met: '3.8', weightKg: '70', minutes: '45' } },
-          { label: 'Run 30 min', inputs: { met: '9.8', weightKg: '80', minutes: '30' } },
-          { label: 'Strength 50 min', inputs: { met: '5', weightKg: '72', minutes: '50' } },
+          {
+            label: 'Brisk walk 45 min',
+            inputs: { activity: 'walking-brisk', weight: '70', weightUnit: 'kg', minutes: '45' },
+          },
+          {
+            label: 'Run 30 min',
+            inputs: { activity: 'running-six-mph', weight: '176', weightUnit: 'lb', minutes: '30' },
+          },
+          {
+            label: 'House cleaning 60 min',
+            inputs: { activity: 'house-cleaning', weight: '154', weightUnit: 'lb', minutes: '60' },
+          },
+        ],
+      },
+      {
+        id: 'custom-met',
+        label: 'Custom MET',
+        symbol: '1-25',
+        fields: [
+          numberField('met', 'Custom MET value'),
+          numberField('weight', 'Body weight'),
+          selectField('weightUnit', 'Weight unit', weightUnitOptions),
+          numberField('minutes', 'Duration (minutes)'),
+        ],
+        defaultInputs: { met: '4', weight: '70', weightUnit: 'kg', minutes: '30' },
+        examples: [
+          { label: '4 MET for 30 min', inputs: { met: '4', weight: '70', weightUnit: 'kg', minutes: '30' } },
+          { label: '6 MET for 45 min', inputs: { met: '6', weight: '165', weightUnit: 'lb', minutes: '45' } },
+          { label: '2.5 MET for 60 min', inputs: { met: '2.5', weight: '60', weightUnit: 'kg', minutes: '60' } },
         ],
       },
     ],
@@ -1277,24 +1329,44 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       };
     }
     case 'calories-burned': {
-      const met = parseNumber(inputs.met, 'MET');
-      const weightKg = parseNumber(inputs.weightKg, 'Weight');
+      const selectedActivity = activityMetOptions.find((option) => option.value === inputs.activity);
+      const met = modeId === 'custom-met'
+        ? parseNumber(inputs.met, 'Custom MET')
+        : selectedActivity?.met;
+      if (!met) {
+        throw new Error('Choose an activity or enter a custom MET value');
+      }
+      const weight = parseNumber(inputs.weight, 'Weight');
+      const weightUnit = inputs.weightUnit === 'lb' ? 'lb' : 'kg';
       const minutes = parseNumber(inputs.minutes, 'Minutes');
-      const calories = calculateCaloriesBurned(met, weightKg, minutes);
+      const result = calculateCaloriesBurnedEstimate(met, weight, minutes, weightUnit);
+      const activityLabel = modeId === 'custom-met'
+        ? 'Custom MET'
+        : selectedActivity?.label.replace(/ \([\d.]+ MET\)$/, '') ?? 'Selected activity';
       return {
-        label: 'Calories burned estimate',
-        expression: `${formatCalculatorNumber(met)} MET for ${formatCalculatorNumber(minutes)} min`,
-        answer: formatKcal(calories),
+        label: 'Total session calorie estimate',
+        expression: `${activityLabel}, ${formatCalculatorNumber(met)} MET, ${formatCalculatorNumber(weight)} ${weightUnit} for ${formatCalculatorNumber(minutes)} min`,
+        answer: formatKcal(result.grossCalories),
         metrics: [
-          { label: 'Calories per hour', value: formatKcal((calories / minutes) * 60) },
+          { label: 'Active calories above rest', value: formatKcal(result.activeCaloriesAboveRest) },
+          { label: 'Resting-energy part', value: formatKcal(result.restingCalories) },
+          { label: 'Total calories per hour', value: formatKcal(result.grossCaloriesPerHour) },
+          { label: 'CDC intensity band', value: result.intensity },
           { label: 'MET', value: formatCalculatorNumber(met) },
-          { label: 'Weight', value: formatKg(weightKg) },
+          {
+            label: weightUnit === 'lb' ? 'Converted weight' : 'Approximate pounds',
+            value: weightUnit === 'lb'
+              ? formatRoundedKg(result.weightKg)
+              : `${formatRoundedNumber(kgToPounds(result.weightKg))} lb`,
+          },
         ],
         steps: [
-          'Use the MET value as an activity-intensity estimate.',
-          'Calories per minute = MET x 3.5 x body weight in kg / 200.',
-          'Multiply by the session duration in minutes.',
+          'Convert pounds to kilograms when needed, then use the selected or custom MET as an absolute intensity estimate.',
+          'Total session calories = MET x 3.5 x body weight in kg / 200 x minutes.',
+          'Active calories above rest use the same formula with MET minus the 1-MET resting baseline.',
         ],
+        note:
+          'Total session calories include the energy your body would use at rest during the same time. Active calories above rest subtract a 1-MET baseline. Both are rough estimates, not lab measurements or automatic food targets.',
       };
     }
     case 'one-rep-max': {

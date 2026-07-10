@@ -3012,11 +3012,57 @@ export function calculateDevineIdealWeight(sex: HealthSex, heightCm: number) {
   return (sex === 'male' ? 50 : 45.5) + 2.3 * inchesOverFiveFeet;
 }
 
+export type CaloriesBurnedWeightUnit = 'kg' | 'lb';
+
+export interface CaloriesBurnedEstimateResult {
+  met: number;
+  minutes: number;
+  weight: number;
+  weightUnit: CaloriesBurnedWeightUnit;
+  weightKg: number;
+  grossCalories: number;
+  activeCaloriesAboveRest: number;
+  restingCalories: number;
+  grossCaloriesPerHour: number;
+  intensity: 'Light' | 'Moderate' | 'Vigorous';
+}
+
 export function calculateCaloriesBurned(met: number, weightKg: number, minutes: number) {
   assertPositiveNumber(met, 'MET');
   assertPositiveNumber(weightKg, 'Weight');
   assertPositiveNumber(minutes, 'Minutes');
   return ((met * 3.5 * weightKg) / 200) * minutes;
+}
+
+export function calculateCaloriesBurnedEstimate(
+  met: number,
+  weight: number,
+  minutes: number,
+  weightUnit: CaloriesBurnedWeightUnit = 'kg',
+): CaloriesBurnedEstimateResult {
+  assertPositiveNumber(weight, 'Weight');
+  assertPositiveNumber(minutes, 'Minutes');
+
+  if (met < 1 || met > 25) {
+    throw new Error('Use a MET value from 1 to 25 for this activity estimate');
+  }
+
+  const weightKg = weightUnit === 'lb' ? poundsToKg(weight) : weight;
+  const grossCalories = calculateCaloriesBurned(met, weightKg, minutes);
+  const restingCalories = calculateCaloriesBurned(1, weightKg, minutes);
+
+  return {
+    met,
+    minutes,
+    weight,
+    weightUnit,
+    weightKg,
+    grossCalories,
+    activeCaloriesAboveRest: Math.max(0, grossCalories - restingCalories),
+    restingCalories,
+    grossCaloriesPerHour: (grossCalories / minutes) * 60,
+    intensity: met >= 6 ? 'Vigorous' : met >= 3 ? 'Moderate' : 'Light',
+  };
 }
 
 export function calculateOneRepMax(weightKg: number, reps: number): OneRepMaxResult {

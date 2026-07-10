@@ -1921,6 +1921,16 @@ const cdcActivity = {
   label: 'CDC: Physical activity intensity guidance',
 };
 
+const adultCompendium2024 = {
+  href: 'https://pacompendium.com/adult-compendium/',
+  label: '2024 Adult Compendium: Activity MET tables for adults ages 19-59',
+};
+
+const adultCompendium2024Study = {
+  href: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC10818145/',
+  label: 'Journal of Sport and Health Science: 2024 Adult Compendium update',
+};
+
 const cdcGrowthCharts = {
   href: 'https://www.cdc.gov/growthcharts/',
   label: 'CDC: Growth Charts',
@@ -4779,20 +4789,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'calories-burned-calculator',
     status: 'deep-reviewed',
-    batch: 'health-manual-pass-2-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'seo-recovery-calories-burned-2026-07-10',
+    reviewedOn: '2026-07-10',
     scope: commonMathScope,
-    sources: [cdcActivity, cdcBmi],
+    sources: [adultCompendium2024, adultCompendium2024Study, cdcActivity],
     findings: [
-      'The calculator uses the standard MET energy equation structure: MET, body weight, and activity duration create an estimated calorie burn.',
-      'The guide explains that activity calories are rough estimates and can differ from watches, gym machines, and real physiology.',
-      'The result wording keeps exercise calories separate from medical nutrition advice and daily calorie targets.',
+      'Exact Search Console filtering found 16 impressions, 0 clicks, and average position 6.2 for the tool from 2026-05-01 through 2026-07-08; CrawlScout reports it Not Indexed after July 5. The matching guide is indexed with 73 impressions at average position 43.1.',
+      'Current URL Inspection reports Crawled - currently not indexed with a successful fetch for the tool and Submitted and indexed for the guide, so this pair is classified as recover and differentiate rather than merge or noindex.',
+      'The old activity list mislabeled 3.8 MET as brisk walking, while the 2024 Adult Compendium uses 3.8 for moderate level walking at 2.8-3.4 mph and 4.8 for brisk level walking at 3.5-3.9 mph. The old guide also carried an unrelated Mifflin-St Jeor resting-energy source.',
     ],
     improvements: [
-      'Manually checked MET input wording, weight and duration behavior, examples, FAQ cautions, guide formula text, source coverage, related tools, SEO copy, privacy behavior, and mobile result clarity.',
+      'Added 20 current Adult Compendium activity choices, kg/lb conversion, a custom-MET mode, total session and active-above-rest outputs, CDC intensity bands, exact worked examples, source-specific citations, corrected walking labels, sharper metadata, and 2026-07-10 modified dates.',
     ],
     followUps: [
-      'Add a larger activity picker only if users ask for more built-in MET examples.',
+      'Keep the built-in list representative rather than copying the full Compendium. Add search or category grouping only if usage evidence shows people need more activities.',
+      'Wait for a new Google crawl before judging tool recovery or guide CTR movement.',
     ],
   },
   {
