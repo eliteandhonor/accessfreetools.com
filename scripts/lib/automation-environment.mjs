@@ -1,18 +1,28 @@
-import { delimiter } from 'node:path';
-import { resolve } from 'node:path';
+import { delimiter, resolve, win32 } from 'node:path';
 
 export const DEFAULT_APPROVED_REPO_CWDS = [
   'C:/Users/chamb/OneDrive/Desktop/accessfreetools.com',
 ];
 
+function isWindowsAbsolutePath(path) {
+  return /^[a-z]:[\\/]/i.test(path);
+}
+
+function resolveConfiguredPath(path) {
+  return isWindowsAbsolutePath(path) ? win32.resolve(path) : resolve(path);
+}
+
 function pathKey(path) {
-  return resolve(path).toLowerCase();
+  return resolveConfiguredPath(path).replaceAll('\\', '/').toLowerCase();
 }
 
 function splitPathList(value = '') {
   return String(value)
     .split(/[;\n]/)
-    .flatMap((item) => item.split(delimiter))
+    .flatMap((item) => {
+      const trimmed = item.trim();
+      return delimiter === ':' && isWindowsAbsolutePath(trimmed) ? [trimmed] : trimmed.split(delimiter);
+    })
     .map((item) => item.trim())
     .filter(Boolean);
 }
@@ -25,7 +35,7 @@ export function approvedRepoCwds(env = process.env) {
   const values = configured.length ? configured : DEFAULT_APPROVED_REPO_CWDS;
   const seen = new Set();
   return values
-    .map((value) => resolve(value))
+    .map((value) => resolveConfiguredPath(value))
     .filter((value) => {
       const key = pathKey(value);
       if (seen.has(key)) return false;
@@ -35,7 +45,7 @@ export function approvedRepoCwds(env = process.env) {
 }
 
 export function localRuntimePaths({ cwd = process.cwd(), env = process.env } = {}) {
-  const normalizedCwd = resolve(cwd);
+  const normalizedCwd = resolveConfiguredPath(cwd);
   const expectedCwds = approvedRepoCwds(env);
   const cwdMatchesExpected = expectedCwds.some((expectedCwd) => pathKey(expectedCwd) === pathKey(normalizedCwd));
 
