@@ -227,19 +227,22 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'date-calculator',
     name: 'Date Calculator',
     category: 'date-time',
-    summary: 'Count days between dates or move a calendar date forward or backward.',
+    summary: 'Add or subtract days from a date, or count full days between two dates.',
     description:
-      'Count full days between two dates, or add and subtract years, months, weeks, and days from one calendar date.',
+      'Add or subtract days, weeks, months, and years from a calendar date, or count full days between two dates. Try 90-day and month-end examples.',
     icon: 'calculator-date',
     aliases: [
       'Days Between Dates Calculator',
       'Date Difference Calculator',
       'Add Days to Date Calculator',
       'Subtract Days from Date Calculator',
+      '90 Days From Date Calculator',
+      'Days From Date Calculator',
+      'Days Before Date Calculator',
     ],
-    seoTitle: 'Date Calculator | Days Between Dates',
+    seoTitle: 'Date Calculator | Add or Subtract Days',
     seoDescription:
-      'Count full days between two dates, add or subtract date offsets, and check month-end calendar shifts with clear examples.',
+      'Add or subtract days, weeks, months, or years from a date, or count full days between dates. Includes 90-day examples and month-end checks.',
     formula:
       'Date difference counts full UTC calendar days between two YYYY-MM-DD dates. Add/subtract mode applies years and months first, clamps month-end dates when needed, then applies weeks and days.',
     limit:
@@ -266,15 +269,28 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'No. This page counts calendar days. If weekends, school breaks, bank holidays, or local public holidays matter, check those rules separately before using the result as a deadline.',
       },
+      {
+        question: 'How do I calculate 90 days from a date?',
+        answer:
+          'Choose Add or subtract mode, select Add, enter the starting date, and put 90 in the Days field. For example, 90 calendar days after June 16, 2026 is September 14, 2026. The starting date is day zero for this shift.',
+      },
+      {
+        question: 'How do I find 90 days before a date?',
+        answer:
+          'Choose Add or subtract mode, select Subtract, enter the ending date, and put 90 in the Days field. For example, 90 calendar days before December 31, 2026 is October 2, 2026. Check the official rule separately if a deadline counts dates inclusively or excludes weekends and holidays.',
+      },
     ],
     useCases: [
       'Count full days between deadlines, trips, projects, or events.',
+      'Find dates 30, 60, or 90 days before or after a starting date.',
       'Add or subtract offsets such as 45 days, 6 weeks, or 3 months.',
       'Check how many weeks and leftover days sit between two dates.',
       'Avoid daylight-saving surprises by using date-only calendar math.',
     ],
     examples: [
       { label: 'Two-week deadline', expression: '2026-05-26 to 2026-06-10', result: '15 days, or 2 weeks and 1 day' },
+      { label: 'Add 90 days', expression: '2026-06-16 + 90 days', result: '2026-09-14' },
+      { label: 'Subtract 90 days', expression: '2026-12-31 - 90 days', result: '2026-10-02' },
       { label: 'Add 45 days', expression: '2026-05-26 + 0y 0m 6w 3d', result: '2026-07-10' },
       { label: 'Month-end clamp', expression: '2026-01-31 + 0y 1m 0w 0d', result: '2026-02-28' },
     ],

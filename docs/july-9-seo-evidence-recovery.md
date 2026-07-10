@@ -45,3 +45,10 @@ CTR/ranking pages from the July 9 high-impression zero-click set:
 - The guide already had correct formulas, examples, and a PubMed source, but its generic title did not describe that intent and its generated meta description ended in a cut-off `BM...` fragment.
 - The July 10 change gives the guide a concise Mifflin-St Jeor title and page-specific description, then moves the women/men formulas, units, original paper details, and PubMed link into an early visible section.
 - Baseline evidence: `output/search-console/page-performance-bmr-guide-2026-07-10.json`. Compare the same fixed page and date-length window after Google recrawls; do not claim a CTR gain before new Search Console data exists.
+
+## 2026-07-10 Date Calculator Intent Sprint
+
+- Exact Search Console page filtering found 720 impressions and 0 clicks for `/tools/date-calculator/` from 2026-05-01 through 2026-07-08, at average position 22.6.
+- Ten visible 90-days-before-or-after queries accounted for 80 impressions. Those queries ranked from position 5.7 to 10.6, while Google withheld the remaining query text for privacy.
+- The tool already performed correct date shifts, but its title emphasized only days between dates. The refresh focuses the tool title on add-or-subtract intent and adds verified 90-day examples, FAQs, aliases, and a matching educational guide section.
+- Baseline evidence: `output/search-console/page-performance-date-calculator-tool-2026-07-10.json`. Compare the same fixed page and date-length window after Google recrawls; do not claim a CTR gain before new Search Console data exists.

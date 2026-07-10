@@ -1023,15 +1023,17 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.isoDate, sourceLinks.mdnDate, sourceLinks.mdnDateInput],
   },
   'date-calculator': {
-    title: 'Date Calculator Guide',
-    summary: 'Count days between dates, add 45 days, or check month-end shifts without vague calendar math.',
+    title: 'Date Calculator Guide: Add or Subtract Days',
+    metaDescription:
+      'Learn how to add or subtract days, weeks, months, and years from a date, count days between dates, and check 90-day and month-end examples.',
+    summary: 'Add or subtract calendar days, count days between dates, and check 90-day or month-end shifts.',
     purpose:
-      'The Date Calculator answers calendar questions like "how many days until this deadline?" and "what date is 45 days from now?"',
+      'The Date Calculator answers calendar questions like "what date is 90 days from this date?" and "how many days are between these dates?"',
     intro:
       'It uses date-only math, so it is better for calendars than clock times, shifts, or time-zone scheduling.',
     inputMatch: 'a real YYYY-MM-DD calendar date and the mode you mean: difference or add/subtract',
     logicNote:
-      'For 2026-05-26 to 2026-06-10, the result is 15 days. Same start and end date gives 0 days because the start date is not counted as a completed day.',
+      'For 2026-05-26 to 2026-06-10, the result is 15 days. For date shifts, 2026-06-16 plus 90 days is 2026-09-14. The starting date is day zero rather than the first completed day.',
     readIntro:
       'Read the big answer first, then check the weeks-and-days line or the result-date line to make sure it matches how you plan to use it.',
     mistakeIntro:
@@ -1053,6 +1055,18 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'For month-end dates, remember that shorter months may clamp to the last valid day.',
     ],
     extraSections: [
+      {
+        title: 'How to calculate 90 days before or after a date',
+        paragraphs: [
+          'Choose Add or subtract mode, enter the starting date, select the direction, and put 90 in the Days field. The result uses calendar days, so weekends are included.',
+          'Use an unambiguous date field instead of typing a slash-form date into a note. A date such as 06/10/2026 can mean June 10 or October 6 depending on the reader.',
+        ],
+        bullets: [
+          '90 days after 2026-06-16 is 2026-09-14.',
+          '90 days before 2026-12-31 is 2026-10-02.',
+          'Check the official rule separately when a deadline uses inclusive counting, business days, holidays, or a local time zone.',
+        ],
+      },
       {
         title: 'Quick examples to check yourself',
         paragraphs: [

@@ -302,6 +302,32 @@ describe('site content audit guardrails', () => {
     });
   });
 
+  it('keeps the Date Calculator aligned with proven 90-day shift intent', () => {
+    const tool = tools.find((item) => item.slug === 'date-calculator');
+    const guide = utilityBlogGuides.find((item) => item.toolSlug === 'date-calculator');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+    const guideText = guide?.sections
+      .flatMap((section) => [section.title, ...section.paragraphs, ...(section.bullets ?? [])])
+      .join(' ') ?? '';
+
+    expect(tool?.seoTitle).toBe('Date Calculator | Add or Subtract Days');
+    expect(tool?.seoDescription).toContain('90-day examples');
+    expect(tool?.aliases).toContain('90 Days From Date Calculator');
+    expect(tool?.examples).toContainEqual({
+      label: 'Add 90 days',
+      expression: '2026-06-16 + 90 days',
+      result: '2026-09-14',
+    });
+    expect(faqText).toContain('90 calendar days after June 16, 2026 is September 14, 2026');
+    expect(guide?.title).toBe('Date Calculator Guide: Add or Subtract Days');
+    expect(guideText).toContain('How to calculate 90 days before or after a date');
+    expect(guideText).toContain('90 days before 2026-12-31 is 2026-10-02');
+    expect(`${tool?.seoTitle}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription?.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+  });
+
   it('keeps every canonical tool connected to a useful guide and valid related tools', () => {
     const blogSlugs = new Set(blogPosts.map((post) => post.slug));
     const toolSlugs = new Set(tools.map((tool) => tool.slug));

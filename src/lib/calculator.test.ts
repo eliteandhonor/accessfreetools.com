@@ -2104,6 +2104,8 @@ describe('utility helpers', () => {
     const age = calculateAge('2000-01-01', '2026-04-29');
     const difference = calculateDateDifference('2026-04-29', '2026-12-31');
     const shifted = calculateDateShift('2026-04-29', 0, 1, 2, 3, 'add');
+    const ninetyDaysAfter = calculateDateShift('2026-06-16', 0, 0, 0, 90, 'add');
+    const ninetyDaysBefore = calculateDateShift('2026-12-31', 0, 0, 0, 90, 'subtract');
 
     expect(age.years).toBe(26);
     expect(age.months).toBe(3);
@@ -2112,6 +2114,8 @@ describe('utility helpers', () => {
     expect(difference.weeks).toBe(35);
     expect(difference.remainingDays).toBe(1);
     expect(shifted.resultDate).toBe('2026-06-15');
+    expect(ninetyDaysAfter.resultDate).toBe('2026-09-14');
+    expect(ninetyDaysBefore.resultDate).toBe('2026-10-02');
   });
 
   it('calculates time durations and hours worked', () => {

@@ -7123,17 +7123,19 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'date-calculator',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
-    reviewedOn: '2026-05-26',
+    batch: 'gsc-90-day-intent-refresh-2026-07-10',
+    reviewedOn: '2026-07-10',
     scope: commonMathScope,
     sources: [isoDate, mdnDate, googleHelpfulContent],
     findings: [
       'Search Console showed impressions without clicks, so the page needed sharper intent matching for days-between-dates and add-days searches.',
+      'The fixed July 9 Search Console window recorded 720 impressions and 0 clicks, including 80 visible impressions for 90-days-before-or-after queries ranking from position 5.7 to 10.6.',
       'The date helper counts full UTC calendar days between YYYY-MM-DD dates and applies year/month offsets before week/day offsets.',
       'The updated FAQ explains start-date counting, month-end clamping, business-day limits, and browser-only privacy.',
     ],
     improvements: [
       'Reworked metadata, aliases, examples, FAQ detail, guide examples, image alt text, DataForSEO evidence, and browser-proof requirements for the Date Calculator page pair.',
+      'Refocused the tool title on add-or-subtract intent and added verified 90-day examples, FAQs, and an educational guide section without changing the date engine.',
     ],
     followUps: [
       'Add business-day counting only as a separate mode with weekend and holiday assumptions shown.',
