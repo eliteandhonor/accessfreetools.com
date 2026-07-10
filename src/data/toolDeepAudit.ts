@@ -2321,9 +2321,14 @@ const nrcsTexasMulching = {
   label: 'USDA NRCS Texas: Mulching guide',
 };
 
-const lowesSiding = {
-  href: 'https://www.certainteed.com/products/documents-downloads',
-  label: 'CertainTeed: Siding documents and installation resources',
+const polymericExteriorsSidingManual = {
+  href: 'https://polymericexteriors.org/wp-content/uploads/2022/10/2022-Vinyl-Siding-Installation-Manual-ENGLISH_100322_LR.pdf',
+  label: 'Polymeric Exterior Products Association: Vinyl Siding Installation Manual',
+};
+
+const lowesSidingCalculator = {
+  href: 'https://www.lowes.com/n/calculators/siding-calculator/',
+  label: "Lowe's: Siding measurement and estimating guide",
 };
 
 const inchSidingCalculator = {
@@ -5457,17 +5462,25 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'siding-calculator',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
-    reviewedOn: '2026-06-02',
+    batch: 'july-9-index-recovery-2026-07-10',
+    reviewedOn: '2026-07-10',
     scope: commonMathScope,
-    sources: [inchSidingCalculator, certainTeedMeasureVinylSiding, lowesSiding, nistSi, googleHelpfulContent],
+    sources: [
+      inchSidingCalculator,
+      certainTeedMeasureVinylSiding,
+      polymericExteriorsSidingManual,
+      lowesSidingCalculator,
+      nistSi,
+      googleHelpfulContent,
+    ],
     findings: [
-      'DataForSEO paid evidence for the exact tool and guide targeted `siding calculator` intent with 8,100 U.S. searches plus vinyl siding, Hardie siding, lap siding, square-foot, box, and retail-style searches.',
-      'Current siding references support the 100-square-foot siding-square definition, triangular gable math, opening subtraction, and ordering overage for waste, cuts, and damage.',
-      'The page now separates simple siding coverage math from J-channel, starter strip, corner posts, trim, soffit, fascia, fasteners, wrap, flashing, product exposure, box coverage, installer layout, weatherproofing, and local building review.',
+      'July 9 evidence found 9 tool impressions at position 11.9 and 7 guide impressions at position 13.7, while exact URL Inspection reported both URLs as crawled but currently not indexed.',
+      'Targeted DataForSEO evidence still shows 8,100 U.S. searches for `siding calculator`, plus strong vinyl siding, Hardie siding, square-foot, and lap siding variants, so the pair is retained and classified as recover/differentiate.',
+      'The public copy promised exact squares and rounded boxes, but the calculator only returned rounded squares and had no gable-area or box-coverage input. The recovery closes that product-to-copy gap.',
+      'Current Polymeric Exterior Products Association guidance and the Lowe\'s worksheet use different opening-deduction methods, so the page now explains both rather than presenting one rule as universal.',
     ],
     improvements: [
-      'Rewrote metadata, aliases, formula text, examples, FAQ coverage, guide source coverage, audit record, modified dates, related links, and exact image alt/caption text in smart-14 wording.',
+      'Added tested gable area and squares-per-box inputs, exact and rounded square outputs, whole-box math, page-specific help, source-backed opening guidance, and a measurement-led guide title that is distinct from the calculator query.',
     ],
     followUps: [
       'Add a wall-section table later if the UI can support multiple rectangular walls, gables, and openings without hiding the estimating assumptions.',

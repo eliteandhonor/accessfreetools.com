@@ -4882,9 +4882,9 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'siding-calculator',
     name: 'Siding Calculator',
     category: 'home-projects',
-    summary: 'Estimate siding squares from wall area, openings, waste, and optional price per square.',
+    summary: 'Estimate exact siding squares, rounded whole squares, and boxes from walls, gables, openings, and waste.',
     description:
-      'Use this free siding calculator to estimate siding square feet, siding squares, rounded boxes, and material cost from wall area, openings, waste, and price.',
+      'Use this free siding calculator to turn measured wall and gable area into exact siding squares, rounded whole squares, boxes, and material cost.',
     icon: 'calculator-siding',
     aliases: [
       'Siding Squares Calculator',
@@ -4895,17 +4895,19 @@ export const utilityTools: ToolDefinition[] = [
       'Siding Box Calculator',
       'Siding Material Calculator',
     ],
-    seoTitle: 'Siding Calculator | Squares, Boxes & Cost',
+    seoTitle: 'Siding Calculator | Squares, Boxes & Gables',
     seoDescription:
-      'Estimate siding square feet, siding squares, rounded boxes, waste, and material cost from wall area, openings, and price per square.',
+      'Estimate siding square feet, exact and rounded squares, whole boxes, waste, and material cost from measured walls, gables, and openings.',
     formula:
-      'Net wall area = wall area - door and window openings. Area with waste = net wall area x (1 + waste percent / 100). Siding squares = area with waste / 100. Rounded boxes = ceiling(squares / squares per box). Material cost = rounded squares x price per square.',
+      'Gross area = rectangular wall area + triangular gable area. Net area = gross area - chosen opening deductions. Area with waste = net area x (1 + waste percent / 100). Exact siding squares = area with waste / 100. Whole squares = ceiling(exact squares). Boxes = ceiling(exact squares / squares per box). Material cost = whole squares x price per square.',
     limit:
-      'Siding projects also need gable measurements, corners, starter strips, J-channel, trim, box coverage, panel exposure, color lots, installer layout, weatherproofing, and local building review.',
+      'Opening deductions vary by product worksheet. Siding projects also need corners, starter strips, J-channel, trim, box coverage, panel exposure, color lots, installer layout, weatherproofing, and local building review.',
     inputExplanations: [
-      { term: 'Wall area', meaning: 'total exterior wall square footage before doors and windows are subtracted.' },
-      { term: 'Doors/windows', meaning: 'the combined opening area removed before the siding waste allowance is added.' },
+      { term: 'Wall area', meaning: 'combined rectangular exterior wall square footage before gables and opening deductions.' },
+      { term: 'Gable area', meaning: 'combined triangular area found with width times peak height divided by 2 for each simple gable.' },
+      { term: 'Doors/windows', meaning: 'the opening area you choose to remove before waste; check the product worksheet because methods differ.' },
       { term: 'Siding square', meaning: 'a siding unit equal to 100 square feet of coverage.' },
+      { term: 'Squares per box', meaning: 'the package coverage printed on the siding box or bundle label.' },
       { term: 'Waste percent', meaning: 'extra siding for cuts, gables, corners, trim-heavy sections, and damaged pieces.' },
     ],
     extraFaq: [
@@ -4932,12 +4934,17 @@ export const utilityTools: ToolDefinition[] = [
       {
         question: 'How do I include gables?',
         answer:
-          'Estimate each triangular gable as width times height divided by 2, then add that area to the wall area before subtracting openings and adding waste.',
+          'Estimate each simple triangular gable as width times peak height divided by 2, add the gable areas together, and enter that number in Gable area.',
       },
       {
         question: 'Should I subtract doors and windows?',
         answer:
-          'Subtract larger openings when you have their area. Small trim-heavy openings may still create cuts and waste, so do not subtract every tiny section too tightly.',
+          'Follow the product or supplier worksheet. Some guides subtract measured openings and then add waste. Vinyl guidance may leave ordinary windows and doors in the area as a waste allowance and deduct only very large openings.',
+      },
+      {
+        question: 'How does the calculator turn siding squares into boxes?',
+        answer:
+          'It divides the exact siding squares by the coverage printed on one box or bundle, then rounds up. A result of 11.88 squares with 2 squares per box becomes 6 boxes.',
       },
       {
         question: 'Does this calculate J-channel or trim?',
@@ -4953,16 +4960,17 @@ export const utilityTools: ToolDefinition[] = [
     useCases: [
       'Estimate vinyl, fiber cement, wood, or engineered siding squares.',
       'Convert wall square footage into 100-square-foot siding squares.',
-      'Subtract doors and windows before adding waste.',
+      'Add triangular gables without hiding their area inside a waste guess.',
+      'Compare a chosen opening deduction with the product worksheet.',
       'Add optional price per square for an early material estimate.',
-      'Check whether a rounded box count makes sense before comparing product labels.',
+      'Convert exact squares into whole boxes using the package label.',
       'Keep siding coverage separate from trim, channel, soffit, fascia, wrap, and labor.',
     ],
     examples: [
-      { label: 'Small exterior', expression: '1,200 ft2 wall area, 120 ft2 openings, 10% waste', result: '11.88 squares, round to 12' },
-      { label: 'Gable add-on', expression: '20 ft wide gable, 10 ft peak height', result: '100 ft2, or 1 siding square before waste' },
-      { label: 'One wall', expression: '240 ft2 wall, 35 ft2 openings, 12% waste', result: '2.30 squares, round to 3' },
-      { label: 'Box check', expression: '12 rounded squares, 2 squares per box', result: '6 boxes' },
+      { label: 'Small exterior', expression: '1,200 ft2 walls, 0 ft2 gables, 120 ft2 openings, 10% waste', result: '11.88 exact squares, round to 12' },
+      { label: 'Gable add-on', expression: '20 ft wide gable x 10 ft peak height / 2', result: '100 ft2, or 1 siding square before waste' },
+      { label: 'Wall with gable', expression: '240 ft2 wall + 60 ft2 gable - 35 ft2 openings, 12% waste', result: '2.97 exact squares, round to 3' },
+      { label: 'Box check', expression: '11.88 exact squares, 2 squares per box', result: '6 whole boxes' },
       { label: 'Budget check', expression: '12 rounded squares at $180 per square', result: '$2,160 material estimate' },
     ],
     relatedSlugs: ['square-footage-calculator', 'paint-calculator', 'roofing-calculator', 'insulation-calculator'],

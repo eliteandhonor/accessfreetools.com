@@ -564,9 +564,11 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     pattern: 'Square grid is simple rows. Triangular spacing staggers rows and usually fits more plants.',
   },
   siding: {
-    wallAreaSquareFeet: 'Total exterior wall area before subtracting doors and windows.',
-    openingsSquareFeet: 'Combined area of doors, windows, garage doors, and other openings.',
+    wallAreaSquareFeet: 'Combined rectangular wall area before adding gables or subtracting openings.',
+    gableAreaSquareFeet: 'Combined triangular gable area. For each simple gable, use width x peak height / 2.',
+    openingsSquareFeet: 'Area you choose to deduct. Some vinyl worksheets keep ordinary windows and doors in the waste allowance and deduct only large openings.',
     wastePercent: 'Extra siding for cuts, gables, corners, trim-heavy sections, and damaged pieces.',
+    squaresPerBox: 'Coverage printed on one box or bundle, measured in 100-square-foot siding squares.',
     pricePerSquare: 'Optional price for one siding square. One siding square is 100 square feet.',
   },
   brick: {
@@ -2874,22 +2876,51 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Siding Calculator',
     buttonLabel: 'Estimate siding',
     emptyHistory: 'Recent siding estimates will appear here.',
-    privacyNote: 'Siding estimates stay local and use wall area, openings, waste, and optional price per 100-square-foot square.',
+    privacyNote: 'Siding estimates stay local and use wall area, gables, openings, waste, box coverage, and optional price per 100-square-foot square.',
     modes: [
       {
         id: 'siding-squares',
-        label: 'Squares',
+        label: 'Measured area',
         symbol: 'SIDE',
         fields: [
           numberField('wallAreaSquareFeet', 'Wall area ft2', '1200'),
+          numberField('gableAreaSquareFeet', 'Gable area ft2', '0'),
           numberField('openingsSquareFeet', 'Doors/windows ft2', '120'),
           numberField('wastePercent', 'Waste percent', '10'),
+          numberField('squaresPerBox', 'Squares per box', '2'),
           numberField('pricePerSquare', 'Price per square (optional)', '180'),
         ],
-        defaultInputs: { wallAreaSquareFeet: '1200', openingsSquareFeet: '120', wastePercent: '10', pricePerSquare: '180' },
+        defaultInputs: {
+          wallAreaSquareFeet: '1200',
+          gableAreaSquareFeet: '0',
+          openingsSquareFeet: '120',
+          wastePercent: '10',
+          squaresPerBox: '2',
+          pricePerSquare: '180',
+        },
         examples: [
-          { label: 'Small house exterior', inputs: { wallAreaSquareFeet: '1200', openingsSquareFeet: '120', wastePercent: '10', pricePerSquare: '180' } },
-          { label: 'One wall', inputs: { wallAreaSquareFeet: '240', openingsSquareFeet: '35', wastePercent: '12', pricePerSquare: '' } },
+          {
+            label: 'Small house exterior',
+            inputs: {
+              wallAreaSquareFeet: '1200',
+              gableAreaSquareFeet: '0',
+              openingsSquareFeet: '120',
+              wastePercent: '10',
+              squaresPerBox: '2',
+              pricePerSquare: '180',
+            },
+          },
+          {
+            label: 'Wall with gable',
+            inputs: {
+              wallAreaSquareFeet: '240',
+              gableAreaSquareFeet: '60',
+              openingsSquareFeet: '35',
+              wastePercent: '12',
+              squaresPerBox: '2',
+              pricePerSquare: '',
+            },
+          },
         ],
       },
     ],
@@ -6260,25 +6291,30 @@ function calculateUtility(
     case 'siding': {
       const result = calculateSidingEstimate({
         wallAreaSquareFeet: parseNumber(inputs.wallAreaSquareFeet, 'Wall area'),
+        gableAreaSquareFeet: parseNumber(inputs.gableAreaSquareFeet, 'Gable area'),
         openingsSquareFeet: parseNumber(inputs.openingsSquareFeet, 'Openings'),
         wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        squaresPerBox: parseOptionalNumber(inputs.squaresPerBox ?? '', 'Squares per box'),
         pricePerSquare: parseOptionalNumber(inputs.pricePerSquare ?? '', 'Price per square'),
       });
       return {
         label: 'Siding squares',
-        expression: `${formatCalculatorNumber(result.wallAreaSquareFeet)} ft2 exterior wall area`,
-        answer: `${formatCalculatorNumber(result.squaresNeeded)} squares`,
+        expression: `${formatCalculatorNumber(result.wallAreaSquareFeet)} ft2 walls + ${formatCalculatorNumber(result.gableAreaSquareFeet)} ft2 gables`,
+        answer: `${formatCalculatorNumber(result.exactSquaresNeeded)} squares`,
         metrics: [
+          { label: 'Gross wall + gable area', value: `${formatCalculatorNumber(result.grossAreaSquareFeet)} ft2` },
           { label: 'Net wall area', value: `${formatCalculatorNumber(result.netAreaSquareFeet)} ft2` },
           { label: 'Area with waste', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
+          { label: 'Round up to', value: `${formatCalculatorNumber(result.squaresNeeded)} whole squares` },
+          { label: 'Boxes or bundles', value: result.boxesNeeded === null ? 'Add box coverage' : formatCalculatorNumber(result.boxesNeeded) },
           { label: 'Estimated cost', value: result.estimatedCost === null ? 'Add price per square' : money(result.estimatedCost) },
         ],
         steps: [
-          'Subtract doors and windows from the measured exterior wall area.',
-          'Add a waste factor for cuts, corners, and trim-heavy sections.',
-          'Divide by 100 square feet per siding square and round up.',
+          'Add measured rectangular wall area and triangular gable area.',
+          'Subtract the opening area you chose to deduct, then add the waste factor.',
+          'Divide by 100 for exact siding squares, then round squares and boxes up for ordering.',
         ],
-        note: 'Gables, trim, starter strips, J-channel, corners, product exposure, and installer layout need separate planning.',
+        note: 'Opening-deduction methods vary. Check the product worksheet, box coverage, trim, starter strip, J-channel, corners, exposure, and installer layout before ordering.',
       };
     }
     case 'brick': {

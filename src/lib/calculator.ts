@@ -7759,12 +7759,17 @@ export interface PlantSpacingEstimateResult {
 
 export interface SidingEstimateResult {
   wallAreaSquareFeet: number;
+  gableAreaSquareFeet: number;
   openingsSquareFeet: number;
   wastePercent: number;
+  squaresPerBox: number | null;
   pricePerSquare: number | null;
+  grossAreaSquareFeet: number;
   netAreaSquareFeet: number;
   adjustedAreaSquareFeet: number;
+  exactSquaresNeeded: number;
   squaresNeeded: number;
+  boxesNeeded: number | null;
   estimatedCost: number | null;
 }
 
@@ -10697,29 +10702,46 @@ export function calculatePlantSpacingEstimate(input: {
 
 export function calculateSidingEstimate(input: {
   wallAreaSquareFeet: number;
+  gableAreaSquareFeet?: number;
   openingsSquareFeet: number;
   wastePercent: number;
+  squaresPerBox?: number | null;
   pricePerSquare?: number | null;
 }): SidingEstimateResult {
   assertPositiveNumber(input.wallAreaSquareFeet, 'Wall area');
+  const gableAreaSquareFeet = input.gableAreaSquareFeet ?? 0;
+  assertNonNegativeNumber(gableAreaSquareFeet, 'Gable area');
   assertNonNegativeNumber(input.openingsSquareFeet, 'Openings');
   assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const squaresPerBox = input.squaresPerBox ?? null;
+  if (squaresPerBox !== null) {
+    assertPositiveNumber(squaresPerBox, 'Squares per box');
+  }
 
   const pricePerSquare = input.pricePerSquare ?? null;
   if (pricePerSquare !== null) {
     assertNonNegativeNumber(pricePerSquare, 'Price per square');
   }
 
-  const netAreaSquareFeet = Math.max(0, input.wallAreaSquareFeet - input.openingsSquareFeet);
+  const grossAreaSquareFeet = input.wallAreaSquareFeet + gableAreaSquareFeet;
+  const netAreaSquareFeet = Math.max(0, grossAreaSquareFeet - input.openingsSquareFeet);
   const adjustedAreaSquareFeet = netAreaSquareFeet * (1 + input.wastePercent / 100);
-  const squaresNeeded = Math.ceil(adjustedAreaSquareFeet / 100 - 1e-10);
+  const exactSquaresNeeded = adjustedAreaSquareFeet / 100;
+  const squaresNeeded = Math.ceil(exactSquaresNeeded - 1e-10);
+  const boxesNeeded = squaresPerBox === null ? null : Math.ceil(exactSquaresNeeded / squaresPerBox - 1e-10);
 
   return {
     ...input,
+    gableAreaSquareFeet,
+    squaresPerBox,
     pricePerSquare,
+    grossAreaSquareFeet,
     netAreaSquareFeet,
     adjustedAreaSquareFeet,
+    exactSquaresNeeded,
     squaresNeeded,
+    boxesNeeded,
     estimatedCost: pricePerSquare === null ? null : squaresNeeded * pricePerSquare,
   };
 }

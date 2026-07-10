@@ -460,6 +460,42 @@ describe('site content audit guardrails', () => {
     expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
   });
 
+  it('keeps the Siding Calculator aligned with its squares, boxes, and gable claims', () => {
+    const tool = tools.find((item) => item.slug === 'siding-calculator');
+    const guide = utilityBlogGuides.find((item) => item.toolSlug === 'siding-calculator');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+    const guideText = guide?.sections
+      .flatMap((section) => [section.title, ...section.paragraphs, ...(section.bullets ?? [])])
+      .join(' ') ?? '';
+    const guideLinks = guide?.sections.flatMap((section) => section.links ?? []).map((link) => link.href) ?? [];
+
+    expect(tool?.seoTitle).toBe('Siding Calculator | Squares, Boxes & Gables');
+    expect(tool?.seoDescription).toContain('exact and rounded squares');
+    expect(tool?.examples).toContainEqual({
+      label: 'Box check',
+      expression: '11.88 exact squares, 2 squares per box',
+      result: '6 whole boxes',
+    });
+    expect(faqText).toContain('11.88 squares with 2 squares per box becomes 6 boxes');
+    expect(faqText).toContain('deduct only very large openings');
+    expect(guide?.title).toBe('Measure Siding: Squares, Boxes & Gables');
+    expect(guideText).toContain('There is no single answer for every siding worksheet');
+    expect(guideText).toContain('11.88 exact siding squares');
+    expect(guideLinks).toContain(
+      'https://polymericexteriors.org/wp-content/uploads/2022/10/2022-Vinyl-Siding-Installation-Manual-ENGLISH_100322_LR.pdf',
+    );
+    expect(guideLinks).toContain('https://www.lowes.com/n/calculators/siding-calculator/');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("numberField('gableAreaSquareFeet', 'Gable area ft2'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("numberField('squaresPerBox', 'Squares per box'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("label: 'Round up to'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("label: 'Boxes or bundles'");
+    expect(TOOLS_ROUTE_SOURCE).toContain('compare exact squares with rounded whole squares and boxes');
+    expect(tool?.seoTitle.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+  });
+
   it('keeps the Date Calculator aligned with proven 90-day shift intent', () => {
     const tool = tools.find((item) => item.slug === 'date-calculator');
     const guide = utilityBlogGuides.find((item) => item.toolSlug === 'date-calculator');

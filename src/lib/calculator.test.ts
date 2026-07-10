@@ -2324,7 +2324,21 @@ describe('utility helpers', () => {
     const mowing = calculateLawnMowingTime({ lawnAreaSquareFeet: 10000, mowerWidthInches: 21, speedMph: 3, efficiencyPercent: 80 });
     const plantSpacing = calculatePlantSpacingEstimate({ bedLengthFeet: 10, bedWidthFeet: 4, spacingInches: 12, pattern: 'square' });
     const trianglePlants = calculatePlantSpacingEstimate({ bedLengthFeet: 10, bedWidthFeet: 4, spacingInches: 12, pattern: 'triangular' });
-    const siding = calculateSidingEstimate({ wallAreaSquareFeet: 1200, openingsSquareFeet: 120, wastePercent: 10, pricePerSquare: 180 });
+    const siding = calculateSidingEstimate({
+      wallAreaSquareFeet: 1200,
+      gableAreaSquareFeet: 0,
+      openingsSquareFeet: 120,
+      wastePercent: 10,
+      squaresPerBox: 2,
+      pricePerSquare: 180,
+    });
+    const sidingWithGable = calculateSidingEstimate({
+      wallAreaSquareFeet: 240,
+      gableAreaSquareFeet: 60,
+      openingsSquareFeet: 35,
+      wastePercent: 12,
+      squaresPerBox: 2,
+    });
     const brick = calculateBrickEstimate({ wallAreaSquareFeet: 120, brickLengthInches: 7.625, brickHeightInches: 2.25, mortarJointInches: 0.375, wastePercent: 10 });
     const block = calculateConcreteBlockEstimate({ wallLengthFeet: 40, wallHeightFeet: 8, blockLengthInches: 16, blockHeightInches: 8, openingsSquareFeet: 20, wastePercent: 5 });
     const rebar = calculateRebarGridEstimate({ slabLengthFeet: 20, slabWidthFeet: 12, spacingInches: 18, barLengthFeet: 20, wastePercent: 10 });
@@ -2429,7 +2443,14 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(mowing.minutes)).toBe('27.0562770563');
     expect(plantSpacing.plantsNeeded).toBe(40);
     expect(trianglePlants.plantsNeeded).toBe(44);
+    expect(formatCalculatorNumber(siding.exactSquaresNeeded)).toBe('11.88');
     expect(siding.squaresNeeded).toBe(12);
+    expect(siding.boxesNeeded).toBe(6);
+    expect(siding.estimatedCost).toBe(2160);
+    expect(sidingWithGable.grossAreaSquareFeet).toBe(300);
+    expect(formatCalculatorNumber(sidingWithGable.exactSquaresNeeded)).toBe('2.968');
+    expect(sidingWithGable.squaresNeeded).toBe(3);
+    expect(sidingWithGable.boxesNeeded).toBe(2);
     expect(brick.bricksNeeded).toBe(906);
     expect(block.blocksNeeded).toBe(355);
     expect(rebar.barsToBuy).toBe(20);

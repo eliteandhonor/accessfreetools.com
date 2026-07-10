@@ -700,9 +700,13 @@ const sourceLinks = {
     href: 'https://support.grahambrown.com/hc/en-us/articles/4407747771026-What-is-a-batch-number',
     label: 'Graham & Brown: Wallpaper batch number guidance',
   },
-  lowesSiding: {
-    href: 'https://www.certainteed.com/products/documents-downloads',
-    label: 'CertainTeed: Siding documents and installation resources',
+  polymericExteriorsSidingManual: {
+    href: 'https://polymericexteriors.org/wp-content/uploads/2022/10/2022-Vinyl-Siding-Installation-Manual-ENGLISH_100322_LR.pdf',
+    label: 'Polymeric Exterior Products Association: Vinyl Siding Installation Manual',
+  },
+  lowesSidingCalculator: {
+    href: 'https://www.lowes.com/n/calculators/siding-calculator/',
+    label: "Lowe's: Siding measurement and estimating guide",
   },
   inchSidingCalculator: {
     href: 'https://www.inchcalculator.com/siding-squares-calculator/',
@@ -4675,57 +4679,68 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.inchPlantCalculator, sourceLinks.nistUnits],
   },
   'siding-calculator': {
-    summary: 'Learn how wall area, openings, gables, waste, and box coverage become siding squares and cost.',
+    title: 'Measure Siding: Squares, Boxes & Gables',
+    summary: 'Measure walls and gables, choose an opening method, add waste, and convert the result into siding squares and boxes.',
     metaDescription:
-      'Use the Siding Calculator with square-foot, siding-square, box, gable, vinyl, Hardie, lap siding, waste, and material-cost examples.',
+      'Measure siding for walls and gables, decide which openings to deduct, add waste, and convert square feet into siding squares and whole boxes.',
     purpose:
-      'The Siding Calculator estimates siding square feet, siding squares, rounded boxes, and material cost. It is useful after you have measured wall sections, opening areas, and any gable triangles.',
+      'This guide explains the measuring choices behind the Siding Calculator: rectangular walls, triangular gables, opening deductions, waste, siding squares, box coverage, and an early material-cost check.',
     intro:
-      'Siding estimates get messy when a wall has gables, windows, doors, trim, and box coverage on the label. The calculator keeps the first job simple: find the coverage area, add waste, then turn it into siding squares.',
-    inputMatch: 'the wall area, opening area, waste percent, squares per box, and optional price per square',
+      'The arithmetic is short. The measuring decision is not. One worksheet may subtract measured windows and doors, while another keeps ordinary openings in the wall area so they help cover cuts and waste. Start with the product instructions, then use the same method all the way through the estimate.',
+    inputMatch:
+      'rectangular wall area, triangular gable area, the openings you chose to deduct, waste percent, squares per box, and optional price per square',
     logicNote:
-      'The calculator subtracts openings from wall area, adds waste, divides by 100 square feet per siding square, rounds ordering numbers up, and multiplies by price only when you enter one.',
+      'The calculator adds wall and gable area, subtracts the opening area you enter, adds waste, divides by 100 for exact siding squares, and rounds whole squares and boxes up for ordering.',
     readIntro:
-      'Read siding squares as the main supplier number. Read rounded squares or boxes as the safer buying number, because siding is not usually bought as a perfect decimal.',
+      'Use exact squares to check the area math. Use rounded whole squares and boxes to plan an order, then compare those numbers with the package label and supplier takeoff.',
     mistakeIntro:
-      'The easy mistake is measuring only flat rectangles and forgetting gables, dormers, corners, starter strip, J-channel, trim, soffit, fascia, and product exposure. Those pieces can change the order even when the wall-area math is right.',
+      'The expensive mistake is mixing methods: subtracting every small opening, adding a full waste factor, and then assuming every box covers the same area. Keep the worksheet, opening rule, waste allowance, and package coverage together.',
     sidecarText:
-      'Open the Siding Calculator beside this guide. Try 1,200 square feet of wall area, 120 square feet of openings, 10% waste, 2 squares per box, and $180 per square.',
+      'Open the Siding Calculator beside this guide. Try 1,200 square feet of wall area, 0 square feet of gables, 120 square feet of openings, 10% waste, 2 squares per box, and $180 per square.',
     bestUsesIntro:
       'Use this guide for a first material estimate for vinyl, fiber cement, Hardie-style lap siding, wood, or engineered siding before checking the product label or installer takeoff.',
     referenceIntro:
-      'These references support the siding-square definition, gable/opening measurement cautions, and the accessory warning behind the calculator.',
+      'These references support the 100-square-foot siding square, triangular gable math, opening-method differences, waste allowance, and accessory warning behind the calculator.',
     enter: [
       'Enter total exterior wall area in square feet. Add rectangular wall sections together.',
-      'Add gables as triangle area: width times peak height divided by 2.',
-      'Enter door and window area to subtract, then choose a waste percent for cuts, gables, corners, and damaged pieces.',
+      'Find each simple gable with width times peak height divided by 2, add the gables together, and enter that result separately.',
+      'Enter only the opening area your product worksheet tells you to deduct. Some vinyl instructions keep ordinary windows and doors in the area and deduct only very large openings.',
+      'Choose a waste percent for cuts, corners, trim-heavy sections, and damaged pieces.',
       'Enter squares per box and price per square only when you want a box or material-cost check.',
     ],
     read: [
-      'A 1,200 square foot exterior with 120 square feet of openings leaves 1,080 square feet before waste.',
+      'A 1,200 square foot exterior with 120 square feet of chosen opening deductions leaves 1,080 square feet before waste.',
       'With 10% waste, the adjusted area is 1,188 square feet.',
-      'That is 11.88 siding squares, so the buying estimate rounds to 12 squares.',
-      'If a box covers 2 squares, 12 rounded squares becomes 6 boxes. At $180 per square, the material estimate is $2,160.',
+      'That is 11.88 exact siding squares, so the whole-square ordering estimate rounds to 12.',
+      'If a box covers 2 squares, 11.88 exact squares becomes 6 whole boxes. At $180 per rounded square, the early material estimate is $2,160.',
     ],
     mistakes: [
       'Do not forget gables, dormers, trim-heavy sections, starter strips, corners, and channels.',
+      'Do not mix a subtract-all-openings worksheet with a method that already keeps ordinary openings as its waste allowance.',
       'Do not treat price per square as installed price unless labor and accessories are included.',
       'Do not use the same waste for every house. Simple walls may be close with about 10%, but complex gables, repairs, and lots of cuts may need more.',
       'Check product exposure and box coverage because not every vinyl, Hardie, lap, board, or panel profile covers the same area.',
     ],
     extraSections: [
       {
-        title: 'How To Count A Gable Without Making It Hard',
+        title: 'How to Count a Gable Without Making It Hard',
         paragraphs: [
-          'A simple triangular gable uses width times height divided by 2. A 20 ft wide gable with a 10 ft peak height is 100 square feet.',
-          'Since one siding square is 100 square feet, that gable is 1 square before waste. Add it to the rest of the wall area before you subtract openings and add waste.',
+          'A simple triangular gable uses width times peak height divided by 2. A 20 ft wide gable with a 10 ft peak height is 100 square feet.',
+          'Since one siding square is 100 square feet, that gable is 1 square before waste. Enter it as gable area so the result keeps wall and gable measurements visible.',
         ],
       },
       {
-        title: 'Why Boxes And Squares Are Different',
+        title: 'Should You Subtract Every Window and Door?',
+        paragraphs: [
+          "There is no single answer for every siding worksheet. Lowe's measuring guide subtracts measured openings and then adds 10% for waste. The Polymeric Exterior Products Association manual says ordinary windows and doors are not usually deducted because they provide an allowance for waste, while very large garage or sliding doors may be deducted.",
+          'Use the method supplied for the product you plan to buy. In this calculator, enter 0 for openings you are intentionally keeping in the allowance, or enter only the large opening area your worksheet tells you to remove.',
+        ],
+      },
+      {
+        title: 'Why Boxes and Squares Are Different',
         paragraphs: [
           'A siding square is a coverage unit. A box is the package you buy. Some vinyl siding boxes cover about 2 squares, but the real value is on the product label.',
-          'Use the calculator result as a bridge: square feet explain the measured area, squares help with supplier quotes, and boxes help with retail ordering.',
+          'Use the calculator result as a bridge: square feet explain the measured area, exact squares check the math, rounded squares help with quotes, and whole boxes help with ordering.',
         ],
       },
       {
@@ -4739,7 +4754,8 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [
       sourceLinks.inchSidingCalculator,
       sourceLinks.certainTeedMeasureVinylSiding,
-      sourceLinks.lowesSiding,
+      sourceLinks.polymericExteriorsSidingManual,
+      sourceLinks.lowesSidingCalculator,
       sourceLinks.nistUnits,
       sourceLinks.googleHelpfulContent,
     ],
