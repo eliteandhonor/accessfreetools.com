@@ -389,7 +389,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-personal-loan-calculator': '2026-06-01',
   'how-to-use-boat-loan-calculator': '2026-06-03',
   'how-to-use-refinance-calculator': '2026-06-02',
-  'how-to-use-va-mortgage-calculator': '2026-06-02',
+  'how-to-use-va-mortgage-calculator': '2026-07-10',
   'how-to-use-height-calculator': '2026-05-26',
   'how-to-use-sleep-calculator': '2026-05-26',
   'how-to-use-ad-revenue-calculator': '2026-07-03',

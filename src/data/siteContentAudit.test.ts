@@ -53,6 +53,10 @@ const TOOLS_INDEX_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/tools/index.astro', import.meta.url)),
   'utf8',
 );
+const FREE_CALCULATOR_RESOURCES_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/free-calculator-resources.astro', import.meta.url)),
+  'utf8',
+);
 const SITE_HEADER_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/SiteHeader.astro', import.meta.url)),
   'utf8',
@@ -324,6 +328,29 @@ describe('site content audit guardrails', () => {
     expect(guideText).toContain('90 days before 2026-12-31 is 2026-10-02');
     expect(`${tool?.seoTitle}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
     expect(tool?.seoDescription?.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+  });
+
+  it('keeps the VA mortgage guide distinct, current, and decision-focused', () => {
+    const guide = financeBlogGuides.find((item) => item.toolSlug === 'va-mortgage-calculator');
+    const guideText = guide?.sections
+      .flatMap((section) => [section.title, ...section.paragraphs, ...(section.bullets ?? [])])
+      .join(' ') ?? '';
+    const guideLinks = guide?.sections.flatMap((section) => section.links ?? []).map((link) => link.href) ?? [];
+
+    expect(guide?.title).toBe('VA Mortgage Calculator: Funding Fee Guide');
+    expect(guide?.description).toContain('financed fee');
+    expect(guide?.description).not.toContain('...');
+    expect(guide?.intro).toContain('VA or lender paperwork');
+    expect(guide?.quickStart).toHaveLength(5);
+    expect(guideText).toContain('This estimates a payment, not how much VA home you can afford');
+    expect(guideText).toContain('2.15% for first use and 3.3% after first use');
+    expect(guideText).toContain('other closing costs cannot simply be rolled into the VA loan amount');
+    expect(guideText).toContain('A practical VA loan estimate workflow');
+    expect(guideLinks).toContain('https://www.va.gov/housing-assistance/home-loans/funding-fee-and-closing-costs/');
+    expect(guideLinks).toContain('https://www.consumerfinance.gov/owning-a-home/compare/');
+    expect(FREE_CALCULATOR_RESOURCES_SOURCE).toContain('/blog/how-to-use-va-mortgage-calculator/');
     expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
     expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
   });

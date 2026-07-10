@@ -4293,8 +4293,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'va-mortgage-calculator',
     status: 'deep-reviewed',
-    batch: 'serpforge-va-mortgage-page-sprint-2026-06-02',
-    reviewedOn: '2026-06-02',
+    batch: 'gsc-va-guide-index-recovery-2026-07-10',
+    reviewedOn: '2026-07-10',
     scope: commonMathScope,
     sources: [vaFundingFee, vaEligibility, vaCertificateOfEligibility, vaPurchaseLoan, cfpbLoanEstimate, cfpbMortgageClosingFees, cfpbClosingDisclosure, cfpbMortgage],
     findings: [
@@ -4302,9 +4302,12 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'The VA funding-fee logic matches the official VA purchase chart effective April 7, 2023: 2.15% first use under 5%, 3.3% later use under 5%, 1.5% at 5% down, and 1.25% at 10% down.',
       'The guide now warns that VA eligibility, Certificate of Eligibility status, exemption status, seller concessions, closing costs, lender fees, appraisal, occupancy, entitlement, and refinance types need official loan review.',
       'DataForSEO page evidence was run for the exact tool and guide during the required all-pages sprint before the June 2 copy pass.',
+      'The fixed July 9 Search Console window recorded 295 guide impressions and 0 clicks, while URL Inspection reported a successful fetch but Crawled - currently not indexed.',
+      'Two visible how-to-use-effectively query variants accounted for 43 impressions at average positions 13.1 and 18.3.',
     ],
     improvements: [
       'Added VA-mortgage-specific SEO title and description, aliases, exact payment and funding-fee examples, input explanations, priority FAQs, guide detail, VA/CFPB source coverage, trust wording, specific image alt/caption text, and privacy/result notes.',
+      'Replaced the generic finance-guide opening and truncated description with a distinct VA decision workflow, current funding-fee chart context, affordability boundary, Loan Estimate comparison steps, and a contextual resource-hub link.',
     ],
     followUps: [
       'Add separate VA IRRRL and cash-out refinance handling only as separate sourced tools or modes.',

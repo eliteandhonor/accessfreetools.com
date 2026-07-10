@@ -25,6 +25,12 @@ export interface FinanceGuideDefinition {
 }
 
 interface GuideDetail {
+  title?: string;
+  metaDescription?: string;
+  intro?: string;
+  quickStart?: string[];
+  featuredSections?: GuideSection[];
+  sidecarText?: string;
   summary: string;
   purpose: string;
   enter: string[];
@@ -3401,6 +3407,54 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Mortgage Calculator for a non-FHA comparison.', 'Use Down Payment Calculator to test cash needed.', 'Use House Affordability Calculator before asking a lender for preapproval.'],
   },
   'va-mortgage-calculator': {
+    title: 'VA Mortgage Calculator: Funding Fee Guide',
+    metaDescription:
+      'Use a VA mortgage calculator to test payment, funding-fee rate, financed fee, tax, insurance, and LTV, then compare lender Loan Estimates.',
+    intro:
+      'A VA purchase estimate can look simple when the down payment is zero, but the funding-fee status, financed fee, property costs, and lender quote can move the real number. This guide shows what to enter, what to compare, and which answers still require VA or lender paperwork.',
+    quickStart: [
+      'Open the VA Mortgage Calculator and enter the home price, down payment, interest rate, term, yearly property tax, and monthly homeowners insurance.',
+      'Choose first use or later use, then mark funding-fee exemption only when official VA or lender paperwork confirms it.',
+      'Choose whether the funding fee is financed into the loan or paid at closing.',
+      'Calculate, then compare base loan amount, funding-fee rate and dollars, financed loan amount, total monthly payment, and loan-to-value.',
+      'Change one input at a time, then compare the result with the current VA funding-fee chart and written Loan Estimates from lenders.',
+    ],
+    featuredSections: [
+      {
+        title: 'This estimates a payment, not how much VA home you can afford',
+        paragraphs: [
+          'The calculator starts with a home price you choose. It does not check income, monthly debts, credit, residual-income rules, entitlement, occupancy, appraisal, or lender approval, so it cannot decide the highest price you can safely or officially borrow.',
+          'Use the monthly result as one budget input. For a rough income-and-debt screen, use the House Affordability Calculator, then use VA eligibility records and lender preapproval for the real decision.',
+        ],
+        links: [
+          { href: '/tools/house-affordability-calculator/', label: 'Test a rough home-price budget from income and debts' },
+          { href: 'https://www.va.gov/housing-assistance/home-loans/eligibility/', label: 'VA home loan eligibility and Certificate of Eligibility guidance' },
+        ],
+      },
+      {
+        title: 'How the VA funding fee changes the estimate',
+        paragraphs: [
+          'Checked July 10, 2026: the current VA purchase-loan chart is still marked effective April 7, 2023. For a purchase with less than 5% down, it lists 2.15% for first use and 3.3% after first use. At 5% down or more it lists 1.5%, and at 10% down or more it lists 1.25%. An official exemption can make the fee zero.',
+          'The VA says the percentage applies to the loan amount, not the purchase price. Financing the fee raises the starting loan balance and payment. On a purchase loan, the funding fee may be financed, but other closing costs cannot simply be rolled into the VA loan amount.',
+        ],
+        links: [
+          { href: 'https://www.va.gov/housing-assistance/home-loans/funding-fee-and-closing-costs/', label: 'Check the current VA funding-fee chart and closing-cost rules' },
+        ],
+      },
+      {
+        title: 'A practical VA loan estimate workflow',
+        paragraphs: [
+          'Run the calculator once with the home price, rate, tax, and insurance you expect. Then change only the down payment, use status, exemption, or financed-fee choice so you can see which assumption moved the loan balance or payment.',
+          'When lenders provide Loan Estimates, compare the same loan type and assumptions. Check loan amount, rate, principal and interest, total monthly payment, origination charges, closing costs, and the five-year comparison instead of choosing by one monthly number.',
+        ],
+        links: [
+          { href: 'https://www.consumerfinance.gov/owning-a-home/compare/', label: 'CFPB guide to choosing and comparing loan offers' },
+          { href: 'https://www.consumerfinance.gov/owning-a-home/loan-estimate/', label: 'CFPB Loan Estimate explainer' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Keep the VA Mortgage Calculator open beside this guide. Try the $360,000 no-down-payment example, then change only funding-fee status or down payment so you can see what moved before comparing lender paperwork.',
     summary: 'Learn how a VA purchase funding fee can affect loan amount and payment.',
     purpose:
       'The VA Mortgage Calculator estimates a common VA-backed purchase scenario. It is useful for checking payment, funding fee, and financed-fee effects before you compare the result with VA and lender paperwork.',
@@ -4204,7 +4258,7 @@ export const financeBlogPosts: BlogPostDefinition[] = financeTools.map((tool) =>
 
   return {
     slug: `how-to-use-${tool.slug}`,
-    title: getGuideTitle(tool),
+    title: detail.title ?? getGuideTitle(tool),
     label: `${tool.name.replace(' Calculator', '')} guide`,
     summary: detail.summary,
   };
@@ -4269,10 +4323,10 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
     slug: `how-to-use-${tool.slug}`,
     toolSlug: tool.slug,
     label: `${tool.name.replace(' Calculator', '')} guide`,
-    title: getGuideTitle(tool),
-    description: buildFinanceMetaDescription(tool, detail.summary),
+    title: detail.title ?? getGuideTitle(tool),
+    description: detail.metaDescription ?? buildFinanceMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
-    intro: isMortgageGuide
+    intro: detail.intro ?? (isMortgageGuide
       ? 'A mortgage payment is not just the loan. This guide shows how home price, down payment, rate, term, property tax, insurance, PMI, and HOA dues turn into one monthly estimate.'
       : isMortgagePayoffGuide
       ? 'Paying extra on a mortgage only helps if the extra money really reduces principal. This guide shows how balance, rate, term, monthly extra principal, and one-time principal payments change payoff time and interest.'
@@ -4370,8 +4424,8 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'An investment projection can look powerful, but it is still a what-if. This guide shows how starting money, monthly deposits, estimated return, and years turn into ending balance, contributions, and growth.'
       : isCurrencyGuide
       ? 'A currency conversion is only as good as the rate direction you enter. This guide shows how source amount, target-per-source exchange rate, and optional percentage fee turn into before-fee and after-fee results without pretending to fetch live market rates.'
-      : `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`,
-    quickStart: isMortgageGuide
+      : `${detail.summary} Use this guide as a plain-English walkthrough: enter the money values carefully, read the main estimate, then check what the estimate leaves out before you rely on it.`),
+    quickStart: detail.quickStart ?? (isMortgageGuide
       ? [
           `Open the ${tool.name}.`,
           'Enter the home price and the down payment as dollar amounts.',
@@ -4768,7 +4822,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
           detail.enter[0],
           `Use the first example, "${primaryExampleText}", if you want to see a filled-out estimate before entering your own values.`,
           'Calculate, read the formula line, then copy the result only after the amounts, percentages, time periods, or assumptions look right.',
-        ],
+        ]),
     sections: [
       {
         title: 'What this calculator is for',
@@ -4853,6 +4907,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
             : `Good fit examples: ${tool.useCases.slice(0, 2).join(' ')}`,
         ],
       },
+      ...(detail.featuredSections ?? []),
       {
         title: 'What to enter',
         paragraphs: [
@@ -5668,7 +5723,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
         links: sourceLinks,
       },
     ],
-    sidecarText: isSalesTaxGuide
+    sidecarText: detail.sidecarText ?? (isSalesTaxGuide
       ? `Keep the ${tool.name} open beside this guide. Try $80 at 7.5%, then replace the price and rate with your receipt or checkout numbers.`
       : isMortgagePayoffGuide
       ? 'Keep the Mortgage Payoff Calculator open beside this guide. Try the $280,000 balance example first, then change only the extra monthly principal so you can see what actually moved.'
@@ -5732,7 +5787,7 @@ export const financeBlogGuides: FinanceGuideDefinition[] = financeTools.map((too
       ? 'Keep the Marriage Tax Calculator open beside this guide. Try $90,000 and $70,000 first, then change only one income so you can see when the difference moves.'
       : isSocialSecurityGuide
       ? 'Keep the Social Security Calculator open beside this guide. Try birth year 1962, $2,400 at full retirement age, and claim age 62, 67, or 70 so you can see exactly what moved.'
-      : `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`,
+      : `Keep the ${tool.name} open beside this guide. Try the example first, then replace the numbers with your own scenario and check the estimate limits before copying the result.`),
   };
 });
 

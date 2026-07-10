@@ -52,3 +52,11 @@ CTR/ranking pages from the July 9 high-impression zero-click set:
 - Ten visible 90-days-before-or-after queries accounted for 80 impressions. Those queries ranked from position 5.7 to 10.6, while Google withheld the remaining query text for privacy.
 - The tool already performed correct date shifts, but its title emphasized only days between dates. The refresh focuses the tool title on add-or-subtract intent and adds verified 90-day examples, FAQs, aliases, and a matching educational guide section.
 - Baseline evidence: `output/search-console/page-performance-date-calculator-tool-2026-07-10.json`. Compare the same fixed page and date-length window after Google recrawls; do not claim a CTR gain before new Search Console data exists.
+
+## 2026-07-10 VA Mortgage Guide Recovery Sprint
+
+- Exact Search Console page filtering found 295 impressions and 0 clicks for `/blog/how-to-use-va-mortgage-calculator/` from 2026-05-01 through 2026-07-08, at average position 35.3.
+- Two visible how-to-use-effectively query variants accounted for 43 impressions at positions 13.1 and 18.3. The wider visible query set consistently asks how a VA loan calculator or estimator works.
+- Google URL Inspection returned `Crawled - currently not indexed` with a successful fetch. This is classified as `recover`: the URL, canonical, crawl path, and sources remain valid, but the generic finance-guide opening and cut-off description did not make its VA-specific value clear enough.
+- The recovery adds a complete description, VA-specific opening and workflow, a current funding-fee chart checkpoint, an affordability boundary, official VA/CFPB comparison steps, and a contextual link from `/free-calculator-resources/`.
+- Baseline evidence: `output/search-console/page-performance-va-mortgage-guide-2026-07-10.json` and `output/search-console/url-inspection-va-guide-baseline-2026-07-10.json`. Wait for a new Google crawl before judging the recovery; do not claim indexation or traffic gains from the source change alone.
