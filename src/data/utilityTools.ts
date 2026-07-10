@@ -8426,18 +8426,18 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'color-contrast-checker',
     name: 'Color Contrast Checker',
     category: 'image-tools',
-    summary: 'Check WCAG contrast ratio for text and background hex colors.',
+    summary: 'Check WCAG 2.2 contrast and find a nearby AA-passing text color.',
     description:
-      'Use this free color contrast checker to compare two hex colors, calculate contrast ratio, and see WCAG AA and AAA pass or fail results.',
+      'Pick or paste two hex colors, calculate their contrast ratio, see WCAG 2.2 AA and AAA results, and get a nearby AA text-color suggestion when normal text fails.',
     icon: 'tool-contrast',
-    aliases: ['WCAG Contrast Checker', 'Accessibility Contrast Checker'],
-    seoTitle: 'Color Contrast Checker | WCAG AA Ratio Tool',
+    aliases: ['WCAG Contrast Checker', 'WCAG 2.2 Contrast Checker', 'Accessibility Contrast Checker', 'Contrast Ratio Calculator'],
+    seoTitle: 'Color Contrast Checker | WCAG 2.2 AA & AAA',
     seoDescription:
-      'Check foreground and background hex colors, calculate the WCAG contrast ratio, and see AA or AAA pass states for normal and large text.',
+      'Pick or paste two hex colors, check WCAG 2.2 AA and AAA contrast, and get a nearby AA-passing text color when normal text fails.',
     formula:
-      'The checker normalizes #RGB or #RRGGBB hex colors, converts each sRGB channel to linear light, calculates relative luminance, then uses the WCAG contrast formula: (lighter luminance + 0.05) / (darker luminance + 0.05).',
+      'The checker normalizes #RGB or #RRGGBB hex colors, converts each sRGB channel to linear light, calculates relative luminance, then uses the WCAG contrast formula: (lighter luminance + 0.05) / (darker luminance + 0.05). When normal text fails AA, it also samples small RGB moves toward black and white and returns the shortest passing foreground change.',
     limit:
-      'Contrast ratio is one accessibility check. Also review actual font size and weight, focus states, hover states, selected states, icons, disabled controls, color-blind cues, and the real page background.',
+      'Contrast ratio is one accessibility check. The suggested color changes only the foreground and is not a W3C-approved palette choice. Also review actual font size and weight, focus states, selected states, meaningful icons, color-only cues, and the real page background.',
     faqLanguage: {
       expectedInputs: 'the exact foreground text color and background color as #RGB or #RRGGBB hex values',
       inputFallback:
@@ -8446,8 +8446,8 @@ export const utilityTools: ToolDefinition[] = [
         'Also check the actual font size, font weight, state, theme, and page background because a color pair can pass in one component and fail in another.',
     },
     inputExplanations: [
-      { term: 'Text color', meaning: 'the foreground hex color for the text, icon, label, or button copy you want people to read.' },
-      { term: 'Background color', meaning: 'the exact hex color directly behind that foreground color, not a nearby surface color.' },
+      { term: 'Text color', meaning: 'pick a swatch or paste the foreground hex color for the text, icon, label, or button copy you want people to read.' },
+      { term: 'Background color', meaning: 'pick or paste the exact hex color directly behind that foreground color, not a nearby surface color.' },
       { term: 'Contrast ratio', meaning: 'the lighter relative luminance divided by the darker relative luminance after WCAG adds 0.05 to both sides.' },
       { term: 'AA normal text', meaning: 'passes when the ratio is at least 4.5:1 for typical body text.' },
       { term: 'AA large text', meaning: 'passes when the ratio is at least 3:1 for large or bold text that meets the WCAG large-text size rule.' },
@@ -8483,17 +8483,22 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'You can use the ratio as a quick check, but decide whether the element is text, non-text UI, or decorative. Meaningful icons, focus outlines, and control borders often need their own contrast check against the adjacent color.',
       },
+      {
+        question: 'How is the nearby AA text color chosen?',
+        answer:
+          'The calculation keeps the background fixed and samples small RGB moves from the entered foreground toward black and white. It returns the passing option with the shortest RGB distance. Treat it as a practical starting point, not a W3C-approved brand color.',
+      },
     ],
     useCases: [
       'Check text color against a page background before publishing.',
       'Compare brand colors against WCAG AA and AAA thresholds.',
       'Test button, label, and navigation color pairs.',
-      'Quickly reject low-contrast combinations during design work.',
+      'Repair a near-miss text color without guessing at random hex values.',
     ],
     examples: [
       { label: 'Dark on white', expression: '#101828 on #ffffff', result: '17.7465943159:1, AA and AAA normal pass' },
       { label: 'Muted text', expression: '#667085 on #f9fafb', result: '4.7604112926:1, AA normal pass and AAA normal fail' },
-      { label: 'Near miss', expression: '#777777 on #ffffff', result: '4.4780894536:1, AA normal fail but large text passes' },
+      { label: 'Near miss', expression: '#777777 on #ffffff', result: '4.4780894536:1, with #767676 suggested for AA normal text' },
     ],
     relatedSlugs: ['aspect-ratio-calculator', 'css-clamp-calculator', 'monitor-ppi-calculator'],
   }),

@@ -2533,6 +2533,22 @@ describe('utility helpers', () => {
     expect(aspect.scaledHeight).toBe(720);
   });
 
+  it('suggests a nearby AA normal-text color when contrast is just below 4.5:1', () => {
+    const nearMiss = calculateColorContrast('#777777', '#ffffff');
+    const darkNearMiss = calculateColorContrast('#555555', '#000000');
+    const strongPair = calculateColorContrast('#101828', '#ffffff');
+
+    expect(nearMiss.passesAaNormal).toBe(false);
+    expect(nearMiss.aaNormalSuggestion.foreground).toBe('#767676');
+    expect(nearMiss.aaNormalSuggestion.contrastRatio).toBeGreaterThanOrEqual(4.5);
+    expect(nearMiss.aaNormalSuggestion.direction).toBe('darker');
+    expect(darkNearMiss.passesAaNormal).toBe(false);
+    expect(darkNearMiss.aaNormalSuggestion.contrastRatio).toBeGreaterThanOrEqual(4.5);
+    expect(darkNearMiss.aaNormalSuggestion.direction).toBe('lighter');
+    expect(strongPair.aaNormalSuggestion.foreground).toBe('#101828');
+    expect(strongPair.aaNormalSuggestion.direction).toBe('unchanged');
+  });
+
   it('calculates the expanded browser utility helpers', () => {
     const utm = buildUtmUrl({
       baseUrl: 'accessfreetools.com/tools/',

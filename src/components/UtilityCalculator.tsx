@@ -301,7 +301,7 @@ interface SelectOption {
 interface UtilityField {
   key: string;
   label: string;
-  type?: 'number' | 'select' | 'date' | 'time' | 'checkbox' | 'text' | 'textarea';
+  type?: 'number' | 'select' | 'date' | 'time' | 'checkbox' | 'text' | 'textarea' | 'color';
   inputMode?: InputMode;
   placeholder?: string;
   options?: SelectOption[];
@@ -364,6 +364,7 @@ const integerField = (key: string, label: string, placeholder?: string): Utility
 const dateField = (key: string, label: string): UtilityField => ({ key, label, type: 'date' });
 const timeField = (key: string, label: string): UtilityField => ({ key, label, type: 'time' });
 const textField = (key: string, label: string, placeholder?: string): UtilityField => ({ key, label, placeholder, type: 'text' });
+const colorField = (key: string, label: string): UtilityField => ({ key, label, type: 'color' });
 const textareaField = (key: string, label: string, placeholder?: string): UtilityField => ({ key, label, placeholder, type: 'textarea' });
 const checkboxField = (key: string, label: string): UtilityField => ({ key, label, type: 'checkbox' });
 const selectField = (key: string, label: string, options: SelectOption[]): UtilityField => ({
@@ -372,6 +373,20 @@ const selectField = (key: string, label: string, options: SelectOption[]): Utili
   type: 'select',
   options,
 });
+
+function normalizeColorPickerValue(value: string | undefined) {
+  const trimmed = value?.trim().replace(/^#/, '') ?? '';
+
+  if (/^[0-9a-f]{3}$/i.test(trimmed)) {
+    return `#${trimmed
+      .split('')
+      .map((character) => character + character)
+      .join('')
+      .toLowerCase()}`;
+  }
+
+  return /^[0-9a-f]{6}$/i.test(trimmed) ? `#${trimmed.toLowerCase()}` : null;
+}
 
 const rebarSizeOptions: SelectOption[] = [
   { label: '#3 - 0.376 lb/ft', value: '#3' },
@@ -3890,7 +3905,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
         id: 'contrast',
         label: 'Contrast ratio',
         symbol: 'AA',
-        fields: [textField('foreground', 'Text color', '#101828'), textField('background', 'Background color', '#ffffff')],
+        fields: [colorField('foreground', 'Text color'), colorField('background', 'Background color')],
         defaultInputs: { foreground: '#101828', background: '#ffffff' },
         examples: [
           { label: 'Dark on white', inputs: { foreground: '#101828', background: '#ffffff' } },
@@ -7201,6 +7216,7 @@ function calculateUtility(
     }
     case 'color-contrast-checker': {
       const result = calculateColorContrast(inputs.foreground, inputs.background);
+      const suggestion = result.aaNormalSuggestion;
       return {
         label: 'Contrast ratio',
         expression: `${result.foreground} on ${result.background}`,
@@ -7210,13 +7226,21 @@ function calculateUtility(
           { label: 'AA large text', value: result.passesAaLarge ? 'Pass' : 'Fail' },
           { label: 'AAA normal text', value: result.passesAaaNormal ? 'Pass' : 'Fail' },
           { label: 'AAA large text', value: result.passesAaaLarge ? 'Pass' : 'Fail' },
+          ...(!result.passesAaNormal
+            ? [{
+                label: 'Nearby AA text color',
+                value: `${suggestion.foreground} (${formatCalculatorNumber(suggestion.contrastRatio)}:1)`,
+              }]
+            : []),
         ],
         steps: [
           'Convert each hex color to sRGB channel values.',
           'Calculate relative luminance for foreground and background.',
           'Use the WCAG contrast formula: (lighter + 0.05) / (darker + 0.05).',
         ],
-        note: 'WCAG AA uses 4.5:1 for normal text and 3:1 for large text. Also check focus, hover, disabled, and icon states.',
+        note: result.passesAaNormal
+          ? 'This pair clears WCAG 2.2 AA for normal text. Also check focus, hover, disabled, and meaningful non-text states.'
+          : `Try ${suggestion.foreground} as a nearby AA normal-text option. The suggestion samples the smallest RGB shift toward black or white that reaches 4.5:1; it is not an official W3C color choice.`,
       };
     }
     case 'aspect-ratio-calculator': {
@@ -7791,6 +7815,14 @@ export default function UtilityCalculator({ variant }: Props) {
     setCopied(false);
   }
 
+  function updateColorInput(key: string, value: string) {
+    const nextInputs = { ...inputs, [key]: value };
+    setInputs(nextInputs);
+    setError('');
+    setCopied(false);
+    void runCalculation(nextInputs);
+  }
+
   async function runCalculation(nextInputs = inputs) {
     try {
       const nextResult = await Promise.resolve(calculateUtility(variant, activeMode.id, nextInputs));
@@ -7850,6 +7882,39 @@ export default function UtilityCalculator({ variant }: Props) {
         <div className="advanced-fields utility-fields">
           {activeMode.fields.map((field) => {
             const fieldHelp = getFieldHelp(variant, field);
+            const fieldId = `utility-${variant}-${activeMode.id}-${field.key}`;
+
+            if (field.type === 'color') {
+              const pickerValue =
+                normalizeColorPickerValue(inputs[field.key]) ??
+                normalizeColorPickerValue(activeMode.defaultInputs[field.key]) ??
+                '#000000';
+
+              return (
+                <div className="advanced-field advanced-color-field" key={field.key}>
+                  <label htmlFor={fieldId}>{field.label}</label>
+                  <div className="advanced-color-control">
+                    <input
+                      aria-label={`${field.label} picker`}
+                      className="advanced-color-swatch"
+                      onChange={(event) => updateColorInput(field.key, event.target.value)}
+                      type="color"
+                      value={pickerValue}
+                    />
+                    <input
+                      id={fieldId}
+                      inputMode="text"
+                      onChange={(event) => updateInput(field.key, event.target.value)}
+                      onKeyDown={runOnEnter}
+                      placeholder={activeMode.defaultInputs[field.key] ?? '#000000'}
+                      type="text"
+                      value={inputs[field.key] ?? ''}
+                    />
+                  </div>
+                  {fieldHelp && <small>{fieldHelp}</small>}
+                </div>
+              );
+            }
 
             return (
               <label className={field.type === 'checkbox' ? 'advanced-field advanced-checkbox-field' : 'advanced-field'} key={field.key}>

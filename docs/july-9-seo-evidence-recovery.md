@@ -60,3 +60,11 @@ CTR/ranking pages from the July 9 high-impression zero-click set:
 - Google URL Inspection returned `Crawled - currently not indexed` with a successful fetch. This is classified as `recover`: the URL, canonical, crawl path, and sources remain valid, but the generic finance-guide opening and cut-off description did not make its VA-specific value clear enough.
 - The recovery adds a complete description, VA-specific opening and workflow, a current funding-fee chart checkpoint, an affordability boundary, official VA/CFPB comparison steps, and a contextual link from `/free-calculator-resources/`.
 - Baseline evidence: `output/search-console/page-performance-va-mortgage-guide-2026-07-10.json` and `output/search-console/url-inspection-va-guide-baseline-2026-07-10.json`. Wait for a new Google crawl before judging the recovery; do not claim indexation or traffic gains from the source change alone.
+
+## 2026-07-10 Color Contrast Checker Recovery Sprint
+
+- Exact Search Console page filtering found 22 impressions and 0 clicks for `/tools/color-contrast-checker/` from 2026-05-01 through 2026-07-08, at average position 3.6. Query text was withheld for privacy.
+- Current Google URL Inspection reports `Crawled - currently not indexed` with a successful fetch. June inspection evidence had reported the same URL as submitted and indexed, so this is a current index-selection loss rather than a blocked crawl or a never-discovered page.
+- The page still passes its 98-point local SEO score, 100 internal-link score, WCAG formula checks, sitemap checks, and specialist judge. This is classified as `recover` through stronger product value instead of adding more generic text.
+- The recovery adds compact native color swatches, a deterministic nearby AA normal-text suggestion for failed pairs, a visible #777777 to #767676 repair example, WCAG 2.2 wording, and official W3C non-text contrast guidance.
+- Baseline evidence: `output/search-console/page-performance-color-contrast-checker-tool-2026-07-10.json` and `output/search-console/url-inspection-color-contrast-checker-baseline-2026-07-10.json`. Wait for Google to recrawl before judging indexation or traffic movement.

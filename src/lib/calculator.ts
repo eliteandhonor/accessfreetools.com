@@ -8356,6 +8356,11 @@ export interface ColorContrastResult {
   passesAaLarge: boolean;
   passesAaaNormal: boolean;
   passesAaaLarge: boolean;
+  aaNormalSuggestion: {
+    foreground: string;
+    contrastRatio: number;
+    direction: 'darker' | 'lighter' | 'unchanged';
+  };
 }
 
 export interface AspectRatioResult {
@@ -12605,16 +12610,83 @@ function relativeLuminance(rgb: [number, number, number]) {
   return 0.2126 * linearizedSrgb(rgb[0]) + 0.7152 * linearizedSrgb(rgb[1]) + 0.0722 * linearizedSrgb(rgb[2]);
 }
 
+function contrastRatioForRgb(foreground: [number, number, number], background: [number, number, number]) {
+  const foregroundLuminance = relativeLuminance(foreground);
+  const backgroundLuminance = relativeLuminance(background);
+  const lighter = Math.max(foregroundLuminance, backgroundLuminance);
+  const darker = Math.min(foregroundLuminance, backgroundLuminance);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+function rgbToHex(rgb: [number, number, number]) {
+  return `#${rgb.map((channel) => channel.toString(16).padStart(2, '0')).join('')}`;
+}
+
+function squaredRgbDistance(first: [number, number, number], second: [number, number, number]) {
+  return first.reduce((total, channel, index) => total + (channel - second[index]) ** 2, 0);
+}
+
+function findAaNormalForegroundSuggestion(
+  foreground: [number, number, number],
+  background: [number, number, number],
+) {
+  const currentRatio = contrastRatioForRgb(foreground, background);
+
+  if (currentRatio >= 4.5) {
+    return {
+      foreground: rgbToHex(foreground),
+      contrastRatio: currentRatio,
+      direction: 'unchanged' as const,
+    };
+  }
+
+  const candidates: Array<{
+    foreground: string;
+    contrastRatio: number;
+    direction: 'darker' | 'lighter';
+    distance: number;
+  }> = [];
+
+  for (const endpoint of [0, 255] as const) {
+    for (let step = 1; step <= 255; step += 1) {
+      const candidate = foreground.map((channel) =>
+        Math.round(channel + ((endpoint - channel) * step) / 255),
+      ) as [number, number, number];
+      const contrastRatio = contrastRatioForRgb(candidate, background);
+
+      if (contrastRatio >= 4.5) {
+        candidates.push({
+          foreground: rgbToHex(candidate),
+          contrastRatio,
+          direction: endpoint === 0 ? 'darker' : 'lighter',
+          distance: squaredRgbDistance(foreground, candidate),
+        });
+        break;
+      }
+    }
+  }
+
+  const closest = candidates.sort(
+    (first, second) => first.distance - second.distance || first.contrastRatio - second.contrastRatio,
+  )[0];
+
+  if (!closest) {
+    throw new Error('Could not find an AA normal-text color suggestion');
+  }
+
+  return {
+    foreground: closest.foreground,
+    contrastRatio: closest.contrastRatio,
+    direction: closest.direction,
+  };
+}
+
 export function calculateColorContrast(foreground: string, background: string): ColorContrastResult {
   const foregroundHex = normalizeHexColor(foreground);
   const backgroundHex = normalizeHexColor(background);
   const foregroundRgb = hexToRgb(foregroundHex);
   const backgroundRgb = hexToRgb(backgroundHex);
-  const foregroundLuminance = relativeLuminance(foregroundRgb);
-  const backgroundLuminance = relativeLuminance(backgroundRgb);
-  const lighter = Math.max(foregroundLuminance, backgroundLuminance);
-  const darker = Math.min(foregroundLuminance, backgroundLuminance);
-  const contrastRatio = (lighter + 0.05) / (darker + 0.05);
+  const contrastRatio = contrastRatioForRgb(foregroundRgb, backgroundRgb);
 
   return {
     foreground: foregroundHex,
@@ -12626,6 +12698,7 @@ export function calculateColorContrast(foreground: string, background: string): 
     passesAaLarge: contrastRatio >= 3,
     passesAaaNormal: contrastRatio >= 7,
     passesAaaLarge: contrastRatio >= 4.5,
+    aaNormalSuggestion: findAaNormalForegroundSuggestion(foregroundRgb, backgroundRgb),
   };
 }
 

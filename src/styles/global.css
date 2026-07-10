@@ -5249,6 +5249,7 @@ main {
 }
 
 .advanced-field span,
+.advanced-field > label,
 .matrix-input-block h2 {
   color: var(--muted);
   font-size: 0.78rem;
@@ -6661,6 +6662,34 @@ main {
   font-weight: 850;
   line-height: 1.2;
   margin: 0;
+}
+
+.advanced-color-control {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 56px minmax(0, 1fr);
+}
+
+.advanced-color-control .advanced-color-swatch {
+  cursor: pointer;
+  height: 48px;
+  min-height: 48px;
+  padding: 4px;
+  width: 56px;
+}
+
+.advanced-color-swatch::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.advanced-color-swatch::-webkit-color-swatch {
+  border: 0;
+  border-radius: 4px;
+}
+
+.advanced-color-swatch::-moz-color-swatch {
+  border: 0;
+  border-radius: 4px;
 }
 
 .example-grid strong {

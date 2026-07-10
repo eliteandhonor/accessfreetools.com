@@ -7709,14 +7709,15 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'color-contrast-checker',
     status: 'deep-reviewed',
-    batch: 'seo-tool-review-color-contrast-checker-tool-2026-06-11',
-    reviewedOn: '2026-06-11',
+    batch: 'gsc-color-contrast-index-recovery-2026-07-10',
+    reviewedOn: '2026-07-10',
     scope: commonMathScope,
     sources: [wcagContrast, googleHelpfulContent],
     findings: [
       'The contrast checker normalizes #RGB or #RRGGBB colors, calculates relative luminance, and reports WCAG AA/AAA pass states.',
       'Tests cover dark text on white and AA normal pass behavior.',
       'The guide warns that contrast is one accessibility check and users still need focus, hover, disabled, icon, and real-layout checks.',
+      'The fixed July 9 Search Console window recorded 22 impressions, 0 clicks, and average position 3.6; current URL Inspection reports a successful fetch but Crawled - currently not indexed.',
     ],
     improvements: [
       'Manually checked contrast formula, hex validation, AA/AAA thresholds, examples, generated FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
@@ -7724,9 +7725,10 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'Expanded the matching guide with a near-miss #777777 on white walkthrough, formula steps, AA and AAA reading guidance, state/background mistakes, source context, and a 2026-06-04 guide modified date.',
       'Fresh June 11 tool revalidation added practical state-testing and non-text UI contrast FAQs, refreshed the tool modified date, and kept the WCAG formula, exact examples, limits, and related links aligned with the live page.',
       'Fresh June 11 guide revalidation removed a doubled punctuation mark in the rendered input-matching note and refreshed the guide modified date for the current review pass.',
+      'The July 10 recovery adds keyboard-accessible color swatches, a deterministic nearby AA normal-text suggestion, WCAG 2.2 wording, non-text contrast guidance, and tests for the #777777 on white near miss.',
     ],
     followUps: [
-      'Add color picker controls later if they stay compact and keyboard accessible.',
+      'Add alpha, gradient, or image-background sampling only with clear compositing rules and browser-side privacy limits.',
     ],
   },
   {

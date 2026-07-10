@@ -332,6 +332,34 @@ describe('site content audit guardrails', () => {
     expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
   });
 
+  it('keeps the Color Contrast Checker useful after an AA normal-text failure', () => {
+    const tool = tools.find((item) => item.slug === 'color-contrast-checker');
+    const guide = utilityBlogGuides.find((item) => item.toolSlug === 'color-contrast-checker');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+    const guideText = guide?.sections
+      .flatMap((section) => [section.title, ...section.paragraphs, ...(section.bullets ?? [])])
+      .join(' ') ?? '';
+    const guideLinks = guide?.sections.flatMap((section) => section.links ?? []).map((link) => link.href) ?? [];
+
+    expect(tool?.seoTitle).toBe('Color Contrast Checker | WCAG 2.2 AA & AAA');
+    expect(tool?.seoDescription).toContain('nearby AA-passing text color');
+    expect(tool?.aliases).toContain('WCAG 2.2 Contrast Checker');
+    expect(tool?.examples).toContainEqual({
+      label: 'Near miss',
+      expression: '#777777 on #ffffff',
+      result: '4.4780894536:1, with #767676 suggested for AA normal text',
+    });
+    expect(faqText).toContain('shortest RGB distance');
+    expect(guideText).toContain('Fix a failed text color without guessing');
+    expect(guideText).toContain('#777777 on #ffffff');
+    expect(guideText).toContain('#767676');
+    expect(guideLinks).toContain('https://www.w3.org/TR/WCAG22/');
+    expect(guideLinks).toContain('https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html');
+    expect(`${tool?.seoTitle}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription?.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+  });
+
   it('keeps the VA mortgage guide distinct, current, and decision-focused', () => {
     const guide = financeBlogGuides.find((item) => item.toolSlug === 'va-mortgage-calculator');
     const guideText = guide?.sections
