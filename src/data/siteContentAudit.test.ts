@@ -99,6 +99,10 @@ const PINTEREST_FEED_DATA_SOURCE = readFileSync(
   fileURLToPath(new URL('../data/pinterestFeed.ts', import.meta.url)),
   'utf8',
 );
+const PINTEREST_PUBLISH_SOURCE = readFileSync(
+  fileURLToPath(new URL('../../scripts/pinterest-organic-publisher.mjs', import.meta.url)),
+  'utf8',
+);
 const REDDIT_PROMOTION_AGENT_SOURCE = readFileSync(
   fileURLToPath(new URL('../../scripts/reddit-promotion-agent.mjs', import.meta.url)),
   'utf8',
@@ -823,6 +827,10 @@ describe('site content audit guardrails', () => {
     expect(PINTEREST_FEED_DATA_SOURCE).toContain('/tools/percentage-calculator/');
     expect(PINTEREST_FEED_DATA_SOURCE).not.toContain('/blog/');
     expect(PACKAGE_JSON.scripts['promotion:pinterest:rss-report']).toBe('node scripts/pinterest-rss-report.mjs');
+    expect(PACKAGE_JSON.scripts['promotion:pinterest:starter']).not.toContain('--publish');
+    expect(PACKAGE_JSON.scripts['promotion:pinterest:second-wave']).not.toContain('--publish');
+    expect(PINTEREST_PUBLISH_SOURCE).toContain("args.includes('--confirm-public-post')");
+    expect(PINTEREST_PUBLISH_SOURCE).toContain('Refusing to publish without --confirm-public-post');
     expect(PACKAGE_JSON.scripts['promotion:reddit']).toBe('node scripts/reddit-promotion-agent.mjs --all');
     expect(PACKAGE_JSON.scripts['promotion:reddit:quality']).toContain('check-reddit-promotion-quality.mjs');
     expect(PACKAGE_JSON.scripts['promotion:reddit:setup-browser']).toContain('reddit-external-setup.mjs');
@@ -896,7 +904,7 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts['check:accessibility']).toBe('node scripts/check-accessibility.mjs');
     expect(PACKAGE_JSON.scripts['security:audit']).toBe('npm audit --audit-level=moderate');
     expect(PACKAGE_JSON.scripts.check).toBe(
-      'npm run typecheck && npm test && npm run build && npm run check:links && npm run check:site && npm run check:article-visual && npm run check:key-visual && npm run check:accessibility && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run images:qa && npm run images:sitemap-check && npm run gallery:qa && npm run check:secrets && npm run security:audit',
+      'npm run typecheck && npm run typecheck:ts6 && npm test && npm run build && npm run check:links && npm run check:site && npm run check:article-visual && npm run check:key-visual && npm run check:accessibility && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run images:qa && npm run images:sitemap-check && npm run gallery:qa && npm run check:secrets && npm run security:audit',
     );
     expect(README_SOURCE).toContain('npm run check');
     expect(DEPLOYMENT_CHECKLIST_SOURCE).toContain('/tools/');
@@ -1139,6 +1147,9 @@ describe('site content audit guardrails', () => {
     expect(PRIVACY_POLICY_SOURCE).toContain('aboutads.info');
     expect(PRIVACY_POLICY_SOURCE).toContain('affiliate links');
     expect(PRIVACY_POLICY_SOURCE).toContain('If you use the contact form');
+    expect(PRIVACY_POLICY_SOURCE).toContain('Ask tool routing');
+    expect(PRIVACY_POLICY_SOURCE).toContain('data-public-analytics-choice="out"');
+    expect(PRIVACY_POLICY_SOURCE).toContain('query strings or fragments');
     expect(PRIVACY_POLICY_SOURCE).toContain('contact@accessfreetools.com');
     expect(PRIVACY_POLICY_SOURCE).not.toContain(RETIRED_PRIVACY_INBOX);
 
@@ -1176,6 +1187,9 @@ describe('site content audit guardrails', () => {
     expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("join(distDir, 'app.js')");
     expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("import('./server/entry.mjs').catch");
     expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("process.env.PORT = '3000'");
+    expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("process.env.HOST = '0.0.0.0'");
+    expect(MIRROR_STATIC_OUTPUT_SOURCE).not.toContain('serverChunksDir');
+    expect(MIRROR_STATIC_OUTPUT_SOURCE).not.toContain('server_.*');
 
     expect(LEGAL_MONETIZATION_READINESS_SOURCE).toContain('Google AdSense Checklist');
     expect(LEGAL_MONETIZATION_READINESS_SOURCE).toContain('Affiliate Checklist');

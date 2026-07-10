@@ -26,6 +26,7 @@ const DEFAULT_OUTPUT_DIR = 'output/mobile-seo-audit';
 const REPRESENTATIVE_PAGES = [
   '/',
   '/tools/',
+  '/blog/',
   '/free-calculator-resources/',
   '/tools/percentage-calculator/',
   '/blog/how-to-use-percentage-calculator/',
@@ -34,6 +35,7 @@ const REPRESENTATIVE_PAGES = [
 ];
 
 const VIEWPORTS = [
+  { name: 'mobile-320', width: 320, height: 568 },
   { name: 'mobile-390', width: 390, height: 844 },
   { name: 'tablet-768', width: 768, height: 1024 },
 ];

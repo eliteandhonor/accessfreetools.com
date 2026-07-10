@@ -291,6 +291,12 @@ function getCategoryIcon(slug: ToolCategory['slug']) {
   return categoryIcons[slug] ?? Grid3X3;
 }
 
+function isEditableTarget(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) return false;
+
+  return target.isContentEditable || ['INPUT', 'SELECT', 'TEXTAREA'].includes(target.tagName);
+}
+
 function ToolsTitleGraphic() {
   return (
     <h1 className="tools-title-art">
@@ -379,6 +385,30 @@ export default function ToolsLaunchpad({
       setQuery(queryFromUrl);
       void loadFullSearchIndex();
     }
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.key.toLowerCase() !== 'k' ||
+        !event.ctrlKey ||
+        event.altKey ||
+        event.metaKey ||
+        event.shiftKey ||
+        isEditableTarget(event.target)
+      ) {
+        return;
+      }
+
+      const searchInput = document.getElementById('tool-library-search');
+      if (!(searchInput instanceof HTMLInputElement)) return;
+
+      event.preventDefault();
+      searchInput.focus();
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const updateQuery = (nextQuery: string) => {
@@ -535,7 +565,7 @@ export default function ToolsLaunchpad({
           <div className="results-heading">
             <div>
               <h2>{selectedCategory?.name ?? 'Available Tools'}</h2>
-              <p>
+              <p aria-atomic="true" aria-live="polite" role="status">
                 {isSearchIndexLoading
                   ? 'Loading the full searchable library...'
                   : visibleTools.length === filteredToolCount

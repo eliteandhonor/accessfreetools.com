@@ -276,14 +276,14 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
             return;
           }
 
-          window.localStorage.setItem(tokenStorageKey, token);
+          window.sessionStorage.setItem(tokenStorageKey, token);
           renderSummary(body.summary);
         } catch {
           showMessage('Analytics endpoint is not available yet. Check Hostinger PHP/Node deployment settings.');
         }
       };
 
-      const storedToken = window.localStorage.getItem(tokenStorageKey) || '';
+      const storedToken = window.sessionStorage.getItem(tokenStorageKey) || '';
       loadSummary(storedToken);
 
       if (tokenForm) {

@@ -303,7 +303,7 @@ function indexingRecommendation(topGap, linkHelper) {
     'Add or verify contextual internal links from related indexed pages, then submit discovery and use one helpful promotion item if quality gates pass.',
     ['output/search-console-url-inspection.json', 'output/seo-agent-self-evaluation.json', 'docs/promotion-queue.md'],
     'Do not create a duplicate thin page. Improve the existing URL.',
-    'Search Console state change, sitemap/feed submission report, or public promotion proof.',
+    'Search Console state change, XML sitemap submission report, or public promotion proof.',
   );
 }
 

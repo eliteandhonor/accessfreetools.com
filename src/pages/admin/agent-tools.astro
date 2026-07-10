@@ -625,7 +625,7 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
             return;
           }
 
-          window.localStorage.setItem(tokenStorageKey, token);
+          window.sessionStorage.setItem(tokenStorageKey, token);
           showDashboard();
           renderReports(body.reports || []);
           setRefreshMessage('Safe refresh is ready.');
@@ -690,7 +690,7 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
         }
       };
 
-      loadReports(window.localStorage.getItem(tokenStorageKey) || '');
+      loadReports(window.sessionStorage.getItem(tokenStorageKey) || '');
 
       if (tokenForm) {
         tokenForm.addEventListener('submit', (event) => {
@@ -703,7 +703,7 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
       if (refreshForm) {
         refreshForm.addEventListener('submit', (event) => {
           event.preventDefault();
-          const token = window.localStorage.getItem(tokenStorageKey) || '';
+          const token = window.sessionStorage.getItem(tokenStorageKey) || '';
           const data = new FormData(refreshForm);
           refreshReports(token, String(data.get('kind') || 'all'));
         });
@@ -712,7 +712,7 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
       if (helperForm) {
         helperForm.addEventListener('submit', (event) => {
           event.preventDefault();
-          const token = window.localStorage.getItem(tokenStorageKey) || '';
+          const token = window.sessionStorage.getItem(tokenStorageKey) || '';
           const data = new FormData(helperForm);
           runHelper(token, {
             claim: String(data.get('claim') || ''),

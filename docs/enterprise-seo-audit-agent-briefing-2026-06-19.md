@@ -35,12 +35,12 @@ Treat the report as useful strategic input, not current-state truth. The report 
 
 ## Agent Priorities
 
-1. Keep the controlled page-review lane intact. Completion update from 2026-07-02: the generated tool/blog review lane is complete with 598 approved page review units, 0 remaining, and no active approval gate. Tool and blog approvals remain separate for any future page-level SEO work. Do not deploy a page or mark it approved from this enterprise audit alone.
+1. Keep the controlled page-review lane intact. Completion update from 2026-07-10: the generated tool/blog review lane is complete with 602 approved page review units, 0 remaining, and no active approval gate. Tool and blog approvals remain separate for any future page-level SEO work. Do not deploy a page or mark it approved from this enterprise audit alone.
 2. Verify crawler access as a sitewide P0, but do not blindly apply WAF changes. Run bot-style live probes, Search Console URL Inspection, Crawl Stats, and Hostinger/server log checks. If a challenge reappears for verified search crawlers, escalate through `docs/hostinger-api-agent-guide.md` before any DNS, hosting, WAF, or deployment write.
 3. Export and investigate Search Console error samples. The current internal console reports 3 Google 5xx examples and 1 404 sample. Test each live URL, check Hostinger/runtime logs, redirect old useful URLs, and leave junk/typo traffic alone.
 4. Improve truthful EEAT signals. The report recommends Person author/reviewer schema, visible bylines, editorial policy, methodology pages, and SME review for YMYL-adjacent content. Do not invent authors, reviewers, credentials, ratings, or professional endorsements.
 5. Use freshness honestly. `dateModified` should change only when content changes materially. Do not bulk-refresh dates as a fake freshness signal.
-6. Add structured data only when visible content supports it. HowTo schema should map to visible procedural steps. FAQ schema must match visible FAQ text. AggregateRating must wait for a real rating UI and real rating data.
+6. Add structured data only when visible content supports it. Keep Article or BlogPosting schema aligned with visible authorship and dates. FAQ schema must match visible FAQ text. AggregateRating must wait for a real rating UI and real rating data. Do not add HowTo schema for Google rich-result work; Google no longer supports HowTo rich results.
 7. Treat programmatic SEO as a separate product workstream. Comparison pages, glossary pages, use-case pages, and tool FAQ pages need actual demand proof, original usefulness, crawl/indexing controls, internal links, and no thin mass-page launch. Use DataForSEO or another approved keyword source before prioritizing large batches.
 8. Continue template QA in the page lane. For each reviewed page, check whether an issue is page-specific or template-wide. Template-wide fixes should be recorded as sitewide tasks instead of patched one page at a time.
 9. Keep image SEO tied to the smoke-kawaii system. Before changing image metadata, image sitemap logic, gallery pages, or approval state, use `docs/smoke-kawaii-image-system.md` and the existing image QA commands.
@@ -66,7 +66,7 @@ Programmatic SEO:
 - Agent task: treat this as a future sitewide roadmap, not a license to publish thin pages. Prioritize by demand, usefulness, and proof.
 
 Structured data:
-- Report recommends Person author/reviewer, HowTo where procedural, and aggregateRating where real ratings exist.
+- Report recommends truthful Person or Organization authorship and aggregateRating only where real ratings exist. Its HowTo recommendation is retired because Google no longer supports HowTo rich results.
 - Agent task: add only truthful schema backed by visible page content and current data.
 
 Image SEO:
@@ -85,7 +85,7 @@ Internal linking:
 
 The enterprise report does not replace the existing page-by-page evidence requirements. Completion update from 2026-07-02:
 
-- Generated review units: 598 approved / 0 remaining.
+- Generated review units: 602 approved / 0 remaining.
 - Active approval gate: none.
 - Final generated-lane closeout: `wind-chill-calculator` blog.
 - Current source of truth: `docs/seo-tool-review-queue.md`, `npm run aft -- seo-tool-queue`, and `npm run aft -- proof-check`.
@@ -96,4 +96,4 @@ The enterprise report does not replace the existing page-by-page evidence requir
 1. Do not resume the old `text-case-converter` blocker. Before any new SEO work, run `npm run aft -- seo-tool-queue` and `npm run aft -- proof-check` to confirm the current gate state.
 2. In parallel only if explicitly authorized as sitewide work, investigate the Search Console 5xx/404 samples from `npm run aft -- seo-console`.
 3. Create a sitewide technical task for crawler-access verification that records the PDF claim, current live 200 checks, and required GSC/log proof before any Hostinger or hCDN action.
-4. Create separate backlog items for truthful author/reviewer schema, HowTo schema support, dateModified hygiene, and real rating UI/schema. Keep these out of page-level approvals unless they directly affect the current page.
+4. Create separate backlog items for truthful author/reviewer schema, dateModified hygiene, and real rating UI/schema. Keep these out of page-level approvals unless they directly affect the current page. Do not revive HowTo rich-result work.

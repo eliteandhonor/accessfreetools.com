@@ -268,24 +268,29 @@ for (const htmlFile of htmlFiles) {
       }
     }
 
-    if (types.has('Article')) {
-      requireString(item, 'headline', 'Article', htmlFile);
-      requireString(item, 'description', 'Article', htmlFile);
-      requireString(item, 'datePublished', 'Article', htmlFile);
-      requireString(item, 'dateModified', 'Article', htmlFile);
-      requireSiteUrl(item.mainEntityOfPage, 'Article mainEntityOfPage', htmlFile);
-      ensureVisible(item.headline, visibleText, 'Article headline', htmlFile);
+    const articleType = ['Article', 'BlogPosting', 'NewsArticle'].find((type) => types.has(type));
+    if (articleType) {
+      requireString(item, 'headline', articleType, htmlFile);
+      requireString(item, 'description', articleType, htmlFile);
+      requireString(item, 'datePublished', articleType, htmlFile);
+      requireString(item, 'dateModified', articleType, htmlFile);
+      requireSiteUrl(item.mainEntityOfPage, `${articleType} mainEntityOfPage`, htmlFile);
+      ensureVisible(item.headline, visibleText, `${articleType} headline`, htmlFile);
 
       if (canonical && item.mainEntityOfPage !== canonical) {
-        issues.push(`${normalize(htmlFile)} Article mainEntityOfPage does not match canonical.`);
+        issues.push(`${normalize(htmlFile)} ${articleType} mainEntityOfPage does not match canonical.`);
       }
 
-      if (item.author?.['@type'] !== 'Organization' || !item.author.name) {
-        issues.push(`${normalize(htmlFile)} Article author should be an Organization.`);
+      if (!['Organization', 'Person'].includes(item.author?.['@type']) || !item.author.name) {
+        issues.push(`${normalize(htmlFile)} ${articleType} author should be a named Person or Organization.`);
+      }
+
+      if (item.author?.url) {
+        requireSiteUrl(item.author.url, `${articleType} author url`, htmlFile);
       }
 
       if (item.publisher?.['@type'] !== 'Organization' || !item.publisher.name) {
-        issues.push(`${normalize(htmlFile)} Article publisher should be an Organization.`);
+        issues.push(`${normalize(htmlFile)} ${articleType} publisher should be an Organization.`);
       }
     }
   }

@@ -17,7 +17,7 @@ import BaseLayout from '../components/BaseLayout.astro';
   </section>
 
   <section class="content-section content-section-narrow legal-copy">
-    <p><strong>Last updated:</strong> July 3, 2026</p>
+    <p><strong>Last updated:</strong> July 10, 2026</p>
 
     <h2>Overview</h2>
     <p>
@@ -54,9 +54,10 @@ import BaseLayout from '../components/BaseLayout.astro';
       your preferred style on future visits. You can clear it by clearing site data in your browser.
     </p>
     <p>
-      We also use local storage to remember an anonymous visitor ID and session ID for simple
-      first-party analytics. This helps us see which tools are actually used, how many visitors are
-      new or returning, and which pages need improvement. We do not save raw IP addresses in the
+      We use local storage to remember an anonymous visitor ID and session storage for an anonymous
+      tab-session ID used by simple first-party analytics. This helps us see which tools are actually
+      used, how many visitors are new or returning, and which pages need improvement. Analytics page
+      paths do not include query strings or fragments. We do not save raw IP addresses in the
       analytics event log; technical request details are hashed or summarized before storage.
     </p>
     <p>
@@ -72,6 +73,15 @@ import BaseLayout from '../components/BaseLayout.astro';
       actions like calculate, convert, generate, copy, or check. These events are used to understand
       which tools are useful, spot broken pages, improve internal links, and decide what to build
       next. We filter obvious bots and do not use this system to sell personal profiles.
+    </p>
+
+    <h2>Ask tool routing</h2>
+    <p>
+      When you use Ask Access Free Tools, the question you type may be sent to our hosted
+      language-model provider so the service can select the most suitable Access Free Tools
+      utility. The selected calculation or conversion is then run by deterministic tool code. Do
+      not enter passwords, financial account details, medical records, or other sensitive
+      information into Ask.
     </p>
 
     <h2>Microsoft Clarity</h2>
@@ -148,6 +158,17 @@ import BaseLayout from '../components/BaseLayout.astro';
       above, avoid clicking affiliate links, or contact us with privacy questions. If a future form
       asks for personal information, submit only what is needed for that request.
     </p>
+    <div class="analytics-opt-out-actions" aria-label="Access Free Tools analytics preference">
+      <button class="button-primary" type="button" data-public-analytics-choice="out">
+        Exclude this browser
+      </button>
+      <button class="button-secondary" type="button" data-public-analytics-choice="in">
+        Count this browser again
+      </button>
+    </div>
+    <p class="analytics-opt-out-status" data-public-analytics-status aria-live="polite">
+      Checking this browser's analytics preference...
+    </p>
 
     <h2>Contact</h2>
     <p>
@@ -157,4 +178,34 @@ import BaseLayout from '../components/BaseLayout.astro';
       features go live.
     </p>
   </section>
+
+  <script is:inline>
+    (() => {
+      const key = 'access-free-tools-analytics-opt-out';
+      const status = document.querySelector('[data-public-analytics-status]');
+
+      const updateStatus = () => {
+        const optedOut = window.localStorage.getItem(key) === 'true';
+        if (status) {
+          status.textContent = optedOut
+            ? 'This browser is excluded from Access Free Tools first-party analytics and Microsoft Clarity.'
+            : 'This browser is currently counted by Access Free Tools analytics.';
+        }
+      };
+
+      document.querySelectorAll('[data-public-analytics-choice]').forEach((button) => {
+        button.addEventListener('click', () => {
+          if (button.getAttribute('data-public-analytics-choice') === 'out') {
+            window.localStorage.setItem(key, 'true');
+          } else {
+            window.localStorage.removeItem(key);
+          }
+          updateStatus();
+          window.location.reload();
+        });
+      });
+
+      updateStatus();
+    })();
+  </script>
 </BaseLayout>

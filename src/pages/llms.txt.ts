@@ -39,6 +39,7 @@ export const GET: APIRoute = () => {
       'Use the main resource hub for calculator guides, category paths, and tool discovery.',
     ),
     formatLink('Blog index', '/blog/', 'Read practical guides that explain how to use Access Free Tools pages.'),
+    formatLink('Full LLM index', '/llms-full.txt', 'Read the complete machine-readable list of public tools and guides.'),
     formatLink('XML sitemap', '/sitemap.xml', 'Machine-readable XML sitemap for indexable public pages.'),
     formatLink('RSS feed', '/feed.xml', 'Latest public guides and site updates in RSS format.'),
   ]
@@ -52,6 +53,7 @@ Canonical site: https://accessfreetools.com/
 Tools index: https://accessfreetools.com/tools/
 Resources hub: https://accessfreetools.com/free-calculator-resources/
 Blog index: https://accessfreetools.com/blog/
+Full LLM index: https://accessfreetools.com/llms-full.txt
 XML sitemap: https://accessfreetools.com/sitemap.xml
 RSS feed: https://accessfreetools.com/feed.xml
 Pinterest promotion RSS feed: https://accessfreetools.com/pinterest-feed.xml

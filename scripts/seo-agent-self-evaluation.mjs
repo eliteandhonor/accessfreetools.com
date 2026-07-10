@@ -486,7 +486,7 @@ if (relatedKeywordIdeas.length) {
 
 lines.push('', '## Recommended Next Actions');
 lines.push('- Keep legacy redirects verified for old ranking URLs such as `/calculators`, `/deep-research`, `/advanced-age-calculator`, and the old AdSense earnings article.');
-lines.push('- Keep sitemap and RSS submitted through Search Console after major batches.');
+lines.push('- Submit the XML sitemap set through Search Console after major batches. Keep RSS live for readers, but do not submit `/feed.xml` as a Google sitemap.');
 lines.push('- For priority pages that are discovered, crawled, or unknown but not indexed yet, improve useful internal links and page clarity before creating new duplicate pages.');
 lines.push('- Use DataForSEO for live SERP checks before changing important titles or creating new tool clusters.');
 lines.push('- Run `npm run dataforseo:status` before paid research; use Sandbox for new endpoint shapes.');

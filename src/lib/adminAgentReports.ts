@@ -532,9 +532,9 @@ export function refreshSeoConsoleReport() {
 
   const actions = [
     {
-      priority: 'medium',
-      task: 'Search Console discovery has been refreshed for the sitemap/feed. If Wallpaper Calculator still shows unknown in URL Inspection, use the manual request indexing button and recheck after Google crawls.',
-      target: '/tools/wallpaper-calculator/',
+      priority: 'monitor',
+      task: 'This production report cannot see the owner-only Search Console OAuth files. Run `npm run aft -- seo-console` in an approved local workspace before naming a URL or repeating an indexing request.',
+      target: '/admin/agent-tools/',
     },
     {
       priority: 'medium',

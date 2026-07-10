@@ -24,6 +24,7 @@ export default function ThemePicker() {
   const [activeTheme, setActiveTheme] = useState<ThemeId>('fresh');
   const [isOpen, setIsOpen] = useState(false);
   const pickerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const activeThemeLabel = themes.find((theme) => theme.id === activeTheme)?.label ?? 'Fresh';
 
   useEffect(() => {
@@ -51,7 +52,9 @@ export default function ThemePicker() {
     };
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
+        event.preventDefault();
         setIsOpen(false);
+        triggerRef.current?.focus();
       }
     };
 
@@ -83,6 +86,7 @@ export default function ThemePicker() {
         aria-haspopup="true"
         className="theme-picker-trigger"
         onClick={() => setIsOpen((current) => !current)}
+        ref={triggerRef}
         type="button"
       >
         <span className="theme-picker-icon" aria-hidden="true">

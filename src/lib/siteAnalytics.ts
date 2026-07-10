@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, open, readdir, rename, rm, stat, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 
 export const ANALYTICS_OPT_OUT_KEY = 'access-free-tools-analytics-opt-out';
@@ -8,8 +8,18 @@ export const ANALYTICS_OPT_OUT_KEY = 'access-free-tools-analytics-opt-out';
 const DEFAULT_TIME_ZONE = 'Australia/Brisbane';
 const MAX_EVENT_BYTES = 8192;
 const MAX_READ_LINES = 120000;
+const MAX_ANALYTICS_FILE_BYTES = 25 * 1024 * 1024;
+const MAX_ANALYTICS_TAIL_BYTES = 16 * 1024 * 1024;
+const ANALYTICS_ARCHIVE_RETENTION_MS = 90 * 24 * 60 * 60 * 1000;
+const ANALYTICS_RATE_LIMIT_WINDOW_MS = 60 * 1000;
+const ANALYTICS_RATE_LIMIT_MAX_PER_IP = 120;
+const ANALYTICS_RATE_LIMIT_MAX_GLOBAL = 5000;
+const MAX_RATE_LIMIT_BUCKETS = 10000;
 const ANALYTICS_DIR = resolve(process.env.AFT_ANALYTICS_DIR ?? '.local/analytics');
 const ANALYTICS_EVENTS_PATH = join(ANALYTICS_DIR, 'events.ndjson');
+const analyticsRateLimitBuckets = new Map<string, { count: number; resetAt: number }>();
+let globalAnalyticsRateLimit = { count: 0, resetAt: 0 };
+let analyticsWriteQueue = Promise.resolve();
 const BOT_USER_AGENT_PATTERN =
   /bot|crawler|spider|preview|facebookexternalhit|meta-externalagent|slurp|bingpreview|duckduckbot|baiduspider|yandex|semrush|ahrefs|mj12bot|dotbot|petalbot|uptime|monitor|validator|lighthouse|pagespeed|headless|python-requests|curl|wget/i;
 
@@ -97,20 +107,21 @@ function cleanText(value: unknown, maxLength: number) {
   return typeof value === 'string' ? value.trim().slice(0, maxLength) : '';
 }
 
-function cleanPath(value: unknown) {
+export function sanitizeAnalyticsPath(value: unknown) {
   const rawValue = cleanText(value, 500);
   if (!rawValue || rawValue.startsWith('/api/') || rawValue.startsWith('/admin/')) return '';
 
   try {
     if (rawValue.startsWith('http://') || rawValue.startsWith('https://')) {
       const url = new URL(rawValue);
-      return `${url.pathname}${url.search}`.slice(0, 500);
+      return url.pathname.slice(0, 500);
     }
   } catch {
     return '';
   }
 
-  return rawValue.startsWith('/') ? rawValue : '';
+  if (!rawValue.startsWith('/')) return '';
+  return rawValue.split(/[?#]/, 1)[0].slice(0, 500);
 }
 
 let cachedAnalyticsConfig: Record<string, string> | undefined;
@@ -188,6 +199,109 @@ function getClientIp(request: Request, clientAddress?: string) {
   const realIp = request.headers.get('x-real-ip')?.trim();
   const cfIp = request.headers.get('cf-connecting-ip')?.trim();
   return cfIp || realIp || forwardedFor || clientAddress || 'unknown';
+}
+
+function pruneRateLimitBuckets(now: number) {
+  if (analyticsRateLimitBuckets.size < MAX_RATE_LIMIT_BUCKETS) return;
+
+  for (const [key, bucket] of analyticsRateLimitBuckets) {
+    if (bucket.resetAt <= now) analyticsRateLimitBuckets.delete(key);
+  }
+
+  while (analyticsRateLimitBuckets.size >= MAX_RATE_LIMIT_BUCKETS) {
+    const oldestKey = analyticsRateLimitBuckets.keys().next().value;
+    if (typeof oldestKey !== 'string') break;
+    analyticsRateLimitBuckets.delete(oldestKey);
+  }
+}
+
+export function isAnalyticsRequestRateLimited(request: Request, clientAddress?: string) {
+  const now = Date.now();
+
+  if (globalAnalyticsRateLimit.resetAt <= now) {
+    globalAnalyticsRateLimit = { count: 0, resetAt: now + ANALYTICS_RATE_LIMIT_WINDOW_MS };
+  }
+  globalAnalyticsRateLimit.count += 1;
+  if (globalAnalyticsRateLimit.count > ANALYTICS_RATE_LIMIT_MAX_GLOBAL) return true;
+
+  pruneRateLimitBuckets(now);
+  const key = getClientIp(request, clientAddress);
+  const bucket = analyticsRateLimitBuckets.get(key);
+
+  if (!bucket || bucket.resetAt <= now) {
+    analyticsRateLimitBuckets.set(key, { count: 1, resetAt: now + ANALYTICS_RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+
+  bucket.count += 1;
+  return bucket.count > ANALYTICS_RATE_LIMIT_MAX_PER_IP;
+}
+
+async function pruneAnalyticsArchives() {
+  const cutoff = Date.now() - ANALYTICS_ARCHIVE_RETENTION_MS;
+  const entries = await readdir(ANALYTICS_DIR, { withFileTypes: true }).catch(() => []);
+
+  await Promise.all(
+    entries
+      .filter((entry) => entry.isFile() && /^events-.*\.ndjson$/i.test(entry.name))
+      .map(async (entry) => {
+        const path = join(ANALYTICS_DIR, entry.name);
+        const details = await stat(path).catch(() => null);
+        if (details && details.mtimeMs < cutoff) await rm(path, { force: true });
+      }),
+  );
+}
+
+async function rotateAnalyticsLogIfNeeded() {
+  const details = await stat(ANALYTICS_EVENTS_PATH).catch(() => null);
+  if (!details || details.size < MAX_ANALYTICS_FILE_BYTES) return;
+
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  await rename(ANALYTICS_EVENTS_PATH, join(ANALYTICS_DIR, `events-${timestamp}.ndjson`));
+  await pruneAnalyticsArchives();
+}
+
+async function appendAnalyticsEvent(event: StoredAnalyticsEvent) {
+  const write = analyticsWriteQueue.catch(() => {}).then(async () => {
+    await mkdir(dirname(ANALYTICS_EVENTS_PATH), { recursive: true });
+    await rotateAnalyticsLogIfNeeded();
+    await writeFile(ANALYTICS_EVENTS_PATH, `${JSON.stringify(event)}\n`, { flag: 'a' });
+  });
+  analyticsWriteQueue = write;
+  await write;
+}
+
+async function readFileTail(path: string) {
+  const handle = await open(path, 'r');
+  try {
+    const details = await handle.stat();
+    const length = Math.min(details.size, MAX_ANALYTICS_TAIL_BYTES);
+    const start = Math.max(0, details.size - length);
+    const buffer = Buffer.alloc(length);
+    await handle.read(buffer, 0, length, start);
+    let text = buffer.toString('utf8');
+    if (start > 0) text = text.slice(Math.max(0, text.indexOf('\n') + 1));
+    return text;
+  } finally {
+    await handle.close();
+  }
+}
+
+async function analyticsEventFiles() {
+  const entries = await readdir(ANALYTICS_DIR, { withFileTypes: true }).catch(() => []);
+  const files = await Promise.all(
+    entries
+      .filter((entry) => entry.isFile() && /^events(?:-.*)?\.ndjson$/i.test(entry.name))
+      .map(async (entry) => {
+        const path = join(ANALYTICS_DIR, entry.name);
+        const details = await stat(path).catch(() => null);
+        return details ? { path, mtimeMs: details.mtimeMs } : null;
+      }),
+  );
+
+  return files
+    .filter((file): file is { path: string; mtimeMs: number } => Boolean(file))
+    .sort((left, right) => right.mtimeMs - left.mtimeMs);
 }
 
 function getExcludedIps() {
@@ -274,7 +388,7 @@ export async function recordAnalyticsEvent(payload: AnalyticsPayload, request: R
   }
 
   const type = isAllowedEventType(payload.type) ? payload.type : 'page_view';
-  const pagePath = cleanPath(payload.pagePath);
+  const pagePath = sanitizeAnalyticsPath(payload.pagePath);
   if (!pagePath) {
     return { ignored: true, reason: 'bad-path' };
   }
@@ -306,35 +420,32 @@ export async function recordAnalyticsEvent(payload: AnalyticsPayload, request: R
     visitorHash: hashValue(visitorInput),
   };
 
-  await mkdir(dirname(ANALYTICS_EVENTS_PATH), { recursive: true });
-  await writeFile(ANALYTICS_EVENTS_PATH, `${JSON.stringify(event)}\n`, { flag: 'a' });
+  await appendAnalyticsEvent(event);
   return { ignored: false, eventId: event.eventId };
 }
 
 export async function readAnalyticsEvents() {
-  let text = '';
-
-  try {
-    text = await readFile(ANALYTICS_EVENTS_PATH, 'utf8');
-  } catch {
-    return [];
-  }
-
-  const lines = text.trim().split('\n').filter(Boolean).slice(-MAX_READ_LINES);
   const events: StoredAnalyticsEvent[] = [];
+  await pruneAnalyticsArchives();
 
-  for (const line of lines) {
-    try {
-      const parsed = JSON.parse(line) as StoredAnalyticsEvent;
-      if (parsed.ts && parsed.type && parsed.pagePath && parsed.visitorHash) {
-        events.push(parsed);
+  for (const file of await analyticsEventFiles()) {
+    const lines = (await readFileTail(file.path)).trim().split('\n').filter(Boolean).slice(-MAX_READ_LINES);
+
+    for (const line of lines) {
+      try {
+        const parsed = JSON.parse(line) as StoredAnalyticsEvent;
+        if (parsed.ts && parsed.type && parsed.pagePath && parsed.visitorHash) {
+          events.push(parsed);
+        }
+      } catch {
+        // Skip damaged lines rather than losing the whole report.
       }
-    } catch {
-      // Skip damaged lines rather than losing the whole report.
     }
+
+    if (events.length >= MAX_READ_LINES) break;
   }
 
-  return events.sort((left, right) => left.ts.localeCompare(right.ts));
+  return events.sort((left, right) => left.ts.localeCompare(right.ts)).slice(-MAX_READ_LINES);
 }
 
 function incrementMap(map: Map<string, SummaryRow>, key: string, label = key, path?: string) {

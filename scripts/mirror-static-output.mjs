@@ -1,4 +1,4 @@
-import { cpSync, existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const distDir = join(process.cwd(), 'dist');
@@ -37,39 +37,4 @@ writeFileSync(
   ].join('\n'),
 );
 
-const serverChunksDir = join(distDir, 'server', 'chunks');
-let patchedServerChunks = 0;
-
-if (existsSync(serverChunksDir)) {
-  for (const entry of readdirSync(serverChunksDir, { withFileTypes: true })) {
-    if (!entry.isFile() || !/^server_.*\.mjs$/.test(entry.name)) continue;
-
-    const path = join(serverChunksDir, entry.name);
-    const source = readFileSync(path, 'utf8');
-    const patched = source.replace(
-      [
-        'const port = process.env.PORT ? Number(process.env.PORT) : options.port ?? 8080;',
-        '  const host = process.env.HOST ?? hostOptions(options.host);',
-      ].join('\n'),
-      [
-        "const rawPort = process.env.PORT;",
-        "const parsedPort = rawPort && rawPort !== 'undefined' ? Number(rawPort) : NaN;",
-        "const rawOptionPort = options.port;",
-        "const parsedOptionPort = rawOptionPort && rawOptionPort !== 'undefined' ? Number(rawOptionPort) : NaN;",
-        'const port = Number.isFinite(parsedPort) && parsedPort > 0 ? parsedPort : Number.isFinite(parsedOptionPort) && parsedOptionPort > 0 ? parsedOptionPort : 3000;',
-        "const rawHost = process.env.HOST;",
-        'const optionHost = hostOptions(options.host);',
-        "const host = rawHost && rawHost !== 'undefined' ? rawHost : optionHost && optionHost !== 'undefined' ? optionHost : '0.0.0.0';",
-      ].join('\n  '),
-    );
-
-    if (patched !== source) {
-      writeFileSync(path, patched);
-      patchedServerChunks += 1;
-    }
-  }
-}
-
-console.log(
-  `Mirrored dist/client into dist, wrote dist/app.js, and patched ${patchedServerChunks} server chunk(s) for Hostinger starts.`,
-);
+console.log('Mirrored dist/client into dist and wrote the guarded dist/app.js Hostinger entry.');

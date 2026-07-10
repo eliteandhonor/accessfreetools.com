@@ -211,6 +211,7 @@ function parseArgs() {
 
   return {
     publish: args.includes('--publish'),
+    confirmPublicPost: args.includes('--confirm-public-post'),
     all: args.includes('--all'),
     cleanupOnly: args.includes('--cleanup-drafts'),
     force: args.includes('--force'),
@@ -489,6 +490,7 @@ async function main() {
     profileDir: args.profileDir,
     channel: args.channel,
     publish: args.publish,
+    confirmPublicPost: args.confirmPublicPost,
     cleanupOnly: args.cleanupOnly,
     force: args.force,
     safety: ['organic pin creation only', 'no ads', 'no billing', 'no campaign setup', 'no password entry'],
@@ -527,7 +529,16 @@ async function main() {
       asset: assetPath(pin),
       assetExists: existsSync(assetPath(pin)),
     }));
-    console.log(`Pinterest dry run: ${selectedPins.length} selected pin(s). Add --publish to post organically.`);
+    console.log(
+      `Pinterest dry run: ${selectedPins.length} selected pin(s). Publishing requires both --publish and --confirm-public-post.`,
+    );
+    writeJson(args.reportPath, report);
+    return;
+  }
+
+  if (!args.confirmPublicPost) {
+    report.status = 'confirmation-required';
+    console.log('Refusing to publish without --confirm-public-post. No browser was opened.');
     writeJson(args.reportPath, report);
     return;
   }

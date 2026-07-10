@@ -160,7 +160,7 @@ const rootDir = process.cwd();
 const codexHomePath = resolve(process.env.CODEX_HOME || resolve(homedir(), '.codex'));
 const gitStatus = runCommand('Git status', 'git', ['status', '--short', '--branch'], rootDir);
 const seoQueue = runAftCommand('SEO tool queue', ['seo-tool-queue'], rootDir);
-const seoApproval = runAftCommand('SEO approval status', ['seo-approval-status', 'text-case-converter'], rootDir);
+const proofCheck = runAftCommand('Current proof check', ['proof-check'], rootDir);
 const cleanupCandidates = listCleanupCandidates(rootDir, { measureSize: !fastAudit });
 
 const report = {
@@ -170,7 +170,7 @@ const report = {
   git: {
     dirtyFiles: gitDirtyLines(gitStatus),
   },
-  commands: [gitStatus, seoQueue, seoApproval],
+  commands: [gitStatus, seoQueue, proofCheck],
   cleanupCandidates,
   cleanupCandidateBytes: cleanupCandidates.reduce((sum, candidate) => sum + candidate.sizeBytes, 0),
   protectedProjectPaths: protectedProjectPaths(rootDir),

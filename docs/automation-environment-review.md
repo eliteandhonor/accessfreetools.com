@@ -1,6 +1,6 @@
 # Automation Environment Review
 
-Last reviewed: 2026-05-11
+Last reviewed: 2026-07-10
 
 ## Current Environment Status
 
@@ -13,13 +13,13 @@ npm run automation:env-check
 Latest verified result:
 
 - Status: ok
-- Primary repo cwd: `C:\Users\chamb\OneDrive\Desktop\accessfreetools-main-live`
-- Legacy repo cwd still accepted while older automation records are migrated: `C:\Users\chamb\OneDrive\Desktop\accessfreetools.com`
-- Git branch: `main`
+- Primary repo cwd: `C:\Users\chamb\OneDrive\Desktop\accessfreetools.com`
+- Other workspaces are accepted only when explicitly listed in `AFT_AUTOMATION_APPROVED_CWDS` or `AFT_AUTOMATION_EXPECTED_CWD`.
+- Release branch at review: `codex/node24-seo-release`
 - Node: `v24.14.1`
 - npm: `11.2.0`
 - DataForSEO: healthy
-- DataForSEO balance: `37.21 USD`
+- DataForSEO balance: `13.79 USD`
 - Search Console token: refreshable
 - Search Console client secret: present
 
@@ -55,6 +55,7 @@ Agents should use the CLI for focused proof:
 - Added `npm run automation:env-check`.
 - Updated active Codex automation prompts to start from environment proof.
 - Updated active Codex automation prompts to use the `aft` CLI for status, marketing, indexing-gap, and proof checks.
+- Made `accessfreetools.com` the sole default workspace so stale clones cannot pass the environment gate silently.
 - Added `npm run automation:monthly-onpage:dry-run` and taught the monthly wrapper to detect npm-consumed dry-run flags so readiness checks cannot accidentally start a paid crawl.
 - Updated automation memory for active agents so stale network failures do not override fresh proof.
 - Kept duplicate agents paused.

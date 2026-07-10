@@ -2957,7 +2957,7 @@ function schemaPlanCommand() {
   createPlanReport('schema-plan', 'SERPForge Schema Systems Plan', [
     '## Page Type Coverage',
     '',
-    '- Homepage: `WebSite`, `Organization`, `SearchAction`.',
+    '- Homepage: `WebSite` and `Organization`.',
     '- Category pages: `CollectionPage`, `BreadcrumbList`.',
     '- Tool pages: `WebApplication` or `SoftwareApplication`, `BreadcrumbList`.',
     '- Guide pages: `Article` or `TechArticle`, `BreadcrumbList`.',

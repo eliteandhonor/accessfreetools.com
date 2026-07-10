@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { POST as mcpPost } from './mcp';
+import { POST as mcpPost } from '../../src/pages/mcp';
 
 function mcpRequest(body: unknown) {
   return new Request('https://accessfreetools.com/mcp', {

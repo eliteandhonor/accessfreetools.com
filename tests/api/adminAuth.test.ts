@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { GET as agentToolsGet } from './agent-tools';
-import { GET as analyticsGet } from '../analytics/events';
+import { GET as agentToolsGet } from '../../src/pages/api/admin/agent-tools';
+import { GET as analyticsGet } from '../../src/pages/api/analytics/events';
 
 function getRequest(url: string, headers?: HeadersInit) {
   return new Request(url, { headers });

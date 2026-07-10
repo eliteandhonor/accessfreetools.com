@@ -1,7 +1,14 @@
 import type { APIRoute } from 'astro';
-import { isAnalyticsAdminToken, recordAnalyticsEvent, summarizeAnalytics, type AnalyticsPayload } from '../../../lib/siteAnalytics';
+import {
+  isAnalyticsAdminToken,
+  isAnalyticsRequestRateLimited,
+  recordAnalyticsEvent,
+  summarizeAnalytics,
+  type AnalyticsPayload,
+} from '../../../lib/siteAnalytics';
 
 export const prerender = false;
+const MAX_ANALYTICS_REQUEST_BYTES = 8192;
 
 function jsonResponse(body: Record<string, unknown>, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -13,14 +20,65 @@ function jsonResponse(body: Record<string, unknown>, status = 200) {
   });
 }
 
-export const POST: APIRoute = async ({ clientAddress, request }) => {
-  let payload: AnalyticsPayload;
+async function readAnalyticsPayload(request: Request) {
+  const contentLength = Number(request.headers.get('content-length'));
+  if (Number.isFinite(contentLength) && contentLength > MAX_ANALYTICS_REQUEST_BYTES) {
+    return { ok: false as const, status: 413, message: 'Analytics event was too large.' };
+  }
+
+  const reader = request.body?.getReader();
+  if (!reader) return { ok: false as const, status: 400, message: 'Analytics event was not readable.' };
+
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    totalBytes += value.byteLength;
+    if (totalBytes > MAX_ANALYTICS_REQUEST_BYTES) {
+      await reader.cancel().catch(() => {});
+      return { ok: false as const, status: 413, message: 'Analytics event was too large.' };
+    }
+    chunks.push(value);
+  }
+
+  const body = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    body.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
 
   try {
-    payload = (await request.json()) as AnalyticsPayload;
+    return {
+      ok: true as const,
+      payload: JSON.parse(new TextDecoder().decode(body)) as AnalyticsPayload,
+    };
   } catch {
-    return jsonResponse({ ok: false, message: 'Analytics event was not readable.' }, 400);
+    return { ok: false as const, status: 400, message: 'Analytics event was not readable.' };
   }
+}
+
+export const POST: APIRoute = async ({ clientAddress, request }) => {
+  const origin = request.headers.get('origin');
+  if (origin) {
+    try {
+      const hostname = new URL(origin).hostname;
+      if (!['accessfreetools.com', 'www.accessfreetools.com', '127.0.0.1', 'localhost'].includes(hostname)) {
+        return jsonResponse({ ok: false, message: 'Analytics origin was not accepted.' }, 403);
+      }
+    } catch {
+      return jsonResponse({ ok: false, message: 'Analytics origin was not accepted.' }, 403);
+    }
+  }
+
+  if (isAnalyticsRequestRateLimited(request, clientAddress)) {
+    return jsonResponse({ ok: false, message: 'Too many analytics events.' }, 429);
+  }
+
+  const parsed = await readAnalyticsPayload(request);
+  if (!parsed.ok) return jsonResponse({ ok: false, message: parsed.message }, parsed.status);
+  const payload = parsed.payload;
 
   try {
     const result = await recordAnalyticsEvent(payload, request, clientAddress);

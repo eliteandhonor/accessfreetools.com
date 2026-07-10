@@ -1218,6 +1218,7 @@ export function buildLinkHelperReport() {
           ? `manual request indexing or recheck after Google crawls because discovery was refreshed ${discoveryRefreshedAt}`
           : 'URL inspection/discovery after deploy';
       suggestions.push({
+        action: hasBuiltLinkEvidence && hasEnoughInternalLinks ? 'monitor' : 'add-link',
         anchorIdea: url.pathname.replace(/^\/tools\/|^\/blog\/how-to-use-|\/$/g, '').replace(/-/g, ' '),
         priority: hasBuiltLinkEvidence ? (hasEnoughInternalLinks ? 'medium' : 'high') : indexingRequest ? 'medium' : 'high',
         reason: hasBuiltLinkEvidence
@@ -1238,6 +1239,7 @@ export function buildLinkHelperReport() {
     const target = `/tools/${slug}/`;
     const sourceCount = new Set((linkEvidence.byTarget[normalizeHrefToPath(target)] ?? []).map((item) => item.source)).size;
     suggestions.push({
+      action: sourceCount >= 3 ? 'monitor' : 'add-link',
       anchorIdea: slug.replace(/-/g, ' '),
       priority: 'medium',
       reason: sourceCount
@@ -1251,6 +1253,7 @@ export function buildLinkHelperReport() {
     const target = item.label.startsWith('/') ? item.label : '/tools/';
     const sourceCount = new Set((linkEvidence.byTarget[normalizeHrefToPath(target)] ?? []).map((link) => link.source)).size;
     suggestions.push({
+      action: sourceCount >= 3 ? 'monitor' : 'add-link',
       anchorIdea: anchorIdeaForPath(target),
       priority: 'medium',
       reason: sourceCount
@@ -1295,7 +1298,13 @@ Status: ${report.status}
 
 ## Suggestions
 
-${markdownList(suggestions.slice(0, 20).map((item) => `${item.priority}: link to ${item.target} using "${item.anchorIdea}" because ${item.reason}`))}
+${markdownList(
+  suggestions.slice(0, 20).map((item) =>
+    item.action === 'monitor'
+      ? `${item.priority}: monitor ${item.target}; ${item.reason}`
+      : `${item.priority}: link to ${item.target} using "${item.anchorIdea}" because ${item.reason}`,
+  ),
+)}
 
 ## Built Internal Link Evidence
 
@@ -1404,7 +1413,7 @@ export function buildSeoConsoleReport() {
           })
         : '';
       const discoveryTask = discoveryRefreshedAt
-        ? `Search Console sitemap/feed discovery was refreshed ${discoveryRefreshedAt}; if URL Inspection still shows unknown, request indexing manually in Search Console and recheck after Google crawls`
+        ? `Search Console XML sitemap discovery was refreshed ${discoveryRefreshedAt}; if URL Inspection still shows unknown, request indexing manually in Search Console and recheck after Google crawls`
         : 'Run URL inspection/discovery';
       const indexingRequest = searchConsoleIndexingRequestForUrl(gap.url, indexingRequests);
       const indexingRequestTime = formatIndexingRequestTime(indexingRequest);

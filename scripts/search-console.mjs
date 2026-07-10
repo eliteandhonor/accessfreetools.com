@@ -49,9 +49,11 @@ const KEY_INSPECTION_URLS = [
   `${CANONICAL_SITE_URL}tools/ad-revenue-calculator/`,
   `${CANONICAL_SITE_URL}tools/watts-to-amps-calculator/`,
   `${CANONICAL_SITE_URL}tools/wallpaper-calculator/`,
+  `${CANONICAL_SITE_URL}tools/personal-loan-calculator/`,
   `${CANONICAL_SITE_URL}blog/how-to-use-ad-revenue-calculator/`,
   `${CANONICAL_SITE_URL}blog/how-to-use-watts-to-amps-calculator/`,
   `${CANONICAL_SITE_URL}blog/how-to-use-wallpaper-calculator/`,
+  `${CANONICAL_SITE_URL}blog/how-to-use-personal-loan-calculator/`,
 ];
 
 function parseArgs() {

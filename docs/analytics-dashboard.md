@@ -1,6 +1,6 @@
 # Access Free Tools Analytics Dashboard
 
-Last updated: 2026-07-03
+Last updated: 2026-07-10
 
 Access Free Tools uses a small first-party analytics system for owner-only usage checks. It is meant to answer simple questions:
 
@@ -21,7 +21,7 @@ The easiest private entry URL is:
 /admin/
 ```
 
-Enter the private token once there. It stores the token in this browser only, then opens:
+Enter the private token once there. It stores the token for the current tab session, then opens:
 
 ```text
 /admin/analytics/
@@ -58,7 +58,7 @@ AFT_ANALYTICS_EXCLUDE_IPS=your.home.ip.address,your.mobile.ip.address
 AFT_ANALYTICS_TIME_ZONE=Australia/Brisbane
 ```
 
-The PHP analytics endpoint also accepts the same values from Hostinger environment variables. It still supports the older `public_html/.analytics/config.env` path, but the home-level `.local` file is better because normal site deploys should not delete it. Never commit real token, salt, IP list, or hosting credentials to GitHub.
+The Astro Node analytics endpoint also accepts the same values from Hostinger environment variables. It still supports the older `public_html/.analytics/config.env` fallback path, but the home-level `.local` file is better because normal site deploys should not delete it. Never commit real token, salt, IP list, or hosting credentials to GitHub.
 
 For owner setup, keep the private local copy at:
 
@@ -77,7 +77,7 @@ https://accessfreetools.com/admin/
 ```
 
 Enter the private token once, then use the buttons for Analytics or Agent Tools. The page stores
-the token in this browser only.
+the token only for the current browser-tab session.
 
 The direct private analytics link also works, but tokens should not be placed in
 the URL:
@@ -86,8 +86,9 @@ the URL:
 https://accessfreetools.com/private-analytics/
 ```
 
-Enter the token in the form once. The page stores the token in this browser only
-and sends it to the API with the `x-aft-analytics-token` header.
+Enter the token in the form once. The page stores the token in session storage for
+the current browser tab and sends it to the API with the
+`x-aft-analytics-token` header. Closing the tab ends that stored admin session.
 
 ## Privacy Rules
 
@@ -96,7 +97,10 @@ and sends it to the API with the `x-aft-analytics-token` header.
 - Obvious bots and crawlers are filtered.
 - Do Not Track is respected.
 - Admin pages and API routes are not counted.
+- Analytics page paths exclude query strings and fragments.
 - Users can opt out from the private dashboard controls, which set `access-free-tools-analytics-opt-out` in local storage.
+- The public Privacy Policy offers the same persistent browser opt-out without requiring an admin token.
+- Current analytics logs rotate at 25 MB, archive logs expire after 90 days, and reports read bounded recent tails rather than unbounded files.
 - Microsoft Clarity is third-party analytics and must stay disclosed in `/privacy-policy/`; it must not be added to private admin or analytics pages.
 
 ## Agent Commands

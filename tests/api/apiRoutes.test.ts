@@ -1,10 +1,10 @@
 import { describe, expect, it, beforeEach, afterEach } from 'vitest';
-import { POST as askPost } from './ask';
-import { POST as runPost } from './run/[slug]';
-import { GET as toolsGet } from './tools/index';
-import { GET as toolGet } from './tools/[slug]';
-import { GET as openApiGet } from '../openapi.json';
-import { POST as mcpPost } from '../../mcp';
+import { POST as askPost } from '../../src/pages/api/v1/ask';
+import { POST as runPost } from '../../src/pages/api/v1/run/[slug]';
+import { GET as toolsGet } from '../../src/pages/api/v1/tools/index';
+import { GET as toolGet } from '../../src/pages/api/v1/tools/[slug]';
+import { GET as openApiGet } from '../../src/pages/api/openapi.json';
+import { POST as mcpPost } from '../../src/pages/mcp';
 
 const METADATA_CACHE_CONTROL = 'public, max-age=300, stale-while-revalidate=600';
 

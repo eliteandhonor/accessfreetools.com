@@ -542,9 +542,9 @@ const categoryRecoveryConfig: Partial<
   Record<ToolCategory['slug'], { heading: string; text: string; links: { href: string; title: string; text: string }[] }>
 > = {
   calculators: {
-    heading: 'High-signal calculator shortcuts',
+    heading: 'Useful calculator shortcuts',
     text:
-      'Recent search evidence shows these calculators deserve clearer paths from the calculator hub because they answer common zero-click or not-indexed queries.',
+      'Open these calculators when you need dates, fractions, geometry, matrices, or exact large-number work without hunting through the full library.',
     links: [
       {
         href: '/tools/date-calculator/',
@@ -579,9 +579,9 @@ const categoryRecoveryConfig: Partial<
     ],
   },
   finance: {
-    heading: 'Money calculators with fresh search demand',
+    heading: 'Popular money calculations',
     text:
-      'These finance pages have current search signals, so the category hub should send clearer crawlable links to the exact calculator or guide.',
+      'Start with the calculator that matches the number you are checking, then read its assumptions before using the result in a real decision.',
     links: [
       {
         href: '/tools/interest-rate-calculator/',
@@ -611,9 +611,9 @@ const categoryRecoveryConfig: Partial<
     ],
   },
   'home-projects': {
-    heading: 'Project pages to keep close to the hub',
+    heading: 'Material and project planning shortcuts',
     text:
-      'Recent not-indexed samples include useful material-estimate pages. These links help crawlers and readers reach the exact project guide faster.',
+      'Use these pages to estimate siding, brick, soil, concrete, deck stain, or mowing work before checking measurements and supplier details.',
     links: [
       {
         href: '/tools/siding-calculator/',
@@ -648,7 +648,7 @@ const categoryRecoveryConfig: Partial<
     ],
   },
   'ai-tools': {
-    heading: 'AI and writing checks with recovery signals',
+    heading: 'Writing and AI cost checks',
     text:
       'These browser-side helpers answer practical publishing and AI-cost questions, so they should be easy to reach from the AI tools hub.',
     links: [
@@ -665,9 +665,9 @@ const categoryRecoveryConfig: Partial<
     ],
   },
   'developer-tools': {
-    heading: 'Developer utilities with fresh recovery signals',
+    heading: 'Developer checks to open first',
     text:
-      'These utilities have search and indexation signals that make them worth clearer paths from the developer hub.',
+      'These utilities cover common interface and documentation jobs, including color contrast and Markdown table formatting.',
     links: [
       {
         href: '/tools/color-contrast-checker/',
@@ -984,7 +984,7 @@ const taskNotes = categoryTasks[category.slug] ?? [
             <p>{categoryRecoveryLinks.text}</p>
           </div>
           <div>
-            <h2>Recovery shortcuts</h2>
+            <h2>Useful shortcuts</h2>
             <div class="category-link-list">
               {categoryRecoveryLinks.links.map((link) => (
                 <a href={link.href}>

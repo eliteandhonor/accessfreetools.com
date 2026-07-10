@@ -45,7 +45,7 @@ afterEach(() => {
 });
 
 describe('safe cleanup audit', () => {
-  it('captures SEO gate command output without npm wrapper loss', () => {
+  it('captures current SEO queue and proof output without npm wrapper loss', () => {
     for (const path of reportPaths) preserveReport(path);
     const codexHome = makeTempRoot();
     mkdirSync(join(codexHome, 'sessions'), { recursive: true });
@@ -59,7 +59,7 @@ describe('safe cleanup audit', () => {
     expect(result.status).toBe(0);
     const report = JSON.parse(readFileSync(reportPaths[0], 'utf8'));
     const queue = report.commands.find((command) => command.label === 'SEO tool queue');
-    const approval = report.commands.find((command) => command.label === 'SEO approval status');
+    const proof = report.commands.find((command) => command.label === 'Current proof check');
 
     expect(queue).toMatchObject({
       command: 'node scripts/aft-cli.mjs seo-tool-queue',
@@ -67,11 +67,11 @@ describe('safe cleanup audit', () => {
     });
     expect(queue.stdout).toContain('SEO tool/page queue: complete');
     expect(queue.stdout).toContain('Remaining page review units: 0');
-    expect(approval).toMatchObject({
-      command: 'node scripts/aft-cli.mjs seo-approval-status text-case-converter',
+    expect(proof).toMatchObject({
+      command: 'node scripts/aft-cli.mjs proof-check',
       exitCode: 0,
     });
-    expect(approval.stdout).toContain('SEO approval status: pass');
-    expect(approval.stdout).toContain('Can proceed to next slug: yes');
+    expect(proof.stdout).toContain('Missing proof on claimed rows: none');
+    expect(proof.stdout).toContain('Rows still needing public proof: none');
   }, 20000);
 });

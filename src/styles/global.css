@@ -215,6 +215,27 @@ main {
   min-height: 70vh;
 }
 
+.skip-link {
+  background: var(--surface-solid);
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+  box-shadow: var(--soft-shadow);
+  color: var(--primary-strong);
+  font-weight: 900;
+  left: 12px;
+  padding: 10px 14px;
+  position: fixed;
+  top: 12px;
+  transform: translateY(calc(-100% - 24px));
+  z-index: 1000;
+}
+
+.skip-link:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 72%, var(--primary));
+  outline-offset: 2px;
+  transform: translateY(0);
+}
+
 .sr-only {
   border: 0;
   clip: rect(0 0 0 0);
@@ -1351,6 +1372,20 @@ main {
   font-size: clamp(1.4rem, 2.3vw, 2rem);
   line-height: 1.05;
   margin: 0;
+}
+
+.gallery-reveal-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.gallery-reveal-row [role='status'] {
+  color: var(--muted);
+  font-weight: 800;
 }
 
 .category-snapshot-card p {
@@ -7006,7 +7041,7 @@ main {
   isolation: isolate;
   line-height: 1;
   margin: 12px 0 0;
-  max-width: 920px;
+  max-width: 100%;
   padding: 0 0 0.36em;
   position: relative;
   width: fit-content;
@@ -7019,6 +7054,7 @@ main {
   display: inline-block;
   filter: drop-shadow(0 0.08em 0 color-mix(in srgb, var(--surface-solid) 74%, transparent));
   font-weight: 950;
+  max-width: 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   position: relative;
@@ -7030,12 +7066,12 @@ main {
   bottom: -0.02em;
   display: block;
   height: auto;
-  left: -0.18em;
-  max-width: none;
-  overflow: visible;
+  left: 0;
+  max-width: 100%;
+  overflow: hidden;
   pointer-events: none;
   position: absolute;
-  width: calc(100% + 1.1em);
+  width: 100%;
   z-index: 0;
 }
 
@@ -7999,5 +8035,11 @@ main {
 
   .about-hero-actions a {
     width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .tools-hero-copy h1 {
+    font-size: 2.4rem;
   }
 }

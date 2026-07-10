@@ -163,6 +163,12 @@ function addToMap(map, key, value) {
 
 const htmlFiles = walk(publicDistDir, (file) => file.endsWith('.html'));
 const issues = [];
+const sourcePagesDir = join(process.cwd(), 'src', 'pages');
+const forbiddenTestRoutes = walk(sourcePagesDir, (file) => /\.(?:test|spec)\.[cm]?[jt]sx?$/i.test(file));
+
+for (const file of forbiddenTestRoutes) {
+  issues.push(`${normalize(file)} is a test file under src/pages and would become a production route.`);
+}
 const warnings = [];
 const sitemapResult = readSitemapUrls();
 const sitemapUrls = sitemapResult.urls;

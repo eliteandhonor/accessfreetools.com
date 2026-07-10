@@ -2,6 +2,8 @@
 
 Access Free Tools is a utility website for fast, free browser tools.
 
+The production application uses Astro 7 on Node 24.
+
 The first available tool is a basic calculator. The project is structured so new
 calculators, converters, text tools, and everyday utilities can be added through
 a shared tool registry and reusable page templates.
@@ -30,11 +32,9 @@ Hostinger's Node.js Web App should use `npm run build` as the build command and
 `npm run start` as the start command. If Hostinger asks for an entry file, use
 `app.js`. If it asks for an output directory, use `dist`.
 
-The contact form posts to `public/api/contact.php` so it works on Hostinger's
-current `public_html` deployment. The Astro Node `/api/contact` route remains in
-the source for a future server-side Node deployment. Configure the environment
-variables listed in `docs/contact-form-environment.md` inside Hostinger, not in
-GitHub, if the Node route is enabled later.
+The contact form posts to the Astro Node `/api/contact` route. Configure the
+environment variables listed in `docs/contact-form-environment.md` inside
+Hostinger, never in GitHub.
 
 ## Full Check
 
@@ -44,7 +44,8 @@ Run this before a GitHub push or Hostinger deployment:
 npm run check
 ```
 
-This runs TypeScript, the site audit tests, and the Astro production build.
+This runs TypeScript 7 CLI checks, the TypeScript 6 compatibility check, the site
+audit tests, and the Astro production build.
 It also checks built internal links, audits built page metadata and canonicals,
 validates built JSON-LD semantically, reports performance budgets, verifies AI
 model assets stay lazy-loaded away from non-AI pages, and runs a dependency audit.

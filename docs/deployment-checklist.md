@@ -25,7 +25,7 @@ npm run audit:mobile-seo
 
 This must pass before release:
 
-- TypeScript check.
+- TypeScript 7 CLI check and TypeScript 6 compatibility check.
 - Vitest suite, including the site-content audit guardrails.
 - Astro production build.
 - Internal link validation across built HTML.
@@ -45,6 +45,9 @@ TypeScript 6 compiler API available for Astro-adjacent tooling that imports
 `npm run typecheck:ts6` after dependency, Astro, script, or tool-art manifest
 changes. Do not switch compiler-API consumers to TypeScript 7 until Astro and
 the TypeScript 7 API support are proven.
+
+The GitHub `Quality` workflow uses Node 24, installs Chromium, and runs the same
+`npm run check` gate for pushes to `main` and pull requests.
 
 ## Browser Proof
 

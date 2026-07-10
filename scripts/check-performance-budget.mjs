@@ -16,6 +16,10 @@ const budgets = {
   '.json': { warn: 300 * 1024, fail: 900 * 1024 },
   '.xml': { warn: 160 * 1024, fail: 600 * 1024 },
   '.jpg': { warn: 260 * 1024, fail: 600 * 1024 },
+  '.jpeg': { warn: 260 * 1024, fail: 600 * 1024 },
+  '.png': { warn: 600 * 1024, fail: 2 * 1024 * 1024 },
+  '.webp': { warn: 260 * 1024, fail: 650 * 1024 },
+  '.avif': { warn: 220 * 1024, fail: 600 * 1024 },
   aiAsset: { warn: 32 * 1024 * 1024, fail: 95 * 1024 * 1024 },
   aiRuntime: { warn: 32 * 1024 * 1024, fail: 95 * 1024 * 1024 },
 };

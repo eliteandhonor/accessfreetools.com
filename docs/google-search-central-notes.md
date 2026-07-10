@@ -130,7 +130,7 @@ Search Console now reports the homepage, Basic Calculator, and Image to Text
 OCR Tool as submitted and indexed. The larger `/tools/` and `/blog/` hubs, plus
 the Wallpaper Calculator and Watts to Amps Calculator tool pages, still need
 more crawl time. The current best action is to strengthen clean internal links,
-keep the sitemap and feed submitted, and avoid creating duplicate thin pages for
+keep the XML sitemap set submitted, and avoid creating duplicate thin pages for
 the same topics.
 
 The homepage now links directly to Watts to Amps, Wallpaper, OCR, the matching

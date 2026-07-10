@@ -2,23 +2,23 @@ import { describe, expect, it } from 'vitest';
 import { approvedRepoCwds, localRuntimePaths } from './automation-environment.mjs';
 
 describe('automation environment paths', () => {
-  it('approves the current production live workspace by default', () => {
-    const report = localRuntimePaths({
-      cwd: 'C:/Users/chamb/OneDrive/Desktop/accessfreetools-main-live',
-      env: {},
-    });
-
-    expect(report.cwdMatchesExpected).toBe(true);
-    expect(report.expectedCwds).toContain('C:\\Users\\chamb\\OneDrive\\Desktop\\accessfreetools-main-live');
-  });
-
-  it('keeps the legacy workspace accepted while automations are migrated', () => {
+  it('approves the active Access Free Tools workspace by default', () => {
     const report = localRuntimePaths({
       cwd: 'C:/Users/chamb/OneDrive/Desktop/accessfreetools.com',
       env: {},
     });
 
     expect(report.cwdMatchesExpected).toBe(true);
+    expect(report.expectedCwds).toEqual(['C:\\Users\\chamb\\OneDrive\\Desktop\\accessfreetools.com']);
+  });
+
+  it('does not silently approve the stale production clone', () => {
+    const report = localRuntimePaths({
+      cwd: 'C:/Users/chamb/OneDrive/Desktop/accessfreetools-main-live',
+      env: {},
+    });
+
+    expect(report.cwdMatchesExpected).toBe(false);
   });
 
   it('rejects unrelated workspaces', () => {

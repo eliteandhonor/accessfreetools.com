@@ -2,7 +2,6 @@ import { delimiter } from 'node:path';
 import { resolve } from 'node:path';
 
 export const DEFAULT_APPROVED_REPO_CWDS = [
-  'C:/Users/chamb/OneDrive/Desktop/accessfreetools-main-live',
   'C:/Users/chamb/OneDrive/Desktop/accessfreetools.com',
 ];
 

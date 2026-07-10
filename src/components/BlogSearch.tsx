@@ -115,7 +115,7 @@ export default function BlogSearch({ posts, searchIndexUrl, totalPostCount }: Pr
         />
       </div>
 
-      <p className="blog-search-count">
+      <p aria-atomic="true" aria-live="polite" className="blog-search-count" role="status">
         {isSearchIndexLoading
           ? 'Loading the full guide library...'
           : visiblePosts.length === filteredPostCount

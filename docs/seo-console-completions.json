@@ -2,17 +2,20 @@
   "completed": [
     {
       "path": "/blog/",
-      "completedAt": "2026-07-03T20:58:22+10:00",
+      "completedAt": "2026-07-09T20:10:49+10:00",
       "evidence": [
         "output/search-console/performance-latest.json",
         "output/crawlscout/crawlscout-summary.json",
         "src/pages/blog/index.astro",
+        "src/pages/categories/[slug].astro",
+        "src/pages/gallery/[category].astro",
         "src/pages/free-calculator-resources.astro",
         "src/data/siteDates.ts",
+        "docs/july-9-seo-evidence-recovery.md",
         "output/indexing-protection/2026-07-03/summary.md",
         "output/semantic-depth/2026-07-03/summary.json"
       ],
-      "note": "Refreshed the /blog/ high-impression zero-click CTR pass for the 2026-07-03 GSC and CrawlScout exports: added a reader-facing assumptions/limits guide shortcut section linking to the latest Tier A recovery guides, refreshed resource-hub links into the same clusters, updated lastmod metadata, and revalidated sitemap, indexing protection, structured data, built-site metadata, and semantic depth."
+      "note": "Refreshed the /blog/ hub for the 2026-07-09 GSC and CrawlScout exports: added reader-facing paths into the current recovery tools and guides, strengthened category and gallery routes, updated lastmod metadata, deployed commit 55bf317d, and revalidated sitemap, indexing protection, structured data, built-site metadata, and semantic depth."
     },
     {
       "path": "/tools/gas-mileage-calculator/",

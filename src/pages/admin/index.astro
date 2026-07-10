@@ -16,16 +16,16 @@ const pagePath = '/admin/';
     <p class="breadcrumb"><a href="/">Home</a> / Admin</p>
     <h1>Private Admin Login</h1>
     <p>
-      Enter the private admin token once on this browser. After it is saved, Analytics and Agent
-      Tools open without retyping the token.
+      Enter the private admin token for this browser tab. Analytics and Agent Tools then open
+      without retyping the token until the tab session closes.
     </p>
   </section>
 
   <section class="content-section content-section-narrow admin-login-card">
-    <h2>Save admin access on this browser</h2>
+    <h2>Open admin access for this tab</h2>
     <p>
-      The token is stored only in this browser's local storage. It is not added to Git, reports, or
-      public pages.
+      The token is stored only in this tab's session storage. It is not added to Git, reports, or
+      public pages, and closing the tab ends the stored session.
     </p>
     <form class="admin-token-form" data-admin-token-form>
       <label>
@@ -34,7 +34,7 @@ const pagePath = '/admin/';
       </label>
       <button class="button-primary" type="submit">Save and unlock</button>
     </form>
-    <p class="admin-token-message" data-admin-message>Checking this browser for a saved token...</p>
+    <p class="admin-token-message" data-admin-message>Checking this tab for an active token...</p>
   </section>
 
   <section class="section-band admin-destination-panel" data-admin-destinations>
@@ -188,9 +188,9 @@ const pagePath = '/admin/';
             return;
           }
 
-          if (save) window.localStorage.setItem(tokenStorageKey, token);
+          if (save) window.sessionStorage.setItem(tokenStorageKey, token);
           setUnlocked(true);
-          setMessage('Access is ready on this browser. Open Analytics or Agent Tools below.');
+          setMessage('Access is ready for this tab. Open Analytics or Agent Tools below.');
         } catch {
           setUnlocked(false);
           setMessage('Admin API is not available yet. Check the Node deployment and try again.');
@@ -198,7 +198,7 @@ const pagePath = '/admin/';
       };
 
       setUnlocked(false);
-      const storedToken = window.localStorage.getItem(tokenStorageKey) || '';
+      const storedToken = window.sessionStorage.getItem(tokenStorageKey) || '';
       validateToken(storedToken);
 
       if (form) {
@@ -211,9 +211,9 @@ const pagePath = '/admin/';
 
       if (clearButton) {
         clearButton.addEventListener('click', () => {
-          window.localStorage.removeItem(tokenStorageKey);
+          window.sessionStorage.removeItem(tokenStorageKey);
           setUnlocked(false);
-          setMessage('Saved token cleared on this browser.');
+          setMessage('Saved token cleared for this tab.');
         });
       }
 

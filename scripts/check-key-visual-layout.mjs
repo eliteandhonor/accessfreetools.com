@@ -6,11 +6,13 @@ import { chromium } from 'playwright';
 
 const ROOT = path.resolve('dist');
 const OUTPUT_DIR = path.resolve('output', 'key-visual-layout');
+const BLOG_SEARCH_FIRST_VIEWPORT_MIN_HEIGHT = 800;
 const HORIZONTAL_OVERFLOW_TOLERANCE = 4;
 
 const VIEWPORTS = [
   { name: 'desktop', width: 1365, height: 900 },
   { name: 'mobile', width: 390, height: 844 },
+  { name: 'mobile-320', width: 320, height: 568 },
 ];
 
 const MIME_TYPES = new Map([
@@ -83,7 +85,7 @@ async function inspectPage({ pagePath, viewport, mode }) {
   await page.goto(`${baseURL}${pagePath}`, { waitUntil: 'networkidle' });
 
   const result = await page.evaluate(
-    ({ mode: pageMode, overflowTolerance, viewportHeight }) => {
+    ({ blogSearchFirstViewportMinHeight, mode: pageMode, overflowTolerance, viewportHeight }) => {
       const failures = [];
       const html = document.documentElement;
 
@@ -108,11 +110,24 @@ async function inspectPage({ pagePath, viewport, mode }) {
           failures.push('blog search appears after curated guide panels');
         }
 
-        if (search) {
+        if (search && viewportHeight >= blogSearchFirstViewportMinHeight) {
           const rect = search.getBoundingClientRect();
           if (rect.top > viewportHeight - 80) {
             failures.push(`blog search starts too low in the first viewport: top ${rect.top.toFixed(1)}`);
           }
+        }
+      }
+
+      if (pageMode === 'tools') {
+        const launchpad = document.querySelector('.tools-launchpad');
+        const searchInput = document.querySelector('#tool-library-search');
+
+        if (!launchpad) {
+          failures.push('missing tools launchpad');
+        }
+
+        if (!searchInput) {
+          failures.push('missing tool library search input');
         }
       }
 
@@ -148,17 +163,58 @@ async function inspectPage({ pagePath, viewport, mode }) {
         }
       }
 
+      if (pageMode === 'gallery') {
+        for (const grid of document.querySelectorAll('[data-gallery-grid]')) {
+          const items = [...grid.querySelectorAll('[data-gallery-item]')];
+          const visibleItems = items.filter((item) => !item.hidden);
+          const limit = Number(grid.getAttribute('data-gallery-limit')) || 24;
+          const reveal = document.querySelector(`[data-gallery-reveal="${grid.id}"]`);
+
+          if (items.length > limit && visibleItems.length !== limit) {
+            failures.push(`${grid.id} initially shows ${visibleItems.length} of ${items.length}, expected ${limit}`);
+          }
+          if (items.length > limit && (!reveal || reveal.hidden)) {
+            failures.push(`${grid.id} is missing its visible Show all control`);
+          }
+        }
+      }
+
       return {
         failures,
         title: document.title,
       };
     },
-    { mode, overflowTolerance: HORIZONTAL_OVERFLOW_TOLERANCE, viewportHeight: viewport.height },
+    {
+      blogSearchFirstViewportMinHeight: BLOG_SEARCH_FIRST_VIEWPORT_MIN_HEIGHT,
+      mode,
+      overflowTolerance: HORIZONTAL_OVERFLOW_TOLERANCE,
+      viewportHeight: viewport.height,
+    },
   );
+
+  if (mode === 'gallery') {
+    const interaction = await page.evaluate(() => {
+      const reveal = document.querySelector('[data-gallery-reveal]:not([hidden])');
+      if (!(reveal instanceof HTMLButtonElement)) return { pass: false, message: 'No gallery reveal button was interactive.' };
+      const gridId = reveal.getAttribute('aria-controls') ?? '';
+      const grid = document.getElementById(gridId);
+      const hiddenBefore = grid?.querySelectorAll('[data-gallery-item][hidden]').length ?? 0;
+      reveal.click();
+      const hiddenAfter = grid?.querySelectorAll('[data-gallery-item][hidden]').length ?? 0;
+      const pass = hiddenBefore > 0 && hiddenAfter === 0 && reveal.getAttribute('aria-expanded') === 'true';
+      return {
+        pass,
+        message: pass
+          ? 'Gallery Show all control reveals the remaining items.'
+          : `Gallery reveal state was hiddenBefore=${hiddenBefore}, hiddenAfter=${hiddenAfter}, expanded=${reveal.getAttribute('aria-expanded')}.`,
+      };
+    });
+    if (!interaction.pass) result.failures.push(interaction.message);
+  }
 
   const safePath = pagePath.replaceAll('/', '_').replace(/^_/, '').replace(/_$/, '') || 'home';
   const screenshotPath = path.join(OUTPUT_DIR, `${safePath}-${viewport.name}.png`);
-  await page.screenshot({ path: screenshotPath, fullPage: true });
+  await page.screenshot({ path: screenshotPath, fullPage: mode !== 'gallery' });
   await page.close();
 
   report.checks.push({
@@ -175,7 +231,9 @@ async function inspectPage({ pagePath, viewport, mode }) {
 try {
   for (const viewport of VIEWPORTS) {
     await inspectPage({ pagePath: '/blog/', viewport, mode: 'blog' });
+    await inspectPage({ pagePath: '/tools/', viewport, mode: 'tools' });
     await inspectPage({ pagePath: '/tools/absolute-value-calculator/', viewport, mode: 'absolute-tool' });
+    await inspectPage({ pagePath: '/gallery/finance/', viewport, mode: 'gallery' });
   }
 } finally {
   await browser.close();

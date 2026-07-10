@@ -175,7 +175,12 @@ const articleStructuredData = {
     <header class="blog-article-header">
       <span>{label}</span>
       <h1>{title}</h1>
-      <p class="article-meta-line">Updated {formatDisplayDate(articleDates.modified)}.</p>
+      <p class="article-meta-line">
+        Updated {formatDisplayDate(articleDates.modified)}.
+        {hasManualDeepReview && (
+          <> Reviewed by Access Free Tools against the live tool, examples, formulas, and limits. <a href="/why-access-free-tools/">How we check tools</a>.</>
+        )}
+      </p>
       <p>{intro}</p>
       {tool && <a class="button-primary" href={`/tools/${tool.slug}/`}>Open the {tool.name}</a>}
     </header>
