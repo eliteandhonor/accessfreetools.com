@@ -37,6 +37,7 @@ import {
   calculateDateDifference,
   calculateDateShift,
   calculateDeviceBatteryLife,
+  calculateDeviceBatteryLifeFromCurrent,
   calculateDownloadTime,
   calculateFenceEstimate,
   calculateFlooringEstimate,
@@ -836,6 +837,8 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     capacityMah: 'Battery capacity in milliamp-hours from the product label.',
     voltage: 'Nominal battery voltage. Many USB power banks use cell voltage around 3.7 V internally.',
     powerWatts: 'Average device power draw in watts.',
+    loadCurrentMa: 'Average current drawn from the battery in milliamps. Use a duty-cycle average, not the highest short peak.',
+    usableCapacityPercent: 'Share of the labeled mAh you expect to use after aging, temperature, discharge behavior, self-discharge, and cutoff limits.',
     efficiencyPercent: 'Usable energy after conversion losses, heat, cable loss, and battery overhead.',
   },
   'monitor-ppi-calculator': {
@@ -4287,8 +4290,8 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     privacyNote: 'Battery estimates stay local. Real runtime depends on age, temperature, settings, and power spikes.',
     modes: [
       {
-        id: 'battery-runtime',
-        label: 'Battery runtime',
+        id: 'power-draw',
+        label: 'Power draw (W)',
         symbol: 'Wh',
         fields: [
           numberField('capacityMah', 'Battery capacity mAh'),
@@ -4301,6 +4304,22 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
           { label: 'Power bank and tablet', inputs: { capacityMah: '10000', voltage: '3.7', powerWatts: '8', efficiencyPercent: '85' } },
           { label: 'Small light', inputs: { capacityMah: '5000', voltage: '3.7', powerWatts: '3', efficiencyPercent: '90' } },
           { label: 'Laptop pack', inputs: { capacityMah: '5000', voltage: '11.1', powerWatts: '30', efficiencyPercent: '88' } },
+        ],
+      },
+      {
+        id: 'current-draw',
+        label: 'Load current (mA)',
+        symbol: 'mA',
+        fields: [
+          numberField('capacityMah', 'Battery capacity mAh'),
+          numberField('loadCurrentMa', 'Average load current mA'),
+          numberField('usableCapacityPercent', 'Usable capacity %'),
+        ],
+        defaultInputs: { capacityMah: '2400', loadCurrentMa: '20', usableCapacityPercent: '85' },
+        examples: [
+          { label: 'IoT sensor', inputs: { capacityMah: '2400', loadCurrentMa: '20', usableCapacityPercent: '85' } },
+          { label: 'LED project', inputs: { capacityMah: '1000', loadCurrentMa: '100', usableCapacityPercent: '90' } },
+          { label: 'Low-current device', inputs: { capacityMah: '500', loadCurrentMa: '2', usableCapacityPercent: '85' } },
         ],
       },
     ],
@@ -7578,6 +7597,30 @@ function calculateUtility(
       };
     }
     case 'device-battery-life-calculator': {
+      if (modeId === 'current-draw') {
+        const result = calculateDeviceBatteryLifeFromCurrent(
+          parseNumber(inputs.capacityMah, 'Battery capacity'),
+          parseNumber(inputs.loadCurrentMa, 'Average load current'),
+          parseNumber(inputs.usableCapacityPercent, 'Usable capacity percent'),
+        );
+        return {
+          label: 'Estimated runtime',
+          expression: `${formatCalculatorNumber(result.usableCapacityMah)} mAh / ${formatCalculatorNumber(result.loadCurrentMa)} mA`,
+          answer: durationText(result.runtimeHours * 3600),
+          metrics: [
+            { label: 'Usable capacity', value: `${formatCalculatorNumber(result.usableCapacityMah)} mAh` },
+            { label: 'Runtime hours', value: formatCalculatorNumber(result.runtimeHours) },
+            { label: 'Runtime days', value: formatCalculatorNumber(result.runtimeDays) },
+          ],
+          steps: [
+            'Apply the usable-capacity percentage to the battery capacity.',
+            'Divide usable milliamp-hours by average load current in milliamps.',
+            'Convert the runtime from hours into minutes and days.',
+          ],
+          note: 'Use average battery-side current. For a device that sleeps and wakes, calculate its duty-cycle average first; chemistry, temperature, aging, self-discharge, and cutoff voltage still change real runtime.',
+        };
+      }
+
       const result = calculateDeviceBatteryLife(
         parseNumber(inputs.capacityMah, 'Battery capacity'),
         parseNumber(inputs.voltage, 'Voltage'),

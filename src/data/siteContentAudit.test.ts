@@ -421,6 +421,45 @@ describe('site content audit guardrails', () => {
     expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
   });
 
+  it('supports both average-current and watts-based battery runtime intent', () => {
+    const tool = tools.find((item) => item.slug === 'device-battery-life-calculator');
+    const guide = utilityBlogGuides.find((item) => item.toolSlug === 'device-battery-life-calculator');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+    const guideText = guide?.sections
+      .flatMap((section) => [section.title, ...section.paragraphs, ...(section.bullets ?? [])])
+      .join(' ') ?? '';
+    const guideLinks = guide?.sections.flatMap((section) => section.links ?? []).map((link) => link.href) ?? [];
+
+    expect(tool?.seoTitle).toBe('Device Battery Life Calculator | mAh, mA & Watts');
+    expect(tool?.seoDescription).toContain('average load current (mA) or voltage and watts');
+    expect(tool?.aliases).toContain('Battery Life Calculator mAh mA');
+    expect(tool?.examples).toContainEqual({
+      label: 'IoT sensor average current',
+      expression: '2,400 mAh, 20 mA average load, 85% usable capacity',
+      result: '102 hours, or 4.25 days, from 2,040 usable mAh.',
+    });
+    expect(tool?.examples).toHaveLength(6);
+    expect(faqText).toContain('2,040 usable mAh; at a 20 mA average load, that is 102 hours');
+    expect(faqText).toContain('time-weighted average');
+    expect(guide?.title).toBe('Battery Runtime From mAh, mA, or Watts');
+    expect(guideText).toContain('2,040 / 20 = 102 hours');
+    expect(guideText).toContain('Choose current mode or power mode');
+    expect(guideText).toContain('time-weighted average current');
+    expect(guideLinks).toContain('https://www.ti.com/lit/an/swra462/swra462.pdf');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("id: 'current-draw'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain('calculateDeviceBatteryLifeFromCurrent');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("numberField('usableCapacityPercent', 'Usable capacity %')");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain('Apply the usable-capacity percentage');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("label: 'Runtime days'");
+    expect(TOOLS_ROUTE_SOURCE).toContain("'device-battery-life-calculator': [");
+    expect(TOOLS_ROUTE_SOURCE).toContain('calculate a duty-cycle average first');
+    expect(TOOLS_ROUTE_SOURCE).toContain('describe the same battery-side setup');
+    expect(tool?.seoTitle.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+  });
+
   it('keeps the Date Calculator aligned with proven 90-day shift intent', () => {
     const tool = tools.find((item) => item.slug === 'date-calculator');
     const guide = utilityBlogGuides.find((item) => item.toolSlug === 'date-calculator');

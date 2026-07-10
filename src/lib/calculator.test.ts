@@ -90,6 +90,7 @@ import {
   calculateDeckStainEstimate,
   calculateDensity,
   calculateDeviceBatteryLife,
+  calculateDeviceBatteryLifeFromCurrent,
   calculateDiceRoll,
   calculateDewPoint,
   calculateDownloadTime,
@@ -2612,6 +2613,7 @@ describe('utility helpers', () => {
     const speedNeeds = calculateInternetSpeedNeeds(2, 15, 1, 5, 1, 4, 6, 0.5, 25);
     const bitrate = calculateStreamingBitrate(6, 'Mbps', 2, 0, 1);
     const battery = calculateDeviceBatteryLife(10000, 3.7, 8, 85);
+    const batteryFromCurrent = calculateDeviceBatteryLifeFromCurrent(2400, 20, 85);
     const ppi = calculateMonitorPpi(1920, 1080, 24);
 
     expect(tokenCost.totalCost).toBe(13.5);
@@ -2635,6 +2637,16 @@ describe('utility helpers', () => {
     expect(speedNeeds.recommendedMbps).toBe(52.5);
     expect(bitrate.gigabytes).toBe(5.4);
     expect(formatCalculatorNumber(battery.runtimeHours)).toBe('3.93125');
+    expect(batteryFromCurrent.usableCapacityMah).toBe(2040);
+    expect(batteryFromCurrent.runtimeHours).toBe(102);
+    expect(batteryFromCurrent.runtimeMinutes).toBe(6120);
+    expect(batteryFromCurrent.runtimeDays).toBe(4.25);
+    expect(() => calculateDeviceBatteryLifeFromCurrent(2400, 0, 85)).toThrow(
+      'Average load current must be greater than zero',
+    );
+    expect(() => calculateDeviceBatteryLifeFromCurrent(2400, 20, 0)).toThrow(
+      'Usable capacity percent must be greater than zero',
+    );
     expect(formatCalculatorNumber(ppi.ppi)).toBe('91.7877987534');
     expect(ppi.aspectLabel).toBe('16:9');
   });

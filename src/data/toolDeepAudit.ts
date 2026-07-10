@@ -471,6 +471,11 @@ const graphCalcBatteryLife = {
   label: 'GraphCalc: Battery life calculator reference',
 };
 
+const tiBatterySystems = {
+  href: 'https://www.ti.com/lit/an/swra462/swra462.pdf',
+  label: 'Texas Instruments: Battery Powered System Considerations',
+};
+
 const inchCalculatorPpi = {
   href: 'https://www.inchcalculator.com/ppi-calculator/',
   label: 'Inch Calculator: PPI calculator reference',
@@ -8172,20 +8177,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'device-battery-life-calculator',
     status: 'deep-reviewed',
-    batch: 'seo-tool-review-device-battery-life-calculator-2026-06-05',
-    reviewedOn: '2026-06-05',
+    batch: 'july-9-index-recovery-device-battery-life-calculator-2026-07-10',
+    reviewedOn: '2026-07-10',
     scope: commonMathScope,
-    sources: [graphCalcBatteryLife, nistSi, googleHelpfulContent],
+    sources: [tiBatterySystems, graphCalcBatteryLife, nistSi, googleHelpfulContent],
     findings: [
-      'The battery life tool converts mAh and voltage into watt-hours before estimating runtime, so it does not compare batteries by mAh alone.',
-      'Formula review checked nominal energy, usable energy after efficiency, runtime hours, and runtime minutes using the deterministic local calculator implementation.',
-      'FAQ and guide explain why voltage matters, how to choose an efficiency percentage, how power bank labels can use internal cell voltage, and why age, temperature, discharge rate, high load, and power spikes change real runtime.',
+      'Exact July 9 evidence found 14 tool impressions at average position 11.4 and 4 guide impressions at average position 7.0, with both URLs fetched successfully but currently not indexed.',
+      'Current search results emphasize battery capacity divided by average load current, while the earlier page only supported a voltage-and-watts method. The page pair is classified as recover and differentiate rather than merge or noindex.',
+      'Formula review now checks both deterministic paths: usable mAh divided by average mA, and usable watt-hours divided by average watts.',
+      'Texas Instruments guidance supports using average current and treating usable capacity, load, temperature, discharge behavior, and cutoff conditions as real-world limits.',
     ],
     improvements: [
-      'Expanded the tool page with a calculator-intent SEO title/meta description, exact mAh-to-Wh, usable-Wh, runtime-hours, and runtime-minutes formula wording, field-level explanations for mAh, nominal voltage, device watts, and efficiency, extra FAQs for USB power banks, mAh versus battery life, high-power devices, watts versus amps, comparing batteries by Wh, and phone/laptop estimate limits, exact power-bank, small-light, and laptop-pack runtime examples, more relevant battery conversion related links, and a 2026-06-05 modified date.',
+      'Added separate Load current (mA) and Power draw (W) modes, a tested current-based helper, usable-capacity and runtime-day outputs, duty-cycle guidance, six worked examples, clearer mode selection, more relevant electrical conversion links, and a differentiated educational guide.',
     ],
     followUps: [
-      'Add USB-C power delivery presets only with clear voltage/current labels and safety cautions.',
+      'Wait for Google to recrawl both URLs before judging index recovery; add an interactive duty-cycle calculator only if future query or usage evidence supports the extra interface.',
     ],
   },
   {

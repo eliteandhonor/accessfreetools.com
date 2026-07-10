@@ -8182,6 +8182,16 @@ export interface DeviceBatteryLifeResult {
   runtimeMinutes: number;
 }
 
+export interface DeviceBatteryLifeCurrentResult {
+  capacityMah: number;
+  loadCurrentMa: number;
+  usableCapacityPercent: number;
+  usableCapacityMah: number;
+  runtimeHours: number;
+  runtimeMinutes: number;
+  runtimeDays: number;
+}
+
 export interface MonitorPpiResult {
   widthPixels: number;
   heightPixels: number;
@@ -11849,6 +11859,33 @@ export function calculateDeviceBatteryLife(
     usableWattHours,
     runtimeHours,
     runtimeMinutes: runtimeHours * 60,
+  };
+}
+
+export function calculateDeviceBatteryLifeFromCurrent(
+  capacityMah: number,
+  loadCurrentMa: number,
+  usableCapacityPercent = 90,
+): DeviceBatteryLifeCurrentResult {
+  assertPositiveNumber(capacityMah, 'Battery capacity');
+  assertPositiveNumber(loadCurrentMa, 'Average load current');
+  assertPercentRange(usableCapacityPercent, 'Usable capacity percent', 100);
+
+  if (usableCapacityPercent <= 0) {
+    throw new Error('Usable capacity percent must be greater than zero');
+  }
+
+  const usableCapacityMah = capacityMah * (usableCapacityPercent / 100);
+  const runtimeHours = usableCapacityMah / loadCurrentMa;
+
+  return {
+    capacityMah,
+    loadCurrentMa,
+    usableCapacityPercent,
+    usableCapacityMah,
+    runtimeHours,
+    runtimeMinutes: runtimeHours * 60,
+    runtimeDays: runtimeHours / 24,
   };
 }
 

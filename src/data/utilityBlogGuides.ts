@@ -76,6 +76,10 @@ const sourceLinks = {
     href: 'https://www.nist.gov/pml/special-publication-811',
     label: 'NIST: Guide for the Use of the International System of Units',
   },
+  tiBatterySystems: {
+    href: 'https://www.ti.com/lit/an/swra462/swra462.pdf',
+    label: 'Texas Instruments: Battery Powered System Considerations',
+  },
   usdaFoodDataCentral: {
     href: 'https://fdc.nal.usda.gov/',
     label: 'USDA: FoodData Central',
@@ -8015,77 +8019,86 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistUnits],
   },
   'device-battery-life-calculator': {
-    title: 'Device Battery Life Calculator Guide',
-    summary: 'Learn how mAh, voltage, watts, and efficiency estimate battery runtime.',
+    title: 'Battery Runtime From mAh, mA, or Watts',
+    summary: 'Learn when to divide usable mAh by average mA and when to convert mAh into watt-hours for a watts-based runtime estimate.',
     metaDescription:
-      'Use the Device Battery Life Calculator guide to estimate battery runtime from mAh, voltage, device watts, efficiency loss, watt-hours, and usable Wh.',
+      'Learn how to estimate battery runtime from mAh and average mA, or from mAh, voltage, and watts, with worked examples and real-world limits.',
     purpose:
-      'The Device Battery Life Calculator converts battery capacity into watt-hours, applies a realistic efficiency loss, and divides by device power draw to estimate runtime.',
+      'This guide explains the two common battery-runtime methods: divide usable milliamp-hours by average milliamps, or convert battery capacity to watt-hours and divide usable energy by average watts.',
     intro:
-      'It is useful before choosing a USB power bank, planning an off-grid device, checking a small camera setup, or comparing batteries that advertise capacity in different units.',
+      'Use the mAh and mA method for a battery-powered sensor, controller, or small project when you know average battery-side current. Use the watts method for power banks, converters, and devices described by average power draw.',
     inputMatch:
-      'the battery capacity in mAh, nominal battery voltage, average device watts, and efficiency percent you want to test',
+      'either battery capacity in mAh plus average load current in mA, or battery capacity in mAh plus nominal voltage and average device watts; both modes also accept a usable-capacity or efficiency percentage',
     logicNote:
-      'Watt-hours = (mAh / 1,000) * volts. Usable watt-hours = watt-hours * efficiency / 100. Runtime hours = usable watt-hours / device watts. Runtime minutes = runtime hours * 60. A 10,000 mAh, 3.7 V battery running an 8 W device at 85% efficiency returns about 3h 55m 53s and 31.45 usable Wh.',
+      'Current method: usable mAh = mAh * usable percentage / 100, then runtime hours = usable mAh / average mA. Power method: watt-hours = (mAh / 1,000) * volts, usable Wh = Wh * efficiency / 100, then runtime hours = usable Wh / average watts. For example, 2,400 mAh at 85% usable capacity and a 20 mA average load gives 2,040 / 20 = 102 hours.',
     readIntro:
-      'Read runtime first, then check nominal energy and usable energy. Nominal Wh shows what the battery stores before losses; usable Wh is the number the calculator actually divides by the device watts.',
+      'Read runtime first, then check the supporting capacity or energy figure. The current mode reports usable mAh and hours or days. The watts mode reports nominal and usable Wh before showing runtime.',
     mistakeIntro:
-      'Battery runtime estimates go wrong when mAh is compared across different voltages, when device watts are guessed too low, or when the battery is treated like it can deliver its full label capacity in every condition.',
+      'Battery estimates fail when peak current is entered as a continuous load, sleep time is ignored, mAh is compared across different voltages, or the full label capacity is treated as usable in every condition.',
     enter: [
-      'Enter battery capacity in mAh from the cell, pack, or power-bank label.',
-      'Enter the nominal voltage for that battery, not just the output port voltage unless the label only gives output-side data.',
-      'Enter the device average power draw in watts, then use efficiency to account for conversion loss, heat, cables, and imperfect battery use.',
+      'Choose Load current (mA) when you know the average current drawn from the battery. Enter battery mAh, average load mA, and the usable-capacity percentage.',
+      'Choose Power draw (W) when you know average device watts. Enter battery mAh, nominal battery voltage, average watts, and efficiency.',
+      'For a device that sleeps and wakes, calculate the time-weighted average current or average watts before using the calculator.',
     ],
     read: [
       'Estimated runtime is the main answer.',
-      'Nominal energy is the battery watt-hours before efficiency loss.',
-      'Usable energy is the watt-hours after the efficiency percentage.',
+      'Usable capacity is the labeled mAh after the percentage allowance in current mode.',
+      'Nominal and usable energy are shown in watt-hours in power mode.',
+      'Runtime days are useful for low-current devices, but they are still estimates rather than a shelf-life promise.',
     ],
     mistakes: [
+      'Do not enter a short peak current as if the device draws it continuously.',
+      'Do not ignore sleep, idle, transmit, display, motor, or startup states when finding an average load.',
       'Do not compare batteries by mAh alone when voltage is different.',
-      'Do not assume a device draws the same watts all the time.',
       'Do not enter peak watts if you want average runtime, or average watts if you are checking whether a short peak load will shut the battery down.',
       'Do not ignore voltage converters, inverters, long cables, low-battery cutoff, or manufacturer discharge limits.',
       'Do not expect old, cold, hot, damaged, or heavily loaded batteries to match the estimate.',
     ],
     extraSections: [
       {
-        title: 'Example: USB power bank runtime',
+        title: 'Example: 2,400 mAh battery at a 20 mA average load',
+        paragraphs: [
+          'At 85% usable capacity, a 2,400 mAh battery provides 2,040 usable mAh. Divide 2,040 mAh by a 20 mA average load to get 102 hours, or 4.25 days.',
+          'The 20 mA input must be a battery-side average. If the device alternates between a high-current active state and a low-current sleep state, calculate a time-weighted average current first.',
+        ],
+      },
+      {
+        title: 'Example: USB power bank runtime from watts',
         paragraphs: [
           'A 10,000 mAh power bank with 3.7 V cells stores 37 Wh before losses. At 85% efficiency, usable energy is 31.45 Wh. If the device averages 8 W, runtime is 31.45 / 8 = 3.93125 hours, or about 3h 55m 53s.',
-          'That is a better planning number than 10,000 mAh by itself because the device uses watts, and the USB conversion step loses some energy along the way.',
+          'This method is safer than dividing the power bank mAh by an output-current label because the battery cell voltage and USB output voltage can differ.',
         ],
       },
       {
-        title: 'Examples for small and larger packs',
+        title: 'Choose current mode or power mode',
         paragraphs: [
-          'A 5,000 mAh, 3.7 V pack powering a 3 W device at 90% efficiency gives 16.65 usable Wh and about 5h 33m. A 5,000 mAh, 11.1 V pack powering a 30 W device at 88% efficiency gives 48.84 usable Wh and about 1h 37m 41s.',
-          'The second battery has the same mAh but a much higher voltage, so it stores much more watt-hour energy. That is why watt-hours are safer for comparing packs than mAh alone.',
+          'Use current mode when battery capacity and average load are measured at the same battery-side voltage. This is common for sensors, microcontrollers, radios, and small electronic projects.',
+          'Use power mode when the load is described in watts, when battery and device voltages differ, or when a converter sits between them. Watts and watt-hours keep energy comparisons consistent across voltage changes.',
         ],
       },
       {
-        title: 'When the estimate can be wrong',
+        title: 'Why the estimate can still be wrong',
         paragraphs: [
-          'Real runtime moves when the device cycles between idle and high load, the battery is old, the room is very cold or hot, or the battery management system cuts off early to protect the cells.',
-          'If the device has motors, radios, heaters, bright screens, inverters, or startup spikes, run a conservative version of the calculation too. A lower efficiency percent or a higher average watts value gives you a safer planning estimate.',
+          'Texas Instruments notes that usable battery capacity changes with load and discharge behavior. Real runtime also moves with chemistry, self-discharge, age, temperature, converter efficiency, and the voltage where the device stops working.',
+          'If a device has radios, motors, heaters, bright screens, or startup spikes, test a conservative average too. Peak current also needs a separate electrical check because a battery can have enough capacity but still fail to support a short high-current burst.',
         ],
       },
       {
         title: 'Useful related checks',
         paragraphs: [
-          'Battery runtime, electricity use, download time, and unit conversion are related but different questions. Use the neighboring tools when you need energy cost, transfer time, or a unit conversion rather than runtime from a battery pack.',
+          'Battery runtime, amp-hours, watt-hours, watts, and amps answer related but different questions. Use the neighboring tools when you need an electrical conversion before estimating runtime.',
         ],
         links: [
           { href: '/tools/device-battery-life-calculator/', label: 'Open the battery runtime calculator' },
+          { href: '/tools/amp-hours-to-watt-hours-calculator/', label: 'Convert amp-hours to watt-hours' },
+          { href: '/tools/watts-to-amps-calculator/', label: 'Convert watts to amps' },
           { href: '/tools/electricity-calculator/', label: 'Estimate electricity use' },
-          { href: '/tools/download-time-calculator/', label: 'Estimate a download time' },
-          { href: '/tools/conversion-calculator/', label: 'Convert related units' },
         ],
       },
     ],
     sidecarText:
-      'Open the Device Battery Life Calculator beside this guide. Try the 10,000 mAh power-bank example first, then replace the mAh, voltage, watts, and efficiency with your own battery and device.',
-    sources: [sourceLinks.nistUnits],
+      'Open the Device Battery Life Calculator beside this guide. Try 2,400 mAh, 20 mA, and 85% in current mode, then compare it with the watts mode for a battery and device that use different voltages.',
+    sources: [sourceLinks.tiBatterySystems, sourceLinks.nistUnits],
   },
   'monitor-ppi-calculator': {
     title: 'Monitor PPI Calculator Guide',

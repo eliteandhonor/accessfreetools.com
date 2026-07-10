@@ -93,6 +93,8 @@ const utilityTrustTextBySlug: Partial<Record<string, string>> = {
     'This page is for date-only age checks. If a legal, school, sports, insurance, or age-restricted rule has its own cutoff date, use that rule before trusting the quick result.',
   'date-calculator':
     'This page is for calendar dates, not clock times. If a deadline has official counting rules, business days, holidays, or a time zone, use those rules before trusting the quick result.',
+  'device-battery-life-calculator':
+    'This estimate assumes the capacity, current or watts, and usable percentage describe the same battery-side setup. Check manufacturer limits, peak current, cutoff voltage, temperature, and battery condition before relying on it.',
   'height-calculator':
     'This page is a rough family-height estimate from parent heights only. If you are worried about a child\'s growth, use growth charts and ask a healthcare professional.',
   'sleep-calculator':
@@ -1171,6 +1173,12 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Choose the average characters-per-token assumption if you want to compare a rough low or high range.',
     'Press Estimate tokens to see characters, words, and a rough token count.',
     'Use the model provider tokenizer before treating the number as exact for billing or context limits.',
+  ],
+  'device-battery-life-calculator': [
+    'Choose Load current (mA) when you know average battery-side current, or Power draw (W) when you know battery voltage and average device watts.',
+    'Enter battery capacity and the usable-capacity or efficiency percentage, then add the current or power inputs for your selected mode.',
+    'Press Calculate runtime to see the estimate, supporting capacity or energy, and hours or days.',
+    'For a device that sleeps and wakes, calculate a duty-cycle average first and check peak-current support separately.',
   ],
   'markdown-table-generator': [
     'Enter headers separated by commas or pipe characters.',

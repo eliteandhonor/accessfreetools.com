@@ -9427,23 +9427,24 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'device-battery-life-calculator',
     name: 'Device Battery Life Calculator',
     category: 'everyday-tools',
-    summary: 'Estimate battery runtime from mAh, voltage, device watts, and efficiency.',
-    seoTitle: 'Device Battery Life Calculator | mAh to Runtime',
+    summary: 'Battery runtime from mAh and average mA, or mAh, volts, and watts.',
+    seoTitle: 'Device Battery Life Calculator | mAh, mA & Watts',
     seoDescription:
-      'Estimate device battery runtime from mAh, voltage, watts, and efficiency. See Wh, usable Wh, minutes, examples, and real-world battery limits.',
+      'Estimate battery runtime from mAh using average load current (mA) or voltage and watts. Compare formulas, examples, usable capacity, hours, and days.',
     description:
-      'Use this free device battery life calculator to convert mAh and voltage into watt-hours, apply efficiency loss, and estimate runtime for small electronics.',
+      'Use this free device battery life calculator to divide usable mAh by average current, or convert mAh and voltage into watt-hours before dividing by device watts.',
     icon: 'tool-battery-life',
-    aliases: ['Battery Life Calculator', 'Power Bank Runtime Calculator', 'mAh to Hours Calculator'],
+    aliases: ['Battery Life Calculator', 'Battery Runtime Calculator', 'Battery Life Calculator mAh mA', 'Power Bank Runtime Calculator', 'mAh to Hours Calculator'],
     formula:
-      'Watt-hours = (mAh / 1,000) * volts. Usable Wh = watt-hours * efficiency / 100. Runtime hours = usable Wh / device watts. Runtime minutes = runtime hours * 60.',
+      'Current method: usable mAh = mAh * usable capacity percent / 100, then runtime hours = usable mAh / average load current in mA. Power method: watt-hours = (mAh / 1,000) * volts, usable Wh = watt-hours * efficiency / 100, then runtime hours = usable Wh / device watts.',
     limit:
       'Real battery life depends on battery age, temperature, chemistry, discharge rate, screen brightness, radio use, power spikes, voltage-converter loss, inverter loss, cable loss, low-battery cutoff, and manufacturer limits.',
     inputExplanations: [
       { term: 'Battery capacity mAh', meaning: 'The milliamp-hour rating from the battery, phone, power bank, or small electronics label.' },
       { term: 'Voltage', meaning: 'The nominal battery voltage used to convert capacity into watt-hours. Use the pack or cell voltage from the spec sheet.' },
       { term: 'Device watts', meaning: 'The average power draw of the device while it is running. If you only know amps, multiply volts by amps to estimate watts.' },
-      { term: 'Efficiency %', meaning: 'The usable energy after conversion losses, heat, cables, battery overhead, and safety cutoffs.' },
+      { term: 'Average load current mA', meaning: 'The average current drawn from the battery. For a device that sleeps and wakes, use its duty-cycle average rather than its brief peak current.' },
+      { term: 'Efficiency or usable capacity %', meaning: 'The share of labeled energy or capacity you expect to use after conversion loss, heat, battery overhead, aging, and safety cutoffs.' },
     ],
     extraFaq: [
       {
@@ -9479,7 +9480,7 @@ export const utilityTools: ToolDefinition[] = [
       {
         question: 'Should I enter watts or amps?',
         answer:
-          'This calculator uses watts because watt-hours divided by watts gives hours directly. If your device lists current, estimate watts with volts x amps before entering it.',
+          'Use Load current (mA) when the battery and average device current are both described in mAh and mA. Use Power draw (W) when you know battery voltage and average device watts, especially when voltage conversion is involved.',
       },
       {
         question: 'Can I compare two batteries by mAh alone?',
@@ -9491,9 +9492,25 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'No. Phones and laptops change power draw constantly as the screen, processor, radios, charging circuits, and battery health change. Treat the result as a planning estimate.',
       },
+      {
+        question: 'How do I calculate battery life from mAh and mA?',
+        answer:
+          'Divide usable battery capacity in mAh by average load current in mA. A 2,400 mAh battery at 85% usable capacity provides 2,040 usable mAh; at a 20 mA average load, that is 102 hours.',
+      },
+      {
+        question: 'Should I use peak current or average current?',
+        answer:
+          'Use average current for runtime. Peak current still matters for checking whether the battery and regulator can support short bursts, but entering a brief peak as if it were continuous will underestimate runtime.',
+      },
+      {
+        question: 'How do sleep and active cycles affect the mA input?',
+        answer:
+          'Calculate a time-weighted average first. Multiply each state current by the fraction of time spent in that state, add the results, and enter that average battery-side current.',
+      },
     ],
     useCases: [
       'Estimate how long a power bank may run a tablet, light, router, or camera.',
+      'Estimate a sensor or small project runtime from battery mAh and average current in mA.',
       'Convert mAh and volts into watt-hours.',
       'Add realistic loss instead of assuming 100% battery use.',
       'Compare two batteries that use different voltages.',
@@ -9514,8 +9531,23 @@ export const utilityTools: ToolDefinition[] = [
         expression: '5,000 mAh, 11.1 V, 30 W, 88% efficiency',
         result: '1h 37m 41s (48.84 usable Wh); the 30 W load drains the pack faster.',
       },
+      {
+        label: 'IoT sensor average current',
+        expression: '2,400 mAh, 20 mA average load, 85% usable capacity',
+        result: '102 hours, or 4.25 days, from 2,040 usable mAh.',
+      },
+      {
+        label: 'LED project average current',
+        expression: '1,000 mAh, 100 mA average load, 90% usable capacity',
+        result: '9 hours from 900 usable mAh.',
+      },
+      {
+        label: 'Low-current device',
+        expression: '500 mAh, 2 mA average load, 85% usable capacity',
+        result: '212.5 hours, or about 8.85 days, from 425 usable mAh.',
+      },
     ],
-    relatedSlugs: ['electricity-calculator', 'download-time-calculator', 'conversion-calculator'],
+    relatedSlugs: ['amp-hours-to-watt-hours-calculator', 'watts-to-amps-calculator', 'electricity-calculator'],
   }),
   makeUtilityTool({
     slug: 'monitor-ppi-calculator',
