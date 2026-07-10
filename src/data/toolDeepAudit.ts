@@ -6945,20 +6945,22 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'distance-calculator',
     status: 'deep-reviewed',
-    batch: 'all-pages-dataforseo-sprint-2026-06-27',
-    reviewedOn: '2026-06-27',
+    batch: 'seo-recovery-distance-2026-07-10',
+    reviewedOn: '2026-07-10',
     scope: commonMathScope,
     sources: [openStaxDistance, openStaxGeometry],
     findings: [
-      'The distance helper uses the 2D straight-line distance formula from two coordinate points and reports delta x, delta y, midpoint, and formula steps for checking work.',
-      'The tool page now covers 3-4-5, origin-to-point, negative-coordinate, same-x-value, and decimal-coordinate examples with clear unit-label expectations.',
-      'The FAQ explains coordinate inputs, delta values, midpoint, negative and decimal coordinates, same-point behavior, unit labels, the Pythagorean relationship, Slope Calculator differences, route/GPS limits, 3D-distance limits, and tab-only privacy.',
+      'Exact Search Console filtering found 34 impressions, 0 clicks, and average position 11.6 for the tool from 2026-05-01 through 2026-07-08. The indexed guide had 13 impressions, 0 clicks, and average position 8.5.',
+      'Current URL Inspection reports Crawled - currently not indexed with a successful fetch for the tool and Submitted and indexed for the guide. The tool had passed inspection after its June 27 rebuild, so this is an index-selection recovery problem rather than a crawl or sitemap failure.',
+      'Targeted DataForSEO evidence shows the broad distance calculator phrase is dominated by map, driving, walking, and running intent. This page only calculates 2D coordinate distance, so the relevant lane is distance between two points rather than route distance.',
     ],
     improvements: [
-      'Updated distance metadata, SEO description, use cases, examples, FAQ depth, modified date, and audit notes with local SEO score, workbench, competitor-gap, rendered-page, paid DataForSEO, and browser-proof requirements.',
+      'Led the tool metadata with Distance Calculator Between Two Points, added exact coordinate aliases, exposed distance squared and full formula substitution, and added a non-perfect-square example without adding map or GPS claims.',
+      'Retitled the indexed guide as Distance Formula Between Two Points so it serves instructional intent while the tool remains the transactional calculator page.',
     ],
     followUps: [
       'Add 3D distance as a separate mode later if there is enough demand.',
+      'Wait for a new Google crawl before judging tool recovery or the tool-versus-guide intent split.',
     ],
   },
   {

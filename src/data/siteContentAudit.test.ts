@@ -93,6 +93,14 @@ const BIG_NUMBER_GUIDE_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/blog/how-to-use-big-number-calculator.astro', import.meta.url)),
   'utf8',
 );
+const GEOMETRY_CALCULATOR_SOURCE = readFileSync(
+  fileURLToPath(new URL('../components/GeometryCalculator.tsx', import.meta.url)),
+  'utf8',
+);
+const DISTANCE_GUIDE_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/blog/how-to-use-distance-calculator.astro', import.meta.url)),
+  'utf8',
+);
 const PUBLIC_AI_MODELS_DIR = fileURLToPath(new URL('../../public/ai-models/', import.meta.url));
 const SITEMAP_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/sitemap.xml.ts', import.meta.url)),
@@ -381,6 +389,33 @@ describe('site content audit guardrails', () => {
     expect(BIG_NUMBER_GUIDE_SOURCE).toContain('9,007,199,254,740,991');
     expect(BIG_NUMBER_GUIDE_SOURCE).toContain('https://tc39.es/ecma262/#sec-ecmascript-language-types-bigint-type');
     expect(BIG_NUMBER_GUIDE_SOURCE).not.toContain('title="How to use the Big Number Calculator"');
+    expect(tool?.seoTitle.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+  });
+
+  it('separates the coordinate Distance Calculator from its formula guide', () => {
+    const tool = tools.find((item) => item.slug === 'distance-calculator');
+    const guide = blogPosts.find((item) => item.slug === 'how-to-use-distance-calculator');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+
+    expect(tool?.seoTitle).toBe('Distance Calculator Between Two Points | 2D Formula');
+    expect(tool?.seoDescription).toContain('distance squared');
+    expect(tool?.aliases).toContain('Coordinate Distance Calculator');
+    expect(tool?.examples).toContainEqual({
+      label: 'Non-perfect square',
+      expression: '(2, 1) to (7, 4)',
+      result: 'distance squared 34, so distance is sqrt(34), about 5.8309518949 units',
+    });
+    expect(faqText).toContain('Distance squared is delta x squared plus delta y squared');
+    expect(guide?.title).toBe('Distance Formula Between Two Points');
+    expect(guide?.summary).toContain('exact square root');
+    expect(GEOMETRY_CALCULATOR_SOURCE).toContain("label: 'Distance squared'");
+    expect(GEOMETRY_CALCULATOR_SOURCE).toContain('Square and add:');
+    expect(GEOMETRY_CALCULATOR_SOURCE).toContain("label: 'Square root result'");
+    expect(DISTANCE_GUIDE_SOURCE).toContain('5^2 + 3^2 = 25 + 9 = 34');
+    expect(DISTANCE_GUIDE_SOURCE).toContain('title="Distance Formula Between Two Points"');
+    expect(DISTANCE_GUIDE_SOURCE).not.toContain('title="How to use the Distance Calculator"');
     expect(tool?.seoTitle.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
     expect(tool?.seoDescription.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
     expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);

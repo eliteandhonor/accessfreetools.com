@@ -3384,16 +3384,23 @@ const baseTools: ToolDefinition[] = [
     slug: 'distance-calculator',
     name: 'Distance Calculator',
     category: 'calculators',
-    summary: 'Calculate straight-line distance, deltas, midpoint, and formula steps.',
+    summary:
+      'Straight-line distance between two 2D points, plus distance squared, deltas, midpoint, and formula steps.',
     description:
-      'Use this free distance calculator to enter two coordinate points and find straight-line distance, delta x, delta y, midpoint, and distance-formula steps.',
+      'Use this free coordinate distance calculator to enter two 2D points and find straight-line distance, distance squared, delta x, delta y, midpoint, and formula substitution.',
     icon: 'calculator-distance',
-    seoTitle: 'Distance Calculator | Distance Between Two Points',
+    aliases: [
+      'Distance Between Two Points Calculator',
+      'Coordinate Distance Calculator',
+      'Distance Formula Calculator',
+      'Euclidean Distance Calculator',
+    ],
+    seoTitle: 'Distance Calculator Between Two Points | 2D Formula',
     seoDescription:
-      'Calculate straight-line distance between two coordinate points with delta x, delta y, midpoint, optional units, examples, and formula steps.',
+      'Find the straight-line distance between two 2D points. See delta x, delta y, distance squared, midpoint, and step-by-step formula substitution.',
     useCases: [
       'Find straight-line distance between two points on a coordinate plane.',
-      'Check delta x, delta y, and midpoint while working coordinate geometry problems.',
+      'Check delta x, delta y, distance squared, and midpoint while working coordinate geometry problems.',
       'Compare coordinate distance with slope, rise, run, and right-triangle side lengths.',
       'Use the formula steps to spot sign mistakes before copying an answer into notes or homework.',
       'Label the answer with the same unit as the coordinates, such as meters, feet, miles, or grid units.',
@@ -3402,7 +3409,7 @@ const baseTools: ToolDefinition[] = [
       {
         label: '3-4-5 distance',
         expression: '(1, 2) to (4, 6)',
-        result: 'delta x 3, delta y 4, distance 5 units; this is the direct line, not a route',
+        result: 'delta x 3, delta y 4, distance squared 25, and distance 5 units',
       },
       { label: 'Origin to point', expression: '(0, 0) to (8, 15)', result: '17 units' },
       {
@@ -3411,7 +3418,11 @@ const baseTools: ToolDefinition[] = [
         result: '10 units; signs change the deltas before squaring',
       },
       { label: 'Same x-value', expression: '(3, -2) to (3, 7)', result: '9 units with midpoint (3, 2.5)' },
-      { label: 'Decimal coordinates', expression: '(2.5, 1) to (6.5, 4)', result: '5 units' },
+      {
+        label: 'Non-perfect square',
+        expression: '(2, 1) to (7, 4)',
+        result: 'distance squared 34, so distance is sqrt(34), about 5.8309518949 units',
+      },
     ],
     faq: [
       {
@@ -3428,6 +3439,11 @@ const baseTools: ToolDefinition[] = [
         question: 'Why does the calculator show delta x and delta y?',
         answer:
           'Delta x is x2 - x1, and delta y is y2 - y1. They show the horizontal and vertical changes before the calculator squares them, which makes sign mistakes easier to catch.',
+      },
+      {
+        question: 'What does distance squared mean?',
+        answer:
+          'Distance squared is delta x squared plus delta y squared before the final square root. It is 25 for the points (1, 2) and (4, 6), so the distance is sqrt(25) = 5. This intermediate value helps you check the substitution and keep an exact square-root form for non-perfect squares.',
       },
       {
         question: 'Can distance be negative?',

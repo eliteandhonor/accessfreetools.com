@@ -568,6 +568,9 @@ describe('geometry helpers', () => {
     expect(formatCalculatorNumber(slope.slope ?? 0)).toBe('2');
     expect(formatCalculatorNumber(slope.yIntercept ?? 0)).toBe('0');
     expect(formatCalculatorNumber(distance.distance)).toBe('5');
+    expect(distance.distanceSquared).toBe(25);
+    expect(formatCalculatorNumber(calculateDistance2d(2, 1, 7, 4).distance)).toBe('5.8309518949');
+    expect(calculateDistance2d(2, 1, 7, 4).distanceSquared).toBe(34);
     expect(distance.midpoint).toEqual({ x: 2.5, y: 4 });
   });
 

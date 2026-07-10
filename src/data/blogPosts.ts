@@ -287,10 +287,10 @@ const blogPostCandidates: BlogPostDefinition[] = [
   },
   {
     slug: 'how-to-use-distance-calculator',
-    title: 'How to use the Distance Calculator',
-    label: 'Distance calculator guide',
+    title: 'Distance Formula Between Two Points',
+    label: 'Coordinate distance formula guide',
     summary:
-      'Learn how to calculate straight-line distance between two coordinate points, read delta x, delta y, midpoint, units, and limits.',
+      'Learn how to substitute two coordinate points, check distance squared, keep an exact square root, and avoid route-distance mistakes.',
   },
   {
     slug: 'how-to-use-circle-calculator',

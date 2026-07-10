@@ -321,6 +321,7 @@ export interface DistanceResult {
   y2: number;
   deltaX: number;
   deltaY: number;
+  distanceSquared: number;
   distance: number;
   midpoint: {
     x: number;
@@ -970,6 +971,7 @@ export function calculateDistance2d(x1: number, y1: number, x2: number, y2: numb
 
   const deltaX = x2 - x1;
   const deltaY = y2 - y1;
+  const distanceSquared = square(deltaX) + square(deltaY);
 
   return {
     x1,
@@ -978,7 +980,8 @@ export function calculateDistance2d(x1: number, y1: number, x2: number, y2: numb
     y2,
     deltaX,
     deltaY,
-    distance: Math.sqrt(square(deltaX) + square(deltaY)),
+    distanceSquared,
+    distance: Math.sqrt(distanceSquared),
     midpoint: {
       x: (x1 + x2) / 2,
       y: (y1 + y2) / 2,

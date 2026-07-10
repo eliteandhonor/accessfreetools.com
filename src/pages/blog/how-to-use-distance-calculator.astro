@@ -5,23 +5,23 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
 
 <CalculatorGuideArticle
   toolSlug="distance-calculator"
-  label="Distance calculator guide"
-  title="How to use the Distance Calculator"
-  description="Learn how to calculate straight-line distance between two coordinate points, read delta x, delta y, midpoint, units, examples, and limits."
+  label="Coordinate distance formula guide"
+  title="Distance Formula Between Two Points"
+  description="Learn the 2D distance formula between two coordinate points, substitute x and y changes, check distance squared, and avoid map-route mistakes."
   path="/blog/how-to-use-distance-calculator/"
-  intro="The Distance Calculator turns two coordinate points into straight-line distance, delta x, delta y, midpoint, and formula steps you can check."
+  intro="For the points (2, 1) and (7, 4), the distance is not a neat whole number. The formula gives sqrt(34), or about 5.8309518949 units. This guide shows where 34 comes from and how to check every step."
   quickStart={[
-    'Enter x1 and y1 for the first point.',
-    'Enter x2 and y2 for the second point.',
-    'Add a unit label only if every coordinate uses that same unit.',
-    'Press Calculate distance.',
-    'Check the delta values, midpoint, and formula line before copying the answer.',
+    'Subtract x1 from x2 to find delta x.',
+    'Subtract y1 from y2 to find delta y.',
+    'Square both changes and add them to get distance squared.',
+    'Take the square root to get the straight-line distance.',
+    'Use the calculator to check the substitution, midpoint, units, and final decimal.',
   ]}
   sections={[
     {
       title: 'Quick answer',
       paragraphs: [
-        'Use the Distance Calculator when you have two points on a coordinate plane and need the direct length between them.',
+        'Use d = sqrt((x2 - x1)^2 + (y2 - y1)^2) when you have two points on a flat coordinate plane and need the direct length between them.',
         'It is built for straight-line distance, not driving distance, walking routes, map paths, or GPS travel time.',
       ],
       links: [
@@ -32,7 +32,7 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
       ],
     },
     {
-      title: 'Formula used',
+      title: 'Distance formula between two points',
       paragraphs: [
         'The calculator uses d = sqrt((x2 - x1)^2 + (y2 - y1)^2). This is the coordinate-plane version of the Pythagorean theorem.',
         'First it finds delta x by subtracting x1 from x2. Then it finds delta y by subtracting y1 from y2. Those two changes act like the legs of a right triangle.',
@@ -56,6 +56,14 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
       ],
     },
     {
+      title: 'Example: a non-perfect square',
+      paragraphs: [
+        'For point (2, 1) and point (7, 4), delta x is 7 - 2 = 5 and delta y is 4 - 1 = 3.',
+        'Square and add the changes: 5^2 + 3^2 = 25 + 9 = 34. The exact distance is sqrt(34), and the displayed decimal distance is about 5.8309518949 units.',
+        'Keeping 34 visible lets you check the formula before rounding. It also shows why a correct distance answer is not always a whole number.',
+      ],
+    },
+    {
       title: 'Example: negative and decimal coordinates',
       paragraphs: [
         'Negative coordinates work the same way. From (-3, 4) to (5, -2), delta x is 8 and delta y is -6. Squaring removes the sign, so the distance is sqrt(64 + 36) = 10 units.',
@@ -69,6 +77,14 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
         'The midpoint is the point exactly halfway between the two coordinates. The calculator finds it by averaging the x-values and averaging the y-values.',
         'For (1, 2) and (4, 6), the midpoint is ((1 + 4) / 2, (2 + 6) / 2), which gives (2.5, 4).',
         'Midpoint is useful when you need the center of a segment, a label position on a graph, or a quick check that two endpoints look balanced.',
+      ],
+    },
+    {
+      title: 'Why distance squared is useful',
+      paragraphs: [
+        'Distance squared is the value inside the square root: delta x squared plus delta y squared. The calculator shows it as a separate check before the final distance.',
+        'If the squared value is a perfect square, such as 25, the distance is a whole number. If it is 34, the exact answer stays sqrt(34) and the displayed decimal is an approximation.',
+        'Distance squared also makes sign errors easier to catch. A negative delta must be squared as a complete value, so (-6)^2 is 36, not -36.',
       ],
     },
     {
@@ -144,7 +160,12 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
     {
       question: 'What formula does this guide use?',
       answer:
-        'It uses d = sqrt((x2 - x1)^2 + (y2 - y1)^2). The calculator also shows delta x, delta y, midpoint, and formula steps so you can check the work.',
+        'It uses d = sqrt((x2 - x1)^2 + (y2 - y1)^2). The calculator also shows delta x, delta y, distance squared, midpoint, and formula substitution so you can check the work.',
+    },
+    {
+      question: 'What is distance squared?',
+      answer:
+        'Distance squared is (x2 - x1)^2 + (y2 - y1)^2, the value inside the square root. For (2, 1) and (7, 4), it is 34, so the exact distance is sqrt(34).',
     },
     {
       question: 'Does point order matter?',
@@ -172,7 +193,7 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
         'Check that x and y values are not swapped, units are consistent, the formula step matches the points, and the result is not being used as a survey or safety-critical measurement.',
     },
   ]}
-  bestUsesIntro="This guide is best when you have two coordinate points and want the straight-line length, midpoint, and formula steps without doing the square-root work by hand."
+  bestUsesIntro="This guide is best when you want to understand the 2D distance formula, check a substitution, or explain why a coordinate answer is a square root or decimal."
   keepExploringIntro="If your problem is close but not exactly two-point distance, use these nearby guides and calculators before relying on the answer."
-  sidecarText="Use the Distance Calculator while you follow the formula examples."
+  sidecarText="Open the Distance Calculator beside the guide to see distance squared, midpoint, and the substituted formula for the same points."
 />

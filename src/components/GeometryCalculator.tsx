@@ -267,6 +267,7 @@ const geometryConfigs: Record<GeometryToolVariant, GeometryConfig> = {
           { label: '(1,2) to (4,6)', inputs: { x1: '1', y1: '2', x2: '4', y2: '6', ...unit() } },
           { label: 'Origin to point', inputs: { x1: '0', y1: '0', x2: '8', y2: '15', ...unit('m') } },
           { label: 'Negative coords', inputs: { x1: '-3', y1: '4', x2: '5', y2: '-2', ...unit() } },
+          { label: 'Square root result', inputs: { x1: '2', y1: '1', x2: '7', y2: '4', ...unit() } },
         ],
       },
     ],
@@ -663,13 +664,14 @@ function buildGeometryCalculation(
       metrics: [
         { label: 'Delta x', value: formatCalculatorNumber(result.deltaX) },
         { label: 'Delta y', value: formatCalculatorNumber(result.deltaY) },
+        { label: 'Distance squared', value: formatValue(result.distanceSquared, unitLabel, 'area') },
         { label: 'Midpoint', value: `(${formatCalculatorNumber(result.midpoint.x)}, ${formatCalculatorNumber(result.midpoint.y)})` },
       ],
       steps: [
         `Find delta x: ${formatCalculatorNumber(result.x2)} - ${formatCalculatorNumber(result.x1)} = ${formatCalculatorNumber(result.deltaX)}.`,
         `Find delta y: ${formatCalculatorNumber(result.y2)} - ${formatCalculatorNumber(result.y1)} = ${formatCalculatorNumber(result.deltaY)}.`,
-        'Use the distance formula: d = sqrt((x2-x1)^2 + (y2-y1)^2).',
-        `The distance is ${answer}.`,
+        `Square and add: (${formatCalculatorNumber(result.deltaX)})^2 + (${formatCalculatorNumber(result.deltaY)})^2 = ${formatCalculatorNumber(result.distanceSquared)}.`,
+        `Take the square root: d = sqrt(${formatCalculatorNumber(result.distanceSquared)}) = ${answer}.`,
       ],
     };
   }
