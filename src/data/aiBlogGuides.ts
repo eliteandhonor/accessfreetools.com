@@ -25,6 +25,8 @@ export interface AiGuideDefinition {
 }
 
 interface AiGuideDetail {
+  title?: string;
+  description?: string;
   summary: string;
   purpose: string;
   enter: string[];
@@ -56,6 +58,14 @@ const sourceLinks = {
   fleschKincaid: {
     href: 'https://readabilityformulas.com/flesch-grade-level-results.php',
     label: 'Flesch-Kincaid grade level formula reference',
+  },
+  w3cReadingLevel: {
+    href: 'https://www.w3.org/WAI/WCAG22/Understanding/reading-level.html',
+    label: 'W3C: understanding WCAG 2.2 reading level',
+  },
+  cdcPlainLanguage: {
+    href: 'https://www.cdc.gov/health-literacy/php/develop-materials/plain-language.html',
+    label: 'CDC: plain-language checklist and sentence guidance',
   },
   googleHelpfulContent: {
     href: 'https://developers.google.com/search/docs/fundamentals/creating-helpful-content',
@@ -241,32 +251,42 @@ const guideDetails: Record<string, AiGuideDetail> = {
     sources: [sourceLinks.transformersJs, sourceLinks.googleHelpfulContent],
   },
   'reading-level-checker': {
+    title: 'Reading Level Checker: Fix Hard Sentences',
+    description:
+      'Use this free reading level checker to calculate grade and reading ease, find long sentences, and get practical revision clues for English text.',
     summary:
-      'Learn how to use the browser reading level checker, choose a fair text sample, read grade-level and reading-ease estimates, and spot long sentences or jargon before publishing.',
+      'Learn how to check English reading level, find the longest sentence, and use plain-language revision clues before publishing.',
     purpose:
-      'The Reading Level Checker is a browser-only readability helper for help pages, classroom notes, email drafts, blog sections, and support replies. It estimates reading grade level from word count, sentence count, syllables, and long words, then shows reading ease, average sentence length, and long-word signals so you can decide what to simplify.',
+      'The Reading Level Checker is a browser-only English readability helper for help pages, classroom notes, email drafts, blog sections, and support replies. It calculates Flesch-Kincaid grade and Flesch Reading Ease, then shows the longest sentence, sentences over 20 words, average sentence length, and long-word share so you know where to start editing.',
     enter: [
-      'Paste at least 40 characters of finished or nearly finished text; one full paragraph works better than a headline.',
+      'Paste at least 40 characters of finished or nearly finished English text; one full paragraph works better than a headline.',
       'For a fairer result, test 100 to 800 words from the actual guide, help article, worksheet, or support reply.',
-      'Press Check reading level and read the grade estimate, reading ease, total words, sentence count, average sentence length, and long words.',
-      'If the grade feels high, shorten one long sentence, swap rare jargon for everyday wording, add an example, and check the same passage again.',
-      'For a quick sanity test, try: Enter your numbers, press calculate, and read the answer. The tool should show about grade 6.3, reading ease 66.1, 9 words, 1 sentence, and 2 long words.',
+      'Press Check reading level and read the grade, reading ease, longest sentence, sentences-over-20 count, average sentence length, and long-word share.',
+      'Start with the sentence shown in the revision panel. Check whether it carries more than one idea, then shorten or split it only when the meaning stays clear.',
+      'For a quick test, paste: Enter your numbers, press calculate, and read the answer. The tool should show about grade 6.3, reading ease 66.1, no sentences over 20 words, and 2 long words.',
     ],
     read: [
-      'Grade level is a Flesch-Kincaid-style estimate, not an official school placement or accessibility certification.',
-      'Reading ease falls when sentences run long or words use more syllables; higher reading ease usually means faster scanning.',
-      'Average sentence length helps you find the first thing to edit when a draft feels heavy.',
-      'Long words are counted at 7 or more letters, so technical terms, brand names, and necessary vocabulary can push the signal up even when the page is useful.',
-      'Use grade 6 as a plain-language target for public help text, but let expert pages keep necessary terms when the audience expects them.',
+      'Grade level is a Flesch-Kincaid estimate for English prose, not an official school placement or accessibility certificate.',
+      'Reading ease falls when sentences run long or words use more syllables. Use the score to compare drafts, not to judge a reader.',
+      'The first sentence shown is the longest detected sentence. It is a practical starting point, not proof that the sentence is wrong.',
+      'The tool flags sentences over 20 words because the CDC says to strive for an average of 20 words and one idea per sentence. Clear longer sentences can stay.',
+      'Long words are counted at 7 or more letters. Keep necessary names and technical terms, but explain unfamiliar words near their first use.',
+      'W3C treats formulas as one way to measure reading level and also points to summaries, illustrations, definitions, and other supplemental content for complex information.',
     ],
     mistakes: [
       'Do not test only a headline, menu label, or one sentence and treat it as a full-page score.',
       'Do not assume low grade level means the text is correct, complete, persuasive, or trustworthy.',
       'Do not remove important legal, medical, finance, school, or product terms just to lower the number.',
-      'Do not ignore layout, examples, headings, tables, images, translation needs, or reader context.',
+      'Do not use the English result for mixed-language text, code, URLs, abbreviations, or number-heavy passages without checking the wording yourself.',
+      'Do not ignore layout, examples, headings, tables, images, definitions, translation needs, or reader context.',
       'Do not compare a 40-word intro against a 1,000-word article without noting the sample size.',
     ],
-    sources: [sourceLinks.fleschKincaid, sourceLinks.googleHelpfulContent],
+    sources: [
+      sourceLinks.fleschKincaid,
+      sourceLinks.w3cReadingLevel,
+      sourceLinks.cdcPlainLanguage,
+      sourceLinks.googleHelpfulContent,
+    ],
   },
 };
 
@@ -285,27 +305,36 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
   }
 
   const isOcrTool = tool.slug === 'image-to-text-ocr-tool';
+  const isReadingLevelTool = tool.slug === 'reading-level-checker';
 
   return {
     slug: `how-to-use-${tool.slug}`,
     toolSlug: tool.slug,
     label: `${tool.name} guide`,
-    title: `How to use the ${tool.name}`,
-    description: buildAiMetaDescription(tool, detail.summary),
+    title: detail.title ?? `How to use the ${tool.name}`,
+    description: detail.description ?? buildAiMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
     intro: `${detail.purpose} Use this guide to understand what to enter, how to read the output, and what to double-check before relying on the result.`,
     quickStart: detail.enter,
     sections: [
       {
-        title: isOcrTool ? 'What this OCR tool does' : 'What this AI tool does',
+        title: isOcrTool
+          ? 'What this OCR tool does'
+          : isReadingLevelTool
+            ? 'What this readability tool does'
+            : 'What this AI tool does',
         paragraphs: [
           detail.purpose,
           isOcrTool
             ? 'The important privacy idea is simple: the image is read in your browser tab. Access Free Tools does not need to receive the selected image for OCR to work.'
-            : 'The important privacy idea is simple: your input runs in the browser tab. Access Free Tools does not need to receive the image or text for the tool to work.',
+            : isReadingLevelTool
+              ? 'Your text stays in the browser tab. The checker uses local English formulas and sentence counts, so it does not need a server model or text upload.'
+              : 'The important privacy idea is simple: your input runs in the browser tab. Access Free Tools does not need to receive the image or text for the tool to work.',
           isOcrTool
             ? 'The OCR worker, WebAssembly core, and language files are served from Access Free Tools after you press Read text. That first run can take longer than a normal calculator.'
-            : 'For this first self-hosted pass, OCR files and the starter text classifier files are served from Access Free Tools after you click the tool button. Heavier experimental model tools may still download model files from a third-party model host until we self-host more models.',
+            : isReadingLevelTool
+              ? 'The result uses word count, sentence count, and an English syllable estimate. Names, abbreviations, numbers, and mixed-language text can make that estimate less reliable.'
+              : 'For this first self-hosted pass, OCR files and the starter text classifier files are served from Access Free Tools after you click the tool button. Heavier experimental model tools may still download model files from a third-party model host until we self-host more models.',
         ],
       },
       {
@@ -313,7 +342,9 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
         paragraphs: [
           isOcrTool
             ? 'Start with the extracted text, then check the original image. OCR is useful, but it can still miss punctuation, split columns badly, or swap similar-looking characters.'
-            : 'Start with the main result, then read the supporting notes. Browser AI tools are useful helpers, but they can still be wrong, incomplete, or unsure.',
+            : isReadingLevelTool
+              ? 'Start with the grade and reading-ease estimates, then use the sentence preview and counts to choose one edit. Recheck the same passage so the comparison uses the same sample.'
+              : 'Start with the main result, then read the supporting notes. Browser AI tools are useful helpers, but they can still be wrong, incomplete, or unsure.',
         ],
         bullets: detail.read,
       },

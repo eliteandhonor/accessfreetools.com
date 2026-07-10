@@ -6,6 +6,7 @@ interface AiToolSpec {
   name: string;
   summary: string;
   description: string;
+  aliases?: string[];
   seoTitle?: string;
   seoDescription?: string;
   icon: string;
@@ -67,7 +68,7 @@ function makeAiTool(spec: AiToolSpec): ToolDefinition {
     summary: spec.summary,
     description: spec.description,
     icon: spec.icon,
-    aliases: spec.name === 'Image to Text OCR Tool' ? ['OCR Tool', 'Image Text Reader'] : undefined,
+    aliases: spec.aliases ?? (spec.name === 'Image to Text OCR Tool' ? ['OCR Tool', 'Image Text Reader'] : undefined),
     seoTitle: spec.seoTitle ?? `${spec.name} | Free Browser AI Tool`,
     seoDescription: spec.seoDescription ?? spec.description,
     useCases: spec.useCases,
@@ -377,38 +378,84 @@ export const aiTools: ToolDefinition[] = [
   makeAiTool({
     slug: 'reading-level-checker',
     name: 'Reading Level Checker',
-    summary: 'Estimate reading grade level, sentence length, and readability signals.',
+    summary: 'Check English reading grade and find the first sentence to simplify.',
     description:
-      'Estimate the reading grade level, reading ease, word count, sentence length, and long-word signals for a pasted paragraph in your browser.',
+      'Paste English text to calculate Flesch-Kincaid grade and reading ease, flag sentences over 20 words, and find the longest sentence to review in your browser.',
+    aliases: ['Flesch-Kincaid Calculator', 'Readability Checker', 'Reading Grade Calculator'],
+    seoTitle: 'Reading Level Checker | Grade & Sentence Review',
+    seoDescription:
+      'Check English reading grade and reading ease, then find long sentences and words to review first. Free, private, and runs in your browser.',
     icon: 'tool-ai-reading',
-    modelNote: 'Uses browser readability formulas, not a server model, so it runs locally and gives explainable scoring signals.',
+    modelNote: 'Uses English readability formulas and sentence checks in your browser. No server model or text upload is needed.',
     inputMeaning:
-      'Paste at least 40 characters from one paragraph, help article, school note, blog draft, or instruction block. A 100 to 800 word sample usually gives a steadier estimate than a headline, menu label, or single sentence.',
+      'Paste at least 40 characters of English prose from a paragraph, help article, school note, blog draft, or instruction block. A 100 to 800 word sample usually gives a steadier estimate than a headline, menu label, or single sentence.',
     resultMeaning:
-      'Read the grade level as a Flesch-Kincaid-style estimate of text difficulty. The tool also shows reading ease, total words, sentence count, average sentence length, and long words of 7 or more letters so you can see why the score moved.',
+      'Read the grade as a Flesch-Kincaid estimate, then use the longest-sentence preview, sentences-over-20 count, and long-word share to choose what to edit first. A flag is a review clue, not an automatic failure.',
     doubleCheck:
-      'Check jargon, audience age, subject difficulty, layout, examples, images, language mix, and required technical terms manually. A grade 6 estimate does not prove the text is accurate, useful, or right for every reader.',
+      'Check jargon, audience age, subject difficulty, layout, examples, images, names, abbreviations, numbers, and language mix yourself. A low grade estimate does not prove the text is accurate, useful, accessible, or right for every reader.',
     useCases: [
-      'Estimate whether a help article is readable enough for general customers.',
-      'Check average sentence length before publishing a blog guide or product FAQ.',
-      'Make school notes, safety instructions, or onboarding text easier to scan.',
-      'Compare a 300-word draft before and after replacing jargon or splitting long sentences.',
+      'Find the longest sentence in a help article before publishing.',
+      'Check whether a support reply has sentences over 20 words.',
+      'Compare the same 300-word draft before and after splitting long sentences.',
+      'Review jargon and long-word share in school notes, instructions, or onboarding text.',
     ],
     examples: [
       {
         label: 'Simple help text',
         expression: 'Enter your numbers, press calculate, and read the answer.',
-        result: 'About grade 6.3, reading ease 66.1, 9 words, 1 sentence, and 2 long words',
+        result: 'About grade 6.3, reading ease 66.1, no sentences over 20 words, and 2 long words',
       },
       {
-        label: 'Blog draft sample',
-        expression: 'Paste 300 words from a how-to guide before publishing.',
-        result: 'Grade estimate, reading ease, words, sentences, and average sentence length',
+        label: 'Long support sentence',
+        expression: 'Paste a support reply with one sentence longer than 20 words.',
+        result: 'The longest sentence appears first with its word count and a split-or-shorten clue',
       },
       {
         label: 'Technical paragraph',
         expression: 'Paste a jargon-heavy paragraph about implementation details.',
-        result: 'Higher difficulty warning from longer words and denser sentences',
+        result: 'Grade and reading-ease estimates plus long-word count and share',
+      },
+    ],
+    faq: [
+      {
+        question: 'What formulas does the Reading Level Checker use?',
+        answer:
+          'It uses the Flesch-Kincaid grade formula and Flesch Reading Ease. Both use average sentence length and estimated English syllables per word. The page shows the exact equations after each check.',
+      },
+      {
+        question: 'How should I read the grade level and reading-ease scores?',
+        answer:
+          'Treat grade level as an estimate of English text difficulty. Higher reading-ease scores usually mean easier scanning. Double-check the wording with your real audience because neither score measures accuracy, usefulness, tone, layout, or subject knowledge.',
+      },
+      {
+        question: 'Why does the tool flag sentences over 20 words?',
+        answer:
+          'The 20-word mark is an editing checkpoint based on current CDC plain-language guidance to aim for about 20 words per sentence. A longer sentence can still be clear, so review the idea and wording before you split it.',
+      },
+      {
+        question: 'How does the tool choose the first sentence to review?',
+        answer:
+          'It counts the words in each detected sentence and shows the longest one first. This gives you a concrete place to start, but jargon, missing context, poor order, and weak examples can matter more than sentence length.',
+      },
+      {
+        question: 'Does a lower grade level always make writing better?',
+        answer:
+          'No. Keep necessary names, legal terms, medical terms, product names, and technical vocabulary when your reader needs them. Explain unfamiliar terms and improve the surrounding sentence instead of chasing the lowest number.',
+      },
+      {
+        question: 'Can I use this checker for languages other than English?',
+        answer:
+          'Not reliably. The syllable estimate and formulas on this page are designed for English prose. Mixed-language text, abbreviations, names, numbers, code, and URLs can distort the score.',
+      },
+      {
+        question: 'Does this score prove that my page is accessible?',
+        answer:
+          'No. This is not an accessibility certificate. A readability formula is one signal; accessibility also depends on the audience, structure, headings, definitions, examples, images, supplemental explanations, and assistive technology.',
+      },
+      {
+        question: 'Does the Reading Level Checker upload my text?',
+        answer:
+          'No. The formulas and sentence checks run in your browser tab. Your text is not uploaded to Access Free Tools, and no model download is needed for this checker.',
       },
     ],
     relatedSlugs: ['keyword-extractor', 'text-summarizer', 'word-counter'],

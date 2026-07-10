@@ -68,3 +68,11 @@ CTR/ranking pages from the July 9 high-impression zero-click set:
 - The page still passes its 98-point local SEO score, 100 internal-link score, WCAG formula checks, sitemap checks, and specialist judge. This is classified as `recover` through stronger product value instead of adding more generic text.
 - The recovery adds compact native color swatches, a deterministic nearby AA normal-text suggestion for failed pairs, a visible #777777 to #767676 repair example, WCAG 2.2 wording, and official W3C non-text contrast guidance.
 - Baseline evidence: `output/search-console/page-performance-color-contrast-checker-tool-2026-07-10.json` and `output/search-console/url-inspection-color-contrast-checker-baseline-2026-07-10.json`. Wait for Google to recrawl before judging indexation or traffic movement.
+
+## 2026-07-10 Reading Level Checker Recovery Sprint
+
+- Exact Search Console filtering found 10 impressions, 1 click, and average position 4.5 for `/tools/reading-level-checker/` from 2026-05-01 through 2026-07-08. The matching guide had 2 impressions, 0 clicks, and average position 3.5. Query text was withheld for privacy.
+- Google URL Inspection reports `Crawled - currently not indexed` with a successful fetch for both URLs. The tool and guide remain canonical, useful, and distinct, so both are classified as `recover` rather than merge or noindex.
+- The earlier page passed local scores but stopped at grade, ease, and counts. The recovery adds a tested English readability helper, longest-sentence preview, sentences-over-20 count, long-word share, a deterministic revision checklist, exact formula steps, and clearer limits for names, numbers, abbreviations, mixed languages, and accessibility claims.
+- The tool and guide now cite current W3C reading-level guidance and the CDC plain-language checklist. The 20-word signal is presented as a review checkpoint, not an automatic failure.
+- Baseline evidence: `output/search-console/page-performance-reading-level-checker-tool-2026-07-10.json`, `output/search-console/page-performance-reading-level-checker-guide-2026-07-10.json`, and `output/search-console/url-inspection-reading-level-checker-baseline-2026-07-10.json`. Wait for a new Google crawl before judging recovery.

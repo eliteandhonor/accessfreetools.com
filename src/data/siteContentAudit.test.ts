@@ -360,6 +360,41 @@ describe('site content audit guardrails', () => {
     expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
   });
 
+  it('keeps the Reading Level Checker actionable without overstating the score', () => {
+    const tool = tools.find((item) => item.slug === 'reading-level-checker');
+    const guide = aiBlogGuides.find((item) => item.toolSlug === 'reading-level-checker');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+    const guideText = guide?.sections
+      .flatMap((section) => [section.title, ...section.paragraphs, ...(section.bullets ?? [])])
+      .join(' ') ?? '';
+    const guideLinks = guide?.sections.flatMap((section) => section.links ?? []).map((link) => link.href) ?? [];
+
+    expect(tool?.seoTitle).toBe('Reading Level Checker | Grade & Sentence Review');
+    expect(tool?.seoDescription).toContain('find long sentences and words to review first');
+    expect(tool?.aliases).toContain('Flesch-Kincaid Calculator');
+    expect(tool?.examples).toContainEqual({
+      label: 'Simple help text',
+      expression: 'Enter your numbers, press calculate, and read the answer.',
+      result: 'About grade 6.3, reading ease 66.1, no sentences over 20 words, and 2 long words',
+    });
+    expect(faqText).toContain('current CDC plain-language guidance');
+    expect(faqText).toContain('not an accessibility certificate');
+    expect(guide?.title).toBe('Reading Level Checker: Fix Hard Sentences');
+    expect(guideText).toContain('What this readability tool does');
+    expect(guideText).toContain('first sentence shown is the longest detected sentence');
+    expect(guideText).toContain('W3C treats formulas as one way to measure reading level');
+    expect(guideLinks).toContain('https://www.w3.org/WAI/WCAG22/Understanding/reading-level.html');
+    expect(guideLinks).toContain('https://www.cdc.gov/health-literacy/php/develop-materials/plain-language.html');
+    expect(AI_BROWSER_TOOL_SOURCE).toContain("eyebrow: 'Browser-only formulas'");
+    expect(TOOLS_ROUTE_SOURCE).toContain('Browser-side readability formulas');
+    expect(TOOLS_ROUTE_SOURCE).toContain('Longest sentence first');
+    expect(TOOLS_ROUTE_SOURCE).toContain("isReadingLevelTool ? 'formula' : 'model'");
+    expect(`${tool?.seoTitle}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription?.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+  });
+
   it('keeps the VA mortgage guide distinct, current, and decision-focused', () => {
     const guide = financeBlogGuides.find((item) => item.toolSlug === 'va-mortgage-calculator');
     const guideText = guide?.sections

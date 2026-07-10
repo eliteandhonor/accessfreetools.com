@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 
+import { analyzeEnglishReadability, buildPlainLanguageRevisionClues } from '../lib/readability';
+
 export type AiToolVariant =
   | 'ocr'
   | 'sentiment'
@@ -27,6 +29,7 @@ interface AiResult {
 }
 
 interface AiConfig {
+  eyebrow?: string;
   title: string;
   description: string;
   inputLabel: string;
@@ -159,8 +162,9 @@ const aiConfigs: Record<AiToolVariant, AiConfig> = {
     modelNote: 'Tone is writing feedback powered by a self-hosted browser model, not a judgment of the person who wrote the message.',
   },
   'reading-level': {
+    eyebrow: 'Browser-only formulas',
     title: 'Reading Level Checker',
-    description: 'Estimate grade level, reading ease, and sentence length.',
+    description: 'Estimate English reading grade and find the first sentence to review.',
     inputLabel: 'Text to check',
     placeholder: 'Paste a paragraph, help article, school note, or blog draft...',
     buttonLabel: 'Check reading level',
@@ -176,7 +180,7 @@ const aiConfigs: Record<AiToolVariant, AiConfig> = {
       },
     ],
     privacyNote: 'Readability scoring runs locally with formulas. No server model is needed.',
-    modelNote: 'Grade level is an estimate based on sentence and word patterns.',
+    modelNote: 'The English formula is an editing signal, not an accessibility or school-placement test.',
   },
 };
 
@@ -516,43 +520,29 @@ function runKeywords(text: string): AiResult {
   };
 }
 
-function countSyllables(word: string) {
-  const cleaned = word.toLowerCase().replace(/[^a-z]/g, '');
-
-  if (!cleaned) return 0;
-
-  const withoutSilentE = cleaned.length > 3 ? cleaned.replace(/e$/, '') : cleaned;
-  const groups = withoutSilentE.match(/[aeiouy]+/g);
-
-  return Math.max(1, groups?.length ?? 1);
-}
-
 function runReadingLevel(text: string): AiResult {
   const input = requireText(text, 40);
-  const sentences = Math.max(1, splitSentences(input).length);
-  const words = input.match(/[A-Za-z0-9'-]+/g) ?? [];
-  const wordCount = Math.max(1, words.length);
-  const syllables = words.reduce((total, word) => total + countSyllables(word), 0);
-  const longWords = words.filter((word) => word.replace(/[^A-Za-z]/g, '').length >= 7).length;
-  const grade = 0.39 * (wordCount / sentences) + 11.8 * (syllables / wordCount) - 15.59;
-  const ease = 206.835 - 1.015 * (wordCount / sentences) - 84.6 * (syllables / wordCount);
+  const analysis = analyzeEnglishReadability(input);
 
   return {
     label: 'Readability estimate',
-    answer: `About grade ${Math.max(1, Math.round(grade * 10) / 10)}`,
+    answer: `About grade ${analysis.gradeLevel}`,
+    textOutput: buildPlainLanguageRevisionClues(analysis),
     metrics: [
-      { label: 'Reading ease', value: `${Math.round(ease * 10) / 10}` },
-      { label: 'Words', value: String(wordCount) },
-      { label: 'Sentences', value: String(sentences) },
-      { label: 'Average sentence', value: `${Math.round((wordCount / sentences) * 10) / 10} words` },
-      { label: 'Long words', value: String(longWords) },
+      { label: 'Reading ease', value: String(analysis.readingEase) },
+      { label: 'Words', value: String(analysis.wordCount) },
+      { label: 'Sentences', value: String(analysis.sentenceCount) },
+      { label: 'Average sentence', value: `${analysis.averageSentenceWords} words` },
+      { label: 'Sentences over 20 words', value: String(analysis.sentencesOver20Words) },
+      { label: 'Long words', value: `${analysis.longWordCount} (${analysis.longWordPercentage}%)` },
     ],
     steps: [
-      'The tool estimated syllables, words, and sentences.',
-      'It applied a Flesch-Kincaid-style grade formula.',
-      'Long sentences and longer words usually raise the grade estimate.',
+      'The browser estimated English syllables, words, and sentence boundaries.',
+      'Grade = 0.39 x words per sentence + 11.8 x syllables per word - 15.59.',
+      'Reading ease = 206.835 - 1.015 x words per sentence - 84.6 x syllables per word.',
+      'The tool ranked sentences by word count and counted words with 7 or more letters.',
     ],
-    note: 'This is an estimate, not an official school score.',
+    note: 'Use this as an English editing signal, not an accessibility certificate or school score. Names, abbreviations, numbers, and mixed-language text can distort the syllable estimate.',
   };
 }
 
@@ -780,7 +770,7 @@ export default function AiBrowserTool({ variant }: Props) {
     <section className="advanced-calculator advanced-calculator-ai" aria-label={`${config.title} workspace`}>
       <div className="advanced-panel ai-panel">
         <div className="ai-tool-heading">
-          <span>Browser-only AI</span>
+          <span>{config.eyebrow ?? 'Browser-only AI'}</span>
           <h2>{config.title}</h2>
           <p>{config.description}</p>
         </div>

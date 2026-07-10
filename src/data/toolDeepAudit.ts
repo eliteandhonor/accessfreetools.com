@@ -296,6 +296,16 @@ const fleschKincaidFormula = {
   label: 'Flesch-Kincaid grade level formula reference',
 };
 
+const w3cReadingLevel = {
+  href: 'https://www.w3.org/WAI/WCAG22/Understanding/reading-level.html',
+  label: 'W3C: understanding WCAG 2.2 reading level',
+};
+
+const cdcPlainLanguage = {
+  href: 'https://www.cdc.gov/health-literacy/php/develop-materials/plain-language.html',
+  label: 'CDC: plain-language checklist and sentence guidance',
+};
+
 const isoDate = {
   href: 'https://www.iso.org/iso-8601-date-and-time-format.html',
   label: 'ISO: ISO 8601 date and time format',
@@ -7989,20 +7999,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'reading-level-checker',
     status: 'deep-reviewed',
-    batch: 'seo-gsc-refresh-2026-06-11',
-    reviewedOn: '2026-06-11',
+    batch: 'seo-index-recovery-2026-07-10',
+    reviewedOn: '2026-07-10',
     scope: commonMathScope,
-    sources: [fleschKincaidFormula, googleHelpfulContent],
+    sources: [fleschKincaidFormula, w3cReadingLevel, cdcPlainLanguage, googleHelpfulContent],
     findings: [
-      'The Reading Level Checker uses explainable browser formulas and correctly says grade level is an estimate, not an official school score.',
-      'The refreshed copy explains the 40-character minimum, better 100 to 800 word sample range, grade estimate, reading ease, word count, sentence count, average sentence length, and long-word signals.',
-      'The component performs local word, sentence, syllable, average-sentence, and long-word analysis without a server model, keeping the result fast and private.',
+      'Exact Search Console filtering found 10 impressions, 1 click, and average position 4.5 for the tool from 2026-05-01 through 2026-07-08; current URL Inspection reports Crawled - currently not indexed with a successful fetch.',
+      'The matching guide had 2 impressions at average position 3.5 and the same current index-selection status, so the pair is classified as recover rather than noindex or merge.',
+      'The browser helper now calculates grade and reading ease, identifies the longest sentence, counts sentences over 20 words, reports long-word share, and gives a deterministic revision checklist without uploading text or pretending to certify accessibility.',
     ],
     improvements: [
-      'Refreshed examples around simple help text, 300-word guide drafts, jargon-heavy technical paragraphs, local formula scoring, audience/context limits, and the 2026-06-11 modified date.',
+      'Added a tested readability analysis module, first-sentence-to-review output, exact formula steps, English-only limits, page-specific FAQs, W3C and CDC sources, stronger search metadata, and the 2026-07-10 modified date.',
     ],
     followUps: [
-      'Add a plain-language rewrite checklist later if users need help lowering the grade level after seeing the score.',
+      'Consider a side-by-side before-and-after comparison only if anonymous usage evidence shows people rerun revised passages often enough to justify the added interface.',
     ],
   },
   {

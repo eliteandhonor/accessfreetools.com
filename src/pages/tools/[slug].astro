@@ -458,6 +458,7 @@ const aiToolVariants = {
 } as const satisfies Partial<Record<string, AiToolVariant>>;
 const aiToolVariant = aiToolVariants[tool.slug];
 const isAiTool = Boolean(aiToolVariant);
+const isReadingLevelTool = tool.slug === 'reading-level-checker';
 const hasInteractiveTool =
   isCalculatorTool ||
   isPercentageTool ||
@@ -1687,12 +1688,19 @@ const utilityToolInstructions = utilityToolVariant
     ]
   : undefined;
 const aiToolInstructions = aiToolVariant
-  ? [
-      'Enter text or choose an image for the AI task.',
-      'Press the main action button so the browser can load any needed model or language files.',
-      'Read the label, score, notes, and limits before copying anything important.',
-      'Check the original text or image yourself because browser AI output can still be wrong.',
-    ]
+  ? isReadingLevelTool
+    ? [
+        'Paste at least 40 characters of English prose from the page, note, or message you want to review.',
+        'Press Check reading level to calculate grade, reading ease, sentence length, and long-word signals.',
+        'Start with the longest sentence shown and check whether it contains more than one main idea.',
+        'Edit the same passage and run it again, while keeping names and necessary technical terms when readers need them.',
+      ]
+    : [
+        'Enter text or choose an image for the AI task.',
+        'Press the main action button so the browser can load any needed model or language files.',
+        'Read the label, score, notes, and limits before copying anything important.',
+        'Check the original text or image yourself because browser AI output can still be wrong.',
+      ]
   : undefined;
 const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
   ? [
@@ -2392,10 +2400,21 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       isAiTool && (
         <div class="advanced-tool-points ai-tool-points" aria-label={`${tool.name} highlights`}>
-          <span>Browser-only input</span>
-          <span>No upload to Access Free Tools</span>
-          <span>Lazy model loading</span>
-          <span>Copy after checking</span>
+          {isReadingLevelTool ? (
+            <>
+              <span>English formula checks</span>
+              <span>No text upload</span>
+              <span>Longest sentence first</span>
+              <span>Revision clues</span>
+            </>
+          ) : (
+            <>
+              <span>Browser-only input</span>
+              <span>No upload to Access Free Tools</span>
+              <span>Lazy model loading</span>
+              <span>Copy after checking</span>
+            </>
+          )}
         </div>
       )
     }
@@ -3892,14 +3911,30 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
 
     {
       isAiTool && (
-        <aside class="trust-note trust-note-ai" aria-label={`${tool.name} privacy and model limits`}>
-          <strong>Browser-side AI helper</strong>
-          <p>
-            Your text or image runs in this browser tab and is not uploaded to Access Free Tools. OCR and the starter
-            text model use self-hosted files from Access Free Tools after you click the tool button; heavier
-            experimental model tools may still download model files from a third-party model host until we self-host
-            more models.
-          </p>
+        <aside
+          class="trust-note trust-note-ai"
+          aria-label={`${tool.name} privacy and ${isReadingLevelTool ? 'formula' : 'model'} limits`}
+        >
+          {isReadingLevelTool ? (
+            <>
+              <strong>Browser-side readability formulas</strong>
+              <p>
+                Your English text stays in this browser tab. The checker uses word, sentence, and estimated syllable
+                counts, so it needs no server model or model download. Treat grade and reading ease as editing signals,
+                not proof that every reader will understand the passage.
+              </p>
+            </>
+          ) : (
+            <>
+              <strong>Browser-side AI helper</strong>
+              <p>
+                Your text or image runs in this browser tab and is not uploaded to Access Free Tools. OCR and the
+                starter text model use self-hosted files from Access Free Tools after you click the tool button;
+                heavier experimental model tools may still download model files from a third-party model host until we
+                self-host more models.
+              </p>
+            </>
+          )}
         </aside>
       )
     }
@@ -4070,7 +4105,13 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
           isFinanceTool && <p>Plain-language answers about when to use the estimate, what your numbers mean, what is left out, and how privacy works.</p>
         )}
         {isUtilityTool && <p>Plain-language answers about when to use the tool, what it does with your inputs, what to double-check, and how privacy works.</p>}
-        {isAiTool && <p>Plain-language answers about browser-only models, privacy, confidence limits, common mistakes, and when to double-check AI output.</p>}
+        {isAiTool && (
+          isReadingLevelTool ? (
+            <p>Plain-language answers about English formulas, sample size, sentence checks, privacy, and what the scores cannot prove.</p>
+          ) : (
+            <p>Plain-language answers about browser-only models, privacy, confidence limits, common mistakes, and when to double-check AI output.</p>
+          )
+        )}
       </div>
       <div class="faq-list">
         {
