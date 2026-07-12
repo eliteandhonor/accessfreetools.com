@@ -178,6 +178,69 @@ export const topicalHubs: TopicalHub[] = [
     ],
   },
   {
+    slug: 'electrical-calculators',
+    title: 'Electrical Calculator Hub',
+    eyebrow: 'Power, current, resistance, and wiring math',
+    description:
+      'Use free electrical calculators for watts, amps, kW, kVA, Ohm\'s law, voltage drop, wire planning, battery energy, and electricity cost.',
+    intro:
+      'Use this hub when an electrical question moves between power, current, voltage, resistance, energy use, or a wire-run estimate. Start with the label or circuit values you actually know, choose the calculator that solves one missing value, and keep installation, protection, and energized-work decisions outside the browser estimate.',
+    audience:
+      'Students, equipment owners, makers, technicians doing rough checks, and people organizing questions before speaking with a qualified electrical professional.',
+    primaryToolSlugs: [
+      'watts-to-amps-calculator',
+      'amps-to-watts-calculator',
+      'kilowatts-to-amps-calculator',
+      'kva-to-amps-calculator',
+      'ohms-law-calculator',
+      'electricity-calculator',
+    ],
+    supportToolSlugs: [
+      'voltage-drop-calculator',
+      'wire-size-calculator',
+      'wire-resistance-calculator',
+      'resistor-calculator',
+      'amp-hours-to-watt-hours-calculator',
+      'watt-hours-to-amp-hours-calculator',
+    ],
+    checkpoints: [
+      'Match the unit and current type first. Watts, volt-amps, watt-hours, AC, DC, single-phase, and three-phase values are not interchangeable.',
+      'Use the equipment nameplate or specification for voltage, real power, apparent power, power factor, efficiency, and starting-current details when they are available.',
+      'Treat voltage-drop and wire-size outputs as planning math only. They do not check ampacity, breaker size, insulation, terminals, raceway fill, temperature, conductor material, equipment instructions, or local code.',
+      'Do not use a browser result as permission to open a panel, touch conductors, or work on energized equipment.',
+      'Keep enough digits to compare results, but do not mistake calculator precision for measurement accuracy or electrical approval.',
+    ],
+    workflowSteps: [
+      'Start with Watts to Amps, Amps to Watts, kW to Amps, or kVA to Amps when the job begins with an equipment power label.',
+      'Use the Ohm\'s Law Calculator when two of voltage, current, resistance, and power are known and one circuit value is missing.',
+      'Use the Electricity Calculator when the question is energy use or cost over time rather than instantaneous current.',
+      'Open Voltage Drop, Wire Size, or Wire Resistance only after the load current and one-way run length are known, and keep their planning limits visible.',
+      'Finish with the equipment instructions, applicable code, and a qualified person before choosing conductors, protection, or work practices.',
+    ],
+    resources: [
+      {
+        href: 'https://www.nist.gov/pml/owm/si-units-electric-current',
+        title: 'NIST: Electric current and SI units',
+        text: 'Check the ampere, volt, watt, and ohm unit relationships used by the calculators.',
+      },
+      {
+        href: 'https://openstax.org/books/physics/pages/19-1-ohms-law',
+        title: 'OpenStax: Current, resistance, and Ohm\'s law',
+        text: 'Review the relationship between current, voltage, and resistance before rearranging the formula.',
+      },
+      {
+        href: 'https://openstax.org/books/college-physics/pages/20-4-electric-power-and-energy',
+        title: 'OpenStax: Electric power and energy',
+        text: 'Review how power connects voltage and current, and how energy depends on power over time.',
+      },
+      {
+        href: 'https://www.osha.gov/electrical/flash-hazards',
+        title: 'OSHA: Electrical and arc-flash hazards',
+        text: 'Understand why low voltage is not the same as low risk and why calculator math is not safe-work approval.',
+      },
+    ],
+  },
+  {
     slug: 'browser-ai-tools',
     title: 'Browser AI Tools Hub',
     eyebrow: 'Private-first AI helpers',

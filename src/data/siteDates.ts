@@ -547,6 +547,7 @@ const staticPageLastmod: Record<string, string> = {
   '/gallery/': '2026-07-09',
   '/hubs/': '2026-07-12',
   '/hubs/loan-payment-debt-payoff-calculators/': '2026-07-12',
+  '/hubs/electrical-calculators/': '2026-07-12',
   '/categories/': '2026-05-02',
   '/blog/': '2026-07-12',
   '/free-calculator-resources/': '2026-07-12',

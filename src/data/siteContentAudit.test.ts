@@ -1463,6 +1463,44 @@ describe('site content audit guardrails', () => {
     expect(FREE_CALCULATOR_RESOURCES_SOURCE).toContain('/blog/how-to-use-personal-loan-calculator/');
   });
 
+  it('keeps the electrical calculator hub task-led, crawlable, and safety-aware', () => {
+    const hub = topicalHubs.find((entry) => entry.slug === 'electrical-calculators');
+
+    expect(hub).toBeDefined();
+    expect(`${hub?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(hub?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(hub?.primaryToolSlugs).toEqual(
+      expect.arrayContaining([
+        'watts-to-amps-calculator',
+        'kilowatts-to-amps-calculator',
+        'kva-to-amps-calculator',
+        'ohms-law-calculator',
+        'electricity-calculator',
+      ]),
+    );
+    expect(hub?.supportToolSlugs).toEqual(
+      expect.arrayContaining([
+        'voltage-drop-calculator',
+        'wire-size-calculator',
+        'wire-resistance-calculator',
+        'resistor-calculator',
+      ]),
+    );
+    expect(hub?.workflowSteps?.length).toBeGreaterThanOrEqual(5);
+    expect(hub?.checkpoints.some((checkpoint) => checkpoint.includes('planning math only'))).toBe(true);
+    expect(hub?.resources?.map((resource) => resource.href)).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('nist.gov'),
+        expect.stringContaining('openstax.org'),
+        expect.stringContaining('osha.gov'),
+      ]),
+    );
+    expect(hubSitemapEntries.map((entry) => entry.path)).toContain('/hubs/electrical-calculators/');
+    expect(HUB_INDEX_SOURCE).toContain('Checking electrical numbers');
+    expect(BLOG_INDEX_SOURCE).toContain('/hubs/electrical-calculators/');
+    expect(FREE_CALCULATOR_RESOURCES_SOURCE).toContain('/hubs/electrical-calculators/');
+  });
+
   it('keeps the watts-to-amps recovery aligned with current query evidence', () => {
     const tool = tools.find((entry) => entry.slug === 'watts-to-amps-calculator');
     const guide = utilityBlogGuides.find((entry) => entry.toolSlug === 'watts-to-amps-calculator');
