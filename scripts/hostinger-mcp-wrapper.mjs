@@ -5,6 +5,7 @@ const args = process.argv.slice(2);
 const commandArgs = args[0] === '--' ? args.slice(1) : args;
 const packageName = process.env.HOSTINGER_MCP_PACKAGE || 'hostinger-api-mcp';
 const binaryName = process.env.HOSTINGER_MCP_BINARY || 'hostinger-hosting-mcp';
+const hostingerToken = readHostingerToken();
 const npxCommand = process.platform === 'win32' ? (process.env.ComSpec || 'cmd.exe') : 'npx';
 const npxArgs =
   process.platform === 'win32'
@@ -22,8 +23,7 @@ const result = spawnSync(npxCommand, npxArgs, {
   stdio: ['ignore', 'pipe', 'pipe'],
   env: {
     ...process.env,
-    API_TOKEN: readHostingerToken(),
-    APITOKEN: readHostingerToken(),
+    HOSTINGER_API_TOKEN: hostingerToken,
   },
 });
 
