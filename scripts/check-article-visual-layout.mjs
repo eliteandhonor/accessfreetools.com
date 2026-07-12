@@ -140,6 +140,44 @@ try {
         }
       }
 
+      const articleHeading = document.querySelector('.blog-article-header h1');
+      if (articleHeading) {
+        const headingStyle = getComputedStyle(articleHeading);
+        const headingFontSize = Number.parseFloat(headingStyle.fontSize);
+        const headingLineHeight = Number.parseFloat(headingStyle.lineHeight);
+        const range = document.createRange();
+        range.selectNodeContents(articleHeading);
+        const textRects = [...range.getClientRects()]
+          .filter((rect) => rect.width >= 1 && rect.height >= 1)
+          .sort((left, right) => left.top - right.top || left.left - right.left);
+        const lineTops = textRects.reduce((tops, rect) => {
+          if (!tops.some((top) => Math.abs(top - rect.top) < 1)) tops.push(rect.top);
+          return tops;
+        }, []);
+
+        if (
+          Number.isFinite(headingFontSize) &&
+          Number.isFinite(headingLineHeight) &&
+          headingLineHeight < headingFontSize
+        ) {
+          failures.push(
+            `article H1 line-height ${headingLineHeight.toFixed(1)}px is smaller than its ${headingFontSize.toFixed(1)}px font size`,
+          );
+        }
+
+        for (let index = 1; index < lineTops.length; index += 1) {
+          const lineAdvance = lineTops[index] - lineTops[index - 1];
+          if (Number.isFinite(headingFontSize) && lineAdvance < headingFontSize - 1) {
+            failures.push(
+              `article H1 line advance ${lineAdvance.toFixed(1)}px is too tight for its ${headingFontSize.toFixed(1)}px font size`,
+            );
+            break;
+          }
+        }
+
+        checkTextLineBoxes(articleHeading, 'article H1');
+      }
+
       const articleBody = document.querySelector('.blog-article-body');
       const sidecar = document.querySelector('.article-sidecar');
       if (articleBody && sidecar) {

@@ -740,9 +740,14 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     wastePercent: 'Extra sand for leveling, spreading loss, compaction, and uneven areas.',
   },
   soil: {
+    lengthFeet: 'Inside length of one rectangular bed or planter in feet.',
+    widthFeet: 'Inside width of one rectangular bed or planter in feet.',
+    diameterFeet: 'Inside diameter of one round bed or planter in feet. The tool treats it as a simple cylinder.',
     areaSquareFeet:
       'Garden bed, raised bed, planter, or lawn patch area in square feet. Measure odd shapes separately and add them together.',
+    quantity: 'Number of identical beds or planters with the same measurements and fill depth.',
     depthInches: 'Added soil depth in inches. Use only the depth you still need to fill or top off.',
+    bagSizeCubicFeet: 'Volume printed on one bag in cubic feet. Enter the label value instead of assuming every bag is the same size.',
     wastePercent:
       'Extra soil for settling, uneven beds, spreading loss, moisture or fill differences, and a small ordering cushion.',
   },
@@ -3606,21 +3611,98 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Soil Calculator',
     buttonLabel: 'Estimate soil',
     emptyHistory: 'Recent soil estimates will appear here.',
-    privacyNote: 'Soil estimates stay local and are volume and bag planning numbers, not plant or soil-health advice.',
+    privacyNote: 'Soil estimates stay local. The result plans volume and bags, not the right soil mix, nutrients, or plant care.',
     modes: [
       {
-        id: 'soil-volume',
-        label: 'Area and depth',
-        symbol: 'SOIL',
+        id: 'bed-dimensions',
+        label: 'Bed dimensions',
+        symbol: 'LxW',
         fields: [
-          numberField('areaSquareFeet', 'Bed area (ft2)', '120'),
-          numberField('depthInches', 'Soil depth (in)', '4'),
+          numberField('lengthFeet', 'Inside length (ft)', '8'),
+          numberField('widthFeet', 'Inside width (ft)', '4'),
+          numberField('quantity', 'Number of beds', '1'),
+          numberField('depthInches', 'Fill depth (in)', '12'),
+          numberField('bagSizeCubicFeet', 'Bag size (ft3)', '1.5'),
           numberField('wastePercent', 'Extra (%)', '10'),
         ],
-        defaultInputs: { areaSquareFeet: '120', depthInches: '4', wastePercent: '10' },
+        defaultInputs: {
+          lengthFeet: '8',
+          widthFeet: '4',
+          quantity: '1',
+          depthInches: '12',
+          bagSizeCubicFeet: '1.5',
+          wastePercent: '10',
+        },
         examples: [
-          { label: 'Raised bed top-off', inputs: { areaSquareFeet: '120', depthInches: '4', wastePercent: '10' } },
-          { label: 'Small garden', inputs: { areaSquareFeet: '48', depthInches: '6', wastePercent: '5' } },
+          {
+            label: '4 x 8 raised bed',
+            inputs: {
+              lengthFeet: '8',
+              widthFeet: '4',
+              quantity: '1',
+              depthInches: '12',
+              bagSizeCubicFeet: '1.5',
+              wastePercent: '10',
+            },
+          },
+          {
+            label: 'Four garden beds',
+            inputs: {
+              lengthFeet: '8',
+              widthFeet: '3',
+              quantity: '4',
+              depthInches: '6',
+              bagSizeCubicFeet: '2',
+              wastePercent: '0',
+            },
+          },
+        ],
+      },
+      {
+        id: 'round-bed',
+        label: 'Round bed',
+        symbol: 'ROUND',
+        fields: [
+          numberField('diameterFeet', 'Inside diameter (ft)', '4'),
+          numberField('quantity', 'Number of beds', '1'),
+          numberField('depthInches', 'Fill depth (in)', '12'),
+          numberField('bagSizeCubicFeet', 'Bag size (ft3)', '1.5'),
+          numberField('wastePercent', 'Extra (%)', '10'),
+        ],
+        defaultInputs: {
+          diameterFeet: '4',
+          quantity: '1',
+          depthInches: '12',
+          bagSizeCubicFeet: '1.5',
+          wastePercent: '10',
+        },
+        examples: [
+          {
+            label: 'Round planter',
+            inputs: {
+              diameterFeet: '4',
+              quantity: '1',
+              depthInches: '12',
+              bagSizeCubicFeet: '1.5',
+              wastePercent: '10',
+            },
+          },
+        ],
+      },
+      {
+        id: 'known-area',
+        label: 'Known area',
+        symbol: 'FT2',
+        fields: [
+          numberField('areaSquareFeet', 'Bed area (ft2)', '120'),
+          numberField('depthInches', 'Fill depth (in)', '4'),
+          numberField('bagSizeCubicFeet', 'Bag size (ft3)', '2'),
+          numberField('wastePercent', 'Extra (%)', '10'),
+        ],
+        defaultInputs: { areaSquareFeet: '120', depthInches: '4', bagSizeCubicFeet: '2', wastePercent: '10' },
+        examples: [
+          { label: 'Raised bed top-off', inputs: { areaSquareFeet: '120', depthInches: '4', bagSizeCubicFeet: '2', wastePercent: '10' } },
+          { label: 'Small garden', inputs: { areaSquareFeet: '48', depthInches: '6', bagSizeCubicFeet: '1.5', wastePercent: '5' } },
         ],
       },
     ],
@@ -7023,22 +7105,49 @@ function calculateUtility(
       };
     }
     case 'soil': {
-      const result = calculateSoilEstimate(parseNumber(inputs.areaSquareFeet, 'Area'), parseNumber(inputs.depthInches, 'Depth'), parseNumber(inputs.wastePercent, 'Waste percent'));
+      const quantity = modeId === 'known-area' ? 1 : parseNumber(inputs.quantity, 'Number of beds');
+      const lengthFeet = modeId === 'bed-dimensions' ? parseNumber(inputs.lengthFeet, 'Length') : null;
+      const widthFeet = modeId === 'bed-dimensions' ? parseNumber(inputs.widthFeet, 'Width') : null;
+      const diameterFeet = modeId === 'round-bed' ? parseNumber(inputs.diameterFeet, 'Diameter') : null;
+      const areaSquareFeet =
+        lengthFeet !== null && widthFeet !== null
+          ? lengthFeet * widthFeet
+          : diameterFeet !== null
+            ? Math.PI * (diameterFeet / 2) ** 2
+            : parseNumber(inputs.areaSquareFeet, 'Area');
+      const result = calculateSoilEstimate(
+        areaSquareFeet,
+        parseNumber(inputs.depthInches, 'Depth'),
+        parseNumber(inputs.wastePercent, 'Waste percent'),
+        parseNumber(inputs.bagSizeCubicFeet, 'Bag size'),
+        quantity,
+      );
+      const expression =
+        lengthFeet !== null && widthFeet !== null
+          ? `${formatCalculatorNumber(quantity)} bed${quantity === 1 ? '' : 's'}: ${formatCalculatorNumber(lengthFeet)} ft x ${formatCalculatorNumber(widthFeet)} ft at ${formatCalculatorNumber(result.depthInches)} in`
+          : diameterFeet !== null
+            ? `${formatCalculatorNumber(quantity)} round bed${quantity === 1 ? '' : 's'}, ${formatCalculatorNumber(diameterFeet)} ft diameter at ${formatCalculatorNumber(result.depthInches)} in`
+            : `${formatCalculatorNumber(result.areaSquareFeet)} ft2 at ${formatCalculatorNumber(result.depthInches)} in`;
       return {
         label: 'Soil needed',
-        expression: `${formatCalculatorNumber(result.areaSquareFeet)} ft2 at ${formatCalculatorNumber(result.depthInches)} in with ${formatCalculatorNumber(result.wastePercent)}% extra`,
-        answer: `${formatCalculatorNumber(result.cubicYards)} yd3`,
+        expression: `${expression} with ${formatCalculatorNumber(result.wastePercent)}% extra`,
+        answer: `${formatCalculatorNumber(Math.round(result.cubicYards * 100) / 100)} yd3`,
         metrics: [
-          { label: 'Cubic feet', value: formatCalculatorNumber(result.cubicFeet) },
-          { label: '1.5 ft3 bags', value: formatCalculatorNumber(result.oneAndHalfCubicFootBags) },
-          { label: '2 ft3 bags', value: formatCalculatorNumber(result.twoCubicFootBags) },
+          { label: 'Total area', value: `${formatCalculatorNumber(result.totalAreaSquareFeet)} ft2` },
+          { label: 'Cubic feet', value: `${formatCalculatorNumber(result.cubicFeet)} ft3` },
+          { label: 'Litres', value: `${formatCalculatorNumber(Math.round(result.liters * 10) / 10)} L` },
+          { label: `${formatCalculatorNumber(result.bagSizeCubicFeet)} ft3 bags`, value: formatCalculatorNumber(result.bagsNeeded) },
         ],
         steps: [
-          'Convert soil depth from inches to feet.',
-          'Multiply bed area by depth and add extra percent.',
-          'Convert to cubic yards and common bag counts.',
+          modeId === 'bed-dimensions'
+            ? 'Multiply inside length by inside width, then multiply by the number of identical beds.'
+            : modeId === 'round-bed'
+              ? 'Use pi x radius squared for one round bed, then multiply by the number of identical beds.'
+              : 'Use the square-foot area you entered.',
+          'Convert fill depth from inches to feet, multiply by total area, then add the extra percentage.',
+          'Divide by 27 for cubic yards, convert cubic feet to litres, and round the selected bag size up to a whole bag.',
         ],
-        note: 'Soil settles. Raised beds, existing soil, compost or potting mix, moisture, delivery minimums, and bag labels can change the amount needed.',
+        note: 'Use inside measurements and the depth still to fill. Soil mix, settling, drainage, plant needs, delivery minimums, tapered planters, and the exact bag label still need separate checks.',
       };
     }
     case 'asphalt': {

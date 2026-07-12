@@ -57,6 +57,11 @@ describe('Search Console performance import', () => {
     writeFixture(performanceDir, 'Devices.csv', 'Device,Clicks,Impressions,CTR,Position\nDesktop,0,10,0%,20\n');
     writeFixture(performanceDir, 'Filters.csv', 'Filter,Value\nSearch type,Web\n');
     writeFixture(performanceDir, 'Search appearance.csv', 'Search Appearance,Clicks,Impressions,CTR,Position');
+    const overviewFile = writeFixture(
+      root,
+      'accessfreetools.com_SearchPerformanceOverview_All_7_2_2026.csv',
+      'Date,Clicks,Impressions,CTR\n7/1/2026 12:00:00 AM,2,100,2%\n7/2/2026 12:00:00 AM,1,50,2%\n',
+    );
     const deindexedFile = writeFixture(
       root,
       'deindexed.csv',
@@ -66,6 +71,7 @@ describe('Search Console performance import', () => {
     const report = buildSearchConsolePerformanceReport({
       deindexedFile,
       generatedAt: '2026-07-02T00:00:00.000Z',
+      overviewFile,
       performanceDir,
     });
 
@@ -75,6 +81,11 @@ describe('Search Console performance import', () => {
     expect(report.totals.deindexedRows).toBe(2);
     expect(report.totals.deindexedOverlapWithPerformance).toBe(1);
     expect(report.source.dataDate).toBe('2026-07-02');
+    expect(report.source.overviewKind).toBe('bing-webmaster-performance-overview');
+    expect(report.totals.bingOverviewRows).toBe(2);
+    expect(report.totals.bingOverviewImpressions).toBe(150);
+    expect(report.totals.bingOverviewClicks).toBe(3);
+    expect(report.totals.bingOverviewCtrPercent).toBe(2);
     expect(report.searchAppearance).toEqual([]);
     expect(report.deindexedByKind.blog.count).toBe(1);
     expect(report.deindexedByKind['html-sitemap'].impressions).toBe(188);

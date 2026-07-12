@@ -1,15 +1,16 @@
-# July 9 SEO Evidence Recovery Handoff
+# July SEO Evidence Recovery Handoff
 
-Updated: 2026-07-10
+Updated: 2026-07-12
 
 Use this note with `output/search-console/performance-latest.json` and `output/crawlscout/crawlscout-summary.json`. Do not treat older June blockers or stale `/sitemap/` notes as the active sprint.
 
 ## Current Evidence
 
-- Google Search Console Performance export: 591 ranking URLs, 24,103 page impressions, 39 clicks, 0.16% page CTR.
-- CrawlScout/deindexed sample: 138 not-indexed rows, 127 zero-click rows with impressions, 440 sampled impressions, 5 sampled clicks.
-- Bing Webmaster overview: 1,996 impressions, 29 clicks, 1.45% CTR. This is useful trend evidence, not page-level decision evidence.
-- Local technical proof is clean: production sitemap checked 651 URLs with 0 hard failures, XML sitemap excludes `/sitemap/`, and indexing protection has 0 high issues.
+- Google Search Console Performance export through 2026-07-09: 593 ranking URLs, 24,662 page impressions, 41 clicks, 0.17% page CTR.
+- CrawlScout/deindexed sample: 137 not-indexed rows, 127 zero-click rows with impressions, 366 sampled impressions, 4 sampled clicks.
+- Bing Webmaster overview through 2026-07-09: 2,097 impressions, 32 clicks, 1.53% CTR. This is useful aggregate trend evidence, not Google or page-level decision evidence.
+- Since the July 9 export, Google added 559 page impressions and 2 clicks, Bing added 101 impressions and 3 clicks, and the CrawlScout sample fell by one URL. These are small positive movements, not proof that a specific recovery edit caused the change.
+- Local technical proof is clean: production sitemap checked 652 URLs with 0 hard failures, `/sitemap/` is live and noindexed but excluded from XML, and indexing protection has 0 high issues.
 - SEO page review queue is complete: `npm run aft -- seo-tool-queue` reports 602 approved page review units and no active gate.
 
 ## What This Means
@@ -23,6 +24,8 @@ Index recovery pages with strong not-indexed signals:
 - Tools: `color-contrast-checker`, `reading-level-checker`, `ai-token-cost-calculator`, `calories-burned-calculator`, `big-number-calculator`, `distance-calculator`, `device-battery-life-calculator`, `siding-calculator`, `brick-calculator`, `soil-calculator`.
 - Guides and collections: `currency-calculator`, `love-calculator`, `mileage-calculator`, `concrete-calculator`, `deck-stain-calculator`, `lawn-mowing-calculator`, `markdown-table-generator`, `mean-median-mode-range-calculator`, `repayment-calculator`, `right-triangle-calculator`, `rmd-calculator`, `/gallery/converters/`.
 
+The July 12 export still contains pages repaired on July 10 because Google and CrawlScout have not necessarily recrawled them yet. Do not reopen `color-contrast-checker`, `reading-level-checker`, `ai-token-cost-calculator`, `calories-burned-calculator`, `big-number-calculator`, `distance-calculator`, `device-battery-life-calculator`, `siding-calculator`, `brick-calculator`, or `soil-calculator` from this aggregate snapshot alone. Preserve their release proof and wait for a fresh crawl.
+
 Monitor-only exact inspection:
 
 - `personal-loan-calculator` tool and guide were both fetched successfully and allowed for indexing, but Google reports `Crawled - currently not indexed`. The current tool and blog workbench judges both pass with zero gaps, so retain and monitor rather than rewriting from aggregate data alone.
@@ -33,7 +36,7 @@ CTR/ranking pages from the July 9 high-impression zero-click set:
 
 ## Agent Rules
 
-- Start with `npm run aft -- status`, `npm run aft -- indexing-gaps`, and the two imported July 9 reports.
+- Start with `npm run aft -- status`, `npm run aft -- indexing-gaps`, and the refreshed July 12 reports.
 - Use `node scripts/seo-agent-workbench.mjs all <slug> <tool|blog>` for exact page-level claims.
 - Use paid DataForSEO only for selected recovery or CTR pages where intent proof is missing.
 - After meaningful source changes, deploy on Node 24, then run Search Console discovery and IndexNow.
@@ -132,3 +135,11 @@ CTR/ranking pages from the July 9 high-impression zero-click set:
 - Targeted DataForSEO evidence shows 8,100 U.S. searches for `brick calculator` and 880 for `brick calculator for wall`. The earlier tool required a precomputed wall area and could not use supplier or Brick Industry Association coverage tables.
 - The recovery adds tested Wall dimensions, Known area, and Coverage table modes, explicit opening deductions, base and waste-adjusted counts, bricks-per-square-foot output, and a guide that explains why dimension math and product tables can differ. Mortar quantities remain separate because BIA guidance varies by unit, joint, bedding, hollow brick, collar joints, and correction factors.
 - Baseline evidence: `output/search-console/page-performance-brick-calculator-tool-2026-07-10.json`, `output/search-console/page-performance-brick-calculator-guide-2026-07-10.json`, and `output/search-console/url-inspection-brick-calculator-baseline-2026-07-10.json`. Wait for a new Google crawl before judging indexation or traffic movement.
+
+## 2026-07-12 Soil Calculator Recovery Sprint
+
+- Exact Search Console filtering found 17 impressions, 0 clicks, and average position 5.24 for `/tools/soil-calculator/` from 2026-05-01 through 2026-07-09. The matching guide had 3 impressions, 0 clicks, and average position 7.33. Query rows were privacy-suppressed.
+- Google URL Inspection reports `Crawled - currently not indexed` with a successful fetch for both URLs. CrawlScout also reports the tool Not Indexed after July 11, so the pair is classified as differentiate and recover rather than a crawl, robots, canonical, or sitemap repair.
+- Targeted DataForSEO evidence shows 27,100 U.S. searches for `soil calculator`, 6,600 for `soil calculator raised bed`, and 2,900 for `potting soil calculator`. The earlier calculator required users to precompute bed area and returned only fixed 1.5- and 2-cubic-foot bag counts.
+- The recovery adds rectangular-bed, round-bed, and known-area modes; a number-of-beds input; exact bag-label volume; cubic yards, cubic feet, litres, total area, and whole-bag output; and a measurement-focused guide backed by Illinois, Oregon State, and University of Georgia Extension sources.
+- Baseline evidence: `output/search-console/page-performance-soil-calculator-tool-2026-07-12.json`, `output/search-console/page-performance-soil-calculator-guide-2026-07-12.json`, and `output/search-console/url-inspection-soil-calculator-baseline-2026-07-12.json`. Wait for a new Google crawl before judging indexation or traffic movement.

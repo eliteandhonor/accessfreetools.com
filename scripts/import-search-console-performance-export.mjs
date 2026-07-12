@@ -38,4 +38,9 @@ console.log(`Saved ${paths.markdownPath}`);
 console.log(`Saved ${paths.tierAPath}`);
 console.log(`Status: ${report.status}`);
 console.log(`Deindexed URLs: ${report.totals.deindexedRows}`);
+if (report.source.overviewFile) {
+  console.log(
+    `Bing overview: ${report.totals.bingOverviewImpressions} impressions, ${report.totals.bingOverviewClicks} clicks, ${report.totals.bingOverviewCtrPercent}% CTR`,
+  );
+}
 console.log(`High-impression zero-click pages: ${report.opportunities.highImpressionZeroClickPages.length}`);

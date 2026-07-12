@@ -2387,6 +2387,8 @@ describe('utility helpers', () => {
     const pool = calculatePoolVolume('rectangle', 24, 12, 4.5);
     const sand = calculateSandEstimate({ lengthFeet: 20, widthFeet: 10, depthInches: 2, tonsPerCubicYard: 1.35, wastePercent: 5 });
     const soil = calculateSoilEstimate(120, 4, 10);
+    const soilForFourBeds = calculateSoilEstimate(24, 6, 0, 2, 4);
+    const soilForRoundBed = calculateSoilEstimate(Math.PI * 2 ** 2, 12, 10, 1.5);
     const asphalt = calculateAsphaltEstimate({ lengthFeet: 30, widthFeet: 12, depthInches: 3, tonsPerCubicYard: 2, wastePercent: 5 });
     const windChill = calculateWindChill(30, 15);
     const heatIndex = calculateHeatIndex(90, 70);
@@ -2516,7 +2518,19 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(cubicYard.cubicYards)).toBe('1.9444444444');
     expect(formatCalculatorNumber(pool.gallons)).toBe('9694.75392');
     expect(formatCalculatorNumber(sand.tons)).toBe('1.75');
+    expect(soil.totalAreaSquareFeet).toBe(120);
+    expect(soil.cubicFeetBeforeExtra).toBe(40);
+    expect(formatCalculatorNumber(soil.liters)).toBe('1245.94125005');
+    expect(soil.bagsNeeded).toBe(22);
     expect(soil.twoCubicFootBags).toBe(22);
+    expect(soilForFourBeds.totalAreaSquareFeet).toBe(96);
+    expect(soilForFourBeds.cubicFeet).toBe(48);
+    expect(formatCalculatorNumber(soilForFourBeds.cubicYards)).toBe('1.7777777778');
+    expect(soilForFourBeds.bagsNeeded).toBe(24);
+    expect(formatCalculatorNumber(soilForRoundBed.cubicFeet)).toBe('13.8230076758');
+    expect(soilForRoundBed.bagsNeeded).toBe(10);
+    expect(() => calculateSoilEstimate(32, 12, 10, 0, 1)).toThrow(/Bag size must be greater than zero/);
+    expect(() => calculateSoilEstimate(32, 12, 10, 1.5, 1.5)).toThrow(/Quantity must be a whole number/);
     expect(asphalt.tons).toBe(7);
     expect(asphalt.cubicFeet).toBe(94.5);
     expect(asphalt.cubicYards).toBe(3.5);

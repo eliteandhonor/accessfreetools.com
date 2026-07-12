@@ -7122,12 +7122,12 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'soil-calculator',
     name: 'Soil Calculator',
     category: 'home-projects',
-    summary: 'Estimate topsoil, garden soil, cubic yards, cubic feet, and common bag counts from area and depth.',
+    summary: 'Estimate soil for rectangular, round, or known-area beds in cubic yards, cubic feet, litres, and your bag size.',
     description:
-      'Use this free soil calculator to estimate topsoil, garden soil, raised-bed soil, potting soil volume, cubic yards, cubic feet, and common bag counts from square feet, depth in inches, and extra percent.',
-    seoTitle: 'Soil Calculator | Cubic Yards And Bags',
+      'Use this free soil calculator for raised beds, garden areas, and round planters. Enter dimensions or square feet, fill depth, bed count, bag size, and extra percent.',
+    seoTitle: 'Soil Calculator for Raised Beds | Yards & Bags',
     seoDescription:
-      'Estimate topsoil, garden soil, raised-bed soil, potting soil, cubic yards, cubic feet, and bag counts from square feet, depth, and extra percent.',
+      'Enter bed dimensions or square feet, fill depth, bed count, and bag size. Estimate cubic yards, cubic feet, litres, and soil bags.',
     icon: 'calculator-soil',
     aliases: [
       'Topsoil Calculator',
@@ -7141,29 +7141,37 @@ export const utilityTools: ToolDefinition[] = [
       'How Many Bags Of Soil Calculator',
     ],
     formula:
-      'Cubic feet = square feet x depth inches / 12 x (1 + extra percent / 100). Cubic yards = cubic feet / 27. Bag counts round up cubic feet divided by 1.5 and 2 cubic feet.',
+      'Total area = one-bed area x number of beds. Rectangular area = length x width. Round area = pi x (diameter / 2)^2. Cubic feet = total area x fill depth / 12 x (1 + extra percent / 100). Cubic yards = cubic feet / 27. Bags = ceiling(cubic feet / bag size).',
     limit:
-      'Soil settles and bag fill varies. Existing bed depth, compost or potting mix, moisture, raised-bed shape, drainage, plant needs, delivery minimums, and product labels can change the amount to buy.',
+      'This is a volume estimate, not a soil recipe. Tapered planters, existing fill, settling, drainage, soil tests, plant needs, delivery minimums, and product labels can change what you buy.',
+    faqLanguage: {
+      expectedInputs: 'bed dimensions or known area, fill depth, number of identical beds, bag size, and extra percent',
+      examplePhrase: '4 x 8 raised-bed example',
+      doubleCheck:
+        'Check that you used inside measurements, entered only the depth still to fill, copied the exact bag volume, and kept soil-mix or amendment decisions separate from volume math.',
+    },
     inputExplanations: [
-      { term: 'Bed area', meaning: 'the final square footage of the garden bed, raised bed, planter, or lawn patch. Add separate shapes together before entering the number.' },
-      { term: 'Soil depth', meaning: 'the added soil depth in inches, not the full bed height if part of the bed is already filled.' },
-      { term: 'Extra percent', meaning: 'extra soil for settling, uneven beds, spreading loss, moisture differences, and a small ordering cushion.' },
+      { term: 'Bed dimensions or area', meaning: 'inside length and width, inside diameter, or the square footage you already measured.' },
+      { term: 'Number of beds', meaning: 'how many identical beds or planters use the same dimensions and fill depth.' },
+      { term: 'Fill depth', meaning: 'the soil depth still to add in inches, not the wall height when the bed is partly full.' },
+      { term: 'Bag size', meaning: 'the cubic-foot volume printed on one bag. The calculator rounds the result up to a whole bag.' },
+      { term: 'Extra percent', meaning: 'an optional planning cushion for settling, uneven spreading, or a supplier recommendation.' },
     ],
     extraFaq: [
       {
-        question: 'How do I calculate how much soil I need?',
+        question: 'Which Soil Calculator mode should I use?',
         answer:
-          'Measure the area in square feet, choose the added soil depth in inches, then multiply square feet by depth divided by 12. Add any extra percent for settling, then divide cubic feet by 27 for cubic yards.',
+          'Use Bed dimensions for rectangular beds, Round bed for a simple circular bed or planter, or Known area when you already have square feet from another measurement.',
       },
       {
-        question: 'How much soil do I need for a raised bed?',
+        question: 'How does the calculator measure several raised beds?',
         answer:
-          'Enter the raised bed square footage and only the depth you still need to fill. A bed that is already partly filled should use the top-off depth, not the full bed height.',
+          'Enter the inside measurements for one bed and the number of identical beds. The calculator multiplies the one-bed area by that count before applying fill depth and extra percent.',
       },
       {
         question: 'How many bags of soil do I need?',
         answer:
-          'Use the cubic feet result, then compare it with the bag label. This calculator rounds up estimates for 1.5-cubic-foot bags and 2-cubic-foot bags.',
+          'Enter the cubic-foot volume printed on the bag. The calculator divides the soil volume by that bag size and rounds up to a whole bag, so a 0.75 ft3 bag and a 2 ft3 bag give different counts.',
       },
       {
         question: 'Should I use cubic yards or bags?',
@@ -7171,51 +7179,56 @@ export const utilityTools: ToolDefinition[] = [
           'Use cubic yards for bulk soil orders and delivery quotes. Use cubic feet and bag counts when you are comparing retail bags at a garden center.',
       },
       {
-        question: 'What depth should I enter for topsoil?',
+        question: 'What fill depth should I enter?',
         answer:
-          'Enter the depth you want to add. A thin lawn topdress might be under 1 inch, a garden top-off might be 3 to 6 inches, and a new raised bed can be much deeper.',
+          'Enter only the depth still to fill. If a 12-inch bed already contains 8 inches of soil, enter 4 inches. Choose the depth for your project, plants, drainage, and local guidance instead of treating the calculator default as a recommendation.',
       },
       {
         question: 'Does this work for potting soil?',
         answer:
-          'Yes for rough volume planning if you know the planter area and fill depth. Potting mixes are often sold by bag volume, so check the product label before buying.',
+          'It can plan the volume of a rectangular or simple round planter. Many pots taper, so use inside measurements near the average fill width and treat the result as an estimate. Check the potting-mix bag label before buying.',
       },
       {
-        question: 'Can I use this for triangle or round beds?',
+        question: 'Can I use this for triangle or irregular beds?',
         answer:
-          'Yes after you calculate the bed area first. Find the square footage of the triangle, circle, or combined shapes, then enter that total area here.',
+          'Yes. Split the layout into simple shapes, add their square feet, and use Known area. The Round bed mode handles a simple circle from its inside diameter.',
       },
       {
         question: 'What extra percent should I use?',
         answer:
-          'For many small garden jobs, 5% to 15% is a reasonable planning cushion. Use more if the bed is uneven, loose soil may settle, or spreading loss is likely.',
+          'Use zero when you only want the measured volume. Add a percentage when your supplier, product, past settling, or an uneven bed gives you a reason. The 10% default is an editable planning example, not a universal soil rule.',
       },
       {
-        question: 'Why can bag counts vary?',
+        question: 'Why does the result also show litres?',
         answer:
-          'Retail bags can use different volumes, fill levels, moisture, and product mixes. Treat the bag count as a planning estimate and read the label on the exact product.',
+          'Some potting mixes and garden products list volume in litres. The calculator converts the same estimated cubic-foot volume to litres so you can compare units, but the product label still controls the bag count.',
       },
       {
-        question: 'Does this include compost or fill layers?',
+        question: 'Does the Soil Calculator choose a topsoil or compost mix?',
         answer:
-          'No. It estimates total added soil volume. If you plan separate compost, fill, drainage, or soil layers, calculate each layer separately.',
+          'No. It calculates volume only. Soil and compost needs depend on the existing soil, crops, drainage, and test results. Calculate separate layers separately and use local Extension or supplier guidance for the mix.',
+      },
+      {
+        question: 'Why can a raised bed need more soil later?',
+        answer:
+          'Organic material can decompose and a new fill can settle, so the surface may drop over time. Re-measure the missing depth before topping up instead of repeating the original full-bed order.',
       },
     ],
     useCases: [
-      'Estimate soil for raised beds or garden top-offs.',
-      'Convert square feet and inches deep into cubic yards.',
-      'Estimate 1.5-cubic-foot and 2-cubic-foot bag counts.',
-      'Add extra percent for settling or uneven beds.',
+      'Estimate one or several rectangular raised beds from inside dimensions.',
+      'Estimate a simple round bed or planter from inside diameter.',
+      'Convert known square feet and fill depth into cubic yards, cubic feet, and litres.',
+      'Use the cubic-foot volume printed on the exact bag for a whole-bag estimate.',
       'Compare bulk topsoil delivery with bagged garden soil.',
-      'Plan potting soil or planter fill from square footage and depth.',
+      'Plan a top-off layer without entering the full wall height of a partly filled bed.',
     ],
     examples: [
-      { label: 'Raised bed top-off', expression: '120 ft2 at 4 in, 10% extra', result: '44 ft3, 1.63 yd3, and 22 two-ft3 bags' },
-      { label: 'Small garden', expression: '48 ft2 at 6 in, 5% extra', result: '25.2 ft3, 0.93 yd3, and 13 two-ft3 bags' },
-      { label: 'Thin topdress', expression: '300 ft2 at 1 in', result: '25 ft3, 0.93 yd3, and 13 two-ft3 bags' },
-      { label: 'New raised bed', expression: '32 ft2 at 12 in, 10% extra', result: '35.2 ft3, 1.3 yd3, and 18 two-ft3 bags' },
+      { label: '4 x 8 raised bed', expression: '8 x 4 ft, 12 in fill, 1.5 ft3 bags, 10% extra', result: '35.2 ft3, 1.3 yd3, 996.8 L, and 24 bags' },
+      { label: 'Four garden beds', expression: 'Four 8 x 3 ft beds, 6 in fill, 2 ft3 bags', result: '48 ft3, 1.78 yd3, and 24 bags' },
+      { label: 'Round planter', expression: '4 ft diameter, 12 in fill, 1.5 ft3 bags, 10% extra', result: '13.82 ft3, 0.51 yd3, and 10 bags' },
+      { label: 'Known-area top-off', expression: '120 ft2 at 4 in, 2 ft3 bags, 10% extra', result: '44 ft3, 1.63 yd3, and 22 bags' },
     ],
-    relatedSlugs: ['unit-price-calculator', 'budget-calculator', 'discount-calculator'],
+    relatedSlugs: ['area-calculator', 'unit-price-calculator', 'plant-spacing-calculator'],
   }),
   makeUtilityTool({
     slug: 'asphalt-calculator',

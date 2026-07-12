@@ -8083,10 +8083,16 @@ export interface BulkMaterialEstimateResult {
 
 export interface SoilEstimateResult {
   areaSquareFeet: number;
+  quantity: number;
+  totalAreaSquareFeet: number;
   depthInches: number;
   wastePercent: number;
+  bagSizeCubicFeet: number;
+  cubicFeetBeforeExtra: number;
   cubicFeet: number;
   cubicYards: number;
+  liters: number;
+  bagsNeeded: number;
   oneAndHalfCubicFootBags: number;
   twoCubicFootBags: number;
 }
@@ -11500,19 +11506,32 @@ export function calculateSoilEstimate(
   areaSquareFeet: number,
   depthInches: number,
   wastePercent: number,
+  bagSizeCubicFeet = 2,
+  quantity = 1,
 ): SoilEstimateResult {
   assertPositiveNumber(areaSquareFeet, 'Area');
   assertPositiveNumber(depthInches, 'Depth');
   assertPercentRange(wastePercent, 'Waste percent', 100);
+  assertPositiveNumber(bagSizeCubicFeet, 'Bag size');
+  assertPositiveNumber(quantity, 'Quantity');
+  assertInteger(quantity, 'Quantity');
 
-  const cubicFeet = areaSquareFeet * (depthInches / 12) * (1 + wastePercent / 100);
+  const totalAreaSquareFeet = areaSquareFeet * quantity;
+  const cubicFeetBeforeExtra = totalAreaSquareFeet * (depthInches / 12);
+  const cubicFeet = cubicFeetBeforeExtra * (1 + wastePercent / 100);
 
   return {
     areaSquareFeet,
+    quantity,
+    totalAreaSquareFeet,
     depthInches,
     wastePercent,
+    bagSizeCubicFeet,
+    cubicFeetBeforeExtra,
     cubicFeet,
     cubicYards: cubicFeet / 27,
+    liters: cubicFeet * 28.316846592,
+    bagsNeeded: Math.ceil(cubicFeet / bagSizeCubicFeet - 1e-10),
     oneAndHalfCubicFootBags: Math.ceil(cubicFeet / 1.5),
     twoCubicFootBags: Math.ceil(cubicFeet / 2),
   };

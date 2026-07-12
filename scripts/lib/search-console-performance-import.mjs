@@ -294,6 +294,8 @@ export function buildSearchConsolePerformanceReport({ deindexedFile = '', genera
   const chartImpressions = sumField(chart, 'impressions');
   const pageClicks = sumField(pages, 'clicks');
   const pageImpressions = sumField(pages, 'impressions');
+  const bingOverviewClicks = sumField(overview, 'clicks');
+  const bingOverviewImpressions = sumField(overview, 'impressions');
 
   return {
     generatedAt,
@@ -303,6 +305,7 @@ export function buildSearchConsolePerformanceReport({ deindexedFile = '', genera
       dataDate: sourceDataDate(performanceDir, deindexedFile),
       performanceDir,
       overviewFile,
+      overviewKind: overviewFile ? 'bing-webmaster-performance-overview' : '',
       deindexedFile,
       files: PERFORMANCE_EXPORT_FILES.filter((file) => existsSync(join(performanceDir, file))),
     },
@@ -318,6 +321,12 @@ export function buildSearchConsolePerformanceReport({ deindexedFile = '', genera
       queryRows: queries.length,
       queryClicks: sumField(queries, 'clicks'),
       queryImpressions: sumField(queries, 'impressions'),
+      bingOverviewRows: overview.length,
+      bingOverviewClicks,
+      bingOverviewImpressions,
+      bingOverviewCtrPercent: bingOverviewImpressions
+        ? Number(((bingOverviewClicks / bingOverviewImpressions) * 100).toFixed(2))
+        : 0,
       deindexedRows: deindexed.length,
       deindexedOverlapWithPerformance,
     },
@@ -361,6 +370,7 @@ Source: ${basename(report.source.performanceDir)}
 
 - Page export: ${report.totals.pageRows} URLs, ${report.totals.pageImpressions} impressions, ${report.totals.pageClicks} clicks, ${report.totals.pageCtrPercent}% CTR.
 - Chart export: ${report.totals.chartDays} days, ${report.totals.chartImpressions} impressions, ${report.totals.chartClicks} clicks, ${report.totals.chartCtrPercent}% CTR.
+- Bing Webmaster overview: ${report.totals.bingOverviewRows} days, ${report.totals.bingOverviewImpressions} impressions, ${report.totals.bingOverviewClicks} clicks, ${report.totals.bingOverviewCtrPercent}% CTR. Use this as aggregate trend evidence, not Google or page-level evidence.
 - Deindexed export: ${report.totals.deindexedRows} URLs; ${report.totals.deindexedOverlapWithPerformance} also appear in the performance pages export.
 - Search appearance rows: ${report.searchAppearance.length}.
 

@@ -926,12 +926,12 @@ const toolArtMetadataOverrides = {
     tool: {
       alt: 'Smoke mascot filling a raised garden bed with 120 ft2 area, 4 in soil depth, 10 percent extra, 44 ft3, 1.63 yd3, and 22 two-cubic-foot bags.',
       caption:
-        'Soil Calculator artwork matches the live workflow: enter bed area, soil depth, and extra percent to estimate cubic feet, cubic yards, and common bag counts.',
+        'Soil Calculator artwork illustrates measuring the space still to fill and comparing cubic yards, cubic feet, litres, and the bag size printed on the product.',
     },
     guide: {
       alt: 'Smoke mascot guide showing raised bed area, 4 in topsoil depth, settling extra, 44 ft3, 1.63 yd3, 30 small bags, and 22 two-cubic-foot bags.',
       caption:
-        'Soil Calculator guide artwork supports the walkthrough for raised beds, topsoil depth, cubic yards, bag counts, settling, and retail bag-size limits.',
+        'Soil Calculator guide artwork supports the walkthrough for inside bed measurements, fill depth, bulk yards, labelled bag sizes, settling, and soil-test limits.',
     },
   },
   'tile-calculator': {

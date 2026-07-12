@@ -2296,19 +2296,24 @@ const homeDepotMulchCalculator = {
   label: 'The Home Depot: Mulch and top soil calculator',
 };
 
-const calcShedTopsoilCalculator = {
-  href: 'https://calcshed.com/topsoil-calculator/',
-  label: 'CalcShed: Topsoil calculator',
+const illinoisRaisedBedVolume = {
+  href: 'https://extension.illinois.edu/news-releases/elevate-your-expectations-raised-bed-gardening',
+  label: 'University of Illinois Extension: Raised-bed volume and settling',
 };
 
-const calcSummitTopsoilCalculator = {
-  href: 'https://calcsummit.com/calculators/construction/topsoil/',
-  label: 'CalcSummit: Topsoil calculator',
+const oregonStateRaisedBedSoil = {
+  href: 'https://extension.oregonstate.edu/catalog/em-9308-how-use-compost-gardens-landscapes',
+  label: 'Oregon State University Extension: Soil mix and compost for raised beds',
 };
 
-const vastCalcSoilCalculator = {
-  href: 'https://vastcalc.com/calculators/construction/soil',
-  label: 'VastCalc: Soil calculator',
+const oregonStateSoilTesting = {
+  href: 'https://extension.oregonstate.edu/news/too-much-good-thing-urban-gardeners-may-overdo-compost',
+  label: 'Oregon State University Extension: Compost limits and soil testing',
+};
+
+const ugaSoilTesting = {
+  href: 'https://extension.uga.edu/county-offices/cobb/agriculture-and-natural-resources/testing---lab-services/soil-testing.html',
+  label: 'University of Georgia Extension: Garden and raised-bed soil testing',
 };
 
 const inchCalculatorMulch = {
@@ -5958,21 +5963,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'soil-calculator',
     status: 'deep-reviewed',
-    batch: 'page-seo-gsc-refresh-2026-06-03',
-    reviewedOn: '2026-06-03',
+    batch: 'july-12-index-recovery-2026-07-12',
+    reviewedOn: '2026-07-12',
     scope: commonMathScope,
-    sources: [calcShedTopsoilCalculator, calcSummitTopsoilCalculator, vastCalcSoilCalculator, nistSi, nistConversionFactors, googleHelpfulContent],
+    sources: [illinoisRaisedBedVolume, oregonStateRaisedBedSoil, oregonStateSoilTesting, ugaSoilTesting, nistSi, nistConversionFactors],
     findings: [
-      'DataForSEO showed high-volume soil calculator intent around topsoil, raised beds, potting soil, bag counts, square-foot depth estimates, and cubic-yard ordering.',
-      'The calculator converts bed area and added depth into cubic feet, adds extra percent, converts to cubic yards, then rounds up common 1.5- and 2-cubic-foot bag counts.',
-      'The refreshed examples pin the default raised-bed top-off to 120 ft2 at 4 in with 10% extra: 44 ft3, 1.63 yd3, 30 small bags, or 22 two-cubic-foot bags.',
-      'The guide now separates top-off depth, full-bed height, compost/fill layers, potting mix labels, settling, moisture, bag-size variation, and delivery minimums.',
+      'July 12 evidence found 17 tool impressions at position 5.24 and 3 guide impressions at position 7.33. Exact URL Inspection reports both pages as crawled but currently not indexed with successful fetches.',
+      'Targeted DataForSEO evidence shows 27,100 U.S. searches for `soil calculator`, 6,600 for `soil calculator raised bed`, and 2,900 for `potting soil calculator`, with additional bag-size and square-foot intent.',
+      'The earlier calculator required users to calculate dimensions and round areas elsewhere and only returned fixed 1.5- and 2-cubic-foot bag counts. Current search results commonly expose bed dimensions, quantity, shape, and selectable bag volume.',
+      'Illinois Extension supports length x width x height for raised-bed volume. Oregon State and University of Georgia Extension support separating volume from soil-mix decisions, settling assumptions, compost limits, and soil testing.',
     ],
     improvements: [
-      'Rewrote metadata, aliases, formula, limits, examples, FAQs, guide sections, source notes, audit record, sitemap dates, related links, image alt/caption text, and result labels around raised-bed soil, topsoil, potting soil, cubic yards, and bag counts.',
+      'Added tested rectangular-bed, round-bed, and known-area modes; multiple-bed quantity; exact bag-size input; cubic yards, cubic feet, litres, total area, and whole-bag outputs; a measurement-focused guide; and primary Extension source coverage.',
     ],
     followUps: [
-      'Add shape presets or a bag-size selector later if soil traffic shows repeated square-foot, triangle, round-bed, or custom-bag-size searches.',
+      'Add an optional bag-versus-bulk cost comparison only if Search Console shows buying-cost intent and the UI can keep local price assumptions visible.',
     ],
   },
   {

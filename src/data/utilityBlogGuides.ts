@@ -796,6 +796,22 @@ const sourceLinks = {
     href: 'https://vastcalc.com/calculators/construction/soil',
     label: 'VastCalc: Soil calculator',
   },
+  illinoisRaisedBedVolume: {
+    href: 'https://extension.illinois.edu/news-releases/elevate-your-expectations-raised-bed-gardening',
+    label: 'University of Illinois Extension: Raised-bed volume and settling',
+  },
+  oregonStateRaisedBedSoil: {
+    href: 'https://extension.oregonstate.edu/catalog/em-9308-how-use-compost-gardens-landscapes',
+    label: 'Oregon State University Extension: Soil mix and compost for raised beds',
+  },
+  oregonStateSoilTesting: {
+    href: 'https://extension.oregonstate.edu/news/too-much-good-thing-urban-gardeners-may-overdo-compost',
+    label: 'Oregon State University Extension: Compost limits and soil testing',
+  },
+  ugaSoilTesting: {
+    href: 'https://extension.uga.edu/county-offices/cobb/agriculture-and-natural-resources/testing---lab-services/soil-testing.html',
+    label: 'University of Georgia Extension: Garden and raised-bed soil testing',
+  },
   inchCalculatorMulch: {
     href: 'https://www.inchcalculator.com/mulch-calculator/',
     label: 'Inch Calculator: Mulch calculator',
@@ -6021,74 +6037,90 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'soil-calculator': {
-    summary: 'Learn how bed area, soil depth, and settling extra turn into cubic yards, cubic feet, and bag counts.',
+    title: 'How Much Soil Do I Need? Beds, Yards & Bags',
+    summary: 'Measure rectangular, round, or known-area beds, choose the fill depth, and convert the result into bulk yards or your bag size.',
     metaDescription:
-      'Use the Soil Calculator with a 120 ft2 raised-bed example. See cubic yards, cubic feet, bag counts, extra percent, and topsoil limits.',
+      'Measure one or several raised beds, choose fill depth and bag size, then calculate soil in cubic yards, cubic feet, litres, and bags.',
     purpose:
-      'The Soil Calculator estimates garden soil, raised bed top-offs, topsoil, and potting soil volume. It reports bulk cubic yards, cubic feet, and common retail bag counts.',
+      'This guide shows how to measure the space you still need to fill, convert it to soil volume, and compare bulk delivery with the exact bag size at the store.',
     intro:
-      'Soil estimates usually go wrong because the depth means the whole bed height in one person\'s head and only the top-off layer in someone else\'s. Start with the square footage, then enter only the soil depth you still need to add.',
-    inputMatch: 'the bed area in square feet, the added soil depth in inches, and the extra percent for settling or uneven spreading',
+      'A 4 x 8 raised bed looks easy to measure. The mistake happens when you use the outside boards, enter the full wall height for a partly filled bed, or divide by a bag size that is not on the product label.',
+    inputMatch:
+      'inside bed dimensions or known square feet, the number of identical beds, the depth still to fill, the exact bag volume, and any extra percentage you choose',
     logicNote:
-      'The calculator turns inches into feet, multiplies by square feet, adds extra percent, converts cubic feet to cubic yards, then rounds up 1.5-cubic-foot and 2-cubic-foot bag counts.',
+      'The calculator finds one-bed area, multiplies by the bed count and fill depth, adds the extra percentage, then converts cubic feet to cubic yards and litres. Bag count is the final cubic-foot volume divided by your bag size, rounded up.',
     readIntro:
-      'Read cubic yards as the bulk-order number. Read cubic feet and bag counts when you are comparing retail bags, because bag sizes and fill can vary by product.',
+      'Use cubic yards for a bulk quote. Use cubic feet or litres to match a product label. The bag result is a whole-bag planning number for the size you entered.',
     mistakeIntro:
-      'The big mistake is using the full raised-bed height when the bed is already partly filled. Existing soil, compost, drainage layers, moisture, settling, and the exact bag label can all move the final buy.',
+      'Volume math cannot choose a soil mix. Existing soil, crops, drainage, compost, contamination risk, and soil-test results still decide what material belongs in the bed.',
     sidecarText:
-      'Open the Soil Calculator beside this guide. Try 120 square feet, 4 inches of added soil, and 10 percent extra first.',
+      'Open the Soil Calculator beside this guide. Try one bed at 8 feet by 4 feet, 12 inches of fill, 1.5-cubic-foot bags, and 10 percent extra.',
     bestUsesIntro:
-      'Use this guide when you need a planning number for raised beds, garden top-offs, lawn topdress, planters, or comparing bulk topsoil with bagged soil.',
+      'Use this method for a new raised bed, a measured top-off layer, several identical beds, a simple round planter, or a bulk-versus-bag comparison.',
     referenceIntro:
-      'These references back up the volume math, competitor intent, cubic-yard conversion, and helpful-content review behind the calculator.',
+      'University Extension sources support the volume formula, raised-bed settling limits, and the need to base soil amendments on the bed and a soil test. NIST supports the unit conversions.',
     enter: [
-      'Enter the bed, planter, or lawn patch area in square feet. For odd shapes, calculate each area first and add them together.',
-      'Enter only the soil depth you want to add in inches. A top-off depth is different from the full height of a raised bed.',
-      'Add extra percent for settling, uneven beds, moisture or fill differences, spreading loss, or a safer order.',
+      'Choose Bed dimensions for a rectangle, Round bed for a simple circle, or Known area when you already calculated square feet.',
+      'Measure inside the bed walls. Enter the number of identical beds when more than one uses the same size and depth.',
+      'Enter only the depth still to fill. Measure from the current soil surface to the planned finish level.',
+      'Copy the cubic-foot bag size from the product label. Add extra percent only when your supplier, project, or past settling gives you a reason.',
     ],
     read: [
-      'A 120 ft2 raised-bed top-off at 4 inches deep is 40 cubic feet before extra.',
-      'With 10% extra, the estimate becomes 44 cubic feet.',
-      '44 cubic feet is about 1.63 cubic yards.',
-      'The same example rounds up to 30 bags at 1.5 cubic feet each or 22 bags at 2 cubic feet each.',
+      'An 8 ft by 4 ft bed has 32 ft2 of inside area.',
+      'At 12 inches deep, that area needs 32 ft3 before extra.',
+      'With 10% extra, the result is 35.2 ft3, about 1.3 yd3 or 996.8 L.',
+      'At 1.5 ft3 per bag, 35.2 divided by 1.5 is 23.47, so the calculator rounds up to 24 bags.',
     ],
     mistakes: [
-      'Do not enter the full raised-bed height when you only need to top off the bed.',
-      'Do not forget that loose soil can settle after watering and spreading.',
-      'Do not mix compost, potting mix, fill material, and topsoil assumptions without checking the actual product.',
-      'Do not treat bag counts as exact. Retail bag volume, moisture, fill, and product mix can vary.',
-      'Check delivery minimums, plant needs, drainage, and existing soil before using the number as a final order.',
+      'Do not use outside dimensions when thick boards reduce the space inside the bed.',
+      'Do not enter the wall height when an existing layer already fills part of the bed.',
+      'Do not assume every bag contains 1.5 or 2 ft3. Read the exact label.',
+      'Do not treat a simple round calculation as exact for a tapered pot.',
+      'Do not turn the volume result into a compost, fertilizer, or soil-mix recommendation without checking the existing soil and local guidance.',
     ],
     extraSections: [
       {
-        title: 'Quick Raised Bed Example',
+        title: 'Example: One 4 x 8 Raised Bed',
         paragraphs: [
-          'Say the area is 120 square feet and you want to add 4 inches of soil. Four inches is one-third of a foot, so the raw volume is 120 x 0.333, or 40 cubic feet.',
-          'Add 10% extra for settling and uneven spreading. That gives 44 cubic feet, which is about 1.63 cubic yards.',
-          'If you buy 2-cubic-foot bags, round 44 divided by 2 up to 22 bags. If the bags are 1.5 cubic feet, round 44 divided by 1.5 up to 30 bags.',
+          'Multiply 8 feet by 4 feet to get 32 square feet. A 12-inch fill depth is 1 foot, so the measured volume is 32 cubic feet.',
+          'The example adds 10%, which brings the plan to 35.2 cubic feet. Divide by 27 for about 1.3 cubic yards, or use the calculator\'s 996.8-litre conversion.',
+          'A 1.5-cubic-foot bag gives 23.47 bags before rounding. You cannot buy part of a sealed bag, so the result is 24 bags.',
         ],
       },
       {
-        title: 'Raised Beds, Topsoil, And Potting Soil',
+        title: 'Measure Several Beds Or An Odd Shape',
         paragraphs: [
-          'The volume math is the same for topsoil, garden soil, and potting soil, but the product choice is not. A vegetable bed, planter, lawn low spot, and deep raised bed may need different mixes.',
-          'If the bed is partly full, use only the missing depth. If you are building layers, calculate each layer separately instead of pretending one soil number covers compost, fill, drainage, and planting mix.',
+          'For identical beds, measure one and enter the number of beds. Four 3 x 8 ft beds filled 6 inches deep have 48 cubic feet of measured volume before any extra percentage.',
+          'For triangles, L-shapes, or mixed beds, calculate each area and add the square feet. Enter the total in Known area. Use Round bed only when a circle is a fair model for the inside shape.',
+        ],
+        links: [
+          { href: '/tools/area-calculator/', label: 'Calculate an irregular layout in smaller shapes' },
         ],
       },
       {
-        title: 'Bags Versus Bulk Delivery',
+        title: 'Compare Bags, Bulk Yards, And Litres',
         paragraphs: [
-          'Cubic yards are usually easier for bulk topsoil delivery. Cubic feet are easier when you are standing in front of bag labels.',
-          'Before buying, compare the calculator result with the exact bag volume, delivery minimum, return policy, moisture level, and how much extra you can store or use elsewhere.',
+          'A landscape supplier usually quotes bulk soil in cubic yards. Retail bags may use cubic feet or litres. The calculator keeps all three units tied to the same measured volume.',
+          'Compare the result with the exact product label, bulk delivery minimum, and the amount you can store. Bag count changes when you change the label size, even though the bed volume stays the same.',
+        ],
+        links: [
+          { href: '/tools/cubic-yard-calculator/', label: 'Check a separate bulk-material volume' },
+        ],
+      },
+      {
+        title: 'Volume Does Not Choose The Soil Mix',
+        paragraphs: [
+          'Illinois Extension supports length x width x height for raised-bed volume and notes that organic matter can decompose and settle. Oregon State Extension also says a new fill can sink over time, so re-measure a top-off instead of ordering the original full volume again.',
+          'Soil recipes vary by existing soil, drainage, crops, and local conditions. Oregon State researchers warn that too much compost can create nutrient problems, while University of Georgia Extension recommends testing a raised bed as its own growing area. Use the calculator for quantity and local soil guidance for composition.',
         ],
       },
     ],
     sources: [
-      sourceLinks.calcShedTopsoilCalculator,
-      sourceLinks.calcSummitTopsoilCalculator,
-      sourceLinks.vastCalcSoilCalculator,
+      sourceLinks.illinoisRaisedBedVolume,
+      sourceLinks.oregonStateRaisedBedSoil,
+      sourceLinks.oregonStateSoilTesting,
+      sourceLinks.ugaSoilTesting,
       sourceLinks.nistUnits,
-      sourceLinks.googleHelpfulContent,
     ],
   },
   'asphalt-calculator': {
