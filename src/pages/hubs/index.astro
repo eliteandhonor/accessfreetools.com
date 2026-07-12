@@ -6,15 +6,19 @@ import CollectionStructuredData from '../../components/CollectionStructuredData.
 import { topicalHubs } from '../../data/hubs';
 
 const hubUseNotes = [
-  'Use a hub when one calculator is not enough. A mortgage question may need payment, affordability, refinance, and down-payment checks before the answer feels useful.',
+  'Use a hub when one calculator is not enough. A mortgage or personal-loan question may need payment, affordability, APR, fee, and payoff checks before the answer feels useful.',
   'Start with the tool that matches the main job, then open a support tool when the result turns into a comparison, a second estimate, or a warning sign.',
   'Read the matching guide when a result depends on assumptions. Finance, health, home project, electrical, and AI tools all need clear limits before people trust the output.',
   'Hubs also help internal links stay natural. They connect tools by task instead of pushing every visitor through one giant list.',
 ];
 const hubStartingPoints = [
   {
-    title: 'Planning money',
+    title: 'Planning a home loan',
     body: 'Open the mortgage hub when a house number needs a second check. Payment, affordability, refinance, and down-payment tools answer different parts of the same decision.',
+  },
+  {
+    title: 'Borrowing or paying down debt',
+    body: 'Open the loan and debt hub to estimate payments, compare APR and fees, review amortization, or test how extra payments change payoff time.',
   },
   {
     title: 'Checking a number',
@@ -33,7 +37,7 @@ const hubStartingPoints = [
 
 <BaseLayout
   title="Topical Tool Hubs | Access Free Tools"
-  description="Browse focused Access Free Tools hubs for mortgage planning, percentages, home materials, browser AI, and developer utilities."
+  description="Browse focused hubs for mortgage planning, loan payments, debt payoff, percentages, home materials, browser AI, and developer utilities."
   path="/hubs/"
 >
   <BreadcrumbStructuredData
@@ -54,7 +58,7 @@ const hubStartingPoints = [
     <p class="breadcrumb"><a href="/">Home</a> / Hubs</p>
     <h1>Topical Tool Hubs</h1>
     <p>
-      Focused clusters for the jobs that usually need more than one tool: home loans,
+      Focused clusters for jobs that usually need more than one tool: home loans, debt payoff,
       percentages, project materials, browser AI, and developer utilities.
     </p>
   </section>

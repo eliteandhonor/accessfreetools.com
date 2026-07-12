@@ -28,7 +28,7 @@ const supportTools = hub.supportToolSlugs
   .filter((tool): tool is ToolDefinition => Boolean(tool));
 const allTools = [...primaryTools, ...supportTools];
 const hubPath = `/hubs/${hub.slug}/`;
-const hubWorkflowSteps = [
+const hubWorkflowSteps = hub.workflowSteps ?? [
   `Start with the closest main tool in this ${hub.eyebrow.toLowerCase()} cluster and enter the simplest real numbers you have.`,
   'Check the result notes before changing inputs. Many tools explain what the estimate includes and what it leaves out.',
   'Open a supporting tool when the first answer raises a second question, such as cost, rate, material waste, privacy, or a format check.',
@@ -100,6 +100,23 @@ const hubWorkflowSteps = [
       {hub.checkpoints.map((checkpoint) => <p>{checkpoint}</p>)}
     </div>
   </section>
+
+  {hub.resources && hub.resources.length > 0 && (
+    <section class="section-band" aria-labelledby="hub-resources-heading">
+      <div class="section-heading">
+        <h2 id="hub-resources-heading">Official resources for the final check</h2>
+        <p>Use these sources when a calculator estimate needs to be checked against current rules, disclosures, or account details.</p>
+      </div>
+      <div class="sitemap-link-grid">
+        {hub.resources.map((resource) => (
+          <a href={resource.href} target="_blank" rel="noopener noreferrer">
+            <strong>{resource.title}</strong>
+            <span>{resource.text}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 
   <section class="section-band section-band-soft">
     <div class="section-heading">

@@ -8,6 +8,12 @@ export interface TopicalHub {
   primaryToolSlugs: string[];
   supportToolSlugs: string[];
   checkpoints: string[];
+  workflowSteps?: string[];
+  resources?: Array<{
+    href: string;
+    title: string;
+    text: string;
+  }>;
 }
 
 export const topicalHubs: TopicalHub[] = [
@@ -40,6 +46,71 @@ export const topicalHubs: TopicalHub[] = [
       'Check whether the result includes taxes, insurance, fees, PMI, or only principal and interest.',
       'Compare monthly and yearly numbers carefully so a believable payment is not built from mismatched inputs.',
       'Use lender or official program documents before making a financial commitment.',
+    ],
+  },
+  {
+    slug: 'loan-payment-debt-payoff-calculators',
+    title: 'Loan Payment And Debt Payoff Calculator Hub',
+    eyebrow: 'Borrowing, repayment, and payoff',
+    description:
+      'Compare free loan payment, personal loan, APR, amortization, repayment, credit card payoff, and debt calculators with clear estimate limits.',
+    intro:
+      'Use this hub when you need to estimate a loan payment, solve for amount, rate, or term, compare borrowing costs, or test a debt payoff plan. Start with the exact question you need answered, then check fees, total interest, payoff time, and official lender or servicer details before making a decision.',
+    audience:
+      'People comparing personal or installment loans, checking monthly payments, planning extra debt payments, or reviewing borrowing costs before contacting a lender or servicer.',
+    primaryToolSlugs: [
+      'loan-calculator',
+      'personal-loan-calculator',
+      'payment-calculator',
+      'repayment-calculator',
+      'debt-payoff-calculator',
+      'credit-cards-payoff-calculator',
+    ],
+    supportToolSlugs: [
+      'apr-calculator',
+      'interest-rate-calculator',
+      'amortization-calculator',
+      'debt-consolidation-calculator',
+      'auto-loan-calculator',
+      'student-loan-calculator',
+      'business-loan-calculator',
+      'debt-to-income-ratio-calculator',
+    ],
+    checkpoints: [
+      'Compare the loan amount, interest rate, APR, term, monthly payment, total interest, and fees instead of judging an offer from one number.',
+      'A longer term can lower the monthly payment while increasing the total interest paid over the life of the loan.',
+      'Treat every result as an estimate. The lender disclosure, account statement, or loan servicer controls the real payment, fee, balance, and payoff amount.',
+      'Do not pay someone for a guaranteed loan promise. Check the lender and offer before sharing account details or sending money.',
+      'Use the official Federal Student Aid Loan Simulator for federal repayment-plan eligibility, forgiveness, and income-based estimates.',
+    ],
+    workflowSteps: [
+      'Use the Loan Calculator when you need payment, loan amount, rate, or term from the other three values.',
+      'Use the Personal Loan Calculator when an origination fee changes the cash received, total cost, or APR-style comparison.',
+      'Use a payoff calculator when you already have debt and want to compare extra payments, payoff time, or total interest.',
+      'Open the APR, amortization, consolidation, or debt-to-income tools only when that second check changes how you compare the scenario.',
+      'Finish with the lender disclosure, account statement, or official servicer tool before applying, refinancing, consolidating, or changing a repayment plan.',
+    ],
+    resources: [
+      {
+        href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/',
+        title: 'CFPB: Interest rate and APR',
+        text: 'Learn why APR can include charges that a stated interest rate does not show by itself.',
+      },
+      {
+        href: 'https://www.consumerfinance.gov/ask-cfpb/do-personal-installment-loans-have-fees-en-2120/',
+        title: 'CFPB: Personal installment loan fees',
+        text: 'Check origination, documentation, insurance, late, and other possible loan charges.',
+      },
+      {
+        href: 'https://consumer.ftc.gov/articles/what-know-about-advance-fee-loans',
+        title: 'FTC: Advance-fee loan warning signs',
+        text: 'Review warning signs before paying for a loan promise or sharing sensitive information.',
+      },
+      {
+        href: 'https://studentaid.gov/loan-simulator/',
+        title: 'Federal Student Aid Loan Simulator',
+        text: 'Use the official simulator for federal repayment plans, eligibility, total paid, and forgiveness estimates.',
+      },
     ],
   },
   {

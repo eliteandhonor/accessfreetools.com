@@ -22,6 +22,7 @@ import { blogPosts } from './blogPosts';
 import { categories } from './categories';
 import { financeBlogGuides } from './financeBlogGuides';
 import { healthBlogGuides } from './healthBlogGuides';
+import { topicalHubs } from './hubs';
 import { toolAliases } from './toolAliases';
 import {
   BASELINE_AUDIT_SCOPE,
@@ -55,6 +56,18 @@ const TOOLS_INDEX_SOURCE = readFileSync(
 );
 const FREE_CALCULATOR_RESOURCES_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/free-calculator-resources.astro', import.meta.url)),
+  'utf8',
+);
+const HUB_ROUTE_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/hubs/[slug].astro', import.meta.url)),
+  'utf8',
+);
+const HUB_INDEX_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/hubs/index.astro', import.meta.url)),
+  'utf8',
+);
+const BLOG_INDEX_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/blog/index.astro', import.meta.url)),
   'utf8',
 );
 const SITE_HEADER_SOURCE = readFileSync(
@@ -1420,6 +1433,34 @@ describe('site content audit guardrails', () => {
     }
 
     expect(issues).toEqual([]);
+  });
+
+  it('keeps the loan and debt hub useful, crawlable, and source-backed', () => {
+    const hub = topicalHubs.find((entry) => entry.slug === 'loan-payment-debt-payoff-calculators');
+
+    expect(hub).toBeDefined();
+    expect(`${hub?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(hub?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(hub?.primaryToolSlugs).toContain('personal-loan-calculator');
+    expect(hub?.supportToolSlugs).toContain('apr-calculator');
+    expect(hub?.supportToolSlugs).toContain('debt-consolidation-calculator');
+    expect(hub?.workflowSteps?.length).toBeGreaterThanOrEqual(4);
+    expect(hub?.resources?.map((resource) => resource.href)).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('consumerfinance.gov'),
+        expect.stringContaining('consumer.ftc.gov'),
+        expect.stringContaining('studentaid.gov'),
+      ]),
+    );
+    expect(hubSitemapEntries.map((entry) => entry.path)).toContain(
+      '/hubs/loan-payment-debt-payoff-calculators/',
+    );
+    expect(HUB_ROUTE_SOURCE).toContain('hub.workflowSteps ??');
+    expect(HUB_ROUTE_SOURCE).toContain('hub.resources.map');
+    expect(HUB_INDEX_SOURCE).toContain('Borrowing or paying down debt');
+    expect(BLOG_INDEX_SOURCE).toContain('/blog/how-to-use-personal-loan-calculator/');
+    expect(FREE_CALCULATOR_RESOURCES_SOURCE).toContain('/hubs/loan-payment-debt-payoff-calculators/');
+    expect(FREE_CALCULATOR_RESOURCES_SOURCE).toContain('/blog/how-to-use-personal-loan-calculator/');
   });
 
   it('keeps verified Organization sameAs links public and conservative', () => {
