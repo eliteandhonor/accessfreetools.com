@@ -1711,29 +1711,79 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Amortization Calculator to see the balance over time.', 'Use Down Payment Calculator to check cash needed at closing.', 'Use Interest Rate Calculator if you only know the payment quote.'],
   },
   'loan-calculator': {
-    summary: 'Learn how loan amount, interest rate, and term turn into a monthly payment and total interest.',
+    title: 'Loan Payment, Amount, Rate and Term Guide',
+    metaDescription:
+      'Calculate monthly payment, loan amount, interest rate, or payoff term for a fixed-rate loan, with total-interest checks and worked examples.',
+    intro:
+      'A loan calculator is more useful when it can solve the number you do not know. This guide shows how to find payment, principal, estimated rate, or payoff term without treating the result like a lender offer.',
+    quickStart: [
+      'Open the Loan Calculator and choose Payment, Loan amount, Rate, or Term.',
+      'Enter the three loan values you know. Use dollars for amount and payment, a yearly percent for rate, and years for term.',
+      'Calculate, then read the missing value with total paid and total interest.',
+      'In Term mode, check the payoff months and smaller final payment. In Rate mode, remember the result is not APR.',
+      'Compare the estimate with the written rate, APR, fees, payment schedule, and payoff terms before making a decision.',
+    ],
+    featuredSections: [
+      {
+        title: 'Choose the missing number before entering anything',
+        paragraphs: [
+          'Use Payment when you know principal, rate, and term. Use Loan amount when you know the monthly budget, rate, and term. Use Rate when a quote gives you principal, payment, and term. Use Term when you want to see how long one payment takes to clear the balance.',
+          'Each mode uses the same fixed-rate idea from a different direction. Keeping the unknown separate prevents a monthly-payment question from being mistaken for an approval or affordability decision.',
+        ],
+        links: [
+          { href: '/tools/loan-calculator/', label: 'Open the four-mode Loan Calculator' },
+          { href: '/tools/amortization-calculator/', label: 'See a month-by-month balance schedule' },
+        ],
+      },
+      {
+        title: 'Four worked loan checks',
+        paragraphs: [
+          'Payment: $12,000 at 9.5% for 4 years is about $301.48 per month. Amount: $500 per month at 6% for 5 years supports about $25,862 in principal. Rate: $25,000 repaid at $483.32 per month for 5 years is about 6% annual interest before fees.',
+          'Term: $12,000 at 9.5% with a $400 monthly payment takes about 35 months, with a smaller last payment. If a payment does not cover the first month of interest, the balance cannot reach zero in this fixed-payment model.',
+        ],
+      },
+      {
+        title: 'Interest rate, APR, and payoff amount are not the same',
+        paragraphs: [
+          'The rate solver estimates a nominal annual interest rate from the numbers entered. APR can include certain finance charges, so it may be higher. The tool cannot discover fees that are not entered.',
+          'Term mode estimates payoff with monthly interest and payment timing. A lender payoff statement can include daily interest, a payoff date, fees, and different rounding. Use the calculator to check the math, then use the written disclosure for the decision.',
+        ],
+        links: [
+          { href: 'https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/', label: 'CFPB explanation of loan interest rate and APR' },
+        ],
+      },
+    ],
+    sidecarText:
+      'Pick the value you need to solve, enter the other three, then check total interest. Rate is not APR, loan amount is not approval, and the calculated term is not a lender payoff statement.',
+    summary: 'Solve for payment, loan amount, estimated interest rate, or payoff term with fixed-rate examples and limits.',
     purpose:
-      'The Loan Calculator is for fixed-payment debt where the balance is paid down over time. It shows the monthly payment, total paid, and interest cost behind that payment.',
+      'The Loan Calculator handles four fixed-rate questions. It can solve for monthly payment, starting principal, estimated annual interest rate, or payoff time, then show the cost behind the result.',
     enter: [
-      'Enter the loan amount before fees or add-ons.',
-      'Enter the annual interest rate as a percent, such as 9.5 for 9.5%. Use the contract interest rate for payment math, not a fee-loaded APR unless that is the exact comparison you want.',
-      'Enter the repayment term in years. Four years means 48 monthly payments.',
+      'Choose the mode that matches the value you do not know.',
+      'Enter loan amount as starting principal before fees, and monthly payment as the regular amount paid each month.',
+      'Enter the annual interest rate as a percent, such as 9.5 for 9.5%. Use the contract interest rate for payment math.',
+      'Enter term in years. Four years means 48 monthly payments.',
     ],
     example: [
-      'For $12,000 at 9.5% for 4 years, the calculator converts the annual rate to a monthly rate and uses 48 monthly payments.',
-      'The estimate is about $301.48 per month, about $14,470.93 total paid, and about $2,470.93 total interest before fees.',
+      'Payment mode: $12,000 at 9.5% for 4 years is about $301.48 per month, $14,470.93 total paid, and $2,470.93 total interest.',
+      'Loan amount mode: $500 per month at 6% for 5 years supports about $25,862 in principal before fees or approval rules.',
+      'Rate mode: $25,000 with a $483.32 monthly payment for 5 years gives an estimated annual interest rate of about 6%, not an APR.',
+      'Term mode: $12,000 at 9.5% with $400 per month takes about 35 months and ends with a smaller final payment.',
     ],
     read: [
-      'Monthly payment is the fixed estimate before extra fees or insurance.',
-      'Total paid is monthly payment times the number of payments.',
-      'Total interest shows the borrowing cost before fees, penalties, taxes, insurance, or variable-rate changes.',
+      'The main answer is the value selected by the mode: payment, amount, rate, or term.',
+      'Total paid includes the modeled monthly payments and smaller final payment when term mode needs one.',
+      'Total interest is modeled borrowing cost before fees, penalties, taxes, insurance, payment-date effects, or variable-rate changes.',
+      'Loan amount is a math result, not an approval limit. Estimated rate is not APR. Payoff months are not an official payoff statement.',
     ],
     mistakes: [
+      'Do not choose a mode for a number you already know. Choose the missing value.',
       'Do not compare two loans by payment alone if the terms are different.',
       'Do not use APR-with-fees as if it were always the contract interest rate used for payment math.',
+      'Do not use a term-mode payment that is equal to or below the first month of interest.',
       'Do not ignore origination fees, finance charges, late fees, prepayment penalties, insurance, taxes, or disclosure terms that are not in the calculator.',
     ],
-    next: ['Use Payment Calculator for the same formula with a simpler layout.', 'Use Amortization Calculator to see the month-by-month balance.', 'Use Interest Rate Calculator if you know the payment but not the rate.'],
+    next: ['Use Amortization Calculator to see the month-by-month balance.', 'Use Payment Calculator for a compact payment-only check.', 'Use APR Calculator when fees need to be part of a broader cost comparison.'],
   },
   'auto-loan-calculator': {
     summary: 'Estimate a car payment from vehicle price, sales tax, fees, down payment, trade-in value, rate, and term.',

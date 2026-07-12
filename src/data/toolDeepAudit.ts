@@ -2930,20 +2930,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'loan-calculator',
     status: 'deep-reviewed',
-    batch: 'all-pages-dataforseo-sprint-2026-05-26',
-    reviewedOn: '2026-05-26',
+    batch: 'july-12-query-recovery-sprint',
+    reviewedOn: '2026-07-12',
     scope: commonMathScope,
     sources: [openStaxLoanAmortization, cfpbAprVsInterest, cfpbLoanEstimate, cfpbAutoTruthInLending],
     findings: [
-      'The loan payment path uses fixed-rate amortization math and handles a zero-interest example by dividing principal across payments.',
-      'The guide explains loan amount, annual interest rate, term, monthly payment, total paid, and total interest in smart-14 language.',
-      'The FAQ and limit copy warn users not to compare loans by payment alone or ignore APR, origination fees, disclosures, prepayment terms, taxes, insurance, penalties, and lender-specific rounding.',
+      'Exact Search Console evidence found 415 impressions, 0 clicks, and average position 71.36 for the current indexed tool, with visible queries asking for payment, loan amount, interest rate, term, cost, and total-interest calculations.',
+      'The earlier page only solved monthly payment. The live product now uses deterministic fixed-rate math to solve monthly payment, starting principal, estimated annual interest rate, or payoff term from the other three values.',
+      'The guide keeps nominal interest rate separate from APR, loan amount separate from approval, and estimated term separate from an official lender payoff statement.',
     ],
     improvements: [
-      'Refreshed the tool and guide with exact $12,000, $50,000, and 0% examples, explicit SEO metadata, APR-versus-interest cautions, disclosure cross-checks, specific image alt/caption text, and current OpenStax/CFPB sources.',
+      'Added four calculator modes, round-trip and zero-rate tests, impossible-payment checks, page-specific title/meta, four worked examples, intent-matched FAQs, updated artwork metadata, and current OpenStax/CFPB source context.',
     ],
     followUps: [
-      'Consider a later feature pass for optional origination fees or a compact amortization preview, but do not imply those fields exist on this page yet.',
+      'Wait for a fresh Google crawl before judging CTR or ranking movement. Consider origination-fee or compact amortization controls only if later query or usage evidence supports them.',
     ],
   },
   {

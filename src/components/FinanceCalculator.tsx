@@ -42,6 +42,7 @@ import {
   calculateIrr,
   calculateIraProjection,
   calculateInvestmentGrowth,
+  calculateLoanPrincipalFromPayment,
   calculateLoanSummary,
   calculateLiquidityRatios,
   calculateMarginEstimate,
@@ -322,12 +323,12 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
   loan: {
     title: 'Loan Calculator',
     buttonLabel: 'Calculate loan',
-    emptyHistory: 'Recent loan estimates will appear here.',
+    emptyHistory: 'Recent payment, amount, rate, and term estimates will appear here.',
     privacyNote: 'Loan estimates stay in your browser and do not include APR fees, penalties, insurance, taxes, variable-rate changes, or approval rules.',
     modes: [
       {
-        id: 'loan',
-        label: 'Loan',
+        id: 'payment',
+        label: 'Payment',
         symbol: 'PAY',
         fields: [
           numberField('principal', 'Loan amount ($)'),
@@ -339,6 +340,54 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
           { label: '$12k personal loan', inputs: { principal: '12000', annualRatePercent: '9.5', years: '4' } },
           { label: '$50k over 6 years', inputs: { principal: '50000', annualRatePercent: '7', years: '6' } },
           { label: '0% promo', inputs: { principal: '3000', annualRatePercent: '0', years: '1' } },
+        ],
+      },
+      {
+        id: 'amount',
+        label: 'Loan amount',
+        symbol: 'AMT',
+        fields: [
+          numberField('monthlyPayment', 'Monthly payment ($)'),
+          numberField('annualRatePercent', 'Interest rate (%)'),
+          numberField('years', 'Loan term (years)'),
+        ],
+        defaultInputs: { monthlyPayment: '500', annualRatePercent: '6', years: '5' },
+        examples: [
+          { label: '$500 monthly budget', inputs: { monthlyPayment: '500', annualRatePercent: '6', years: '5' } },
+          { label: '$800 over 4 years', inputs: { monthlyPayment: '800', annualRatePercent: '8', years: '4' } },
+          { label: '0% amount check', inputs: { monthlyPayment: '250', annualRatePercent: '0', years: '1' } },
+        ],
+      },
+      {
+        id: 'rate',
+        label: 'Rate',
+        symbol: 'RATE',
+        fields: [
+          numberField('principal', 'Loan amount ($)'),
+          numberField('monthlyPayment', 'Monthly payment ($)'),
+          numberField('years', 'Loan term (years)'),
+        ],
+        defaultInputs: { principal: '25000', monthlyPayment: '483.32', years: '5' },
+        examples: [
+          { label: '$25k payment quote', inputs: { principal: '25000', monthlyPayment: '483.32', years: '5' } },
+          { label: '$10k over 3 years', inputs: { principal: '10000', monthlyPayment: '320', years: '3' } },
+          { label: '0% payment', inputs: { principal: '12000', monthlyPayment: '1000', years: '1' } },
+        ],
+      },
+      {
+        id: 'term',
+        label: 'Term',
+        symbol: 'TERM',
+        fields: [
+          numberField('principal', 'Loan amount ($)'),
+          numberField('annualRatePercent', 'Interest rate (%)'),
+          numberField('monthlyPayment', 'Monthly payment ($)'),
+        ],
+        defaultInputs: { principal: '12000', annualRatePercent: '9.5', monthlyPayment: '400' },
+        examples: [
+          { label: '$400 payoff plan', inputs: { principal: '12000', annualRatePercent: '9.5', monthlyPayment: '400' } },
+          { label: '$25k at $600/month', inputs: { principal: '25000', annualRatePercent: '6', monthlyPayment: '600' } },
+          { label: '0% payoff term', inputs: { principal: '3000', annualRatePercent: '0', monthlyPayment: '275' } },
         ],
       },
     ],
@@ -2695,8 +2744,85 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
         note: 'This is payment math, not a lender Loan Estimate. It leaves out APR, points, closing costs, prepaid interest, escrow setup, tax changes, PMI rules, and approval checks.',
       };
     }
-    case 'loan':
-      return loanCalculation(inputs, 'Loan payment');
+    case 'loan': {
+      if (modeId === 'amount') {
+        const monthlyPayment = parseNumber(inputs.monthlyPayment, 'Monthly payment');
+        const annualRatePercent = parseNumber(inputs.annualRatePercent, 'Interest rate');
+        const loanYears = parseNumber(inputs.years, 'Loan term');
+        const result = calculateLoanPrincipalFromPayment(monthlyPayment, annualRatePercent, loanYears);
+
+        return {
+          label: 'Estimated loan amount',
+          expression: `${money(monthlyPayment)}/mo at ${percent(annualRatePercent)} for ${years(loanYears)}`,
+          answer: money(result.principal),
+          metrics: [
+            { label: 'Total paid', value: money(result.totalPaid) },
+            { label: 'Total interest', value: money(result.totalInterest) },
+            { label: 'Payments', value: monthCount(result.paymentCount) },
+          ],
+          steps: [
+            `Convert annual rate ${percent(annualRatePercent)} to a monthly rate.`,
+            `Use ${result.paymentCount} monthly payments across ${years(loanYears)}.`,
+            'Rearrange the fixed-payment formula to solve for principal.',
+            'Total interest equals total payments minus the estimated loan amount.',
+          ],
+          note: 'This estimates principal from a fixed payment, rate, and term. It is not an approval amount and leaves out APR fees, insurance, taxes, and lender rules.',
+        };
+      }
+
+      if (modeId === 'rate') {
+        const principal = parseNumber(inputs.principal, 'Loan amount');
+        const monthlyPayment = parseNumber(inputs.monthlyPayment, 'Monthly payment');
+        const loanYears = parseNumber(inputs.years, 'Loan term');
+        const result = calculateInterestRateFromPayment(principal, monthlyPayment, loanYears);
+
+        return {
+          label: 'Estimated annual rate',
+          expression: `${compactMoney(principal)}, ${money(monthlyPayment)}/mo for ${years(loanYears)}`,
+          answer: roundedPercent(result.annualRatePercent),
+          metrics: [
+            { label: 'Monthly rate', value: roundedPercent(result.monthlyRatePercent, 3) },
+            { label: 'Total paid', value: money(result.totalPaid) },
+            { label: 'Total interest', value: money(result.totalInterest) },
+          ],
+          steps: [
+            'Start with the loan amount, fixed monthly payment, and payment count.',
+            'Search for the monthly rate that makes the payment formula balance.',
+            'Convert that monthly rate to a nominal annual rate.',
+            'Compare the estimate with the written interest rate and APR disclosure.',
+          ],
+          note: 'This solves an estimated interest rate, not APR. Fees and other finance charges can make the disclosed APR higher.',
+        };
+      }
+
+      if (modeId === 'term') {
+        const principal = parseNumber(inputs.principal, 'Loan amount');
+        const annualRatePercent = parseNumber(inputs.annualRatePercent, 'Interest rate');
+        const monthlyPayment = parseNumber(inputs.monthlyPayment, 'Monthly payment');
+        const result = calculateFixedDebtPayoff({ balance: principal, annualRatePercent, monthlyPayment });
+
+        return {
+          label: 'Estimated payoff term',
+          expression: `${compactMoney(principal)} at ${percent(annualRatePercent)} with ${money(monthlyPayment)}/mo`,
+          answer: monthCount(result.monthsToPayoff),
+          metrics: [
+            { label: 'Regular payment', value: money(result.monthlyPayment) },
+            { label: 'Final payment', value: money(result.finalPayment) },
+            { label: 'Total paid', value: money(result.totalPaid) },
+            { label: 'Total interest', value: money(result.totalInterest) },
+          ],
+          steps: [
+            'Add one month of interest to the remaining balance.',
+            'Subtract the monthly payment, using a smaller final payment when needed.',
+            'Repeat until the estimated balance reaches zero.',
+            'Total interest is the sum of monthly interest charges in this fixed-rate model.',
+          ],
+          note: 'The payment must be higher than the first month of interest. Real payoff timing can change with daily interest, payment dates, fees, and lender rounding.',
+        };
+      }
+
+      return loanCalculation(inputs, 'Monthly loan payment');
+    }
     case 'payment':
       return loanCalculation(inputs, 'Fixed monthly payment');
     case 'auto-loan': {

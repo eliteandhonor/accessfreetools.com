@@ -52,6 +52,18 @@ const categoryVisualCues = {
 };
 
 const toolArtMetadataOverrides = {
+  'loan-calculator': {
+    tool: {
+      alt: 'Smoke-kawaii mascot comparing fixed-loan payment, loan amount, interest rate, payoff term, and total interest cards.',
+      caption:
+        'Loan Calculator artwork matches the four live modes: solve for monthly payment, starting loan amount, estimated annual rate, or payoff term, then check total paid and total interest.',
+    },
+    guide: {
+      alt: 'Smoke-kawaii mascot explaining fixed-loan payment, principal, rate, and term with monthly payment and total interest examples.',
+      caption:
+        'Loan Calculator guide artwork supports the four worked checks for payment, principal, estimated rate, and payoff term, plus APR, fee, and lender-disclosure limits.',
+    },
+  },
   'markup-calculator': {
     tool: {
       alt: 'Smoke-kawaii mascot comparing unit cost, markup, target margin, selling price, and profit cards.',

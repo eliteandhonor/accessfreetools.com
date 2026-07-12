@@ -2592,8 +2592,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/loan-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/loan-calculator-guide.webp",
-    "alt": "Loan Calculator guide art showing a fixed loan payment example with monthly payment and total interest notes.",
-    "caption": "The guide image matches the walkthrough for turning loan amount, rate, and term into a monthly payment and total interest check.",
+    "alt": "Smoke-kawaii mascot explaining fixed-loan payment, principal, rate, and term with monthly payment and total interest examples.",
+    "caption": "Loan Calculator guide artwork supports the four worked checks for payment, principal, estimated rate, and payoff term, plus APR, fee, and lender-disclosure limits.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -2602,8 +2602,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/loan-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/loan-calculator-tool.webp",
-    "alt": "Loan Calculator tool art showing loan amount, interest rate, term, monthly payment, and total interest.",
-    "caption": "The tool image matches the calculator workflow: enter amount, rate, and term, then compare monthly payment with total interest.",
+    "alt": "Smoke-kawaii mascot comparing fixed-loan payment, loan amount, interest rate, payoff term, and total interest cards.",
+    "caption": "Loan Calculator artwork matches the four live modes: solve for monthly payment, starting loan amount, estimated annual rate, or payoff term, then check total paid and total interest.",
     "status": "approved",
     "qaStatus": "approved"
   },

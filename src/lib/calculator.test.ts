@@ -173,6 +173,7 @@ import {
   calculateIrr,
   calculateIraProjection,
   calculateLiquidityRatios,
+  calculateLoanPrincipalFromPayment,
   calculateLoanSummary,
   calculateMarginEstimate,
   calculateMarriageTaxComparison,
@@ -1398,6 +1399,39 @@ describe('finance helpers', () => {
     expect(() => calculateInterestRateFromPayment(25000, 200, 5)).toThrow(
       'Monthly payment is too low to repay the principal within this term',
     );
+  });
+
+  it('solves loan amount and payoff term from the other fixed-loan values', () => {
+    const scheduled = calculateLoanSummary(25000, 6, 5);
+    const amount = calculateLoanPrincipalFromPayment(scheduled.monthlyPayment, 6, 5);
+    const zeroRateAmount = calculateLoanPrincipalFromPayment(250, 0, 1);
+    const term = calculateFixedDebtPayoff({
+      balance: 12000,
+      annualRatePercent: 9.5,
+      monthlyPayment: 400,
+    });
+    const zeroRateTerm = calculateFixedDebtPayoff({
+      balance: 3000,
+      annualRatePercent: 0,
+      monthlyPayment: 275,
+    });
+
+    expect(amount.principal).toBeCloseTo(25000, 6);
+    expect(amount.paymentCount).toBe(60);
+    expect(amount.totalInterest).toBeCloseTo(scheduled.totalInterest, 6);
+    expect(zeroRateAmount.principal).toBe(3000);
+    expect(zeroRateAmount.totalInterest).toBe(0);
+    expect(term.monthsToPayoff).toBe(35);
+    expect(term.finalPayment).toBeLessThan(400);
+    expect(term.totalPaid).toBeCloseTo(13754.88, 2);
+    expect(zeroRateTerm.monthsToPayoff).toBe(11);
+    expect(zeroRateTerm.finalPayment).toBe(250);
+    expect(zeroRateTerm.totalPaid).toBe(3000);
+    expect(() => calculateFixedDebtPayoff({
+      balance: 12000,
+      annualRatePercent: 12,
+      monthlyPayment: 120,
+    })).toThrow('Monthly payment must be higher than monthly interest');
   });
 
   it('calculates the next finance batch estimates', () => {

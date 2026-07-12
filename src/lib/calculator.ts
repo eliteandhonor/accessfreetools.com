@@ -4581,6 +4581,38 @@ export function calculateLoanSummary(
   };
 }
 
+export function calculateLoanPrincipalFromPayment(
+  monthlyPayment: number,
+  annualRatePercent: number,
+  years: number,
+): LoanPaymentSummary {
+  assertPositiveNumber(monthlyPayment, 'Monthly payment');
+  assertNonNegativeNumber(annualRatePercent, 'Annual interest rate');
+  assertPositiveNumber(years, 'Loan term');
+
+  const paymentCount = Math.round(years * 12);
+
+  if (paymentCount <= 0) {
+    throw new Error('Loan term must include at least one monthly payment');
+  }
+
+  const monthlyRate = annualRatePercent / 100 / 12;
+  const principal = monthlyRate === 0
+    ? monthlyPayment * paymentCount
+    : monthlyPayment * (1 - (1 + monthlyRate) ** -paymentCount) / monthlyRate;
+  const totalPaid = monthlyPayment * paymentCount;
+
+  return {
+    principal,
+    annualRatePercent,
+    years,
+    paymentCount,
+    monthlyPayment,
+    totalPaid,
+    totalInterest: totalPaid - principal,
+  };
+}
+
 export function calculateMortgagePayment(input: {
   homePrice: number;
   downPayment: number;

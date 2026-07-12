@@ -2627,40 +2627,73 @@ export const financeTools: ToolDefinition[] = [
   makeFinanceTool({
     slug: 'loan-calculator',
     name: 'Loan Calculator',
-    summary: 'Estimate a fixed monthly loan payment, total paid, and total interest from amount, rate, and term.',
+    summary: 'Solve for monthly payment, loan amount, interest rate, or payoff term for a fixed-rate loan.',
     description:
-      'Use this free loan calculator to estimate a fixed monthly payment, total paid, total interest, and payment count from loan amount, annual interest rate, and term.',
-    seoTitle: 'Loan Calculator | Monthly Payment & Interest',
+      'Use this free loan calculator to solve for monthly payment, loan amount, estimated interest rate, or payoff term. Each mode also shows total paid and total interest for the fixed-rate estimate.',
+    seoTitle: 'Loan Calculator | Payment, Amount, Rate & Term',
     seoDescription:
-      'Estimate a fixed loan payment from amount, rate, and term. See monthly payment, total paid, total interest, and APR-versus-interest cautions.',
+      'Calculate monthly payment, loan amount, interest rate, or payoff term for a fixed-rate loan. See total interest, total paid, and formula steps.',
     icon: 'calculator-loan',
-    aliases: ['loan payment calculator', 'monthly loan payment calculator', 'fixed loan calculator', 'personal loan payment estimate'],
+    aliases: [
+      'loan payment calculator',
+      'monthly loan calculator',
+      'loan amount calculator',
+      'loan interest rate calculator',
+      'loan term calculator',
+      'calculate loan amount from payment',
+      'calculate loan rate from payment',
+      'fixed loan calculator',
+    ],
     formula:
-      'The calculator uses the standard amortized loan payment formula: payment equals principal times monthly rate times growth factor divided by growth factor minus one.',
+      'Payment mode uses the standard amortized-loan formula. Amount mode rearranges that formula for principal. Rate mode solves for the monthly rate iteratively. Term mode applies monthly interest and payments until the balance reaches zero.',
     limit:
-      'This is fixed-rate payment math only. It is not a lender quote, APR disclosure, approval decision, payoff statement, or Loan Estimate, and it does not include fees, taxes, insurance, prepayment penalties, late fees, variable-rate changes, or lender-specific rounding.',
+      'These are fixed-rate estimates only. They are not a lender quote, APR disclosure, approval decision, payoff statement, or Loan Estimate, and they do not include fees, taxes, insurance, payment dates, prepayment penalties, late fees, variable-rate changes, or lender-specific rounding.',
     useCases: [
-      'Estimate payments for personal loans, student loans, or other fixed-payment debt.',
-      'Compare different loan terms before choosing a repayment plan.',
-      'See the total interest cost behind a monthly payment.',
-      'Use the result as a baseline before checking an amortization table or written loan offer.',
+      'Calculate a monthly payment when loan amount, rate, and term are known.',
+      'Estimate how much principal fits a monthly payment, rate, and term.',
+      'Estimate the interest rate behind a quoted payment.',
+      'Estimate how many months a fixed payment takes to clear a loan.',
+      'Compare total paid and total interest before checking a written offer.',
     ],
     examples: [
-      { label: 'Personal loan', expression: '$12,000 at 9.5% for 4 years', result: 'About $301.48/month and $2,470.93 interest' },
-      { label: 'Large loan', expression: '$50,000 at 7% for 6 years', result: 'About $852.45/month and $11,376.42 interest' },
-      { label: 'Zero interest', expression: '$3,000 at 0% for 12 months', result: '$250/month with no interest before fees' },
+      { label: 'Solve payment', expression: '$12,000 at 9.5% for 4 years', result: 'About $301.48/month and $2,470.93 interest' },
+      { label: 'Solve loan amount', expression: '$500/month at 6% for 5 years', result: 'About $25,862 in principal before fees' },
+      { label: 'Solve rate', expression: '$25,000 with $483.32/month for 5 years', result: 'About 6% annual interest before fees' },
+      { label: 'Solve term', expression: '$12,000 at 9.5% with $400/month', result: 'About 35 months with a smaller final payment' },
     ],
     relatedSlugs: ['payment-calculator', 'amortization-calculator', 'interest-rate-calculator'],
     inputExplanations: [
-      { term: 'Loan amount', meaning: 'the principal you plan to borrow before fees or add-ons.' },
-      { term: 'Interest rate', meaning: 'the yearly contract rate used for payment math, entered as 9.5 for 9.5%.' },
+      { term: 'Mode', meaning: 'the missing loan number you want to solve: payment, amount, rate, or term.' },
+      { term: 'Loan amount', meaning: 'the starting principal before fees or add-ons.' },
+      { term: 'Monthly payment', meaning: 'the fixed amount paid each month in amount, rate, or term mode.' },
+      { term: 'Interest rate', meaning: 'the nominal yearly contract rate used for payment math, entered as 9.5 for 9.5%.' },
       { term: 'Loan term', meaning: 'how long repayment lasts. Four years means 48 monthly payments.' },
     ],
     priorityFaq: [
       {
-        question: 'How does the Loan Calculator find the monthly payment?',
+        question: 'What can this Loan Calculator solve?',
         answer:
-          'It converts the annual interest rate into a monthly rate, turns the term into monthly payments, then uses the fixed-payment amortization formula. For $12,000 at 9.5% over 4 years, that works out to about $301.48 per month before any fees.',
+          'Choose Payment, Loan amount, Rate, or Term. Enter the other three fixed-loan values, then calculate the missing value plus total paid and total interest. The model assumes monthly payments and a fixed rate.',
+      },
+      {
+        question: 'How does payment mode find the monthly loan payment?',
+        answer:
+          'It converts the annual interest rate into a monthly rate, turns the term into monthly payments, then uses the fixed-payment amortization formula. For $12,000 at 9.5% over 4 years, that is about $301.48 per month before fees.',
+      },
+      {
+        question: 'How do I calculate loan amount from a monthly payment?',
+        answer:
+          'Choose Loan amount, then enter the monthly payment, annual interest rate, and term. The calculator rearranges the payment formula to estimate principal. A $500 monthly payment at 6% for 5 years supports about $25,862 in principal before fees and lender rules.',
+      },
+      {
+        question: 'Can I calculate an interest rate from payment?',
+        answer:
+          'Yes. Choose Rate, then enter loan amount, monthly payment, and term. The calculator searches for the fixed monthly rate that balances those numbers, then converts it to a nominal annual rate. The answer is not APR because fees are not included.',
+      },
+      {
+        question: 'How does term mode estimate payoff time?',
+        answer:
+          'Term mode adds one month of interest, subtracts the payment, and repeats until the balance reaches zero. The payment must be higher than the first month of interest. The final payment may be smaller than the regular payment.',
       },
       {
         question: 'Why should I look at total interest?',
@@ -2680,7 +2713,7 @@ export const financeTools: ToolDefinition[] = [
       {
         question: 'Does this create an amortization table?',
         answer:
-          'This page gives the quick monthly payment, total paid, and total interest. Use the Amortization Calculator when you want the month-by-month split between principal, interest, and remaining balance.',
+          'No. This page solves one missing loan value and gives summary totals. Use the Amortization Calculator when you want the month-by-month split between principal, interest, and remaining balance.',
       },
       {
         question: 'Can I use this for a 0% loan?',
@@ -2694,9 +2727,9 @@ export const financeTools: ToolDefinition[] = [
       },
     ],
     formulaCheck:
-      'It assumes a fixed rate, monthly payments, and no added fees. It does not solve an official APR disclosure or read the lender contract.',
+      'Every mode assumes a fixed rate, monthly payments, and no added fees. Rate mode estimates nominal annual interest, not an official APR. Term mode is not an official payoff statement.',
     resultReading:
-      'Start with the monthly payment, then check total paid and total interest. If the payment looks easy but total interest is high, test a shorter term or lower rate before trusting the first scenario.',
+      'Read the main missing value first, then compare total paid and total interest. In term mode, check the final payment too. If one scenario looks easy only because it stretches the loan, compare another mode or term.',
     doubleCheck:
       'Compare the estimate with the written loan offer, APR, fees, payment schedule, prepayment terms, and any Loan Estimate or Truth in Lending disclosure that applies.',
     limitFollowup:

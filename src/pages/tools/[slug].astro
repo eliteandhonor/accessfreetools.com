@@ -2328,7 +2328,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               : tool.slug === 'heloc-calculator'
               ? 'Interest-only, repayment, CLTV'
               : tool.slug === 'loan-calculator'
-              ? 'Payment, total paid, and interest'
+              ? 'Payment, amount, rate, and term'
               : tool.slug === 'finance-calculator'
               ? 'Balance, deposits, and growth'
               : tool.slug === 'investment-calculator'
@@ -3543,11 +3543,12 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
             </>
           ) : tool.slug === 'loan-calculator' ? (
             <>
-              <strong>Loan payment estimate, not a lender disclosure</strong>
+              <strong>Fixed-loan estimate, not a lender disclosure</strong>
               <p>
-                Use this to compare loan amount, rate, term, monthly payment, total paid, and total interest.
-                A real offer can still change with APR fees, finance charges, late fees, insurance, taxes,
-                prepayment terms, variable rates, lender rounding, approval rules, and the written disclosure.
+                Choose the missing value, then use the other three to solve for monthly payment, starting loan amount,
+                estimated interest rate, or payoff term. A real offer can still change with APR fees, finance charges,
+                payment dates, late fees, insurance, taxes, prepayment terms, variable rates, lender rounding,
+                approval rules, and the written disclosure.
               </p>
               <p>
                 Sources used for this review:{' '}
