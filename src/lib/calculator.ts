@@ -7,6 +7,23 @@ export interface FractionValue {
   denominator: number;
 }
 
+export type FractionInputKind = 'fraction' | 'mixed-number' | 'whole-number' | 'decimal';
+
+export interface ParsedFractionValue {
+  input: string;
+  inputKind: FractionInputKind;
+  rawNumerator: number;
+  rawDenominator: number;
+  value: FractionValue;
+}
+
+export interface FractionComparisonResult {
+  comparison: -1 | 0 | 1;
+  leftCrossProduct: number;
+  rightCrossProduct: number;
+  difference: FractionValue;
+}
+
 export interface MixedFractionInput {
   whole?: number;
   numerator: number;
@@ -2656,6 +2673,145 @@ export interface BmiResult {
   category: string;
   healthyMinKg: number;
   healthyMaxKg: number;
+}
+
+export function parseFractionValue(input: string): ParsedFractionValue {
+  const normalized = input.trim().replace(/[\u2212\u2013\u2014]/g, '-').replace(/\s+/g, ' ');
+
+  if (!normalized) {
+    throw new Error('Enter a fraction, mixed number, whole number, or decimal');
+  }
+
+  const mixedMatch = normalized.match(/^([+-]?\d+) (\d+)\/(\d+)$/);
+
+  if (mixedMatch) {
+    const whole = Number(mixedMatch[1]);
+    const numerator = Number(mixedMatch[2]);
+    const denominator = Number(mixedMatch[3]);
+    assertSafeInteger(whole, 'Whole number');
+    assertSafeInteger(numerator, 'Numerator');
+    assertSafeInteger(denominator, 'Denominator');
+
+    if (denominator === 0) {
+      throw new Error('Denominator cannot be zero');
+    }
+
+    const sign = whole < 0 ? -1 : 1;
+    const rawNumerator = sign * (Math.abs(whole) * denominator + numerator);
+    assertSafeInteger(rawNumerator, 'Improper numerator');
+
+    return {
+      input: normalized,
+      inputKind: 'mixed-number',
+      rawNumerator,
+      rawDenominator: denominator,
+      value: simplifyFraction(rawNumerator, denominator),
+    };
+  }
+
+  const fractionMatch = normalized.match(/^([+-]?\d+)\/([+-]?\d+)$/);
+
+  if (fractionMatch) {
+    const rawNumerator = Number(fractionMatch[1]);
+    const rawDenominator = Number(fractionMatch[2]);
+    assertSafeInteger(rawNumerator, 'Numerator');
+    assertSafeInteger(rawDenominator, 'Denominator');
+
+    return {
+      input: normalized,
+      inputKind: 'fraction',
+      rawNumerator,
+      rawDenominator,
+      value: simplifyFraction(rawNumerator, rawDenominator),
+    };
+  }
+
+  if (/^[+-]?\d+$/.test(normalized)) {
+    const wholeNumber = Number(normalized);
+    assertSafeInteger(wholeNumber, 'Whole number');
+
+    return {
+      input: normalized,
+      inputKind: 'whole-number',
+      rawNumerator: wholeNumber,
+      rawDenominator: 1,
+      value: { numerator: wholeNumber, denominator: 1 },
+    };
+  }
+
+  if (/^[+-]?(?:\d+\.\d*|\.\d+)$/.test(normalized)) {
+    const sign = normalized.startsWith('-') ? -1 : 1;
+    const unsigned = normalized.replace(/^[+-]/, '');
+    const [wholePart = '0', decimalPartWithZeros = ''] = unsigned.split('.');
+    const decimalPart = decimalPartWithZeros.replace(/0+$/, '');
+
+    if (!decimalPart) {
+      const wholeNumber = sign * Number(wholePart || '0');
+      assertSafeInteger(wholeNumber, 'Whole number');
+      return {
+        input: normalized,
+        inputKind: 'decimal',
+        rawNumerator: wholeNumber,
+        rawDenominator: 1,
+        value: { numerator: wholeNumber, denominator: 1 },
+      };
+    }
+
+    if (decimalPart.length > 9) {
+      throw new Error('Use no more than 9 decimal places');
+    }
+
+    const rawDenominator = 10 ** decimalPart.length;
+    const rawNumerator = sign * (Number(wholePart || '0') * rawDenominator + Number(decimalPart));
+    assertSafeInteger(rawNumerator, 'Decimal numerator');
+
+    return {
+      input: normalized,
+      inputKind: 'decimal',
+      rawNumerator,
+      rawDenominator,
+      value: simplifyFraction(rawNumerator, rawDenominator),
+    };
+  }
+
+  throw new Error('Use a value like 3/4, 1 2/3, -5/6, 7, or 0.125');
+}
+
+export function calculateFractionLeastCommonDenominator(
+  leftDenominator: number,
+  rightDenominator: number,
+): number {
+  assertInteger(leftDenominator, 'First denominator');
+  assertInteger(rightDenominator, 'Second denominator');
+
+  if (leftDenominator === 0 || rightDenominator === 0) {
+    throw new Error('Denominator cannot be zero');
+  }
+
+  const left = Math.abs(leftDenominator);
+  const right = Math.abs(rightDenominator);
+  const leastCommonDenominator = (left / greatestCommonDivisor(left, right)) * right;
+  assertSafeInteger(leastCommonDenominator, 'Least common denominator');
+  return leastCommonDenominator;
+}
+
+export function compareFractionValues(
+  left: FractionValue,
+  right: FractionValue,
+): FractionComparisonResult {
+  const normalizedLeft = simplifyFraction(left.numerator, left.denominator);
+  const normalizedRight = simplifyFraction(right.numerator, right.denominator);
+  const leftCrossProduct = normalizedLeft.numerator * normalizedRight.denominator;
+  const rightCrossProduct = normalizedRight.numerator * normalizedLeft.denominator;
+  assertSafeInteger(leftCrossProduct, 'First cross product');
+  assertSafeInteger(rightCrossProduct, 'Second cross product');
+
+  return {
+    comparison: leftCrossProduct === rightCrossProduct ? 0 : leftCrossProduct > rightCrossProduct ? 1 : -1,
+    leftCrossProduct,
+    rightCrossProduct,
+    difference: calculateFraction(normalizedLeft, '-', normalizedRight),
+  };
 }
 
 export interface UnderweightBmiResult extends BmiResult {

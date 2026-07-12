@@ -1399,18 +1399,27 @@ const baseTools: ToolDefinition[] = [
     slug: 'fraction-calculator',
     name: 'Fraction Calculator',
     category: 'calculators',
-    summary: 'Add, subtract, multiply, divide, and simplify fractions with steps.',
+    summary: 'Calculate, simplify, compare, and convert fractions, mixed numbers, whole numbers, and decimals with steps.',
     description:
-      'Enter simple fractions, mixed numbers, or improper fractions, choose an operation, and see the simplified answer with steps, decimal value, and a copy-ready result.',
+      'Use this free fraction calculator to add, subtract, multiply, or divide two fractions, simplify and convert one value, or compare two exact values. See LCD work, mixed and improper forms, decimals, percentages, and copy-ready steps.',
     icon: 'calculator-fraction',
-    seoTitle: 'Fraction Calculator | Add, Subtract, Multiply, Divide',
+    aliases: [
+      'Mixed Fraction Calculator',
+      'Fraction Simplifier',
+      'Decimal To Fraction Calculator',
+      'Compare Fractions Calculator',
+      'Improper Fraction Calculator',
+      'Fraction Calculator With Steps',
+    ],
+    seoTitle: 'Fraction Calculator With Steps | Simplify & Compare',
     seoDescription:
-      'Add, subtract, multiply, divide, and simplify fractions or mixed numbers with steps, improper-fraction form, and decimal checks.',
+      'Add, subtract, multiply, divide, simplify, compare, and convert fractions, mixed numbers, and decimals with LCD steps and exact answers.',
     useCases: [
-      'Add or subtract fractions with unlike denominators and see the common-denominator step.',
+      'Add or subtract fractions with unlike denominators and see the least common denominator step.',
       'Multiply fractions directly or divide by using the reciprocal of the second fraction.',
-      'Turn an improper fraction into a mixed number for homework, recipes, or measurements.',
-      'Compare the mixed-number, improper-fraction, and decimal forms before trusting the answer.',
+      'Simplify a fraction or convert a mixed number, whole number, or terminating decimal into exact fraction form.',
+      'Compare two fractions, mixed numbers, whole numbers, or decimals with exact cross-multiplication steps.',
+      'Read the same answer as a mixed number, improper fraction, decimal, percentage, or equivalent fraction.',
     ],
     examples: [
       {
@@ -1433,27 +1442,52 @@ const baseTools: ToolDefinition[] = [
         expression: '5/6 / 2/3',
         result: '1 1/4',
       },
+      {
+        label: 'Simplify a fraction',
+        expression: '18/24',
+        result: '3/4',
+      },
+      {
+        label: 'Convert a decimal',
+        expression: '0.125',
+        result: '1/8',
+      },
+      {
+        label: 'Compare fractions',
+        expression: '2/3 vs 3/5',
+        result: '2/3 > 3/5',
+      },
     ],
     faq: [
       {
         question: 'What can I use the Fraction Calculator for?',
         answer:
-          'Use it to add, subtract, multiply, divide, simplify, and compare fractions. It works with simple fractions, improper fractions, mixed numbers, and negative values.',
+          'Use Arithmetic to add, subtract, multiply, or divide two fractions. Use Simplify / convert for one fraction, mixed number, whole number, or terminating decimal. Use Compare to check which of two exact values is greater or whether they are equal.',
       },
       {
         question: 'How do I enter a mixed number?',
         answer:
-          'Put the whole number in the Whole box and the fraction part in the numerator and denominator boxes. For 2 1/4, enter Whole 2, Numerator 1, Denominator 4.',
+          'In Arithmetic, put the whole number in the Whole box and the fraction part in the numerator and denominator boxes. In Simplify / convert or Compare, type one space between the whole number and fraction, such as 2 1/4.',
       },
       {
-        question: 'Why do addition and subtraction need a common denominator?',
+        question: 'Why do addition and subtraction use the least common denominator?',
         answer:
-          'Fractions can only be added or subtracted directly when the parts are the same size. The calculator finds matching denominator pieces first, then combines the numerators.',
+          'Fractions can only be added or subtracted directly when the parts are the same size. The calculator finds the least common denominator, rewrites both fractions with that denominator, and then combines the numerators.',
       },
       {
         question: 'Does the calculator simplify fractions automatically?',
         answer:
-          'Yes. The result is reduced to lowest terms, and the page also shows an improper fraction, a mixed-number form, and a decimal value.',
+          'Yes. Arithmetic answers are reduced to lowest terms. Simplify / convert also shows the mixed or improper fraction, decimal, percentage, and several equivalent fractions.',
+      },
+      {
+        question: 'Can I convert a decimal to a fraction?',
+        answer:
+          'Yes. Choose Simplify / convert and enter a terminating decimal such as 0.125. The calculator writes it over a power of ten and reduces it to 1/8. Use no more than nine decimal places.',
+      },
+      {
+        question: 'How does the calculator compare two fractions?',
+        answer:
+          'Compare mode converts each input to an exact fraction and cross-multiplies. For 2/3 and 3/5, it compares 2 x 5 with 3 x 3, so 10 is greater than 9 and 2/3 is greater.',
       },
       {
         question: 'How does dividing fractions work?',
@@ -1461,9 +1495,14 @@ const baseTools: ToolDefinition[] = [
           'Dividing by a fraction uses the reciprocal of the second fraction. The calculator flips the second fraction, multiplies, and then simplifies the answer.',
       },
       {
-        question: 'What does the decimal answer mean?',
+        question: 'What do the decimal and percent answers mean?',
         answer:
-          'The decimal is the same value written another way. It is useful when a recipe, measurement, or spreadsheet needs a decimal instead of a fraction.',
+          'They are the same exact fraction written in other forms. For example, 1/8 is 0.125 and 12.5%. Keep the fraction form when the task asks for an exact fraction.',
+      },
+      {
+        question: 'Can I enter a repeating decimal?',
+        answer:
+          'Not as a repeating pattern. Enter a terminating decimal with up to nine places, or enter the exact fraction instead. For example, use 1/3 rather than a rounded 0.333333333.',
       },
       {
         question: 'Can a denominator be zero?',
@@ -1473,7 +1512,7 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'When should I use the LCM or GCF calculators?',
         answer:
-          'Use the LCM Calculator when you only need a common denominator. Use the GCF Calculator when you only need the largest shared factor for simplifying.',
+          'Use the LCM Calculator when you only need the least common multiple or denominator. Use the GCF Calculator when you only need the largest shared factor. This page uses both ideas inside its fraction steps.',
       },
       {
         question: 'Is my fraction history private?',

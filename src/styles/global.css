@@ -2793,6 +2793,45 @@ main {
   padding: 16px;
 }
 
+.fraction-mode-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.fraction-mode-grid button {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  display: grid;
+  gap: 3px;
+  min-height: 72px;
+  padding: 10px;
+}
+
+.fraction-mode-grid button[aria-pressed='true'] {
+  background: linear-gradient(135deg, var(--primary-strong), color-mix(in srgb, var(--primary) 70%, var(--text)));
+  border-color: var(--primary-strong);
+  color: #fff;
+}
+
+.fraction-mode-grid strong {
+  font-size: 1.05rem;
+}
+
+.fraction-mode-grid span {
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.fraction-mode-grid button:hover,
+.fraction-mode-grid button:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
+  outline: none;
+}
+
 .fraction-input-grid {
   align-items: end;
   display: grid;
@@ -2871,10 +2910,62 @@ main {
   color: #fff;
 }
 
+.fraction-text-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.fraction-compare-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.fraction-compare-grid > small {
+  grid-column: 1 / -1;
+}
+
+.fraction-text-field {
+  display: grid;
+  gap: 7px;
+}
+
+.fraction-text-field span {
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.fraction-text-field input {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 1.05rem;
+  font-weight: 850;
+  min-height: 50px;
+  min-width: 0;
+  outline: none;
+  padding: 0 12px;
+}
+
+.fraction-text-field input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
+}
+
+.fraction-text-grid small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 .fraction-actions {
   display: grid;
   gap: 10px;
   grid-template-columns: minmax(0, 1.3fr) repeat(2, minmax(0, 0.7fr));
+}
+
+.fraction-actions-two {
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
 }
 
 .fraction-result-card {
@@ -2897,6 +2988,13 @@ main {
 .fraction-result-card strong {
   font-size: clamp(2rem, 5vw, 3.3rem);
   line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.fraction-result-card > p {
+  color: color-mix(in srgb, white 76%, var(--accent));
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  margin: 0;
   overflow-wrap: anywhere;
 }
 
@@ -3015,6 +3113,17 @@ main {
 .fraction-side-panel li strong {
   color: var(--primary-strong);
   font-size: 1.14rem;
+}
+
+.fraction-privacy-note {
+  align-self: end;
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+  padding: 12px;
 }
 
 .percentage-calculator {
@@ -7964,6 +8073,8 @@ main {
   .matrix-inputs,
   .matrix-operation-grid,
   .fraction-actions,
+  .fraction-actions-two,
+  .fraction-compare-grid,
   .fraction-fieldset,
   .fraction-result-card dl,
   .launchpad-tool-grid,

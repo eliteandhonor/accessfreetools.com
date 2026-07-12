@@ -2832,20 +2832,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'fraction-calculator',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
-    reviewedOn: '2026-05-26',
+    batch: 'gsc-query-recovery-sprint-2026-07-12',
+    reviewedOn: '2026-07-12',
     scope: commonMathScope,
     sources: [openStaxFractions, khanFractions, googleHelpfulContent],
     findings: [
-      'GSC and DataForSEO selected the fraction page pair for a page-specific sprint after the Area closeout.',
-      'The calculator covers unlike denominators, mixed numbers, improper fractions, simplifying, reciprocal division, and decimal comparison.',
-      'The visible examples now cover addition, mixed-number subtraction, multiplication, and division with the expected 1 1/4 result.',
+      'Exact July 12 Search Console evidence found 662 impressions, 0 clicks, and average position 54.44 for the indexed tool after Google crawled the current page on June 22.',
+      'Targeted DataForSEO evidence found 368,000 U.S. monthly searches for fraction calculator, 18,100 for mixed fraction calculator, 9,900 for decimal to fraction calculator, and 8,100 for fraction calculator simplify.',
+      'Competitor and intent evidence supported one workspace for arithmetic, simplify/convert, and exact comparison instead of a metadata-only rewrite.',
     ],
     improvements: [
-      'Rewrote metadata, description, use cases, FAQs, blog hook, examples, source links, related-tool routing, image alt/caption text, and modified dates in smart-14 wording.',
+      'Added Arithmetic, Simplify / convert, and Compare modes with mixed-number, whole-number, terminating-decimal, percent, equivalent-fraction, and cross-product output.',
+      'Changed addition and subtraction steps to use the least common denominator, expanded exact parser and comparison tests, and rebuilt the guide, metadata, FAQs, internal-link copy, sources, and modified dates.',
     ],
     followUps: [
-      'Add a visual common-denominator stepper later if users need a clearer interactive breakdown for unlike denominators.',
+      'Wait for a new Google crawl before judging ranking movement; do not add a three-value expression parser unless query or usage evidence shows enough demand.',
     ],
   },
   {

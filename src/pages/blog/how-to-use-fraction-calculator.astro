@@ -7,40 +7,52 @@ import { getToolArt } from '../../data/toolArt';
 
 const fractionCalculator = getTool('fraction-calculator');
 const guideArt = getToolArt('fraction-calculator', 'guide');
-const guideImageUrl = guideArt ? `https://accessfreetools.com${guideArt.imagePath}` : 'https://accessfreetools.com/social/free-guides.png';
+const guideImageUrl = guideArt
+  ? `https://accessfreetools.com${guideArt.imagePath}`
+  : 'https://accessfreetools.com/social/free-guides.png';
 const examples = fractionCalculator?.examples ?? [];
 const faqItems = [
   {
-    question: 'What is the fastest way to add unlike denominators?',
+    question: 'Which mode should I use?',
     answer:
-      'Find a common denominator first, rewrite each fraction with that denominator, then add the numerators. The tool shows this step so you can check the answer instead of guessing.',
+      'Use Arithmetic for an operation between two fractions. Use Simplify / convert for one fraction, mixed number, whole number, or terminating decimal. Use Compare when you need greater than, less than, or equal to.',
   },
   {
-    question: 'How should I enter 2 1/4?',
+    question: 'Why does addition use the least common denominator?',
     answer:
-      'Enter 2 in Whole, 1 in Numerator, and 4 in Denominator. Do not type 2.25 unless you really want to work with a decimal.',
+      'The LCD is the smallest denominator that both fractions can use. It keeps the equivalent-fraction step smaller and easier to check than multiplying the denominators every time.',
   },
   {
-    question: 'Why does division flip the second fraction?',
+    question: 'Can I turn 0.125 into a fraction?',
     answer:
-      'Dividing by a fraction means multiplying by its reciprocal. So 5/6 divided by 2/3 becomes 5/6 x 3/2, which simplifies to 1 1/4.',
+      'Yes. Simplify / convert writes 0.125 as 125/1000 and divides both parts by 125, giving 1/8.',
   },
   {
-    question: 'Can I use the decimal result for homework?',
+    question: 'Can I enter a repeating decimal?',
     answer:
-      'Use the form your teacher, recipe, or worksheet asks for. The decimal is handy for checking, but fraction homework often wants the simplified fraction or mixed number.',
+      'Enter the exact fraction instead. A typed decimal is treated as a terminating value with no more than nine decimal places, so 0.333 is not exactly one third.',
+  },
+  {
+    question: 'How does fraction comparison stay exact?',
+    answer:
+      'The calculator converts both inputs to fractions and cross-multiplies. That avoids deciding from rounded decimal displays.',
+  },
+  {
+    question: 'Can I calculate three fractions at once?',
+    answer:
+      'The Arithmetic mode works with two values at a time. Calculate the first pair, then use the simplified answer as one input for the next operation. Keep the order of operations from the original problem.',
   },
 ];
 const articleStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'Fraction Calculator Guide',
+  headline: 'How To Use A Fraction Calculator With Steps',
   description:
-    'Learn how to enter mixed numbers, check common-denominator steps, divide by a reciprocal, and read simplified fraction, mixed-number, and decimal answers.',
+    'Learn how to calculate, simplify, compare, and convert fractions, mixed numbers, whole numbers, and terminating decimals with exact steps.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-fraction-calculator/',
   image: guideImageUrl,
   datePublished: '2026-04-30',
-  dateModified: '2026-05-26',
+  dateModified: '2026-07-12',
   author: {
     '@type': 'Organization',
     name: 'Access Free Tools',
@@ -54,8 +66,8 @@ const articleStructuredData = {
 ---
 
 <BaseLayout
-  title="Fraction Calculator Guide | Mixed Numbers And Steps"
-  description="Use the Fraction Calculator for unlike denominators, mixed numbers, improper fractions, division by reciprocals, simplified answers, and decimal checks."
+  title="Fraction Calculator With Steps | Mixed Numbers & Decimals"
+  description="Calculate, simplify, compare, and convert fractions, mixed numbers, whole numbers, and terminating decimals with LCD and cross-multiplication steps."
   path="/blog/how-to-use-fraction-calculator/"
   socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
   socialImageAlt={guideArt?.alt}
@@ -67,14 +79,16 @@ const articleStructuredData = {
 
     <header class="blog-article-header">
       <span>Fraction calculator guide</span>
-      <h1>Fraction Calculator Guide</h1>
-      <p>
-        Fractions get messy when the denominators are different or one number is mixed. The
-        calculator keeps the parts separate, shows the steps, and gives the answer as a simplified
-        fraction, mixed number, improper fraction, and decimal. That makes the answer easier to
-        double-check before you copy it.
+      <h1>How To Use A Fraction Calculator With Steps</h1>
+      <p class="article-review-note">
+        Updated July 12, 2026. Reviewed against the live calculator, exact fraction helpers, examples, and input limits.{' '}
+        <a href="/why-access-free-tools/">How we check tools</a>.
       </p>
-      <a class="button-primary" href="/tools/fraction-calculator/">Open the fraction calculator</a>
+      <p>
+        Your worksheet asks for 2 1/4 - 3/8. A recipe gives 0.125 cup. Another problem asks whether
+        2/3 or 3/5 is larger. Each question needs a different mode, and each answer should show enough work to check.
+      </p>
+      <a class="button-primary" href="/tools/fraction-calculator/">Open the Fraction Calculator</a>
     </header>
 
     {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
@@ -84,67 +98,110 @@ const articleStructuredData = {
         <section class="content-section">
           <h2>Quick start</h2>
           <ol class="instruction-list">
-            <li>Enter the first fraction. Leave Whole blank for a simple fraction like 1/2.</li>
-            <li>Use Whole only for a mixed number, such as 2 1/4.</li>
-            <li>Enter the second fraction the same way.</li>
-            <li>Choose add, subtract, multiply, or divide.</li>
-            <li>Press Calculate fraction, then double-check the simplified answer and steps.</li>
+            <li>Choose Arithmetic, Simplify / convert, or Compare.</li>
+            <li>Enter fractions as separate whole, numerator, and denominator boxes in Arithmetic.</li>
+            <li>Type values such as 3/4, -2 1/4, 7, or 0.125 in the other two modes.</li>
+            <li>Run the calculation and read the headline result.</li>
+            <li>Check the improper fraction, decimal, percentage, LCD, cross-products, or reduction steps before copying.</li>
           </ol>
         </section>
 
         <section class="content-section">
-          <h2>How to enter fractions</h2>
+          <h2>Choose the mode that matches the question</h2>
           <div class="feature-list">
-            <p><strong>Simple fraction:</strong> leave Whole blank and enter the numerator and denominator, such as 1 and 2 for 1/2.</p>
-            <p><strong>Mixed number:</strong> enter the whole number plus the fraction part, such as 2, 1, and 4 for 2 1/4.</p>
-            <p><strong>Improper fraction:</strong> enter a numerator larger than the denominator, such as 9 and 4 for 9/4.</p>
-            <p><strong>Negative fraction:</strong> put the minus sign on the whole number or numerator. Do not put it on both.</p>
+            <p><strong>Arithmetic:</strong> add, subtract, multiply, or divide two fractions or mixed numbers.</p>
+            <p><strong>Simplify / convert:</strong> reduce one value and show fraction, mixed-number, decimal, percentage, and equivalent forms.</p>
+            <p><strong>Compare:</strong> tell whether the first exact value is greater than, less than, or equal to the second.</p>
           </div>
-        </section>
-
-        <section class="content-section">
-          <h2>What the answer shows</h2>
           <p>
-            The main answer is shown as a mixed number when that is easier to read. The same box
-            also shows the improper fraction and a decimal value, so you can match the form your
-            worksheet, recipe, measurement, or spreadsheet expects.
-          </p>
-          <p>
-            Double-check the decimal only as a second view of the same value. If the task asks for a
-            fraction, keep the simplified fraction or mixed number.
-          </p>
-          <p>
-            For addition and subtraction, the steps show the common denominator. For multiplication,
-            they show numerator times numerator and denominator times denominator. For division,
-            they show the reciprocal of the second fraction before multiplying.
+            Arithmetic combines two values. Simplify / convert works on one value. Compare checks the exact relation
+            between two values with cross-products.
           </p>
         </section>
 
         <section class="content-section">
-          <h2>Four examples worth checking</h2>
-          <div class="shortcut-table" role="table" aria-label="Fraction calculator operation examples">
+          <h2>Arithmetic mode for two fractions</h2>
+          <p>
+            Leave Whole blank for a simple fraction. For 2 1/4, enter 2 in Whole, 1 in Numerator,
+            and 4 in Denominator. Choose the operation after both values are filled in.
+          </p>
+          <div class="shortcut-table" role="table" aria-label="Fraction arithmetic examples">
             <div role="row">
               <strong role="cell">1/2 + 1/3</strong>
-              <span role="cell">Finds a common denominator and simplifies to 5/6.</span>
+              <span role="cell">LCD 6, then 3/6 + 2/6 = 5/6.</span>
             </div>
             <div role="row">
               <strong role="cell">2 1/4 - 3/8</strong>
-              <span role="cell">Converts the mixed number, subtracts, and returns 1 7/8.</span>
+              <span role="cell">Convert 2 1/4 to 9/4, then return 1 7/8.</span>
             </div>
             <div role="row">
               <strong role="cell">3/4 x 2/5</strong>
-              <span role="cell">Multiplies numerators and denominators, then simplifies.</span>
+              <span role="cell">Multiply to 6/20, then simplify to 3/10.</span>
             </div>
             <div role="row">
               <strong role="cell">5/6 / 2/3</strong>
-              <span role="cell">Flips 2/3 into 3/2, multiplies, and returns 1 1/4.</span>
+              <span role="cell">Use the reciprocal 3/2 and simplify to 1 1/4.</span>
             </div>
           </div>
+        </section>
+
+        <section class="content-section">
+          <h2>Why the least common denominator helps</h2>
+          <p>
+            Addition and subtraction need equal-sized parts. The least common denominator is the least common
+            multiple of the two denominators. For 1/4 + 1/6, the LCD is 12. Rewrite the inputs as 3/12 and 2/12,
+            then add them to get 5/12.
+          </p>
+          <p>
+            Multiplying the denominators would also produce a common denominator, but 24 is larger than needed.
+            Showing the LCD keeps the working numbers smaller and matches the usual classroom method.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Simplify fractions and convert decimals</h2>
+          <p>
+            Simplify / convert accepts one fraction, mixed number, whole number, or terminating decimal.
+            It keeps the calculation exact by using integers rather than converting everything through rounded decimal math.
+          </p>
+          <div class="example-grid">
+            <article>
+              <span>Simplify</span>
+              <strong>18/24</strong>
+              <p>Divide both parts by 6 to get 3/4.</p>
+            </article>
+            <article>
+              <span>Mixed to improper</span>
+              <strong>2 1/4</strong>
+              <p>Shows 9/4, 2.25, and 225%.</p>
+            </article>
+            <article>
+              <span>Decimal to fraction</span>
+              <strong>0.125</strong>
+              <p>Write 125/1000, then simplify to 1/8.</p>
+            </article>
+          </div>
+          <p>
+            A typed decimal is treated as terminating and may use up to nine decimal places. For an exact repeating
+            value, enter the fraction itself. Use 1/3 instead of a rounded string of threes.
+          </p>
+        </section>
+
+        <section class="content-section">
+          <h2>Compare fractions without rounding</h2>
+          <p>
+            Compare mode turns both inputs into exact fractions and cross-multiplies. For 2/3 and 3/5,
+            compare 2 x 5 with 3 x 3. Since 10 is greater than 9, 2/3 is greater than 3/5.
+          </p>
+          <p>
+            The result also shows both decimals and the exact difference. Equal values stay equal even when they are
+            written differently, so 3/4 and 6/8 return an equals sign.
+          </p>
         </section>
 
         {examples.length > 0 && (
           <section class="content-section">
-            <h2>Examples from the fraction calculator</h2>
+            <h2>Examples available in the calculator</h2>
             <div class="example-grid">
               {examples.map((example) => (
                 <article>
@@ -159,37 +216,44 @@ const articleStructuredData = {
 
         <section class="content-section">
           <h2>Common mistakes to check</h2>
+          <ul class="instruction-list">
+            <li>A denominator cannot be zero.</li>
+            <li>In Arithmetic, keep a mixed number's whole part in the Whole box.</li>
+            <li>In the text modes, put one space between a whole number and its fraction, as in 2 1/4.</li>
+            <li>For subtraction and comparison, swapping the first and second values can change the sign or direction.</li>
+            <li>Do not treat a rounded repeating decimal as the exact fraction.</li>
+            <li>For a three-value problem, preserve the original order of operations when carrying one result into the next step.</li>
+          </ul>
+        </section>
+
+        <section class="content-section">
+          <h2>When another calculator is better</h2>
           <p>
-            A denominator cannot be zero. If the calculator shows an input error, check that both
-            denominators are filled in with whole numbers and that the denominator is not 0.
-          </p>
-          <p>
-            For mixed numbers, keep the whole number separate from the fraction part. For example,
-            2 1/4 should be entered as Whole 2, Numerator 1, Denominator 4.
-          </p>
-          <p>
-            For subtraction, double-check which fraction is first. 2 1/4 - 3/8 is not the same as
-            3/8 - 2 1/4, and the sign of the answer changes.
+            Use the <a href="/tools/least-common-multiple-calculator/">LCM Calculator</a> when you only need a common multiple.
+            Use the <a href="/tools/greatest-common-factor-calculator/">GCF Calculator</a> when you only need a shared factor.
+            Use the <a href="/tools/percentage-calculator/">Percentage Calculator</a> for percent-of, percentage change,
+            discount, or reverse-percentage questions.
           </p>
         </section>
 
         <section class="content-section">
-          <h2>When another tool is better</h2>
+          <h2>Research and references</h2>
           <p>
-            If you only need the common denominator, use the <a href="/tools/least-common-multiple-calculator/">LCM Calculator</a>.
-            If you only need the largest shared factor for simplifying, use the <a href="/tools/greatest-common-factor-calculator/">GCF Calculator</a>.
-            If the question is about percent of a number, use the <a href="/tools/percentage-calculator/">Percentage Calculator</a>.
+            OpenStax explains fraction forms and mixed-number operations. Its unlike-denominator lesson defines the
+            least common denominator as the least common multiple of the denominators.
           </p>
-        </section>
-
-        <section class="content-section">
-          <h2>Sources used for this guide</h2>
-          <p>
-            The fraction rules here match standard fraction arithmetic from
-            <a href="https://openstax.org/books/prealgebra/pages/4-introduction-to-fractions" rel="nofollow noopener">OpenStax Prealgebra</a>
-            and the plain practice flow in
-            <a href="https://www.khanacademy.org/math/arithmetic-home/addition-subtraction/fractions-intro" rel="nofollow noopener">Khan Academy fractions</a>.
-          </p>
+          <ul class="instruction-list">
+            <li>
+              <a href="https://openstax.org/books/prealgebra-2e/pages/4-introduction-to-fractions" rel="noopener">
+                OpenStax Prealgebra 2e: Introduction to Fractions
+              </a>
+            </li>
+            <li>
+              <a href="https://openstax.org/books/prealgebra-2e/pages/4-5-add-and-subtract-fractions-with-different-denominators" rel="noopener">
+                OpenStax Prealgebra 2e: Different Denominators and LCD
+              </a>
+            </li>
+          </ul>
         </section>
 
         <section class="content-section">
@@ -208,20 +272,19 @@ const articleStructuredData = {
         <section class="content-section">
           <h2>History, privacy, and copying</h2>
           <p>
-            Recent fraction answers stay visible in the page while you work. This is useful when
-            comparing a few homework problems or recipe measurements. The history is kept only in
-            the current browser tab and is not sent to a server.
+            Recent answers stay in the current browser tab while you calculate, simplify, or compare values.
+            They are not sent to a server.
           </p>
           <p>
-            Copy answer copies the current mixed-number answer to your clipboard so you can paste
-            it into notes, homework, a message, or another document.
+            Copy answer includes enough context to identify the input and result. Check the mode, signs, and requested
+            answer form before pasting it into homework, recipe notes, measurements, or a spreadsheet.
           </p>
         </section>
       </div>
 
       <aside class="article-sidecar" aria-label="Related tool links">
         <h2>Open the tool</h2>
-        <p>Try the same examples while the steps are fresh.</p>
+        <p>Try 1/2 + 1/3, simplify 18/24, convert 0.125, then compare 2/3 with 3/5.</p>
         <a class="button-primary" href="/tools/fraction-calculator/">Fraction Calculator</a>
       </aside>
     </div>

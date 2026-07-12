@@ -112,10 +112,10 @@ const blogPostCandidates: BlogPostDefinition[] = [
   },
   {
     slug: 'how-to-use-fraction-calculator',
-    title: 'How to use the Fraction Calculator',
+    title: 'How to use a Fraction Calculator with steps',
     label: 'Fraction calculator guide',
     summary:
-      'Learn how to enter mixed numbers, check common-denominator steps, and read simplified fraction, mixed-number, and decimal answers.',
+      'Calculate, simplify, compare, and convert fractions, mixed numbers, whole numbers, and terminating decimals with exact steps.',
   },
   {
     slug: 'how-to-use-least-common-multiple-calculator',

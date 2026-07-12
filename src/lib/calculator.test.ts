@@ -7,6 +7,7 @@ import {
   calculateDescriptiveStatistics,
   calculateFactors,
   calculateFraction,
+  calculateFractionLeastCommonDenominator,
   calculateEquivalentRatio,
   calculateGreatestCommonFactor,
   calculateHexIntegerOperation,
@@ -276,6 +277,7 @@ import {
   convertOvenTemperature,
   convertShoeSize,
   convertTextCase,
+  compareFractionValues,
   buildQueryStringFromLines,
   buildUtmUrl,
   digestText,
@@ -298,6 +300,7 @@ import {
   generateUuidBatch,
   generateUuidV4,
   parseQueryStringInput,
+  parseFractionValue,
   numberToRomanNumeral,
   mixedToFraction,
   parseBigInteger,
@@ -420,6 +423,48 @@ describe('fraction helpers', () => {
     expect(() => calculateFraction({ numerator: 1, denominator: 2 }, '/', { numerator: 0, denominator: 5 })).toThrow(
       'Cannot divide by zero',
     );
+  });
+
+  it('parses fractions, mixed numbers, whole numbers, and terminating decimals', () => {
+    expect(parseFractionValue('18/24')).toMatchObject({
+      inputKind: 'fraction',
+      rawNumerator: 18,
+      rawDenominator: 24,
+      value: { numerator: 3, denominator: 4 },
+    });
+    expect(parseFractionValue('-2 1/4')).toMatchObject({
+      inputKind: 'mixed-number',
+      value: { numerator: -9, denominator: 4 },
+    });
+    expect(parseFractionValue('7')).toMatchObject({
+      inputKind: 'whole-number',
+      value: { numerator: 7, denominator: 1 },
+    });
+    expect(parseFractionValue('0.125')).toMatchObject({
+      inputKind: 'decimal',
+      rawNumerator: 125,
+      rawDenominator: 1000,
+      value: { numerator: 1, denominator: 8 },
+    });
+    expect(parseFractionValue('\u22120.75').value).toEqual({ numerator: -3, denominator: 4 });
+  });
+
+  it('finds the least common denominator and compares exact fraction values', () => {
+    expect(calculateFractionLeastCommonDenominator(4, 6)).toBe(12);
+    expect(calculateFractionLeastCommonDenominator(8, 12)).toBe(24);
+    expect(compareFractionValues({ numerator: 2, denominator: 3 }, { numerator: 3, denominator: 5 })).toEqual({
+      comparison: 1,
+      leftCrossProduct: 10,
+      rightCrossProduct: 9,
+      difference: { numerator: 1, denominator: 15 },
+    });
+    expect(compareFractionValues({ numerator: 3, denominator: 4 }, { numerator: 6, denominator: 8 }).comparison).toBe(0);
+  });
+
+  it('rejects unsupported fraction text and overly precise decimals', () => {
+    expect(() => parseFractionValue('1 2 3')).toThrow(/Use a value like/);
+    expect(() => parseFractionValue('1/0')).toThrow('Denominator cannot be zero');
+    expect(() => parseFractionValue('0.1234567891')).toThrow('Use no more than 9 decimal places');
   });
 });
 
