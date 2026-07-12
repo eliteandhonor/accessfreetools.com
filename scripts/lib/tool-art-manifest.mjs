@@ -52,6 +52,18 @@ const categoryVisualCues = {
 };
 
 const toolArtMetadataOverrides = {
+  'target-heart-rate-calculator': {
+    tool: {
+      alt: 'Smoke-kawaii mascot beside a heart-rate gauge, moderate and vigorous zone bar, pulse line, running shoe, and water bottle.',
+      caption:
+        'Target Heart Rate Calculator artwork matches the two live modes: compare age-based moderate and vigorous ranges or turn a timed manual pulse count into BPM.',
+    },
+    guide: {
+      alt: 'Smoke-kawaii mascot explaining an age-based heart-rate gauge, effort-zone bar, pulse count, and beats-per-minute result.',
+      caption:
+        'The target heart-rate guide explains age-based exercise ranges, the optional heart-rate-reserve comparison, and how a 30-second pulse count becomes BPM.',
+    },
+  },
   'loan-calculator': {
     tool: {
       alt: 'Smoke-kawaii mascot comparing fixed-loan payment, loan amount, interest rate, payoff term, and total interest cards.',

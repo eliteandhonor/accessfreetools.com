@@ -4874,20 +4874,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'target-heart-rate-calculator',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
-    reviewedOn: '2026-05-26',
+    batch: 'gsc-query-recovery-sprint-2026-07-12',
+    reviewedOn: '2026-07-12',
     scope: commonMathScope,
     sources: [ahaTargetHeartRates, cdcActivity, mayoExerciseIntensity, johnsHopkinsTargetHeartRate, googleHelpfulContent],
     findings: [
-      'The calculator uses age-predicted max heart rate and intensity percentages, with optional heart-rate-reserve output when resting pulse is entered.',
-      'The guide now explains the 93-157 bpm age-35 example, the 125-167 bpm heart-rate-reserve example, and why 220 minus age is only a quick estimate.',
-      'The result shows zones as ranges instead of a single perfect number and adds practical limits for symptoms, medication, pregnancy, heat, and clinician advice.',
+      'Current Search Console evidence shows 278 impressions and 0 clicks for the indexed tool, with visible queries spanning target heart rate, heart-rate zones, beats per minute, resting pulse, and pulse-rate calculations.',
+      'The calculator now separates Target zones from Pulse to BPM, shows both American Heart Association moderate and vigorous references, and keeps optional heart-rate-reserve output for the selected zone.',
+      'The manual pulse mode converts whole beats counted over 10, 15, 30, or 60 seconds into BPM and clearly states that a timed count cannot diagnose an irregular rhythm.',
     ],
     improvements: [
-      'Ran GSC-driven page sprint with current AHA, CDC, Mayo Clinic, Johns Hopkins, competitor, and DataForSEO evidence; updated metadata, examples, FAQs, source links, target-specific instructions, art alt/captions, SEO-agent factory scoring, browser proof, and final judges.',
+      'Used exact GSC queries, targeted DataForSEO volume, and current AHA guidance to add a tested pulse-to-BPM workflow, a clearer age-zone comparison, page-specific metadata, examples, FAQs, guide formulas, instructions, and image metadata.',
     ],
     followUps: [
-      'Watch Search Console for target heart rate by age, heart rate zone, and running-intensity queries before changing the formula model.',
+      'Wait for a new Google crawl before judging CTR movement, and do not replace the simple 220-minus-age estimate with a more complex model without source and query evidence.',
     ],
   },
   {

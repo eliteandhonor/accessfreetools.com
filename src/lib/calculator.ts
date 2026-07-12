@@ -2923,6 +2923,13 @@ export interface TargetHeartRateResult {
   karvonenUpperBpm?: number;
 }
 
+export interface PulseBpmResult {
+  beatsCounted: number;
+  countSeconds: number;
+  multiplier: number;
+  bpm: number;
+}
+
 export interface GfrResult {
   egfr: number;
   note: string;
@@ -3260,6 +3267,24 @@ export function calculateTargetHeartRate(
   }
 
   return result;
+}
+
+export function calculatePulseBpm(beatsCounted: number, countSeconds: number): PulseBpmResult {
+  assertPositiveNumber(beatsCounted, 'Beats counted');
+  assertPositiveNumber(countSeconds, 'Count time');
+
+  if (!Number.isInteger(beatsCounted)) {
+    throw new Error('Beats counted must be a whole number');
+  }
+
+  const multiplier = 60 / countSeconds;
+
+  return {
+    beatsCounted,
+    countSeconds,
+    multiplier,
+    bpm: beatsCounted * multiplier,
+  };
 }
 
 export function calculatePace(distance: number, seconds: number) {

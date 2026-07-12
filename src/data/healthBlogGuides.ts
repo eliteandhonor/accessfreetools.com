@@ -37,6 +37,8 @@ const extraSafetyNotes: Record<string, string> = {
     'This is an original Access Free Tools label-reading score. It is not Weight Watchers Points, not affiliated with WW, and not a medical nutrition plan.',
   'one-rep-max-calculator':
     'One-rep max estimates are training math, not proof that a heavy single is safe today. Use qualified coaching, safe equipment, and a spotter or safety setup when needed.',
+  'target-heart-rate-calculator':
+    'Target zones and manual pulse counts are exercise references, not a diagnosis, stress test, or personal medical limit. Use clinician guidance when a condition, medication, pregnancy, or symptom changes what is safe for you.',
   'calories-burned-calculator':
     'Total session calories and active calories above rest answer different questions. Neither is a lab measurement, food target, medical exercise prescription, or promise of exact energy balance.',
   'fat-intake-calculator':
@@ -765,25 +767,52 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
   },
   'target-heart-rate-calculator': {
-    summary: 'Learn how age, effort range, and resting pulse become estimated exercise heart-rate zones.',
+    title: 'Target Heart Rate Zones and Pulse BPM Guide',
+    description:
+      'Calculate target heart-rate zones by age, compare moderate and vigorous ranges, convert a timed pulse count to BPM, and understand the limits.',
+    intro:
+      'Use the Target zones mode when you want an age-based exercise range. Use Pulse to BPM when you counted beats for 10, 15, 30, or 60 seconds and need the per-minute rate. This guide shows both calculations and explains why neither is a personal medical limit.',
+    featuredSection: {
+      title: 'Target-zone and pulse-to-BPM formulas',
+      paragraphs: [
+        'The age-based estimate starts with maximum heart rate = 220 - age. The American Heart Association uses about 50-70% of that estimate for moderate activity and 70-85% for vigorous activity. These are general averages, not exact limits.',
+        'For a manual pulse check, BPM = beats counted x 60 / count seconds. The American Heart Association describes counting for 30 seconds and multiplying by 2. A longer count can reduce the effect of one missed or extra beat, but an irregular rhythm still needs proper medical assessment.',
+      ],
+      bullets: [
+        'Age 35: estimated maximum 185 bpm; moderate range about 93-130 bpm; vigorous range about 130-157 bpm.',
+        '36 beats in 30 seconds: 36 x 2 = 72 bpm.',
+        '18 beats in 15 seconds: 18 x 4 = 72 bpm.',
+      ],
+      links: [
+        {
+          href: 'https://www.heart.org/en/healthy-living/exercise-and-physical-activity/fitness-basics/target-heart-rates',
+          label: 'American Heart Association: Target heart rates and manual pulse check',
+        },
+      ],
+    },
+    summary: 'Learn how age becomes an exercise zone and how a timed pulse count becomes beats per minute.',
     purpose:
-      'The Target Heart Rate Calculator gives a beats-per-minute range for exercise. It is useful when you want a quick check for moderate or vigorous effort, but it is still an estimate, not a medical limit.',
+      'The Target Heart Rate Calculator answers two related questions: what age-based range matches moderate or vigorous exercise, and what beats-per-minute rate matches a short manual pulse count. Both are quick checks, not medical tests.',
     enter: [
-      'Enter age so the tool can estimate maximum heart rate.',
-      'Choose moderate 50-70%, vigorous 70-85%, or the wider 50-85% range.',
-      'Add resting heart rate if you want the heart-rate-reserve result beside the simple result.',
+      'Choose Target zones, enter age, and select moderate 50-70%, vigorous 70-85%, or the wider 50-85% range.',
+      'Add resting heart rate only when you want the selected heart-rate-reserve result beside the simple age-based ranges.',
+      'Choose Pulse to BPM when you counted beats manually. Enter the whole beat count and select the exact 10, 15, 30, or 60-second window you used.',
     ],
     example: [
       'For age 35, the simple maximum estimate is 220 minus 35, which is 185 bpm.',
       'The 50-85% range is about 93-157 bpm. With a 65 bpm resting pulse, the heart-rate-reserve range is about 125-167 bpm.',
+      'For a manual count of 36 beats in 30 seconds, multiply 36 by 2. The quick pulse estimate is 72 bpm.',
     ],
     read: [
-      'Use the range as a guide, then check how you feel. Moderate effort should usually let you talk, while vigorous effort makes talking harder.',
+      'Use a target range as a guide, then check how you feel. Moderate effort should usually let you talk, while vigorous effort makes talking harder.',
+      'Treat pulse-to-BPM as a timed manual estimate. Repeat the count when your finger moved, the timer was unclear, or the rhythm did not feel steady.',
       'Heat, sleep, stress, caffeine, medication, fitness, and illness can all make the same heart rate feel different.',
     ],
     mistakes: [
       'Do not push into a zone that feels unsafe just because the calculator shows it.',
       'Do not treat 220 minus age as exact. It is a quick estimate, not a lab test.',
+      'Do not count for one time window and select another. For example, a 30-second count must use the 30-second option.',
+      'Do not use a manual pulse count to diagnose an irregular rhythm.',
       'Do not ignore medical advice about exercise limits, heart conditions, pregnancy, or medication that changes pulse.',
     ],
     next: [

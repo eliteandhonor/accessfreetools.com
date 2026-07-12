@@ -367,6 +367,39 @@ describe('site content audit guardrails', () => {
     expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
   });
 
+  it('keeps the Target Heart Rate Calculator aligned with zone and pulse-to-BPM intent', () => {
+    const tool = tools.find((item) => item.slug === 'target-heart-rate-calculator');
+    const guide = healthBlogGuides.find((item) => item.toolSlug === 'target-heart-rate-calculator');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+    const guideText = guide?.sections
+      .flatMap((section) => [section.title, ...section.paragraphs, ...(section.bullets ?? [])])
+      .join(' ') ?? '';
+    const guideLinks = guide?.sections.flatMap((section) => section.links ?? []).map((link) => link.href) ?? [];
+
+    expect(tool?.seoTitle).toBe('Target Heart Rate Calculator by Age and Zone');
+    expect(tool?.seoDescription).toContain('pulse count into BPM');
+    expect(tool?.aliases).toContain('beats per minute calculator');
+    expect(tool?.examples).toContainEqual({
+      label: '30-second pulse count',
+      expression: '36 beats x 2',
+      result: '72 bpm',
+    });
+    expect(faqText).toContain('36 beats in 30 seconds uses a multiplier of 2');
+    expect(guide?.title).toBe('Target Heart Rate Zones and Pulse BPM Guide');
+    expect(guideText).toContain('BPM = beats counted x 60 / count seconds');
+    expect(guideText).toContain('moderate range about 93-130 bpm');
+    expect(guideLinks).toContain(
+      'https://www.heart.org/en/healthy-living/exercise-and-physical-activity/fitness-basics/target-heart-rates',
+    );
+    expect(HEALTH_FITNESS_CALCULATOR_SOURCE).toContain("id: 'pulse-bpm'");
+    expect(HEALTH_FITNESS_CALCULATOR_SOURCE).toContain("label: 'Pulse to BPM'");
+    expect(HEALTH_FITNESS_CALCULATOR_SOURCE).toContain('calculatePulseBpm(beatsCounted, countSeconds)');
+    expect(`${tool?.seoTitle}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription?.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+  });
+
   it('keeps the Big Number tool transactional and the indexed guide informational', () => {
     const tool = tools.find((item) => item.slug === 'big-number-calculator');
     const guide = blogPosts.find((item) => item.slug === 'how-to-use-big-number-calculator');

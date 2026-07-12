@@ -58,7 +58,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
     : isLeanBodyMassCalculator
       ? 'Enter formula sex, height in centimeters, and weight in kilograms. The formula sex setting chooses the Boer equation constants. The calculator does not ask for body fat percentage, age, training status, or scan results.'
     : isTargetHeartRateCalculator
-      ? 'Enter your age, choose the effort range, and add resting heart rate only if you want the heart-rate-reserve estimate. Age sets the rough maximum heart rate. The effort range turns that into beats per minute.'
+      ? 'For Target zones, enter age, choose the effort range, and add resting heart rate only if you want the heart-rate-reserve estimate. For Pulse to BPM, count whole beats for 10, 15, 30, or 60 seconds and select the same count time.'
     : isBodySurfaceAreaCalculator
       ? 'Enter height in centimeters and weight in kilograms. The calculator uses those two measured values for adult human body surface area formulas. It does not ask for age, sex, body fat, diagnosis, procedure type, burn percentage, or medication details.'
     : isBacCalculator
@@ -111,7 +111,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
     : isLeanBodyMassCalculator
       ? 'Read lean body mass as a Boer formula estimate of fat-free mass. It includes muscle, bone, organs, and water, so it is not muscle mass only. The estimated fat mass and lean percent are rough comparisons, not a scan or diagnosis.'
     : isTargetHeartRateCalculator
-      ? 'Read the answer as a training range in beats per minute, not a perfect target you must hit. If the range feels too hard, you feel pain, or a clinician gave you a different limit, slow down and use the safer guidance.'
+      ? 'Read a target-zone answer as an estimated training range, not a perfect target you must hit. Read a pulse-to-BPM answer as a quick manual count that can vary with timing and rhythm. If exercise feels unsafe or a clinician gave you a different limit, use the safer guidance.'
     : isBodySurfaceAreaCalculator
       ? 'Read BSA as an estimated body surface area in square meters. The Mosteller and Du Bois lines can differ slightly because they are different formulas. Use the number as clinical math context only, not as a medication dose, diagnosis, burn estimate, or treatment plan.'
     : isBacCalculator
@@ -165,6 +165,8 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
       ? 'Check that body weight is in kilograms and that the selected factor is grams per kilogram, not grams per pound. If you have kidney disease, pregnancy or lactation needs, an eating-disorder history, a clinician protein limit, or a registered dietitian target, use that personal guidance instead of a generic preset.'
     : isCaloriesBurnedCalculator
       ? 'Check the activity description, MET value, weight unit, and active minutes. Do not enter pounds while kilograms is selected, count rest breaks as active time, or compare the total-session estimate from this page with a wearable active-calorie number as if they use the same definition.'
+    : isTargetHeartRateCalculator
+      ? 'For a zone estimate, check age, selected intensity, and whether resting heart rate was entered. For pulse to BPM, count whole beats and choose the exact time you used. Repeat a manual count when timing or rhythm was unclear.'
     : 'Check the units, date, and personal details before reading the answer. For example, pounds and kilograms, inches and centimeters, or a wrong activity level can change the result quickly. If the number feels surprising, rerun it slowly and compare it with the examples.';
 
   return [
@@ -951,26 +953,36 @@ export const healthTools: ToolDefinition[] = [
   makeHealthTool({
     slug: 'target-heart-rate-calculator',
     name: 'Target Heart Rate Calculator',
-    summary: 'Estimate exercise heart-rate zones in beats per minute.',
+    summary: 'Estimate target heart-rate zones by age or turn a timed pulse count into BPM.',
     description:
-      'Estimate moderate, vigorous, or general exercise heart-rate zones from age, effort range, and optional resting pulse.',
+      'Compare moderate and vigorous heart-rate zones by age, add resting pulse for heart-rate reserve, or convert a 10, 15, 30, or 60-second pulse count to BPM.',
+    seoTitle: 'Target Heart Rate Calculator by Age and Zone',
     seoDescription:
-      'Estimate target heart rate zones by age, compare 50-70% and 70-85% effort, and add resting pulse for heart-rate reserve.',
+      'Calculate target heart-rate zones by age, compare moderate and vigorous ranges, or turn a 10, 15, 30, or 60-second pulse count into BPM.',
+    aliases: [
+      'heart rate zone calculator',
+      'heart rate calculator',
+      'target heart rate calculator by age',
+      'BPM calculator',
+      'beats per minute calculator',
+      'pulse rate calculator',
+    ],
     icon: 'calculator-target-heart',
     formula:
-      'The calculator estimates maximum heart rate as 220 minus age, multiplies that number by the selected intensity range, and also shows heart-rate reserve when resting pulse is entered.',
+      'Target zones use estimated maximum heart rate = 220 - age, then multiply by 50-70% for moderate effort or 70-85% for vigorous effort. Pulse to BPM uses beats counted x 60 / count seconds. Optional resting pulse adds a heart-rate-reserve comparison.',
     caution:
-      'This is an exercise-intensity estimate, not medical advice. Ask a clinician what heart-rate limit to use if you have a heart condition, take medication that affects pulse, are pregnant, or feel chest pain, dizziness, or unusual shortness of breath.',
+      'These are quick exercise and pulse estimates, not medical advice or an irregular-rhythm diagnosis. Ask a clinician what limit to use if you have a heart condition, take medication that affects pulse, are pregnant, or feel chest pain, dizziness, faintness, or unusual shortness of breath.',
     useCases: [
       'Estimate moderate-intensity heart-rate range.',
       'Estimate vigorous-intensity heart-rate range.',
       'Compare simple max-heart-rate and heart-rate-reserve methods.',
-      'Check whether a workout feels close to the intended effort.',
+      'Convert a timed manual pulse count into beats per minute.',
     ],
     examples: [
       { label: 'Age 35', expression: '50-85% zone', result: '93-157 bpm from an estimated 185 bpm max' },
       { label: 'Age 50', expression: 'Moderate 50-70%', result: '85-119 bpm from an estimated 170 bpm max' },
       { label: 'Resting HR included', expression: 'Age 35, resting 65, 50-85%', result: '125-167 bpm heart-rate reserve range' },
+      { label: '30-second pulse count', expression: '36 beats x 2', result: '72 bpm' },
     ],
     extraFaq: [
       {
@@ -987,6 +999,16 @@ export const healthTools: ToolDefinition[] = [
         question: 'Why does resting heart rate change the result?',
         answer:
           'Resting heart rate lets the calculator show a heart-rate-reserve estimate. It starts from your resting pulse, then adds part of the gap between resting pulse and estimated maximum heart rate.',
+      },
+      {
+        question: 'How do I calculate BPM from a pulse count?',
+        answer:
+          'Count whole pulse beats for a timed window, then multiply by 60 divided by the number of seconds. For example, 36 beats in 30 seconds uses a multiplier of 2, so the result is 72 bpm.',
+      },
+      {
+        question: 'Is a 10-second or 30-second pulse count better?',
+        answer:
+          'A longer count usually reduces the effect of one missed or extra beat. The American Heart Association gives a 30-second count multiplied by 2 as a manual check. Repeat the count or seek medical advice if the rhythm seems irregular.',
       },
       {
         question: 'Is 220 minus age exact?',

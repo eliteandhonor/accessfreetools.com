@@ -20,6 +20,7 @@ import {
   calculatePace,
   calculatePregnancyWeightGain,
   calculateProteinGrams,
+  calculatePulseBpm,
   calculateTargetHeartRate,
   calculateTdeeFromBmr,
   classifyBodyType,
@@ -192,6 +193,13 @@ const heartZoneOptions: SelectOption[] = [
   { label: 'Moderate 50-70%', value: '50-70' },
   { label: 'Vigorous 70-85%', value: '70-85' },
   { label: 'General target 50-85%', value: '50-85' },
+];
+
+const pulseCountTimeOptions: SelectOption[] = [
+  { label: '10 seconds', value: '10' },
+  { label: '15 seconds', value: '15' },
+  { label: '30 seconds', value: '30' },
+  { label: '60 seconds', value: '60' },
 ];
 
 const macroGoalOptions: SelectOption[] = [
@@ -567,15 +575,15 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
   },
   'target-heart-rate': {
     title: 'Target Heart Rate Calculator',
-    buttonLabel: 'Calculate heart rate zone',
-    emptyHistory: 'Recent target heart rate zones will appear here.',
+    buttonLabel: 'Calculate heart rate',
+    emptyHistory: 'Recent heart-rate checks will appear here.',
     privacyNote:
-      'Heart-rate zones are general estimates. Ask a clinician if medication, pregnancy, symptoms, or heart conditions affect your pulse.',
+      'Target zones are general estimates, and a manual pulse count can be uneven. Ask a clinician if medication, pregnancy, symptoms, or heart conditions affect your pulse.',
     modes: [
       {
         id: 'target-heart-rate',
-        label: 'Zone',
-        symbol: 'HR',
+        label: 'Target zones',
+        symbol: 'Zone',
         fields: [
           numberField('age', 'Age'),
           selectField('zone', 'Training zone', heartZoneOptions),
@@ -586,6 +594,21 @@ const healthConfigs: Record<HealthToolVariant, HealthConfig> = {
           { label: 'Age 35, 50-85%', inputs: { age: '35', zone: '50-85', restingHeartRate: '65' } },
           { label: 'Age 50, moderate', inputs: { age: '50', zone: '50-70', restingHeartRate: '70' } },
           { label: 'Age 28, vigorous', inputs: { age: '28', zone: '70-85', restingHeartRate: '58' } },
+        ],
+      },
+      {
+        id: 'pulse-bpm',
+        label: 'Pulse to BPM',
+        symbol: 'BPM',
+        fields: [
+          numberField('beatsCounted', 'Beats counted'),
+          selectField('countSeconds', 'Count time', pulseCountTimeOptions),
+        ],
+        defaultInputs: { beatsCounted: '36', countSeconds: '30' },
+        examples: [
+          { label: '36 beats in 30 sec', inputs: { beatsCounted: '36', countSeconds: '30' } },
+          { label: '18 beats in 15 sec', inputs: { beatsCounted: '18', countSeconds: '15' } },
+          { label: '12 beats in 10 sec', inputs: { beatsCounted: '12', countSeconds: '10' } },
         ],
       },
     ],
@@ -1390,12 +1413,38 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
       };
     }
     case 'target-heart-rate': {
+      if (modeId === 'pulse-bpm') {
+        const beatsCounted = parseNumber(inputs.beatsCounted, 'Beats counted');
+        const countSeconds = parseNumber(inputs.countSeconds, 'Count time');
+        const result = calculatePulseBpm(beatsCounted, countSeconds);
+
+        return {
+          label: 'Pulse rate',
+          expression: `${formatCalculatorNumber(result.beatsCounted)} beats in ${formatCalculatorNumber(result.countSeconds)} seconds`,
+          answer: `${formatCalculatorNumber(Math.round(result.bpm))} bpm`,
+          metrics: [
+            { label: 'Beats counted', value: formatCalculatorNumber(result.beatsCounted) },
+            { label: 'Count time', value: `${formatCalculatorNumber(result.countSeconds)} seconds` },
+            { label: 'Multiplier', value: `x ${formatCalculatorNumber(result.multiplier)}` },
+          ],
+          steps: [
+            'Count pulse beats for the selected number of seconds.',
+            'Multiply the beat count by 60 divided by the count time.',
+            `${formatCalculatorNumber(result.beatsCounted)} x ${formatCalculatorNumber(result.multiplier)} = ${formatCalculatorNumber(Math.round(result.bpm))} bpm.`,
+            'Repeat the count if the rhythm or timing was unclear, and do not use this result to diagnose an irregular pulse.',
+          ],
+          note: 'A manual count is a quick check, not a diagnosis. Seek medical help for chest pain, fainting, severe shortness of breath, or a pulse that feels seriously wrong.',
+        };
+      }
+
       const age = parseNumber(inputs.age, 'Age');
       const zoneParts = (inputs.zone || '50-85').split('-').map(Number);
       const lower = Number.isFinite(zoneParts[0]) ? zoneParts[0] : 50;
       const upper = Number.isFinite(zoneParts[1]) ? zoneParts[1] : 85;
       const resting = parseNumber(inputs.restingHeartRate, 'Resting heart rate', true);
       const result = calculateTargetHeartRate(age, lower, upper, resting);
+      const moderate = calculateTargetHeartRate(age, 50, 70);
+      const vigorous = calculateTargetHeartRate(age, 70, 85);
       return {
         label: 'Target heart rate',
         expression: `Age ${formatCalculatorNumber(age)}, ${lower}-${upper}%`,
@@ -1403,18 +1452,26 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
         metrics: [
           { label: 'Estimated max', value: `${formatCalculatorNumber(Math.round(result.maxHeartRate))} bpm` },
           {
-            label: 'Heart-rate reserve',
+            label: 'Moderate 50-70%',
+            value: `${formatCalculatorNumber(Math.round(moderate.lowerBpm))}-${formatCalculatorNumber(Math.round(moderate.upperBpm))} bpm`,
+          },
+          {
+            label: 'Vigorous 70-85%',
+            value: `${formatCalculatorNumber(Math.round(vigorous.lowerBpm))}-${formatCalculatorNumber(Math.round(vigorous.upperBpm))} bpm`,
+          },
+          {
+            label: 'Selected HR reserve',
             value:
               result.karvonenLowerBpm && result.karvonenUpperBpm
                 ? `${formatCalculatorNumber(Math.round(result.karvonenLowerBpm))}-${formatCalculatorNumber(Math.round(result.karvonenUpperBpm))} bpm`
                 : 'Add resting HR',
           },
-          { label: 'Intensity', value: `${lower}-${upper}%` },
         ],
         steps: [
           'Estimate maximum heart rate as 220 minus age.',
           'Multiply maximum heart rate by the selected intensity range.',
-          'If resting heart rate is entered, also show the heart-rate reserve estimate.',
+          'Compare the American Heart Association moderate 50-70% and vigorous 70-85% reference ranges.',
+          'If resting heart rate is entered, also show the selected heart-rate-reserve estimate.',
           'Use breathing, comfort, heat, medication, and medical limits before chasing a number.',
         ],
       };

@@ -4468,8 +4468,8 @@
     "kind": "guide",
     "imagePath": "/tool-art/target-heart-rate-calculator-guide.webp",
     "thumbnailPath": "/tool-art/thumbs/target-heart-rate-calculator-guide.webp",
-    "alt": "Smoke mascot pointing at a heart-rate gauge, effort-zone bar, pulse line, and running shoe for the Target Heart Rate guide.",
-    "caption": "The guide artwork matches the walkthrough: age and effort range feed into a heart-rate zone, with a pulse line and shoe cue for exercise intensity.",
+    "alt": "Smoke-kawaii mascot explaining an age-based heart-rate gauge, effort-zone bar, pulse count, and beats-per-minute result.",
+    "caption": "The target heart-rate guide explains age-based exercise ranges, the optional heart-rate-reserve comparison, and how a 30-second pulse count becomes BPM.",
     "status": "approved",
     "qaStatus": "approved"
   },
@@ -4478,8 +4478,8 @@
     "kind": "tool",
     "imagePath": "/tool-art/target-heart-rate-calculator-tool.webp",
     "thumbnailPath": "/tool-art/thumbs/target-heart-rate-calculator-tool.webp",
-    "alt": "Smoke mascot beside a colored heart-rate gauge, zone bar, pulse icon, water bottle, and running shoe for the Target Heart Rate Calculator.",
-    "caption": "The tool artwork matches the live calculator: choose an effort zone, check the gauge, and read the estimated beats-per-minute range.",
+    "alt": "Smoke-kawaii mascot beside a heart-rate gauge, moderate and vigorous zone bar, pulse line, running shoe, and water bottle.",
+    "caption": "Target Heart Rate Calculator artwork matches the two live modes: compare age-based moderate and vigorous ranges or turn a timed manual pulse count into BPM.",
     "status": "approved",
     "qaStatus": "approved"
   },

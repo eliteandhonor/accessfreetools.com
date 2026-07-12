@@ -291,6 +291,7 @@ import {
   encodeBase64,
   encodeUrlComponentValue,
   estimatePromptTokens,
+  calculatePulseBpm,
   calculateTargetHeartRate,
   calculateTdeeFromBmr,
   classifyBodyType,
@@ -1183,13 +1184,14 @@ describe('health and fitness helpers', () => {
     expect(formatCalculatorNumber(idealWeight)).toBe('56.9094488189');
   });
 
-  it('calculates fitness pace, calories burned, one-rep max, and target heart rate', () => {
+  it('calculates fitness pace, calories burned, one-rep max, target heart rate, and pulse BPM', () => {
     const pace = calculatePace(5, 25 * 60);
     const calories = calculateCaloriesBurned(3.8, 70, 45);
     const briskWalk = calculateCaloriesBurnedEstimate(4.8, 70, 45);
     const houseCleaningLb = calculateCaloriesBurnedEstimate(3.3, 154, 60, 'lb');
     const oneRepMax = calculateOneRepMax(100, 5);
     const heartRate = calculateTargetHeartRate(35, 50, 85, 65);
+    const pulseBpm = calculatePulseBpm(36, 30);
 
     expect(formatCalculatorNumber(pace.secondsPerUnit)).toBe('300');
     expect(formatCalculatorNumber(calories)).toBe('209.475');
@@ -1210,6 +1212,12 @@ describe('health and fitness helpers', () => {
     expect(formatCalculatorNumber(oneRepMax.epleyKg)).toBe('116.666666667');
     expect(formatCalculatorNumber(heartRate.maxHeartRate)).toBe('185');
     expect(formatCalculatorNumber(heartRate.karvonenLowerBpm ?? 0)).toBe('125');
+    expect(pulseBpm).toEqual({ beatsCounted: 36, countSeconds: 30, multiplier: 2, bpm: 72 });
+    expect(calculatePulseBpm(18, 15).bpm).toBe(72);
+    expect(calculatePulseBpm(12, 10).bpm).toBe(72);
+    expect(() => calculatePulseBpm(0, 30)).toThrow('Beats counted must be greater than zero');
+    expect(() => calculatePulseBpm(12, 0)).toThrow('Count time must be greater than zero');
+    expect(() => calculatePulseBpm(12.5, 10)).toThrow('Beats counted must be a whole number');
   });
 
   it('calculates pregnancy dates and guideline ranges', () => {
