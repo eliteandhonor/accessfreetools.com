@@ -496,6 +496,43 @@ describe('site content audit guardrails', () => {
     expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
   });
 
+  it('separates Brick Calculator wall estimating from the indexed formula guide', () => {
+    const tool = tools.find((item) => item.slug === 'brick-calculator');
+    const guide = utilityBlogGuides.find((item) => item.toolSlug === 'brick-calculator');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+    const guideText = guide?.sections
+      .flatMap((section) => [section.title, ...section.paragraphs, ...(section.bullets ?? [])])
+      .join(' ') ?? '';
+    const guideLinks = guide?.sections.flatMap((section) => section.links ?? []).map((link) => link.href) ?? [];
+
+    expect(tool?.seoTitle).toBe('Brick Calculator for Walls | Openings & Waste');
+    expect(tool?.seoDescription).toContain('length and height or square feet');
+    expect(tool?.aliases).toEqual(expect.arrayContaining(['Brick Calculator for Wall', 'Brick Calculator Square Feet']));
+    expect(tool?.examples).toContainEqual({
+      label: 'BIA table-rate check',
+      expression: '120 ft2 at 675 bricks per 100 ft2, 10% waste',
+      result: '891 bricks',
+    });
+    expect(faqText).toContain('Wall dimensions when you measured length and height');
+    expect(faqText).toContain('A table may account for the brick designation');
+    expect(guide?.title).toBe('Brick Wall Formula: Area, Joints & Waste');
+    expect(guideText).toContain('Bricks per square foot = 144 /');
+    expect(guideText).toContain('675 bricks per 100 ft2');
+    expect(guideText).toContain('Why This Is Not a Brick Mortar Calculator');
+    expect(guideLinks).toContain('https://www.gobrick.com/media/file/10-dimensioning-and-estimating-brick-masonry.pdf');
+    expect(guideLinks).toContain('/tools/paver-calculator/');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("id: 'wall-dimensions'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("id: 'known-area'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("id: 'coverage-table'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain('calculateBrickEstimateFromCoverage');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("label: 'Bricks per square foot'");
+    expect(TOOLS_ROUTE_SOURCE).toContain('Choose Wall dimensions, Known area, or Coverage table');
+    expect(tool?.seoTitle.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+  });
+
   it('keeps the Date Calculator aligned with proven 90-day shift intent', () => {
     const tool = tools.find((item) => item.slug === 'date-calculator');
     const guide = utilityBlogGuides.find((item) => item.toolSlug === 'date-calculator');

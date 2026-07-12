@@ -69,6 +69,7 @@ import {
   calculateBoardFoot,
   calculateBraSize,
   calculateBrickEstimate,
+  calculateBrickEstimateFromCoverage,
   calculateBtuEstimate,
   calculateCarpetEstimate,
   calculateColorContrast,
@@ -2340,6 +2341,20 @@ describe('utility helpers', () => {
       squaresPerBox: 2,
     });
     const brick = calculateBrickEstimate({ wallAreaSquareFeet: 120, brickLengthInches: 7.625, brickHeightInches: 2.25, mortarJointInches: 0.375, wastePercent: 10 });
+    const brickWallWithOpening = calculateBrickEstimate({
+      wallAreaSquareFeet: 160,
+      openingsSquareFeet: 24,
+      brickLengthInches: 7.625,
+      brickHeightInches: 2.25,
+      mortarJointInches: 0.375,
+      wastePercent: 10,
+    });
+    const brickFromCoverageTable = calculateBrickEstimateFromCoverage({
+      wallAreaSquareFeet: 120,
+      openingsSquareFeet: 0,
+      bricksPer100SquareFeet: 675,
+      wastePercent: 10,
+    });
     const block = calculateConcreteBlockEstimate({ wallLengthFeet: 40, wallHeightFeet: 8, blockLengthInches: 16, blockHeightInches: 8, openingsSquareFeet: 20, wastePercent: 5 });
     const rebar = calculateRebarGridEstimate({ slabLengthFeet: 20, slabWidthFeet: 12, spacingInches: 18, barLengthFeet: 20, wastePercent: 10 });
     const mix = calculateConcreteMixEstimate({ cubicYards: 1, cementParts: 1, sandParts: 2, gravelParts: 3, cementBagCubicFeet: 1, wastePercent: 10 });
@@ -2452,6 +2467,13 @@ describe('utility helpers', () => {
     expect(sidingWithGable.squaresNeeded).toBe(3);
     expect(sidingWithGable.boxesNeeded).toBe(2);
     expect(brick.bricksNeeded).toBe(906);
+    expect(formatCalculatorNumber(brick.bricksPerSquareFoot)).toBe('6.8571428571');
+    expect(brickWallWithOpening.netWallAreaSquareFeet).toBe(136);
+    expect(formatCalculatorNumber(brickWallWithOpening.exactBricksBeforeWaste)).toBe('932.571428571');
+    expect(brickWallWithOpening.bricksNeeded).toBe(1026);
+    expect(brickFromCoverageTable.exactBricksBeforeWaste).toBe(810);
+    expect(brickFromCoverageTable.exactBricksNeeded).toBeCloseTo(891, 10);
+    expect(brickFromCoverageTable.bricksNeeded).toBe(891);
     expect(block.blocksNeeded).toBe(355);
     expect(rebar.barsToBuy).toBe(20);
     expect(formatCalculatorNumber(mix.adjustedCubicFeet)).toBe('29.7');

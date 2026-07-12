@@ -7775,12 +7775,28 @@ export interface SidingEstimateResult {
 
 export interface BrickEstimateResult {
   wallAreaSquareFeet: number;
+  openingsSquareFeet: number;
   brickLengthInches: number;
   brickHeightInches: number;
   mortarJointInches: number;
   wastePercent: number;
   brickFaceSquareFeet: number;
+  bricksPerSquareFoot: number;
+  netWallAreaSquareFeet: number;
+  exactBricksBeforeWaste: number;
   adjustedAreaSquareFeet: number;
+  exactBricksNeeded: number;
+  bricksNeeded: number;
+}
+
+export interface BrickCoverageEstimateResult {
+  wallAreaSquareFeet: number;
+  openingsSquareFeet: number;
+  bricksPer100SquareFeet: number;
+  wastePercent: number;
+  netWallAreaSquareFeet: number;
+  exactBricksBeforeWaste: number;
+  exactBricksNeeded: number;
   bricksNeeded: number;
 }
 
@@ -10748,25 +10764,63 @@ export function calculateSidingEstimate(input: {
 
 export function calculateBrickEstimate(input: {
   wallAreaSquareFeet: number;
+  openingsSquareFeet?: number;
   brickLengthInches: number;
   brickHeightInches: number;
   mortarJointInches: number;
   wastePercent: number;
 }): BrickEstimateResult {
   assertPositiveNumber(input.wallAreaSquareFeet, 'Wall area');
+  const openingsSquareFeet = input.openingsSquareFeet ?? 0;
+  assertNonNegativeNumber(openingsSquareFeet, 'Openings');
   assertPositiveNumber(input.brickLengthInches, 'Brick length');
   assertPositiveNumber(input.brickHeightInches, 'Brick height');
   assertNonNegativeNumber(input.mortarJointInches, 'Mortar joint');
   assertPercentRange(input.wastePercent, 'Waste percent', 100);
 
   const brickFaceSquareFeet = ((input.brickLengthInches + input.mortarJointInches) * (input.brickHeightInches + input.mortarJointInches)) / 144;
-  const adjustedAreaSquareFeet = input.wallAreaSquareFeet * (1 + input.wastePercent / 100);
+  const bricksPerSquareFoot = 1 / brickFaceSquareFeet;
+  const netWallAreaSquareFeet = Math.max(0, input.wallAreaSquareFeet - openingsSquareFeet);
+  const exactBricksBeforeWaste = netWallAreaSquareFeet * bricksPerSquareFoot;
+  const adjustedAreaSquareFeet = netWallAreaSquareFeet * (1 + input.wastePercent / 100);
+  const exactBricksNeeded = adjustedAreaSquareFeet * bricksPerSquareFoot;
 
   return {
     ...input,
+    openingsSquareFeet,
     brickFaceSquareFeet,
+    bricksPerSquareFoot,
+    netWallAreaSquareFeet,
+    exactBricksBeforeWaste,
     adjustedAreaSquareFeet,
-    bricksNeeded: Math.ceil(adjustedAreaSquareFeet / brickFaceSquareFeet - 1e-10),
+    exactBricksNeeded,
+    bricksNeeded: Math.ceil(exactBricksNeeded - 1e-10),
+  };
+}
+
+export function calculateBrickEstimateFromCoverage(input: {
+  wallAreaSquareFeet: number;
+  openingsSquareFeet?: number;
+  bricksPer100SquareFeet: number;
+  wastePercent: number;
+}): BrickCoverageEstimateResult {
+  assertPositiveNumber(input.wallAreaSquareFeet, 'Wall area');
+  const openingsSquareFeet = input.openingsSquareFeet ?? 0;
+  assertNonNegativeNumber(openingsSquareFeet, 'Openings');
+  assertPositiveNumber(input.bricksPer100SquareFeet, 'Bricks per 100 square feet');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+
+  const netWallAreaSquareFeet = Math.max(0, input.wallAreaSquareFeet - openingsSquareFeet);
+  const exactBricksBeforeWaste = (netWallAreaSquareFeet * input.bricksPer100SquareFeet) / 100;
+  const exactBricksNeeded = exactBricksBeforeWaste * (1 + input.wastePercent / 100);
+
+  return {
+    ...input,
+    openingsSquareFeet,
+    netWallAreaSquareFeet,
+    exactBricksBeforeWaste,
+    exactBricksNeeded,
+    bricksNeeded: Math.ceil(exactBricksNeeded - 1e-10),
   };
 }
 

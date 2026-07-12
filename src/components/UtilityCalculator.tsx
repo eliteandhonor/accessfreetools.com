@@ -11,6 +11,7 @@ import {
   calculateBoardFoot,
   calculateBraSize,
   calculateBrickEstimate,
+  calculateBrickEstimateFromCoverage,
   calculateBtuEstimate,
   calculateCarpetEstimate,
   calculateConcrete,
@@ -572,10 +573,14 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     pricePerSquare: 'Optional price for one siding square. One siding square is 100 square feet.',
   },
   brick: {
-    wallAreaSquareFeet: 'Visible wall face area, not wall volume.',
+    wallLengthFeet: 'Measured wall length in feet before subtracting openings.',
+    wallHeightFeet: 'Measured wall height in feet before subtracting openings.',
+    wallAreaSquareFeet: 'Gross visible wall face area, not wall thickness or volume.',
+    openingsSquareFeet: 'Combined door, window, and other opening area to subtract from the gross wall face.',
     brickLengthInches: 'Visible brick face length in inches.',
     brickHeightInches: 'Visible brick face height in inches.',
     mortarJointInches: 'Planned mortar joint thickness. Common joints are often around 3/8 inch.',
+    bricksPer100SquareFeet: 'Coverage rate from the exact supplier or BIA table for the brick size and joint you plan to use.',
     wastePercent: 'Extra bricks for cuts, breakage, corners, bond pattern, and color matching.',
   },
   'concrete-block': {
@@ -2929,23 +2934,117 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Brick Calculator',
     buttonLabel: 'Estimate bricks',
     emptyHistory: 'Recent brick estimates will appear here.',
-    privacyNote: 'Brick estimates stay local and use face coverage, mortar joint, wall area, and waste.',
+    privacyNote: 'Brick estimates stay local and use wall dimensions or area, openings, brick coverage, mortar joint, and waste.',
     modes: [
       {
-        id: 'wall-face',
-        label: 'Wall face',
+        id: 'wall-dimensions',
+        label: 'Wall dimensions',
         symbol: 'BRICK',
         fields: [
-          numberField('wallAreaSquareFeet', 'Wall area ft2', '120'),
+          numberField('wallLengthFeet', 'Wall length feet', '20'),
+          numberField('wallHeightFeet', 'Wall height feet', '8'),
+          numberField('openingsSquareFeet', 'Openings ft2', '24'),
           numberField('brickLengthInches', 'Brick length inches', '7.625'),
           numberField('brickHeightInches', 'Brick height inches', '2.25'),
           numberField('mortarJointInches', 'Mortar joint inches', '0.375'),
           numberField('wastePercent', 'Waste percent', '10'),
         ],
-        defaultInputs: { wallAreaSquareFeet: '120', brickLengthInches: '7.625', brickHeightInches: '2.25', mortarJointInches: '0.375', wastePercent: '10' },
+        defaultInputs: {
+          wallLengthFeet: '20',
+          wallHeightFeet: '8',
+          openingsSquareFeet: '24',
+          brickLengthInches: '7.625',
+          brickHeightInches: '2.25',
+          mortarJointInches: '0.375',
+          wastePercent: '10',
+        },
         examples: [
-          { label: 'Modular brick wall', inputs: { wallAreaSquareFeet: '120', brickLengthInches: '7.625', brickHeightInches: '2.25', mortarJointInches: '0.375', wastePercent: '10' } },
-          { label: 'Garden wall face', inputs: { wallAreaSquareFeet: '64', brickLengthInches: '7.625', brickHeightInches: '2.25', mortarJointInches: '0.375', wastePercent: '12' } },
+          {
+            label: 'Wall with window',
+            inputs: {
+              wallLengthFeet: '20',
+              wallHeightFeet: '8',
+              openingsSquareFeet: '24',
+              brickLengthInches: '7.625',
+              brickHeightInches: '2.25',
+              mortarJointInches: '0.375',
+              wastePercent: '10',
+            },
+          },
+          {
+            label: 'Garden wall face',
+            inputs: {
+              wallLengthFeet: '16',
+              wallHeightFeet: '4',
+              openingsSquareFeet: '0',
+              brickLengthInches: '7.625',
+              brickHeightInches: '2.25',
+              mortarJointInches: '0.375',
+              wastePercent: '12',
+            },
+          },
+        ],
+      },
+      {
+        id: 'known-area',
+        label: 'Known area',
+        symbol: 'FT2',
+        fields: [
+          numberField('wallAreaSquareFeet', 'Wall area ft2', '120'),
+          numberField('openingsSquareFeet', 'Openings ft2', '0'),
+          numberField('brickLengthInches', 'Brick length inches', '7.625'),
+          numberField('brickHeightInches', 'Brick height inches', '2.25'),
+          numberField('mortarJointInches', 'Mortar joint inches', '0.375'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: {
+          wallAreaSquareFeet: '120',
+          openingsSquareFeet: '0',
+          brickLengthInches: '7.625',
+          brickHeightInches: '2.25',
+          mortarJointInches: '0.375',
+          wastePercent: '10',
+        },
+        examples: [
+          {
+            label: 'Modular brick wall',
+            inputs: {
+              wallAreaSquareFeet: '120',
+              openingsSquareFeet: '0',
+              brickLengthInches: '7.625',
+              brickHeightInches: '2.25',
+              mortarJointInches: '0.375',
+              wastePercent: '10',
+            },
+          },
+        ],
+      },
+      {
+        id: 'coverage-table',
+        label: 'Coverage table',
+        symbol: 'RATE',
+        fields: [
+          numberField('wallAreaSquareFeet', 'Wall area ft2', '120'),
+          numberField('openingsSquareFeet', 'Openings ft2', '0'),
+          numberField('bricksPer100SquareFeet', 'Bricks per 100 ft2', '675'),
+          numberField('wastePercent', 'Waste percent', '10'),
+        ],
+        defaultInputs: {
+          wallAreaSquareFeet: '120',
+          openingsSquareFeet: '0',
+          bricksPer100SquareFeet: '675',
+          wastePercent: '10',
+        },
+        examples: [
+          {
+            label: 'BIA modular table rate',
+            inputs: {
+              wallAreaSquareFeet: '120',
+              openingsSquareFeet: '0',
+              bricksPer100SquareFeet: '675',
+              wastePercent: '10',
+            },
+          },
         ],
       },
     ],
@@ -6318,8 +6417,41 @@ function calculateUtility(
       };
     }
     case 'brick': {
+      if (modeId === 'coverage-table') {
+        const result = calculateBrickEstimateFromCoverage({
+          wallAreaSquareFeet: parseNumber(inputs.wallAreaSquareFeet, 'Wall area'),
+          openingsSquareFeet: parseNumber(inputs.openingsSquareFeet, 'Openings'),
+          bricksPer100SquareFeet: parseNumber(inputs.bricksPer100SquareFeet, 'Bricks per 100 square feet'),
+          wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
+        });
+        return {
+          label: 'Bricks needed from coverage table',
+          expression: `${formatCalculatorNumber(result.netWallAreaSquareFeet)} ft2 net wall at ${formatCalculatorNumber(result.bricksPer100SquareFeet)} bricks per 100 ft2`,
+          answer: `${formatCalculatorNumber(result.bricksNeeded)} bricks`,
+          metrics: [
+            { label: 'Gross wall area', value: `${formatCalculatorNumber(result.wallAreaSquareFeet)} ft2` },
+            { label: 'Opening deduction', value: `${formatCalculatorNumber(result.openingsSquareFeet)} ft2` },
+            { label: 'Base brick count', value: formatCalculatorNumber(result.exactBricksBeforeWaste) },
+            { label: 'Exact count with waste', value: formatCalculatorNumber(result.exactBricksNeeded) },
+          ],
+          steps: [
+            'Subtract measured openings from the gross wall face area.',
+            'Multiply net area by the table rate and divide by 100 square feet.',
+            'Add waste and round up to a whole-brick ordering estimate.',
+          ],
+          note: 'Use a coverage rate for the exact brick designation and joint. BIA and supplier tables can differ from simple face-dimension math.',
+        };
+      }
+
+      const wallLengthFeet = modeId === 'wall-dimensions' ? parseNumber(inputs.wallLengthFeet, 'Wall length') : null;
+      const wallHeightFeet = modeId === 'wall-dimensions' ? parseNumber(inputs.wallHeightFeet, 'Wall height') : null;
+      const wallAreaSquareFeet =
+        wallLengthFeet !== null && wallHeightFeet !== null
+          ? wallLengthFeet * wallHeightFeet
+          : parseNumber(inputs.wallAreaSquareFeet, 'Wall area');
       const result = calculateBrickEstimate({
-        wallAreaSquareFeet: parseNumber(inputs.wallAreaSquareFeet, 'Wall area'),
+        wallAreaSquareFeet,
+        openingsSquareFeet: parseNumber(inputs.openingsSquareFeet, 'Openings'),
         brickLengthInches: parseNumber(inputs.brickLengthInches, 'Brick length'),
         brickHeightInches: parseNumber(inputs.brickHeightInches, 'Brick height'),
         mortarJointInches: parseNumber(inputs.mortarJointInches, 'Mortar joint'),
@@ -6327,19 +6459,25 @@ function calculateUtility(
       });
       return {
         label: 'Bricks needed',
-        expression: `${formatCalculatorNumber(result.wallAreaSquareFeet)} ft2 wall face`,
+        expression:
+          wallLengthFeet !== null && wallHeightFeet !== null
+            ? `${formatCalculatorNumber(wallLengthFeet)} ft x ${formatCalculatorNumber(wallHeightFeet)} ft wall - ${formatCalculatorNumber(result.openingsSquareFeet)} ft2 openings`
+            : `${formatCalculatorNumber(result.wallAreaSquareFeet)} ft2 wall - ${formatCalculatorNumber(result.openingsSquareFeet)} ft2 openings`,
         answer: `${formatCalculatorNumber(result.bricksNeeded)} bricks`,
         metrics: [
-          { label: 'Brick face area', value: `${formatCalculatorNumber(result.brickFaceSquareFeet)} ft2` },
+          { label: 'Gross wall area', value: `${formatCalculatorNumber(result.wallAreaSquareFeet)} ft2` },
+          { label: 'Net wall area', value: `${formatCalculatorNumber(result.netWallAreaSquareFeet)} ft2` },
+          { label: 'Bricks per square foot', value: formatCalculatorNumber(result.bricksPerSquareFoot) },
+          { label: 'Base brick count', value: formatCalculatorNumber(result.exactBricksBeforeWaste) },
           { label: 'Area with waste', value: `${formatCalculatorNumber(result.adjustedAreaSquareFeet)} ft2` },
           { label: 'Mortar joint used', value: `${formatCalculatorNumber(result.mortarJointInches)} in` },
         ],
         steps: [
+          'Multiply wall length by height when using wall-dimensions mode, then subtract openings.',
           'Add the mortar joint to the brick face dimensions.',
-          'Convert the brick face area from square inches to square feet.',
-          'Add waste to wall area, divide by brick face area, and round up.',
+          'Convert the brick module to bricks per square foot, add waste, and round up.',
         ],
-        note: 'Openings, bond pattern, corners, piers, cut bricks, wall thickness, and mortar quantities need separate takeoff.',
+        note: 'Coverage tables may give a slightly different count. Bond pattern, corners, piers, wall thickness, and mortar quantities still need a separate takeoff.',
       };
     }
     case 'concrete-block': {

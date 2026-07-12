@@ -4761,24 +4761,79 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'brick-calculator': {
-    summary: 'Learn how wall face area, brick size, mortar joint, openings, and waste estimate brick count.',
+    title: 'Brick Wall Formula: Area, Joints & Waste',
+    summary: 'Calculate wall area, subtract openings, compare brick-and-joint coverage with supplier tables, and add waste.',
+    metaDescription:
+      'Learn the brick wall calculation formula for length, height, openings, brick size, mortar joints, coverage tables, and waste.',
     purpose:
-      'The Brick Calculator estimates whole bricks for a simple wall face. It uses the visible face dimensions of one brick plus the mortar joint to estimate square-foot coverage, then rounds up after waste.',
+      'This guide compares brick-dimension math with supplier or Brick Industry Association coverage tables.',
+    intro:
+      'Subtract openings before waste. If the methods disagree, check the exact brick designation, mortar joint, nominal coursing, and whether the table already accounts for openings.',
+    inputMatch:
+      'wall length and height or gross wall area, opening area, brick face dimensions and mortar joint, or a coverage-table rate, plus waste percent',
+    logicNote:
+      'The dimension method finds net wall area, calculates bricks per square foot as 144 divided by the brick-and-joint module, applies waste, and rounds up. Coverage-table mode multiplies net area by bricks per 100 square feet, applies waste, and rounds up.',
+    readIntro:
+      'Read net wall area first, then check the base count and final whole-brick order. If the dimension and table methods differ, use the method tied to the exact product and joint you will buy.',
+    mistakeIntro:
+      'Do not switch between actual face dimensions, nominal dimensions, and supplier coverage halfway through the calculation. Also keep brick count separate from mortar quantity and structural wall design.',
+    sidecarText:
+      'Open the Brick Calculator beside this guide. Try a 20 ft by 8 ft wall, subtract a 24 ft2 opening, use a 7.625 by 2.25 inch modular brick with a 3/8 inch joint, and add 10% waste.',
+    bestUsesIntro:
+      'Use this guide for a simple single-face brick count before a supplier or mason checks bond, corners, wall thickness, cuts, and the full material takeoff.',
+    referenceIntro:
+      'The Brick Industry Association table supplies brick-per-100-square-feet and mortar-volume examples by brick designation and joint. Glen-Gery shows why face size and pieces per square foot vary by product.',
     enter: [
-      'Enter the net wall face area in square feet after subtracting large doors or windows.',
-      'Enter brick length, brick height, mortar joint thickness, and waste percent. A 3/8 inch joint is common, but use your plan or supplier number.',
-      'Use actual brick face dimensions when you have them from the supplier, not just a nickname such as modular or queen.',
+      'Use Wall dimensions when you measured length and height. The calculator multiplies them for gross wall area.',
+      'Enter the combined square feet of doors, windows, and other openings. The calculator subtracts them before brick coverage and waste.',
+      'Use actual visible brick face dimensions with the planned joint, or switch to Coverage table when you have bricks per 100 square feet for the exact product.',
+      'Add a waste percentage for cuts, breakage, corners, bond pattern, and color matching.',
     ],
     read: [
-      'Bricks needed is rounded up to whole units.',
-      'Brick face area shows how much wall one brick covers with the joint included.',
-      'Area with waste shows the adjusted wall face before division.',
-      'If a supplier table gives a different count, check whether it used 3/8 inch joints, 1/2 inch joints, nominal dimensions, or no waste.',
+      'A 20 ft by 8 ft wall has 160 ft2 of gross face area. Subtracting a 24 ft2 opening leaves 136 ft2.',
+      'A 7.625 by 2.25 inch brick with a 3/8 inch joint creates an 8 by 2.625 inch repeating face module, or about 6.857 bricks per square foot.',
+      'The base count is about 932.57 bricks. Adding 10% waste gives 1,025.83, so the whole-brick estimate rounds to 1,026.',
+      'Using a table rate of 675 bricks per 100 ft2 on a 120 ft2 wall gives 810 bricks before waste and 891 after 10% waste.',
     ],
     mistakes: [
-      'Do not ignore bond pattern, corners, openings, piers, cuts, and broken pieces.',
+      'Do not forget to subtract openings before applying the brick coverage and waste allowance.',
+      'Do not compare dimension math with a table for a different brick designation or mortar joint.',
+      'Do not ignore bond pattern, corners, piers, returns, cuts, wall thickness, and broken pieces.',
       'Do not use this simple face estimate for structural wall design, retaining walls, chimneys, or load-bearing masonry.',
       'Estimate mortar, wall ties, lintels, flashing, weep holes, cleanup, and labor separately.',
+    ],
+    extraSections: [
+      {
+        title: 'Brick Calculation Formula From Dimensions',
+        paragraphs: [
+          'Gross wall area = wall length x wall height. Net wall area = gross wall area - openings. Bricks per square foot = 144 / ((brick length + joint) x (brick height + joint)).',
+          'Whole bricks = ceiling(net wall area x bricks per square foot x (1 + waste percent / 100)). The 144 converts the repeating brick-and-joint face from square inches to one square foot.',
+        ],
+      },
+      {
+        title: 'Why a BIA or Supplier Table Can Be Better',
+        paragraphs: [
+          'Brick Industry Association Technical Note 10 lists rates by brick designation and joint. Its modular-brick example uses 675 bricks per 100 ft2 with a 3/8 inch joint, while other brick formats have different rates.',
+          'Use Coverage table mode when the exact product sheet gives a rate. This avoids forcing a simplified face formula to match nominal coursing or supplier estimating conventions.',
+        ],
+      },
+      {
+        title: 'Why This Is Not a Brick Mortar Calculator',
+        paragraphs: [
+          'BIA mortar tables change with brick designation, joint thickness, brick width, bedding, hollow units, collar joints, and correction factors. A fixed bags-per-brick shortcut can look precise while describing the wrong wall assembly.',
+          'This page keeps the brick count honest. Use the exact mortar product yield and the project masonry specification for cement, sand, or bag quantities.',
+        ],
+      },
+      {
+        title: 'Patio and Floor Brick Need a Different Plan',
+        paragraphs: [
+          'The wall calculator uses face coverage and a mortar joint. A patio or floor may need bedding, base depth, drainage, edge restraint, pattern cuts, and a different joint.',
+          'Use the Paver Calculator for a flat hardscape count, then confirm that the selected brick is rated for the installation.',
+        ],
+        links: [
+          { href: '/tools/paver-calculator/', label: 'Open the Paver Calculator' },
+        ],
+      },
     ],
     sources: [sourceLinks.biaBrickEstimating, sourceLinks.glenGeryBrickSizes, sourceLinks.nistUnits],
   },

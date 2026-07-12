@@ -624,9 +624,9 @@ const toolArtMetadataOverrides = {
   },
   'brick-calculator': {
     tool: {
-      alt: 'Smoke mascot measuring a 120 square foot wall, 7.625 by 2.25 inch bricks, 3/8 inch mortar joints, 10 percent waste, and a 906 brick result card.',
+      alt: 'Smoke-kawaii mascot beside a brick wall, loose bricks, a mortar bucket, and a measuring tape for a brick quantity estimate.',
       caption:
-        'Brick Calculator artwork matches the live workflow: enter net wall area, brick face dimensions, mortar joint, and waste, then round up the brick count.',
+        'Brick Calculator artwork illustrates measuring a wall face, checking brick dimensions and mortar joint, and allowing extra bricks for waste.',
     },
     guide: {
       alt: 'Smoke mascot explaining brick face area, net wall area after openings, 3/8 inch joint checks, waste, and separate mortar planning.',

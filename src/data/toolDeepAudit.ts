@@ -5489,17 +5489,18 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'brick-calculator',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
-    reviewedOn: '2026-06-02',
+    batch: 'july-9-index-recovery-2026-07-10',
+    reviewedOn: '2026-07-10',
     scope: commonMathScope,
     sources: [biaBrickEstimating, glenGeryBrickSizes, nistSi, googleHelpfulContent],
     findings: [
-      'DataForSEO paid evidence for the exact tool and guide targeted the `brick calculator` search intent after balance and status gates passed.',
-      'Brick Industry Association estimating tables support joint-sensitive brick counts, and Glen-Gery/NIST sources support brick-size and unit context.',
-      'The page now explains net wall face area, actual brick face dimensions, 3/8 inch versus other mortar joints, waste, supplier-table differences, and why mortar or structural layout are separate decisions.',
+      'July 9 evidence found 10 tool impressions at position 11.5 and 33 guide impressions at position 39.2. Exact inspection reports the tool as crawled but currently not indexed while the guide remains submitted and indexed.',
+      'Targeted DataForSEO evidence shows 8,100 U.S. searches for `brick calculator` and 880 for `brick calculator for wall`; the earlier tool required users to calculate wall area and opening deductions elsewhere.',
+      'Visible guide queries include brick calculation, square-foot coverage, bricks calculation formula, wall calculation, and brick mortar calculator terms, so the pair is differentiated into a wall estimator and a formula/method guide.',
+      'Brick Industry Association tables show product-specific brick-per-100-square-feet rates and assembly-sensitive mortar quantities, supporting a separate coverage-table mode while keeping generic mortar-bag estimates out of scope.',
     ],
     improvements: [
-      'Rewrote metadata, aliases, formula text, examples, FAQ coverage, guide source coverage, safety limits, audit record, modified dates, related links, and image alt/caption text in smart-14 wording.',
+      'Added tested wall-dimension, known-area, and coverage-table modes with opening deductions, base counts, bricks-per-square-foot output, supplier-rate guidance, formula-focused guide content, and clearer patio and mortar boundaries.',
     ],
     followUps: [
       'Add mortar estimating only if the masonry scope expands beyond brick count planning and keeps product, joint, and wall-type limits visible.',
