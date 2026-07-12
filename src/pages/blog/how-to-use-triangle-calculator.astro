@@ -5,47 +5,72 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
 
 <CalculatorGuideArticle
   toolSlug="triangle-calculator"
-  label="Triangle calculator guide"
-  title="How to use the Triangle Calculator"
-  description="Learn how to calculate triangle area, perimeter, angles, and triangle type from three side lengths."
+  label="Triangle side and inequality guide"
+  title="Can Three Sides Form a Triangle? SSS Guide"
+  description="Check the triangle inequality, find a possible third-side range, and work through 13.5, 8, 3.5 plus valid SSS area and angle examples."
   path="/blog/how-to-use-triangle-calculator/"
-  intro="Use this guide when you know the three sides of a triangle, but not the height. The calculator checks whether the sides can make a real triangle, then shows the area, perimeter, angles, and type."
+  intro="Use this guide when you have two or three triangle side lengths. The calculator can test whether three sides close into a real triangle, show the possible range for a missing third side, or calculate area, perimeter, angles, and type from a valid SSS set."
   quickStart={[
-    'Enter side a, side b, and side c using the same unit.',
-    'Add a unit label like cm, m, or in if you want the result labels to match your work.',
-    'Press Calculate triangle.',
-    'Check the area, perimeter, semiperimeter, angle estimates, side type, and angle type before copying.',
+    'Choose Check 3 sides when you know side a, side b, and side c.',
+    'Choose Third-side range when you know two sides but need the possible values for the third.',
+    'Enter every length in the same unit and add an optional label such as cm, m, or in.',
+    'Press Calculate triangle, then read the strict inequality before copying the area or range.',
   ]}
   sections={[
     {
-      title: 'When to use three-side triangle mode',
+      title: 'Choose the check that matches your problem',
       paragraphs: [
-        'Use the Triangle Calculator when the problem gives you three sides, such as 13 cm, 14 cm, and 15 cm. You do not need the height for this mode.',
-        'The calculator first checks the triangle inequality. If one side is too long, like 1, 2, and 3, the sides cannot close into a triangle and the page stops instead of making up an area.',
+        'Use Check 3 sides for an SSS problem such as 13 cm, 14 cm, and 15 cm. The calculator tests the triangle inequality first. Valid sides then produce area, perimeter, semiperimeter, three angle estimates, and the triangle type.',
+        'Use Third-side range when your problem gives only two lengths. This mode cannot choose one exact third side for you. It shows every length that would let the three sides close into a non-flat triangle.',
       ],
       links: [
         { href: 'https://accessfreetools.com/tools/triangle-calculator/', label: 'Open the Access Free Tools Triangle Calculator' },
         { href: '/tools/area-calculator/', label: 'Use base and height in the Area Calculator' },
+        { href: '/tools/right-triangle-calculator/', label: 'Solve a 90-degree side problem' },
       ],
     },
     {
-      title: 'Example: 13, 14, and 15',
+      title: 'Can 13.5, 8, and 3.5 form a triangle?',
       paragraphs: [
-        'Enter 13, 14, and 15 with cm as the unit. The perimeter is 42 cm, so the semiperimeter is 21 cm.',
-        'Heron\'s formula becomes sqrt(21 x 8 x 7 x 6), which gives an area of 84 cm^2. The angle estimates are all under 90 degrees, so this is a scalene acute triangle.',
+        'Sort the sides from shortest to longest: 3.5, 8, and 13.5. Add the two shorter sides. Their total is 11.5.',
+        'A triangle needs the two shorter sides to add to more than the longest side. Here, 11.5 is less than 13.5, so the ends cannot meet. These lengths do not form a triangle.',
       ],
       bullets: [
+        'Shorter-side sum: 3.5 + 8 = 11.5.',
+        'Required check: 11.5 > 13.5.',
+        'Result: false, so no triangle forms.',
+      ],
+    },
+    {
+      title: 'Find the possible third-side range',
+      paragraphs: [
+        'For known sides a and b, a third side c must be longer than the difference between the known sides and shorter than their sum. Write the rule as |a - b| < c < a + b.',
+        'With known sides 8 and 5, the lower boundary is |8 - 5| = 3 and the upper boundary is 8 + 5 = 13. The answer is 3 < c < 13. Do not include 3 or 13 because either boundary makes a flat, zero-area shape.',
+      ],
+      bullets: [
+        'Lower boundary: the absolute difference between the known sides.',
+        'Upper boundary: the sum of the known sides.',
+        'Both inequality signs stay strict: greater than the lower value and less than the upper value.',
+      ],
+    },
+    {
+      title: 'Valid SSS example: 13, 14, and 15',
+      paragraphs: [
+        'The two shorter sides add to 27, which exceeds the longest side by 12. The sides pass the triangle inequality with room to close.',
+        'The perimeter is 42 cm, so the semiperimeter is 21 cm. Heron\'s formula becomes sqrt(21 x 8 x 7 x 6), which gives an area of 84 cm^2. Every angle is under 90 degrees, so this is a scalene acute triangle.',
+      ],
+      bullets: [
+        'Triangle inequality margin: 13 + 14 - 15 = 12 cm.',
         'Perimeter: 13 + 14 + 15 = 42 cm.',
         'Semiperimeter: 42 / 2 = 21 cm.',
         'Area: 84 cm^2.',
-        'Type: scalene acute triangle.',
       ],
     },
     {
-      title: 'Example: 3, 4, and 5',
+      title: 'Right-triangle check: 3, 4, and 5',
       paragraphs: [
         'Enter 3, 4, and 5 with m as the unit. The calculator returns area 6 m^2 and perimeter 12 m.',
-        'Because 3^2 + 4^2 = 5^2, the angle across from side 5 is 90 degrees. The page labels it as a scalene right triangle.',
+        'Because 3^2 + 4^2 = 5^2, the angle across from side 5 is 90 degrees. The page labels the result as a scalene right triangle.',
       ],
       links: [
         { href: '/tools/right-triangle-calculator/', label: 'Right Triangle Calculator' },
@@ -53,35 +78,35 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
       ],
     },
     {
-      title: 'Reading the answer',
+      title: 'Read the answer without mixing units',
       paragraphs: [
-        'Area is shown in square units because it measures the space inside the triangle. If you enter inches, the area is square inches.',
-        'Perimeter and semiperimeter stay in the length unit you entered. The side type tells you whether sides match. The angle type tells you whether the triangle is acute, right, or obtuse.',
+        'Area uses square units because it measures the space inside the triangle. Perimeter, semiperimeter, the inequality margin, and third-side boundaries use the original length unit.',
+        'The side type says whether all, two, or none of the side lengths match. The angle type says whether the largest angle is acute, right, or obtuse. Rounded angle estimates should total about 180 degrees.',
       ],
     },
     {
       title: 'Mistakes to check before trusting it',
       paragraphs: [
-        'Do not mix units in one calculation. Convert everything first if one side is in inches and another side is in centimeters.',
-        'Do not use this page when you only know base and height. Use the Area Calculator for that job, because Heron\'s formula needs all three side lengths.',
+        'Convert mixed units before you enter the sides. A value in inches cannot share one calculation with a value in centimeters.',
+        'Use the Area Calculator when you know base and height. Use the Right Triangle Calculator when a 90-degree problem gives only two sides. The SSS mode on this page needs all three side lengths.',
       ],
       bullets: [
-        'If the result says the triangle inequality fails, re-check the side numbers before changing formulas.',
-        'If your homework uses exact radicals, copy the decimal as a check, not as the final exact form.',
-        'If a drawing looks right but the numbers fail, one side may be measured from the wrong endpoint.',
+        'Equality does not pass the side check. Sides 1, 2, and 3 make a flat line, not a triangle.',
+        'The third-side range gives possible values, not one unique missing length.',
+        'If a drawing looks valid but the numbers fail, check whether one side was measured from the wrong endpoint.',
       ],
     },
     {
       title: 'Sources used for this guide',
       paragraphs: [
-        'The page uses standard triangle perimeter, area, and angle rules. These links are useful if you want to compare the formula notes before using the result in homework or a project.',
+        'These references cover the geometric formulas, triangle inequality range, and Heron area method used in the examples.',
       ],
       links: [
+        { href: 'https://opendsax.cs.vt.edu/ODSA/khan-exercises/exercises/triangle_inequality_theorem.html', label: 'Virginia Tech OpenDSA: Triangle inequality theorem' },
         { href: 'https://openstax.org/books/prealgebra-2e/pages/c-geometric-formulas', label: 'OpenStax Prealgebra: Geometric formulas' },
         { href: 'https://www.khanacademy.org/math/geometry-home/geometry-volume-surface-area/heron-formula-tutorial/v/heron-s-formula', label: 'Khan Academy: Heron\'s formula' },
-        { href: 'https://developers.google.com/search/docs/fundamentals/creating-helpful-content', label: 'Google Search Central: helpful, reliable, people-first content' },
       ],
     },
   ]}
-  sidecarText="Open the Triangle Calculator and test 13, 14, 15 or 3, 4, 5 while you read."
+  sidecarText="Open the Triangle Calculator and test 13.5, 8, 3.5 in Check 3 sides, then switch to Third-side range and try 8 and 5."
 />

@@ -110,6 +110,10 @@ const GEOMETRY_CALCULATOR_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/GeometryCalculator.tsx', import.meta.url)),
   'utf8',
 );
+const TRIANGLE_GUIDE_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/blog/how-to-use-triangle-calculator.astro', import.meta.url)),
+  'utf8',
+);
 const DISTANCE_GUIDE_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/blog/how-to-use-distance-calculator.astro', import.meta.url)),
   'utf8',
@@ -500,6 +504,35 @@ describe('site content audit guardrails', () => {
     expect(DISTANCE_GUIDE_SOURCE).toContain('5^2 + 3^2 = 25 + 9 = 34');
     expect(DISTANCE_GUIDE_SOURCE).toContain('title="Distance Formula Between Two Points"');
     expect(DISTANCE_GUIDE_SOURCE).not.toContain('title="How to use the Distance Calculator"');
+    expect(tool?.seoTitle.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+  });
+
+  it('keeps triangle side checking distinct from broad and right-triangle intent', () => {
+    const tool = tools.find((item) => item.slug === 'triangle-calculator');
+    const guide = blogPosts.find((item) => item.slug === 'how-to-use-triangle-calculator');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+
+    expect(tool?.seoTitle).toBe('Triangle Calculator | Check 3 Sides, Area & Angles');
+    expect(tool?.seoDescription).toContain('possible third-side range');
+    expect(tool?.aliases).toEqual(
+      expect.arrayContaining(['Triangle Inequality Calculator', 'Third Side Range Calculator', 'SSS Triangle Calculator']),
+    );
+    expect(tool?.examples).toContainEqual({
+      label: 'Sides that cannot close',
+      expression: '13.5, 8, 3.5 cm',
+      result: 'No triangle because 3.5 + 8 = 11.5, which is not greater than 13.5',
+    });
+    expect(faqText).toContain('|a - b| < c < a + b');
+    expect(GEOMETRY_CALCULATOR_SOURCE).toContain("id: 'third-side-range'");
+    expect(GEOMETRY_CALCULATOR_SOURCE).toContain("label: 'Triangle inequality margin'");
+    expect(GEOMETRY_CALCULATOR_SOURCE).toContain('Can 13.5, 8, 3.5 close?');
+    expect(guide?.title).toBe('Can Three Sides Form a Triangle? SSS Guide');
+    expect(guide?.summary).toContain('possible third-side range');
+    expect(TRIANGLE_GUIDE_SOURCE).toContain('Can 13.5, 8, and 3.5 form a triangle?');
+    expect(TRIANGLE_GUIDE_SOURCE).toContain('|a - b| < c < a + b');
+    expect(TRIANGLE_GUIDE_SOURCE).toContain('opendsax.cs.vt.edu');
     expect(tool?.seoTitle.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
     expect(tool?.seoDescription.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
     expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);

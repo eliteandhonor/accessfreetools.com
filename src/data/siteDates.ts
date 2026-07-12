@@ -269,7 +269,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'fha-loan-calculator': '2026-05-26',
   'gravel-calculator': '2026-06-02',
   'confidence-interval-calculator': '2026-06-27',
-  'triangle-calculator': '2026-05-31',
+  'triangle-calculator': '2026-07-12',
   'circle-calculator': '2026-06-27',
 };
 
@@ -533,7 +533,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-rebar-calculator': '2026-06-02',
   'how-to-use-volume-calculator': '2026-06-02',
   'how-to-use-roofing-calculator': '2026-05-26',
-  'how-to-use-triangle-calculator': '2026-05-31',
+  'how-to-use-triangle-calculator': '2026-07-12',
 };
 
 const blogPublishedOverrides: Record<string, string> = {

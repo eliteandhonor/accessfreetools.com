@@ -231,6 +231,11 @@ const khanHeronsFormula = {
   label: 'Khan Academy: Heron\'s formula',
 };
 
+const openDsaTriangleInequality = {
+  href: 'https://opendsax.cs.vt.edu/ODSA/khan-exercises/exercises/triangle_inequality_theorem.html',
+  label: 'Virginia Tech OpenDSA: Triangle inequality theorem',
+};
+
 const openStaxSequences = {
   href: 'https://openstax.org/books/intermediate-algebra-2e/pages/12-1-sequences',
   label: 'OpenStax Intermediate Algebra: Sequences',
@@ -6939,20 +6944,20 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'triangle-calculator',
     status: 'deep-reviewed',
-    batch: 'all-pages-dataforseo-sprint-2026-05-31',
-    reviewedOn: '2026-05-31',
+    batch: 'gsc-triangle-inequality-recovery-2026-07-12',
+    reviewedOn: '2026-07-12',
     scope: commonMathScope,
-    sources: [openStaxGeometry, khanHeronsFormula, googleHelpfulContent],
+    sources: [openDsaTriangleInequality, openStaxGeometry, khanHeronsFormula, googleHelpfulContent],
     findings: [
-      'The triangle helper validates the triangle inequality before returning perimeter, semiperimeter, area, side type, angle type, and angle estimates from three side lengths.',
-      'The page now explains the 13-14-15 example with perimeter 42, semiperimeter 21, and area 84, plus the 3-4-5 right-triangle check.',
-      'The FAQ explains three-side mode, base-height limits, unit handling, angle rounding, side order, decimal sides, right-triangle alternatives, and private tab-only history.',
+      'Search Console reports 394 impressions, 0 clicks, and average position 29.0 for the tool through July 9; a visible near-page-one query asks whether 13.5, 8, and 3.5 can form a triangle.',
+      'The tool is submitted and indexed, while the matching generic guide is crawled but currently not indexed, so this sprint differentiates the tool around SSS calculation and the guide around triangle inequality intent.',
+      'The calculator now explains failed three-side checks, reports a valid triangle inequality margin, and finds the strict possible third-side range from two known sides.',
     ],
     improvements: [
-      'Updated triangle metadata, examples, FAQ depth, guide sections, source links, image alt/caption text, tool instructions, formula trust note, tests, and modified dates using OpenStax, Khan Academy, Google Search Central, DataForSEO, and browser proof.',
+      'Added the two-mode side checker, exact 13.5-8-3.5 failure explanation, |a-b| < c < a+b range steps, query-led metadata, a differentiated guide, academic source context, tests, and refreshed dates.',
     ],
     followUps: [
-      'Add angle-input solving later only with clear SSA ambiguity handling.',
+      'Wait for Google to recrawl before judging CTR or index-selection movement. Add angle-input solving later only with clear SSA ambiguity handling.',
     ],
   },
   {

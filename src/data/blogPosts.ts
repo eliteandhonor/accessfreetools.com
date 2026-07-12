@@ -259,10 +259,10 @@ const blogPostCandidates: BlogPostDefinition[] = [
   },
   {
     slug: 'how-to-use-triangle-calculator',
-    title: 'How to use the Triangle Calculator',
-    label: 'Triangle calculator guide',
+    title: 'Can Three Sides Form a Triangle? SSS Guide',
+    label: 'Triangle side and inequality guide',
     summary:
-      'Learn how to calculate triangle area, perimeter, angles, and triangle type from three side lengths.',
+      'Check the triangle inequality, find a possible third-side range, and work through valid and invalid three-side examples.',
   },
   {
     slug: 'how-to-use-volume-calculator',

@@ -9,6 +9,7 @@ import {
   calculateShapeVolume,
   calculateSlope,
   calculateTriangleFromSides,
+  calculateTriangleThirdSideRange,
   formatCalculatorNumber,
   type AreaShape,
   type PythagoreanSolveFor,
@@ -85,7 +86,7 @@ const geometryConfigs: Record<GeometryToolVariant, GeometryConfig> = {
     modes: [
       {
         id: 'sides',
-        label: '3 sides',
+        label: 'Check 3 sides',
         symbol: 'SSS',
         fields: [field('sideA', 'Side a'), field('sideB', 'Side b'), field('sideC', 'Side c'), unitField],
         defaultInputs: { sideA: '13', sideB: '14', sideC: '15', ...unit() },
@@ -93,6 +94,19 @@ const geometryConfigs: Record<GeometryToolVariant, GeometryConfig> = {
           { label: '13, 14, 15', inputs: { sideA: '13', sideB: '14', sideC: '15', ...unit() } },
           { label: '3, 4, 5', inputs: { sideA: '3', sideB: '4', sideC: '5', ...unit('m') } },
           { label: '8, 8, 10', inputs: { sideA: '8', sideB: '8', sideC: '10', ...unit('in') } },
+          { label: 'Can 13.5, 8, 3.5 close?', inputs: { sideA: '13.5', sideB: '8', sideC: '3.5', ...unit('cm') } },
+        ],
+      },
+      {
+        id: 'third-side-range',
+        label: 'Third-side range',
+        symbol: 'a,b,c?',
+        fields: [field('sideA', 'Known side 1'), field('sideB', 'Known side 2'), unitField],
+        defaultInputs: { sideA: '8', sideB: '5', ...unit() },
+        examples: [
+          { label: '8 and 5', inputs: { sideA: '8', sideB: '5', ...unit() } },
+          { label: '13.5 and 8', inputs: { sideA: '13.5', sideB: '8', ...unit('cm') } },
+          { label: '7 and 7', inputs: { sideA: '7', sideB: '7', ...unit('m') } },
         ],
       },
     ],
@@ -533,8 +547,32 @@ function buildGeometryCalculation(
   const unitLabel = cleanUnit(inputs);
 
   if (variant === 'triangle') {
+    if (mode.id === 'third-side-range') {
+      const result = calculateTriangleThirdSideRange(measurements.sideA, measurements.sideB);
+      const minimum = formatValue(result.minimumExclusive, unitLabel);
+      const maximum = formatValue(result.maximumExclusive, unitLabel);
+
+      return {
+        expression: `Known sides ${formatValue(result.knownSideA, unitLabel)} and ${formatValue(result.knownSideB, unitLabel)}`,
+        answer: `${minimum} < third side < ${maximum}`,
+        label: 'Possible third-side range',
+        metrics: [
+          { label: 'Lower boundary', value: `${minimum} (not included)` },
+          { label: 'Upper boundary', value: `${maximum} (not included)` },
+        ],
+        steps: [
+          `Find the lower boundary: |${formatCalculatorNumber(result.knownSideA)} - ${formatCalculatorNumber(result.knownSideB)}| = ${formatCalculatorNumber(result.minimumExclusive)}.`,
+          `Find the upper boundary: ${formatCalculatorNumber(result.knownSideA)} + ${formatCalculatorNumber(result.knownSideB)} = ${formatCalculatorNumber(result.maximumExclusive)}.`,
+          `The third side must be greater than ${minimum} and less than ${maximum}.`,
+          'Do not include either boundary value; equality makes a flat, zero-area shape instead of a triangle.',
+        ],
+      };
+    }
+
     const result = calculateTriangleFromSides(measurements.sideA, measurements.sideB, measurements.sideC);
     const answer = formatValue(result.area, unitLabel, 'area');
+    const [shortest, middle, longest] = [result.sideA, result.sideB, result.sideC].sort((left, right) => left - right);
+    const shorterSideSum = shortest + middle;
 
     return {
       expression: `Sides ${formatValue(result.sideA, unitLabel)}, ${formatValue(result.sideB, unitLabel)}, ${formatValue(result.sideC, unitLabel)}`,
@@ -543,10 +581,11 @@ function buildGeometryCalculation(
       metrics: [
         { label: 'Perimeter', value: formatValue(result.perimeter, unitLabel) },
         { label: 'Semiperimeter', value: formatValue(result.semiperimeter, unitLabel) },
+        { label: 'Triangle inequality margin', value: formatValue(result.triangleInequalityMargin, unitLabel) },
         { label: 'Angles', value: `${formatAngle(result.angleA)}, ${formatAngle(result.angleB)}, ${formatAngle(result.angleC)}` },
       ],
       steps: [
-        `Check the triangle inequality: each pair of sides must add to more than the third side.`,
+        `Check the two shorter sides: ${formatCalculatorNumber(shortest)} + ${formatCalculatorNumber(middle)} = ${formatCalculatorNumber(shorterSideSum)}, which is greater than ${formatCalculatorNumber(longest)} by ${formatCalculatorNumber(result.triangleInequalityMargin)}.`,
         `Find semiperimeter: (${formatCalculatorNumber(result.sideA)} + ${formatCalculatorNumber(result.sideB)} + ${formatCalculatorNumber(result.sideC)}) / 2 = ${formatCalculatorNumber(result.semiperimeter)}.`,
         `Use Heron's formula: area = sqrt(s(s-a)(s-b)(s-c)).`,
         `The area is ${answer}. Angles are found with the law of cosines.`,

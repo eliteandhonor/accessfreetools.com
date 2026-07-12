@@ -44,6 +44,7 @@ import {
   calculateStandardDeviation,
   calculateSlope,
   calculateTriangleFromSides,
+  calculateTriangleThirdSideRange,
   calculateZScore,
   fromScientificNotation,
   formatCalculatorNumber,
@@ -582,8 +583,21 @@ describe('geometry helpers', () => {
     expect(formatCalculatorNumber(result.area)).toBe('84');
     expect(formatCalculatorNumber(result.perimeter)).toBe('42');
     expect(formatCalculatorNumber(result.semiperimeter)).toBe('21');
+    expect(formatCalculatorNumber(result.triangleInequalityMargin)).toBe('12');
     expect(result.sideType).toBe('scalene');
     expect(result.angleType).toBe('acute');
+  });
+
+  it('finds the strict possible range for a third triangle side', () => {
+    const result = calculateTriangleThirdSideRange(8, 5);
+
+    expect(result).toEqual({
+      knownSideA: 8,
+      knownSideB: 5,
+      minimumExclusive: 3,
+      maximumExclusive: 13,
+    });
+    expect(calculateTriangleThirdSideRange(7, 7).minimumExclusive).toBe(0);
   });
 
   it('classifies common triangle side sets', () => {
@@ -663,6 +677,10 @@ describe('geometry helpers', () => {
 
   it('rejects impossible geometry inputs', () => {
     expect(() => calculateTriangleFromSides(1, 2, 3)).toThrow('triangle inequality');
+    expect(() => calculateTriangleFromSides(13.5, 8, 3.5)).toThrow(
+      '3.5 + 8 = 11.5, which is not greater than 13.5',
+    );
+    expect(() => calculateTriangleThirdSideRange(0, 8)).toThrow('Known side 1 must be greater than zero');
     expect(() => calculatePythagorean('leg-a', { legB: 5, hypotenuse: 4 })).toThrow('Hypotenuse');
     expect(() => calculateCircleFromMeasurement('radius', 0)).toThrow('greater than zero');
   });

@@ -558,10 +558,11 @@ const statsToolInstructions: Record<string, string[]> = {
 };
 const geometryToolInstructions: Record<string, string[]> = {
   'triangle-calculator': [
-    'Enter the three side lengths from the same triangle, such as 13, 14, and 15.',
-    'Use one unit for all three sides and add an optional label such as cm, m, or in.',
-    'Press Calculate triangle to check the triangle inequality, area, perimeter, angles, and type.',
-    'If you only know base and height, use the Area Calculator instead of this three-side mode.',
+    'Choose Check 3 sides when you know all three lengths, or Third-side range when only two lengths are known.',
+    'Use one unit for every entered side and add an optional label such as cm, m, or in.',
+    'Press Calculate triangle to see the exact inequality check or the strict possible range for the missing third side.',
+    'For a valid three-side triangle, review the area, perimeter, angles, type, and inequality margin before copying.',
+    'If you only know base and height, use the Area Calculator. For a 90-degree side problem, use the Right Triangle Calculator.',
   ],
   'volume-calculator': [
     'Choose the solid shape: rectangular prism, cube, cylinder, sphere, or cone.',
@@ -2250,8 +2251,8 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       isGeometryTool && (
         <div class="advanced-tool-points" aria-label={`${tool.name} highlights`}>
-          <span>{tool.slug === 'triangle-calculator' ? '3-side check' : 'Unit-aware inputs'}</span>
-          <span>{tool.slug === 'triangle-calculator' ? 'Heron formula steps' : 'Formula note'}</span>
+          <span>{tool.slug === 'triangle-calculator' ? 'Side validity checks' : 'Unit-aware inputs'}</span>
+          <span>{tool.slug === 'triangle-calculator' ? 'Third-side range' : 'Formula note'}</span>
           <span>{tool.slug === 'triangle-calculator' ? 'Angle estimates' : 'Example numbers'}</span>
           <span>Tab-only history</span>
         </div>
@@ -2471,18 +2472,22 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
     {
       tool.slug === 'triangle-calculator' && (
         <aside class="trust-note" aria-label="Triangle Calculator formula notes">
-          <strong>Three sides only</strong>
+          <strong>Side checks, not every triangle setup</strong>
           <p>
-            Use this page when you know all three side lengths. It checks the triangle inequality first,
-            then uses Heron&apos;s formula for area and the law of cosines for the angle estimates.
-            If you know base and height instead, use the Area Calculator triangle mode.
+            Use Check 3 sides for a complete SSS set, or Third-side range when you know two lengths.
+            The page does not solve angle-input SAS, ASA, AAS, or SSA problems. Use the Area Calculator
+            for base and height, or the Right Triangle Calculator for a 90-degree side problem.
           </p>
           <p>
             Sources used for this review:{' '}
+            <a href="https://opendsax.cs.vt.edu/ODSA/khan-exercises/exercises/triangle_inequality_theorem.html" rel="noreferrer" target="_blank">
+              Virginia Tech OpenDSA triangle inequality
+            </a>
+            {', '}
             <a href="https://openstax.org/books/prealgebra-2e/pages/c-geometric-formulas" rel="noreferrer" target="_blank">
               OpenStax geometric formulas
             </a>
-            {' and '}
+            {', and '}
             <a href="https://www.khanacademy.org/math/geometry-home/geometry-volume-surface-area/heron-formula-tutorial/v/heron-s-formula" rel="noreferrer" target="_blank">
               Khan Academy Heron&apos;s formula
             </a>

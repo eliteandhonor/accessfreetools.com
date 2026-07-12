@@ -296,6 +296,7 @@ export interface TriangleFromSidesResult {
   sideA: number;
   sideB: number;
   sideC: number;
+  triangleInequalityMargin: number;
   semiperimeter: number;
   perimeter: number;
   area: number;
@@ -304,6 +305,13 @@ export interface TriangleFromSidesResult {
   angleC: number;
   sideType: 'equilateral' | 'isosceles' | 'scalene';
   angleType: 'acute' | 'right' | 'obtuse';
+}
+
+export interface TriangleThirdSideRangeResult {
+  knownSideA: number;
+  knownSideB: number;
+  minimumExclusive: number;
+  maximumExclusive: number;
 }
 
 export interface ShapeMeasurementResult {
@@ -633,9 +641,29 @@ function assertTriangleSides(sideA: number, sideB: number, sideC: number) {
   assertPositiveNumber(sideB, 'Side b');
   assertPositiveNumber(sideC, 'Side c');
 
-  if (sideA + sideB <= sideC || sideA + sideC <= sideB || sideB + sideC <= sideA) {
-    throw new Error('Triangle sides must satisfy the triangle inequality');
+  const [shortest, middle, longest] = [sideA, sideB, sideC].sort((left, right) => left - right);
+  const shorterSideSum = shortest + middle;
+
+  if (shorterSideSum <= longest) {
+    throw new Error(
+      `Triangle sides fail the triangle inequality. No triangle: ${formatCalculatorNumber(shortest)} + ${formatCalculatorNumber(middle)} = ${formatCalculatorNumber(shorterSideSum)}, which is not greater than ${formatCalculatorNumber(longest)}. The two shorter sides must add to more than the longest side.`,
+    );
   }
+}
+
+export function calculateTriangleThirdSideRange(
+  knownSideA: number,
+  knownSideB: number,
+): TriangleThirdSideRangeResult {
+  assertPositiveNumber(knownSideA, 'Known side 1');
+  assertPositiveNumber(knownSideB, 'Known side 2');
+
+  return {
+    knownSideA,
+    knownSideB,
+    minimumExclusive: Math.abs(knownSideA - knownSideB),
+    maximumExclusive: knownSideA + knownSideB,
+  };
 }
 
 export function calculateTriangleFromSides(
@@ -645,6 +673,8 @@ export function calculateTriangleFromSides(
 ): TriangleFromSidesResult {
   assertTriangleSides(sideA, sideB, sideC);
 
+  const sortedSides = [sideA, sideB, sideC].sort((left, right) => left - right);
+  const triangleInequalityMargin = sortedSides[0] + sortedSides[1] - sortedSides[2];
   const semiperimeter = (sideA + sideB + sideC) / 2;
   const area = Math.sqrt(
     semiperimeter * (semiperimeter - sideA) * (semiperimeter - sideB) * (semiperimeter - sideC),
@@ -656,7 +686,6 @@ export function calculateTriangleFromSides(
     Math.acos(clamp((square(sideA) + square(sideC) - square(sideB)) / (2 * sideA * sideC), -1, 1)),
   );
   const angleC = 180 - angleA - angleB;
-  const sortedSides = [sideA, sideB, sideC].sort((left, right) => left - right);
   const rightDelta = Math.abs(square(sortedSides[0]) + square(sortedSides[1]) - square(sortedSides[2]));
   const tolerance = Math.max(1e-10, square(sortedSides[2]) * 1e-10);
   const sideType =
@@ -668,6 +697,7 @@ export function calculateTriangleFromSides(
     sideA,
     sideB,
     sideC,
+    triangleInequalityMargin,
     semiperimeter,
     perimeter: sideA + sideB + sideC,
     area,

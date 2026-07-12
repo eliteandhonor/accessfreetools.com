@@ -3099,16 +3099,24 @@ const baseTools: ToolDefinition[] = [
     slug: 'triangle-calculator',
     name: 'Triangle Calculator',
     category: 'calculators',
-    summary: 'Find triangle area, perimeter, angles, and type from three side lengths.',
+    summary: 'Check three triangle sides, find a possible third-side range, or calculate SSS area, perimeter, angles, and type.',
     description:
-      'Enter three triangle sides and get the area, perimeter, semiperimeter, angles, and triangle type with the formula steps shown.',
+      'Check whether three side lengths form a triangle, find the strict possible range for a third side, or calculate SSS area, perimeter, angles, and type with the steps shown.',
     icon: 'calculator-triangle',
-    seoTitle: 'Triangle Calculator | Area, Perimeter, and Angles',
+    aliases: [
+      'Triangle Side Calculator',
+      'Triangle Inequality Calculator',
+      'Can Three Sides Form a Triangle Calculator',
+      'Third Side Range Calculator',
+      'SSS Triangle Calculator',
+    ],
+    seoTitle: 'Triangle Calculator | Check 3 Sides, Area & Angles',
     seoDescription:
-      'Calculate triangle area, perimeter, semiperimeter, angles, and triangle type from three side lengths with Heron formula steps.',
+      'Check whether three sides form a triangle, find the possible third-side range, and calculate SSS area, perimeter, angles, and type.',
     useCases: [
+      'Check whether three entered side lengths can close into a real triangle.',
+      'Find the strict range of possible third-side lengths when two sides are known.',
       'Find the area of a triangle when you know all three side lengths.',
-      'Check whether three side lengths can close into a real triangle.',
       'Estimate triangle angles with the law of cosines.',
       'Tell whether the triangle is scalene, isosceles, equilateral, acute, right, or obtuse.',
     ],
@@ -3116,6 +3124,16 @@ const baseTools: ToolDefinition[] = [
       { label: 'Classic Heron example', expression: '13, 14, 15 cm', result: 'Area = 84 cm^2, perimeter = 42 cm' },
       { label: 'Right triangle check', expression: '3, 4, 5 m', result: 'Area = 6 m^2, scalene right triangle' },
       { label: 'Isosceles triangle', expression: '8, 8, 10 in', result: 'Area is about 31.22 in^2' },
+      {
+        label: 'Sides that cannot close',
+        expression: '13.5, 8, 3.5 cm',
+        result: 'No triangle because 3.5 + 8 = 11.5, which is not greater than 13.5',
+      },
+      {
+        label: 'Possible third-side range',
+        expression: 'Known sides 8 and 5',
+        result: 'The third side must be greater than 3 and less than 13',
+      },
     ],
     faq: [
       {
@@ -3131,7 +3149,12 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'Can any three side lengths make a triangle?',
         answer:
-          'No. The sides must pass the triangle inequality. Each pair of sides must add to more than the third side, or the shape cannot close.',
+          'No. The two shorter sides must add to more than the longest side. For 13.5, 8, and 3.5, the shorter sides total 11.5, so they cannot reach past the 13.5 side and no triangle forms.',
+      },
+      {
+        question: 'How do I find the possible third side when two sides are known?',
+        answer:
+          'Choose Third-side range. If the known sides are a and b, the third side c must satisfy |a - b| < c < a + b. Do not include either boundary value; equality makes a flat, zero-area shape.',
       },
       {
         question: 'Do I need the triangle height?',
