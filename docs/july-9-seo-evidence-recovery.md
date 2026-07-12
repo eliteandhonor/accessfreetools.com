@@ -29,6 +29,8 @@ The July 12 export still contains pages repaired after Google last crawled them.
 Monitor-only exact inspection:
 
 - `personal-loan-calculator` tool and guide were both fetched successfully and allowed for indexing, but Google reports `Crawled - currently not indexed`. The current tool and blog workbench judges both pass with zero gaps, so retain and monitor rather than rewriting from aggregate data alone.
+- `gas-mileage-calculator` has 315 impressions, 0 clicks, and average position 9.36, but Google last crawled the tool on May 9 and the guide on May 11, before their July 3 updates. Submit discovery and wait for recrawl rather than rewriting the newer pages from stale Google evidence.
+- `mileage-calculator` has 248 impressions, 0 clicks, and average position 17.28. Google last crawled the tool on April 30 and the guide on May 12, before their May 31 updates. Keep the current pages, correct only proven linking mistakes, and wait for recrawl.
 
 CTR/ranking pages from the July 9 high-impression zero-click set:
 
@@ -159,3 +161,11 @@ CTR/ranking pages from the July 9 high-impression zero-click set:
 - Targeted DataForSEO evidence reports 368,000 U.S. monthly searches for `fraction calculator`, 18,100 for `mixed fraction calculator`, 9,900 for `decimal to fraction calculator`, and 8,100 for `fraction calculator simplify`. The two related-keyword page audits cost $0.02616 total, and the exact live SERP request cost $0.002.
 - The recovery adds Arithmetic, Simplify / convert, and Compare modes; exact text parsing for fractions, mixed numbers, whole numbers, and terminating decimals; LCD steps; percentages and equivalent fractions; cross-product comparison; and a rebuilt guide with OpenStax method sources.
 - Baseline evidence: `output/search-console/candidate-fraction-tool-2026-07-12.json`, `output/search-console/url-inspection-high-impression-candidates-2026-07-12.json`, and `output/seo-tool-review/fraction-calculator/tool/dataforseo-paid.json`. Judge movement only after Google recrawls the released page.
+
+## 2026-07-12 Markup Calculator Query-Recovery Sprint
+
+- Exact Search Console evidence found 600 impressions, 0 clicks, and average position 72.05 for `/blog/how-to-use-markup-calculator/` from 2026-05-01 through 2026-07-09. Visible queries include `calculate markup`, `calculate a markup`, `calculate markup and margin`, `calculate margin from markup`, `30 margin to markup`, and `business markup formula`.
+- Google reports the guide submitted and indexed, with a successful mobile crawl on 2026-07-09. The current generic guide title, meta description cut off mid-word, and cost-plus-only calculator were therefore current-page gaps, not stale crawl evidence.
+- Targeted DataForSEO evidence reports 18,100 U.S. monthly searches for `markup calculator`, 1,600 for `how to calculate markup`, 1,300 for `margin markup calculator`, 320 for `how to calculate selling price using markup percentage`, and 140 for `reverse markup calculator`. The two related-keyword audits cost $0.02616 total.
+- The recovery adds tested From markup, From margin, and Check price modes. It calculates selling price from markup or target margin, checks markup and margin from a known cost and price, reports below-cost losses honestly, and rebuilds the guide around the three distinct workflows.
+- Baseline evidence: `output/search-console/candidate-markup-guide-2026-07-12.json`, `output/search-console/url-inspection-next-opportunities-2026-07-12.json`, and `output/seo-tool-review/markup-calculator/blog/dataforseo-paid.json`. Judge movement only after Google recrawls the released tool and guide.

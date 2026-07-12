@@ -4119,6 +4119,28 @@ export interface MarkupPriceResult {
   totalProfit: number;
 }
 
+function buildMarkupPriceResult(
+  unitCost: number,
+  sellingPricePerUnit: number,
+  units: number,
+  markupPercent?: number,
+): MarkupPriceResult {
+  const profitPerUnit = sellingPricePerUnit - unitCost;
+  const calculatedMarkupPercent = unitCost === 0 ? 0 : (profitPerUnit / unitCost) * 100;
+
+  return {
+    unitCost,
+    markupPercent: markupPercent ?? calculatedMarkupPercent,
+    units,
+    sellingPricePerUnit,
+    profitPerUnit,
+    marginPercent: sellingPricePerUnit === 0 ? 0 : (profitPerUnit / sellingPricePerUnit) * 100,
+    totalRevenue: sellingPricePerUnit * units,
+    totalCost: unitCost * units,
+    totalProfit: profitPerUnit * units,
+  };
+}
+
 export interface ProfitGoalResult {
   fixedCosts: number;
   targetProfit: number;
@@ -5896,19 +5918,38 @@ export function calculateMarkupPrice(input: {
 
   const units = input.units ?? 1;
   const sellingPricePerUnit = input.unitCost * (1 + input.markupPercent / 100);
-  const profitPerUnit = sellingPricePerUnit - input.unitCost;
 
-  return {
-    unitCost: input.unitCost,
-    markupPercent: input.markupPercent,
-    units,
-    sellingPricePerUnit,
-    profitPerUnit,
-    marginPercent: sellingPricePerUnit === 0 ? 0 : (profitPerUnit / sellingPricePerUnit) * 100,
-    totalRevenue: sellingPricePerUnit * units,
-    totalCost: input.unitCost * units,
-    totalProfit: profitPerUnit * units,
-  };
+  return buildMarkupPriceResult(input.unitCost, sellingPricePerUnit, units, input.markupPercent);
+}
+
+export function calculateMarkupPriceFromMargin(input: {
+  unitCost: number;
+  targetMarginPercent: number;
+  units?: number;
+}): MarkupPriceResult {
+  assertPositiveNumber(input.unitCost, 'Unit cost');
+  assertNonNegativeNumber(input.targetMarginPercent, 'Target margin');
+  assertPositiveNumber(input.units ?? 1, 'Units');
+
+  if (input.targetMarginPercent >= 100) {
+    throw new Error('Target margin must be less than 100%');
+  }
+
+  const units = input.units ?? 1;
+  const sellingPricePerUnit = input.unitCost / (1 - input.targetMarginPercent / 100);
+  return buildMarkupPriceResult(input.unitCost, sellingPricePerUnit, units);
+}
+
+export function calculateMarkupFromSellingPrice(input: {
+  unitCost: number;
+  sellingPricePerUnit: number;
+  units?: number;
+}): MarkupPriceResult {
+  assertPositiveNumber(input.unitCost, 'Unit cost');
+  assertPositiveNumber(input.sellingPricePerUnit, 'Selling price');
+  assertPositiveNumber(input.units ?? 1, 'Units');
+
+  return buildMarkupPriceResult(input.unitCost, input.sellingPricePerUnit, input.units ?? 1);
 }
 
 export function calculateProfitGoal(input: {

@@ -176,7 +176,9 @@ import {
   calculateLoanSummary,
   calculateMarginEstimate,
   calculateMarriageTaxComparison,
+  calculateMarkupFromSellingPrice,
   calculateMarkupPrice,
+  calculateMarkupPriceFromMargin,
   calculateMacroSplit,
   calculateMifflinStJeor,
   calculateMutualFundEstimate,
@@ -2017,6 +2019,50 @@ describe('finance helpers', () => {
     expect(formatCalculatorNumber(stockRatios.priceBookRatio)).toBe('6.9230769231');
     expect(stockRatios.dividendYieldPercent).toBe(2.5);
     expect(stockRatios.payoutRatioPercent).toBe(37.5);
+  });
+
+  it('converts target margin and selling price into markup pricing results', () => {
+    const fromMargin = calculateMarkupPriceFromMargin({
+      unitCost: 75,
+      targetMarginPercent: 40,
+      units: 20,
+    });
+    const fromPrice = calculateMarkupFromSellingPrice({
+      unitCost: 30,
+      sellingPricePerUnit: 45,
+      units: 100,
+    });
+    const belowCost = calculateMarkupFromSellingPrice({
+      unitCost: 30,
+      sellingPricePerUnit: 24,
+    });
+
+    expect(fromMargin.sellingPricePerUnit).toBe(125);
+    expect(fromMargin.profitPerUnit).toBe(50);
+    expect(fromMargin.marginPercent).toBe(40);
+    expect(fromMargin.markupPercent).toBeCloseTo(66.6666666667);
+    expect(fromMargin.totalRevenue).toBe(2500);
+    expect(fromMargin.totalProfit).toBe(1000);
+
+    expect(fromPrice.markupPercent).toBe(50);
+    expect(fromPrice.marginPercent).toBeCloseTo(33.3333333333);
+    expect(fromPrice.profitPerUnit).toBe(15);
+    expect(fromPrice.totalRevenue).toBe(4500);
+    expect(fromPrice.totalProfit).toBe(1500);
+
+    expect(belowCost.markupPercent).toBe(-20);
+    expect(belowCost.marginPercent).toBe(-25);
+    expect(belowCost.profitPerUnit).toBe(-6);
+
+    expect(() => calculateMarkupPriceFromMargin({ unitCost: 30, targetMarginPercent: 100 })).toThrow(
+      'Target margin must be less than 100%',
+    );
+    expect(() => calculateMarkupPriceFromMargin({ unitCost: 0, targetMarginPercent: 40 })).toThrow(
+      'Unit cost must be greater than zero',
+    );
+    expect(() => calculateMarkupFromSellingPrice({ unitCost: 30, sellingPricePerUnit: 0 })).toThrow(
+      'Selling price must be greater than zero',
+    );
   });
 
   it('calculates the remaining finance roadmap estimates', () => {

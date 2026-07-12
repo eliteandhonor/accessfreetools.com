@@ -46,7 +46,9 @@ import {
   calculateLiquidityRatios,
   calculateMarginEstimate,
   calculateMarriageTaxComparison,
+  calculateMarkupFromSellingPrice,
   calculateMarkupPrice,
+  calculateMarkupPriceFromMargin,
   calculateMutualFundEstimate,
   calculateOperationsRatios,
   calculateMortgagePayoffSummary,
@@ -1329,13 +1331,14 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
   },
   markup: {
     title: 'Markup Calculator',
-    buttonLabel: 'Calculate markup price',
-    emptyHistory: 'Recent markup price estimates will appear here.',
-    privacyNote: 'Markup estimates are simple pricing math and do not include discounts, taxes, payment fees, inventory loss, or accounting rules.',
+    buttonLabel: 'Calculate pricing',
+    emptyHistory: 'Recent pricing estimates will appear here.',
+    privacyNote:
+      'Pricing estimates are simple planning math and do not include discounts, taxes, payment fees, shipping, returns, inventory loss, or accounting rules.',
     modes: [
       {
         id: 'markup',
-        label: 'Markup',
+        label: 'From markup',
         symbol: 'MKUP',
         fields: [
           numberField('unitCost', 'Unit cost ($)'),
@@ -1347,6 +1350,38 @@ const financeConfigs: Record<FinanceToolVariant, FinanceConfig> = {
           { label: 'Retail item', inputs: { unitCost: '30', markupPercent: '50', units: '100' } },
           { label: 'Handmade product', inputs: { unitCost: '12.50', markupPercent: '80', units: '25' } },
           { label: 'Wholesale batch', inputs: { unitCost: '7.25', markupPercent: '35', units: '500' } },
+        ],
+      },
+      {
+        id: 'markup-target-margin',
+        label: 'From margin',
+        symbol: 'MARGIN',
+        fields: [
+          numberField('unitCost', 'Unit cost ($)'),
+          numberField('targetMarginPercent', 'Target margin (%)'),
+          numberField('units', 'Units'),
+        ],
+        defaultInputs: { unitCost: '75', targetMarginPercent: '40', units: '20' },
+        examples: [
+          { label: '40% target margin', inputs: { unitCost: '75', targetMarginPercent: '40', units: '20' } },
+          { label: '35% target margin', inputs: { unitCost: '26', targetMarginPercent: '35', units: '50' } },
+          { label: '60% target margin', inputs: { unitCost: '18', targetMarginPercent: '60', units: '10' } },
+        ],
+      },
+      {
+        id: 'markup-from-price',
+        label: 'Check price',
+        symbol: 'PRICE',
+        fields: [
+          numberField('unitCost', 'Unit cost ($)'),
+          numberField('sellingPricePerUnit', 'Selling price ($)'),
+          numberField('units', 'Units'),
+        ],
+        defaultInputs: { unitCost: '30', sellingPricePerUnit: '45', units: '100' },
+        examples: [
+          { label: '$30 cost, $45 price', inputs: { unitCost: '30', sellingPricePerUnit: '45', units: '100' } },
+          { label: '$12 cost, $20 price', inputs: { unitCost: '12', sellingPricePerUnit: '20', units: '25' } },
+          { label: 'Below-cost check', inputs: { unitCost: '30', sellingPricePerUnit: '24', units: '1' } },
         ],
       },
     ],
@@ -3634,6 +3669,62 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
       };
     }
     case 'markup': {
+      if (modeId === 'markup-target-margin') {
+        const result = calculateMarkupPriceFromMargin({
+          unitCost: parseNumber(inputs.unitCost, 'Unit cost'),
+          targetMarginPercent: parseNumber(inputs.targetMarginPercent, 'Target margin'),
+          units: parseNumber(inputs.units, 'Units'),
+        });
+
+        return {
+          label: 'Selling price per unit',
+          expression: `${compactMoney(result.unitCost)} cost for ${percent(result.marginPercent)} target margin`,
+          answer: money(result.sellingPricePerUnit),
+          metrics: [
+            { label: 'Equivalent markup', value: roundedPercent(result.markupPercent) },
+            { label: 'Profit per unit', value: money(result.profitPerUnit) },
+            { label: 'Total revenue', value: money(result.totalRevenue) },
+            { label: 'Total profit', value: money(result.totalProfit) },
+          ],
+          steps: [
+            'Convert target margin percent to a decimal.',
+            'Subtract the margin decimal from one.',
+            'Divide unit cost by that result to find selling price.',
+            'Compare profit with cost to show the equivalent markup.',
+          ],
+          note:
+            'Target margin is based on the final selling price. A 40% margin needs a 66.67% markup because margin and markup use different starting numbers.',
+        };
+      }
+
+      if (modeId === 'markup-from-price') {
+        const result = calculateMarkupFromSellingPrice({
+          unitCost: parseNumber(inputs.unitCost, 'Unit cost'),
+          sellingPricePerUnit: parseNumber(inputs.sellingPricePerUnit, 'Selling price'),
+          units: parseNumber(inputs.units, 'Units'),
+        });
+
+        return {
+          label: 'Markup on cost',
+          expression: `${compactMoney(result.unitCost)} cost sold for ${money(result.sellingPricePerUnit)}`,
+          answer: roundedPercent(result.markupPercent),
+          metrics: [
+            { label: 'Margin on price', value: roundedPercent(result.marginPercent) },
+            { label: 'Profit per unit', value: money(result.profitPerUnit) },
+            { label: 'Total revenue', value: money(result.totalRevenue) },
+            { label: 'Total profit', value: money(result.totalProfit) },
+          ],
+          steps: [
+            'Subtract unit cost from selling price to find profit per unit.',
+            'Divide profit by unit cost to find markup percent.',
+            'Divide profit by selling price to find margin percent.',
+            'Multiply the unit values by the number of units for batch totals.',
+          ],
+          note:
+            'A selling price below unit cost produces negative markup, margin, and profit. Add real per-item fees and shipping to unit cost before trusting the check.',
+        };
+      }
+
       const result = calculateMarkupPrice({
         unitCost: parseNumber(inputs.unitCost, 'Unit cost'),
         markupPercent: parseNumber(inputs.markupPercent, 'Markup percent'),
@@ -3646,7 +3737,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
         answer: money(result.sellingPricePerUnit),
         metrics: [
           { label: 'Profit per unit', value: money(result.profitPerUnit) },
-          { label: 'Margin from that price', value: percent(result.marginPercent) },
+          { label: 'Margin from that price', value: roundedPercent(result.marginPercent) },
           { label: 'Total revenue', value: money(result.totalRevenue) },
           { label: 'Total profit', value: money(result.totalProfit) },
         ],

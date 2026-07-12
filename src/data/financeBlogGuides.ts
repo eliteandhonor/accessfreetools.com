@@ -1438,31 +1438,76 @@ const guideDetails: Record<string, GuideDetail> = {
     next: ['Use Profit Goal Calculator when you want profit above break-even.', 'Use Markup Calculator to test a different selling price.'],
   },
   'markup-calculator': {
-    summary: 'Learn how markup turns cost into selling price and why markup percent is not the same as margin percent.',
+    title: 'Markup and Margin Calculator Guide',
+    metaDescription:
+      'Calculate markup, convert markup to margin, find selling price from target margin, and check cost versus price with worked examples.',
+    intro:
+      'Markup and margin can describe the same profit with different percentages. This guide shows three useful checks: set a price from markup, work backward from a target margin, or measure a price you already know.',
+    quickStart: [
+      'Open the Markup Calculator and choose From markup, From margin, or Check price.',
+      'Enter unit cost for one item. Include recurring per-item costs when they belong in the pricing decision.',
+      'Enter markup, target margin, or selling price for the mode you chose, then add units for batch totals.',
+      'Calculate, then compare selling price, profit per unit, markup, margin, revenue, and total profit.',
+      'Test fees, discounts, returns, and real market prices separately before changing a live price.',
+    ],
+    featuredSections: [
+      {
+        title: 'Markup and margin use different starting numbers',
+        paragraphs: [
+          'Markup compares profit with cost. Margin compares profit with selling price. If an item costs $30 and sells for $45, the $15 profit is 50% of cost but only 33.33% of the selling price.',
+          'That is why a 40% target margin needs more than a 40% markup. With a $75 cost, a 40% margin needs a $125 selling price, which is a 66.67% markup on cost.',
+        ],
+      },
+      {
+        title: 'Choose the mode that matches what you know',
+        paragraphs: [
+          'Use From markup when you know cost and the percent to add. Use From margin when you know cost and the share of the final price you want left as gross profit. Use Check price when you already know cost and selling price.',
+          'The three modes answer different questions without mixing the denominators. Units only scale the per-item values into total cost, revenue, and profit.',
+        ],
+        links: [
+          { href: '/tools/markup-calculator/', label: 'Open the three-mode Markup Calculator' },
+          { href: '/tools/margin-calculator/', label: 'Compare broader revenue and cost totals' },
+        ],
+      },
+      {
+        title: 'What the price still leaves out',
+        paragraphs: [
+          'A mathematically correct price can still be a poor business price. Packaging, shipping, marketplace fees, payment fees, discounts, returns, waste, overhead, taxes, and customer demand can all change the real result.',
+          'Put recurring per-item costs into unit cost when appropriate, then compare the answer with actual records and prices customers will accept. Keep sales tax separate when it is added after the product price.',
+        ],
+      },
+    ],
+    sidecarText:
+      'Markup is profit compared with cost. Margin is profit compared with selling price. Use the mode that matches the number you already know, then check the real costs the formula cannot see.',
+    summary: 'Calculate selling price from markup or target margin, then check profit, margin, and equivalent markup with worked examples.',
     purpose:
-      'The Markup Calculator is for cost-plus pricing. It starts with what one item costs, adds a markup percent, then shows the selling price and profit.',
+      'The Markup Calculator handles three one-item pricing jobs: add markup to cost, find the price required for a target margin, or measure markup and margin from a known cost and selling price.',
     enter: [
-      'Enter unit cost as what one item costs before markup.',
-      'Enter markup percent as the percent added on top of cost, such as 50 for 50%.',
+      'Choose From markup when you know the percent to add on top of cost.',
+      'Choose From margin when you know the percent of the final price you want left after unit cost.',
+      'Choose Check price when you already know both unit cost and selling price.',
       'Enter units if you want the page to total revenue, total cost, and total profit for a batch.',
     ],
     example: [
       'If an item costs $30 and you add a 50% markup, the markup amount is $15.',
       'The selling price is $45. If you sell 100 units, the total profit before fees or discounts is $1,500. The margin is 33.33%, because $15 profit is one-third of the final $45 price.',
+      'For target-margin pricing, a $75 cost with a 40% target margin needs a $125 selling price. The $50 profit is 40% of price and 66.67% of cost.',
+      'For a reverse check, a $30 cost and $45 selling price gives 50% markup and 33.33% margin. A price below cost produces negative markup, margin, and profit.',
     ],
     read: [
-      'Selling price per unit is the price produced by the markup.',
+      'Selling price per unit is the price produced by markup or target-margin mode.',
+      'Equivalent markup shows how a target margin compares with cost-based markup.',
       'Profit per unit is selling price minus cost.',
-      'Margin from that price helps you compare this result with margin-based pricing.',
+      'Margin on price shows profit as a percent of the final selling price.',
       'Total profit only makes sense if the unit count is close to what you can actually sell.',
     ],
     mistakes: [
       'Do not read markup percent as margin percent. They use different denominators.',
+      'Do not enter a 40% target as 0.40. Enter 40 in a percent field.',
       'Do not ignore platform fees, shipping, packaging, returns, or discounts if they reduce profit.',
       'Do not assume a higher markup automatically means the market will pay that price.',
-      'Do not use this page for target-margin pricing. Use the Margin Calculator when the percent of the sale price is the goal.',
     ],
-    next: ['Use Margin Calculator when you already know selling price.', 'Use Break Even Calculator to see how many units need to sell.'],
+    next: ['Use Margin Calculator for broader revenue and cost totals.', 'Use Break Even Calculator to see how many units need to sell.', 'Use Sales Tax Calculator when tax is added after the selling price.'],
   },
   'profit-goal-calculator': {
     summary: 'Learn how many units or how much sales revenue you need to cover costs and still hit a target profit.',

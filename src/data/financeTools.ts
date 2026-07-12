@@ -246,34 +246,55 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
   {
     slug: 'markup-calculator',
     name: 'Markup Calculator',
-    summary: 'Calculate selling price, profit, and margin from cost plus markup percent.',
+    summary: 'Calculate selling price from markup or target margin, or check markup, margin, and profit from a known price.',
     description:
-      'Use this free markup calculator to turn unit cost and markup percent into selling price, profit per unit, margin percent, total revenue, and total profit.',
-    seoTitle: 'Markup Calculator | Selling Price, Profit And Margin',
+      'Use this free markup calculator to price from cost plus markup, work backward from a target margin, or compare unit cost with a known selling price. Each mode shows profit, markup, margin, revenue, and batch totals.',
+    seoTitle: 'Markup Calculator | Margin, Selling Price & Profit',
     seoDescription:
-      'Calculate markup price from cost, markup percent, and units. See selling price, profit per unit, margin percent, revenue, and total profit.',
+      'Calculate selling price from markup or target margin, or find markup and margin from cost plus selling price. See profit and batch totals.',
     icon: 'calculator-markup',
-    aliases: ['price markup calculator', 'markup price calculator', 'cost plus markup calculator'],
+    aliases: [
+      'price markup calculator',
+      'markup price calculator',
+      'cost plus markup calculator',
+      'margin markup calculator',
+      'reverse markup calculator',
+      'selling price calculator',
+    ],
     formula:
-      'The calculator uses selling price = unit cost x (1 + markup percent / 100). It then subtracts cost from selling price to show profit per unit, and divides profit by selling price to show margin.',
+      'From markup, selling price = cost x (1 + markup / 100). From target margin, selling price = cost / (1 - margin / 100). From a known price, markup = profit / cost x 100 and margin = profit / selling price x 100.',
     limit:
-      'This does not include discounts, coupons, sales tax, shipping, marketplace fees, returns, inventory loss, or accounting rules.',
+      'This does not find the best market price or include discounts, coupons, sales tax, shipping, marketplace fees, payment fees, returns, inventory loss, overhead, or accounting rules unless you first include applicable per-item costs in unit cost.',
     useCases: [
       'Set a simple cost-plus selling price.',
-      'See why markup percent and margin percent are different.',
+      'Find the selling price needed for a target gross margin.',
+      'Check markup and margin from a known cost and selling price.',
       'Estimate total revenue and profit for a batch of products.',
-      'Compare prices before using the margin calculator for a finished sale price.',
     ],
     examples: [
       { label: 'Retail item', expression: '$30 cost with 50% markup for 100 units', result: '$45 price, $15 profit each, 33.33% margin, and $1,500 total profit' },
-      { label: 'Handmade product', expression: '$12.50 cost with 80% markup', result: '$22.50 price and $10 profit before fees or discounts' },
-      { label: 'Wholesale batch', expression: '$7.25 cost with 35% markup for 500 units', result: '$9.79 price, about $2.54 profit each, and about $1,268.75 total profit' },
+      { label: 'Target margin', expression: '$75 cost with a 40% target margin for 20 units', result: '$125 price, $50 profit each, 66.67% equivalent markup, and $1,000 total profit' },
+      { label: 'Known selling price', expression: '$30 cost and $45 selling price for 100 units', result: '50% markup, 33.33% margin, and $1,500 total profit' },
     ],
     relatedSlugs: ['margin-calculator', 'break-even-calculator', 'unit-price-calculator'],
     inputExplanations: [
-      { term: 'Unit cost', meaning: 'what one item costs before adding markup.' },
+      { term: 'Unit cost', meaning: 'what one item costs before adding profit. Include recurring per-item costs when they belong in the price check.' },
       { term: 'Markup percent', meaning: 'the percent added on top of cost, not the percent of the final selling price.' },
+      { term: 'Target margin', meaning: 'the percent of the final selling price left after subtracting unit cost.' },
+      { term: 'Selling price', meaning: 'the amount charged for one item before any separate sales tax.' },
       { term: 'Units', meaning: 'how many items you want to total for revenue and profit.' },
+    ],
+    priorityFaq: [
+      {
+        question: 'How do I calculate selling price from a target margin?',
+        answer:
+          'Choose From margin. Divide cost by one minus the target margin written as a decimal. A $75 cost with a 40% target margin gives $75 / 0.60 = $125. The $50 profit is 40% of the $125 selling price.',
+      },
+      {
+        question: 'How do I find markup from cost and selling price?',
+        answer:
+          'Choose Check price. Subtract cost from selling price, divide that profit by cost, then multiply by 100. A $30 cost sold for $45 has $15 profit, so markup is $15 / $30 x 100 = 50%.',
+      },
     ],
     extraFaq: [
       {
@@ -284,7 +305,7 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       {
         question: 'Should I use this or the Margin Calculator?',
         answer:
-          'Use the Markup Calculator when you know cost and want to choose a selling price. Use the Margin Calculator when you already know revenue or selling price and want to measure the profit margin.',
+          'Use this Markup Calculator for one-item pricing from cost, target margin, or a known selling price. Use the Margin Calculator for broader revenue, cost, and profit totals that are not based on one unit.',
       },
       {
         question: 'Does a 50% markup mean I keep 50% of the sale?',
@@ -299,7 +320,7 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
       {
         question: 'Can I use this for target-margin pricing?',
         answer:
-          'Not directly. This page adds markup to cost. Target margin works backward from the percent of the final sale price you want to keep, so use the Margin Calculator when margin is the goal.',
+          'Yes. Choose From margin, enter unit cost and a target below 100%, and the calculator will find the required selling price and equivalent markup. Remember that a margin target does not prove customers will accept the price.',
       },
       {
         question: 'Should every product use the same markup percent?',
@@ -307,6 +328,14 @@ const remainingFinanceToolSpecs: FinanceToolSpec[] = [
           'Usually no. A small, fast-selling item, a handmade item, and a bulky item with returns can need different markups. Use the calculator to test the math, then compare the price with demand, fees, stock risk, and what similar items sell for.',
       },
     ],
+    formulaCheck:
+      '$75 cost with a 40% target margin gives $75 / (1 - 0.40) = $125. Profit is $50, equivalent markup is $50 / $75 = 66.67%, and margin is $50 / $125 = 40%.',
+    resultReading:
+      'Read the headline price or markup first, then compare profit per unit, margin, and batch totals. A negative result in Check price means the selling price is below the entered unit cost.',
+    doubleCheck:
+      'Check whether packaging, shipping, marketplace fees, payment fees, returns, waste, and discounts belong in unit cost. Also confirm that you entered 40 for 40%, not 0.40.',
+    limitFollowup:
+      'Compare the result with real costs, customer demand, competitor prices, tax rules, and accounting records before changing a live price.',
   },
   {
     slug: 'profit-goal-calculator',

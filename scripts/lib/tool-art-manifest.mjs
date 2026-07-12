@@ -52,6 +52,18 @@ const categoryVisualCues = {
 };
 
 const toolArtMetadataOverrides = {
+  'markup-calculator': {
+    tool: {
+      alt: 'Smoke-kawaii mascot comparing unit cost, markup, target margin, selling price, and profit cards.',
+      caption:
+        'Markup Calculator artwork matches the three live modes: price from markup, price from target margin, and markup and margin from a known selling price.',
+    },
+    guide: {
+      alt: 'Smoke-kawaii mascot explaining how a $30 cost and $45 price become 50 percent markup and 33.33 percent margin.',
+      caption:
+        'Markup Calculator guide artwork supports the worked examples for cost-based markup, target-margin pricing, reverse price checks, and below-cost results.',
+    },
+  },
   'engine-horsepower-calculator': {
     tool: {
       alt: 'Smoke-kawaii mascot presenting torque and RPM inputs beside an engine crankshaft, drivetrain gears, wheel, and horsepower gauges.',

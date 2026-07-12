@@ -8460,20 +8460,23 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'markup-calculator',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
-    reviewedOn: '2026-05-26',
+    batch: 'gsc-dataforseo-query-recovery-2026-07-12',
+    reviewedOn: '2026-07-12',
     scope: commonMathScope,
     sources: [calculatorSoupSitemap, openStaxDiscounts, openStaxPercent, googleHelpfulContent, googleSnippets],
     findings: [
-      'DataForSEO and GSC sprint review confirmed that markup intent needs a direct cost-plus pricing page and a guide that explains why markup is not margin.',
-      'Formula review checked selling price = unit cost x (1 + markup percent / 100), profit per unit, batch revenue, total cost, total profit, and margin-from-markup output.',
-      'FAQ and guide now explain fees, packaging, discounts, target-margin differences, and the common 50% markup versus 50% margin mistake.',
+      'Exact Search Console evidence found 600 impressions and 0 clicks for the guide through July 9, 2026, with visible queries for calculating markup, markup versus margin, margin-to-markup conversion, and selling-price formulas.',
+      'Google crawled the current guide on July 9, so the generic title, visibly truncated meta description, and missing target-margin workflow were current-page gaps rather than stale recrawl evidence.',
+      'Targeted DataForSEO evidence reports 18,100 U.S. monthly searches for markup calculator, 1,600 for how to calculate markup, 1,300 for margin markup calculator, and 140 for reverse markup calculator.',
+      'Formula review checked price from markup, price from target margin, reverse markup and margin from cost plus price, negative below-cost results, per-unit profit, and batch totals.',
     ],
     improvements: [
-      'Added stronger example outputs, source-backed guide wording, detailed FAQ depth, specific image alt/caption text, page-specific DataForSEO evidence, and related margin and break-even pathways.',
+      'Added separate From markup, From margin, and Check price modes with tested formulas, focused examples, clear result labels, and invalid-margin protection.',
+      'Rebuilt tool and guide metadata around markup, margin, selling price, and reverse-price intent; the guide description is now complete rather than cut off mid-word.',
+      'Expanded visible explanations, FAQs, worked examples, source-backed formula context, fee and demand limits, and links to the broader Margin and Break Even calculators.',
     ],
     followUps: [
-      'Add target-margin pricing later if it is kept separate from cost-plus markup math.',
+      'Compare the same fixed Search Console page window only after Google recrawls the released tool and guide; do not claim CTR improvement from source changes alone.',
     ],
   },
   {
