@@ -52,6 +52,18 @@ const categoryVisualCues = {
 };
 
 const toolArtMetadataOverrides = {
+  'engine-horsepower-calculator': {
+    tool: {
+      alt: 'Smoke-kawaii mascot presenting torque and RPM inputs beside an engine crankshaft, drivetrain gears, wheel, and horsepower gauges.',
+      caption:
+        'Engine Horsepower Calculator artwork shows the relationship between torque, RPM, engine power, drivetrain loss, and wheel horsepower.',
+    },
+    guide: {
+      alt: 'Smoke-kawaii mascot explaining a crankshaft-to-engine-to-drivetrain flow with RPM, power, and wheel gauges.',
+      caption:
+        'Engine Horsepower Calculator guide artwork supports the walkthrough from torque and RPM through engine power, drivetrain loss, and wheel horsepower.',
+    },
+  },
   'boat-loan-calculator': {
     tool: {
       alt: 'Smoke mascot reviewing a boat loan estimate with $39,900 financed, $494.70 monthly payment, and $19,464.35 interest cards.',

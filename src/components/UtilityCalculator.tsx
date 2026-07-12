@@ -114,7 +114,10 @@ import {
   calculateWindChill,
   calculateWireResistanceEstimate,
   calculateWireSizeEstimate,
+  calculateDrivetrainHorsepower,
   calculateEngineHorsepower,
+  calculateEngineRpm,
+  calculateEngineTorque,
   analyzeText,
   buildQueryStringFromLines,
   buildUtmUrl,
@@ -318,6 +321,7 @@ interface UtilityMode {
   id: string;
   label: string;
   symbol: string;
+  buttonLabel?: string;
   fields: UtilityField[];
   defaultInputs: UtilityInputs;
   examples: UtilityExample[];
@@ -415,6 +419,15 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     widthFeet: 'Form width in feet.',
     depthInches: 'Slab thickness or average pour depth in inches.',
     wastePercent: 'Extra concrete for uneven grade, spillage, low spots, and ordering cushion.',
+  },
+  'engine-horsepower': {
+    torque: 'Torque measured at the same engine-speed point as RPM. Choose lb-ft or N m before calculating.',
+    torqueUnit: 'Unit used by the entered torque value or requested torque result.',
+    rpm: 'Engine revolutions per minute at the same point as torque or horsepower.',
+    horsepower: 'Known mechanical engine or wheel horsepower for the selected solve mode.',
+    drivetrainLossPercent:
+      'Editable estimate of power lost between engine and wheels. A real loss is not fixed by drivetrain label alone.',
+    drivetrainDirection: 'Choose whether the known value is engine horsepower or wheel horsepower.',
   },
   roofing: {
     lengthFeet: 'Horizontal footprint length, not the sloped roof surface.',
@@ -1136,6 +1149,16 @@ const horsepowerUnitOptions: SelectOption[] = [
   { label: 'Watts', value: 'watt' },
   { label: 'Kilowatts', value: 'kilowatt' },
   { label: 'Metric hp', value: 'metric-horsepower' },
+];
+
+const engineTorqueUnitOptions: SelectOption[] = [
+  { label: 'Pound-feet (lb-ft)', value: 'pound-feet' },
+  { label: 'Newton-meters (N m)', value: 'newton-meters' },
+];
+
+const drivetrainDirectionOptions: SelectOption[] = [
+  { label: 'Engine hp to wheel hp', value: 'engine-to-wheel' },
+  { label: 'Wheel hp to engine hp', value: 'wheel-to-engine' },
 ];
 
 const poolShapeOptions: SelectOption[] = [
@@ -3862,23 +3885,86 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
   },
   'engine-horsepower': {
     title: 'Engine Horsepower Calculator',
-    buttonLabel: 'Calculate horsepower',
-    emptyHistory: 'Recent engine horsepower estimates will appear here.',
-    privacyNote: 'Engine horsepower estimates stay in the browser and are simple torque-RPM math.',
+    buttonLabel: 'Calculate engine power',
+    emptyHistory: 'Recent engine power calculations will appear here.',
+    privacyNote:
+      'Torque, RPM, horsepower, and drivetrain estimates stay in this browser tab. Results are formula estimates, not dyno measurements.',
     modes: [
       {
         id: 'torque-rpm',
-        label: 'Torque and RPM',
-        symbol: 'RPM',
+        label: 'Find HP',
+        symbol: 'HP',
+        buttonLabel: 'Calculate horsepower',
         fields: [
-          numberField('torquePoundFeet', 'Torque (lb-ft)'),
+          numberField('torque', 'Torque'),
+          selectField('torqueUnit', 'Torque unit', engineTorqueUnitOptions),
           numberField('rpm', 'RPM'),
           numberField('drivetrainLossPercent', 'Drivetrain loss % (optional)', 'Optional'),
         ],
-        defaultInputs: { torquePoundFeet: '300', rpm: '5252', drivetrainLossPercent: '15' },
+        defaultInputs: { torque: '300', torqueUnit: 'pound-feet', rpm: '5252', drivetrainLossPercent: '15' },
         examples: [
-          { label: '300 lb-ft at 5,252 rpm', inputs: { torquePoundFeet: '300', rpm: '5252', drivetrainLossPercent: '15' } },
-          { label: '250 lb-ft at 4,000 rpm', inputs: { torquePoundFeet: '250', rpm: '4000', drivetrainLossPercent: '0' } },
+          {
+            label: '300 lb-ft at 5,252 rpm',
+            inputs: { torque: '300', torqueUnit: 'pound-feet', rpm: '5252', drivetrainLossPercent: '15' },
+          },
+          {
+            label: '400 N m at 5,000 rpm',
+            inputs: { torque: '400', torqueUnit: 'newton-meters', rpm: '5000', drivetrainLossPercent: '0' },
+          },
+        ],
+      },
+      {
+        id: 'horsepower-rpm',
+        label: 'Find torque',
+        symbol: 'TQ',
+        buttonLabel: 'Calculate torque',
+        fields: [
+          numberField('horsepower', 'Horsepower'),
+          numberField('rpm', 'RPM'),
+          selectField('torqueUnit', 'Torque result unit', engineTorqueUnitOptions),
+        ],
+        defaultInputs: { horsepower: '300', rpm: '6000', torqueUnit: 'pound-feet' },
+        examples: [
+          { label: '300 hp at 6,000 rpm', inputs: { horsepower: '300', rpm: '6000', torqueUnit: 'pound-feet' } },
+          { label: '200 hp at 4,500 rpm', inputs: { horsepower: '200', rpm: '4500', torqueUnit: 'newton-meters' } },
+        ],
+      },
+      {
+        id: 'horsepower-torque',
+        label: 'Find RPM',
+        symbol: 'RPM',
+        buttonLabel: 'Calculate RPM',
+        fields: [
+          numberField('horsepower', 'Horsepower'),
+          numberField('torque', 'Torque'),
+          selectField('torqueUnit', 'Torque unit', engineTorqueUnitOptions),
+        ],
+        defaultInputs: { horsepower: '300', torque: '300', torqueUnit: 'pound-feet' },
+        examples: [
+          { label: '300 hp and 300 lb-ft', inputs: { horsepower: '300', torque: '300', torqueUnit: 'pound-feet' } },
+          { label: '250 hp and 400 N m', inputs: { horsepower: '250', torque: '400', torqueUnit: 'newton-meters' } },
+        ],
+      },
+      {
+        id: 'engine-wheel',
+        label: 'Engine / wheel',
+        symbol: 'WHP',
+        buttonLabel: 'Estimate engine or wheel power',
+        fields: [
+          selectField('drivetrainDirection', 'Direction', drivetrainDirectionOptions),
+          numberField('horsepower', 'Known horsepower'),
+          numberField('drivetrainLossPercent', 'Drivetrain loss %'),
+        ],
+        defaultInputs: { drivetrainDirection: 'engine-to-wheel', horsepower: '300', drivetrainLossPercent: '15' },
+        examples: [
+          {
+            label: '300 engine hp to wheels',
+            inputs: { drivetrainDirection: 'engine-to-wheel', horsepower: '300', drivetrainLossPercent: '15' },
+          },
+          {
+            label: '255 wheel hp to engine',
+            inputs: { drivetrainDirection: 'wheel-to-engine', horsepower: '255', drivetrainLossPercent: '15' },
+          },
         ],
       },
     ],
@@ -7296,26 +7382,117 @@ function calculateUtility(
       };
     }
     case 'engine-horsepower': {
+      const torqueUnit = inputs.torqueUnit === 'newton-meters' ? 'newton-meters' : 'pound-feet';
+      const torqueUnitLabel = torqueUnit === 'newton-meters' ? 'N m' : 'lb-ft';
+
+      if (modeId === 'engine-wheel') {
+        const direction = inputs.drivetrainDirection === 'wheel-to-engine' ? 'wheel-to-engine' : 'engine-to-wheel';
+        const result = calculateDrivetrainHorsepower(
+          parseNumber(inputs.horsepower, 'Horsepower'),
+          parseNumber(inputs.drivetrainLossPercent, 'Drivetrain loss'),
+          direction,
+        );
+        const answer = direction === 'engine-to-wheel' ? result.wheelHorsepower : result.engineHorsepower;
+
+        return {
+          label: direction === 'engine-to-wheel' ? 'Estimated wheel horsepower' : 'Estimated engine horsepower',
+          expression:
+            direction === 'engine-to-wheel'
+              ? `${formatCalculatorNumber(result.inputHorsepower)} hp x ${formatCalculatorNumber(result.drivetrainEfficiencyPercent)}% efficiency`
+              : `${formatCalculatorNumber(result.inputHorsepower)} whp / ${formatCalculatorNumber(result.drivetrainEfficiencyPercent)}% efficiency`,
+          answer: `${formatCalculatorNumber(Math.round(answer * 100) / 100)} ${direction === 'engine-to-wheel' ? 'whp' : 'hp'}`,
+          metrics: [
+            { label: 'Engine horsepower', value: `${formatCalculatorNumber(Math.round(result.engineHorsepower * 100) / 100)} hp` },
+            { label: 'Wheel horsepower', value: `${formatCalculatorNumber(Math.round(result.wheelHorsepower * 100) / 100)} whp` },
+            { label: 'Estimated loss', value: `${formatCalculatorNumber(Math.round(result.horsepowerLost * 100) / 100)} hp` },
+            { label: 'Engine kilowatts', value: `${formatCalculatorNumber(Math.round(result.engineKilowatts * 100) / 100)} kW` },
+          ],
+          steps: [
+            direction === 'engine-to-wheel'
+              ? 'Treat the entered horsepower as engine or crank horsepower.'
+              : 'Treat the entered horsepower as wheel horsepower.',
+            `${direction === 'engine-to-wheel' ? 'Multiply by' : 'Divide by'} one minus the drivetrain loss percentage.`,
+            'Show the engine, wheel, and estimated lost horsepower separately.',
+          ],
+          note: 'Drivetrain loss is an editable assumption, not a fixed value for every FWD, RWD, AWD, transmission, tire, dyno, or test condition.',
+        };
+      }
+
+      if (modeId === 'horsepower-rpm') {
+        const result = calculateEngineTorque(
+          parseNumber(inputs.horsepower, 'Horsepower'),
+          parseNumber(inputs.rpm, 'RPM'),
+          torqueUnit,
+        );
+        const selectedTorque = torqueUnit === 'newton-meters' ? result.torqueNewtonMeters : result.torquePoundFeet;
+
+        return {
+          label: 'Estimated torque',
+          expression: `${formatCalculatorNumber(result.horsepower)} hp x 5252.1131 / ${formatCalculatorNumber(result.rpm)} rpm`,
+          answer: `${formatCalculatorNumber(Math.round(selectedTorque * 100) / 100)} ${torqueUnitLabel}`,
+          metrics: [
+            { label: 'Torque in lb-ft', value: formatCalculatorNumber(Math.round(result.torquePoundFeet * 100) / 100) },
+            { label: 'Torque in N m', value: formatCalculatorNumber(Math.round(result.torqueNewtonMeters * 100) / 100) },
+            { label: 'Horsepower used', value: `${formatCalculatorNumber(result.horsepower)} hp` },
+            { label: 'RPM used', value: `${formatCalculatorNumber(result.rpm)} rpm` },
+          ],
+          steps: [
+            'Multiply horsepower by the lb-ft/RPM conversion constant 5252.1131.',
+            'Divide by the engine speed in RPM.',
+            'Convert the torque result between lb-ft and N m when needed.',
+          ],
+          note: 'Horsepower and RPM must describe the same point on the engine curve. A peak horsepower number and unrelated RPM cannot recover real torque.',
+        };
+      }
+
+      if (modeId === 'horsepower-torque') {
+        const result = calculateEngineRpm(
+          parseNumber(inputs.horsepower, 'Horsepower'),
+          parseNumber(inputs.torque, 'Torque'),
+          torqueUnit,
+        );
+
+        return {
+          label: 'Estimated engine speed',
+          expression: `${formatCalculatorNumber(result.horsepower)} hp x 5252.1131 / ${formatCalculatorNumber(result.torquePoundFeet)} lb-ft`,
+          answer: `${formatCalculatorNumber(Math.round(result.rpm * 100) / 100)} rpm`,
+          metrics: [
+            { label: 'Torque in lb-ft', value: formatCalculatorNumber(Math.round(result.torquePoundFeet * 100) / 100) },
+            { label: 'Torque in N m', value: formatCalculatorNumber(Math.round(result.torqueNewtonMeters * 100) / 100) },
+            { label: 'Horsepower used', value: `${formatCalculatorNumber(result.horsepower)} hp` },
+          ],
+          steps: [
+            'Convert entered torque to lb-ft when it starts in N m.',
+            'Multiply horsepower by 5252.1131.',
+            'Divide by torque in lb-ft to solve for RPM.',
+          ],
+          note: 'This solves one point on a torque-power curve. It does not predict redline, safe operating RPM, gearing, or engine durability.',
+        };
+      }
+
       const result = calculateEngineHorsepower(
-        parseNumber(inputs.torquePoundFeet, 'Torque'),
+        parseNumber(inputs.torque, 'Torque'),
         parseNumber(inputs.rpm, 'RPM'),
         parseOptionalNumber(inputs.drivetrainLossPercent, 'Drivetrain loss') ?? 0,
+        torqueUnit,
       );
       return {
         label: 'Estimated engine horsepower',
-        expression: `${formatCalculatorNumber(result.torquePoundFeet)} lb-ft x ${formatCalculatorNumber(result.rpm)} rpm / 5252`,
-        answer: `${formatCalculatorNumber(result.engineHorsepower)} hp`,
+        expression: `${formatCalculatorNumber(result.inputTorque)} ${torqueUnitLabel} x ${formatCalculatorNumber(result.rpm)} rpm`,
+        answer: `${formatCalculatorNumber(Math.round(result.engineHorsepower * 100) / 100)} hp`,
         metrics: [
-          { label: 'Kilowatts', value: `${formatCalculatorNumber(result.kilowatts)} kW` },
-          { label: 'Wheel horsepower estimate', value: `${formatCalculatorNumber(result.wheelHorsepower)} whp` },
+          { label: 'Torque in lb-ft', value: formatCalculatorNumber(Math.round(result.torquePoundFeet * 100) / 100) },
+          { label: 'Torque in N m', value: formatCalculatorNumber(Math.round(result.torqueNewtonMeters * 100) / 100) },
+          { label: 'Kilowatts', value: `${formatCalculatorNumber(Math.round(result.kilowatts * 100) / 100)} kW` },
+          { label: 'Wheel horsepower estimate', value: `${formatCalculatorNumber(Math.round(result.wheelHorsepower * 100) / 100)} whp` },
           { label: 'Loss used', value: percent(result.drivetrainLossPercent) },
         ],
         steps: [
-          'Multiply torque in pound-feet by engine speed in RPM.',
-          'Divide by the unit conversion constant 5252.1131.',
+          torqueUnit === 'newton-meters' ? 'Convert torque from N m to lb-ft.' : 'Use the entered torque in lb-ft.',
+          'Multiply torque in pound-feet by engine speed in RPM, then divide by 5252.1131.',
           'Apply optional drivetrain loss only to the wheel horsepower estimate.',
         ],
-        note: 'Dyno standards, correction factors, drivetrain loss, and engine conditions can change measured horsepower.',
+        note: 'Torque and RPM must be from the same point. Dyno standard, correction factor, drivetrain, temperature, tires, gear, and engine condition can change measured power.',
       };
     }
     case 'golf-handicap': {
@@ -8357,7 +8534,7 @@ export default function UtilityCalculator({ variant }: Props) {
 
         <div className="advanced-actions">
           <button className="button-primary" onClick={() => void runCalculation()} type="button">
-            {config.buttonLabel}
+            {activeMode.buttonLabel ?? config.buttonLabel}
           </button>
           <button className="button-secondary" disabled={!result || Boolean(error)} onClick={copyResult} type="button">
             {copied ? 'Copied' : 'Copy answer'}

@@ -8346,12 +8346,47 @@ export interface HorsepowerConversionResult {
 }
 
 export interface EngineHorsepowerResult {
+  inputTorque: number;
+  inputTorqueUnit: EngineTorqueUnit;
   torquePoundFeet: number;
+  torqueNewtonMeters: number;
   rpm: number;
   drivetrainLossPercent: number;
   engineHorsepower: number;
   wheelHorsepower: number;
   kilowatts: number;
+}
+
+export type EngineTorqueUnit = 'pound-feet' | 'newton-meters';
+
+export interface EngineTorqueResult {
+  horsepower: number;
+  rpm: number;
+  torquePoundFeet: number;
+  torqueNewtonMeters: number;
+  outputUnit: EngineTorqueUnit;
+}
+
+export interface EngineRpmResult {
+  horsepower: number;
+  inputTorque: number;
+  inputTorqueUnit: EngineTorqueUnit;
+  torquePoundFeet: number;
+  torqueNewtonMeters: number;
+  rpm: number;
+}
+
+export type DrivetrainHorsepowerDirection = 'engine-to-wheel' | 'wheel-to-engine';
+
+export interface DrivetrainHorsepowerResult {
+  inputHorsepower: number;
+  direction: DrivetrainHorsepowerDirection;
+  drivetrainLossPercent: number;
+  drivetrainEfficiencyPercent: number;
+  engineHorsepower: number;
+  wheelHorsepower: number;
+  horsepowerLost: number;
+  engineKilowatts: number;
 }
 
 export interface GolfScoreDifferentialResult {
@@ -8540,6 +8575,7 @@ const millimetersPerInch = 25.4;
 const wattsPerMechanicalHorsepower = 745.6999;
 const wattsPerMetricHorsepower = 735.4988;
 const engineHorsepowerTorqueConstant = 5252.1131;
+const newtonMetersPerPoundFoot = 1.355818;
 const base64Alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 const concreteBagYieldsCubicFeet = {
   '40lb': 0.3,
@@ -12387,28 +12423,120 @@ export function calculateHorsepowerConversion(
 }
 
 export function calculateEngineHorsepower(
-  torquePoundFeet: number,
+  torque: number,
   rpm: number,
   drivetrainLossPercent = 0,
+  torqueUnit: EngineTorqueUnit = 'pound-feet',
 ): EngineHorsepowerResult {
-  assertPositiveNumber(torquePoundFeet, 'Torque');
+  const { torquePoundFeet, torqueNewtonMeters } = normalizeEngineTorque(torque, torqueUnit);
   assertPositiveNumber(rpm, 'RPM');
-  assertNonNegativeNumber(drivetrainLossPercent, 'Drivetrain loss');
-
-  if (drivetrainLossPercent >= 100) {
-    throw new Error('Drivetrain loss must be less than 100%');
-  }
+  assertDrivetrainLoss(drivetrainLossPercent);
 
   const engineHorsepower = (torquePoundFeet * rpm) / engineHorsepowerTorqueConstant;
   const wheelHorsepower = engineHorsepower * (1 - drivetrainLossPercent / 100);
 
   return {
+    inputTorque: torque,
+    inputTorqueUnit: torqueUnit,
     torquePoundFeet,
+    torqueNewtonMeters,
     rpm,
     drivetrainLossPercent,
     engineHorsepower,
     wheelHorsepower,
     kilowatts: (engineHorsepower * wattsPerMechanicalHorsepower) / 1000,
+  };
+}
+
+function normalizeEngineTorque(torque: number, torqueUnit: EngineTorqueUnit) {
+  assertPositiveNumber(torque, 'Torque');
+
+  if (torqueUnit !== 'pound-feet' && torqueUnit !== 'newton-meters') {
+    throw new Error('Torque unit must be pound-feet or newton-meters');
+  }
+
+  const torquePoundFeet = torqueUnit === 'newton-meters' ? torque / newtonMetersPerPoundFoot : torque;
+
+  return {
+    torquePoundFeet,
+    torqueNewtonMeters: torquePoundFeet * newtonMetersPerPoundFoot,
+  };
+}
+
+function assertDrivetrainLoss(drivetrainLossPercent: number) {
+  assertNonNegativeNumber(drivetrainLossPercent, 'Drivetrain loss');
+
+  if (drivetrainLossPercent >= 100) {
+    throw new Error('Drivetrain loss must be less than 100%');
+  }
+}
+
+export function calculateEngineTorque(
+  horsepower: number,
+  rpm: number,
+  outputUnit: EngineTorqueUnit = 'pound-feet',
+): EngineTorqueResult {
+  assertPositiveNumber(horsepower, 'Horsepower');
+  assertPositiveNumber(rpm, 'RPM');
+
+  if (outputUnit !== 'pound-feet' && outputUnit !== 'newton-meters') {
+    throw new Error('Torque unit must be pound-feet or newton-meters');
+  }
+
+  const torquePoundFeet = (horsepower * engineHorsepowerTorqueConstant) / rpm;
+
+  return {
+    horsepower,
+    rpm,
+    torquePoundFeet,
+    torqueNewtonMeters: torquePoundFeet * newtonMetersPerPoundFoot,
+    outputUnit,
+  };
+}
+
+export function calculateEngineRpm(
+  horsepower: number,
+  torque: number,
+  torqueUnit: EngineTorqueUnit = 'pound-feet',
+): EngineRpmResult {
+  assertPositiveNumber(horsepower, 'Horsepower');
+  const { torquePoundFeet, torqueNewtonMeters } = normalizeEngineTorque(torque, torqueUnit);
+
+  return {
+    horsepower,
+    inputTorque: torque,
+    inputTorqueUnit: torqueUnit,
+    torquePoundFeet,
+    torqueNewtonMeters,
+    rpm: (horsepower * engineHorsepowerTorqueConstant) / torquePoundFeet,
+  };
+}
+
+export function calculateDrivetrainHorsepower(
+  inputHorsepower: number,
+  drivetrainLossPercent: number,
+  direction: DrivetrainHorsepowerDirection,
+): DrivetrainHorsepowerResult {
+  assertPositiveNumber(inputHorsepower, 'Horsepower');
+  assertDrivetrainLoss(drivetrainLossPercent);
+
+  if (direction !== 'engine-to-wheel' && direction !== 'wheel-to-engine') {
+    throw new Error('Direction must be engine-to-wheel or wheel-to-engine');
+  }
+
+  const drivetrainEfficiency = 1 - drivetrainLossPercent / 100;
+  const engineHorsepower = direction === 'engine-to-wheel' ? inputHorsepower : inputHorsepower / drivetrainEfficiency;
+  const wheelHorsepower = direction === 'engine-to-wheel' ? inputHorsepower * drivetrainEfficiency : inputHorsepower;
+
+  return {
+    inputHorsepower,
+    direction,
+    drivetrainLossPercent,
+    drivetrainEfficiencyPercent: drivetrainEfficiency * 100,
+    engineHorsepower,
+    wheelHorsepower,
+    horsepowerLost: engineHorsepower - wheelHorsepower,
+    engineKilowatts: (engineHorsepower * wattsPerMechanicalHorsepower) / 1000,
   };
 }
 

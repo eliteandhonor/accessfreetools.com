@@ -258,7 +258,10 @@ import {
   calculateWallpaperEstimate,
   calculateWallStudEstimate,
   calculateWindChill,
+  calculateDrivetrainHorsepower,
   calculateEngineHorsepower,
+  calculateEngineRpm,
+  calculateEngineTorque,
   calculateKilovoltAmpsToAmps,
   calculateKilowattsToAmps,
   calculateUnixTimestampFromDate,
@@ -2548,6 +2551,11 @@ describe('utility helpers', () => {
     const scaledGdp = calculateGdpEstimate(18000, 5000, 6500, 3200, 4100, 0.34);
     const horsepower = calculateHorsepowerConversion(100, 'kilowatt');
     const engine = calculateEngineHorsepower(300, 5252.1131, 15);
+    const metricEngine = calculateEngineHorsepower(400, 5000, 0, 'newton-meters');
+    const torqueFromHorsepower = calculateEngineTorque(300, 6000, 'newton-meters');
+    const rpmFromHorsepower = calculateEngineRpm(300, 300, 'pound-feet');
+    const wheelFromEngine = calculateDrivetrainHorsepower(300, 15, 'engine-to-wheel');
+    const engineFromWheel = calculateDrivetrainHorsepower(255, 15, 'wheel-to-engine');
     const differential = calculateGolfScoreDifferential(86, 71.2, 128, 0);
     const weatherDifferential = calculateGolfScoreDifferential(92, 73.4, 136, 1);
     const courseHandicap = calculateGolfCourseHandicap(14.2, 128, 71.2, 72, 95);
@@ -2563,6 +2571,16 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(horsepower.mechanicalHorsepower)).toBe('134.102203849');
     expect(formatCalculatorNumber(engine.engineHorsepower)).toBe('300');
     expect(formatCalculatorNumber(engine.wheelHorsepower)).toBe('255');
+    expect(metricEngine.torquePoundFeet).toBeCloseTo(295.025, 3);
+    expect(metricEngine.engineHorsepower).toBeCloseTo(280.863, 3);
+    expect(torqueFromHorsepower.torquePoundFeet).toBeCloseTo(262.606, 3);
+    expect(torqueFromHorsepower.torqueNewtonMeters).toBeCloseTo(356.045, 3);
+    expect(rpmFromHorsepower.rpm).toBeCloseTo(5252.1131, 4);
+    expect(wheelFromEngine.wheelHorsepower).toBe(255);
+    expect(wheelFromEngine.horsepowerLost).toBe(45);
+    expect(engineFromWheel.engineHorsepower).toBeCloseTo(300, 10);
+    expect(engineFromWheel.horsepowerLost).toBeCloseTo(45, 10);
+    expect(() => calculateDrivetrainHorsepower(300, 100, 'engine-to-wheel')).toThrow(/less than 100%/);
     expect(differential.scoreDifferential).toBe(13.1);
     expect(weatherDifferential.scoreDifferential).toBe(14.6);
     expect(courseHandicap.courseHandicap).toBe(15);

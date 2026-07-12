@@ -2206,6 +2206,11 @@ const nistConversionFactors = {
   label: 'NIST SP 811: Conversion factors listed alphabetically',
 };
 
+const nistTorquePowerConversions = {
+  href: 'https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b9',
+  label: 'NIST SP 811: Torque and power conversion factors',
+};
+
 const poolVolumeReference = {
   href: 'https://www.pool-volume.com/',
   label: 'Pool Volume: pool volume formulas by shape',
@@ -2589,6 +2594,21 @@ const openStaxOhmsLaw = {
 const openStaxElectricPower = {
   href: 'https://openstax.org/books/college-physics/pages/20-4-electric-power-and-energy',
   label: 'OpenStax College Physics: Electric power and energy',
+};
+
+const openStaxRotationalPower = {
+  href: 'https://openstax.org/books/university-physics-volume-1/pages/10-8-work-and-power-for-rotational-motion',
+  label: 'OpenStax University Physics: Torque, angular velocity, and rotational power',
+};
+
+const openStaxMechanicalPower = {
+  href: 'https://openstax.org/books/university-physics-volume-1/pages/7-4-power',
+  label: 'OpenStax University Physics: Power, force, and velocity',
+};
+
+const openStaxDragForce = {
+  href: 'https://openstax.org/books/university-physics-volume-1/pages/6-4-drag-force-and-terminal-speed',
+  label: 'OpenStax University Physics: Drag force and speed',
 };
 
 const openStaxMolarity = {
@@ -7586,20 +7606,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'engine-horsepower-calculator',
     status: 'deep-reviewed',
-    batch: 'developer-text-everyday-cleanup-manual-pass-1-2026-04-30',
-    reviewedOn: '2026-04-30',
+    batch: 'july-12-organic-query-recovery-2026-07-12',
+    reviewedOn: '2026-07-12',
     scope: commonMathScope,
-    sources: [nistConversionFactors, nistSi],
+    sources: [nistTorquePowerConversions, openStaxRotationalPower, openStaxMechanicalPower, openStaxDragForce],
     findings: [
-      'The engine horsepower helper uses torque times RPM divided by 5252.1131 and applies optional drivetrain loss for wheel horsepower.',
-      'Tests cover 300 lb-ft at 5252.1131 RPM with 15 percent drivetrain loss.',
-      'The guide warns that peak torque and peak horsepower RPM may be different and that this is formula math, not a certified dyno result.',
+      'Exact Search Console evidence through July 9 found 628 impressions, 0 clicks, and average position 42.38 after Google crawled the current page on July 2. Visible queries include horsepower calculator, engine horsepower calculator, wheel horsepower calculator, HP to WHP, drivetrain loss, RPM to horsepower, HP to RPM, and a misleading horsepower-to-km/h query.',
+      'Targeted DataForSEO evidence found 210 U.S. monthly searches for `whp to hp calculator`, 170 for `wheel horsepower calculator`, and 90 for `crank to wheel hp calculator`, each with reported keyword difficulty 0.',
+      'NIST supports the lb-ft to N m and mechanical horsepower to watt conversions. OpenStax supports rotational power from torque and angular velocity and shows why vehicle speed also requires force and drag information.',
+      'The earlier calculator solved only horsepower from lb-ft and RPM. It displayed a wheel estimate but could not directly solve torque, solve RPM, accept N m, or convert in both directions between engine and wheel horsepower.',
     ],
     improvements: [
-      'Manually checked torque-RPM formula, drivetrain-loss guardrail, wheel horsepower output, examples, FAQ detail, guide cautions, related links, SEO copy, and privacy behavior.',
+      'Added tested Find HP, Find torque, Find RPM, and Engine / wheel modes; lb-ft and N m support; bidirectional crank/WHP math; visible loss assumptions; exact query-led FAQs; primary-source guide sections; and a direct explanation that horsepower cannot convert to km/h without vehicle-force data.',
     ],
     followUps: [
-      'Add metric torque input later only with tested Nm conversion and clear unit labels.',
+      'Do not add parts-list or displacement-based engine-build predictions without a separate model, researched inputs, validation data, and clear uncertainty limits.',
     ],
   },
   {

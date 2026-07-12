@@ -548,6 +548,18 @@ const sourceLinks = {
     href: 'https://openstax.org/books/college-physics/pages/20-4-electric-power-and-energy',
     label: 'OpenStax College Physics: Electric power and energy',
   },
+  openStaxRotationalPower: {
+    href: 'https://openstax.org/books/university-physics-volume-1/pages/10-8-work-and-power-for-rotational-motion',
+    label: 'OpenStax University Physics: Torque, angular velocity, and rotational power',
+  },
+  openStaxMechanicalPower: {
+    href: 'https://openstax.org/books/university-physics-volume-1/pages/7-4-power',
+    label: 'OpenStax University Physics: Power, force, and velocity',
+  },
+  openStaxDragForce: {
+    href: 'https://openstax.org/books/university-physics-volume-1/pages/6-4-drag-force-and-terminal-speed',
+    label: 'OpenStax University Physics: Drag force and speed',
+  },
   nistAmpere: {
     href: 'https://www.nist.gov/pml/weights-and-measures/si-units-ampere',
     label: 'NIST: SI unit of electric current',
@@ -623,6 +635,10 @@ const sourceLinks = {
   nistConversionFactors: {
     href: 'https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8',
     label: 'NIST SP 811: Conversion factors listed alphabetically',
+  },
+  nistTorquePowerConversions: {
+    href: 'https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b9',
+    label: 'NIST SP 811: Torque and power conversion factors',
   },
   poolVolumeReference: {
     href: 'https://www.pool-volume.com/',
@@ -6552,25 +6568,114 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.nistConversionFactors],
   },
   'engine-horsepower-calculator': {
-    summary: 'Learn how torque and RPM combine into an engine horsepower estimate.',
+    title: 'How To Calculate Horsepower, Torque, RPM And WHP',
+    summary:
+      'Use two known engine values to solve horsepower, torque, or RPM, then compare engine and wheel horsepower with an editable loss estimate.',
+    metaDescription:
+      'Calculate horsepower, torque, RPM, engine HP, and wheel HP with lb-ft or N m examples. Learn why horsepower cannot convert directly to km/h.',
     purpose:
-      'The Engine Horsepower Calculator explains the common torque-RPM relationship: torque shows twisting force, RPM shows how fast that force is applied, and together they create power.',
+      'This guide helps you solve one point on an engine power curve and keep crank horsepower, wheel horsepower, torque units, and vehicle speed from being mixed together.',
+    intro:
+      'Horsepower is not a stand-alone engine guess. For the torque formula, you need torque and RPM from the same point. For a wheel-power estimate, you need to state the drivetrain-loss assumption instead of hiding it behind a drivetrain label.',
+    inputMatch:
+      'two known values from horsepower, torque, and RPM at the same engine point, or one known engine/wheel horsepower value plus an editable drivetrain-loss percentage',
+    logicNote:
+      'With lb-ft and RPM, horsepower is torque x RPM / 5252.1131. Rearranging the same equation solves torque or RPM. Engine and wheel horsepower use a separate efficiency estimate rather than the torque formula.',
+    readIntro:
+      'Read the main answer with the repeated inputs and unit conversions. A result is useful only when the values belong to the same curve point and the loss percentage is treated as an assumption.',
+    mistakeIntro:
+      'The common mistakes are mixing peak torque with a different RPM, entering N m as lb-ft, treating wheel horsepower as crank horsepower, or trying to convert horsepower directly into km/h.',
+    sidecarText:
+      'Open the Engine Horsepower Calculator beside this guide. Start with 300 lb-ft at 5,252 RPM, then try the reverse and wheel-horsepower modes.',
+    bestUsesIntro:
+      'Use this guide for torque and RPM homework, a dyno-sheet sanity check, lb-ft/N m conversion inside the formula, or a transparent crank-to-wheel estimate.',
+    referenceIntro:
+      'NIST supplies the torque and horsepower unit conversions. OpenStax supplies the rotational-power relationship and explains why vehicle speed also depends on force and drag.',
     enter: [
-      'Enter torque in pound-feet.',
-      'Enter engine speed in RPM.',
-      'Add drivetrain loss only when you want a rough wheel horsepower estimate.',
+      'Choose Find HP when torque and matching RPM are known. Select lb-ft or N m before entering torque.',
+      'Choose Find torque when horsepower and matching RPM are known.',
+      'Choose Find RPM when horsepower and matching torque are known.',
+      'Choose Engine / wheel only when you have one horsepower value and a stated drivetrain-loss assumption.',
     ],
     read: [
-      'Engine horsepower is the formula result from torque and RPM.',
-      'Wheel horsepower applies the drivetrain loss percentage you entered.',
-      'Kilowatts converts the engine horsepower into SI power units.',
+      '300 lb-ft at 5,252 RPM is about 300 engine hp. With a 15% loss assumption, the wheel estimate is about 255 whp.',
+      '400 N m at 5,000 RPM is about 280.86 hp after the torque is converted to lb-ft.',
+      '300 hp at 6,000 RPM is about 262.61 lb-ft or 356.05 N m.',
+      '255 whp divided by 85% remaining efficiency is about 300 engine hp.',
     ],
     mistakes: [
-      'Do not treat this as a dyno-certified rating.',
-      'Do not enter peak torque and peak horsepower RPM unless they happen at the same RPM.',
-      'Use measured torque at the RPM you enter for a meaningful result.',
+      'Do not combine peak torque with peak horsepower RPM unless the engine makes both at the same point.',
+      'Do not type an N m number while lb-ft is selected. The two torque units are not equal.',
+      'Do not assume a fixed loss percentage from FWD, RWD, AWD, or transmission type alone.',
+      'Do not call a formula estimate a measured dyno result.',
+      'Do not convert horsepower directly to km/h, mph, engine displacement, or a parts-list power claim.',
     ],
-    sources: [sourceLinks.nistConversionFactors],
+    extraSections: [
+      {
+        title: 'The Three Torque, RPM, And Horsepower Equations',
+        paragraphs: [
+          'When torque is in lb-ft, horsepower = torque x RPM / 5252.1131. The constant connects pound-feet, revolutions per minute, and mechanical horsepower.',
+          'Rearrange the same equation to find torque: torque = horsepower x 5252.1131 / RPM. To find RPM, use RPM = horsepower x 5252.1131 / torque.',
+          'These are point calculations. An engine curve contains many torque and RPM points, so one answer does not describe the whole RPM range.',
+        ],
+      },
+      {
+        title: 'Example: 300 Lb-Ft At 5,252 RPM',
+        paragraphs: [
+          'Enter 300 lb-ft and 5,252 RPM in Find HP. The calculation is 300 x 5,252 / 5,252.1131, which is about 299.99 hp and rounds to about 300 hp.',
+          'If you also enter 15% drivetrain loss, the wheel estimate is 300 x 0.85, or about 255 whp. The loss value affects only the wheel estimate, not the torque-RPM horsepower equation.',
+        ],
+      },
+      {
+        title: 'Example: 400 N M At 5,000 RPM',
+        paragraphs: [
+          'NIST lists 1 lb-ft as about 1.355818 N m. The calculator converts 400 N m to about 295.02 lb-ft before applying the horsepower equation.',
+          'At 5,000 RPM, 295.02 x 5,000 / 5,252.1131 is about 280.86 hp. The result also shows kilowatts and both torque units so the conversion stays visible.',
+        ],
+      },
+      {
+        title: 'Solve Torque Or RPM From Horsepower',
+        paragraphs: [
+          'For 300 hp at 6,000 RPM, Find torque returns about 262.61 lb-ft, or 356.05 N m. That is the torque needed at that exact RPM point for the stated horsepower.',
+          'For 300 hp and 300 lb-ft, Find RPM returns about 5,252.11 RPM. This does not predict redline or safe operating speed. It only rearranges the same power equation.',
+        ],
+      },
+      {
+        title: 'Engine Horsepower And Wheel Horsepower',
+        paragraphs: [
+          'Engine or crank horsepower describes power before the drivetrain. Wheel horsepower is measured after the transmission, differential, tires, and other losses between the engine and the rollers or road.',
+          'To estimate wheel power, multiply engine hp by one minus the loss rate. To estimate engine power from WHP, divide WHP by one minus the loss rate. A 15% assumption leaves 85% efficiency, so 255 whp / 0.85 = 300 engine hp.',
+          'Keep the percentage editable. Real measured loss changes with the vehicle, transmission, gear, tires, temperature, speed, dyno, and test method.',
+        ],
+      },
+      {
+        title: 'Why Horsepower Does Not Convert Directly To Km/H',
+        paragraphs: [
+          'Horsepower is power. Kilometers per hour is speed. OpenStax expresses linear power as force multiplied by velocity, which means speed cannot be known from power unless the forces at that speed are also known.',
+          'For a car, those forces include aerodynamic drag, rolling resistance, grade, and acceleration. Gearing, tire size, mass, traction, and the engine power available at that RPM also matter. Two 300 hp vehicles can have different top speeds and acceleration.',
+        ],
+        links: [
+          { href: '/tools/speed-calculator/', label: 'Use Speed Calculator when distance and time are known' },
+          { href: '/tools/tire-size-calculator/', label: 'Check tire diameter and circumference separately' },
+        ],
+      },
+      {
+        title: 'What This Calculator Does Not Estimate',
+        paragraphs: [
+          'It does not predict horsepower from displacement, compression, camshaft, cylinder heads, boost, fuel, exhaust, or a list of engine parts. Those inputs affect airflow, combustion, torque, and the usable RPM range in ways this simple formula cannot infer.',
+          'It also does not replace an engine dyno or chassis dyno. Use the page to solve and compare stated values, then use consistent measured data for tuning, certification, or vehicle decisions.',
+        ],
+        links: [
+          { href: '/tools/horsepower-calculator/', label: 'Convert an existing horsepower or kilowatt value' },
+        ],
+      },
+    ],
+    sources: [
+      sourceLinks.nistTorquePowerConversions,
+      sourceLinks.openStaxRotationalPower,
+      sourceLinks.openStaxMechanicalPower,
+      sourceLinks.openStaxDragForce,
+    ],
   },
   'golf-handicap-calculator': {
     summary:

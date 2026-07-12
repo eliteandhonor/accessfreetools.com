@@ -1192,6 +1192,12 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Use the result in the Fuel Cost Calculator when you want a trip cost estimate.',
     'For a cleaner average, total several normal tanks instead of trusting one odd fill-up.',
   ],
+  'engine-horsepower-calculator': [
+    'Choose Find HP, Find torque, or Find RPM based on the two values you already know at the same engine point.',
+    'Select lb-ft or N m before entering torque, or use Engine / wheel for a stated drivetrain-loss estimate.',
+    'Run the calculation and check the repeated inputs, both torque units, and engine or wheel result.',
+    'Do not convert horsepower directly to km/h, guess engine-build power from parts, or call an assumed loss a dyno measurement.',
+  ],
   'tip-calculator': [
     'Enter the bill subtotal, tip percent, optional tax percent, and number of people.',
     'Press Calculate tip to see tip amount, tax, total, and per-person split.',
@@ -2486,6 +2492,36 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
               USGA course handicap
             </a>
             .
+          </p>
+        </aside>
+      )
+    }
+
+    {
+      tool.slug === 'engine-horsepower-calculator' && (
+        <aside class="trust-note" aria-label="Engine Horsepower Calculator formula notes">
+          <strong>Power needs torque and speed at the same point</strong>
+          <p>
+            Use matching torque and RPM data. The reverse modes rearrange the same equation, while the engine/wheel mode
+            keeps drivetrain loss visible as an editable assumption.
+          </p>
+          <p>
+            Formula and unit references:{' '}
+            <a
+              href="https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b9"
+              rel="noreferrer"
+              target="_blank"
+            >
+              NIST torque and power conversions
+            </a>{' '}
+            and{' '}
+            <a
+              href="https://openstax.org/books/university-physics-volume-1/pages/10-8-work-and-power-for-rotational-motion"
+              rel="noreferrer"
+              target="_blank"
+            >
+              OpenStax rotational power.
+            </a>
           </p>
         </aside>
       )
