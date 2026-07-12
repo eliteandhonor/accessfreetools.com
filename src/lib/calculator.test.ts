@@ -221,7 +221,9 @@ import {
   calculateIngredientCost,
   calculateMassFromDensity,
   calculateMileageCost,
+  calculateGramsFromMolarity,
   calculateMolarity,
+  calculateMolesFromMolarity,
   calculateMolecularWeight,
   calculateMonitorPpi,
   calculateNeededFinalGrade,
@@ -2359,6 +2361,20 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(tip.perPerson)).toBe('54.185625');
     expect(formatCalculatorNumber(mileage.mileageAmount)).toBe('90.625');
     expect(formatCalculatorNumber(mileage.total)).toBe('102.625');
+  });
+
+  it('converts between molarity, moles, and grams without rounding intermediate values', () => {
+    const molarity = calculateMolarity({ grams: 5.844, molarMass: 58.44, volumeLiters: 0.5 });
+    const moles = calculateMolesFromMolarity({ molarity: 0.2, volumeLiters: 0.5 });
+    const grams = calculateGramsFromMolarity({ molarity: 0.2, volumeLiters: 0.5, molarMass: 58.44 });
+
+    expect(molarity.moles).toBeCloseTo(0.1, 12);
+    expect(molarity.molarity).toBeCloseTo(0.2, 12);
+    expect(moles.moles).toBeCloseTo(0.1, 12);
+    expect(grams.moles).toBeCloseTo(0.1, 12);
+    expect(grams.grams).toBeCloseTo(5.844, 12);
+    expect(() => calculateMolesFromMolarity({ molarity: 0.2, volumeLiters: 0 })).toThrow(/Volume/);
+    expect(() => calculateGramsFromMolarity({ molarity: 0.2, volumeLiters: 0.5, molarMass: 0 })).toThrow(/Molar mass/);
   });
 
   it('calculates science, date, encoding, and time helpers for the utility batch', () => {

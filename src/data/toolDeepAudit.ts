@@ -2617,7 +2617,7 @@ const openStaxMolarity = {
 };
 
 const nistAtomicWeights = {
-  href: 'https://www.nist.gov/pml/data/comp.cfm',
+  href: 'https://www.nist.gov/pml/atomic-weights-and-isotopic-compositions-relative-atomic-masses',
   label: 'NIST: Atomic weights and isotopic compositions',
 };
 
@@ -6372,21 +6372,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'molarity-calculator',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-06-05',
-    reviewedOn: '2026-06-05',
+    batch: 'gsc-query-recovery-sprint-2026-07-12',
+    reviewedOn: '2026-07-12',
     scope: commonMathScope,
     sources: [openStaxMolarity, nistSi, nistAtomicWeights],
     findings: [
-      'The calculator handles moles/liters directly and grams/molar-mass/liters by converting grams to moles first.',
-      'The FAQ now explains why final solution volume matters for molarity.',
-      'The guide keeps lab safety, significant figures, purity, hydrate state, and teacher instructions outside the quick formula helper.',
+      'Current Search Console queries repeatedly ask for molarity-to-moles, molarity-to-grams, grams-to-molarity, and moles-from-volume workflows.',
+      'The calculator now solves all four supported forms and accepts final solution volume in liters or milliliters.',
+      'The guide explains final solution volume, molar mass, full-precision intermediate math, lab safety, purity, and hydrate-state limits.',
     ],
     improvements: [
-      'Manually checked molarity modes, grams-to-moles path, examples, FAQ detail, guide cautions, source coverage, related tools, SEO copy, privacy behavior, and result labels.',
-      'Added calculator-intent SEO title and description, aliases for molar concentration and moles per liter, final-solution-volume formula wording, a grams-to-moles example, FAQ coverage for grams, moles versus molarity, lab-instruction limits, and a 2026-06-05 modified date.',
+      'Added Find M from moles, Find M from grams, Find moles, and Find grams modes with tested formulas and L/mL conversion.',
+      'Rebuilt metadata, examples, FAQs, visible instructions, guide sections, source notes, and artwork metadata around the supported query intent.',
     ],
     followUps: [
-      'Add dilution M1V1 mode later as a separate chemistry tool or mode.',
+      'Evaluate dilution M1V1 as a separate chemistry workflow only when page-specific evidence supports it.',
     ],
   },
   {

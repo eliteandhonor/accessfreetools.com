@@ -7722,6 +7722,17 @@ export interface MolarityResult {
   molarMass?: number;
 }
 
+export interface MolesFromMolarityResult {
+  molarity: number;
+  volumeLiters: number;
+  moles: number;
+}
+
+export interface GramsFromMolarityResult extends MolesFromMolarityResult {
+  molarMass: number;
+  grams: number;
+}
+
 export interface MolecularWeightResult {
   formula: string;
   molarMass: number;
@@ -10216,6 +10227,36 @@ export function calculateMolarity(input: {
     molarity: moles / input.volumeLiters,
     grams: input.grams,
     molarMass: input.molarMass,
+  };
+}
+
+export function calculateMolesFromMolarity(input: {
+  molarity: number;
+  volumeLiters: number;
+}): MolesFromMolarityResult {
+  assertPositiveNumber(input.molarity, 'Molarity');
+  assertPositiveNumber(input.volumeLiters, 'Volume');
+
+  return {
+    molarity: input.molarity,
+    volumeLiters: input.volumeLiters,
+    moles: input.molarity * input.volumeLiters,
+  };
+}
+
+export function calculateGramsFromMolarity(input: {
+  molarity: number;
+  volumeLiters: number;
+  molarMass: number;
+}): GramsFromMolarityResult {
+  assertPositiveNumber(input.molarMass, 'Molar mass');
+
+  const molesResult = calculateMolesFromMolarity(input);
+
+  return {
+    ...molesResult,
+    molarMass: input.molarMass,
+    grams: molesResult.moles * input.molarMass,
   };
 }
 

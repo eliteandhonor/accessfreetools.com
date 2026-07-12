@@ -2966,25 +2966,33 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'molarity-calculator',
     name: 'Molarity Calculator',
     category: 'school-study',
-    summary: 'Calculate molarity from moles and liters, or from grams, molar mass, and final solution volume.',
+    summary: 'Calculate molarity, moles, or grams from final solution volume in liters or milliliters.',
     description:
-      'Use this free molarity calculator to find mol/L concentration from moles, or from grams, molar mass, and final solution volume.',
+      'Use this free molarity calculator to find mol/L concentration, convert molarity to moles, or calculate grams from molarity and molar mass.',
     icon: 'calculator-molarity',
-    aliases: ['Molar Concentration Calculator', 'Moles Per Liter Calculator', 'Solution Concentration Calculator'],
-    seoTitle: 'Molarity Calculator | Moles Per Liter And Grams To M',
+    aliases: [
+      'Molar Concentration Calculator',
+      'Moles Per Liter Calculator',
+      'Molarity to Moles Calculator',
+      'Molarity to Grams Calculator',
+      'Grams to Molarity Calculator',
+    ],
+    seoTitle: 'Molarity Calculator | Find Moles, Grams, or M',
     seoDescription:
-      'Calculate molarity in mol/L from moles and liters, or convert grams with molar mass first. Includes final-volume guidance, examples, and lab limits.',
+      'Calculate molarity, moles, or grams from final solution volume in L or mL. Use molar mass, see NaCl examples, and check lab limits.',
     formula:
-      'The calculator uses M = moles of solute / liters of final solution. In grams mode, it first calculates moles = grams / molar mass, then divides by final solution volume in liters.',
+      'The calculator uses M = n / V, n = M x V, grams = M x V x molar mass, or M = grams / (molar mass x V). M is molarity, n is moles, and V is final solution volume in liters.',
     limit:
       'Lab work needs correct significant figures, final solution volume, solute purity, hydration state, safety procedures, and teacher or lab instructions. This is a classroom planning check, not a lab safety sign-off.',
     inputExplanations: [
-      { term: 'Moles solute', meaning: 'the amount of dissolved substance in moles.' },
-      { term: 'Grams solute', meaning: 'mass of the solute when you are starting from a weighed amount.' },
-      { term: 'Molar mass', meaning: 'grams per mole for the substance, often found from the Molecular Weight Calculator.' },
+      { term: 'Calculation mode', meaning: 'whether you need molarity, moles of solute, or grams of solute.' },
+      { term: 'Molarity', meaning: 'concentration in moles of solute per liter of final solution, written as mol/L or M.' },
+      { term: 'Moles solute', meaning: 'the amount of dissolved substance in moles, used when finding molarity.' },
+      { term: 'Grams solute', meaning: 'mass of the solute, used with molar mass when finding molarity.' },
+      { term: 'Molar mass', meaning: 'grams per mole for the exact compound, often found with the Molecular Weight Calculator.' },
       {
-        term: 'Volume liters',
-        meaning: 'the final solution volume in liters after the solute is dissolved and diluted to the mark, not just the solvent poured in first.',
+        term: 'Final solution volume',
+        meaning: 'the whole solution volume after the solute is dissolved and filled to the mark, entered in liters or milliliters.',
       },
     ],
     extraFaq: [
@@ -2999,6 +3007,21 @@ export const utilityTools: ToolDefinition[] = [
           'Yes, if you know the molar mass. The calculator converts grams to moles first, then divides by final solution volume in liters. For example, 5.844 g of NaCl at 58.44 g/mol is 0.1 mol.',
       },
       {
+        question: 'How do I calculate moles from molarity and volume?',
+        answer:
+          'Choose Find moles, enter molarity and final solution volume, then calculate. The formula is moles = molarity x liters. A 0.2 M solution with a final volume of 500 mL contains 0.1 mol.',
+      },
+      {
+        question: 'How do I calculate grams from molarity?',
+        answer:
+          'Choose Find grams and enter molarity, final volume, and molar mass. The calculator finds moles first, then multiplies by g/mol. For 0.2 M NaCl in 500 mL, 0.2 x 0.5 x 58.44 = 5.844 g.',
+      },
+      {
+        question: 'Can I enter final solution volume in milliliters?',
+        answer:
+          'Yes. Select milliliters and the calculator divides the entered volume by 1,000 before using a molarity formula. For example, 500 mL becomes 0.5 L.',
+      },
+      {
         question: 'Is molarity the same as moles?',
         answer:
           'No. Moles tell you the amount of solute. Molarity tells you that amount per liter of final solution, so the same moles in a smaller volume gives a higher molarity.',
@@ -3011,14 +3034,16 @@ export const utilityTools: ToolDefinition[] = [
     ],
     useCases: [
       'Calculate molarity from moles and liters.',
-      'Calculate moles from grams and molar mass first.',
+      'Calculate molarity from grams, molar mass, and final volume.',
+      'Calculate moles from molarity and final volume.',
+      'Calculate grams from molarity, final volume, and molar mass.',
       'Check chemistry homework setup.',
-      'Use molecular weight output as a molar mass input.',
     ],
     examples: [
-      { label: 'Simple molarity', expression: '0.5 mol / 1 L', result: '0.5 M, or 0.5 mol per liter' },
+      { label: 'Moles to molarity', expression: '0.1 mol / 500 mL', result: '0.2 M after converting 500 mL to 0.5 L' },
       { label: 'NaCl grams', expression: '5.844 g / 58.44 g/mol / 0.5 L', result: '0.2 M' },
-      { label: 'Dilute sample', expression: '0.25 mol / 0.5 L', result: '0.5 M' },
+      { label: 'Molarity to moles', expression: '0.2 M x 500 mL', result: '0.1 mol after converting 500 mL to 0.5 L' },
+      { label: 'Molarity to NaCl grams', expression: '0.2 M x 0.5 L x 58.44 g/mol', result: '5.844 g NaCl' },
     ],
     relatedSlugs: ['molecular-weight-calculator', 'conversion-calculator', 'density-calculator'],
   }),

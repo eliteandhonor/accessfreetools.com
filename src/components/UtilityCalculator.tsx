@@ -62,7 +62,9 @@ import {
   calculateLoveCompatibility,
   calculateMassFromDensity,
   calculateMileageCost,
+  calculateGramsFromMolarity,
   calculateMolarity,
+  calculateMolesFromMolarity,
   calculateMolecularWeight,
   calculateInternetSpeedNeeds,
   calculateBakingPanConversion,
@@ -1149,6 +1151,11 @@ const horsepowerUnitOptions: SelectOption[] = [
   { label: 'Watts', value: 'watt' },
   { label: 'Kilowatts', value: 'kilowatt' },
   { label: 'Metric hp', value: 'metric-horsepower' },
+];
+
+const molarityVolumeUnitOptions: SelectOption[] = [
+  { label: 'Liters (L)', value: 'liter' },
+  { label: 'Milliliters (mL)', value: 'milliliter' },
 ];
 
 const engineTorqueUnitOptions: SelectOption[] = [
@@ -2290,29 +2297,75 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
   },
   molarity: {
     title: 'Molarity Calculator',
-    buttonLabel: 'Calculate molarity',
-    emptyHistory: 'Recent molarity calculations will appear here.',
+    buttonLabel: 'Calculate result',
+    emptyHistory: 'Recent molarity, moles, and grams calculations will appear here.',
     privacyNote: 'Chemistry math runs locally. Lab work needs measured values and safety procedures.',
     modes: [
       {
         id: 'moles-volume',
-        label: 'Moles and volume',
+        label: 'Find M: moles',
         symbol: 'M',
-        fields: [numberField('moles', 'Moles solute', '0.5'), numberField('volumeLiters', 'Volume liters', '1')],
-        defaultInputs: { moles: '0.5', volumeLiters: '1' },
-        examples: [{ label: '0.5 mol in 1 L', inputs: { moles: '0.5', volumeLiters: '1' } }],
+        fields: [
+          numberField('moles', 'Moles solute', '0.1'),
+          numberField('volume', 'Final solution volume', '500'),
+          selectField('volumeUnit', 'Volume unit', molarityVolumeUnitOptions),
+        ],
+        defaultInputs: { moles: '0.1', volume: '500', volumeUnit: 'milliliter' },
+        examples: [
+          { label: '0.1 mol in 500 mL', inputs: { moles: '0.1', volume: '500', volumeUnit: 'milliliter' } },
+          { label: '0.5 mol in 1 L', inputs: { moles: '0.5', volume: '1', volumeUnit: 'liter' } },
+        ],
       },
       {
         id: 'grams-volume',
-        label: 'Grams and molar mass',
+        label: 'Find M: grams',
         symbol: 'M',
         fields: [
-          numberField('grams', 'Grams solute', '58.44'),
+          numberField('grams', 'Grams solute', '5.844'),
           numberField('molarMass', 'Molar mass g/mol', '58.44'),
-          numberField('volumeLiters', 'Volume liters', '1'),
+          numberField('volume', 'Final solution volume', '500'),
+          selectField('volumeUnit', 'Volume unit', molarityVolumeUnitOptions),
         ],
-        defaultInputs: { grams: '58.44', molarMass: '58.44', volumeLiters: '1' },
-        examples: [{ label: 'NaCl solution', inputs: { grams: '58.44', molarMass: '58.44', volumeLiters: '1' } }],
+        defaultInputs: { grams: '5.844', molarMass: '58.44', volume: '500', volumeUnit: 'milliliter' },
+        examples: [
+          {
+            label: 'NaCl to molarity',
+            inputs: { grams: '5.844', molarMass: '58.44', volume: '500', volumeUnit: 'milliliter' },
+          },
+        ],
+      },
+      {
+        id: 'find-moles',
+        label: 'Find moles',
+        symbol: 'mol',
+        fields: [
+          numberField('molarity', 'Molarity (mol/L)', '0.2'),
+          numberField('volume', 'Final solution volume', '500'),
+          selectField('volumeUnit', 'Volume unit', molarityVolumeUnitOptions),
+        ],
+        defaultInputs: { molarity: '0.2', volume: '500', volumeUnit: 'milliliter' },
+        examples: [
+          { label: '0.2 M in 500 mL', inputs: { molarity: '0.2', volume: '500', volumeUnit: 'milliliter' } },
+          { label: '1.5 M in 2 L', inputs: { molarity: '1.5', volume: '2', volumeUnit: 'liter' } },
+        ],
+      },
+      {
+        id: 'find-grams',
+        label: 'Find grams',
+        symbol: 'g',
+        fields: [
+          numberField('molarity', 'Molarity (mol/L)', '0.2'),
+          numberField('volume', 'Final solution volume', '500'),
+          selectField('volumeUnit', 'Volume unit', molarityVolumeUnitOptions),
+          numberField('molarMass', 'Molar mass g/mol', '58.44'),
+        ],
+        defaultInputs: { molarity: '0.2', volume: '500', volumeUnit: 'milliliter', molarMass: '58.44' },
+        examples: [
+          {
+            label: 'NaCl grams needed',
+            inputs: { molarity: '0.2', volume: '500', volumeUnit: 'milliliter', molarMass: '58.44' },
+          },
+        ],
       },
     ],
   },
@@ -5987,16 +6040,73 @@ function calculateUtility(
       };
     }
     case 'molarity': {
+      const enteredVolume = parseNumber(inputs.volume, 'Final solution volume');
+      const usesMilliliters = inputs.volumeUnit === 'milliliter';
+      const volumeLiters = usesMilliliters ? enteredVolume / 1000 : enteredVolume;
+      const enteredVolumeLabel = `${formatCalculatorNumber(enteredVolume)} ${usesMilliliters ? 'mL' : 'L'}`;
+      const finalVolumeLabel = usesMilliliters
+        ? `${enteredVolumeLabel} (${formatCalculatorNumber(volumeLiters)} L)`
+        : enteredVolumeLabel;
+
+      if (modeId === 'find-moles') {
+        const result = calculateMolesFromMolarity({
+          molarity: parseNumber(inputs.molarity, 'Molarity'),
+          volumeLiters,
+        });
+
+        return {
+          label: 'Moles of solute',
+          expression: `${formatCalculatorNumber(result.molarity)} M x ${formatCalculatorNumber(result.volumeLiters)} L`,
+          answer: `${formatCalculatorNumber(result.moles)} mol`,
+          metrics: [
+            { label: 'Molarity', value: `${formatCalculatorNumber(result.molarity)} mol/L` },
+            { label: 'Final volume', value: finalVolumeLabel },
+            { label: 'Moles', value: `${formatCalculatorNumber(result.moles)} mol` },
+          ],
+          steps: [
+            usesMilliliters ? 'Divide milliliters by 1,000 to convert final volume to liters.' : 'Use final solution volume in liters.',
+            'Multiply molarity by final solution volume in liters.',
+            'Report the amount of solute in moles.',
+          ],
+          note: 'Use measured final solution volume and follow the required lab procedure for real chemistry work.',
+        };
+      }
+
+      if (modeId === 'find-grams') {
+        const result = calculateGramsFromMolarity({
+          molarity: parseNumber(inputs.molarity, 'Molarity'),
+          volumeLiters,
+          molarMass: parseNumber(inputs.molarMass, 'Molar mass'),
+        });
+
+        return {
+          label: 'Grams of solute',
+          expression: `${formatCalculatorNumber(result.molarity)} M x ${formatCalculatorNumber(result.volumeLiters)} L x ${formatCalculatorNumber(result.molarMass)} g/mol`,
+          answer: `${formatCalculatorNumber(result.grams)} g`,
+          metrics: [
+            { label: 'Moles needed', value: `${formatCalculatorNumber(result.moles)} mol` },
+            { label: 'Final volume', value: finalVolumeLabel },
+            { label: 'Molar mass', value: `${formatCalculatorNumber(result.molarMass)} g/mol` },
+          ],
+          steps: [
+            usesMilliliters ? 'Divide milliliters by 1,000 to convert final volume to liters.' : 'Use final solution volume in liters.',
+            'Multiply molarity by liters to find moles of solute.',
+            'Multiply moles by molar mass to find grams of solute.',
+          ],
+          note: 'Check the compound formula, hydrate state, purity, significant figures, and safety instructions before weighing a chemical.',
+        };
+      }
+
       const result =
         modeId === 'grams-volume'
           ? calculateMolarity({
               grams: parseNumber(inputs.grams, 'Grams'),
               molarMass: parseNumber(inputs.molarMass, 'Molar mass'),
-              volumeLiters: parseNumber(inputs.volumeLiters, 'Volume'),
+              volumeLiters,
             })
           : calculateMolarity({
               moles: parseNumber(inputs.moles, 'Moles'),
-              volumeLiters: parseNumber(inputs.volumeLiters, 'Volume'),
+              volumeLiters,
             });
       return {
         label: 'Molarity',
@@ -6004,11 +6114,12 @@ function calculateUtility(
         answer: `${formatCalculatorNumber(result.molarity)} M`,
         metrics: [
           { label: 'Moles', value: `${formatCalculatorNumber(result.moles)} mol` },
-          { label: 'Volume', value: `${formatCalculatorNumber(result.volumeLiters)} L` },
+          { label: 'Final volume', value: finalVolumeLabel },
           { label: 'Molar mass', value: result.molarMass ? `${formatCalculatorNumber(result.molarMass)} g/mol` : 'Entered moles directly' },
         ],
         steps: [
           modeId === 'grams-volume' ? 'Divide grams by molar mass to get moles.' : 'Use the moles you entered directly.',
+          ...(usesMilliliters ? ['Divide milliliters by 1,000 to convert final volume to liters.'] : []),
           'Divide moles of solute by liters of solution.',
           'Report the result as mol/L, commonly written as M.',
         ],

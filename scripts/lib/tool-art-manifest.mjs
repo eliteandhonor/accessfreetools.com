@@ -376,10 +376,15 @@ const toolArtMetadataOverrides = {
     },
   },
   'molarity-calculator': {
-    guide: {
-      alt: 'Guide image for Molarity Calculator showing moles, grams, molar mass, final solution volume, and a 0.2 M example.',
+    tool: {
+      alt: 'Smoke mascot beside solute particles, a balance, volume markings, and a solution flask for molarity, moles, and grams.',
       caption:
-        'Molarity Calculator guide artwork supports the walkthrough for moles, grams-to-moles conversion, final solution volume, mol/L results, and lab-limit checks.',
+        'Molarity Calculator artwork supports the four live workflows for molarity, moles, grams, molar mass, and final solution volume in liters or milliliters.',
+    },
+    guide: {
+      alt: 'Smoke mascot pointing to solute particles, crystals on a scale, and arrows leading to a volumetric flask.',
+      caption:
+        'Molarity Calculator guide artwork supports the worked paths from moles or grams to molarity and from molarity to moles or grams.',
     },
   },
   'molecular-weight-calculator': {

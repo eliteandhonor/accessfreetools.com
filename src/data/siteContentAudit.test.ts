@@ -400,6 +400,44 @@ describe('site content audit guardrails', () => {
     expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
   });
 
+  it('keeps the Molarity Calculator aligned with molarity, moles, grams, and L or mL intent', () => {
+    const tool = tools.find((item) => item.slug === 'molarity-calculator');
+    const guide = utilityBlogGuides.find((item) => item.toolSlug === 'molarity-calculator');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+    const guideText = guide?.sections
+      .flatMap((section) => [section.title, ...section.paragraphs, ...(section.bullets ?? [])])
+      .join(' ') ?? '';
+    const guideLinks = guide?.sections.flatMap((section) => section.links ?? []).map((link) => link.href) ?? [];
+
+    expect(tool?.seoTitle).toBe('Molarity Calculator | Find Moles, Grams, or M');
+    expect(tool?.seoDescription).toContain('final solution volume in L or mL');
+    expect(tool?.aliases).toContain('Molarity to Moles Calculator');
+    expect(tool?.aliases).toContain('Molarity to Grams Calculator');
+    expect(tool?.examples).toContainEqual({
+      label: 'Molarity to NaCl grams',
+      expression: '0.2 M x 0.5 L x 58.44 g/mol',
+      result: '5.844 g NaCl',
+    });
+    expect(faqText).toContain('moles = molarity x liters');
+    expect(faqText).toContain('500 mL becomes 0.5 L');
+    expect(guide?.title).toBe('Molarity, Moles, and Grams Calculator Guide');
+    expect(guideText).toContain('n = M x V');
+    expect(guideText).toContain('grams = M x V x molar mass');
+    expect(guideText).toContain('0.2 mol/L x 0.5 L = 0.1 mol');
+    expect(guideLinks).toContain('https://openstax.org/books/chemistry-2e/pages/3-3-molarity');
+    expect(guideLinks).toContain('/tools/molecular-weight-calculator/');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("id: 'find-moles'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("id: 'find-grams'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain('calculateMolesFromMolarity');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain('calculateGramsFromMolarity');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("{ label: 'Milliliters (mL)', value: 'milliliter' }");
+    expect(TOOLS_ROUTE_SOURCE).toContain('Choose the mode for the missing value: molarity, moles, or grams.');
+    expect(`${tool?.seoTitle}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription?.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+  });
+
   it('keeps the Big Number tool transactional and the indexed guide informational', () => {
     const tool = tools.find((item) => item.slug === 'big-number-calculator');
     const guide = blogPosts.find((item) => item.slug === 'how-to-use-big-number-calculator');
