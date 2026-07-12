@@ -1463,6 +1463,25 @@ describe('site content audit guardrails', () => {
     expect(FREE_CALCULATOR_RESOURCES_SOURCE).toContain('/blog/how-to-use-personal-loan-calculator/');
   });
 
+  it('keeps the watts-to-amps recovery aligned with current query evidence', () => {
+    const tool = tools.find((entry) => entry.slug === 'watts-to-amps-calculator');
+    const guide = utilityBlogGuides.find((entry) => entry.toolSlug === 'watts-to-amps-calculator');
+
+    expect(tool).toBeDefined();
+    expect(tool?.seoTitle).toContain('AC, DC and 3-Phase');
+    expect(tool?.seoDescription).toContain('12 V, 120 V, 220 V, 240 V');
+    expect(tool?.faq.some((item) => item.answer.includes('line-to-line voltage'))).toBe(true);
+    expect(tool?.examples.length).toBeGreaterThanOrEqual(6);
+    expect(tool?.examples.some((example) => example.expression.includes('1,000 W, 240 V'))).toBe(true);
+    expect(tool?.relatedSlugs).toEqual(
+      expect.arrayContaining(['kilowatts-to-amps-calculator', 'kva-to-amps-calculator']),
+    );
+    expect(guide?.title).toContain('12 V, 120 V, 240 V and 3-Phase');
+    expect(guide?.description).toContain('line-to-line three-phase power');
+    expect(guide?.sections.some((section) => section.title === 'Quick 12 V, 120 V, and 240 V examples')).toBe(true);
+    expect(guide?.sections.some((section) => section.title === 'What three-phase mode assumes')).toBe(true);
+  });
+
   it('keeps verified Organization sameAs links public and conservative', () => {
     expect(ASTRO_CONFIG_SOURCE).toContain('allowedDomains');
     expect(ASTRO_CONFIG_SOURCE).toContain("hostname: 'accessfreetools.com'");

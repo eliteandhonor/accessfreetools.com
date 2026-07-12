@@ -561,8 +561,12 @@ const sourceLinks = {
     label: 'OpenStax University Physics: Drag force and speed',
   },
   nistAmpere: {
-    href: 'https://www.nist.gov/pml/weights-and-measures/si-units-ampere',
+    href: 'https://www.nist.gov/pml/owm/si-units-electric-current',
     label: 'NIST: SI unit of electric current',
+  },
+  electricalSafetyFirstUnits: {
+    href: 'https://www.electricalsafetyfirst.org.uk/units-calculator/',
+    label: 'Electrical Safety First: Amps, watts, volts, and Ohm\'s law',
   },
   esfiExtensionCordSafety: {
     href: 'https://www.esfi.org/extension-cord-safety-tips/',
@@ -2501,9 +2505,22 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'watts-to-amps-calculator': {
-    summary: 'Learn how watts, volts, phase type, and power factor turn into an amp estimate.',
+    title: 'Watts to Amps: 12 V, 120 V, 240 V and 3-Phase',
+    summary: 'Convert watts to amps at common 12 V, 120 V, and 240 V inputs, then check AC, DC, three-phase, power-factor, and milliamp details.',
+    metaDescription:
+      'Learn watts-to-amps formulas for 12 V DC, 120 V and 240 V AC, and line-to-line three-phase power, with milliamps, examples, and safety limits.',
     purpose:
-      'The Watts to Amps Calculator helps you understand current draw from a power rating. It is useful for label reading, homework, and rough planning, but not for final circuit design.',
+      'The Watts to Amps Calculator turns a real-power rating and supply voltage into an estimated current. It is useful for label reading, homework, and rough comparisons, but not for choosing a breaker, wire, extension cord, or final circuit design.',
+    intro:
+      'A watt value cannot become amps by itself because voltage is part of the relationship. Start with the device or equipment label, choose the correct current type, and use the stated power factor for AC equipment when it is available.',
+    inputMatch:
+      'real watts, the actual supply voltage, DC or AC phase type, and the equipment power factor when one is stated',
+    logicNote:
+      'For DC, divide watts by volts. For single-phase AC, divide by volts times power factor. For three-phase AC, this calculator expects line-to-line voltage and divides by volts times sqrt(3) times power factor.',
+    readIntro:
+      'Read amps as the main current estimate. Milliamps are the same answer multiplied by 1,000. The phase factor and power factor lines show which denominator the calculator used.',
+    mistakeIntro:
+      'Most wrong answers come from leaving out voltage, choosing the wrong phase type, assuming power factor 1 for every AC load, or entering line-to-neutral voltage in a line-to-line three-phase formula.',
     enter: [
       'Enter the real power in watts, such as 1,500 W or 60 W.',
       'Enter the supply voltage, such as 12 V, 120 V, 240 V, or 208 V.',
@@ -2511,15 +2528,52 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
     read: [
       'The main answer is estimated current in amps.',
+      'Milliamps show the same current on a smaller-unit scale, which is useful below 1 A.',
       'Phase factor shows whether the calculator used a direct, single-phase, or three-phase formula.',
       'Power factor explains why some AC loads draw more current for the same real watts.',
     ],
     mistakes: [
       'Do not guess power factor for real equipment sizing.',
       'Do not use DC math on three-phase AC loads.',
+      'Do not enter line-to-neutral voltage in this calculator\'s three-phase mode; it expects line-to-line voltage.',
       'Do not choose breakers, wire, extension cords, or safety gear from this estimate alone.',
     ],
+    extraSections: [
+      {
+        title: 'Quick 12 V, 120 V, and 240 V examples',
+        paragraphs: [
+          'These checks use power factor 1. They are useful for confirming the calculator setup, not for replacing the equipment label.',
+        ],
+        bullets: [
+          '60 W at 12 V DC is 5 A, or 5,000 mA.',
+          '100 W at 120 V single-phase is about 0.833 A, or 833.3 mA.',
+          '1,000 W at 120 V single-phase is about 8.33 A.',
+          '1,500 W at 120 V single-phase is 12.5 A.',
+          '1,000 W at 240 V single-phase is about 4.17 A.',
+          '8,000 W at 240 V single-phase is about 33.33 A.',
+        ],
+      },
+      {
+        title: 'Why the same watts can mean different amps',
+        paragraphs: [
+          'For the same real power, lower voltage means more current. That is why 1,000 W is about 83.33 A at 12 V, 8.33 A at 120 V, and 4.17 A at 240 V when power factor is 1.',
+          'AC power factor can raise the current estimate further. Use the nameplate or specification instead of a guessed value when the result matters.',
+        ],
+        links: [
+          { href: '/tools/kilowatts-to-amps-calculator/', label: 'Convert kilowatts to amps with efficiency' },
+          { href: '/tools/kva-to-amps-calculator/', label: 'Convert apparent power in kVA to amps' },
+        ],
+      },
+      {
+        title: 'What three-phase mode assumes',
+        paragraphs: [
+          'The three-phase mode uses line-to-line voltage and the sqrt(3) formula. A 208 V or 480 V line-to-line rating fits that input. Line-to-neutral voltage uses a different form of the three-phase relationship.',
+          'If the label or drawing does not make the voltage basis clear, stop at the rough comparison and check the equipment documentation or ask a qualified electrician.',
+        ],
+      },
+    ],
     sources: [
+      sourceLinks.electricalSafetyFirstUnits,
       sourceLinks.openStaxElectricPower,
       sourceLinks.openStaxOhmsLaw,
       sourceLinks.nistAmpere,

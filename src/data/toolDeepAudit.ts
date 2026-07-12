@@ -247,8 +247,13 @@ const nistSi = {
 };
 
 const nistAmpere = {
-  href: 'https://www.nist.gov/pml/weights-and-measures/si-units-ampere',
+  href: 'https://www.nist.gov/pml/owm/si-units-electric-current',
   label: 'NIST: SI unit of electric current',
+};
+
+const electricalSafetyFirstUnits = {
+  href: 'https://www.electricalsafetyfirst.org.uk/units-calculator/',
+  label: 'Electrical Safety First: Amps, watts, volts, and Ohm\'s law',
 };
 
 const esfiExtensionCordSafety = {
@@ -6123,20 +6128,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'watts-to-amps-calculator',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
-    reviewedOn: '2026-06-02',
+    batch: 'gsc-query-recovery-watts-to-amps-2026-07-12',
+    reviewedOn: '2026-07-12',
     scope: commonMathScope,
-    sources: [openStaxElectricPower, openStaxOhmsLaw, nistAmpere, nistSi, esfiExtensionCordSafety, googleHelpfulContent],
+    sources: [electricalSafetyFirstUnits, openStaxElectricPower, openStaxOhmsLaw, nistAmpere, nistSi, esfiExtensionCordSafety, googleHelpfulContent],
     findings: [
-      'DataForSEO paid evidence for the exact tool and guide targeted the `watts to amps calculator` search intent after balance and status gates passed.',
-      'OpenStax electric power guidance supports the core P = IV relationship, and NIST confirms the ampere, volt, and watt unit context.',
-      'The page now separates DC/single-phase math from three-phase math, adds a 12 V DC example, explains power factor, and keeps breaker, wire, and extension-cord choices outside the simple estimate.',
+      'Exact Search Console evidence recorded 244 impressions, 0 clicks, and average position 56.1, while URL Inspection confirmed the June page was indexed and successfully crawled on 2026-07-02.',
+      'Targeted DataForSEO evidence reports 5,400 U.S. monthly searches for `watts to amps calculator`, with supported 12 V, 220/240 V, AC, DC, and three-phase variants.',
+      'Live search results and source review supported clearer common-voltage examples, milliamp output, and an explicit line-to-line assumption for three-phase mode without adding unsafe breaker or wire recommendations.',
+      'OpenStax supports the electric-power relationship, NIST confirms SI current and voltage units, and Electrical Safety First provides practical AC/DC and units context.',
     ],
     improvements: [
-      'Rewrote metadata, aliases, formula text, examples, FAQ detail, guide source coverage, safety wording, audit record, modified dates, and image alt/caption text in smart-14 wording.',
+      'Refreshed tool and guide metadata around exact watts-to-amps intent, corrected the 120 V heater preset to single-phase AC, added amps and milliamps output, expanded 12 V/120 V/240 V examples, clarified three-phase line-to-line voltage, strengthened related electrical links, and kept all safety limits visible.',
     ],
     followUps: [
-      'Add common voltage presets later only if the UI keeps equipment-nameplate and qualified-review warnings visible.',
+      'Consider a dedicated electrical calculator hub after the Watts-to-Amps release is recrawled; targeted evidence reports 2,400 U.S. monthly searches for `electrical calculator`.',
     ],
   },
   {

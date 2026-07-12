@@ -2056,12 +2056,12 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'watts-to-amps-calculator',
     name: 'Watts to Amps Calculator',
     category: 'calculators',
-    summary: 'Convert watts to amps with voltage, phase type, and power factor.',
+    summary: 'Convert watts to amps at common 12 V, 120 V, and 240 V inputs with AC, DC, three-phase, and power-factor options.',
     description:
-      'Use this free watts to amps calculator to estimate current draw from real power, supply voltage, phase type, and power factor.',
-    seoTitle: 'Watts to Amps Calculator | W to A Current Estimate',
+      'Use this free watts to amps calculator to estimate amps and milliamps from real power, supply voltage, phase type, and power factor.',
+    seoTitle: 'Watts to Amps Calculator | AC, DC and 3-Phase',
     seoDescription:
-      'Convert watts to amps for DC, single-phase AC, and three-phase AC loads with voltage, power factor, formula steps, examples, and safety limits.',
+      'Convert watts to amps at 12 V, 120 V, 220 V, 240 V, or three-phase AC. See amps, milliamps, power factor, formula steps, examples, and safety limits.',
     icon: 'calculator-watts-to-amps',
     aliases: [
       'W to A Calculator',
@@ -2070,13 +2070,13 @@ export const utilityTools: ToolDefinition[] = [
       'Electrical Watts to Amps Calculator',
     ],
     formula:
-      'For DC and single-phase AC, amps = watts / (volts x power factor). For three-phase AC, amps = watts / (volts x sqrt(3) x power factor).',
+      'For DC, amps = watts / volts. For single-phase AC, amps = watts / (volts x power factor). For three-phase AC using line-to-line voltage, amps = watts / (volts x sqrt(3) x power factor).',
     limit:
-      'This is formula math for learning and planning. Real electrical work needs the equipment nameplate, correct voltage, power factor, breaker, wire, code rules, and qualified review.',
+      'This is formula math for learning and planning. Three-phase mode assumes line-to-line voltage. Real electrical work needs the equipment nameplate, correct voltage, power factor, breaker, wire, code rules, and qualified review.',
     inputExplanations: [
       { term: 'Watts', meaning: 'real power used by the device or load.' },
       { term: 'Volts', meaning: 'the supply voltage feeding the load.' },
-      { term: 'Phase', meaning: 'DC, single-phase AC, or three-phase AC changes the current formula.' },
+      { term: 'Phase', meaning: 'DC, single-phase AC, or three-phase AC changes the formula. Three-phase input uses line-to-line voltage.' },
       { term: 'Power factor', meaning: 'how efficiently AC current becomes real power. Use 1 for DC or resistive loads.' },
     ],
     extraFaq: [
@@ -2100,6 +2100,21 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Use the value that matches your question. Rated watts estimate normal running current. Starting watts or motor inrush can be much higher, so do not use this simple result as a final safety decision.',
       },
+      {
+        question: 'How many amps is 1,000 watts at 240 volts?',
+        answer:
+          'At 240 V single-phase with power factor 1, 1,000 W is about 4.17 A. An AC load with a lower power factor draws more current, so use the equipment value when it is available.',
+      },
+      {
+        question: 'Which voltage should I enter for three-phase power?',
+        answer:
+          'This calculator expects line-to-line voltage in three-phase mode, such as 208 V or 480 V. Do not enter a line-to-neutral value unless you first convert it or use a tool that explicitly supports that voltage basis.',
+      },
+      {
+        question: 'Why does the result also show milliamps?',
+        answer:
+          'Milliamps make small currents easier to read. One amp is 1,000 milliamps, so 0.5 A is the same as 500 mA.',
+      },
     ],
     useCases: [
       'Estimate current from a device watt rating.',
@@ -2109,12 +2124,21 @@ export const utilityTools: ToolDefinition[] = [
       'Read appliance or equipment labels more carefully before asking for qualified electrical help.',
     ],
     examples: [
+      { label: '12 V DC device', expression: '60 W, 12 V DC, power factor 1', result: '5 A, or 5,000 mA' },
+      { label: '240 V quick check', expression: '1,000 W, 240 V single-phase, power factor 1', result: 'About 4.17 A' },
       { label: '120 V heater', expression: '1,500 W, 120 V, power factor 1', result: '12.5 A' },
       { label: 'Single-phase motor', expression: '2,200 W, 240 V, PF 0.9', result: 'About 10.19 A' },
       { label: 'Three-phase load', expression: '5,000 W, 208 V, PF 0.85', result: 'About 16.34 A' },
-      { label: '12 V DC device', expression: '60 W, 12 V, PF 1', result: '5 A' },
+      { label: '8 kW label written in watts', expression: '8,000 W, 240 V single-phase, power factor 1', result: 'About 33.33 A' },
     ],
-    relatedSlugs: ['amps-to-watts-calculator', 'voltage-drop-calculator', 'ohms-law-calculator', 'electricity-calculator'],
+    relatedSlugs: [
+      'amps-to-watts-calculator',
+      'kilowatts-to-amps-calculator',
+      'kva-to-amps-calculator',
+      'voltage-drop-calculator',
+      'ohms-law-calculator',
+      'electricity-calculator',
+    ],
   }),
   makeUtilityTool({
     slug: 'amps-to-watts-calculator',

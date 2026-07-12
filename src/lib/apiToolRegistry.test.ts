@@ -183,6 +183,7 @@ describe('ask tool router parser', () => {
   it('answers a watts to amps question with the deterministic tool', async () => {
     const answer = await answerUtilityQuestion('Convert 600 watts to amps at 120 volts.');
     expect(answer.route.tool_slug).toBe('watts-to-amps-calculator');
+    expect(answer.run.result).toMatchObject({ amps: 5, milliamps: 5000 });
     expect(answer.run.warnings.join(' ')).toMatch(/electrical code/i);
   });
 

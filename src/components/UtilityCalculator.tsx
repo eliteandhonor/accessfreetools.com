@@ -776,7 +776,7 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
   'watts-to-amps': {
     watts: 'Real power in watts. Use the device label or measured watts when you have it.',
     volts: 'Supply voltage. Common examples are 12 V DC, 120 V AC, 240 V AC, or 208 V three-phase.',
-    phase: 'Choose DC, single-phase AC, or three-phase AC so the calculator uses the right current formula.',
+    phase: 'Choose DC, single-phase AC, or three-phase AC so the calculator uses the right formula. Three-phase mode expects line-to-line voltage.',
     powerFactor:
       'Power factor is how efficiently AC current becomes real power. Use 1 for DC or simple resistive loads when you do not know it.',
   },
@@ -1949,9 +1949,12 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
           selectField('phase', 'Phase / current type', powerPhaseOptions),
           numberField('powerFactor', 'Power factor', '1'),
         ],
-        defaultInputs: { watts: '1500', volts: '120', phase: 'dc', powerFactor: '1' },
+        defaultInputs: { watts: '1500', volts: '120', phase: 'single-phase', powerFactor: '1' },
         examples: [
-          { label: 'Space heater', inputs: { watts: '1500', volts: '120', phase: 'dc', powerFactor: '1' } },
+          { label: '12 V DC device', inputs: { watts: '60', volts: '12', phase: 'dc', powerFactor: '1' } },
+          { label: '120 V space heater', inputs: { watts: '1500', volts: '120', phase: 'single-phase', powerFactor: '1' } },
+          { label: '1,000 W at 240 V', inputs: { watts: '1000', volts: '240', phase: 'single-phase', powerFactor: '1' } },
+          { label: '8,000 W at 240 V', inputs: { watts: '8000', volts: '240', phase: 'single-phase', powerFactor: '1' } },
           { label: 'Single-phase motor', inputs: { watts: '2200', volts: '240', phase: 'single-phase', powerFactor: '0.9' } },
           { label: 'Three-phase load', inputs: { watts: '5000', volts: '208', phase: 'three-phase', powerFactor: '0.85' } },
         ],
@@ -4973,6 +4976,10 @@ function percent(value: number) {
   return `${formatCalculatorNumber(value)}%`;
 }
 
+function estimatedNumber(value: number) {
+  return formatCalculatorNumber(Number.parseFloat(value.toPrecision(6)));
+}
+
 function dateText(value: string) {
   return new Date(`${value}T00:00:00Z`).toLocaleDateString('en-US', {
     day: 'numeric',
@@ -5731,8 +5738,9 @@ function calculateUtility(
       return {
         label: 'Estimated current',
         expression: `${formatCalculatorNumber(result.watts)} W at ${formatCalculatorNumber(result.volts)} V`,
-        answer: `${formatCalculatorNumber(result.amps)} A`,
+        answer: `${estimatedNumber(result.amps)} A`,
         metrics: [
+          { label: 'Milliamps', value: `${estimatedNumber(result.milliamps)} mA` },
           { label: 'Phase factor', value: formatCalculatorNumber(result.phaseFactor) },
           { label: 'Power factor', value: formatCalculatorNumber(result.powerFactor) },
           { label: 'Power', value: `${formatCalculatorNumber(result.watts)} W` },
@@ -5742,7 +5750,7 @@ function calculateUtility(
           'Multiply voltage by the phase factor and power factor.',
           'Divide watts by that adjusted voltage value to estimate amps.',
         ],
-        note: 'This is formula math only. Real electrical loads need correct voltage, power factor, breaker, wire, code, and professional review.',
+        note: 'This is formula math only. Three-phase mode assumes line-to-line voltage. Real loads still need nameplate data, code rules, and qualified review.',
       };
     }
     case 'amps-to-watts': {

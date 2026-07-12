@@ -7596,6 +7596,7 @@ export interface WattsToAmpsResult {
   powerFactor: number;
   phaseFactor: number;
   amps: number;
+  milliamps: number;
 }
 
 export interface AmpsToWattsResult {
@@ -9871,11 +9872,13 @@ export function calculateWattsToAmps(input: {
   assertPowerFactor(input.powerFactor);
 
   const phaseFactor = getElectricalPhaseFactor(input.phase);
+  const amps = input.watts / (input.volts * phaseFactor * input.powerFactor);
 
   return {
     ...input,
     phaseFactor,
-    amps: input.watts / (input.volts * phaseFactor * input.powerFactor),
+    amps,
+    milliamps: amps * 1000,
   };
 }
 

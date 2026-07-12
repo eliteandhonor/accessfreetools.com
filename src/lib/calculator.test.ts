@@ -2415,7 +2415,8 @@ describe('utility helpers', () => {
       resistanceOhmsPer1000Feet: 1.588,
       phase: 'single',
     });
-    const wattsToAmps = calculateWattsToAmps({ watts: 1500, volts: 120, phase: 'dc', powerFactor: 1 });
+    const wattsToAmps = calculateWattsToAmps({ watts: 1500, volts: 120, phase: 'single-phase', powerFactor: 1 });
+    const lowVoltageWattsToAmps = calculateWattsToAmps({ watts: 60, volts: 12, phase: 'dc', powerFactor: 1 });
     const ampsToWatts = calculateAmpsToWatts({ amps: 12.5, volts: 120, phase: 'dc', powerFactor: 1 });
     const kwToAmps = calculateKilowattsToAmps({ kilowatts: 5, volts: 240, phase: 'single-phase', powerFactor: 0.9, efficiencyPercent: 90 });
     const kvaToAmps = calculateKilovoltAmpsToAmps({ kilovoltAmps: 25, volts: 220, phase: 'single-phase' });
@@ -2551,6 +2552,8 @@ describe('utility helpers', () => {
     expect(bra.sizeLabel).toBe('32D');
     expect(formatCalculatorNumber(voltageDrop.percentDrop)).toBe('2.9775');
     expect(formatCalculatorNumber(wattsToAmps.amps)).toBe('12.5');
+    expect(formatCalculatorNumber(wattsToAmps.milliamps)).toBe('12500');
+    expect(lowVoltageWattsToAmps).toMatchObject({ amps: 5, milliamps: 5000 });
     expect(formatCalculatorNumber(ampsToWatts.watts)).toBe('1500');
     expect(formatCalculatorNumber(kwToAmps.amps)).toBe('25.7201646091');
     expect(formatCalculatorNumber(kvaToAmps.amps)).toBe('113.636363636');
