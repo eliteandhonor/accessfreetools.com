@@ -91,6 +91,12 @@ copy was removed, the contextual tool link plus final tool/guide links were
 verified, the branded hero image was restored with alt text, and the public
 article was checked at
 `https://medium.com/@accessfreetools/things-you-should-know-before-trusting-a-mortgage-payment-estimate-679a79eaa1cc`.
+On 2026-07-14, the GitHub repository-safety Medium article was published and
+verified on its public URL after a final republish. The live response confirmed
+the custom SEO title and description, canonical link to the original Access
+Free Tools guide, literal smoke-kawaii hero alt text, five focused topics,
+free-reader access, H1/H2 structure, and contextual Access Free Tools links:
+`https://medium.com/@accessfreetools/github-stars-are-not-a-security-review-what-i-check-instead-a1a261be3fbe`.
 Follow-up from the 2026-05-07 review: Medium posts now require a branded hero
 image, alt text, canonical/source URL metadata, and focused tags in the local
 quality gate before future public posting. The live percentage article now uses
@@ -291,6 +297,7 @@ SEO proof from 2026-05-10:
 | High | `/tools/percentage-calculator/` | Discounts, tips, markups, and percent change | Medium | posted | Live article published and checked on 2026-05-07: `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4`; branded hero image, alt text, Medium SEO title/description, canonical link, reader-interest topics, and live H1/H2 formatting verified in the external browser |
 | High | `/tools/percentage-calculator/` | Discount, tip, markup, and percent-change micro tip | Bluesky | posted | Public post verified on 2026-05-08: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mld43shj2u2h` |
 | High | `/tools/mortgage-calculator/` | Early home-shopping payment estimate with finance limits | Medium | posted | Live article fixed and public-page checked on 2026-05-10 with H1, one branded hero image, alt text, H2 headings, contextual tool link, final tool/guide links, and no agent-facing filler: `https://medium.com/@accessfreetools/things-you-should-know-before-trusting-a-mortgage-payment-estimate-679a79eaa1cc` |
+| High | `/blog/how-to-check-github-project-before-installing/` | Seven checks for evaluating a GitHub repository before installation | Medium | posted | Published and public-response checked on 2026-07-14 with custom SEO title/description, canonical link, literal hero alt text, five topics, free access, H1/H2 structure, and contextual site links verified: `https://medium.com/@accessfreetools/github-stars-are-not-a-security-review-what-i-check-instead-a1a261be3fbe`. |
 | High | `/tools/mortgage-calculator/` | Mortgage planning estimate with finance limits | Bluesky | posted | Public post verified on 2026-05-13 with finance-estimate wording and tool link: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlplqpvm2r2g` |
 | High | `/why-access-free-tools/` | Build-in-public story about using Codex to grow the free utility website | Bluesky | posted | Public post verified on 2026-05-14 with the mission-page link card visible: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlrrl7pmzk2i`. |
 | High | `/why-access-free-tools/` | How I used Codex to build a safer backlink workflow | Medium | needs approval | First-person owner story prepared in external Chrome on 2026-07-03 at Medium edit URL `https://medium.com/p/12ac1e4dee58/edit` and saved locally at `output/promotion/medium/codex-backlink-workflow.md`. Added a bonus list of sites that passed the profile/backlink filter. Medium quality passed at 99 overall, and Stop Slop scans passed for banned AI tells, em dashes, and public `-ly` words. Smoke-kawaii hero image uploaded to the Medium draft with alt text, topics saved as `SEO`, `Backlinks`, `Codex`, `Search`, and `Automation`, and Medium SEO title/description saved. Canonical/source URL intentionally left unset because this is an original Medium article, not a republished article. Draft remains unpublished pending owner approval. |
