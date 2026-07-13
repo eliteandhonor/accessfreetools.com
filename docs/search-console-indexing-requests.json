@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-13T11:29:48+10:00",
+  "generatedAt": "2026-07-13T19:09:33+10:00",
   "source": "Search Console UI",
   "requests": [
     {
@@ -55,6 +55,53 @@
       "requestedAt": "2026-07-13T11:29:48+10:00",
       "result": "indexing-requested",
       "url": "https://accessfreetools.com/gallery/converters/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue. Recorded immediately after the evening request batch.",
+      "requestedAt": "2026-07-13T19:09:33+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/personal-loan-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue. Recorded immediately after the evening request batch.",
+      "requestedAt": "2026-07-13T19:09:33+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/device-battery-life-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue. Recorded immediately after the evening request batch.",
+      "requestedAt": "2026-07-13T19:09:33+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/brick-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue. Recorded immediately after the evening request batch.",
+      "requestedAt": "2026-07-13T19:09:33+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/unit-price-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue. Recorded immediately after the evening request batch.",
+      "requestedAt": "2026-07-13T19:09:33+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/four-in-a-row-game/"
+    }
+  ],
+  "deferred": [
+    {
+      "attemptedAt": "2026-07-13T19:09:33+10:00",
+      "reason": "Search Console daily request quota exceeded; retry in a later daily batch.",
+      "url": "https://accessfreetools.com/blog/how-to-use-wallpaper-calculator/"
+    },
+    {
+      "attemptedAt": null,
+      "reason": "Not attempted after Search Console reported the daily request quota was exceeded.",
+      "url": "https://accessfreetools.com/blog/how-to-use-personal-loan-calculator/"
+    },
+    {
+      "attemptedAt": null,
+      "reason": "Not attempted after Search Console reported the daily request quota was exceeded.",
+      "url": "https://accessfreetools.com/blog/how-to-use-four-in-a-row-game/"
     }
   ]
 }

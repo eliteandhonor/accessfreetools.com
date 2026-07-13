@@ -19,7 +19,8 @@ function linkHelperSuggestionForGap(gap, linkHelper) {
 export function createIndexingRecommendation(topGap, linkHelper) {
   const linkSuggestion = linkHelperSuggestionForGap(topGap, linkHelper);
   const linkReason = linkSuggestion?.reason ?? '';
-  const indexingAlreadyRequested = /request-indexing was submitted/i.test(linkReason);
+  const indexingAlreadyRequested = /request-indexing (?:was )?submitted/i.test(linkReason);
+  const indexingDeferred = /request-indexing (?:was )?deferred|daily (?:request )?quota/i.test(linkReason);
   const awaitingGoogle =
     linkSuggestion?.action === 'monitor' ||
     /manual request indexing|recheck after Google crawls|built pages already link here/i.test(linkReason);
@@ -31,11 +32,17 @@ export function createIndexingRecommendation(topGap, linkHelper) {
   if (awaitingGoogle) {
     return recommendation(
       'High',
-      indexingAlreadyRequested ? 'Recheck requested indexing after Google crawls' : 'Request indexing or recheck not-indexed priority pages',
+      indexingAlreadyRequested
+        ? 'Recheck requested indexing after Google crawls'
+        : indexingDeferred
+          ? 'Retry indexing after the Search Console quota resets'
+          : 'Request indexing or recheck not-indexed priority pages',
       `${topGap.url} is still ${topGap.state}. ${linkReason}`,
       indexingAlreadyRequested
         ? 'Do not repeat the request-indexing click yet. Recheck URL Inspection after Google crawls, and keep promotion useful without creating a duplicate thin page.'
-        : 'Use Search Console URL Inspection to request indexing manually if available, then recheck after Google crawls. Keep promotion useful and avoid creating a duplicate thin page.',
+        : indexingDeferred
+          ? 'Do not retry during the exhausted quota window. Submit this URL in the next daily Search Console batch, then wait for Google to crawl it.'
+          : 'Use Search Console URL Inspection to request indexing manually if available, then recheck after Google crawls. Keep promotion useful and avoid creating a duplicate thin page.',
       [
         'output/search-console-url-inspection.json',
         'output/search-console-discovery.json',

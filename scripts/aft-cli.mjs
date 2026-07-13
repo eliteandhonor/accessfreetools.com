@@ -326,8 +326,10 @@ function getIndexingGaps() {
 function getSearchConsoleIndexingRequests() {
   const report = readJson(evidencePaths.searchConsoleIndexingRequests);
   const requests = Array.isArray(report?.requests) ? report.requests : [];
+  const deferred = Array.isArray(report?.deferred) ? report.deferred : [];
 
   return {
+    deferred,
     generatedAt: report?.generatedAt ?? '',
     requests,
   };
@@ -340,6 +342,11 @@ function normalizeUrlForCompare(url) {
 function searchConsoleIndexingRequestForUrl(url, requestReport = getSearchConsoleIndexingRequests()) {
   const normalizedUrl = normalizeUrlForCompare(url);
   return requestReport.requests.find((request) => normalizeUrlForCompare(request?.url) === normalizedUrl) ?? null;
+}
+
+function searchConsoleIndexingDeferredForUrl(url, requestReport = getSearchConsoleIndexingRequests()) {
+  const normalizedUrl = normalizeUrlForCompare(url);
+  return requestReport.deferred.find((item) => normalizeUrlForCompare(item?.url) === normalizedUrl) ?? null;
 }
 
 function formatIndexingRequestTime(request) {
@@ -956,9 +963,16 @@ function indexingGapsCommand(command) {
   const indexingRequests = getSearchConsoleIndexingRequests();
   const gapsWithRequestProof = gaps.map((gap) => {
     const indexingRequest = searchConsoleIndexingRequestForUrl(gap.url, indexingRequests);
+    const indexingDeferred = searchConsoleIndexingDeferredForUrl(gap.url, indexingRequests);
 
     return {
       ...gap,
+      indexingDeferred: indexingDeferred
+        ? {
+            attemptedAt: indexingDeferred.attemptedAt ?? '',
+            reason: indexingDeferred.reason ?? '',
+          }
+        : null,
       indexingRequest: indexingRequest
         ? {
             requestedAt: indexingRequest.requestedAt ?? '',
@@ -974,7 +988,9 @@ function indexingGapsCommand(command) {
     gaps: gapsWithRequestProof.slice(0, 20),
     indexingRequests: {
       generatedAt: indexingRequests.generatedAt,
+      deferredCurrentGaps: gapsWithRequestProof.filter((gap) => gap.indexingDeferred && !gap.indexingRequest).length,
       matchedCurrentGaps: gapsWithRequestProof.filter((gap) => gap.indexingRequest).length,
+      deferredTotal: indexingRequests.deferred.length,
       total: indexingRequests.requests.length,
     },
     performanceExport,
@@ -986,7 +1002,7 @@ function indexingGapsCommand(command) {
       const requestedAt = gap.indexingRequest ? formatIndexingRequestTime(gap.indexingRequest) : '';
       return `${index + 1}. ${gap.url} - ${gap.state}${gap.lastCrawlTime ? ` (last crawl ${gap.lastCrawlTime})` : ''}${
         requestedAt ? `; request-indexing submitted ${requestedAt}` : ''
-      }`;
+      }${!gap.indexingRequest && gap.indexingDeferred ? `; request deferred: ${gap.indexingDeferred.reason}` : ''}`;
     }),
     coverageExport
       ? `Coverage export: latest ${coverageExport.latest?.date ?? 'unknown'} has ${coverageExport.totals?.latestIndexed ?? 'unknown'} indexed and ${coverageExport.totals?.latestNotIndexed ?? 'unknown'} not indexed; critical buckets total ${coverageExport.totals?.criticalPages ?? 'unknown'} pages.`

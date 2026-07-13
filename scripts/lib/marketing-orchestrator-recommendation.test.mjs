@@ -24,6 +24,38 @@ describe('marketing indexing recommendation', () => {
     expect(result.gate).toMatch(/Do not add duplicate internal links/);
   });
 
+  it('does not spend another request when Search Console already accepted the URL', () => {
+    const result = createIndexingRecommendation(gap, {
+      suggestions: [
+        {
+          action: 'monitor',
+          reason:
+            'Search Console state: Crawled - currently not indexed; 8 built pages already link here, so next proof step is Search Console UI request-indexing submitted 13 July 2026, 7:09 pm; recheck after Google crawls.',
+          target: '/tools/personal-loan-calculator/',
+        },
+      ],
+    });
+
+    expect(result.title).toBe('Recheck requested indexing after Google crawls');
+    expect(result.action).toMatch(/Do not repeat the request-indexing click/);
+  });
+
+  it('waits for the next quota window when a manual request was deferred', () => {
+    const result = createIndexingRecommendation(gap, {
+      suggestions: [
+        {
+          action: 'monitor',
+          reason:
+            'Search Console state: Crawled - currently not indexed; 9 built pages already link here, so next proof step is Search Console UI request-indexing was deferred because the daily request quota was exceeded; retry in the next daily quota window.',
+          target: '/tools/personal-loan-calculator/',
+        },
+      ],
+    });
+
+    expect(result.title).toBe('Retry indexing after the Search Console quota resets');
+    expect(result.action).toMatch(/Do not retry during the exhausted quota window/);
+  });
+
   it('asks for a build instead of inventing a zero-link problem', () => {
     const result = createIndexingRecommendation(gap, {
       suggestions: [

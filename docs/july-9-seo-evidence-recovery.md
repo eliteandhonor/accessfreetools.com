@@ -26,6 +26,7 @@ This is an index-selection and CTR recovery sprint, not a sitemap rewrite sprint
 - Evidence: `output/search-console/url-inspection-next-sprint-2026-07-13.json`, `output/search-console/url-inspection-manual-request-batch-2-2026-07-13.json`, `output/search-console/url-inspection-love-release-2026-07-13.json`, and `docs/search-console-indexing-requests.json`.
 - A later key-URL refresh at 2026-07-13T07:18:40Z still reports Personal Loan tool, Personal Loan guide, and Wallpaper guide as `Crawled - currently not indexed`; all other URLs in the core 16-URL set passed. Built link proof already shows 8, 5, and 9 source pages respectively, so this remains a manual-request/recrawl watch lane rather than an internal-link rewrite.
 - Four in a Row tool and guide are live in submitted sitemaps. The first post-release inspection reported both as discovered; the later expanded key-URL inspection reports the tool URL as unknown to Google and the guide as `Discovered - currently not indexed`. Track both as new-page discovery states, not as recovery failures.
+- A July 13 evening manual batch received the Search Console `Indexing requested` confirmation for Personal Loan tool, Device Battery Life, Brick, Unit Price, and Four in a Row tool. The next request hit Google's daily quota on the Wallpaper guide, so Wallpaper guide, Personal Loan guide, and Four in a Row guide are deferred to the next daily quota window. Do not resubmit the five confirmed URLs; wait for fresh crawl evidence.
 
 ## Priority Pages
 

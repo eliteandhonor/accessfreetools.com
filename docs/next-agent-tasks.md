@@ -20,6 +20,7 @@ Priority: High, evidence-only
 
 - Exact July 13 inspection reports Personal Loan tool, Personal Loan guide, and Wallpaper guide as `Crawled - currently not indexed` with successful fetches. Their current pages already have 8, 5, and 9 built internal-link sources respectively.
 - Device Battery Life, Brick, and Unit Price also have old Google crawl evidence that predates current page versions. Keep them in the rotating exact-inspection set.
+- The July 13 evening Search Console batch accepted Personal Loan tool, Device Battery Life, Brick, Unit Price, and the Four in a Row tool into the priority crawl queue. Google then reported the daily quota on the Wallpaper guide. The next manual batch is limited to the Wallpaper guide, Personal Loan guide, and Four in a Row guide; do not resubmit the five accepted URLs.
 - Request indexing manually only when the Search Console UI is available and the daily quota allows it. Record successful requests in `docs/search-console-indexing-requests.json`.
 - Do not rewrite these pages, add duplicate links, restart broad validation, or change sitemap architecture until a fresh crawl evaluates the current versions.
 

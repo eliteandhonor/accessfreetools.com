@@ -780,8 +780,10 @@ function searchConsoleGaps() {
 function searchConsoleIndexingRequests() {
   const report = readJson('docs/search-console-indexing-requests.json');
   const requests = Array.isArray(report?.requests) ? report.requests : [];
+  const deferred = Array.isArray(report?.deferred) ? report.deferred : [];
 
   return {
+    deferred,
     generatedAt: report?.generatedAt ?? '',
     requests,
   };
@@ -790,6 +792,11 @@ function searchConsoleIndexingRequests() {
 function searchConsoleIndexingRequestForUrl(url, requestReport = searchConsoleIndexingRequests()) {
   const normalizedUrl = String(url ?? '').replace(/\/+$/, '/');
   return requestReport.requests.find((request) => String(request?.url ?? '').replace(/\/+$/, '/') === normalizedUrl);
+}
+
+function searchConsoleIndexingDeferredForUrl(url, requestReport = searchConsoleIndexingRequests()) {
+  const normalizedUrl = String(url ?? '').replace(/\/+$/, '/');
+  return requestReport.deferred.find((item) => String(item?.url ?? '').replace(/\/+$/, '/') === normalizedUrl);
 }
 
 function formatIndexingRequestTime(request) {
@@ -1277,21 +1284,30 @@ export function buildLinkHelperReport() {
           })
         : '';
       const indexingRequest = searchConsoleIndexingRequestForUrl(gap.url, indexingRequests);
+      const indexingDeferred = searchConsoleIndexingDeferredForUrl(gap.url, indexingRequests);
       const indexingRequestTime = formatIndexingRequestTime(indexingRequest);
       const nextProofStep = indexingRequest
         ? `Search Console UI request-indexing was submitted ${indexingRequestTime || 'recently'}; recheck after Google crawls`
+        : indexingDeferred
+          ? `Search Console UI request-indexing was deferred because ${indexingDeferred.reason || 'the daily quota was unavailable'}; retry in the next daily quota window`
         : discoveryRefreshedAt
           ? `manual request indexing or recheck after Google crawls because discovery was refreshed ${discoveryRefreshedAt}`
           : 'URL inspection/discovery after deploy';
       suggestions.push({
         action: hasBuiltLinkEvidence && hasEnoughInternalLinks ? 'monitor' : 'add-link',
         anchorIdea: url.pathname.replace(/^\/tools\/|^\/blog\/how-to-use-|\/$/g, '').replace(/-/g, ' '),
-        priority: hasBuiltLinkEvidence ? (hasEnoughInternalLinks ? 'medium' : 'high') : indexingRequest ? 'medium' : 'high',
+        priority: hasBuiltLinkEvidence
+          ? hasEnoughInternalLinks
+            ? 'medium'
+            : 'high'
+          : indexingRequest || indexingDeferred
+            ? 'medium'
+            : 'high',
         reason: hasBuiltLinkEvidence
           ? hasEnoughInternalLinks
             ? `Search Console state: ${gap.coverageState}; ${sourceCount} built pages already link here, so next proof step is ${nextProofStep}.`
             : `Search Console state: ${gap.coverageState}; only ${sourceCount} built pages link here, so add contextual support first.`
-          : indexingRequest
+          : indexingRequest || indexingDeferred
             ? `Search Console state: ${gap.coverageState}; built link counts are unavailable until npm run build because dist is missing, but next proof step is ${nextProofStep}.`
             : `Search Console state: ${gap.coverageState}; built link counts are unavailable until npm run build, so build first before deciding whether contextual link support is needed.`,
         target: url.pathname,
@@ -1349,6 +1365,7 @@ export function buildLinkHelperReport() {
       searchConsoleDiscovery: searchConsoleDiscovery ? { generatedAt: searchConsoleDiscovery.generatedAt } : null,
       searchConsoleIndexingRequests: {
         count: indexingRequests.requests.length,
+        deferred: indexingRequests.deferred.length,
         generatedAt: indexingRequests.generatedAt,
       },
     },
@@ -1491,20 +1508,29 @@ export function buildSeoConsoleReport() {
         ? `Search Console XML sitemap discovery was refreshed ${discoveryRefreshedAt}; ${isDiscoveryOnly ? 'request indexing manually in Search Console' : 'request indexing manually in Search Console if available'}, then recheck after Google crawls`
         : 'Run URL inspection/discovery';
       const indexingRequest = searchConsoleIndexingRequestForUrl(gap.url, indexingRequests);
+      const indexingDeferred = searchConsoleIndexingDeferredForUrl(gap.url, indexingRequests);
       const indexingRequestTime = formatIndexingRequestTime(indexingRequest);
       const followUpTask = indexingRequest
         ? `Search Console UI request-indexing was submitted ${indexingRequestTime || 'recently'}; recheck after Google crawls`
+        : indexingDeferred
+          ? `Search Console UI request-indexing was deferred because ${indexingDeferred.reason || 'the daily quota was unavailable'}; retry in the next daily quota window`
         : discoveryTask;
 
       return {
         evidence:
           'output/search-console-url-inspection.json + output/search-console-discovery.json + docs/search-console-indexing-requests.json + output/agent-tools/link-helper/latest.md',
-        priority: hasBuiltLinkEvidence ? (hasEnoughInternalLinks ? 'medium' : 'high') : indexingRequest ? 'medium' : 'high',
+        priority: hasBuiltLinkEvidence
+          ? hasEnoughInternalLinks
+            ? 'medium'
+            : 'high'
+          : indexingRequest || indexingDeferred
+            ? 'medium'
+            : 'high',
         task: hasBuiltLinkEvidence
           ? hasEnoughInternalLinks
             ? `${followUpTask} for ${gap.url}; built link proof already shows ${sourceCount} source pages linking to it (${gap.coverageState}).`
             : `Improve contextual links and clarity for ${gap.url}; built link proof shows only ${sourceCount} source pages linking to it (${gap.coverageState}).`
-          : indexingRequest
+          : indexingRequest || indexingDeferred
             ? `${followUpTask} for ${gap.url}; built link proof is unavailable until npm run build, so do not infer 0 source links from the cleaned workspace (${gap.coverageState}).`
             : `Run npm run build, then rerun link-helper before deciding contextual link work for ${gap.url}; built link proof is unavailable in the cleaned workspace (${gap.coverageState}).`,
       };
@@ -1543,7 +1569,8 @@ export function buildSeoConsoleReport() {
       marketing: marketing ? 'present' : 'not enough data',
       productionSitemap: productionSitemap ? 'present' : 'not enough data',
       searchConsoleDiscovery: searchConsoleDiscovery ? 'present' : 'not enough data',
-      searchConsoleIndexingRequests: indexingRequests.requests.length ? 'present' : 'not enough data',
+      searchConsoleIndexingRequests:
+        indexingRequests.requests.length || indexingRequests.deferred.length ? 'present' : 'not enough data',
       searchConsole: searchConsole.note ? 'not enough data' : 'present',
       sitemap: sitemap.note ? 'not enough data' : 'present',
     },
