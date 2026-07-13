@@ -151,6 +151,20 @@ export async function listHostingerDomains(params = {}) {
   return hostingerRequest(`/api/domains/v1/portfolio?${query}`);
 }
 
+export async function listHostingerNodeBuilds(username, domain, params = {}) {
+  if (!username || !domain) {
+    throw new Error('Hostinger username and domain are required to list Node.js builds.');
+  }
+
+  const query = new URLSearchParams({
+    page: String(params.page ?? 1),
+    per_page: String(params.perPage ?? 10),
+  });
+  return hostingerRequest(
+    `/api/hosting/v1/accounts/${encodeURIComponent(username)}/websites/${encodeURIComponent(domain)}/nodejs/builds?${query}`,
+  );
+}
+
 export async function getHostingerDnsRecords(domain) {
   return hostingerRequest(`/api/dns/v1/zones/${encodeURIComponent(domain)}`);
 }

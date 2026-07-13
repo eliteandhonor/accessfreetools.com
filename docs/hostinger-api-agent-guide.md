@@ -1,6 +1,6 @@
 # Hostinger API Agent Guide
 
-Last updated: 2026-07-12
+Last updated: 2026-07-13
 
 This guide explains how Access Free Tools agents should use the Hostinger API and MCP tooling. The purpose is hosting visibility first: check websites, DNS, logs, and deployment state without making risky infrastructure changes.
 
@@ -55,6 +55,11 @@ npm run hostinger:dns-audit
 npm run aft -- hostinger
 ```
 
+`npm run hostinger:status` must inspect the newest Node.js build as well as the
+account lists. It reports attention unless the latest build is completed with
+Node 24, output directory `dist`, and entry file `app.js`. A healthy website
+list alone is not deployment proof.
+
 Deployment command, only after explicit approval:
 
 ```powershell
@@ -84,6 +89,7 @@ Reports are written under `output/hostinger/`, which stays out of Git.
 
 - `GET /api/hosting/v1/websites`: list hosted websites.
 - `GET /api/hosting/v1/orders`: list hosting orders.
+- `GET /api/hosting/v1/accounts/{username}/websites/{domain}/nodejs/builds`: inspect the latest Node runtime build and its saved deployment options.
 - `GET /api/domains/v1/portfolio`: list domains.
 - `GET /api/dns/v1/zones/{domain}`: inspect DNS records.
 - `GET /api/vps/v1/virtual-machines/{virtualMachineId}/docker`: inspect Docker projects on a VPS.
@@ -116,6 +122,11 @@ The Codex entry uses Hostinger OAuth and stores no API token in `~/.codex/config
 For local CLI diagnostics that intentionally use the existing project token, use `scripts/hostinger-mcp-wrapper.mjs`. It loads `.local/hostinger-api.env` and passes the current `HOSTINGER_API_TOKEN` environment variable without printing it. `API_TOKEN` is now a deprecated compatibility alias and should not be added to new setup instructions.
 
 Hostinger's support article still says Node 20+, while the current official GitHub README says Node 24+ and the npm package manifest accepts Node 20+. Access Free Tools stays on Node 24, which satisfies every published requirement.
+
+On 2026-07-13, Hostinger's saved Git deployment settings were corrected in
+`Settings and redeploy` to Node `24.x`, Astro, `npm run build`, output `dist`,
+and entry `app.js`. Automatic Git builds must retain those values; a later
+Node 22 or null-entry build is configuration drift, not a valid fallback.
 
 The 2026-07-12 verification listed 45 tools and completed a read-only `hosting_listWebsitesV1` call for `accessfreetools.com` with HTTP 200. Keep normal MCP use read-only unless the user explicitly approves the exact deployment or infrastructure write. DNS, billing, domain, subscription, ecommerce, VPS, and destructive hosting actions remain outside the default MCP scope.
 

@@ -3,14 +3,17 @@ import { dirname, resolve } from 'node:path';
 import {
   HostingerApiError,
   listHostingerDomains,
+  listHostingerNodeBuilds,
   listHostingerOrders,
   listHostingerWebsites,
   readHostingerLocalEnv,
   summarizeCollection,
 } from './lib/hostinger-api.mjs';
+import { summarizeHostingerNodeRuntime } from './lib/hostinger-build-status.mjs';
 
 const outputJsonPath = resolve('output/hostinger/status.json');
 const outputMarkdownPath = resolve('output/hostinger/status.md');
+const domain = process.env.HOSTINGER_DOMAIN || 'accessfreetools.com';
 
 function write(path, value) {
   mkdirSync(dirname(path), { recursive: true });
@@ -42,12 +45,31 @@ function errorSummary(error) {
   };
 }
 
-async function capture(label, fn) {
+async function capture(label, fn, summarize = summarizeList) {
   try {
-    return [label, summarizeList(await fn())];
+    return [label, summarize(await fn())];
   } catch (error) {
     return [label, errorSummary(error)];
   }
+}
+
+async function captureResponse(fn) {
+  try {
+    const response = await fn();
+    return { response, summary: summarizeList(response) };
+  } catch (error) {
+    return { response: null, summary: errorSummary(error) };
+  }
+}
+
+function findWebsite(items) {
+  return items.find((item) => item?.domain === domain || item?.website === domain || item?.name === domain);
+}
+
+function checkLine(label, result) {
+  if (result.ok && result.description) return `- ${label}: ok (${result.description})`;
+  if (result.ok) return `- ${label}: ok (${result.count} item${result.count === 1 ? '' : 's'})`;
+  return `- ${label}: attention (${result.message})`;
 }
 
 function markdown(report) {
@@ -63,7 +85,7 @@ function markdown(report) {
   ];
 
   for (const [label, result] of Object.entries(report.checks)) {
-    lines.push(`- ${label}: ${result.ok ? `ok (${result.count} item${result.count === 1 ? '' : 's'})` : `blocked (${result.message})`}`);
+    lines.push(checkLine(label, result));
   }
 
   lines.push('', '## Safety Rule', '');
@@ -73,13 +95,29 @@ function markdown(report) {
 }
 
 async function main() {
+  const websitesCapture = await captureResponse(() => listHostingerWebsites({ page: 1, perPage: 100 }));
+  const website = findWebsite(websitesCapture.response ? summarizeCollection(websitesCapture.response) : []);
+  const runtimeEntry = website?.username
+    ? await capture(
+        'nodeRuntime',
+        () => listHostingerNodeBuilds(website.username, domain, { page: 1, perPage: 10 }),
+        (response) => summarizeHostingerNodeRuntime(summarizeCollection(response), { endpoint: response.endpoint }),
+      )
+    : [
+        'nodeRuntime',
+        {
+          ok: false,
+          count: 0,
+          message: `not enough data: ${domain} was not found in the Hostinger website list`,
+        },
+      ];
   const entries = await Promise.all([
-    capture('websites', listHostingerWebsites),
     capture('orders', listHostingerOrders),
     capture('domains', listHostingerDomains),
   ]);
-  const checks = Object.fromEntries(entries);
-  const status = Object.values(checks).some((check) => check.ok) ? 'ok' : 'attention';
+  const checks = Object.fromEntries([['websites', websitesCapture.summary], ...entries, runtimeEntry]);
+  const baseStatusOk = ['websites', 'orders', 'domains'].some((label) => checks[label]?.ok);
+  const status = baseStatusOk && checks.nodeRuntime?.ok ? 'ok' : 'attention';
   const report = {
     generatedAt: new Date().toISOString(),
     status,
