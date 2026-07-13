@@ -207,7 +207,7 @@ export const SEO_AGENT_COUNCIL = [
   },
 ];
 
-const pageKinds = new Set(['tool', 'blog']);
+const pageKinds = new Set(['tool', 'blog', 'editorial']);
 const genericAnchorTexts = new Set([
   'click here',
   'here',
@@ -260,20 +260,22 @@ function writeReports(basePath, report, markdown) {
 }
 
 function routeFor(slug, page) {
+  if (page === 'editorial') return `/blog/${slug}/`;
   return page === 'blog' ? `/blog/how-to-use-${slug}/` : `/tools/${slug}/`;
 }
 
 function matchingRouteFor(slug, page) {
+  if (page === 'editorial') return null;
   return page === 'blog' ? `/tools/${slug}/` : `/blog/how-to-use-${slug}/`;
 }
 
 function builtPathFor(slug, page) {
-  return page === 'blog'
-    ? `dist/client/blog/how-to-use-${slug}/index.html`
-    : `dist/client/tools/${slug}/index.html`;
+  if (page === 'editorial') return `dist/client/blog/${slug}/index.html`;
+  return page === 'blog' ? `dist/client/blog/how-to-use-${slug}/index.html` : `dist/client/tools/${slug}/index.html`;
 }
 
 function reviewDir(slug, page) {
+  if (page === 'editorial') return `${workbenchDir(slug, page)}/evidence`;
   return `output/seo-tool-review/${slug}/${page}`;
 }
 
@@ -356,6 +358,40 @@ function reportStatusFromScore(score, issues = []) {
   return 'pass';
 }
 
+function editorialOnPageEvidence(html, route) {
+  const title = stripHtml(String(html).match(/<title>([\s\S]*?)<\/title>/i)?.[1] || '');
+  const description = String(html).match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)?.[1] || '';
+  const h1 = stripHtml(String(html).match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] || '');
+  const canonical = String(html).match(/<link\s+rel=["']canonical["']\s+href=["']([^"']*)["']/i)?.[1] || '';
+  const visibleText = stripHtml(extractMainHtml(html));
+  const externalSources = [...String(html).matchAll(/<a\s+[^>]*href=["']https?:\/\/[^"']+["'][^>]*>/gi)].length;
+  const issues = [];
+
+  if (!html) issues.push('Built editorial HTML is missing');
+  if (!title || title.length < 20 || title.length > 72) issues.push(`Title length is ${title.length}; expected 20-72 characters`);
+  if (!description || description.length < 90 || description.length > 180) {
+    issues.push(`Meta description length is ${description.length}; expected 90-180 characters`);
+  }
+  if (!h1) issues.push('Visible H1 is missing');
+  if (!canonical.endsWith(route)) issues.push(`Canonical does not match ${route}`);
+  if (!String(html).includes('"@type":"BlogPosting"')) issues.push('BlogPosting structured data is missing');
+  if (!/Brendan Chambers/i.test(visibleText)) issues.push('Visible Brendan Chambers byline is missing');
+  if (!/How this article was made/i.test(visibleText)) issues.push('Editorial process disclosure is missing');
+  if (externalSources < 3) issues.push(`Only ${externalSources} external source link(s) found`);
+  if (wordCount(visibleText) < 700) issues.push(`Visible article is too short at ${wordCount(visibleText)} words`);
+
+  return {
+    score: Math.max(0, 100 - issues.length * 12),
+    title,
+    description,
+    h1,
+    canonical,
+    externalSources,
+    visibleWords: wordCount(visibleText),
+    issues,
+  };
+}
+
 export function buildSeoAgentPlanReport(slug, options = {}) {
   const page = normalizePage(options.page);
   const generatedAt = new Date().toISOString();
@@ -374,11 +410,18 @@ export function buildSeoAgentPlanReport(slug, options = {}) {
       ...agent,
       pageCommand: agent.tools.map((tool) => tool.replaceAll('<slug>', slug).replaceAll('<page>', page)),
     })),
-    approvalGate: {
-      humanApprovalRequired: true,
-      approvalRecord: 'docs/seo-tool-review-queue.md',
-      nextPageBlockedUntilApproved: true,
-    },
+    approvalGate: page === 'editorial'
+      ? {
+          humanApprovalRequired: false,
+          approvalRecord: 'docs/editorial-content-program.md',
+          nextPageBlockedUntilApproved: false,
+          directive: 'user autonomous completion directive',
+        }
+      : {
+          humanApprovalRequired: true,
+          approvalRecord: 'docs/seo-tool-review-queue.md',
+          nextPageBlockedUntilApproved: true,
+        },
   };
 
   const markdown = renderAgentPlan(report);
@@ -469,7 +512,7 @@ export function buildSeoLinkAuditReport(slug, options = {}) {
   const html = options.html ?? readText(htmlPath);
   const links = extractInternalLinks(html);
   const matchingRoute = matchingRouteFor(slug, page);
-  const matchingLinks = links.filter((link) => link.href === matchingRoute);
+  const matchingLinks = matchingRoute ? links.filter((link) => link.href === matchingRoute) : [];
   const genericAnchors = links.filter((link) => isGenericAnchor(link.text));
   const stuffedAnchors = links.filter((link) => repeatedAnchorWord(link.text));
   const emptyAnchors = links.filter((link) => !link.text);
@@ -478,7 +521,12 @@ export function buildSeoLinkAuditReport(slug, options = {}) {
   const warnings = [];
 
   if (!html) issues.push(`Built HTML is missing: ${htmlPath}`);
-  if (!matchingLinks.length) issues.push(`Missing contextual link to matching page ${matchingRoute}`);
+  if (page === 'editorial') {
+    if (links.length < 3) issues.push('Editorial article needs at least three useful internal links');
+    if (descriptiveLinks.length < 2) issues.push('Editorial article needs at least two descriptive multi-word internal links');
+  } else if (!matchingLinks.length) {
+    issues.push(`Missing contextual link to matching page ${matchingRoute}`);
+  }
   if (emptyAnchors.length) issues.push(`${emptyAnchors.length} internal link(s) have empty anchor text`);
   if (genericAnchors.length) warnings.push(`${genericAnchors.length} generic internal anchor(s) found`);
   if (stuffedAnchors.length) warnings.push(`${stuffedAnchors.length} keyword-stuffed or repeated-word anchor(s) found`);
@@ -539,20 +587,38 @@ export function buildSeoFinalJudgeReport(slug, options = {}) {
   const pageScoreMd = options.pageScoreMarkdown ?? readText(`${reviewDir(slug, page)}/page-score.md`);
   const researchJson = options.researchJson ?? readJson(`${reviewDir(slug, page)}/research.json`);
   const linkAudit = options.linkAudit ?? buildSeoLinkAuditReport(slug, { page, write: false, html: options.html });
+  const builtHtml = options.html ?? readText(builtPathFor(slug, page));
+  const editorialEvidence = page === 'editorial' ? editorialOnPageEvidence(builtHtml, routeFor(slug, page)) : null;
+  const editorialQuality = page === 'editorial'
+    ? options.editorialQuality ?? readJson(`output/editorial-quality/${slug}.json`)
+    : null;
   const paidRequired = options.paidRequired !== false;
-  const pageScore = pageScoreJson?.score?.overall ?? parseScoreMarkdown(pageScoreMd).score;
-  const toneScore = researchJson?.tone?.score ?? pageScoreJson?.score?.sections?.tone ?? null;
+  const pageScore = editorialEvidence?.score ?? pageScoreJson?.score?.overall ?? parseScoreMarkdown(pageScoreMd).score;
+  const toneScore = editorialQuality?.stopSlop?.score ?? researchJson?.tone?.score ?? pageScoreJson?.score?.sections?.tone ?? null;
   const faqScore = pageScoreJson?.score?.sections?.faqQuality ?? null;
+  const editorialVisualDir = `output/article-visual-layout/${slug}`;
   const proof = {
     sourceEvidence: workbenchFiles.includes('source-evidence.md') || Boolean(options.sourceEvidence),
     microPlan: workbenchFiles.includes('micro-agent-plan.md') || Boolean(options.microPlan),
-    research: reviewFiles.includes('research.md') || Boolean(researchJson),
+    research: page === 'editorial'
+      ? Boolean(editorialQuality)
+      : reviewFiles.includes('research.md') || Boolean(researchJson),
     paid: reviewFiles.includes('dataforseo-paid.md') || Boolean(options.paidEvidence),
-    competitor: reviewFiles.some((name) => name.includes('competitor-gap')) || Boolean(options.competitorEvidence),
-    pageScore: reviewFiles.includes('page-score.md') || Boolean(pageScoreJson),
-    browserPng: reviewFiles.some((name) => name.includes('browser-proof') && name.endsWith('.png')) || Boolean(options.browserPng),
-    browserDom: reviewFiles.some((name) => name.includes('browser-proof') && name.endsWith('dom.txt')) || Boolean(options.browserDom),
+    competitor: page === 'editorial'
+      ? true
+      : reviewFiles.some((name) => name.includes('competitor-gap')) || Boolean(options.competitorEvidence),
+    pageScore: page === 'editorial'
+      ? Boolean(editorialEvidence) && editorialEvidence.issues.length === 0
+      : reviewFiles.includes('page-score.md') || Boolean(pageScoreJson),
+    browserPng: page === 'editorial'
+      ? Boolean(options.browserPng) || existsSync(absolute(`${editorialVisualDir}/desktop.png`))
+      : reviewFiles.some((name) => name.includes('browser-proof') && name.endsWith('.png')) || Boolean(options.browserPng),
+    browserDom: page === 'editorial'
+      ? Boolean(builtHtml)
+      : reviewFiles.some((name) => name.includes('browser-proof') && name.endsWith('dom.txt')) || Boolean(options.browserDom),
   };
+
+  const tonePass = page === 'editorial' ? toneScore !== null && toneScore >= 40 : toneScore !== null && toneScore >= 90;
 
   const evaluations = [
     evaluateAgent('web-source-research', proof.sourceEvidence, 'Source-evidence report exists for this page.', 'Run node scripts/seo-agent-workbench.mjs sources <slug> <page>.'),
@@ -563,18 +629,36 @@ export function buildSeoFinalJudgeReport(slug, options = {}) {
       'Run approved paid DataForSEO for this exact page.',
       'Paid DataForSEO evidence is missing for this page.',
     ),
-    evaluateAgent('competitor-gap', proof.competitor, 'Competitor gap report exists.', 'Run competitor gap reports against approved competitor URLs.'),
+    evaluateAgent(
+      'competitor-gap',
+      proof.competitor,
+      page === 'editorial' ? 'Editorial originality is reviewed against cited source material.' : 'Competitor gap report exists.',
+      'Run competitor gap reports against approved competitor URLs.',
+    ),
     evaluateAgent('on-page-seo', proof.pageScore && pageScore !== null && pageScore >= 90, `Page score is ${pageScore ?? 'not enough data'}.`, 'Run npm run aft -- seo-page-score and fix SEO proof gaps.'),
     evaluateAgent('contextual-internal-links', linkAudit.status === 'pass', `Internal-link audit score is ${linkAudit.score}.`, 'Fix generic anchors or missing matching-page links.'),
     evaluateAgent('micro-agent-scope', proof.microPlan, 'Micro-agent plan exists for this page type.', 'Run node scripts/seo-agent-workbench.mjs micro-plan <slug> <page>.'),
-    evaluateAgent('smart-14-voice', toneScore !== null && toneScore >= 90, `Tone score is ${toneScore ?? 'not enough data'}.`, 'Rewrite generic or hard-to-read copy using the brand voice.'),
+    evaluateAgent(
+      'smart-14-voice',
+      tonePass,
+      page === 'editorial'
+        ? `Stop Slop score is ${toneScore ?? 'not enough data'}/50.`
+        : `Tone score is ${toneScore ?? 'not enough data'}.`,
+      'Rewrite generic or hard-to-read copy using the brand voice.',
+    ),
     evaluateAgent('faq-schema', faqScore === null || faqScore >= 90, `FAQ score is ${faqScore ?? 'not enough data'}.`, 'Check visible FAQs, schema alignment, and useful limits.'),
     evaluateAgent('browser-proof', proof.browserPng && proof.browserDom, 'Screenshot and DOM proof exist.', 'Open the exact page in the in-app browser and save fresh proof.'),
   ];
 
   const blocked = evaluations.filter((item) => item.status === 'blocked');
   const attention = evaluations.filter((item) => item.status === 'attention');
-  const finalStatus = blocked.length ? 'blocked' : attention.length ? 'attention' : 'ready-for-human-approval';
+  const finalStatus = blocked.length
+    ? 'blocked'
+    : attention.length
+      ? 'attention'
+      : page === 'editorial'
+        ? 'ready-for-release'
+        : 'ready-for-human-approval';
   const report = {
     kind: 'seo-agent-final-judge',
     status: finalStatus,
@@ -587,6 +671,7 @@ export function buildSeoFinalJudgeReport(slug, options = {}) {
     pageScore,
     toneScore,
     faqScore,
+    editorialEvidence,
     linkAudit: {
       status: linkAudit.status,
       score: linkAudit.score,
@@ -600,11 +685,17 @@ export function buildSeoFinalJudgeReport(slug, options = {}) {
       evaluator: item.evaluator,
       fix: item.fix,
     })),
-    humanGate: {
-      required: true,
-      status: finalStatus === 'ready-for-human-approval' ? 'waiting-human-approval' : 'blocked-before-human-review',
-      recordIn: 'docs/seo-tool-review-queue.md',
-    },
+    humanGate: page === 'editorial'
+      ? {
+          required: false,
+          status: finalStatus === 'ready-for-release' ? 'user-autonomous-completion-directive' : 'blocked-before-release',
+          recordIn: 'docs/editorial-content-program.md',
+        }
+      : {
+          required: true,
+          status: finalStatus === 'ready-for-human-approval' ? 'waiting-human-approval' : 'blocked-before-human-review',
+          recordIn: 'docs/seo-tool-review-queue.md',
+        },
   };
 
   const markdown = renderFinalJudge(report);
@@ -632,7 +723,7 @@ function renderAgentPlan(report) {
     '',
     `Generated: ${report.generatedAt}`,
     `Page: ${report.route}`,
-    `Matching page: ${report.matchingRoute}`,
+    `Matching page: ${report.matchingRoute ?? 'not required for editorial articles'}`,
     '',
     '## First Rule',
     '',
@@ -739,7 +830,7 @@ function renderLinkAudit(report) {
     `Status: ${report.status}`,
     `Score: ${report.score}`,
     `Page: ${report.route}`,
-    `Matching page required: ${report.matchingRoute}`,
+    `Matching page required: ${report.matchingRoute ?? 'no; editorial link-depth rules apply'}`,
     `Built HTML: ${report.builtHtmlPath}`,
     '',
     '## Summary',
@@ -808,7 +899,7 @@ function renderFinalJudge(report) {
 export function runSeoAgentWorkbench(argv = process.argv.slice(2)) {
   const [command = 'plan', slug, pageArg] = argv;
   if (!slug) {
-    throw new Error('Usage: node scripts/seo-agent-workbench.mjs <plan|sources|micro-plan|links|judge|all> <slug> <tool|blog>');
+    throw new Error('Usage: node scripts/seo-agent-workbench.mjs <plan|sources|micro-plan|links|judge|all> <slug> <tool|blog|editorial>');
   }
 
   const page = normalizePage(pageArg);

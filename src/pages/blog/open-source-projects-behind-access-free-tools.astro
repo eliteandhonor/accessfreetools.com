@@ -1,0 +1,263 @@
+---
+export const prerender = true;
+import EditorialArticleLayout from '../../components/EditorialArticleLayout.astro';
+
+const slug = 'open-source-projects-behind-access-free-tools';
+const title = '8 Open-Source Projects I Use to Build Access Free Tools';
+const description =
+  'Brendan Chambers shares the open-source web, testing, OCR, and AI projects used behind Access Free Tools, with practical examples and honest limits.';
+const imagePath = '/social/open-source-projects-behind-access-free-tools.webp';
+const socialImagePath = '/social/open-source-projects-behind-access-free-tools.png';
+const imageAlt =
+  'Full-body smoke-kawaii girl at a workbench arranging eight colorful open-source building blocks beside a laptop showing a utility webpage.';
+const sources = [
+  { href: 'https://www.howtogeek.com/coolest-open-source-projects-discovered-2026/', label: 'How-To Geek: The coolest open-source projects discovered in 2026' },
+  { href: 'https://github.com/withastro/astro', label: 'Astro on GitHub' },
+  { href: 'https://react.dev/', label: 'React documentation' },
+  { href: 'https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/', label: 'Microsoft: Announcing TypeScript 7.0' },
+  { href: 'https://playwright.dev/', label: 'Playwright documentation' },
+  { href: 'https://vitest.dev/', label: 'Vitest documentation' },
+  { href: 'https://github.com/naptha/tesseract.js', label: 'Tesseract.js on GitHub' },
+  { href: 'https://huggingface.co/docs/transformers.js/index', label: 'Transformers.js documentation' },
+  { href: 'https://github.com/ollama/ollama', label: 'Ollama on GitHub' },
+  { href: 'https://ladybird.org/', label: 'Ladybird browser project' },
+  { href: 'https://lightpanda.io/', label: 'Lightpanda browser project' },
+  { href: 'https://github.com/open-webui/open-webui', label: 'Open WebUI on GitHub' },
+  { href: 'https://www.continue.dev/', label: 'Continue project status' },
+];
+const relatedLinks = [
+  {
+    href: '/blog/free-ai-skills-open-source-tools-organic-growth/',
+    label: 'My earlier AI skills notes',
+    description: 'The agent skills I tested before looking closely at the software underneath the site.',
+  },
+  {
+    href: '/categories/ai-tools/',
+    label: 'Browser AI tools',
+    description: 'See the OCR, text, keyword, language, and image tools that use browser-side libraries.',
+  },
+  {
+    href: '/tools/image-to-text-ocr-tool/',
+    label: 'Image to Text OCR Tool',
+    description: 'Try the Tesseract.js workflow on a screenshot or photo.',
+  },
+  {
+    href: '/why-access-free-tools/',
+    label: 'Why I build Access Free Tools',
+    description: 'The practical rules behind this growing free utility library.',
+  },
+];
+---
+
+<EditorialArticleLayout
+  slug={slug}
+  title={title}
+  seoTitle="8 Open-Source Tools I Use to Build a Website"
+  description={description}
+  breadcrumbLabel="Open-source projects behind the site"
+  imagePath={imagePath}
+  socialImagePath={socialImagePath}
+  imageAlt={imageAlt}
+  imageCaption="The smoke-kawaii mascot sorts eight open-source building blocks for the website, testing, browser OCR, and optional local AI."
+  sources={sources}
+  relatedLinks={relatedLinks}
+>
+  <Fragment slot="intro">
+    <p>
+      I read a How-To Geek article about five interesting open-source projects, then opened the
+      Access Free Tools codebase. The list I cared about was already sitting in my own
+      <code>package.json</code>: the projects that help me build, test, and run this site every day.
+    </p>
+  </Fragment>
+
+  <section class="content-section article-flow-section">
+    <h2>Quick answer</h2>
+    <p>
+      The most useful open-source tools are not always the newest ones. They are the ones that do a
+      clear job and let me check the result. Astro builds the pages. React runs the interactive
+      calculators. TypeScript catches mistakes. Playwright and Vitest judge the work. Tesseract.js
+      and Transformers.js power specific browser tools. Ollama is an optional route for questions
+      that need a language model.
+    </p>
+    <p>
+      None of them replaces the part where I open the page and ask whether a normal person can use
+      it. They make that check faster and more repeatable.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>What is actually used, and where</h2>
+    <p>
+      I separate the stack into three jobs. That matters because saying a project is "used by the
+      site" can hide a lot of detail.
+    </p>
+    <div class="editorial-table-shell" role="region" aria-label="Open-source project roles" tabindex="0">
+      <table class="editorial-comparison-table">
+        <thead>
+          <tr><th>Job</th><th>Projects</th><th>What they do here</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Build and interface</td><td>Astro, React, TypeScript</td><td>Render pages, run interactive tools, and check code.</td></tr>
+          <tr><td>Quality checks</td><td>Playwright, Vitest</td><td>Test browser layouts, accessibility, and calculation logic.</td></tr>
+          <tr><td>AI and OCR</td><td>Tesseract.js, Transformers.js, Ollama</td><td>Read images, run selected browser models, and optionally route supported questions.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>Astro 7 keeps a large utility site understandable</h2>
+    <p class="article-source-note">
+      Source: <a href="https://github.com/withastro/astro" rel="noopener noreferrer" target="_blank">Astro on GitHub</a>
+    </p>
+    <p>
+      Access Free Tools has hundreds of calculator, converter, guide, category, gallery, sitemap,
+      and API routes. Astro gives me normal HTML for the content while still supporting server
+      routes where the site needs them. The production build runs with the Astro Node adapter on
+      Node 24.
+    </p>
+    <p>
+      The useful part for search is simple: the title, explanation, links, and examples exist in
+      rendered HTML. A crawler does not need to press a button before it can understand what the
+      page is about. I still have to keep sitemap and canonical rules clean. Astro does not make
+      those decisions for me.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>React 19 runs the parts people touch</h2>
+    <p class="article-source-note">
+      Source: <a href="https://react.dev/" rel="noopener noreferrer" target="_blank">React documentation</a>
+    </p>
+    <p>
+      The page around a calculator can stay plain HTML, while React handles the inputs, modes,
+      results, undo buttons, and live status inside the tool. That split is useful. Someone can read
+      the formula and example before JavaScript finishes loading, then use the interactive part when
+      it is ready.
+    </p>
+    <p>
+      React also makes it easy to build too much. I watch the JavaScript budget and keep special
+      libraries away from unrelated pages. A mortgage calculator should not download an OCR model,
+      and a text counter should not carry game code.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>TypeScript 7 catches mistakes before a visitor does</h2>
+    <p class="article-source-note">
+      Source: <a href="https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/" rel="noopener noreferrer" target="_blank">Microsoft's TypeScript 7 announcement</a>
+    </p>
+    <p>
+      A calculator result can look believable even when one field is wired to the wrong unit.
+      TypeScript helps catch mismatched values and missing cases before the code reaches the browser.
+      This project uses the fast TypeScript 7 command-line checker and keeps TypeScript 6 available
+      for code that still needs the older compiler API.
+    </p>
+    <p>
+      Types are a fence, not a proof. A perfectly typed interest formula can still use the wrong
+      assumption. I pair type checks with examples and result tests because the number matters more
+      than the neatness of the code.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>Playwright and Vitest act as two different judges</h2>
+    <p class="article-source-note">
+      Sources: <a href="https://playwright.dev/" rel="noopener noreferrer" target="_blank">Playwright</a>
+      and <a href="https://vitest.dev/" rel="noopener noreferrer" target="_blank">Vitest</a>
+    </p>
+    <p>
+      Vitest checks the small logic: a legal Four in a Row move, a routing decision, an indexation
+      rule, or a cleanup denylist. Playwright opens real pages. It can catch a heading that collides
+      with its source note at 390 pixels wide even though the source code looks fine.
+    </p>
+    <p>
+      I now test editorial articles at four widths: 1440, 1024, 768, and 390 pixels. That does not
+      prove every phone will be perfect, but it catches the sort of overlap that readers notice in
+      one second.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>Tesseract.js and Transformers.js stay on the pages that need them</h2>
+    <p class="article-source-note">
+      Sources: <a href="https://github.com/naptha/tesseract.js" rel="noopener noreferrer" target="_blank">Tesseract.js</a>
+      and <a href="https://huggingface.co/docs/transformers.js/index" rel="noopener noreferrer" target="_blank">Transformers.js</a>
+    </p>
+    <p>
+      The <a href="/tools/image-to-text-ocr-tool/">Image to Text OCR Tool</a> loads Tesseract.js when
+      someone starts an OCR job. Other browser AI tools can load Transformers.js for a matching
+      model. Both libraries are imported dynamically, so ordinary calculator pages do not request
+      those larger assets.
+    </p>
+    <p>
+      The limit is important. OCR still struggles with blur, glare, tiny text, odd crops, and the
+      wrong language choice. A model can also misread context. I tell readers to check names,
+      totals, dates, and anything important against the original image.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>Ollama is optional, while calculator answers stay deterministic</h2>
+    <p class="article-source-note">
+      Source: <a href="https://github.com/ollama/ollama" rel="noopener noreferrer" target="_blank">Ollama on GitHub</a>
+    </p>
+    <p>
+      Access Free Tools can use Ollama as an optional language-model route for supported questions.
+      I do not ask a model to invent calculator math. Exact tool answers come from the same
+      deterministic code used by the calculator, API, and MCP routes.
+    </p>
+    <p>
+      That boundary is one of the most useful design decisions in the project. A model can help
+      understand a request, but the calculation still has a repeatable input and output. If Ollama
+      is unavailable, the supported parser route can still handle exact tool questions.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>Three projects I am watching, not claiming to use</h2>
+    <p class="article-source-note">
+      Sources: <a href="https://ladybird.org/" rel="noopener noreferrer" target="_blank">Ladybird</a>,
+      <a href="https://lightpanda.io/" rel="noopener noreferrer" target="_blank">Lightpanda</a>, and
+      <a href="https://github.com/open-webui/open-webui" rel="noopener noreferrer" target="_blank">Open WebUI</a>
+    </p>
+    <p>
+      Ladybird is building an independent browser engine. Lightpanda is aimed at browser automation
+      and headless work. Open WebUI provides a self-hosted interface for model workflows. Those are
+      interesting directions, but none is a production dependency of Access Free Tools today.
+    </p>
+    <p>
+      The How-To Geek list also included Continue. Its official site now says the project was
+      acquired by Cursor. That is a good reminder to recheck a project before repeating an old
+      recommendation. Open source moves quickly, including the ownership and maintenance story.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>What changed since my AI skills article</h2>
+    <p>
+      My earlier article covered <a href="/blog/free-ai-skills-open-source-tools-organic-growth/">free AI skills I was testing for research, writing, design, and site memory</a>.
+      This article looks one layer lower. These are the projects that build the pages, run the
+      interactive pieces, check the output, or support a specific AI feature.
+    </p>
+    <p>
+      My rule is still the same in practice: inspect the source, give the project one clear job,
+      keep its limits visible, and test the page a reader actually receives. A long dependency list
+      is not progress by itself.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>The practical takeaway</h2>
+    <p>
+      If you are building a small website, start with the problem you need to solve. Choose a
+      framework because it fits the pages. Add browser automation because visual mistakes escape
+      code review. Add an AI library only when a page has a real AI job.
+    </p>
+    <p>
+      Then check the project before installing it. That is the next part of this series: the
+      repository, license, scripts, dependencies, write locations, and stop signs I review before I
+      let an installer near this codebase.
+    </p>
+  </section>
+</EditorialArticleLayout>

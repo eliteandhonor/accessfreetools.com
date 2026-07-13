@@ -8,6 +8,9 @@ const candidates = [
 ];
 const sitemapPath = candidates.find((path) => existsSync(path));
 const entries = createToolArtEntries(readCanonicalTools()).filter((entry) => entry.status === 'approved');
+const editorialSlugs = [
+  ...readFileSync(resolve(rootDir, 'src/data/editorialBlogPosts.ts'), 'utf8').matchAll(/slug:\s*'([^']+)'/g),
+].map((match) => match[1]);
 const issues = [];
 
 if (!sitemapPath) {
@@ -24,13 +27,22 @@ if (!sitemapPath) {
     if (!xml.includes(pageUrl)) issues.push(`Image sitemap missing page URL ${pageUrl}.`);
     if (!xml.includes(imageUrl)) issues.push(`Image sitemap missing image URL ${imageUrl}.`);
   }
+
+  for (const slug of editorialSlugs) {
+    const pageUrl = `https://accessfreetools.com/blog/${slug}/`;
+    const imageUrl = `https://accessfreetools.com/social/${slug}.webp`;
+    if (!xml.includes(pageUrl)) issues.push(`Image sitemap missing editorial page URL ${pageUrl}.`);
+    if (!xml.includes(imageUrl)) issues.push(`Image sitemap missing editorial image URL ${imageUrl}.`);
+  }
 }
 
 const report = {
   generatedAt: new Date().toISOString(),
   status: issues.length > 0 ? 'fail' : 'pass',
   sitemapPath: sitemapPath ? sitemapPath.replace(`${rootDir}${join('', '')}`, '') : null,
-  entries: entries.length,
+  entries: entries.length + editorialSlugs.length,
+  toolArtEntries: entries.length,
+  editorialEntries: editorialSlugs.length,
   issues,
 };
 
@@ -41,7 +53,7 @@ writeFileSync(
     '# Tool Art Sitemap Check',
     '',
     `Status: ${report.status}`,
-    `Entries expected: ${entries.length}`,
+    `Entries expected: ${report.entries}`,
     `Sitemap: ${sitemapPath ?? 'missing'}`,
     '',
     ...(issues.length ? ['## Issues', '', ...issues.map((issue) => `- ${issue}`), ''] : []),
@@ -53,4 +65,4 @@ if (issues.length > 0) {
   process.exit(1);
 }
 
-console.log(`Image sitemap check passed for ${entries.length} entries.`);
+console.log(`Image sitemap check passed for ${report.entries} entries.`);

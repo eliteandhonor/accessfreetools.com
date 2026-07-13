@@ -461,7 +461,7 @@ export function selectSeoMicroAgentGroups(page, options = {}) {
   const pageKind = String(page || 'tool').toLowerCase();
   const enabledGroups = new Set(alwaysActiveGroups);
 
-  if (pageKind === 'blog') enabledGroups.add('news-blog-and-publisher-agents');
+  if (pageKind === 'blog' || pageKind === 'editorial') enabledGroups.add('news-blog-and-publisher-agents');
   if (options.hasVideo) enabledGroups.add('video-and-audio-seo-agents');
   if (options.isEcommerce) enabledGroups.add('ecommerce-on-page-agents');
   if (options.isServiceBusiness) enabledGroups.add('service-business-on-page-agents');
@@ -491,8 +491,11 @@ export function flattenSeoMicroAgents(groups) {
 }
 
 function activeReason(groupId, pageKind) {
-  if (groupId === 'news-blog-and-publisher-agents') return 'Active because the page is a blog guide.';
+  if (groupId === 'news-blog-and-publisher-agents') {
+    return pageKind === 'editorial'
+      ? 'Active because the page is a first-person editorial article.'
+      : 'Active because the page is a blog guide.';
+  }
   if (pageKind === 'tool' && groupId === 'structured-data-agents') return 'Active because tool pages need schema eligibility and visible-content checks.';
   return 'Active for every controlled tool/blog SEO review.';
 }
-

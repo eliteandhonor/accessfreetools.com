@@ -63,6 +63,23 @@ describe('seo agent workbench', () => {
     expect(report.parkedGroups.map((group) => group.title)).toContain('Local on-page SEO agents');
   });
 
+  it('treats editorial articles as independent blog routes with their own owner directive', () => {
+    const plan = buildSeoAgentPlanReport('open-source-projects-behind-access-free-tools', {
+      page: 'editorial',
+      write: false,
+    });
+    const microPlan = buildSeoMicroAgentPlanReport('open-source-projects-behind-access-free-tools', {
+      page: 'editorial',
+      write: false,
+    });
+
+    expect(plan.route).toBe('/blog/open-source-projects-behind-access-free-tools/');
+    expect(plan.matchingRoute).toBeNull();
+    expect(plan.approvalGate.humanApprovalRequired).toBe(false);
+    expect(plan.approvalGate.approvalRecord).toBe('docs/editorial-content-program.md');
+    expect(microPlan.activeGroups.map((group) => group.title)).toContain('News, blog, and publisher agents');
+  });
+
   it('audits internal links and flags generic anchors while requiring the matching page', () => {
     const html = `
       <main>
@@ -82,6 +99,26 @@ describe('seo agent workbench', () => {
     expect(report.summary.matchingLinks).toBe(1);
     expect(report.summary.genericAnchors).toBe(1);
     expect(report.score).toBeGreaterThanOrEqual(85);
+  });
+
+  it('requires descriptive link depth instead of a matching tool for editorial articles', () => {
+    const html = `
+      <main>
+        <a href="/blog/free-ai-skills-open-source-tools-organic-growth/">Read my earlier AI skills field notes</a>
+        <a href="/tools/image-to-text-ocr-tool/">Try the browser Image to Text OCR Tool</a>
+        <a href="/why-access-free-tools/">See why I build Access Free Tools</a>
+      </main>
+    `;
+    const report = buildSeoLinkAuditReport('open-source-projects-behind-access-free-tools', {
+      page: 'editorial',
+      html,
+      write: false,
+    });
+
+    expect(report.status).toBe('pass');
+    expect(report.matchingRoute).toBeNull();
+    expect(report.summary.internalLinks).toBe(3);
+    expect(report.summary.descriptiveLinks).toBe(3);
   });
 
   it('blocks the final judge when paid, competitor, or browser proof is missing', () => {
@@ -154,5 +191,45 @@ describe('seo agent workbench', () => {
 
     const keywordEvaluation = report.evaluations.find((item) => item.agent === 'Search Intent And Keyword Agent');
     expect(keywordEvaluation?.evidence).toBe('Paid DataForSEO evidence exists for this page.');
+  });
+
+  it('allows a proven editorial article to reach the autonomous release gate', () => {
+    const slug = 'open-source-projects-behind-access-free-tools';
+    const route = `/blog/${slug}/`;
+    const articleWords = 'useful source checked example limitation reader '.repeat(150);
+    const html = `<!doctype html><html><head>
+      <title>8 Open-Source Tools I Use to Build a Website</title>
+      <meta name="description" content="Brendan Chambers shares the open-source browser, AI, OCR, testing, and web tools used behind Access Free Tools, with honest limits and source links." />
+      <link rel="canonical" href="https://accessfreetools.com${route}" />
+      <script type="application/ld+json">{"@type":"BlogPosting"}</script>
+    </head><body><main>
+      <h1>8 Open-Source Projects I Use to Build Access Free Tools</h1>
+      <p>By Brendan Chambers</p>
+      <p>${articleWords}</p>
+      <a href="/blog/free-ai-skills-open-source-tools-organic-growth/">Read my earlier AI skills field notes</a>
+      <a href="/tools/image-to-text-ocr-tool/">Try the browser Image to Text OCR Tool</a>
+      <a href="/why-access-free-tools/">See why I build Access Free Tools</a>
+      <a href="https://astro.build/">Astro</a>
+      <a href="https://react.dev/">React</a>
+      <a href="https://www.typescriptlang.org/">TypeScript</a>
+      <p>How this article was made</p>
+    </main></body></html>`;
+    const report = buildSeoFinalJudgeReport(slug, {
+      page: 'editorial',
+      html,
+      sourceEvidence: true,
+      microPlan: true,
+      paidEvidence: true,
+      browserPng: true,
+      editorialQuality: {
+        stopSlop: { score: 44 },
+      },
+      write: false,
+    });
+
+    expect(report.status).toBe('ready-for-release');
+    expect(report.remainingGaps).toHaveLength(0);
+    expect(report.humanGate.required).toBe(false);
+    expect(report.humanGate.status).toBe('user-autonomous-completion-directive');
   });
 });

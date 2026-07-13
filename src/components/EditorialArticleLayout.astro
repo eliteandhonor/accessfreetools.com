@@ -1,0 +1,166 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import BreadcrumbStructuredData from './BreadcrumbStructuredData.astro';
+import { formatDisplayDate, getBlogDates } from '../data/siteDates';
+
+interface SourceLink {
+  href: string;
+  label: string;
+}
+
+interface RelatedLink {
+  href: string;
+  label: string;
+  description: string;
+}
+
+interface Props {
+  slug: string;
+  title: string;
+  seoTitle: string;
+  description: string;
+  label?: string;
+  breadcrumbLabel: string;
+  imagePath: string;
+  socialImagePath: string;
+  imageAlt: string;
+  imageCaption: string;
+  sources: SourceLink[];
+  relatedLinks: RelatedLink[];
+}
+
+const {
+  slug,
+  title,
+  seoTitle,
+  description,
+  label = 'Owner notes',
+  breadcrumbLabel,
+  imagePath,
+  socialImagePath,
+  imageAlt,
+  imageCaption,
+  sources,
+  relatedLinks,
+} = Astro.props;
+const path = `/blog/${slug}/`;
+const dates = getBlogDates(slug);
+const imageUrl = new URL(imagePath, Astro.site ?? 'https://accessfreetools.com').toString();
+const publishedLabel = dates.published === dates.modified
+  ? `Published ${formatDisplayDate(dates.published)}`
+  : `Published ${formatDisplayDate(dates.published)}. Updated ${formatDisplayDate(dates.modified)}`;
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  mainEntityOfPage: new URL(path, Astro.site ?? 'https://accessfreetools.com').toString(),
+  image: imageUrl,
+  datePublished: dates.published,
+  dateModified: dates.modified,
+  inLanguage: 'en',
+  author: {
+    '@type': 'Person',
+    name: 'Brendan Chambers',
+    url: 'https://accessfreetools.com/about/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+    url: 'https://accessfreetools.com/',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://accessfreetools.com/favicon.svg',
+    },
+  },
+  citation: sources.map((source) => source.href),
+};
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={description}
+  path={path}
+  ogType="article"
+  socialImagePath={socialImagePath}
+  socialImageAlt={imageAlt}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'Blog', path: '/blog/' },
+      { name: breadcrumbLabel, path },
+    ]}
+  />
+
+  <article class="blog-article editorial-article" data-editorial-slug={slug}>
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / {label}</p>
+
+    <header class="blog-article-header editorial-article-header">
+      <span>{label}</span>
+      <h1>{title}</h1>
+      <p class="article-meta-line">
+        By <a href="/about/">Brendan Chambers</a>. {publishedLabel}.
+      </p>
+      <slot name="intro" />
+    </header>
+
+    <figure class="tool-art-figure editorial-hero-figure">
+      <img
+        alt={imageAlt}
+        decoding="async"
+        fetchpriority="high"
+        height="630"
+        loading="eager"
+        src={imagePath}
+        width="1200"
+      />
+      <figcaption>
+        <span>{imageCaption}</span>
+        <a href="/gallery/">See the gallery</a>
+      </figcaption>
+    </figure>
+
+    <div class="blog-article-layout editorial-article-layout">
+      <div class="blog-article-body editorial-article-body">
+        <slot />
+
+        <section class="content-section article-flow-section editorial-sources" aria-labelledby={`${slug}-sources`}>
+          <h2 id={`${slug}-sources`}>Sources I checked</h2>
+          <p>
+            I used primary project pages and official documentation for technical facts. The links
+            below let you check the same sources.
+          </p>
+          <ul class="source-link-list">
+            {sources.map((source) => (
+              <li><a href={source.href} rel="noopener noreferrer" target="_blank">{source.label}</a></li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="editorial-disclosure" aria-label="Editorial disclosure">
+          <strong>How this article was made</strong>
+          <p>
+            I own Access Free Tools. AI helped with research organization and draft checks. I
+            checked the project links, examples, and claims before publishing, and I kept the final
+            judgment and wording my own.
+          </p>
+        </section>
+      </div>
+
+      <aside aria-label="Related Access Free Tools pages" class="article-sidecar editorial-sidecar">
+        <h2>Keep exploring</h2>
+        <p>These free pages connect directly to the work described in this article.</p>
+        <ul class="editorial-related-links">
+          {relatedLinks.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+              <span>{link.description}</span>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

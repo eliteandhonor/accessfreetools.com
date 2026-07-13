@@ -1,0 +1,62 @@
+# Editorial Content Program
+
+Updated: 2026-07-13
+
+This is the source of truth for first-person Brendan Chambers editorial articles. It is separate from the completed generated tool/blog SEO review queue.
+
+## Release Rules
+
+- Write as Brendan Chambers, the owner of Access Free Tools.
+- Use primary technical sources and label untested projects clearly.
+- Run `node scripts/seo-agent-workbench.mjs all <slug> editorial` before release.
+- Require `npm run check:editorial-quality`, `npm run check:article-visual`, and the full `npm run check` to pass.
+- Publish only the row marked `release-ready`; do not expose draft routes or add them to the sitemap.
+- The standing owner directive for a fully proven row is `user autonomous completion directive`.
+- Deploy on Astro 7 and Node 24, then submit only new or substantively changed URLs through Search Console and IndexNow.
+
+## Program Queue
+
+| Order | Slug | Working title | Target release | Status |
+| - | - | - | - | - |
+| 1 | `open-source-projects-behind-access-free-tools` | 8 Open-Source Projects I Use to Build Access Free Tools | 2026-07-13 | release-ready |
+| 2 | `how-to-check-github-project-before-installing` | How I Check a GitHub Project Before Installing It | 2026-07-13 | release-ready |
+| 3 | `browser-ai-vs-local-ai-privacy` | Browser AI vs Local AI: What Actually Stays on Your Device? | 2026-07-20 | planned |
+| 4 | `tesseract-js-browser-ocr-image-quality` | How I Improve Tesseract.js OCR Results in a Browser | 2026-07-27 | planned |
+| 5 | `test-free-tools-playwright-vitest` | How I Test Hundreds of Free Tools with Playwright and Vitest | 2026-08-03 | planned |
+| 6 | `remove-ai-writing-tells-before-publishing` | How I Remove AI Writing Tells Before Publishing | 2026-08-10 | planned |
+
+## Remaining Briefs
+
+### Browser AI vs Local AI
+
+- Intent: `browser AI vs local AI privacy`.
+- Use real Access Free Tools examples: browser-side OCR/model loading, optional Ollama routing, and deterministic calculator answers.
+- Explain that browser-side does not automatically mean private in every app; network requests, model downloads, analytics, and user choices still matter.
+- Link `/categories/ai-tools/`, `/tools/image-to-text-ocr-tool/`, `/ask/`, `/privacy-policy/`, and the open-source stack article.
+
+### Tesseract.js OCR Image Quality
+
+- Intent: `Tesseract.js browser OCR image quality`.
+- Use screenshots and photos to explain blur, glare, crop, contrast, tiny text, language selection, and manual checking.
+- Link the OCR tool and its matching guide contextually before the final section.
+- Do not promise perfect recognition or claim uploaded images never leave the device without checking the exact live implementation.
+
+### Testing Hundreds of Free Tools
+
+- Intent: `automated website testing with Playwright and Vitest`.
+- Explain the split between deterministic unit tests and real-browser visual/accessibility checks.
+- Use the four editorial viewports and the Four in a Row rules tests as concrete examples.
+- Verify the current tool/page count at publication time instead of hardcoding a stale number.
+
+### Removing AI Writing Tells
+
+- Intent: `how to make AI-assisted writing sound human`.
+- Show a short original before-and-after example, the Stop Slop five-part score, and the reader-first gate.
+- Link the Reading Level Checker, Keyword Extractor, earlier AI-skills article, and this program's published articles.
+- Make clear that editing improves clarity; it does not prove authorship, originality, or factual accuracy.
+
+## Measurement
+
+- At 28 days, record index status, impressions, queries, CTR, and first-party article engagement.
+- At 56 days, decide whether the cluster has enough evidence for a second content program.
+- Pause new cluster expansion when the articles remain unindexed or receive no useful engagement evidence.

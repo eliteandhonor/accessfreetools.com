@@ -46,6 +46,8 @@ const articleStructuredData = {
     'https://github.com/Leonxlnx/taste-skill',
     'https://github.com/remotion-dev/remotion',
     'https://github.com/heygen-com/hyperframes',
+    'https://www.continue.dev/',
+    'https://accessfreetools.com/blog/open-source-projects-behind-access-free-tools/',
   ],
 };
 const sourceLinks = [
@@ -59,6 +61,7 @@ const sourceLinks = [
   { href: 'https://github.com/Leonxlnx/taste-skill', label: 'Taste Skill' },
   { href: 'https://github.com/remotion-dev/remotion', label: 'Remotion' },
   { href: 'https://github.com/heygen-com/hyperframes', label: 'HyperFrames' },
+  { href: 'https://www.continue.dev/', label: 'Continue project status' },
 ];
 const articleImageAlt =
   'Smoke-kawaii mascot reviewing nine open-source AI skill cards around a laptop showing a free tools page, with search, writing, code, design, video, chart, and link icons.';
@@ -80,10 +83,10 @@ const articleImageAlt =
     ]}
   />
 
-  <article class="blog-article editorial-article">
+  <article class="blog-article editorial-article" data-editorial-slug="free-ai-skills-open-source-tools-organic-growth">
     <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Owner notes</p>
 
-    <header class="blog-article-header">
+    <header class="blog-article-header editorial-article-header">
       <span>Owner notes</span>
       <h1>{title}</h1>
       <p class="article-meta-line">By Brendan Chambers. Updated {formatDisplayDate(articleDates.modified)}.</p>
@@ -95,7 +98,7 @@ const articleImageAlt =
       <a class="button-primary" href="/categories/ai-tools/">Explore the browser AI tools</a>
     </header>
 
-    <figure class="tool-art-figure">
+    <figure class="tool-art-figure editorial-hero-figure">
       <img
         alt={articleImageAlt}
         decoding="async"
@@ -110,8 +113,8 @@ const articleImageAlt =
       </figcaption>
     </figure>
 
-    <div class="blog-article-layout">
-      <div class="blog-article-body">
+    <div class="blog-article-layout editorial-article-layout">
+      <div class="blog-article-body editorial-article-body">
         <section class="content-section">
           <h2>Quick answer</h2>
           <p>
@@ -276,6 +279,25 @@ const articleImageAlt =
           </p>
         </section>
 
+        <section class="content-section article-flow-section">
+          <h2>What changed since I wrote this list</h2>
+          <p class="article-source-note">
+            Current source: <a href="https://www.continue.dev/" rel="noopener noreferrer" target="_blank">Continue's project status page</a>
+          </p>
+          <p>
+            Open-source projects change quickly. Continue's official site now says the project was
+            acquired by Cursor. That does not erase the open-source work, but it changes the current
+            maintenance and recommendation context, so I would check the latest project status
+            before choosing it today.
+          </p>
+          <p>
+            I have also published a closer look at the
+            <a href="/blog/open-source-projects-behind-access-free-tools/">open-source projects I actually use behind Access Free Tools</a>.
+            That article separates production dependencies, test tools, browser AI libraries, and
+            projects that are only on my watch list.
+          </p>
+        </section>
+
         <section class="content-section">
           <h2>Access Free Tools pages I would test this on</h2>
           <ul class="guide-link-list">
@@ -321,7 +343,7 @@ const articleImageAlt =
           </div>
         </section>
 
-        <section class="content-section">
+        <section class="content-section article-flow-section editorial-sources">
           <h2>Sources</h2>
           <p>
             These are the source pages I checked while making my testing list. They are useful if
@@ -335,9 +357,18 @@ const articleImageAlt =
             ))}
           </ul>
         </section>
+
+        <section class="editorial-disclosure" aria-label="Editorial disclosure">
+          <strong>How this article was made</strong>
+          <p>
+            I own Access Free Tools. AI helped with research organization and draft checks. I
+            checked the project links, examples, and claims before publishing, and I kept the final
+            judgment and wording my own.
+          </p>
+        </section>
       </div>
 
-      <section aria-label="Related Access Free Tools links" class="article-sidecar">
+      <section aria-label="Related Access Free Tools links" class="article-sidecar editorial-sidecar">
         <h2>Try the related tools</h2>
         <p>
           I own Access Free Tools. The links below point to free pages on this site that match the

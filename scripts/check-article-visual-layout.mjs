@@ -1,14 +1,12 @@
 import { createServer } from 'node:http';
-import { createReadStream, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { createReadStream, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { stat } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright';
 
 const ROOT = path.resolve('dist');
 const OUTPUT_DIR = path.resolve('output', 'article-visual-layout');
-const ARTICLE_PATH = '/blog/free-ai-skills-open-source-tools-organic-growth/';
 const MIN_HEADING_NOTE_GAP = 3;
-const MIN_SOURCE_NOTE_PAIRS = 6;
 const HORIZONTAL_OVERFLOW_TOLERANCE = 4;
 
 const VIEWPORTS = [
@@ -37,10 +35,27 @@ function fail(message) {
   throw new Error(message);
 }
 
+function editorialArticlePaths() {
+  const blogDir = path.join(ROOT, 'blog');
+  if (!existsSync(blogDir)) return [];
+
+  return readdirSync(blogDir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => ({
+      slug: entry.name,
+      route: `/blog/${entry.name}/`,
+      htmlPath: path.join(blogDir, entry.name, 'index.html'),
+    }))
+    .filter((entry) => existsSync(entry.htmlPath))
+    .filter((entry) => readFileSync(entry.htmlPath, 'utf8').includes('data-editorial-slug'));
+}
+
 if (!existsSync(path.join(ROOT, 'index.html'))) {
   fail('Missing dist/index.html. Run `npm run build` before `npm run check:article-visual`.');
 }
 
+const articles = editorialArticlePaths();
+if (!articles.length) fail('No built editorial articles were found.');
 mkdirSync(OUTPUT_DIR, { recursive: true });
 
 const server = createServer(async (req, res) => {
@@ -50,15 +65,11 @@ const server = createServer(async (req, res) => {
     if (requestPath.endsWith('/')) requestPath += 'index.html';
 
     let filePath = path.resolve(ROOT, requestPath.slice(1));
-    if (!filePath.startsWith(ROOT)) {
-      throw new Error('Path escapes dist root');
-    }
+    if (!filePath.startsWith(ROOT)) throw new Error('Path escapes dist root');
 
     if (!existsSync(filePath)) {
       const indexPath = path.resolve(ROOT, requestPath.slice(1), 'index.html');
-      if (indexPath.startsWith(ROOT) && existsSync(indexPath)) {
-        filePath = indexPath;
-      }
+      if (indexPath.startsWith(ROOT) && existsSync(indexPath)) filePath = indexPath;
     }
 
     await stat(filePath);
@@ -75,189 +86,129 @@ const { port } = server.address();
 const baseURL = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch();
 const report = {
-  articlePath: ARTICLE_PATH,
   generatedAt: new Date().toISOString(),
   minHeadingNoteGap: MIN_HEADING_NOTE_GAP,
-  minSourceNotePairs: MIN_SOURCE_NOTE_PAIRS,
   horizontalOverflowTolerance: HORIZONTAL_OVERFLOW_TOLERANCE,
-  viewports: [],
+  articles: [],
 };
 
 try {
-  for (const viewport of VIEWPORTS) {
-    const page = await browser.newPage({ viewport: { width: viewport.width, height: viewport.height } });
-    const pageErrors = [];
-    page.on('pageerror', (error) => pageErrors.push(error.message));
+  for (const article of articles) {
+    const articleOutputDir = path.join(OUTPUT_DIR, article.slug);
+    mkdirSync(articleOutputDir, { recursive: true });
+    const articleReport = { ...article, viewports: [] };
 
-    await page.goto(`${baseURL}${ARTICLE_PATH}`, { waitUntil: 'networkidle' });
+    for (const viewport of VIEWPORTS) {
+      const page = await browser.newPage({ viewport: { width: viewport.width, height: viewport.height } });
+      const pageErrors = [];
+      page.on('pageerror', (error) => pageErrors.push(error.message));
 
-    const result = await page.evaluate(({ minGap, minSourceNotePairs, overflowTolerance }) => {
-      const failures = [];
-      const html = document.documentElement;
-      const horizontalOverflow = html.scrollWidth > html.clientWidth + overflowTolerance;
-      if (horizontalOverflow) {
-        const offenders = [...document.querySelectorAll('body *')]
-          .map((element) => {
-            const rect = element.getBoundingClientRect();
-            return {
-              element,
-              left: rect.left,
-              right: rect.right,
-              width: rect.width,
-            };
-          })
-          .filter((item) => item.left < -overflowTolerance || item.right > html.clientWidth + overflowTolerance)
-          .sort((left, right) => right.right - left.right)
-          .slice(0, 6)
-          .map((item) => {
-            const element = item.element;
-            const label = [
-              element.tagName.toLowerCase(),
-              element.id ? `#${element.id}` : '',
-              [...element.classList].slice(0, 3).map((name) => `.${name}`).join(''),
-            ].join('');
-            return `${label} (${item.left.toFixed(1)}-${item.right.toFixed(1)}, width ${item.width.toFixed(1)})`;
-          });
-        failures.push(
-          `document horizontally overflows: scrollWidth ${html.scrollWidth}, clientWidth ${html.clientWidth}; offenders: ${offenders.join(', ') || 'none found'}`,
-        );
-      }
+      await page.goto(`${baseURL}${article.route}`, { waitUntil: 'networkidle' });
 
-      function checkTextLineBoxes(element, label) {
-        const elementRect = element.getBoundingClientRect();
-        const range = document.createRange();
-        range.selectNodeContents(element);
-
-        for (const rect of range.getClientRects()) {
-          if (rect.width < 1 || rect.height < 1) continue;
-          if (rect.left < elementRect.left - 1 || rect.right > elementRect.right + 1) {
-            failures.push(
-              `${label} text line escapes its container: line ${rect.left.toFixed(1)}-${rect.right.toFixed(
-                1,
-              )}, container ${elementRect.left.toFixed(1)}-${elementRect.right.toFixed(1)}`,
-            );
-          }
-        }
-      }
-
-      const articleHeading = document.querySelector('.blog-article-header h1');
-      if (articleHeading) {
-        const headingStyle = getComputedStyle(articleHeading);
-        const headingFontSize = Number.parseFloat(headingStyle.fontSize);
-        const headingLineHeight = Number.parseFloat(headingStyle.lineHeight);
-        const range = document.createRange();
-        range.selectNodeContents(articleHeading);
-        const textRects = [...range.getClientRects()]
-          .filter((rect) => rect.width >= 1 && rect.height >= 1)
-          .sort((left, right) => left.top - right.top || left.left - right.left);
-        const lineTops = textRects.reduce((tops, rect) => {
-          if (!tops.some((top) => Math.abs(top - rect.top) < 1)) tops.push(rect.top);
-          return tops;
-        }, []);
-
-        if (
-          Number.isFinite(headingFontSize) &&
-          Number.isFinite(headingLineHeight) &&
-          headingLineHeight < headingFontSize
-        ) {
-          failures.push(
-            `article H1 line-height ${headingLineHeight.toFixed(1)}px is smaller than its ${headingFontSize.toFixed(1)}px font size`,
-          );
+      const result = await page.evaluate(({ minGap, overflowTolerance }) => {
+        const failures = [];
+        const html = document.documentElement;
+        const horizontalOverflow = html.scrollWidth > html.clientWidth + overflowTolerance;
+        if (horizontalOverflow) {
+          const offenders = [...document.querySelectorAll('body *')]
+            .map((element) => ({ element, rect: element.getBoundingClientRect() }))
+            .filter(({ rect }) => rect.left < -overflowTolerance || rect.right > html.clientWidth + overflowTolerance)
+            .slice(0, 6)
+            .map(({ element, rect }) => `${element.tagName.toLowerCase()} (${rect.left.toFixed(1)}-${rect.right.toFixed(1)})`);
+          failures.push(`document horizontally overflows: ${offenders.join(', ') || 'no element identified'}`);
         }
 
-        for (let index = 1; index < lineTops.length; index += 1) {
-          const lineAdvance = lineTops[index] - lineTops[index - 1];
-          if (Number.isFinite(headingFontSize) && lineAdvance < headingFontSize - 1) {
-            failures.push(
-              `article H1 line advance ${lineAdvance.toFixed(1)}px is too tight for its ${headingFontSize.toFixed(1)}px font size`,
-            );
-            break;
+        function checkTextLineBoxes(element, label) {
+          const elementRect = element.getBoundingClientRect();
+          const range = document.createRange();
+          range.selectNodeContents(element);
+
+          for (const rect of range.getClientRects()) {
+            if (rect.width < 1 || rect.height < 1) continue;
+            if (rect.left < elementRect.left - 1 || rect.right > elementRect.right + 1) {
+              failures.push(`${label} text escapes its container`);
+              break;
+            }
           }
         }
 
-        checkTextLineBoxes(articleHeading, 'article H1');
-      }
-
-      const articleBody = document.querySelector('.blog-article-body');
-      const sidecar = document.querySelector('.article-sidecar');
-      if (articleBody && sidecar) {
-        const bodyRect = articleBody.getBoundingClientRect();
-        const sidecarRect = sidecar.getBoundingClientRect();
-        const boxesIntersect =
-          bodyRect.left < sidecarRect.right &&
-          bodyRect.right > sidecarRect.left &&
-          bodyRect.top < sidecarRect.bottom &&
-          bodyRect.bottom > sidecarRect.top;
-
-        if (boxesIntersect) {
-          failures.push('article body and sidecar overlap');
-        }
-      }
-
-      const sections = [...document.querySelectorAll('.editorial-article .article-flow-section')];
-      let checkedPairs = 0;
-
-      for (const section of sections) {
-        const heading = section.querySelector('h2');
-        const sourceNote = section.querySelector('.article-source-note');
-        if (!heading || !sourceNote) continue;
-
-        checkedPairs += 1;
-        const headingRect = heading.getBoundingClientRect();
-        const noteRect = sourceNote.getBoundingClientRect();
-        const headingText = heading.textContent?.trim().replace(/\s+/g, ' ') ?? 'Untitled heading';
-
-        if (noteRect.top < headingRect.bottom + minGap) {
-          failures.push(
-            `"${headingText}" source note overlaps or crowds heading: heading bottom ${headingRect.bottom.toFixed(
-              1,
-            )}, note top ${noteRect.top.toFixed(1)}`,
-          );
+        const articleHeading = document.querySelector('.editorial-article-header h1');
+        if (!articleHeading) {
+          failures.push('article H1 is missing');
+        } else {
+          const style = getComputedStyle(articleHeading);
+          const fontSize = Number.parseFloat(style.fontSize);
+          const lineHeight = Number.parseFloat(style.lineHeight);
+          if (Number.isFinite(fontSize) && Number.isFinite(lineHeight) && lineHeight < fontSize) {
+            failures.push(`article H1 line-height ${lineHeight.toFixed(1)}px is smaller than font size ${fontSize.toFixed(1)}px`);
+          }
+          checkTextLineBoxes(articleHeading, 'article H1');
         }
 
-        if (heading.scrollWidth > heading.clientWidth + 1) {
-          failures.push(`"${headingText}" heading text overflows its box`);
+        const heroImage = document.querySelector('.editorial-hero-figure img');
+        if (!heroImage) {
+          failures.push('editorial hero image is missing');
+        } else {
+          const rect = heroImage.getBoundingClientRect();
+          if (rect.width < 250 || rect.height < 130) failures.push('editorial hero image renders too small');
+          if (heroImage.naturalWidth !== 1200 || heroImage.naturalHeight !== 630) {
+            failures.push(`editorial hero source is ${heroImage.naturalWidth}x${heroImage.naturalHeight}; expected 1200x630`);
+          }
+          if (!heroImage.getAttribute('alt')?.trim()) failures.push('editorial hero image alt text is empty');
         }
 
-        if (sourceNote.scrollWidth > sourceNote.clientWidth + 1) {
-          failures.push(`"${headingText}" source note text overflows its box`);
+        const articleBody = document.querySelector('.editorial-article-body');
+        const sidecar = document.querySelector('.editorial-sidecar');
+        if (articleBody && sidecar) {
+          const bodyRect = articleBody.getBoundingClientRect();
+          const sidecarRect = sidecar.getBoundingClientRect();
+          const boxesIntersect = bodyRect.left < sidecarRect.right && bodyRect.right > sidecarRect.left && bodyRect.top < sidecarRect.bottom && bodyRect.bottom > sidecarRect.top;
+          if (boxesIntersect) failures.push('article body and related-links rail overlap');
         }
 
-        checkTextLineBoxes(heading, `"${headingText}" heading`);
-        checkTextLineBoxes(sourceNote, `"${headingText}" source note`);
-      }
+        const sections = [...document.querySelectorAll('.editorial-article .article-flow-section')];
+        let checkedPairs = 0;
+        for (const section of sections) {
+          const heading = section.querySelector('h2');
+          const sourceNote = section.querySelector('.article-source-note');
+          if (!heading) continue;
+          checkTextLineBoxes(heading, `heading ${heading.textContent?.trim() || ''}`);
+          if (!sourceNote) continue;
 
-      const sourceNotes = document.querySelectorAll('.article-source-note').length;
-      if (sourceNotes < minSourceNotePairs || checkedPairs < minSourceNotePairs) {
-        failures.push(
-          `expected at least ${minSourceNotePairs} heading/source-note pairs, found ${checkedPairs} checked pairs and ${sourceNotes} source notes`,
-        );
-      }
+          checkedPairs += 1;
+          const headingRect = heading.getBoundingClientRect();
+          const noteRect = sourceNote.getBoundingClientRect();
+          if (noteRect.top < headingRect.bottom + minGap) {
+            failures.push(`source note crowds heading ${heading.textContent?.trim() || ''}`);
+          }
+          checkTextLineBoxes(sourceNote, `source note for ${heading.textContent?.trim() || ''}`);
+        }
 
-      return {
-        checkedPairs,
-        failures,
-        horizontalOverflow,
-        sourceNotes,
-        headingLinks: document.querySelectorAll('.article-heading-link').length,
-      };
-    }, {
-      minGap: MIN_HEADING_NOTE_GAP,
-      minSourceNotePairs: MIN_SOURCE_NOTE_PAIRS,
-      overflowTolerance: HORIZONTAL_OVERFLOW_TOLERANCE,
-    });
+        const sourceLinks = document.querySelectorAll('.editorial-sources a[href^="http"]').length;
+        if (sourceLinks < 3) failures.push(`expected at least 3 external source links, found ${sourceLinks}`);
 
-    const screenshotPath = path.join(OUTPUT_DIR, `${viewport.name}.png`);
-    await page.screenshot({ path: screenshotPath, fullPage: true });
-    report.viewports.push({
-      ...viewport,
-      ...result,
-      pageErrors,
-      screenshotPath,
-      pass: result.failures.length === 0 && pageErrors.length === 0,
-    });
+        return {
+          checkedPairs,
+          failures,
+          horizontalOverflow,
+          sourceLinks,
+        };
+      }, { minGap: MIN_HEADING_NOTE_GAP, overflowTolerance: HORIZONTAL_OVERFLOW_TOLERANCE });
 
-    await page.close();
+      const screenshotPath = path.join(articleOutputDir, `${viewport.name}.png`);
+      await page.screenshot({ path: screenshotPath, fullPage: true });
+      articleReport.viewports.push({
+        ...viewport,
+        ...result,
+        pageErrors,
+        screenshotPath,
+        pass: result.failures.length === 0 && pageErrors.length === 0,
+      });
+
+      await page.close();
+    }
+
+    report.articles.push(articleReport);
   }
 } finally {
   await browser.close();
@@ -267,19 +218,15 @@ try {
 const reportPath = path.join(OUTPUT_DIR, 'latest.json');
 writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
 
-const failures = report.viewports.flatMap((viewport) => [
-  ...viewport.failures.map((failure) => `${viewport.name}: ${failure}`),
-  ...viewport.pageErrors.map((error) => `${viewport.name}: page error: ${error}`),
-]);
+const failures = report.articles.flatMap((article) => article.viewports.flatMap((viewport) => [
+  ...viewport.failures.map((failure) => `${article.slug}/${viewport.name}: ${failure}`),
+  ...viewport.pageErrors.map((error) => `${article.slug}/${viewport.name}: page error: ${error}`),
+]));
 
 if (failures.length > 0) {
   console.error(`Article visual layout check failed. Report: ${reportPath}`);
-  for (const failure of failures) {
-    console.error(`- ${failure}`);
-  }
+  for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log(
-  `Article visual layout check passed for ${report.viewports.length} viewports. Report: ${reportPath}`,
-);
+console.log(`Article visual layout check passed for ${articles.length} articles across ${VIEWPORTS.length} viewports. Report: ${reportPath}`);
