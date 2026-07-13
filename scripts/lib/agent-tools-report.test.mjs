@@ -636,8 +636,12 @@ describe('agent tools reports', () => {
     rmSync(resolve(process.cwd(), '.agent-tools-test-dist'), { force: true, recursive: true });
 
     const cleanedReport = buildLinkHelperReport();
+    const cleanedSeoConsoleReport = buildSeoConsoleReport();
     const suggestion = cleanedReport.suggestions.find(
       (item) => item.target === '/tools/percentage-calculator/',
+    );
+    const seoAction = cleanedSeoConsoleReport.actions.find((item) =>
+      item.task.includes('https://accessfreetools.com/tools/percentage-calculator/'),
     );
 
     expect(cleanedReport.linkEvidence.source).toBe('saved-build');
@@ -645,6 +649,10 @@ describe('agent tools reports', () => {
     expect(cleanedReport.linkEvidence.byTarget['/tools/percentage-calculator/']).toHaveLength(3);
     expect(suggestion).toMatchObject({ action: 'monitor', priority: 'medium' });
     expect(suggestion?.reason).toMatch(/3 built pages already link here/);
+    expect(seoAction).toMatchObject({ priority: 'medium' });
+    expect(seoAction?.task).toMatch(/built link proof already shows 3 source pages/);
+    expect(seoAction?.task).not.toMatch(/Run npm run build|Improve contextual links/);
+    expect(seoAction?.task).not.toMatch(/still shows unknown/);
   });
 
   it('does not use local QA events as SEO demand evidence', () => {

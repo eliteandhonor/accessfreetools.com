@@ -172,8 +172,10 @@ the Chrome skill's extension and native-host checks before falling back.
 Internal-link evidence must survive safe cleanup. `npm run aft -- link-helper`
 saves the latest successful built-link count under ignored
 `output/agent-tools/link-helper/last-built.json` and may reuse it for up to 30
-days after `dist/` is removed. Missing current and saved build proof means
-`not enough data`; it must never be converted into a zero-link recommendation.
+days after `dist/` is removed. Both Link Helper and SEO Console use the saved
+proof only when it explicitly covers every requested target. Missing current
+and saved build proof means `not enough data`; it must never be converted into
+a zero-link recommendation.
 
 On 2026-05-10, the daily promotion run found multiple Chrome extension
 backends. The working backend was the one whose `user.openTabs()` listed the

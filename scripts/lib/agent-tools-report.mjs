@@ -1203,6 +1203,7 @@ function savedBuiltInternalLinkEvidence(targetPaths, now = new Date()) {
   if (!snapshot?.linkEvidence?.byTarget || snapshot.linkEvidence.source !== 'current-build') return null;
 
   const targets = [...new Set(targetPaths.map(normalizeHrefToPath).filter(Boolean))];
+  if (targets.some((target) => !Object.hasOwn(snapshot.linkEvidence.byTarget, target))) return null;
   const byTarget = Object.fromEntries(
     targets.map((target) => [
       target,
@@ -1217,6 +1218,13 @@ function savedBuiltInternalLinkEvidence(targetPaths, now = new Date()) {
     savedAt: snapshot.generatedAt,
     source: 'saved-build',
   };
+}
+
+function resolveBuiltInternalLinkEvidence(targetPaths, now = new Date()) {
+  const currentLinkEvidence = builtInternalLinkEvidence(targetPaths);
+  return currentLinkEvidence.available
+    ? currentLinkEvidence
+    : savedBuiltInternalLinkEvidence(targetPaths, now) ?? currentLinkEvidence;
 }
 
 function saveBuiltInternalLinkEvidence(generatedAt, linkEvidence) {
@@ -1250,10 +1258,7 @@ export function buildLinkHelperReport() {
     .slice(0, 8)
     .map((item) => (item.label.startsWith('/') ? item.label : '/tools/'));
   const linkTargets = [...gapTargets, ...analyticsTargets, ...crawlScoutTargets];
-  const currentLinkEvidence = builtInternalLinkEvidence(linkTargets);
-  const linkEvidence = currentLinkEvidence.available
-    ? currentLinkEvidence
-    : savedBuiltInternalLinkEvidence(linkTargets) ?? currentLinkEvidence;
+  const linkEvidence = resolveBuiltInternalLinkEvidence(linkTargets);
   const hasBuiltLinkEvidence = linkEvidence.available;
   if (linkEvidence.note) warnings.push(linkEvidence.note);
 
@@ -1430,8 +1435,8 @@ export function buildSeoConsoleReport() {
       }
     })
     .filter(Boolean);
-  const linkEvidence = builtInternalLinkEvidence(gapTargets);
-  const hasBuiltLinkEvidence = !linkEvidence.note;
+  const linkEvidence = resolveBuiltInternalLinkEvidence(gapTargets);
+  const hasBuiltLinkEvidence = linkEvidence.available;
   if (linkEvidence.note) warnings.push(linkEvidence.note);
   const allCurrentGapsHaveIndexingRequests =
     searchConsole.gaps.length > 0 &&
@@ -1481,8 +1486,9 @@ export function buildSeoConsoleReport() {
             timeZone: 'Australia/Brisbane',
           })
         : '';
+      const isDiscoveryOnly = /unknown|discovered/i.test(gap.coverageState ?? '');
       const discoveryTask = discoveryRefreshedAt
-        ? `Search Console XML sitemap discovery was refreshed ${discoveryRefreshedAt}; if URL Inspection still shows unknown, request indexing manually in Search Console and recheck after Google crawls`
+        ? `Search Console XML sitemap discovery was refreshed ${discoveryRefreshedAt}; ${isDiscoveryOnly ? 'request indexing manually in Search Console' : 'request indexing manually in Search Console if available'}, then recheck after Google crawls`
         : 'Run URL inspection/discovery';
       const indexingRequest = searchConsoleIndexingRequestForUrl(gap.url, indexingRequests);
       const indexingRequestTime = formatIndexingRequestTime(indexingRequest);
