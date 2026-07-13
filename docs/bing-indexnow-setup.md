@@ -28,7 +28,7 @@ npm run indexnow:dry-run
 Submit only canonical URLs changed by a routine release:
 
 ```bash
-npm run indexnow:submit -- --url=https://accessfreetools.com/tools/example/ --url=https://accessfreetools.com/blog/example/
+npm run indexnow:submit -- https://accessfreetools.com/tools/example/ https://accessfreetools.com/blog/example/
 ```
 
 The submit command verifies the production key file first. If the key file is

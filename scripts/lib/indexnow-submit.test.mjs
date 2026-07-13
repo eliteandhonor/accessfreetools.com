@@ -41,6 +41,18 @@ describe('IndexNow submitter safety', () => {
       urls: ['https://accessfreetools.com/tools/four-in-a-row-game/'],
       verifyProduction: true,
     });
+    expect(
+      parseIndexNowArgs([
+        'https://accessfreetools.com/tools/four-in-a-row-game/',
+        'https://accessfreetools.com/blog/how-to-use-four-in-a-row-game/',
+      ]),
+    ).toMatchObject({
+      all: false,
+      urls: [
+        'https://accessfreetools.com/tools/four-in-a-row-game/',
+        'https://accessfreetools.com/blog/how-to-use-four-in-a-row-game/',
+      ],
+    });
     expect(() => parseIndexNowArgs(['--all', '--url=https://accessfreetools.com/'])).toThrow(/either --all/);
     expect(() => parseIndexNowArgs(['--publish-everything'])).toThrow(/Unknown IndexNow option/);
   });
@@ -68,7 +80,7 @@ describe('IndexNow submitter safety', () => {
     expect(result).toEqual({ action: 'help', networkRequests: 0 });
     expect(fetchImpl).not.toHaveBeenCalled();
     expect(reportWriter).not.toHaveBeenCalled();
-    expect(log.mock.calls[0][0]).toContain('Routine releases should use explicit --url values.');
+    expect(log.mock.calls[0][0]).toContain('Routine releases should use explicit URL values.');
   });
 
   it('refuses a bare command before file, report, or network side effects', async () => {

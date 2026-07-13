@@ -124,7 +124,7 @@ These steps need the site owner account:
   - `npm run search-console`
   - `npm run check:production-sitemap`
 - Submit changed URLs to IndexNow explicitly:
-  - `npm run indexnow:submit -- --url=https://accessfreetools.com/tools/example/`
+  - `npm run indexnow:submit -- https://accessfreetools.com/tools/example/`
   - Repeat `--url=...` for each changed canonical page.
   - Use `npm run indexnow:submit-all` only for a migration, large launch, or major sitemap change.
 - Keep the Google OAuth client JSON out of Git. Use `.local/google-search-console-client-secret.json`, `GSC_CLIENT_SECRET_PATH`, or `--client-secret=...`.

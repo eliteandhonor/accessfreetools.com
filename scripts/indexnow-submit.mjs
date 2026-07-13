@@ -14,6 +14,7 @@ const USAGE = `Access Free Tools IndexNow submitter
 Usage:
   node scripts/indexnow-submit.mjs --help
   node scripts/indexnow-submit.mjs --verify-key [--verify-production]
+  npm run indexnow:submit -- https://accessfreetools.com/path/ [URL ...]
   node scripts/indexnow-submit.mjs --url=https://accessfreetools.com/path/ [--url=...] [--verify-production]
   node scripts/indexnow-submit.mjs --all [--dry-run] [--verify-production]
 
@@ -21,12 +22,13 @@ Options:
   --help               Show this help without reading files or using the network.
   --verify-key         Verify the key only; never submit URLs.
   --verify-production  Verify the live key before a real submission.
+  URL                  Submit a canonical URL passed positionally by npm.
   --url=URL            Submit one changed canonical URL. Repeat for more URLs.
   --all                Submit every canonical URL from the built XML sitemaps.
   --dry-run            Build and save a report without any network requests.
   --limit=N            Limit selected URLs to an integer from 1 to 10000.
 
-Routine releases should use explicit --url values. Reserve --all for migrations,
+Routine releases should use explicit URL values. Reserve --all for migrations,
 large launches, or major sitemap changes.`;
 
 export function parseIndexNowArgs(argv = []) {
@@ -48,6 +50,7 @@ export function parseIndexNowArgs(argv = []) {
     else if (arg === '--verify-key') parsed.verifyKey = true;
     else if (arg === '--verify-production') parsed.verifyProduction = true;
     else if (arg.startsWith('--url=')) parsed.urls.push(arg.slice('--url='.length));
+    else if (/^https?:\/\//i.test(arg)) parsed.urls.push(arg);
     else if (arg.startsWith('--limit=')) parsed.limit = Number(arg.slice('--limit='.length));
     else unknown.push(arg);
   }
@@ -59,7 +62,7 @@ export function parseIndexNowArgs(argv = []) {
     throw new Error(`--limit must be an integer from 1 to 10000.\n\n${USAGE}`);
   }
   if (parsed.all && parsed.urls.length) {
-    throw new Error(`Choose either --all or one or more --url values, not both.\n\n${USAGE}`);
+    throw new Error(`Choose either --all or one or more explicit URL values, not both.\n\n${USAGE}`);
   }
   if (parsed.verifyKey && (parsed.all || parsed.urls.length || parsed.dryRun)) {
     throw new Error(`--verify-key is a verification-only action and cannot select URLs.\n\n${USAGE}`);

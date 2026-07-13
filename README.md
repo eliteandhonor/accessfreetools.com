@@ -99,7 +99,7 @@ desktop/mobile smoke-test screenshots, and keeps raw JSON out of Git.
 
 Bing IndexNow is configured with a public root key file. After a deployment,
 submit only the canonical URLs that changed, for example
-`npm run indexnow:submit -- --url=https://accessfreetools.com/tools/example/`.
+`npm run indexnow:submit -- https://accessfreetools.com/tools/example/`.
 Reserve `npm run indexnow:submit-all` for migrations, large launches, or major
 sitemap changes. See `docs/bing-indexnow-setup.md`.
 

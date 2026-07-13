@@ -91,7 +91,7 @@ After deployment, run:
 ```bash
 npm run search-console:submit-discovery
 npm run search-console:inspect-key-urls
-npm run indexnow:submit -- --url=https://accessfreetools.com/changed-path/
+npm run indexnow:submit -- https://accessfreetools.com/changed-path/
 ```
 
 Repeat `--url=...` for each changed canonical URL. Use
@@ -182,7 +182,7 @@ all expose direct links to both remaining tool URLs. `npm run
 search-console:inspect-key-urls` still reports only those two tool pages as
 unknown to Google, while both matching blog guides are submitted and indexed.
 Use `npm run search-console:submit-discovery` and submit the two changed tool
-URLs with explicit `npm run indexnow:submit -- --url=...` values after the next
+URLs with explicit `npm run indexnow:submit -- https://...` values after the next
 deploy. Do not use npm argument forwarding for Search Console flags because npm
 11 can treat those flags as npm config.
 
@@ -197,7 +197,7 @@ The blog hub now links directly to both tool pages in the early-demand section,
 not only to the guide pages. The default IndexNow priority URL list also now
 includes the two tool URLs, their matching guides, and the calculators and
 home-projects category hubs. After deployment, submit the changed tool, guide,
-and hub URLs explicitly with `npm run indexnow:submit -- --url=...`, run
+and hub URLs explicitly with `npm run indexnow:submit -- https://...`, run
 `npm run search-console:submit-discovery`, then inspect key URLs again.
 
 ## 2026-05-15 Fresh Inspection Notes
