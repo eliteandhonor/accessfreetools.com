@@ -79,6 +79,8 @@ export interface AnalyticsSummary {
   rangeStart: string;
   recentEvents: StoredAnalyticsEvent[];
   returningVisitorsToday: number;
+  selectedToolActions: ToolActionSummaryRow[];
+  selectedToolAudience: ToolAudienceSummary | null;
   timeZone: string;
   today: {
     events: number;
@@ -101,6 +103,19 @@ export interface SummaryRow {
 
 export interface ToolSummaryRow extends SummaryRow {
   slug: string;
+}
+
+export interface ToolActionSummaryRow {
+  action: string;
+  count: number;
+  slug: string;
+}
+
+export interface ToolAudienceSummary {
+  pageViews: number;
+  sessions: number;
+  slug: string;
+  visitors: number;
 }
 
 function cleanText(value: unknown, maxLength: number) {
@@ -458,7 +473,37 @@ function topRows(map: Map<string, SummaryRow>, limit: number) {
   return [...map.values()].sort((left, right) => right.count - left.count || left.label.localeCompare(right.label)).slice(0, limit);
 }
 
-export async function summarizeAnalytics(options: { days?: number; now?: Date } = {}): Promise<AnalyticsSummary> {
+export function summarizeSelectedToolAnalytics(events: StoredAnalyticsEvent[], toolSlug = '') {
+  const cleanSlug = cleanText(toolSlug, 120);
+  if (!cleanSlug) {
+    return { actions: [] as ToolActionSummaryRow[], audience: null as ToolAudienceSummary | null };
+  }
+
+  const toolPath = `/tools/${cleanSlug}/`;
+  const matchingEvents = events.filter(
+    (event) => event.toolSlug === cleanSlug || (event.type === 'page_view' && event.pagePath === toolPath),
+  );
+  const actionCounts = new Map<string, number>();
+
+  for (const event of matchingEvents) {
+    if (event.type !== 'tool_action' || event.toolSlug !== cleanSlug || !event.action) continue;
+    actionCounts.set(event.action, (actionCounts.get(event.action) ?? 0) + 1);
+  }
+
+  return {
+    actions: [...actionCounts.entries()]
+      .map(([action, count]) => ({ action, count, slug: cleanSlug }))
+      .sort((left, right) => right.count - left.count || left.action.localeCompare(right.action)),
+    audience: {
+      pageViews: matchingEvents.filter((event) => event.type === 'page_view' && event.pagePath === toolPath).length,
+      sessions: new Set(matchingEvents.map((event) => event.sessionHash).filter(Boolean)).size,
+      slug: cleanSlug,
+      visitors: new Set(matchingEvents.map((event) => event.visitorHash).filter(Boolean)).size,
+    },
+  };
+}
+
+export async function summarizeAnalytics(options: { days?: number; now?: Date; toolSlug?: string } = {}): Promise<AnalyticsSummary> {
   const days = Math.max(1, Math.min(365, options.days ?? 30));
   const timeZone = analyticsEnv('AFT_ANALYTICS_TIME_ZONE', DEFAULT_TIME_ZONE);
   const now = options.now ?? new Date();
@@ -507,6 +552,7 @@ export async function summarizeAnalytics(options: { days?: number; now?: Date } 
 
   const newVisitorsToday = [...todayVisitors].filter((visitorHash) => firstSeen.get(visitorHash) === todayKey).length;
   const returningVisitorsToday = Math.max(0, todayVisitors.size - newVisitorsToday);
+  const selectedTool = summarizeSelectedToolAnalytics(eventsInRange, options.toolSlug);
 
   return {
     activeVisitors: activeVisitors.size,
@@ -521,6 +567,8 @@ export async function summarizeAnalytics(options: { days?: number; now?: Date } 
     rangeStart: new Date(rangeStartTime).toISOString(),
     recentEvents: events.slice(-30).reverse(),
     returningVisitorsToday,
+    selectedToolActions: selectedTool.actions,
+    selectedToolAudience: selectedTool.audience,
     timeZone,
     today: {
       events: eventsToday.length,

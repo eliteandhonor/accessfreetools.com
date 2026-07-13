@@ -54,7 +54,7 @@ It writes a private draft and evidence under `output/original-data-assets/`. The
 
 ## How Agents Should Use It
 
-- Use `npm run aft -- usage-summary` for quick decisions.
+- Use `npm run analytics:production` for production decisions. Treat `npm run aft -- usage-summary` as local QA diagnostics only.
 - Use `npm run aft -- usage-notes` before proposing a public data asset.
 - Use the report to improve internal links, guides, and promotion priorities.
 - Do not turn anonymous usage into a public claim unless the readiness rule passes.

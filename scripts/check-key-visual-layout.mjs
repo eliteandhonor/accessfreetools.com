@@ -179,6 +179,26 @@ async function inspectPage({ pagePath, viewport, mode }) {
         }
       }
 
+      if (pageMode === 'game') {
+        const game = document.querySelector('.four-row-game');
+        const board = document.querySelector('.four-row-game__board');
+        const controls = [...document.querySelectorAll('.four-row-game__column-controls button')];
+        const rows = board?.querySelectorAll('[role="row"]') ?? [];
+        const cells = board?.querySelectorAll('[role="gridcell"]') ?? [];
+
+        if (!game || !board) failures.push('missing hydrated Four in a Row game board');
+        if (controls.length !== 7) failures.push(`game has ${controls.length} column controls, expected 7`);
+        if (rows.length !== 6 || cells.length !== 42) {
+          failures.push(`game board has ${rows.length} rows and ${cells.length} cells, expected 6 and 42`);
+        }
+        for (const [index, control] of controls.entries()) {
+          const rect = control.getBoundingClientRect();
+          if (rect.width < 44 || rect.height < 44) {
+            failures.push(`game column ${index + 1} control is ${rect.width.toFixed(1)} by ${rect.height.toFixed(1)}, below 44px`);
+          }
+        }
+      }
+
       return {
         failures,
         title: document.title,
@@ -233,6 +253,7 @@ try {
     await inspectPage({ pagePath: '/blog/', viewport, mode: 'blog' });
     await inspectPage({ pagePath: '/tools/', viewport, mode: 'tools' });
     await inspectPage({ pagePath: '/tools/absolute-value-calculator/', viewport, mode: 'absolute-tool' });
+    await inspectPage({ pagePath: '/tools/four-in-a-row-game/', viewport, mode: 'game' });
     await inspectPage({ pagePath: '/gallery/finance/', viewport, mode: 'gallery' });
   }
 } finally {

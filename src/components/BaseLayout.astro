@@ -154,6 +154,7 @@ const siteStructuredData = {
     <script is:inline>
       (() => {
         const optOutKey = 'access-free-tools-analytics-opt-out';
+        const analyticsHosts = new Set(['accessfreetools.com', 'www.accessfreetools.com']);
         const visitorKey = 'access-free-tools-visitor-id';
         const sessionKey = 'access-free-tools-session-id';
         const actionPattern =
@@ -174,6 +175,8 @@ const siteStructuredData = {
         };
 
         const shouldTrack = () => {
+          if (!analyticsHosts.has(location.hostname)) return false;
+
           try {
             if (window.localStorage.getItem(optOutKey) === 'true') return false;
           } catch {
@@ -219,6 +222,33 @@ const siteStructuredData = {
           }
         };
 
+        document.addEventListener('aft:tool-action', (event) => {
+          if (!(event instanceof CustomEvent) || !event.detail || typeof event.detail !== 'object') return;
+          if (!shouldTrack()) return;
+
+          const cleanDetail = (value, maxLength) =>
+            typeof value === 'string' ? value.trim().slice(0, maxLength) : '';
+          const action = cleanDetail(event.detail.action, 80);
+          const category = cleanDetail(event.detail.category, 80);
+          const toolName = cleanDetail(event.detail.toolName, 120);
+          const toolSlug = cleanDetail(event.detail.toolSlug, 120);
+          const clarityEvent = cleanDetail(event.detail.clarityEvent, 64);
+          if (!action || !toolName || !toolSlug) return;
+
+          sendEvent({
+            action,
+            category,
+            toolName,
+            toolSlug,
+            type: 'tool_action',
+          });
+
+          if (/^[a-z0-9_]{1,64}$/.test(clarityEvent)) {
+            const clarity = Reflect.get(window, 'clarity');
+            if (typeof clarity === 'function') clarity('event', clarityEvent);
+          }
+        });
+
         sendEvent({ type: 'page_view' });
 
         document.addEventListener(
@@ -228,6 +258,7 @@ const siteStructuredData = {
             const surface = target?.closest('[data-aft-tool-usage-surface]');
             const actionTarget = target?.closest('button, a, input[type="button"], input[type="submit"]');
             if (!surface || !actionTarget || !surface.contains(actionTarget)) return;
+            if (actionTarget.hasAttribute('data-aft-analytics-manual')) return;
 
             const actionLabel = (
               actionTarget.getAttribute('aria-label') ||

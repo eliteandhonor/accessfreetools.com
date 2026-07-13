@@ -1,6 +1,6 @@
 # Access Free Tools Analytics Dashboard
 
-Last updated: 2026-07-10
+Last updated: 2026-07-13
 
 Access Free Tools uses a small first-party analytics system for owner-only usage checks. It is meant to answer simple questions:
 
@@ -12,6 +12,11 @@ Access Free Tools uses a small first-party analytics system for owner-only usage
 Hostinger hPanel analytics should still be used for server logs, bandwidth, errors, and bot crawl checks. The site dashboard is cleaner for product decisions because it filters obvious bots and records anonymous browser events.
 
 Microsoft Clarity is also installed on public production pages for layout and session-quality review. The Clarity loader is guarded so it only runs on `accessfreetools.com` or `www.accessfreetools.com`, respects the same local analytics opt-out key, respects browser Do Not Track, and skips `/admin/` plus `/private-analytics/` pages.
+
+The Four in a Row pilot records only aggregate `Start round`, `Complete round`,
+and `Replay round` milestones. It does not record columns, moves, board state,
+player identity, or round outcome. The same three milestones can be sent to
+Clarity as custom events only when the normal analytics privacy gate allows it.
 
 ## Private Dashboard
 
@@ -102,6 +107,7 @@ the current browser tab and sends it to the API with the
 - The public Privacy Policy offers the same persistent browser opt-out without requiring an admin token.
 - Current analytics logs rotate at 25 MB, archive logs expire after 90 days, and reports read bounded recent tails rather than unbounded files.
 - Microsoft Clarity is third-party analytics and must stay disclosed in `/privacy-policy/`; it must not be added to private admin or analytics pages.
+- Game analytics may record aggregate starts, completions, and replays, but never individual moves, board state, player identity, or outcome.
 
 ## Agent Commands
 
@@ -111,6 +117,17 @@ Use these commands for local checks:
 npm run aft -- usage-summary
 npm run aft -- usage-summary -- --json
 npm run aft -- site-sitemap
+npm run analytics:production
+npm run analytics:production:game
+npm run pilot:four-in-a-row
 ```
 
-`usage-summary` reads `.local/analytics/events.ndjson`, which is ignored by Git.
+`usage-summary` reads `.local/analytics/events.ndjson`, which is ignored by Git
+and may contain historical local QA traffic. It must not be used as production
+engagement proof. Public pages now send analytics only on the two production
+hostnames, which prevents local visual and smoke checks from adding new events.
+
+`analytics:production:game` reads a private 90-day aggregate from the production
+API using a local-only analytics token. It saves no token or raw visitor data.
+The Four in a Row pilot report then separates aggregate starts, completions,
+and replays from page views and keeps the eight-week decision gate explicit.

@@ -67,7 +67,8 @@ The CLI is for agent support only. It must not publish posts, edit live social c
 - `npm run aft -- recognition`
   - Runs the recognition tracker across Medium, Pinterest, Quora, Bluesky, DEV, Reddit, Search Console, Bing, and CrawlScout evidence. It separates public proof URLs from drafts, blocked channels, and unverified attempts.
 
-- `npm run aft -- usage-summary`
+- `npm run aft -- usage-summary` (local QA log only; not production-demand proof)
+- `npm run analytics:production` (private production aggregate)
   - Reads the local first-party analytics event log and summarizes visitors, page views, tool-use actions, top tools, and top pages. Use `--days <number>` for a different range.
 
 - `npm run aft -- usage-notes`
@@ -180,7 +181,7 @@ The CLI can summarize proof, but it cannot create proof by itself. Public promot
 11. Run `npm run aft -- hub-strength` after changing hub copy, category discovery, or internal-link pathways.
 12. Run `npm run aft -- semantic-depth` after changing priority tool pages, guides, FAQs, or audit wording.
 13. Run `npm run aft -- recognition` before claiming brand/promotion proof across public platforms.
-14. Use `npm run aft -- usage-summary` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements.
+14. Use `npm run analytics:production` when deciding which tools deserve more internal links, guides, social promotion, or UX improvements. Use `npm run aft -- usage-summary` only for local QA diagnostics.
 15. Use `npm run aft -- usage-notes` before planning any public "what people are using" content.
 16. Use `npm run aft -- site-sitemap` after builds or sitemap changes.
 17. Use `npm run aft -- page-seo <slug>` before improving a tool page or guide.

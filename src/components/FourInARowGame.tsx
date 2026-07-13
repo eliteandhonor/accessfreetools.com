@@ -15,6 +15,7 @@ import {
   type FourInARowPlayer,
   type FourInARowState,
 } from '../lib/fourInARow';
+import { emitAftToolAction } from '../lib/aftToolAnalytics';
 
 type GameMode = 'computer' | 'friend';
 type RecordedOutcome = FourInARowPlayer | 'draw' | null;
@@ -26,6 +27,16 @@ interface SessionScore {
 }
 
 const emptyScore: SessionScore = { one: 0, two: 0, draws: 0 };
+
+function emitGameMilestone(action: string, clarityEvent: string) {
+  emitAftToolAction({
+    action,
+    category: 'everyday-tools',
+    clarityEvent,
+    toolName: 'Four in a Row Game',
+    toolSlug: 'four-in-a-row-game',
+  });
+}
 
 export default function FourInARowGame() {
   const [mode, setMode] = useState<GameMode>('computer');
@@ -41,6 +52,7 @@ export default function FourInARowGame() {
     const outcome: RecordedOutcome = nextState.isDraw ? 'draw' : nextState.winner;
     if (!outcome) return;
 
+    emitGameMilestone('Complete round', 'four_in_a_row_complete');
     setRecordedOutcome(outcome);
     setScore((current) => ({
       one: current.one + (outcome === 'one' ? 1 : 0),
@@ -57,6 +69,10 @@ export default function FourInARowGame() {
       (mode === 'computer' && state.currentPlayer === 'two')
     ) {
       return;
+    }
+
+    if (moves.length === 0) {
+      emitGameMilestone(`Start round: ${mode}`, `four_in_a_row_start_${mode}`);
     }
 
     const nextMoves = [...moves, { column, player: state.currentPlayer }];
@@ -96,7 +112,11 @@ export default function FourInARowGame() {
     };
   }, [mode, moves, state]);
 
-  function startRound() {
+  function startRound(trackReplay = false) {
+    if (trackReplay) {
+      emitGameMilestone('Replay round', 'four_in_a_row_replay');
+    }
+
     setMoves([]);
     setRecordedOutcome(null);
     setIsThinking(false);
@@ -106,7 +126,7 @@ export default function FourInARowGame() {
     if (nextMode === mode) return;
     setMode(nextMode);
     setScore(emptyScore);
-    startRound();
+    startRound(false);
   }
 
   function undo() {
@@ -276,7 +296,12 @@ export default function FourInARowGame() {
           <Undo2 aria-hidden="true" size={18} />
           Undo
         </button>
-        <button type="button" className="primary" onClick={startRound}>
+        <button
+          type="button"
+          className="primary"
+          data-aft-analytics-manual="true"
+          onClick={() => startRound(state.isComplete)}
+        >
           <RotateCcw aria-hidden="true" size={18} />
           {state.isComplete ? 'Play again' : 'New round'}
         </button>

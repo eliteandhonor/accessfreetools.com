@@ -96,6 +96,17 @@ export const GET: APIRoute = async ({ request }) => {
     return jsonResponse({ ok: false, message: 'Analytics token required.' }, 401);
   }
 
-  const summary = await summarizeAnalytics();
+  const url = new URL(request.url);
+  const days = Number(url.searchParams.get('days') ?? 30);
+  const toolSlug = (url.searchParams.get('tool') ?? '').trim();
+
+  if (!Number.isInteger(days) || days < 1 || days > 365) {
+    return jsonResponse({ ok: false, message: 'Analytics days must be from 1 to 365.' }, 400);
+  }
+  if (toolSlug && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(toolSlug)) {
+    return jsonResponse({ ok: false, message: 'Analytics tool slug was not accepted.' }, 400);
+  }
+
+  const summary = await summarizeAnalytics({ days, toolSlug });
   return jsonResponse({ ok: true, summary });
 };

@@ -1491,7 +1491,12 @@ describe('site content audit guardrails', () => {
     expect(DEPLOYMENT_CHECKLIST_SOURCE).toContain('/free-calculator-resources/');
     expect(SITE_HEADER_SOURCE).toContain('/free-calculator-resources/');
     expect(LLMS_SOURCE).toContain('Resources hub: https://accessfreetools.com/free-calculator-resources/');
-    expect(INDEXNOW_SUBMIT_SOURCE).toContain('/free-calculator-resources/');
+    expect(PACKAGE_JSON.scripts['indexnow:submit']).toBe('node scripts/indexnow-submit.mjs --verify-production');
+    expect(PACKAGE_JSON.scripts['indexnow:submit-all']).toBe(
+      'node scripts/indexnow-submit.mjs --all --verify-production',
+    );
+    expect(INDEXNOW_SUBMIT_SOURCE).toContain('Refusing to submit without an explicit --url or --all selection.');
+    expect(INDEXNOW_SUBMIT_SOURCE).not.toContain('const PRIORITY_PATHS');
   });
 
   it('keeps XML sitemap entries canonical, indexable, and alias-free', () => {

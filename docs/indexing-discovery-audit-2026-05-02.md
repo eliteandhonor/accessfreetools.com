@@ -77,7 +77,7 @@ The domain property `sc-domain:accessfreetools.com` is the preferred Google Sear
 Run this after the next production deployment finishes:
 
 1. Open `https://accessfreetools.com/79e3e302ad4545d592d9b53f6ae2350f.txt` and confirm it shows only the IndexNow key.
-2. Run `npm run indexnow:submit` to submit the current built sitemap URLs to IndexNow.
+2. Run `npm run indexnow:submit-all` for this initial full-site launch. Routine later releases should submit only changed URLs.
 3. In Bing Webmaster Tools, confirm `https://accessfreetools.com/sitemap.xml` is listed.
 4. Review IndexNow submission status and crawl/index reports after Bing processes the URLs.
 5. Use IndexNow after important content updates, not as a daily unchanged-URL blast.

@@ -5,6 +5,7 @@ const baseURL = `http://127.0.0.1:${PORT}`;
 
 export default defineConfig({
   testDir: './tests',
+  testMatch: '**/*.spec.ts',
   timeout: 45_000,
   expect: {
     timeout: 8_000,

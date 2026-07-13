@@ -97,9 +97,11 @@ For a full evidence run, use `npm run audit:deep`. It writes a dated report unde
 evidence, copies Search Console and IndexNow proof when available, captures
 desktop/mobile smoke-test screenshots, and keeps raw JSON out of Git.
 
-Bing IndexNow is configured with a public root key file. After a deployment
-that changes important URLs, run `npm run indexnow:submit` to submit the built
-sitemap URLs. See `docs/bing-indexnow-setup.md`.
+Bing IndexNow is configured with a public root key file. After a deployment,
+submit only the canonical URLs that changed, for example
+`npm run indexnow:submit -- --url=https://accessfreetools.com/tools/example/`.
+Reserve `npm run indexnow:submit-all` for migrations, large launches, or major
+sitemap changes. See `docs/bing-indexnow-setup.md`.
 
 ## New Tool Workflow
 

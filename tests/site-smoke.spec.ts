@@ -32,9 +32,11 @@ const smokePages = [
   '/tools/password-generator/',
   '/tools/subnet-calculator/',
   '/tools/image-to-text-ocr-tool/',
+  '/tools/four-in-a-row-game/',
   '/tools/watts-to-amps-calculator/',
   '/blog/how-to-use-mortgage-calculator/',
   '/blog/how-to-use-image-to-text-ocr-tool/',
+  '/blog/how-to-use-four-in-a-row-game/',
 ];
 
 const accessibilityPages = [
@@ -52,6 +54,7 @@ const accessibilityPages = [
   '/tools/percentage-calculator/',
   '/tools/watts-to-amps-calculator/',
   '/tools/image-to-text-ocr-tool/',
+  '/tools/four-in-a-row-game/',
 ];
 
 function screenshotPath(projectName: string, path: string) {

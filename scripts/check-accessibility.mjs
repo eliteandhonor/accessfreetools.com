@@ -12,6 +12,7 @@ const PAGES = [
   '/tools/',
   '/tools/percentage-calculator/',
   '/tools/image-to-text-ocr-tool/',
+  '/tools/four-in-a-row-game/',
   '/blog/',
   '/blog/free-ai-skills-open-source-tools-organic-growth/',
   '/ask/',

@@ -8573,3 +8573,19 @@ main {
     padding: 6px;
   }
 }
+
+@media (max-width: 350px) {
+  .four-row-game__column-controls {
+    gap: 4px;
+    grid-template-columns: repeat(4, minmax(44px, 1fr));
+  }
+
+  .four-row-game__column-controls button {
+    flex-direction: row;
+    min-width: 44px;
+  }
+
+  .four-row-game__column-controls button span {
+    display: inline;
+  }
+}
