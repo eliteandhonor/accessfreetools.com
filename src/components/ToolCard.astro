@@ -11,7 +11,7 @@ const href = `/tools/${tool.slug}/`;
 const calculatorMark = getCalculatorIconMark(tool.icon);
 ---
 
-<a class="tool-card" href={href}>
+<article class="tool-card">
   <span class:list={['tool-card-icon', calculatorMark && `tool-card-icon-${calculatorMark}`]} aria-hidden="true">
     {
       calculatorMark === 'dice' ? (
@@ -113,9 +113,9 @@ const calculatorMark = getCalculatorIconMark(tool.icon);
       )
     }
   </span>
-  <span>
-    <strong>{tool.name}</strong>
+  <span class="tool-card-copy">
+    <strong><a class="tool-card-link" href={href}>{tool.name}</a></strong>
     <small>{tool.summary}</small>
   </span>
-  <em>Open</em>
-</a>
+  <span class="tool-card-open" aria-hidden="true">Open</span>
+</article>

@@ -1438,13 +1438,35 @@ main {
 .tool-card {
   align-items: center;
   gap: 14px;
+  position: relative;
 }
 
 .tool-card:hover,
+.tool-card:focus-within,
 .category-card:hover {
   border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
   box-shadow: var(--soft-shadow);
   transform: translateY(-2px);
+}
+
+.tool-card:focus-within {
+  outline: 3px solid color-mix(in srgb, var(--primary) 58%, transparent);
+  outline-offset: 2px;
+}
+
+.tool-card-copy {
+  min-width: 0;
+}
+
+.tool-card-link:focus-visible {
+  outline: none;
+}
+
+.tool-card-link::after {
+  content: '';
+  inset: 0;
+  position: absolute;
+  z-index: 1;
 }
 
 .tool-card-icon {
@@ -1954,7 +1976,7 @@ main {
   margin-top: 6px;
 }
 
-.tool-card em {
+.tool-card-open {
   background: color-mix(in srgb, var(--accent) 35%, transparent);
   border-radius: 999px;
   color: var(--primary-strong);

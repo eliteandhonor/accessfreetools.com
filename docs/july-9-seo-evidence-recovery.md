@@ -17,6 +17,14 @@ Use this note with `output/search-console/performance-latest.json` and `output/c
 
 This is an index-selection and CTR recovery sprint, not a sitemap rewrite sprint. The next work should improve internal importance, page differentiation, snippets, and exact-page proof for selected URLs. Do not bulk-noindex guides, remove useful tools from sitemaps, restart old validation clicks, or rewrite sitemap architecture unless fresh evidence shows a current technical fault.
 
+## 2026-07-13 Live Index Reconciliation
+
+- Exact Search Console inspection now reports `Submitted and indexed` with successful fetches for `/gallery/converters/`, `/tools/color-contrast-checker/`, `/blog/how-to-use-currency-calculator/`, `/tools/calories-burned-calculator/`, `/tools/reading-level-checker/`, `/tools/big-number-calculator/`, `/tools/love-calculator/`, and `/blog/how-to-use-love-calculator/`.
+- The first six of those URLs were requested through the Search Console UI between 11:19 am and 11:30 am on July 13. Google then recorded fresh July 13 crawls for the converter gallery, Color Contrast Checker, Currency guide, Calories Burned Calculator, and Reading Level Checker. This proves the July 12 CrawlScout flags for those pages are stale; do not reopen their completed recovery work.
+- Fresh inspection still reports `Crawled - currently not indexed` with successful fetches and matching canonicals for the Personal Loan tool and guide, Wallpaper guide, Device Battery Life Calculator, Brick Calculator, and Unit Price Calculator. Their recorded Google crawls are from May and predate their current page versions.
+- Prioritize the next manual request batch as Device Battery Life, Wallpaper guide, Personal Loan tool, and Personal Loan guide. Keep Brick and Unit Price in the next request batch if the daily Search Console UI quota is exhausted. Do not rewrite these pages from the stale aggregate export before Google tests the current versions.
+- Evidence: `output/search-console/url-inspection-next-sprint-2026-07-13.json`, `output/search-console/url-inspection-manual-request-batch-2-2026-07-13.json`, `output/search-console/url-inspection-love-release-2026-07-13.json`, and `docs/search-console-indexing-requests.json`.
+
 ## Priority Pages
 
 Index recovery pages with strong not-indexed signals:

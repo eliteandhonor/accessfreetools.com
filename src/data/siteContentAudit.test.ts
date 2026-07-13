@@ -74,6 +74,14 @@ const SITE_HEADER_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/SiteHeader.astro', import.meta.url)),
   'utf8',
 );
+const TOOL_CARD_SOURCE = readFileSync(
+  fileURLToPath(new URL('../components/ToolCard.astro', import.meta.url)),
+  'utf8',
+);
+const GLOBAL_STYLE_SOURCE = readFileSync(
+  fileURLToPath(new URL('../styles/global.css', import.meta.url)),
+  'utf8',
+);
 const MIDDLEWARE_SOURCE = readFileSync(fileURLToPath(new URL('../middleware.ts', import.meta.url)), 'utf8');
 const ASTRO_CONFIG_SOURCE = readFileSync(fileURLToPath(new URL('../../astro.config.mjs', import.meta.url)), 'utf8');
 const HTACCESS_SOURCE = readFileSync(fileURLToPath(new URL('../../public/.htaccess', import.meta.url)), 'utf8');
@@ -292,6 +300,15 @@ function getFilesRecursive(directory: string): string[] {
 }
 
 describe('site content audit guardrails', () => {
+  it('keeps tool-card anchor text concise while preserving the full-card hit area', () => {
+    expect(TOOL_CARD_SOURCE).toContain('<article class="tool-card">');
+    expect(TOOL_CARD_SOURCE).toContain('<a class="tool-card-link" href={href}>{tool.name}</a>');
+    expect(TOOL_CARD_SOURCE).not.toContain('<a class="tool-card"');
+    expect(TOOL_CARD_SOURCE).toContain('class="tool-card-open" aria-hidden="true"');
+    expect(GLOBAL_STYLE_SOURCE).toContain('.tool-card-link::after');
+    expect(GLOBAL_STYLE_SOURCE).toContain('.tool-card:focus-within');
+  });
+
   it('keeps tool SEO titles and descriptions unique and concise', () => {
     const duplicateToolSlugs = findDuplicates(tools.map((tool) => tool.slug));
     const duplicateSeoTitles = findDuplicates(tools.map((tool) => tool.seoTitle));
