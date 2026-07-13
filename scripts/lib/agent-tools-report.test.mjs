@@ -605,6 +605,48 @@ describe('agent tools reports', () => {
     expect(linkHelperReport.status).toBe('not enough data');
   });
 
+  it('reuses a recent built-link snapshot after safe cleanup removes dist', () => {
+    preserveAndWrite(
+      'output/search-console-url-inspection.json',
+      JSON.stringify(
+        {
+          generatedAt: new Date().toISOString(),
+          inspections: [
+            {
+              coverageState: 'Crawled - currently not indexed',
+              inspectionUrl: 'https://accessfreetools.com/tools/percentage-calculator/',
+              lastCrawlTime: '2026-07-01T00:00:00Z',
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    );
+    temporarilyRemoveFile('docs/search-console-indexing-requests.json');
+    for (const index of [1, 2, 3]) {
+      preserveAndWrite(
+        `.agent-tools-test-dist/test-link-fixture/source-${index}/index.html`,
+        '<a href="/tools/percentage-calculator/">Percentage calculator</a>\n',
+      );
+    }
+
+    const builtReport = buildLinkHelperReport();
+    expect(builtReport.linkEvidence.source).toBe('current-build');
+    rmSync(resolve(process.cwd(), '.agent-tools-test-dist'), { force: true, recursive: true });
+
+    const cleanedReport = buildLinkHelperReport();
+    const suggestion = cleanedReport.suggestions.find(
+      (item) => item.target === '/tools/percentage-calculator/',
+    );
+
+    expect(cleanedReport.linkEvidence.source).toBe('saved-build');
+    expect(cleanedReport.linkEvidence.note).toMatch(/Using saved built-link proof/);
+    expect(cleanedReport.linkEvidence.byTarget['/tools/percentage-calculator/']).toHaveLength(3);
+    expect(suggestion).toMatchObject({ action: 'monitor', priority: 'medium' });
+    expect(suggestion?.reason).toMatch(/3 built pages already link here/);
+  });
+
   it('does not use local QA events as SEO demand evidence', () => {
     preserveEnv('AFT_ANALYTICS_DIR', '.agent-tools-test-local-analytics');
     preserveEnv('AFT_PRODUCTION_ANALYTICS_REPORT_PATH', 'output/agent-tools-test/missing-production.json');

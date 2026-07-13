@@ -151,6 +151,11 @@ text, large H1, bold H2 headings, SEO settings, and canonical/source URL.
 
 Codex Chrome control status should be checked with
 `npm run automation:chrome-check` before relying on browser-control automation.
+The current Chrome Web Store extension is named `ChatGPT`, with description
+`Control Chrome with ChatGPT.` The check reports installed and enabled state
+separately from native-host registration. Those local checks do not prove that
+the live extension browser runtime can list tabs; confirm that separately with
+`agent.browsers.get('extension')` before claiming browser access.
 On 2026-05-08, Chrome showed the Codex extension installed and the native host
 registered. Edge also showed the extension installed, and the missing Edge
 native host registry entry was added to point at the same OpenAI manifest. After
@@ -163,6 +168,12 @@ without closing it. Do not wait for a separate `chrome.*` tool namespace; the
 supported route is the `@chrome` skill with the generic browser runtime and
 `agent.browsers.get('extension')`. If that route fails after one retry, follow
 the Chrome skill's extension and native-host checks before falling back.
+
+Internal-link evidence must survive safe cleanup. `npm run aft -- link-helper`
+saves the latest successful built-link count under ignored
+`output/agent-tools/link-helper/last-built.json` and may reuse it for up to 30
+days after `dist/` is removed. Missing current and saved build proof means
+`not enough data`; it must never be converted into a zero-link recommendation.
 
 On 2026-05-10, the daily promotion run found multiple Chrome extension
 backends. The working backend was the one whose `user.openTabs()` listed the

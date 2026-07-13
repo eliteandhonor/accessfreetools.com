@@ -1150,18 +1150,22 @@ function builtInternalLinkEvidence(targetPaths) {
 
   if (!existsSync(distRoot) || targets.length === 0) {
     return {
+      available: existsSync(distRoot) && targets.length === 0,
       note: existsSync(distRoot)
         ? ''
         : 'not enough data: dist is missing, so built internal links cannot be counted until after npm run build.',
       byTarget,
+      source: existsSync(distRoot) ? 'current-build' : 'unavailable',
     };
   }
 
   const htmlFiles = walk(distRoot, (file) => file.endsWith('.html'));
   if (htmlFiles.length === 0) {
     return {
+      available: false,
       note: 'not enough data: dist has no built HTML files, so built internal links cannot be counted until after npm run build.',
       byTarget,
+      source: 'unavailable',
     };
   }
 
@@ -1183,7 +1187,43 @@ function builtInternalLinkEvidence(targetPaths) {
     }
   }
 
-  return { note: '', byTarget };
+  return { available: true, note: '', byTarget, source: 'current-build' };
+}
+
+function builtLinkEvidenceSnapshotPath() {
+  return rootPath(agentToolsOutputDir(), 'link-helper', 'last-built.json');
+}
+
+function savedBuiltInternalLinkEvidence(targetPaths, now = new Date()) {
+  const snapshotPath = builtLinkEvidenceSnapshotPath();
+  if (!existsSync(snapshotPath)) return null;
+  const snapshot = safeJsonParse(readFileSync(snapshotPath, 'utf8'));
+  const snapshotTime = Date.parse(snapshot?.generatedAt ?? '');
+  if (!Number.isFinite(snapshotTime) || now.getTime() - snapshotTime > 30 * 24 * 60 * 60 * 1000) return null;
+  if (!snapshot?.linkEvidence?.byTarget || snapshot.linkEvidence.source !== 'current-build') return null;
+
+  const targets = [...new Set(targetPaths.map(normalizeHrefToPath).filter(Boolean))];
+  const byTarget = Object.fromEntries(
+    targets.map((target) => [
+      target,
+      Array.isArray(snapshot.linkEvidence.byTarget[target]) ? snapshot.linkEvidence.byTarget[target] : [],
+    ]),
+  );
+
+  return {
+    available: true,
+    byTarget,
+    note: `Using saved built-link proof from ${snapshot.generatedAt}; run npm run build and npm run aft -- link-helper to refresh it.`,
+    savedAt: snapshot.generatedAt,
+    source: 'saved-build',
+  };
+}
+
+function saveBuiltInternalLinkEvidence(generatedAt, linkEvidence) {
+  if (!linkEvidence.available || linkEvidence.source !== 'current-build') return;
+  const snapshotPath = builtLinkEvidenceSnapshotPath();
+  mkdirSync(dirname(snapshotPath), { recursive: true });
+  writeFileSync(snapshotPath, `${JSON.stringify({ generatedAt, linkEvidence }, null, 2)}\n`);
 }
 
 export function buildLinkHelperReport() {
@@ -1209,8 +1249,12 @@ export function buildLinkHelperReport() {
   const crawlScoutTargets = crawlScout.opportunities
     .slice(0, 8)
     .map((item) => (item.label.startsWith('/') ? item.label : '/tools/'));
-  const linkEvidence = builtInternalLinkEvidence([...gapTargets, ...analyticsTargets, ...crawlScoutTargets]);
-  const hasBuiltLinkEvidence = !linkEvidence.note;
+  const linkTargets = [...gapTargets, ...analyticsTargets, ...crawlScoutTargets];
+  const currentLinkEvidence = builtInternalLinkEvidence(linkTargets);
+  const linkEvidence = currentLinkEvidence.available
+    ? currentLinkEvidence
+    : savedBuiltInternalLinkEvidence(linkTargets) ?? currentLinkEvidence;
+  const hasBuiltLinkEvidence = linkEvidence.available;
   if (linkEvidence.note) warnings.push(linkEvidence.note);
 
   for (const gap of searchConsole.gaps.slice(0, 10)) {
@@ -1308,6 +1352,7 @@ export function buildLinkHelperReport() {
     suggestions,
     warnings,
   };
+  saveBuiltInternalLinkEvidence(generatedAt, linkEvidence);
   const paths = writeReport(
     'link-helper',
     report,
