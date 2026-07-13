@@ -1728,9 +1728,10 @@ const aiToolInstructions = aiToolVariant
 const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
   ? [
       'Choose the percentage question you want to answer.',
-      'Enter the values for percent-of, what-percent, percentage change, adjustment, or reverse percentage.',
+      'For Reverse percent, choose whether you know a part or a final value after an increase or decrease.',
+      'Enter the part, whole, original value, new value, final value, or percentage requested by that setup.',
       'Press Calculate percentage to see the answer, formula, and steps.',
-      'Use examples, recent answers, or copy answer while you compare values.',
+      'Check the divisor in a reverse answer before using examples, recent answers, or copy answer.',
     ]
   : isPercentErrorTool
   ? [
@@ -1987,7 +1988,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
           <span>Percent of</span>
           <span>Percentage change</span>
           <span>Discounts and markups</span>
-          <span>Reverse percent</span>
+          <span>Reverse increase / decrease</span>
         </div>
       )
     }
@@ -4160,7 +4161,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         <h2>Frequently asked questions</h2>
         {isKawaiiTool && <p>Quick answers about the cute design, shortcuts, privacy, and copying results.</p>}
         {isScientificTool && <p>Quick answers about angle mode, supported functions, typing expressions, and privacy.</p>}
-        {isPercentageTool && <p>Quick answers about percent-of, percentage change, discounts, reverse percentages, and privacy.</p>}
+        {isPercentageTool && <p>Quick answers about percent-of, percentage change, discounts, original values, reverse increases or decreases, and privacy.</p>}
         {isPercentErrorTool && <p>Quick answers about formulas, accepted values, signed error, zero values, units, and privacy.</p>}
         {isHalfLifeTool && <p>Quick answers about decay formulas, units, elapsed time, solving half-life, safety limits, and privacy.</p>}
         {isExponentTool && <p>Quick answers about powers, negative exponents, zero exponents, fraction exponents, and privacy.</p>}

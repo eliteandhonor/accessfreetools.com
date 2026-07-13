@@ -2695,6 +2695,27 @@ export function reversePercentageValue(value: number, percent: number): number {
   return value / (percent / 100);
 }
 
+export function reversePercentageAdjustment(
+  finalValue: number,
+  percent: number,
+  direction: PercentageAdjustmentDirection,
+): number {
+  if (!Number.isFinite(finalValue)) {
+    throw new Error('Final value must be a number');
+  }
+
+  if (!Number.isFinite(percent) || percent < 0) {
+    throw new Error('Percentage must be zero or greater');
+  }
+
+  if (direction === 'decrease' && percent >= 100) {
+    throw new Error('Decrease percentage must be less than 100');
+  }
+
+  const multiplier = direction === 'increase' ? 1 + percent / 100 : 1 - percent / 100;
+  return finalValue / multiplier;
+}
+
 export type HealthSex = 'male' | 'female';
 export type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'very' | 'extra';
 

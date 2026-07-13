@@ -51,6 +51,11 @@ const openStaxPercentApplications = {
   label: 'OpenStax Prealgebra: Percent applications',
 };
 
+const bbcReversePercentages = {
+  href: 'https://www.bbc.co.uk/bitesize/guides/z8tv6yc/revision/1',
+  label: 'BBC Bitesize: Working with reverse percentages',
+};
+
 const openStaxMeasurement = {
   href: 'https://openstax.org/books/chemistry-2e/pages/1-5-measurement-uncertainty-accuracy-and-precision',
   label: 'OpenStax Chemistry: Measurement uncertainty, accuracy, and precision',
@@ -2803,21 +2808,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'percentage-calculator',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
-    reviewedOn: '2026-06-02',
+    batch: 'gsc-reverse-percentage-recovery-2026-07-13',
+    reviewedOn: '2026-07-13',
     scope: commonMathScope,
-    sources: [openStaxPercent, openStaxPercentApplications, khanPercentageChange, googleHelpfulContent],
+    sources: [openStaxPercent, openStaxPercentApplications, khanPercentageChange, bbcReversePercentages, googleHelpfulContent],
     findings: [
-      'DataForSEO page evidence confirmed strong exact-match and related intent for percentage calculator, percentage increase calculator, percentage change calculator, percentage formula, percentage calculator difference, money, Excel, profit percentage, and marks searches.',
-      'The five live modes cover the main search jobs: percent of a number, what percent, percentage change, add or subtract percent, and reverse percent.',
-      'The biggest reader trap is still swapping the part and whole, or swapping the original and new value in a percent-change question.',
-      'The page now explains when to use narrower tools such as Percent Off, Sales Tax, Tip, and Percent Error calculators instead of forcing every percent job into one page.',
+      'Fresh Search Console evidence reports 257 impressions, 0 clicks, and average position 23.7 for the tool through July 11; the strongest visible query cluster is reverse percentage calculator.',
+      'DataForSEO reports about 1,300 U.S. monthly searches for reverse percentage calculator, and the live first page consistently solves the original value before a percentage increase or decrease.',
+      'The old Reverse percent mode solved only part-is-percent-of-whole questions, leaving the dominant original-before-change intent incomplete.',
+      'The page remains one broad percentage calculator URL while separating three reverse setups so readers can choose the correct divisor.',
     ],
     improvements: [
-      'Rewrote metadata, summary, use cases, examples, FAQ depth, blog hook, source and limits section, related-tool routing, image alt/caption text, and modified dates in smart-14 wording.',
+      'Added reverse part-of-whole, after-increase, and after-decrease choices, guarded formulas, worked 120 and 80 examples, query-led metadata, guide explanations, source context, tests, and refreshed dates.',
     ],
     followUps: [
-      'Consider adding a small preset row for discount, tip, markup, and percent-change examples if users keep landing from those terms.',
+      'Wait for Google to recrawl before comparing the same fixed GSC window or claiming movement in impressions, position, or CTR.',
     ],
   },
   {

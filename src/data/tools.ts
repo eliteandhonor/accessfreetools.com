@@ -124,19 +124,27 @@ const baseTools: ToolDefinition[] = [
     slug: 'percentage-calculator',
     name: 'Percentage Calculator',
     category: 'calculators',
-    summary: 'Find percent-of answers, percent change, discounts, markups, and reverse percentages.',
+    summary: 'Find percent-of answers, percent change, discounts, and original values with reverse percentages.',
     description:
-      'Use this free percentage calculator to answer percent-of questions, compare percentage change, add or subtract a percent, and work backward from a known percent.',
+      'Answer percent-of questions, compare percentage change, add or subtract a percent, and recover an original value from a known part or final value.',
     icon: 'calculator-percent',
-    seoTitle: 'Percentage Calculator | Percent Change, Discounts, Reverse',
+    seoTitle: 'Percentage Calculator | Reverse Percentage & Change',
     seoDescription:
-      'Use the free percentage calculator for percent of a number, percentage increase or decrease, discounts, markups, reverse percentages, and formula steps.',
-    aliases: ['Percent Calculator', 'Percentage Change Calculator', 'Percentage Increase Calculator'],
+      'Calculate percent of a number, percent change, discounts, and reverse percentages. Recover the original before an increase or decrease with formula steps.',
+    aliases: [
+      'Percent Calculator',
+      'Percentage Change Calculator',
+      'Percentage Increase Calculator',
+      'Reverse Percentage Calculator',
+      'Backwards Percentage Calculator',
+      'Original Value Percentage Calculator',
+    ],
     useCases: [
       'Find 18% of 240, 20% of 80, or another percent-of answer.',
       'Check whether a value went up or down and by what percent.',
       'Add or subtract a percent for discounts, markups, tax, tips, or growth.',
-      'Work backward when you know the part and the percent but not the original whole.',
+      'Work backward when you know the part and percent but not the original whole.',
+      'Recover the original value before a known percentage increase or decrease.',
     ],
     examples: [
       {
@@ -163,6 +171,16 @@ const baseTools: ToolDefinition[] = [
         label: 'Reverse the percent',
         expression: '30 is 15% of what?',
         result: '200',
+      },
+      {
+        label: 'Before an increase',
+        expression: '120 after a 20% increase',
+        result: 'Original value = 100',
+      },
+      {
+        label: 'Before a decrease',
+        expression: '80 after a 20% decrease',
+        result: 'Original value = 100',
       },
     ],
     faq: [
@@ -194,7 +212,17 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'What is a reverse percentage?',
         answer:
-          'A reverse percentage works backward from a known value and percentage. For example, if 30 is 15% of a number, the original whole is 200.',
+          'A reverse percentage works backward to an original value. If 30 is 15% of a number, divide 30 by 0.15 to get 200. If 120 is the value after a 20% increase, divide 120 by 1.20 to recover the original 100.',
+      },
+      {
+        question: 'How do I find the original value before a percentage decrease?',
+        answer:
+          'Choose Reverse percent, then After decrease. A final value of 80 after a 20% decrease represents 80% of the original, so divide 80 by 0.80 to get 100. The decrease must be less than 100%.',
+      },
+      {
+        question: 'Why not subtract 20% from a final value after a 20% increase?',
+        answer:
+          'The 20% increase was calculated from the original value, not the larger final value. If 100 rises by 20% to 120, subtracting 20% of 120 gives 96. Dividing 120 by 1.20 correctly returns 100.',
       },
       {
         question: 'What mistake gives the wrong percent change?',

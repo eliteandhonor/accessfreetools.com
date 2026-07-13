@@ -106,6 +106,14 @@ const BIG_NUMBER_GUIDE_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/blog/how-to-use-big-number-calculator.astro', import.meta.url)),
   'utf8',
 );
+const PERCENTAGE_CALCULATOR_SOURCE = readFileSync(
+  fileURLToPath(new URL('../components/PercentageCalculator.tsx', import.meta.url)),
+  'utf8',
+);
+const PERCENTAGE_GUIDE_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/blog/how-to-use-percentage-calculator.astro', import.meta.url)),
+  'utf8',
+);
 const GEOMETRY_CALCULATOR_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/GeometryCalculator.tsx', import.meta.url)),
   'utf8',
@@ -504,6 +512,46 @@ describe('site content audit guardrails', () => {
     expect(DISTANCE_GUIDE_SOURCE).toContain('5^2 + 3^2 = 25 + 9 = 34');
     expect(DISTANCE_GUIDE_SOURCE).toContain('title="Distance Formula Between Two Points"');
     expect(DISTANCE_GUIDE_SOURCE).not.toContain('title="How to use the Distance Calculator"');
+    expect(tool?.seoTitle.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+    expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+  });
+
+  it('covers all three reverse-percentage setups on one useful calculator page', () => {
+    const tool = tools.find((item) => item.slug === 'percentage-calculator');
+    const guide = blogPosts.find((item) => item.slug === 'how-to-use-percentage-calculator');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+
+    expect(tool?.seoTitle).toBe('Percentage Calculator | Reverse Percentage & Change');
+    expect(tool?.seoDescription).toContain('Recover the original before an increase or decrease');
+    expect(tool?.aliases).toEqual(
+      expect.arrayContaining(['Reverse Percentage Calculator', 'Backwards Percentage Calculator']),
+    );
+    expect(tool?.examples).toEqual(
+      expect.arrayContaining([
+        {
+          label: 'Before an increase',
+          expression: '120 after a 20% increase',
+          result: 'Original value = 100',
+        },
+        {
+          label: 'Before a decrease',
+          expression: '80 after a 20% decrease',
+          result: 'Original value = 100',
+        },
+      ]),
+    );
+    expect(faqText).toContain('divide 120 by 1.20');
+    expect(faqText).toContain('Dividing 120 by 1.20 correctly returns 100');
+    expect(PERCENTAGE_CALCULATOR_SOURCE).toContain("type ReversePercentageType = 'part-of-whole' | 'after-increase' | 'after-decrease'");
+    expect(PERCENTAGE_CALCULATOR_SOURCE).toContain('Part is % of whole');
+    expect(PERCENTAGE_CALCULATOR_SOURCE).toContain('After increase');
+    expect(PERCENTAGE_CALCULATOR_SOURCE).toContain('After decrease');
+    expect(guide?.title).toBe('Percentage Calculator Guide: Reverse Percentages');
+    expect(guide?.summary).toContain('recover an original value');
+    expect(PERCENTAGE_GUIDE_SOURCE).toContain('120 / 1.20 = 100');
+    expect(PERCENTAGE_GUIDE_SOURCE).toContain('80 / 0.80 = 100');
+    expect(PERCENTAGE_GUIDE_SOURCE).toContain('bbc.co.uk/bitesize');
     expect(tool?.seoTitle.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
     expect(tool?.seoDescription.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
     expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);

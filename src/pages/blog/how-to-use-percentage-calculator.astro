@@ -12,13 +12,13 @@ const examples = percentageCalculator?.examples ?? [];
 const articleStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'Percentage Calculator Guide',
+  headline: 'Percentage Calculator Guide: Reverse Percentages',
   description:
-    'Use the Percentage Calculator for percent-of answers, percent change, discounts, markups, reverse percentages, formula checks, history, privacy, and copied answers.',
+    'Learn three reverse-percentage setups, percent change, discounts, and how to recover an original value before an increase or decrease.',
   mainEntityOfPage: 'https://accessfreetools.com/blog/how-to-use-percentage-calculator/',
   image: guideImageUrl,
   datePublished: '2026-04-30',
-  dateModified: '2026-06-02',
+  dateModified: '2026-07-13',
   author: {
     '@type': 'Organization',
     name: 'Access Free Tools',
@@ -32,8 +32,8 @@ const articleStructuredData = {
 ---
 
 <BaseLayout
-  title="Percentage Calculator Guide | Percent Change And Discounts"
-  description="Learn how to use the Percentage Calculator for percent of a number, percent change, discounts, markups, reverse percentages, copied answers, and common mistakes."
+  title="Percentage Calculator Guide: Reverse Percentages"
+  description="Reverse percentages can mean finding a whole from a part, or recovering an original value before an increase or decrease. Learn both with clear examples."
   path="/blog/how-to-use-percentage-calculator/"
   socialImagePath={guideArt?.imagePath ?? '/social/free-guides.png'}
   socialImageAlt={guideArt?.alt}
@@ -41,15 +41,15 @@ const articleStructuredData = {
   <script type="application/ld+json" set:html={JSON.stringify(articleStructuredData)} />
 
   <article class="blog-article">
-    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Percentage Calculator Guide</p>
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Reverse Percentage Guide</p>
 
     <header class="blog-article-header">
-      <span>Percentage calculator guide</span>
-      <h1>Percentage Calculator Guide</h1>
+      <span>Reverse percentage guide</span>
+      <h1>Percentage Calculator Guide: Reverse Percentages</h1>
       <p>
-        Percent questions can look easy and still trip people up. The trick is knowing which
-        number is the part, which number is the whole, and which number came first. Double-check
-        that before trusting the answer.
+        A reverse percentage can ask for the whole behind a known part, or the value before a
+        percentage increase or decrease. Those questions use different divisors. Pick the wrong
+        one and a price that started at 100 can come back as 96.
       </p>
       <a class="button-primary" href="/tools/percentage-calculator/">Open the percentage calculator</a>
     </header>
@@ -63,7 +63,8 @@ const articleStructuredData = {
           <p>
             Use <a href="/tools/percentage-calculator/">Percentage Calculator</a> when you need a fast
             answer for percent-of math, percent increase or decrease, a discount, a markup, or a
-            reverse percentage. Pick the mode first. Then type the numbers.
+            reverse percentage. Reverse percent now separates a known part from a final value after
+            an increase or decrease, so choose the setup that matches the wording of your problem.
           </p>
           <p>
             If the question is just a sale price, the <a href="/tools/percent-off-calculator/">Percent Off Calculator</a>
@@ -90,7 +91,7 @@ const articleStructuredData = {
             <p><strong>What percent?</strong> answers questions like 25 is what percent of 200.</p>
             <p><strong>Percentage change:</strong> compares an original value with a new value.</p>
             <p><strong>Add or subtract percent:</strong> handles discounts, markups, tax, tips, and growth.</p>
-            <p><strong>Reverse percent:</strong> works backward when you know the part and the percent.</p>
+            <p><strong>Reverse percent:</strong> finds a whole from a known part, or the original value before an increase or decrease.</p>
           </div>
         </section>
 
@@ -117,7 +118,33 @@ const articleStructuredData = {
               <strong role="cell">30 is 15% of what?</strong>
               <span role="cell">Divides 30 by 0.15 to get 200.</span>
             </div>
+            <div role="row">
+              <strong role="cell">120 after a 20% increase</strong>
+              <span role="cell">Divides 120 by 1.20 to recover the original value of 100.</span>
+            </div>
+            <div role="row">
+              <strong role="cell">80 after a 20% decrease</strong>
+              <span role="cell">Divides 80 by 0.80 to recover the original value of 100.</span>
+            </div>
           </div>
+        </section>
+
+        <section class="content-section">
+          <h2>Three reverse percentage formulas</h2>
+          <p>
+            Choose Part is % of whole when you know a part and its percentage. The original whole is
+            the known part divided by the percentage as a decimal. For 30 at 15%, calculate 30 / 0.15 = 200.
+          </p>
+          <p>
+            Choose After increase when the final value already includes a rise. A 20% increase makes
+            the final value 120% of the original, so 120 / 1.20 = 100. Choose After decrease when the
+            final value is smaller. A 20% decrease leaves 80%, so 80 / 0.80 = 100.
+          </p>
+          <p>
+            Do not subtract 20% of 120 to reverse a 20% increase. That calculates 20% from the larger
+            final value and returns 96. The original increase used 100 as its base, so division by 1.20
+            is the correct reversal.
+          </p>
         </section>
 
         {examples.length > 0 && (
@@ -157,8 +184,9 @@ const articleStructuredData = {
           </p>
           <p>
             The whole value cannot be zero in a what-percent question. The original value cannot
-            be zero in a percentage-change question. For reverse percentages, the percent cannot
-            be zero. "30 is 0% of what?" does not have one useful whole.
+            be zero in a percentage-change question. A part-of-whole reverse percentage cannot use
+            0%. A reverse decrease must stay below 100% because a 100% decrease leaves no recoverable
+            positive original value from the final amount.
           </p>
         </section>
 
@@ -211,7 +239,7 @@ const articleStructuredData = {
             {' '}<a href="https://openstax.org/books/contemporary-mathematics/pages/6-1-understanding-percent">OpenStax percent basics</a>,
             {' '}<a href="https://openstax.org/books/prealgebra-2e/pages/6-2-solve-general-applications-of-percent">OpenStax percent applications</a>,
             {' '}<a href="https://www.khanacademy.org/e/percentage-change-word-problems">Khan Academy percentage-change practice</a>, and
-            {' '}<a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content">Google's people-first content guidance</a>.
+            {' '}<a href="https://www.bbc.co.uk/bitesize/guides/z8tv6yc/revision/1">BBC Bitesize reverse percentages</a>.
           </p>
           <p>
             The calculator is for checking math. That is the limit. It does not decide the real store price, tax rule,

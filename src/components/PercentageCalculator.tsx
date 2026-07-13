@@ -5,11 +5,13 @@ import {
   calculatePercentageOf,
   calculatePercentOf,
   formatCalculatorNumber,
+  reversePercentageAdjustment,
   reversePercentageValue,
   type PercentageAdjustmentDirection,
 } from '../lib/calculator';
 
 type PercentageMode = 'of' | 'part' | 'change' | 'adjust' | 'reverse';
+type ReversePercentageType = 'part-of-whole' | 'after-increase' | 'after-decrease';
 
 interface PercentageInputs {
   percent: string;
@@ -35,6 +37,7 @@ interface PercentageExample {
   label: string;
   mode: PercentageMode;
   direction?: PercentageAdjustmentDirection;
+  reverseType?: ReversePercentageType;
   inputs: Partial<PercentageInputs>;
 }
 
@@ -70,7 +73,7 @@ const modeLabels: Record<PercentageMode, { label: string; description: string }>
   },
   reverse: {
     label: 'Reverse percent',
-    description: 'Find the original whole when you know the part and percent.',
+    description: 'Find a whole, or the value before an increase or decrease.',
   },
 };
 
@@ -99,7 +102,20 @@ const examples: PercentageExample[] = [
   {
     label: '30 is 15% of what?',
     mode: 'reverse',
+    reverseType: 'part-of-whole',
     inputs: { reverseValue: '30', reversePercent: '15' },
+  },
+  {
+    label: '120 after 20% increase',
+    mode: 'reverse',
+    reverseType: 'after-increase',
+    inputs: { reverseValue: '120', reversePercent: '20' },
+  },
+  {
+    label: '80 after 20% decrease',
+    mode: 'reverse',
+    reverseType: 'after-decrease',
+    inputs: { reverseValue: '80', reversePercent: '20' },
   },
 ];
 
@@ -127,6 +143,7 @@ function buildPercentageCalculation(
   mode: PercentageMode,
   inputs: PercentageInputs,
   direction: PercentageAdjustmentDirection,
+  reverseType: ReversePercentageType,
 ): PercentageCalculation {
   if (mode === 'of') {
     const percent = parseNumber(inputs.percent, 'Percentage');
@@ -200,18 +217,39 @@ function buildPercentageCalculation(
     };
   }
 
-  const value = parseNumber(inputs.reverseValue, 'Known value');
+  const value = parseNumber(inputs.reverseValue, reverseType === 'part-of-whole' ? 'Known part' : 'Final value');
   const percent = parseNumber(inputs.reversePercent, 'Percentage');
-  const result = reversePercentageValue(value, percent);
+
+  if (reverseType === 'part-of-whole') {
+    const result = reversePercentageValue(value, percent);
+
+    return {
+      label: `${formatCalculatorNumber(value)} is ${formatPercent(percent)} of what`,
+      result: formatCalculatorNumber(result),
+      supporting: `${formatCalculatorNumber(value)} / ${formatCalculatorNumber(percent / 100)}`,
+      steps: [
+        `Turn ${formatPercent(percent)} into ${formatCalculatorNumber(percent / 100)}.`,
+        `Divide ${formatCalculatorNumber(value)} by ${formatCalculatorNumber(percent / 100)}.`,
+        `The original whole is ${formatCalculatorNumber(result)}.`,
+      ],
+    };
+  }
+
+  const reverseDirection = reverseType === 'after-increase' ? 'increase' : 'decrease';
+  const result = reversePercentageAdjustment(value, percent, reverseDirection);
+  const finalPercent = reverseDirection === 'increase' ? 100 + percent : 100 - percent;
+  const multiplier = finalPercent / 100;
+  const directionLabel = reverseDirection === 'increase' ? 'increase' : 'decrease';
 
   return {
-    label: `${formatCalculatorNumber(value)} is ${formatPercent(percent)} of what`,
+    label: `${formatCalculatorNumber(value)} after a ${formatPercent(percent)} ${directionLabel}`,
     result: formatCalculatorNumber(result),
-    supporting: `${formatCalculatorNumber(value)} / ${formatCalculatorNumber(percent / 100)}`,
+    supporting: `${formatCalculatorNumber(value)} / ${formatCalculatorNumber(multiplier)}`,
     steps: [
-      `Turn ${formatPercent(percent)} into ${formatCalculatorNumber(percent / 100)}.`,
-      `Divide ${formatCalculatorNumber(value)} by ${formatCalculatorNumber(percent / 100)}.`,
-      `The original whole is ${formatCalculatorNumber(result)}.`,
+      `After a ${formatPercent(percent)} ${directionLabel}, the final value is ${formatPercent(finalPercent)} of the original.`,
+      `Turn ${formatPercent(finalPercent)} into the multiplier ${formatCalculatorNumber(multiplier)}.`,
+      `Divide the final value by the multiplier: ${formatCalculatorNumber(value)} / ${formatCalculatorNumber(multiplier)} = ${formatCalculatorNumber(result)}.`,
+      `The value before the ${directionLabel} was ${formatCalculatorNumber(result)}.`,
     ],
   };
 }
@@ -240,9 +278,10 @@ function NumberField({
 export default function PercentageCalculator() {
   const [mode, setMode] = useState<PercentageMode>('of');
   const [direction, setDirection] = useState<PercentageAdjustmentDirection>('increase');
+  const [reverseType, setReverseType] = useState<ReversePercentageType>('part-of-whole');
   const [inputs, setInputs] = useState(defaultInputs);
   const [calculation, setCalculation] = useState<PercentageCalculation>(() =>
-    buildPercentageCalculation('of', defaultInputs, 'increase'),
+    buildPercentageCalculation('of', defaultInputs, 'increase', 'part-of-whole'),
   );
   const [history, setHistory] = useState<PercentageCalculation[]>([]);
   const [error, setError] = useState('');
@@ -257,7 +296,7 @@ export default function PercentageCalculator() {
 
   const calculate = () => {
     try {
-      const nextCalculation = buildPercentageCalculation(mode, inputs, direction);
+      const nextCalculation = buildPercentageCalculation(mode, inputs, direction, reverseType);
       setCalculation(nextCalculation);
       setHistory((items) => [nextCalculation, ...items].slice(0, 6));
       setError('');
@@ -271,11 +310,13 @@ export default function PercentageCalculator() {
   const loadExample = (example: PercentageExample) => {
     const nextInputs = { ...inputs, ...example.inputs };
     const nextDirection = example.direction ?? direction;
-    const nextCalculation = buildPercentageCalculation(example.mode, nextInputs, nextDirection);
+    const nextReverseType = example.reverseType ?? reverseType;
+    const nextCalculation = buildPercentageCalculation(example.mode, nextInputs, nextDirection, nextReverseType);
 
     setMode(example.mode);
     setInputs(nextInputs);
     setDirection(nextDirection);
+    setReverseType(nextReverseType);
     setCalculation(nextCalculation);
     setHistory((items) => [nextCalculation, ...items].slice(0, 6));
     setError('');
@@ -370,13 +411,54 @@ export default function PercentageCalculator() {
 
             {mode === 'reverse' && (
               <>
+                <div className="percentage-reverse-type" aria-label="Reverse percentage question type">
+                  <button
+                    aria-pressed={reverseType === 'part-of-whole'}
+                    onClick={() => {
+                      setReverseType('part-of-whole');
+                      setError('');
+                      setCopied(false);
+                    }}
+                    type="button"
+                  >
+                    Part is % of whole
+                  </button>
+                  <button
+                    aria-pressed={reverseType === 'after-increase'}
+                    onClick={() => {
+                      setReverseType('after-increase');
+                      setError('');
+                      setCopied(false);
+                    }}
+                    type="button"
+                  >
+                    After increase
+                  </button>
+                  <button
+                    aria-pressed={reverseType === 'after-decrease'}
+                    onClick={() => {
+                      setReverseType('after-decrease');
+                      setError('');
+                      setCopied(false);
+                    }}
+                    type="button"
+                  >
+                    After decrease
+                  </button>
+                </div>
                 <NumberField
-                  label="Known value"
+                  label={reverseType === 'part-of-whole' ? 'Known part' : 'Final value'}
                   value={inputs.reverseValue}
                   onChange={(value) => updateInput('reverseValue', value)}
                 />
                 <NumberField
-                  label="Percentage"
+                  label={
+                    reverseType === 'after-increase'
+                      ? 'Increase percentage'
+                      : reverseType === 'after-decrease'
+                        ? 'Decrease percentage'
+                        : 'Percentage of whole'
+                  }
                   value={inputs.reversePercent}
                   onChange={(value) => updateInput('reversePercent', value)}
                 />

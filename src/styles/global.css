@@ -3260,17 +3260,27 @@ main {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
 }
 
-.percentage-direction-toggle {
+.percentage-direction-toggle,
+.percentage-reverse-type {
   background: var(--surface-solid);
   border: 1px solid var(--border);
   border-radius: 8px;
   display: grid;
   gap: 6px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   padding: 6px;
 }
 
-.percentage-direction-toggle button {
+.percentage-direction-toggle {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.percentage-reverse-type {
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.percentage-direction-toggle button,
+.percentage-reverse-type button {
   background: transparent;
   border: 0;
   border-radius: 7px;
@@ -3279,7 +3289,8 @@ main {
   min-height: 36px;
 }
 
-.percentage-direction-toggle button[aria-pressed='true'] {
+.percentage-direction-toggle button[aria-pressed='true'],
+.percentage-reverse-type button[aria-pressed='true'] {
   background: color-mix(in srgb, var(--primary) 18%, white);
   color: var(--primary-strong);
 }
@@ -3384,7 +3395,8 @@ main {
 .percentage-mode-grid button:focus-visible,
 .percentage-example-list button:hover,
 .percentage-example-list button:focus-visible,
-.percentage-direction-toggle button:focus-visible {
+.percentage-direction-toggle button:focus-visible,
+.percentage-reverse-type button:focus-visible {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
   outline: none;
@@ -8029,6 +8041,7 @@ main {
   .percentage-actions,
   .percentage-fields,
   .percentage-mode-grid,
+  .percentage-reverse-type,
   .percent-error-actions,
   .percent-error-fields,
   .percent-error-result-card dl,

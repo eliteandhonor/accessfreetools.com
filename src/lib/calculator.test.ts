@@ -321,6 +321,7 @@ import {
   parseNumberList,
   percentDisplayValue,
   randomIntegerInRange,
+  reversePercentageAdjustment,
   reversePercentageValue,
   romanNumeralToNumber,
   simplifyRatioValues,
@@ -489,9 +490,15 @@ describe('percentage helpers', () => {
 
   it('calculates reverse percentages and rejects invalid bases', () => {
     expect(formatCalculatorNumber(reversePercentageValue(30, 15))).toBe('200');
+    expect(formatCalculatorNumber(reversePercentageAdjustment(120, 20, 'increase'))).toBe('100');
+    expect(formatCalculatorNumber(reversePercentageAdjustment(80, 20, 'decrease'))).toBe('100');
     expect(() => calculatePercentOf(10, 0)).toThrow('Whole value cannot be zero');
     expect(() => calculatePercentageChange(0, 10)).toThrow('Original value cannot be zero');
     expect(() => reversePercentageValue(30, 0)).toThrow('Percentage cannot be zero');
+    expect(() => reversePercentageAdjustment(80, 100, 'decrease')).toThrow(
+      'Decrease percentage must be less than 100',
+    );
+    expect(() => reversePercentageAdjustment(80, -5, 'increase')).toThrow('Percentage must be zero or greater');
   });
 
   it('calculates percent error with signed direction', () => {

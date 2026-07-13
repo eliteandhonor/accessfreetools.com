@@ -21,10 +21,10 @@ const blogPostCandidates: BlogPostDefinition[] = [
   },
   {
     slug: 'how-to-use-percentage-calculator',
-    title: 'Percentage Calculator Guide',
-    label: 'Percentage calculator guide',
+    title: 'Percentage Calculator Guide: Reverse Percentages',
+    label: 'Reverse percentage guide',
     summary:
-      'Learn percent-of answers, percent change, discounts, markups, reverse percentages, formula checks, copied answers, and common mistakes.',
+      'Learn three reverse-percentage setups, percent change, discounts, and how to recover an original value before an increase or decrease.',
   },
   {
     slug: 'how-to-use-ratio-calculator',
