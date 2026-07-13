@@ -5,9 +5,9 @@ Source reviewed: Calculator.net sitemap on 2026-04-29. This is a competitor inve
 ## Current Coverage Snapshot
 
 - Sitemap utility-style entries reviewed: 203.
-- Local canonical tool pages after the latest post-calculator.net expansion: 301.
-- Local guide pages after the latest post-calculator.net expansion: 301.
-- Public tool URLs in search and launchpad surfaces: 305, made from 301 canonical tools plus 4 intentional alias URLs.
+- Local canonical tool pages after the Four in a Row pilot: 302.
+- Local guide pages after the Four in a Row pilot: 302.
+- Public tool URLs in search and launchpad surfaces: 306, made from 302 canonical tools plus 4 intentional alias URLs.
 - Remaining competitor-inspired roadmap items from the current comparison: 0 direct action items. The final sensitive/proprietary topics were covered with safer Access Free Tools alternatives instead of one-to-one copies.
 - Aliases already covered: IP Subnet -> Subnet, Common Factor -> Greatest Common Factor, Mortgage Amortization -> Amortization, Time Duration -> Time.
 
@@ -221,9 +221,9 @@ Completed post-roadmap batches:
 
 Current local coverage after this batch:
 
-- Canonical tool pages: 301
-- Matching guide pages: 301
-- Public tool URLs: 305
+- Canonical tool pages: 302
+- Matching guide pages: 302
+- Public tool URLs: 306
 - Aliases already covered: 4
 
 ## Post-roadmap Competitor Batch: Kitchen, Recipe, And Shopping Utilities

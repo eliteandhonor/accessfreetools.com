@@ -1760,6 +1760,22 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "four-in-a-row-game",
+    "kind": "guide",
+    "imagePath": "/tool-art/four-in-a-row-game-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/four-in-a-row-game-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "four-in-a-row-game",
+    "kind": "tool",
+    "imagePath": "/tool-art/four-in-a-row-game-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/four-in-a-row-game-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "fraction-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/fraction-calculator-guide.webp",

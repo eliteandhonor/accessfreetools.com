@@ -23,7 +23,7 @@ const webApplication = {
   '@type': 'WebApplication',
   '@id': `${url}#tool`,
   name: tool.name,
-  applicationCategory: 'UtilitiesApplication',
+  applicationCategory: tool.applicationCategory ?? 'UtilitiesApplication',
   applicationSubCategory: getCategoryName(tool.category),
   operatingSystem: 'Any',
   url,

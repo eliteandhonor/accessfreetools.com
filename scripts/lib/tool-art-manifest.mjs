@@ -52,6 +52,22 @@ const categoryVisualCues = {
 };
 
 const toolArtMetadataOverrides = {
+  'four-in-a-row-game': {
+    tool: {
+      alt: 'Smoke-kawaii mascot playing a 7-column Four in a Row board with teal and coral patterned pieces and a highlighted diagonal win.',
+      caption:
+        'Four in a Row Game artwork matches the live 7 by 6 board, friend and computer modes, patterned player pieces, local score, undo, and winning-line highlight.',
+      prompt:
+        'Show the full-body mascot kneeling beside an original upright 7-column by 6-row game board in deep forest green. Use circular teal pieces with one diagonal stripe direction and coral pieces with the opposite stripe direction. Highlight one clear four-piece diagonal win with a soft lime outline. Include small non-text friend, computer, undo, and score pictograms around the board. Avoid blue, red, or yellow branded game trade dress.',
+    },
+    guide: {
+      alt: 'Smoke-kawaii mascot explaining Four in a Row strategy with center-column, blocking, and supported diagonal examples.',
+      caption:
+        'Four in a Row guide artwork supports the win-block-build check, center-column control, diagonal support, friend mode, and computer practice walkthrough.',
+      prompt:
+        'Show the full-body mascot standing with a small pointer beside three distinct visual strategy panels: center-column control, blocking an open fourth space, and building a supported diagonal. Use an original deep forest-green 7 by 6 board with teal and coral patterned pieces. Make the scene an instructional composition that is clearly different from the playable tool image. No readable labels or numbers and no blue, red, or yellow branded game trade dress.',
+    },
+  },
   'target-heart-rate-calculator': {
     tool: {
       alt: 'Smoke-kawaii mascot beside a heart-rate gauge, moderate and vigorous zone bar, pulse line, running shoe, and water bottle.',
@@ -1868,6 +1884,7 @@ function buildPrompt(tool, kind) {
     kind === 'tool'
       ? `The mascot is actively presenting the ${tool.name} as a usable browser utility.`
       : `The mascot is explaining the ${tool.name} concept like a simple visual guide.`;
+  const specificConcept = toolArtMetadataOverrides[tool.slug]?.[kind]?.prompt ?? safeSummary(tool.summary);
 
   return normalizeWhitespace(
     [
@@ -1879,7 +1896,7 @@ function buildPrompt(tool, kind) {
       'Research the exact tool before generating: use visual details from its real inputs, outputs, formula/logic, examples, and guide notes, not only broad category symbols.',
       'The image must clearly represent this specific tool to someone comparing it with nearby related tools.',
       `Use visual hints for ${categoryName}: ${visualCues}.`,
-      `Specific page concept: ${safeSummary(tool.summary)}.`,
+      `Specific page concept: ${specificConcept}.`,
       `Composition must be distinct for ${kind === 'tool' ? 'the tool page' : 'the guide/blog page'} and usable as a 1200 by 630 web image.`,
       'The result must look like an intentional character illustration, not a blurry background texture.',
     ].join(' '),

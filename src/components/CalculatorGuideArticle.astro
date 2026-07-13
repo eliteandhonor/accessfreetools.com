@@ -34,6 +34,7 @@ interface Props {
   sections: GuideSection[];
   sidecarText: string;
   faqItems?: GuideFaqItem[];
+  faqDisplayCount?: number;
   bestUsesIntro?: string;
   keepExploringIntro?: string;
 }
@@ -49,6 +50,7 @@ const {
   sections,
   sidecarText,
   faqItems: customFaqItems,
+  faqDisplayCount = 7,
   bestUsesIntro,
   keepExploringIntro,
 } = Astro.props;
@@ -110,7 +112,13 @@ const guidePrivacyCopyBySlug: Partial<Record<string, string>> = {
     'Use Copy answer when you want to save the UTC input, converted local date and time, UTC offset, and IANA zone name. Check the original schedule or official system before relying on it for flights, legal deadlines, or critical meetings.',
   'dice-roller':
     'Use Copy answer when you want to save the dice count, sides, rolls, subtotal, modifier, and final total for notes, a game log, or a classroom example. Do not use copied rolls as official proof for gambling, legal drawings, audits, or certified random selection.',
+  'four-in-a-row-game':
+    'Changing modes resets the session score. Refreshing or closing the tab clears the current round and scores.',
 };
+const privacyHeading = tool?.slug === 'four-in-a-row-game' ? 'Privacy and session scores' : 'Privacy and copying results';
+const privacyBrowserCopy = tool?.slug === 'four-in-a-row-game'
+  ? 'Moves, round results, and session scores stay only in the current browser tab. They are not sent to a game server.'
+  : 'Recent answers stay visible only while you work in the current browser tab. They are not sent to a server.';
 const privacyCopy = {
   copy:
     (tool ? guidePrivacyCopyBySlug[tool.slug] : undefined) ??
@@ -256,7 +264,7 @@ const articleStructuredData = {
           <section class="content-section">
             <h2>FAQ in plain language</h2>
             <div class="guide-question-list">
-              {faqItems.slice(0, 7).map((item) => (
+              {faqItems.slice(0, faqDisplayCount).map((item) => (
                 <article>
                   <h3>{item.question}</h3>
                   <p>{item.answer}</p>
@@ -325,11 +333,8 @@ const articleStructuredData = {
         </section>
 
         <section class="content-section">
-          <h2>Privacy and copying results</h2>
-          <p>
-            Recent answers stay visible only while you work in the current browser tab. They are
-            not sent to a server.
-          </p>
+          <h2>{privacyHeading}</h2>
+          <p>{privacyBrowserCopy}</p>
           <p>
             {privacyCopy.copy}
           </p>

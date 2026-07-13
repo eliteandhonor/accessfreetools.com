@@ -810,3 +810,20 @@ export function getCalculatorIconMark(icon: string): CalculatorIconMark | null {
 export function getCalculatorIconTextLabel(mark: CalculatorIconMark) {
   return calculatorIconTextLabels[mark] ?? null;
 }
+
+const semanticToolIcons = new Set([
+  'percent',
+  'type',
+  'refresh',
+  'calendar',
+  'wallet',
+  'code',
+  'image',
+  'health',
+  'wrench',
+  'game',
+]);
+
+export function isToolIconMapped(icon: string) {
+  return Boolean(getCalculatorIconMark(icon)) || semanticToolIcons.has(icon);
+}

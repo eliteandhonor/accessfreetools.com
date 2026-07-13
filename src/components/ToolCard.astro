@@ -1,5 +1,6 @@
 ---
 import type { ToolDefinition } from '../data/tools';
+import { Grid3X3 } from 'lucide-react';
 import { getCalculatorIconMark, getCalculatorIconTextLabel } from '../data/toolIcons';
 
 interface Props {
@@ -9,12 +10,15 @@ interface Props {
 const { tool } = Astro.props;
 const href = `/tools/${tool.slug}/`;
 const calculatorMark = getCalculatorIconMark(tool.icon);
+const isGame = tool.icon === 'game';
 ---
 
 <article class="tool-card">
   <span class:list={['tool-card-icon', calculatorMark && `tool-card-icon-${calculatorMark}`]} aria-hidden="true">
     {
-      calculatorMark === 'dice' ? (
+      isGame ? (
+        <Grid3X3 size={28} strokeWidth={2.2} />
+      ) : calculatorMark === 'dice' ? (
         <svg viewBox="0 0 36 36" role="img">
           <rect class="dice-body" x="7" y="7" width="22" height="22" rx="6"></rect>
           <circle class="dice-pip" cx="13" cy="13" r="2"></circle>

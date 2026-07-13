@@ -82,7 +82,7 @@ On 2026-06-19, the owner approved autonomous targeted SEO/DataForSEO judgment fo
 
 ## Completion Note
 
-As of 2026-07-10, the generated tool/blog review lane is complete: 602 page review units approved, 0 remaining, and no active approval gate. Use `docs/seo-tool-review-queue.md`, `npm run aft -- seo-tool-queue`, and `npm run aft -- proof-check` as the current source of truth. Older June audit notes that point to the `text-case-converter` blog as the active blocker are historical only.
+As of 2026-07-13, the generated tool/blog review lane is complete: 604 page review units approved, 0 remaining, and no active approval gate. This includes the Four in a Row pilot tool and guide. Use `docs/seo-tool-review-queue.md`, `npm run aft -- seo-tool-queue`, and `npm run aft -- proof-check` as the current source of truth. Older June audit notes that point to the `text-case-converter` blog as the active blocker are historical only.
 
 ## Review Rules
 

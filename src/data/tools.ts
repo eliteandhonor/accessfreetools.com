@@ -30,6 +30,7 @@ export interface ToolDefinition {
   examples: ToolExample[];
   faq: ToolFaq[];
   relatedSlugs: string[];
+  applicationCategory?: 'UtilitiesApplication' | 'GameApplication';
 }
 
 const baseTools: ToolDefinition[] = [

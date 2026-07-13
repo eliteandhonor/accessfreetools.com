@@ -9,6 +9,7 @@ import BigNumberCalculator from '../../components/BigNumberCalculator';
 import ExponentCalculator from '../../components/ExponentCalculator';
 import FinanceCalculator, { type FinanceToolVariant } from '../../components/FinanceCalculator';
 import FractionCalculator from '../../components/FractionCalculator';
+import FourInARowGame from '../../components/FourInARowGame';
 import GeometryCalculator, { type GeometryToolVariant } from '../../components/GeometryCalculator';
 import HalfLifeCalculator from '../../components/HalfLifeCalculator';
 import HealthFitnessCalculator, { type HealthToolVariant } from '../../components/HealthFitnessCalculator';
@@ -461,6 +462,7 @@ const aiToolVariants = {
 const aiToolVariant = aiToolVariants[tool.slug];
 const isAiTool = Boolean(aiToolVariant);
 const isReadingLevelTool = tool.slug === 'reading-level-checker';
+const isFourInARowGame = tool.slug === 'four-in-a-row-game';
 const hasInteractiveTool =
   isCalculatorTool ||
   isPercentageTool ||
@@ -487,7 +489,8 @@ const hasInteractiveTool =
   Boolean(healthToolVariant) ||
   Boolean(financeToolVariant) ||
   Boolean(utilityToolVariant) ||
-  Boolean(aiToolVariant);
+  Boolean(aiToolVariant) ||
+  isFourInARowGame;
 const statsToolInstructions: Record<string, string[]> = {
   'standard-deviation-calculator': [
     'Enter a list of numbers separated by commas, spaces, or line breaks.',
@@ -1725,7 +1728,15 @@ const aiToolInstructions = aiToolVariant
         'Check the original text or image yourself because browser AI output can still be wrong.',
       ]
   : undefined;
-const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
+const gameToolInstructions = isFourInARowGame
+  ? [
+      'Choose Play computer or Play a friend. Player 1 uses teal pieces and moves first.',
+      'Choose a numbered column. Your piece falls into the lowest open space in that column.',
+      'Connect four pieces across, down, or diagonally while blocking the other player\'s immediate threats.',
+      'Use Undo to take back the last friend move or the latest human-computer turn pair, then start a new round when you are ready.',
+    ]
+  : undefined;
+const toolInstructions = gameToolInstructions ?? statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
   ? [
       'Choose the percentage question you want to answer.',
       'For Reverse percent, choose whether you know a part or a final value after an increase or decrease.',
@@ -4063,6 +4074,7 @@ const toolInstructions = statsToolInstructions[tool.slug] ?? geometryToolInstruc
         {financeToolVariant && <FinanceCalculator variant={financeToolVariant} client:load />}
         {utilityToolVariant && <UtilityCalculator variant={utilityToolVariant} client:load />}
         {aiToolVariant && <AiBrowserTool variant={aiToolVariant} client:load />}
+        {isFourInARowGame && <FourInARowGame client:load />}
       </div>
     )}
 

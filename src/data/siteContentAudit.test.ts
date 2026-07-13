@@ -30,7 +30,7 @@ import {
   manualDeepReviewProgress,
   toolDeepAuditRecords,
 } from './toolDeepAudit';
-import { getCalculatorIconMark } from './toolIcons';
+import { isToolIconMapped } from './toolIcons';
 import { tools } from './tools';
 import { utilityBlogGuides } from './utilityBlogGuides';
 import { verifiedOrganizationSameAs } from './siteEntity';
@@ -994,7 +994,7 @@ describe('site content audit guardrails', () => {
         issues.push(`${tool.slug} points to missing category ${tool.category}`);
       }
 
-      if (!getCalculatorIconMark(tool.icon)) {
+      if (!isToolIconMapped(tool.icon)) {
         issues.push(`${tool.slug} uses unmapped icon ${tool.icon}`);
       }
 

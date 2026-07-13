@@ -22,6 +22,7 @@ interface UtilityToolSpec {
   useCases: string[];
   examples: ToolExample[];
   relatedSlugs: string[];
+  applicationCategory?: 'UtilitiesApplication' | 'GameApplication';
 }
 
 interface UtilityFaqLanguage {
@@ -139,6 +140,7 @@ function makeUtilityTool(spec: UtilityToolSpec): ToolDefinition {
     examples: spec.examples,
     faq: makeFaq(spec),
     relatedSlugs: spec.relatedSlugs,
+    applicationCategory: spec.applicationCategory,
   };
 }
 
@@ -823,6 +825,84 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Custom dice', expression: '4d10', result: 'Four rolls from 1 to 10' },
     ],
     relatedSlugs: ['random-number-generator', 'probability-calculator', 'permutation-and-combination-calculator'],
+  }),
+  makeUtilityTool({
+    slug: 'four-in-a-row-game',
+    name: 'Four in a Row Game',
+    category: 'everyday-tools',
+    summary: 'Play a local four-in-a-row strategy game against a friend or the computer.',
+    description:
+      'Play Four in a Row free online against a friend or the computer. Drop pieces into a 7 by 6 board, block threats, undo moves, and keep session scores in your browser.',
+    seoTitle: 'Four in a Row Game | Play Free Online',
+    seoDescription:
+      'Play Four in a Row free online against a friend or the computer. Use a responsive 7 by 6 board, undo moves, and keep private session scores.',
+    icon: 'game',
+    aliases: [
+      '4 in a Row Game',
+      'Four in a Line Game',
+      'Four in a Row Online',
+      'Online Strategy Board Game',
+    ],
+    applicationCategory: 'GameApplication',
+    formula:
+      'Players take turns dropping one piece into a non-full column. The piece falls to the lowest open space. The first player with four pieces in one horizontal, vertical, or diagonal line wins; a full board with no line is a draw.',
+    limit:
+      'The computer is a quick browser opponent, not a perfect tournament solver. Session scores reset when you change modes, refresh the page, or close the tab.',
+    faqLanguage: {
+      expectedInputs: 'a game mode and the column where you want each piece to fall',
+      inputFallback:
+        'Game mode chooses a local friend or the computer. Column buttons run from 1 to 7. A piece drops into the lowest empty space in the column you choose.',
+      examplePhrase: 'short move sequence',
+      doubleCheck:
+        'Check immediate winning moves and blocks first, then look for horizontal, vertical, and diagonal threats before choosing a column.',
+      privacy:
+        'No. The game runs in your browser tab. It does not send moves, names, or scores to a game server, and session scores disappear when the page session ends.',
+    },
+    inputExplanations: [
+      { term: 'Play computer', meaning: 'you use the teal pieces and move first; the browser controls the coral pieces.' },
+      { term: 'Play a friend', meaning: 'two people share this device and alternate turns.' },
+      { term: 'Column buttons', meaning: 'choose where a piece falls; a full column cannot accept another move.' },
+      { term: 'Undo', meaning: 'removes the latest move in friend mode or the latest human-computer turn pair in computer mode.' },
+    ],
+    extraFaq: [
+      {
+        question: 'How do you win Four in a Row?',
+        answer:
+          'Make one unbroken line of four of your pieces before the other player. The line can run left to right, up and down, or diagonally. A longer line also includes a winning group of four.',
+      },
+      {
+        question: 'Who moves first?',
+        answer:
+          'Player 1 always starts a new round. In computer mode, you are Player 1 and the computer answers after your move.',
+      },
+      {
+        question: 'What is a useful beginner strategy?',
+        answer:
+          'Start by watching the center columns because they connect to more possible lines. Before every move, check whether you can win immediately, then check whether the other player must be blocked.',
+      },
+      {
+        question: 'Can I play with a keyboard or screen reader?',
+        answer:
+          'Yes. The column controls are real buttons with column labels, the board cells have row and column descriptions, and turn and result messages are announced. Arrow, Home, and End keys move between column buttons.',
+      },
+    ],
+    useCases: [
+      'Play a quick two-player strategy round on one phone, tablet, or computer.',
+      'Practice spotting immediate wins, blocks, forks, and diagonal lines against the computer.',
+      'Use a keyboard, touch screen, or screen reader with the same board.',
+      'Keep local session wins and draws while playing several rounds.',
+    ],
+    examples: [
+      { label: 'Horizontal win', expression: 'Columns 2, 3, 4, then 5', result: 'Four connected pieces across one row' },
+      { label: 'Vertical win', expression: 'Four turns in column 4', result: 'Four connected pieces in one column' },
+      { label: 'Defensive move', expression: 'Opponent has three in a line', result: 'Block the only open fourth space' },
+    ],
+    relatedSlugs: [
+      'dice-roller',
+      'random-number-generator',
+      'probability-calculator',
+      'permutation-and-combination-calculator',
+    ],
   }),
   makeUtilityTool({
     slug: 'fuel-cost-calculator',

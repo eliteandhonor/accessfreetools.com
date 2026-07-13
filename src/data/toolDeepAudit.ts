@@ -2686,9 +2686,45 @@ const inchWireSize = {
   label: 'Inch Calculator: Wire size calculator reference',
 };
 
+const kenrickFourInARowEngine = {
+  href: 'https://github.com/kenrick95/c4',
+  label: 'kenrick95/c4: MIT-licensed four-in-a-row rules and computer engine',
+};
+
+const hasbroFourInRowInstructions = {
+  href: 'https://instructions.hasbro.com/en-us/instruction/Connect-4-Game',
+  label: 'Hasbro: official four-in-a-row game instructions',
+};
+
+const googlePeopleFirstContent = {
+  href: 'https://developers.google.com/search/docs/fundamentals/creating-helpful-content',
+  label: 'Google Search Central: Creating helpful, reliable, people-first content',
+};
+
 const commonMathScope = [...DEEP_AUDIT_REQUIRED_SCOPE];
 
 const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
+  {
+    slug: 'four-in-a-row-game',
+    status: 'deep-reviewed',
+    batch: 'four-in-a-row-pilot-2026-07-13',
+    reviewedOn: '2026-07-13',
+    scope: commonMathScope,
+    sources: [kenrickFourInARowEngine, hasbroFourInRowInstructions, googlePeopleFirstContent],
+    findings: [
+      'A single original Four in a Row pilot fits Everyday Tools without turning the site into a broad thin-content games directory.',
+      'The pinned MIT engine owns legal drops, win and draw detection, and computer move selection; the site adapter adds replayable history and winning-cell coordinates without replacing the core rules.',
+      'The responsive 7 by 6 DOM board supports friend and computer modes, keyboard column control, screen-reader labels, live turn announcements, pattern-and-color piece differences, undo, and tab-only session scores.',
+      'Public naming avoids using a third-party game trademark as the tool name, title, slug, metadata target, or visual trade dress.',
+    ],
+    improvements: [
+      'Added the Four in a Row tool, matching strategy guide, GameApplication schema override, eight guide FAQs, ten tool FAQs, related everyday and probability links, targeted anonymous play actions, and Node 24 tests for rules and AI legality.',
+      'Added distinct smoke-kawaii tool and guide art prompts, image metadata, sitemap dates, and an MIT dependency notice for the pinned engine.',
+    ],
+    followUps: [
+      'Review Search Console impressions, query wording, game starts, repeat rounds, and page engagement after eight weeks before considering another game or a Games category.',
+    ],
+  },
   {
     slug: 'apy-calculator',
     status: 'deep-reviewed',

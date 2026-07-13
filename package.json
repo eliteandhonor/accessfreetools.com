@@ -118,6 +118,7 @@
     "@astrojs/node": "^11.0.1",
     "@astrojs/react": "^6.0.0",
     "@huggingface/transformers": "^4.2.0",
+    "@kenrick95/c4": "5.1.1",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "astro": "^7.0.5",
     "franc-min": "^6.2.0",

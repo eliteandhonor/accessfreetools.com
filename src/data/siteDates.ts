@@ -111,6 +111,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'conversion-calculator': '2026-06-11',
   'loan-calculator': '2026-07-12',
   'love-calculator': '2026-07-13',
+  'four-in-a-row-game': '2026-07-13',
   'roofing-calculator': '2026-05-26',
   'gas-mileage-calculator': '2026-07-03',
   'engine-horsepower-calculator': '2026-07-12',
@@ -527,6 +528,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-fha-loan-calculator': '2026-05-26',
   'how-to-use-loan-calculator': '2026-07-12',
   'how-to-use-love-calculator': '2026-07-13',
+  'how-to-use-four-in-a-row-game': '2026-07-13',
   'how-to-use-mulch-calculator': '2026-06-02',
   'how-to-use-paver-calculator': '2026-06-02',
   'how-to-use-pool-volume-calculator': '2026-06-02',
@@ -538,18 +540,19 @@ const blogModifiedOverrides: Record<string, string> = {
 
 const blogPublishedOverrides: Record<string, string> = {
   'free-ai-skills-open-source-tools-organic-growth': '2026-07-03',
+  'how-to-use-four-in-a-row-game': '2026-07-13',
 };
 
 const staticPageLastmod: Record<string, string> = {
   '/': '2026-05-02',
-  '/tools/': '2026-07-04',
+  '/tools/': '2026-07-13',
   '/ask/': '2026-05-15',
   '/gallery/': '2026-07-09',
   '/hubs/': '2026-07-12',
   '/hubs/loan-payment-debt-payoff-calculators/': '2026-07-12',
   '/hubs/electrical-calculators/': '2026-07-12',
   '/categories/': '2026-05-02',
-  '/blog/': '2026-07-12',
+  '/blog/': '2026-07-13',
   '/free-calculator-resources/': '2026-07-12',
   '/developers/mcp/': '2026-05-15',
   '/about/': '2026-05-10',
@@ -569,6 +572,7 @@ const categoryLastmodOverrides: Record<string, string> = {
   'home-projects': '2026-07-09',
   'developer-tools': '2026-07-09',
   'ai-tools': '2026-07-09',
+  'everyday-tools': '2026-07-13',
 };
 
 export function getStaticPageLastmod(path: string) {

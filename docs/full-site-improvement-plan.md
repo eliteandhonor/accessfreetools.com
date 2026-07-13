@@ -1,14 +1,14 @@
 # Full-Site Improvement Plan
 
-This is the complete Access Free Tools improvement plan. It applies to every Access Free Tools page, not just the top 25 tools. It covers every tool, every guide, every category, every alias URL, every legal page, every future monetization surface, and every deployment. The current public library has 301 canonical tools and 4 alias URLs, for 305 public tool URLs.
+This is the complete Access Free Tools improvement plan. It applies to every Access Free Tools page, not just the top 25 tools. It covers every tool, every guide, every category, every alias URL, every legal page, every future monetization surface, and every deployment. The current public library has 302 canonical tools and 4 alias URLs, for 306 public tool URLs.
 
 Current library scope:
 
-- Canonical tools: 301.
+- Canonical tools: 302.
 - Alias tool URLs: 4.
-- Public tool URLs: 305.
-- Blog guides: 301.
-- Current manual deep-review records: 301.
+- Public tool URLs: 306.
+- Blog guides: 302.
+- Current manual deep-review records: 302.
 - Current baseline-review records: 0.
 - Current alias-review records: 4.
 
@@ -16,7 +16,7 @@ Current library scope:
 
 The plan is complete as an execution standard when it covers every quality area below, has a repeatable proof path, and keeps review status honest.
 
-The current 301-tool canonical library has completed manual deep-review coverage, and the 4 alias URLs have alias review coverage. Do not mark future tools as `deep-reviewed` in one bulk edit; every new or reopened tool must be checked, tested, improved where needed, and promoted only when the review really happened.
+The current 302-tool canonical library has completed manual deep-review coverage, and the 4 alias URLs have alias review coverage. Do not mark future tools as `deep-reviewed` in one bulk edit; every new or reopened tool must be checked, tested, improved where needed, and promoted only when the review really happened.
 
 No resend is needed for the plan itself. If work continues across more sessions, continue from this document, `docs/all-tools-review-register.md`, and `docs/manual-deep-review-plan.md`.
 
@@ -410,9 +410,9 @@ Every new tool must follow the Access Free Tools build order:
 
 The whole site improvement program is complete only when:
 
-1. All 301 canonical tools have manual deep-review records.
+1. All 302 canonical tools have manual deep-review records.
 2. All 4 alias URLs have alias review and correct canonical behavior.
-3. All 301 blog guides are readable, specific, and tied to the actual tool.
+3. All 302 blog guides are readable, specific, and tied to the actual tool.
 4. Finance, health, tax, pregnancy, BAC, construction, electrical, and safety-adjacent pages have strong disclaimers.
 5. Privacy, Terms, Contact, and Advertising Disclosure pages are production-ready.
 6. AdSense and affiliate placements are absent until approved and disclosed.

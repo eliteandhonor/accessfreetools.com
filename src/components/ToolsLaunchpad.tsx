@@ -44,6 +44,7 @@ const toolIcons = {
   image: Image,
   health: HeartPulse,
   wrench: Wrench,
+  game: Grid3X3,
 } as const;
 
 const categoryIcons = {

@@ -28,6 +28,7 @@ export interface UtilityGuideDefinition {
   sections: GuideSection[];
   sidecarText: string;
   faqItems?: GuideFaqItem[];
+  faqDisplayCount?: number;
   bestUsesIntro?: string;
 }
 
@@ -37,6 +38,7 @@ interface UtilityGuideDetail {
   purpose: string;
   intro?: string;
   inputMatch?: string;
+  logicAnswer?: string;
   logicNote?: string;
   readIntro?: string;
   mistakeIntro?: string;
@@ -49,6 +51,7 @@ interface UtilityGuideDetail {
   mistakes: string[];
   extraSections?: GuideSection[];
   faqItems?: GuideFaqItem[];
+  faqDisplayCount?: number;
   sources: Array<{
     href: string;
     label: string;
@@ -1008,6 +1011,14 @@ const sourceLinks = {
     href: 'https://github.github.io/gfm/',
     label: 'GitHub Flavored Markdown Spec: Tables',
   },
+  kenrickC4: {
+    href: 'https://github.com/kenrick95/c4',
+    label: 'kenrick95/c4: MIT-licensed four-in-a-row rules and computer engine',
+  },
+  hasbroFourInRowRules: {
+    href: 'https://instructions.hasbro.com/en-us/instruction/Connect-4-Game',
+    label: 'Hasbro: official four-in-a-row game instructions',
+  },
 };
 
 const guideDetails: Record<string, UtilityGuideDetail> = {
@@ -1465,6 +1476,120 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     referenceIntro:
       'These references explain browser random-number behavior, random-number language, and people-first limits behind the guide. They do not turn a casual dice roll into certified randomness.',
     sources: [sourceLinks.mdnCryptoGetRandomValues, sourceLinks.nistRandomNumber, sourceLinks.googleHelpfulContent],
+  },
+  'four-in-a-row-game': {
+    title: 'How to Play Four in a Row Online',
+    summary: 'Learn the rules, controls, blocking checks, center-column strategy, and diagonal patterns for Four in a Row.',
+    metaDescription:
+      'Learn how to play Four in a Row online, read the 7 by 6 board, block immediate wins, use center columns, undo moves, and practise against the computer.',
+    purpose:
+      'Four in a Row is a two-player strategy game on a 7-column by 6-row board. Each piece falls to the lowest empty space in the chosen column, and the first player to connect four pieces across, down, or diagonally wins.',
+    intro:
+      'You can share one device with a friend or play against the computer. Player 1 moves first. The controls, board state, winning line, and session score all stay in the browser tab.',
+    inputMatch: 'the friend or computer mode you want and the numbered column where each piece should fall',
+    logicAnswer:
+      'Each turn is one column choice. The engine places the piece in the lowest empty row, checks the board for a four-piece line, and reports a draw only when all 42 spaces are full with no winner.',
+    logicNote:
+      'The page uses the MIT-licensed @kenrick95/c4 engine to accept legal drops, detect wins or draws, and choose computer moves. Access Free Tools adds the responsive board, keyboard and screen-reader controls, undo history, and local score display.',
+    readIntro:
+      'Read the turn message above the board, then scan the highlighted pieces after a win. Teal pieces have one stripe direction and coral pieces have the opposite pattern, so the game does not rely on color alone.',
+    mistakeIntro:
+      'Most lost rounds start with one missed check: an immediate winning move, an immediate block, or a move that gives the other player two threats at once.',
+    sidecarText:
+      'Open the Four in a Row Game beside this guide. Try one computer round, undo a turn pair, then switch to friend mode and practise spotting horizontal, vertical, and diagonal threats.',
+    bestUsesIntro:
+      'Use this guide when you want a quick rules check, a clearer move routine, or simple strategy ideas before your next round.',
+    enter: [
+      'Choose Play computer for a solo round or Play a friend for two people sharing one device.',
+      'Use the numbered column buttons to drop a piece into the lowest open space.',
+      'Connect four pieces across, down, or diagonally before the other player.',
+      'Use Undo carefully: friend mode removes one move, while computer mode removes the latest human-computer turn pair.',
+    ],
+    read: [
+      'The status line names the current turn, computer thinking state, win, or draw.',
+      'A bright outline marks the four pieces that completed the winning line.',
+      'The score strip counts wins and draws for this browser session only.',
+      'A disabled column button means that column is full or the computer is taking its turn.',
+    ],
+    mistakes: [
+      'Do not place a piece before checking whether the other player can win on their next move.',
+      'Do not watch only horizontal lines. Vertical and diagonal threats can be less obvious.',
+      'Do not fill one edge without a plan. Center pieces can take part in more possible four-piece lines.',
+      'Do not treat the browser opponent as a perfect solver. It is meant for quick practice.',
+    ],
+    extraSections: [
+      {
+        title: 'Use the win, block, build check',
+        paragraphs: [
+          'Before every move, ask three questions in order. Can I win now? Can the other player win next? If neither answer is yes, which move builds the strongest useful threat?',
+          'This short check prevents many avoidable losses. It also keeps you from building a clever-looking line while leaving the opponent an open fourth space.',
+        ],
+        bullets: [
+          'Win: take an immediate four-piece line when one is available.',
+          'Block: cover the opponent\'s only open winning space.',
+          'Build: prefer moves that create more than one future route without opening a reply win.',
+        ],
+      },
+      {
+        title: 'Why the center columns matter',
+        paragraphs: [
+          'A center piece can join horizontal and diagonal lines in more directions than a piece on the far edge. That does not make every center move correct, but it gives early pieces more ways to stay useful.',
+          'Edge columns still matter for blocks and planned diagonals. Use the center as a strong default, then let the actual board decide.',
+        ],
+      },
+      {
+        title: 'How to spot diagonal threats',
+        paragraphs: [
+          'A diagonal space can only be played after the spaces below it are filled. Look at the support pieces under a possible diagonal, not just the four target spaces.',
+          'When you build that support, check who benefits. A piece dropped to prepare your diagonal can sometimes give the opponent the exact platform they need.',
+        ],
+      },
+      {
+        title: 'Friend mode, computer mode, and privacy',
+        paragraphs: [
+          'Friend mode alternates Player 1 and Player 2 on the same device. Computer mode lets you move first and asks the local browser engine to choose the reply.',
+          'The game does not need an account, leaderboard, opponent connection, or saved profile. Moves and session scores are not sent to a game server.',
+        ],
+      },
+    ],
+    faqItems: [
+      {
+        question: 'What is the goal in Four in a Row?',
+        answer: 'Be the first player to make one continuous line of four pieces. The line can be horizontal, vertical, or diagonal.',
+      },
+      {
+        question: 'How large is the board?',
+        answer: 'The board has 7 columns and 6 rows. Pieces enter from the top and occupy the lowest open space in the selected column.',
+      },
+      {
+        question: 'Who goes first?',
+        answer: 'Player 1 goes first in every new round. You are Player 1 in computer mode.',
+      },
+      {
+        question: 'What happens when the board fills?',
+        answer: 'If all 42 spaces fill without either player making a line of four, the round is a draw.',
+      },
+      {
+        question: 'What should I check before every move?',
+        answer: 'Check whether you can win now, whether the opponent can win next, and which remaining move builds a useful threat.',
+      },
+      {
+        question: 'Does Undo work differently against the computer?',
+        answer: 'Yes. In computer mode, Undo removes the latest human move and computer reply when both exist. In friend mode it removes one move.',
+      },
+      {
+        question: 'Is the computer unbeatable?',
+        answer: 'No. It looks ahead for useful moves, but it is a quick practice opponent rather than a perfect game solver.',
+      },
+      {
+        question: 'Are my moves or scores saved?',
+        answer: 'No. The game runs locally in the current browser tab and the session score resets when the page session ends or the mode changes.',
+      },
+    ],
+    faqDisplayCount: 8,
+    referenceIntro:
+      'The game engine source documents the MIT-licensed rules and computer logic. The official game instructions support the basic board and win rules. Google\'s people-first guidance supports keeping this page useful as a real game and guide rather than creating a broad thin-content games section.',
+    sources: [sourceLinks.kenrickC4, sourceLinks.hasbroFourInRowRules, sourceLinks.googleHelpfulContent],
   },
   'fuel-cost-calculator': {
     title: 'Fuel Cost Calculator Guide',
@@ -9066,7 +9191,7 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
       {
         title: guideLanguage.logicTitle,
         paragraphs: [
-          getFormulaAnswer(tool.slug),
+          detail.logicAnswer ?? getFormulaAnswer(tool.slug),
           detail.logicNote ??
             `The example cards on the ${guideLanguage.pageNoun} page show a ${guideLanguage.examplePhrase} and the kind of answer you should expect.`,
         ],
@@ -9103,6 +9228,7 @@ function makeGuide(toolSlug: string): UtilityGuideDefinition {
       detail.sidecarText ??
       `Open the ${tool.name} beside this guide. Try one example first, then replace the ${guideLanguage.sidecarInputPhrase} with your own.`,
     faqItems: detail.faqItems,
+    faqDisplayCount: detail.faqDisplayCount,
   };
 }
 
