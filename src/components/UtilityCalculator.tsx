@@ -59,6 +59,7 @@ import {
   calculateColorContrast,
   calculateCssClamp,
   calculateDateFromUnixTimestamp,
+  calculateBirthdayLoveCompatibility,
   calculateLoveCompatibility,
   calculateMassFromDensity,
   calculateMileageCost,
@@ -775,6 +776,12 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     depthInches: 'Compacted asphalt depth, not loose material depth.',
     tonsPerCubicYard: 'Use the supplier or plant density when you have it. The default is only a rough asphalt planning shortcut.',
     wastePercent: 'Extra asphalt for compaction differences, edges, and small measurement errors.',
+  },
+  love: {
+    nameA: 'Use a first name, nickname, initials, or a made-up name. A full legal name is not needed.',
+    nameB: 'Use the other name, nickname, initials, or a made-up name.',
+    birthDateA: 'Optional birthday-game input. It stays in this browser tab and is not treated as astrology or relationship science.',
+    birthDateB: 'Optional birthday-game input. Use made-up dates if you only want to test how the mode works.',
   },
   'watts-to-amps': {
     watts: 'Real power in watts. Use the device label or measured watts when you have it.',
@@ -4106,11 +4113,11 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Love Calculator',
     buttonLabel: 'Calculate match',
     emptyHistory: 'Recent playful matches will appear here.',
-    privacyNote: 'Names stay in your browser tab. Use nicknames or initials if you want; this is a game, not relationship advice.',
+    privacyNote: 'Names and optional birthdays stay in your browser tab. Use nicknames or made-up dates if you want; this is a game, not relationship advice.',
     modes: [
       {
-        id: 'love',
-        label: 'Name match',
+        id: 'name-match',
+        label: 'Names only',
         symbol: 'LOVE',
         fields: [textField('nameA', 'First name', 'Alex'), textField('nameB', 'Second name', 'Sam')],
         defaultInputs: { nameA: 'Alex', nameB: 'Sam' },
@@ -4118,6 +4125,22 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
           { label: 'Alex + Sam', inputs: { nameA: 'Alex', nameB: 'Sam' } },
           { label: 'Taylor + Jordan', inputs: { nameA: 'Taylor', nameB: 'Jordan' } },
           { label: 'Kai + Riley', inputs: { nameA: 'Kai', nameB: 'Riley' } },
+        ],
+      },
+      {
+        id: 'birthday-match',
+        label: 'Names + birthdays',
+        symbol: 'DATE',
+        fields: [
+          textField('nameA', 'First name', 'Alex'),
+          dateField('birthDateA', 'First birthday'),
+          textField('nameB', 'Second name', 'Sam'),
+          dateField('birthDateB', 'Second birthday'),
+        ],
+        defaultInputs: { nameA: 'Alex', birthDateA: '2000-05-12', nameB: 'Sam', birthDateB: '2001-09-03' },
+        examples: [
+          { label: 'Alex + Sam birthdays', inputs: { nameA: 'Alex', birthDateA: '2000-05-12', nameB: 'Sam', birthDateB: '2001-09-03' } },
+          { label: 'Taylor + Jordan birthdays', inputs: { nameA: 'Taylor', birthDateA: '1998-02-14', nameB: 'Jordan', birthDateB: '1999-07-21' } },
         ],
       },
     ],
@@ -7718,10 +7741,40 @@ function calculateUtility(
       };
     }
     case 'love': {
-      const result = calculateLoveCompatibility(inputs.nameA ?? '', inputs.nameB ?? '');
+      const nameA = inputs.nameA ?? '';
+      const nameB = inputs.nameB ?? '';
+
+      if (modeId === 'birthday-match') {
+        const result = calculateBirthdayLoveCompatibility(
+          nameA,
+          inputs.birthDateA ?? '',
+          nameB,
+          inputs.birthDateB ?? '',
+        );
+
+        return {
+          label: 'Playful birthday match',
+          expression: `${nameA} + ${nameB}`,
+          answer: `${formatCalculatorNumber(result.score)}%`,
+          metrics: [
+            { label: 'Game label', value: result.label },
+            { label: 'First date key', value: result.birthDateA.slice(5) },
+            { label: 'Second date key', value: result.birthDateB.slice(5) },
+          ],
+          steps: [
+            'Validate the two names and birthday dates.',
+            'Use those exact local inputs in a deterministic game hash.',
+            'Show the repeatable result without astrology, age scoring, or relationship claims.',
+          ],
+          note: 'This birthday mode is entertainment only. Dates do not predict attraction, trust, consent, communication, or a future together.',
+          keepOutOfHistory: true,
+        };
+      }
+
+      const result = calculateLoveCompatibility(nameA, nameB);
       return {
         label: 'Playful match score',
-        expression: `${inputs.nameA ?? ''} + ${inputs.nameB ?? ''}`,
+        expression: `${nameA} + ${nameB}`,
         answer: `${formatCalculatorNumber(result.score)}%`,
         metrics: [
           { label: 'Game label', value: result.label },
@@ -8603,7 +8656,11 @@ export default function UtilityCalculator({ variant }: Props) {
   }
 
   return (
-    <section className="advanced-calculator advanced-calculator-utility" aria-label={`${config.title} workspace`}>
+    <section
+      className="advanced-calculator advanced-calculator-utility"
+      aria-label={`${config.title} workspace`}
+      data-clarity-mask={variant === 'love' ? 'true' : undefined}
+    >
       <div className="advanced-panel">
         {config.modes.length > 1 && (
           <div className="advanced-mode-grid" aria-label="Calculator modes">
@@ -8621,7 +8678,11 @@ export default function UtilityCalculator({ variant }: Props) {
           </div>
         )}
 
-        <div className="advanced-fields utility-fields">
+        <div
+          className={`advanced-fields utility-fields${
+            variant === 'love' && activeMode.id === 'birthday-match' ? ' utility-fields-two-column' : ''
+          }`}
+        >
           {activeMode.fields.map((field) => {
             const fieldHelp = getFieldHelp(variant, field);
             const fieldId = `utility-${variant}-${activeMode.id}-${field.key}`;

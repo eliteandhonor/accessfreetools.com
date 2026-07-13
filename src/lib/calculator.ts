@@ -2902,6 +2902,11 @@ export interface LoveCompatibilityResult {
   normalizedB: string;
 }
 
+export interface BirthdayLoveCompatibilityResult extends LoveCompatibilityResult {
+  birthDateA: string;
+  birthDateB: string;
+}
+
 export interface BodyFatInput {
   sex: HealthSex;
   heightCm: number;
@@ -3110,6 +3115,36 @@ export function calculateLoveCompatibility(nameA: string, nameB: string): LoveCo
   const label = score >= 85 ? 'Sparkly match' : score >= 70 ? 'Sweet match' : score >= 55 ? 'Curious match' : 'Playful mystery';
 
   return { score, label, normalizedA, normalizedB };
+}
+
+export function calculateBirthdayLoveCompatibility(
+  nameA: string,
+  birthDateA: string,
+  nameB: string,
+  birthDateB: string,
+): BirthdayLoveCompatibilityResult {
+  const normalizedA = normalizeCompatibilityName(nameA, 'First name');
+  const normalizedB = normalizeCompatibilityName(nameB, 'Second name');
+  const parsedA = parseIsoDateParts(birthDateA, 'First birthday');
+  const parsedB = parseIsoDateParts(birthDateB, 'Second birthday');
+  const today = new Date();
+
+  if (parsedA.date.getTime() > today.getTime()) {
+    throw new Error('First birthday cannot be in the future');
+  }
+
+  if (parsedB.date.getTime() > today.getTime()) {
+    throw new Error('Second birthday cannot be in the future');
+  }
+
+  const pairA = `${normalizedA}|${birthDateA}`;
+  const pairB = `${normalizedB}|${birthDateB}`;
+  const [left, right] = [pairA, pairB].sort();
+  const hash = hashCompatibilitySeed(`${left}|${right}|access-free-tools-birthday`);
+  const score = pairA === pairB ? 96 : 40 + (hash % 61);
+  const label = score >= 85 ? 'Sparkly match' : score >= 70 ? 'Sweet match' : score >= 55 ? 'Curious match' : 'Playful mystery';
+
+  return { score, label, normalizedA, normalizedB, birthDateA, birthDateB };
 }
 
 export function calculateMifflinStJeor(input: BmrInput) {

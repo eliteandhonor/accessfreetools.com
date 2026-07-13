@@ -133,6 +133,7 @@ import {
   calculateGolfCourseHandicap,
   calculateGolfScoreDifferential,
   calculateLawnMowingTime,
+  calculateBirthdayLoveCompatibility,
   calculateLoveCompatibility,
   calculateGrassSeedEstimate,
   calculateGravelEstimate,
@@ -2750,6 +2751,8 @@ describe('utility helpers', () => {
     const loveReversed = calculateLoveCompatibility('Sam', 'Alex');
     const loveTaylorJordan = calculateLoveCompatibility('Taylor', 'Jordan');
     const loveCaseCheck = calculateLoveCompatibility('alex', 'SAM');
+    const birthdayLove = calculateBirthdayLoveCompatibility('Alex', '2000-05-12', 'Sam', '2001-09-03');
+    const birthdayLoveReversed = calculateBirthdayLoveCompatibility('Sam', '2001-09-03', 'Alex', '2000-05-12');
 
     expect(gdp.gdp).toBe(28600);
     expect(formatCalculatorNumber(gdp.gdpPerPerson ?? 0)).toBe('0.0000841176');
@@ -2782,6 +2785,12 @@ describe('utility helpers', () => {
     expect(loveCaseCheck.score).toBe(86);
     expect(loveCaseCheck.normalizedA).toBe('alex');
     expect(loveCaseCheck.normalizedB).toBe('sam');
+    expect(birthdayLove.score).toBe(79);
+    expect(birthdayLove.label).toBe('Sweet match');
+    expect(birthdayLove.score).toBe(birthdayLoveReversed.score);
+    expect(birthdayLove.birthDateA).toBe('2000-05-12');
+    expect(() => calculateBirthdayLoveCompatibility('Alex', 'not-a-date', 'Sam', '2001-09-03')).toThrow(/YYYY-MM-DD/);
+    expect(() => calculateBirthdayLoveCompatibility('Alex', '2999-05-12', 'Sam', '2001-09-03')).toThrow(/cannot be in the future/);
   });
 
   it('calculates text, developer, timestamp, color, and aspect-ratio utility helpers', async () => {

@@ -1811,6 +1811,29 @@ describe('site content audit guardrails', () => {
     expect(tool?.seoDescription.length ?? 0).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
   });
 
+  it('keeps the Love Calculator aligned to honest name and birthday game intent', () => {
+    const tool = tools.find((candidate) => candidate.slug === 'love-calculator');
+    const guide = utilityBlogGuides.find((candidate) => candidate.toolSlug === 'love-calculator');
+    const audit = toolDeepAuditRecords.find((record) => record.slug === 'love-calculator');
+    const guideSource = JSON.stringify(guide);
+
+    expect(tool?.seoTitle).toContain('by Name & Birthday');
+    expect(tool?.seoDescription).toContain('no signup, saved birthday history, or fake science');
+    expect(tool?.faq.some((item) => item.question === 'Can I use dates of birth in the Love Calculator?' && item.answer.includes('local repeatable game key'))).toBe(true);
+    expect(tool?.faq.some((item) => item.question === 'Is the birthday love score astrology?' && item.answer.includes('does not calculate zodiac signs'))).toBe(true);
+    expect(guide?.title).toBe('Love Calculator by Name or Birthday');
+    expect(guideSource).toContain('Alex with 2000-05-12 and Sam with 2001-09-03 return 79%');
+    expect(audit?.reviewedOn).toBe('2026-07-13');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("id: 'name-match'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("id: 'birthday-match'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("dateField('birthDateA', 'First birthday')");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain('calculateBirthdayLoveCompatibility');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain('keepOutOfHistory: true');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("data-clarity-mask={variant === 'love' ? 'true' : undefined}");
+    expect((tool?.seoTitle.length ?? 0) + SITE_SUFFIX.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription.length ?? 0).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+  });
+
   it('keeps Privacy, Terms, Contact, and Disclosure ready for ads and affiliate links', () => {
     expect(PRIVACY_POLICY_SOURCE).toContain('Third-party vendors, including Google');
     expect(PRIVACY_POLICY_SOURCE).toContain("Google's use of advertising cookies");

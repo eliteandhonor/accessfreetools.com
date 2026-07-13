@@ -6831,45 +6831,55 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [sourceLinks.usgaScoreDifferential, sourceLinks.usgaCourseHandicap, sourceLinks.usgaHandicapDefinitions],
   },
   'love-calculator': {
-    summary: 'Learn how the Love Calculator works as a silly private name-match game.',
+    title: 'Love Calculator by Name or Birthday',
+    summary: 'Try the private name mode or names-and-birthdays mode, then read the repeatable percentage as a game.',
     metaDescription:
-      'Use the Love Calculator as a silly name-match game. See exact Alex and Sam examples, privacy tips, and why the score is not real relationship science.',
+      'Use the Love Calculator by name or birthday. See repeatable examples, private browser inputs, and why every percentage is entertainment only.',
     purpose:
-      'The Love Calculator is for laughs. It turns two names into a repeatable playful score, but it does not claim to measure attraction, trust, effort, communication, consent, timing, or real relationship health.',
+      'The Love Calculator is for laughs. It turns two names, or two names and birthdays, into a repeatable playful score without claiming to measure attraction, trust, effort, communication, consent, timing, or relationship health.',
     intro:
-      'Try it when you want a quick joke result, then keep the real-life part simple: the number is just a game.',
-    inputMatch: 'the two names, nicknames, initials, or made-up names you want to try',
+      'Choose the lighter Names only mode or add two dates in Names + birthdays. Both routes make a browser-game result, not a prediction.',
+    inputMatch:
+      'two names, nicknames, initials, or made-up names, with two valid past birthday dates only when you choose the birthday mode',
     logicNote:
-      'The same spellings give the same score because the browser uses the same cleanup and hash rule each time. Change a spelling or nickname and the game can change too.',
+      'Names only hashes the cleaned spellings. Names + birthdays uses a separate hash with the cleaned names and exact dates. The same local inputs return the same game score.',
     readIntro:
-      'Read the percentage like a game caption. The smaller lines show the playful label and the cleaned name keys used for the score.',
+      'Read the percentage like a game caption. The smaller lines show the playful label plus the cleaned name keys or month-and-day date keys used for that result.',
     mistakeIntro:
-      'The easiest mistake is taking the number seriously. It is fine for a laugh, but it is not a test of attraction, honesty, boundaries, or the future.',
+      'The easiest mistake is treating a name or birthday score as evidence. It is fine for a laugh, but it is not a test of attraction, honesty, boundaries, astrology, or the future.',
     sidecarText:
-      'Open the Love Calculator beside this guide. Try Alex and Sam first, then use nicknames or initials if you do not want to type real names.',
+      'Open the Love Calculator beside this guide. Try Alex and Sam in Names only, then use the made-up birthday example if you want to compare the second mode.',
     referenceIntro:
       'These references are for the serious parts: healthy relationship basics, random-number language, and web/app privacy. They do not prove the score measures love.',
     enter: [
-      'Enter the first name, nickname, initials, or a made-up name.',
-      'Enter the second name the same way.',
-      'Press Calculate match to get a repeatable name-game score from the exact spellings you typed.',
+      'Choose Names only for two short text fields, or Names + birthdays for two names and two valid past dates.',
+      'Use nicknames, initials, or made-up names and dates when you only want to test the game.',
+      'Press Calculate match to get a repeatable score from the exact local inputs you entered.',
     ],
     read: [
       'The percentage is entertainment only. Alex and Sam, for example, return 86% and the label "Sparkly match."',
-      'The game label is a light caption, not advice. Cute can be funny, but it is not proof.',
-      'The cleaned name keys show what the browser used to make the repeatable score, so changing the spelling can change the number.',
+      'In Names + birthdays, Alex with 2000-05-12 and Sam with 2001-09-03 return 79% and the label "Sweet match."',
+      'The game label is a light caption, not advice. Changing a spelling or birthday can change the game key and result.',
     ],
     mistakes: [
       'Do not treat the result as real compatibility science.',
+      'Do not read the birthday mode as astrology, numerology, an age-gap check, or a prediction.',
       'Do not use the score to pressure, shame, judge, or make decisions about another person.',
-      'Do not enter sensitive private information; names, nicknames, initials, or fictional names are enough for the game.',
+      'Do not enter extra private information; nicknames, initials, fictional names, or made-up dates are enough to test the game.',
       'Do not share another person\'s name or result in a way that would embarrass them.',
     ],
     extraSections: [
       {
-        title: 'Quick example',
+        title: 'Names only example',
         paragraphs: [
           'Type Alex in the first box and Sam in the second box, then press Calculate match. The tool returns 86% with a Sparkly match label. Type alex and SAM, and the cleaned names still become alex and sam, so the score stays the same.',
+        ],
+      },
+      {
+        title: 'Names and birthdays example',
+        paragraphs: [
+          'Choose Names + birthdays. Enter Alex with 2000-05-12 and Sam with 2001-09-03, then calculate. The separate birthday-game rule returns 79% with a Sweet match label.',
+          'The browser validates the dates and uses the exact names and dates in a repeatable local hash. It does not compare zodiac signs, calculate a birth chart, or decide whether an age difference is suitable.',
         ],
       },
       {
@@ -6882,7 +6892,9 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       {
         title: 'Privacy tip',
         paragraphs: [
-          'The tool only needs two short name fields. Use nicknames, initials, or fictional names if you do not want to type real names. Never put ages, locations, photos, social handles, or private details into a novelty game.',
+          'Names only needs two short text fields, and those matches can appear in recent answers in the current tab. Birthday mode adds two dates, but its result is not added to that history. Neither mode sends the inputs to our server, and the calculator workspace is masked from session-replay capture.',
+          'Use nicknames, initials, fictional names, or made-up dates when you do not want to type real details.',
+          'Never put locations, photos, social handles, contact details, or other private information into a novelty game.',
         ],
       },
     ],

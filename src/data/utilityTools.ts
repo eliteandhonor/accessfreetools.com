@@ -7988,22 +7988,22 @@ export const utilityTools: ToolDefinition[] = [
     slug: 'love-calculator',
     name: 'Love Calculator',
     category: 'everyday-tools',
-    summary: 'Type two names and get a silly match score for fun.',
+    summary: 'Try a playful love percentage with two names or with names and birthdays.',
     description:
-      'Use this free love calculator as a silly name-match game. It gives a repeatable score for laughs, not life decisions.',
-    seoTitle: 'Love Calculator | Silly Name Match Game',
+      'Use this free love calculator by name or birthday as a private browser game. It gives a repeatable score for laughs, not life decisions.',
+    seoTitle: 'Love Calculator by Name & Birthday | Free Game',
     seoDescription:
-      'Type two names or nicknames and get a repeatable love score for fun. No signup, clear privacy note, and no fake relationship science.',
+      'Try a free love calculator by name or birthday. Get a repeatable percentage in your browser with no signup, saved birthday history, or fake science.',
     icon: 'calculator-love',
     aliases: ['Love Test', 'Love Compatibility Calculator', 'Crush Calculator', 'Name Match Calculator'],
     formula:
-      'The calculator trims the two names, lowercases the letters, creates a deterministic local hash, and turns that into a playful percentage score from 40 to 100.',
+      'Names only trims and lowercases two names before a deterministic local hash creates a 40 to 100 game score. Names + birthdays adds the two valid dates to a separate local hash.',
     limit:
-      'This is only a game. It cannot measure attraction, trust, effort, communication, values, consent, timing, or real relationship health.',
+      'Both modes are games. Names, birthdays, or age differences cannot measure attraction, trust, effort, communication, values, consent, timing, or relationship health.',
     faqLanguage: {
-      expectedInputs: 'two names, nicknames, or initials only',
+      expectedInputs: 'two names for Names only, or two names and valid past birthday dates for Names + birthdays',
       inputFallback:
-        'Enter two names, nicknames, or initials. The spelling matters because the browser turns those exact letters into the repeatable game score.',
+        'Use two names, nicknames, or initials. Birthday mode also accepts two past dates. Exact spelling and dates matter because the browser uses those local inputs for the repeatable game score.',
       examplePhrase: 'name-match example',
       doubleCheck:
         'Use the score for fun only, and never use it to pressure, shame, judge, or make decisions about another person.',
@@ -8022,6 +8022,10 @@ export const utilityTools: ToolDefinition[] = [
       {
         term: 'Playful score',
         meaning: 'A repeatable name-game percentage. It is not a real compatibility test.',
+      },
+      {
+        term: 'Optional birthdays',
+        meaning: 'Two valid past dates used only by the Names + birthdays game mode. The dates are not astrology or age-gap advice.',
       },
     ],
     extraFaq: [
@@ -8045,19 +8049,42 @@ export const utilityTools: ToolDefinition[] = [
         answer:
           'Yes. Nicknames, initials, and fictional names are better if you do not want to type real names. Just remember that changing the spelling can change the score.',
       },
+      {
+        question: 'Can I use dates of birth in the Love Calculator?',
+        answer:
+          'Yes. Choose Names + birthdays, enter two names and two valid past dates, then calculate the playful score. The dates become part of a local repeatable game key, not a real compatibility reading.',
+      },
+      {
+        question: 'Is the birthday love score astrology?',
+        answer:
+          'No. The tool does not calculate zodiac signs, birth charts, numerology, or relationship predictions. It only hashes the exact names and dates into a repeatable entertainment score.',
+      },
+      {
+        question: 'Are names or birthdays saved?',
+        answer:
+          'Names-only matches can appear in recent answers in the current tab. Birthday matches are not added to that history. Neither mode sends the inputs to our server, and the calculator workspace is masked from session-replay capture.',
+      },
+      {
+        question: 'Does an age difference change compatibility?',
+        answer:
+          'This game does not judge age gaps or relationship suitability. It uses the exact date text only as part of a repeatable game key. Real relationships need consent, respect, safety, and honest communication.',
+      },
     ],
     useCases: [
       'Play a harmless name-match game with friends or a group chat.',
+      'Try a separate names-and-birthdays game without astrology claims.',
       'Check the same pair again and get the same score from the same spelling.',
       'Use a novelty calculator without pretending it is real compatibility science.',
-      'Use nicknames or initials instead of typing private details.',
+      'Use nicknames, initials, or made-up dates instead of private details.',
     ],
     examples: [
       { label: 'Alex + Sam', expression: 'Alex and Sam', result: '86% Sparkly match' },
       { label: 'Taylor + Jordan', expression: 'Taylor and Jordan', result: '79% Sweet match' },
+      { label: 'Alex + Sam birthdays', expression: 'Alex 2000-05-12 and Sam 2001-09-03', result: '79% Sweet match' },
+      { label: 'Taylor + Jordan birthdays', expression: 'Taylor 1998-02-14 and Jordan 1999-07-21', result: '74% Sweet match' },
       { label: 'Case check', expression: 'alex and SAM', result: 'Same 86% score after cleanup' },
     ],
-    relatedSlugs: ['random-number-generator', 'dice-roller', 'percentage-calculator'],
+    relatedSlugs: ['random-number-generator', 'date-calculator', 'age-calculator', 'dice-roller'],
   }),
   makeUtilityTool({
     slug: 'word-counter',

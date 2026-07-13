@@ -7664,20 +7664,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'love-calculator',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-05-26',
-    reviewedOn: '2026-05-26',
+    batch: 'gsc-dataforseo-love-birthday-recovery-2026-07-13',
+    reviewedOn: '2026-07-13',
     scope: commonMathScope,
     sources: [hhsHealthyRelationships, youthGovHealthyRelationships, nistRandomNumber, ftcWebAppsCollectInfo, googleHelpfulContent, mdnTextEncoder],
     findings: [
-      'The love calculator is clearly framed as a deterministic local name-match game, not relationship advice or compatibility science.',
-      'Tests cover score symmetry so Alex/Sam and Sam/Alex return the same score.',
-      'The guide warns users not to use the score to pressure, shame, judge, share embarrassing results, or make relationship decisions.',
+      'Fresh Search Console evidence reports 36 impressions, 0 clicks, and average position 15.1 through July 11; Google reports the current tool submitted and indexed after a successful June 21 crawl.',
+      'Targeted DataForSEO evidence reports 74,000 U.S. monthly searches for love calculator and 480 for love calculator by date of birth with keyword difficulty 5.',
+      'Current search results commonly lead with a two-name percentage, while date-of-birth variants form a separate visible intent. The earlier Access Free Tools page supported names only.',
+      'The tool keeps both routes deterministic and local while rejecting astrology, soulmate, destiny, age-gap, proven-accuracy, and relationship-advice claims.',
     ],
     improvements: [
-      'Refreshed novelty-game title, description, exact Alex/Sam examples, generated FAQ detail, guide cautions, source links, image alt/caption wording, SEO copy, and privacy behavior.',
+      'Added separate Names only and Names + birthdays modes, strict date validation, no birthday-result history, explicit Clarity workspace masking, query-led metadata, revised examples, guide sections, FAQs, tests, related links, and refreshed dates.',
     ],
     followUps: [
-      'Keep entertainment-only wording visible if this page gets social traffic, and avoid soulmate, destiny, proven-algorithm, or relationship-advice claims.',
+      'Wait for a fresh Google crawl before judging impressions, rankings, CTR, or traffic movement, and keep entertainment-only wording visible if the page gets social traffic.',
     ],
   },
   {
