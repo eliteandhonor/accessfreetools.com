@@ -18,12 +18,20 @@ This is the source of truth for first-person Brendan Chambers editorial articles
 
 | Order | Slug | Working title | Target release | Status |
 | - | - | - | - | - |
-| 1 | `open-source-projects-behind-access-free-tools` | 8 Open-Source Projects I Use to Build Access Free Tools | 2026-07-13 | release-ready |
-| 2 | `how-to-check-github-project-before-installing` | How I Check a GitHub Project Before Installing It | 2026-07-13 | release-ready |
+| 1 | `open-source-projects-behind-access-free-tools` | 8 Open-Source Projects I Use to Build Access Free Tools | 2026-07-13 | published |
+| 2 | `how-to-check-github-project-before-installing` | How I Check a GitHub Project Before Installing It | 2026-07-13 | published |
 | 3 | `browser-ai-vs-local-ai-privacy` | Browser AI vs Local AI: What Actually Stays on Your Device? | 2026-07-20 | planned |
 | 4 | `tesseract-js-browser-ocr-image-quality` | How I Improve Tesseract.js OCR Results in a Browser | 2026-07-27 | planned |
 | 5 | `test-free-tools-playwright-vitest` | How I Test Hundreds of Free Tools with Playwright and Vitest | 2026-08-03 | planned |
 | 6 | `remove-ai-writing-tells-before-publishing` | How I Remove AI Writing Tells Before Publishing | 2026-08-10 | planned |
+
+## Launch Evidence
+
+- Production deployment `019f5b49-f2fd-7166-920b-39057f726702` completed on Node 24 on 2026-07-13.
+- Both launch articles passed the editorial SEO workbench with a 100 internal-link score and zero remaining gaps.
+- Live mobile checks confirmed the canonical URL, BlogPosting schema, descriptive 1200 x 630 hero image, source links, and no horizontal overflow.
+- Search Console discovery was submitted. Immediate URL inspection correctly reported both new URLs as unknown to Google; this is the pre-crawl baseline, not an indexing failure.
+- IndexNow accepted the two new articles, the substantively updated AI-skills article, and `/blog/` with HTTP 200.
 
 ## Remaining Briefs
 
