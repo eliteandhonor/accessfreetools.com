@@ -8398,6 +8398,19 @@ export interface BulkMaterialEstimateResult {
   tons: number;
 }
 
+export interface SandAreaEstimateResult {
+  areaSquareFeet: number;
+  depthInches: number;
+  tonsPerCubicYard: number;
+  wastePercent: number;
+  bagSizeCubicFeet: number;
+  cubicFeetBeforeWaste: number;
+  cubicFeet: number;
+  cubicYards: number;
+  tons: number;
+  bagsNeeded: number;
+}
+
 export interface SoilEstimateResult {
   areaSquareFeet: number;
   quantity: number;
@@ -11885,6 +11898,33 @@ export function calculateSandEstimate(input: {
   wastePercent: number;
 }): BulkMaterialEstimateResult {
   return calculateBulkMaterialEstimate(input);
+}
+
+export function calculateSandAreaEstimate(input: {
+  areaSquareFeet: number;
+  depthInches: number;
+  tonsPerCubicYard: number;
+  wastePercent: number;
+  bagSizeCubicFeet: number;
+}): SandAreaEstimateResult {
+  assertPositiveNumber(input.areaSquareFeet, 'Area');
+  assertPositiveNumber(input.depthInches, 'Depth');
+  assertPositiveNumber(input.tonsPerCubicYard, 'Tons per cubic yard');
+  assertPercentRange(input.wastePercent, 'Waste percent', 100);
+  assertPositiveNumber(input.bagSizeCubicFeet, 'Bag volume');
+
+  const cubicFeetBeforeWaste = input.areaSquareFeet * (input.depthInches / 12);
+  const cubicFeet = cubicFeetBeforeWaste * (1 + input.wastePercent / 100);
+  const cubicYards = cubicFeet / 27;
+
+  return {
+    ...input,
+    cubicFeetBeforeWaste,
+    cubicFeet,
+    cubicYards,
+    tons: cubicYards * input.tonsPerCubicYard,
+    bagsNeeded: Math.ceil(cubicFeet / input.bagSizeCubicFeet),
+  };
 }
 
 export function calculateSoilEstimate(

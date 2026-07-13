@@ -1787,6 +1787,30 @@ describe('site content audit guardrails', () => {
     expect(QA_AUTOMATION_PLAN_SOURCE).toContain('Dependency vulnerability audit');
   });
 
+  it('keeps the Sand Calculator aligned to yard, ton, round-area, square-foot, and bag intent', () => {
+    const tool = tools.find((candidate) => candidate.slug === 'sand-calculator');
+    const guide = utilityBlogGuides.find((candidate) => candidate.toolSlug === 'sand-calculator');
+    const audit = toolDeepAuditRecords.find((record) => record.slug === 'sand-calculator');
+    const guideSource = JSON.stringify(guide);
+
+    expect(tool?.seoTitle).toContain('Cubic Yards, Tons & Bags');
+    expect(tool?.seoDescription).toContain('rectangular, round, or known square-foot areas');
+    expect(tool?.summary).toContain('tons, and bags');
+    expect(tool?.faq.some((item) => item.question === 'Does this calculate sand bags?' && item.answer.includes('rounds up to a whole bag'))).toBe(true);
+    expect(tool?.faq.some((item) => item.question === 'Can this handle a round area?' && item.answer.includes('Round area'))).toBe(true);
+    expect(guide?.title).toBe('How Much Sand Do I Need? Yards, Tons & Bags');
+    expect(guide?.intro).toContain('rectangular, round, or known-area sand layers');
+    expect(guideSource).toContain('At 0.5 cubic foot per bag, 9.17 cubic feet rounds up to 19 bags.');
+    expect(audit?.reviewedOn).toBe('2026-07-13');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("id: 'rectangle'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("id: 'round-area'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("id: 'known-area'");
+    expect(UTILITY_CALCULATOR_SOURCE).toContain('Math.PI * (diameterFeet / 2) ** 2');
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("numberField('bagSizeCubicFeet', 'Bag volume ft3', '0.5')");
+    expect((tool?.seoTitle.length ?? 0) + SITE_SUFFIX.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
+    expect(tool?.seoDescription.length ?? 0).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+  });
+
   it('keeps Privacy, Terms, Contact, and Disclosure ready for ads and affiliate links', () => {
     expect(PRIVACY_POLICY_SOURCE).toContain('Third-party vendors, including Google');
     expect(PRIVACY_POLICY_SOURCE).toContain("Google's use of advertising cookies");

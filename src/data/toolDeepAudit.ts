@@ -5980,20 +5980,21 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'sand-calculator',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-06-02',
-    reviewedOn: '2026-06-02',
+    batch: 'gsc-dataforseo-sand-purchase-recovery-2026-07-13',
+    reviewedOn: '2026-07-13',
     scope: commonMathScope,
     sources: [inchSandCalculator, calcShedSandCalculator, calculatorSoupCubicYards, nistSi, nistConversionFactors, googleHelpfulContent],
     findings: [
-      'DataForSEO showed sand calculator intent around cubic yards, tons, bags, pool sand, aquarium sand, circle areas, and square-foot depth estimates.',
-      'Current sand references agree the core math is rectangular volume, cubic feet to cubic yards, then density-based tonnage; dry sand and wet sand can have different tons-per-yard ranges.',
-      'The page now keeps bag count, pool water volume, aquarium product labels, round-area math, paver base gravel, bedding sand, and joint sand as separate checks instead of overclaiming one result.',
+      'Fresh Search Console evidence reports 181 impressions, 0 clicks, and average position 53.5 through July 11; Google last crawled the current June 2 page on July 9.',
+      'Targeted DataForSEO evidence reports 12,100 U.S. monthly searches for sand calculator, 720 for how much sand do I need, 480 for sand calculator yards, 210 for sand calculator tons, and 110 for sand calculator bags.',
+      'The live first page commonly returns cubic feet, cubic yards, tons, and bags, while related searches expose circle, square-foot, and bag-count intent.',
+      'The earlier tool only accepted a rectangle and explicitly told readers to calculate round areas and bag quantities elsewhere.',
     ],
     improvements: [
-      'Rewrote metadata, aliases, formula, limits, examples, FAQs, guide sections, source notes, audit record, sitemap dates, related links, and image alt/caption text around sand cubic yards, tons, depth, bag handoff, supplier density, paver bedding, sandbox fill, pool/aquarium limits, and round-area caveats.',
+      'Added Rectangle, Round area, and Known area modes, bag-volume input, whole-bag output, guarded area math, query-led metadata, revised examples, guide sections, FAQs, tests, and refreshed dates.',
     ],
     followUps: [
-      'Add a circle-area helper or bag-count output only if the UI can keep those assumptions visible and avoid confusing bulk tons with retail bags.',
+      'Wait for a fresh Google crawl before judging impressions, rankings, CTR, or indexing movement from this release.',
     ],
   },
   {

@@ -91,7 +91,7 @@ import {
   calculateResistorColorCode,
   calculateRetainingWallEstimate,
   calculateRoofingEstimate,
-  calculateSandEstimate,
+  calculateSandAreaEstimate,
   calculateSidingEstimate,
   calculateSleepSchedule,
   calculateSoilEstimate,
@@ -749,9 +749,12 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
     averageDepthFeet: 'Average water depth. Use the average of shallow and deep ends when needed.',
   },
   sand: {
-    lengthFeet: 'Project length in feet.',
-    widthFeet: 'Project width in feet.',
+    lengthFeet: 'Inside project length in feet for a rectangular sand layer.',
+    widthFeet: 'Inside project width in feet for a rectangular sand layer.',
+    diameterFeet: 'Inside diameter in feet for a round sand layer.',
+    areaSquareFeet: 'Measured sand-bed area in square feet when you already know the area.',
     depthInches: 'Average sand depth in inches.',
+    bagSizeCubicFeet: 'Volume printed on one bag in cubic feet. Use the product label instead of assuming every bag is the same size.',
     wastePercent: 'Extra sand for leveling, spreading loss, compaction, and uneven areas.',
   },
   soil: {
@@ -3665,23 +3668,56 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     title: 'Sand Calculator',
     buttonLabel: 'Estimate sand',
     emptyHistory: 'Recent sand estimates will appear here.',
-    privacyNote: 'Sand estimates stay local. Moisture, compaction, and supplier density can change tonnage.',
+    privacyNote: 'Sand estimates stay local. Moisture, compaction, supplier density, and bag labels can change what you buy.',
     modes: [
       {
-        id: 'sand-volume',
-        label: 'Area and depth',
-        symbol: 'SAND',
+        id: 'rectangle',
+        label: 'Rectangle',
+        symbol: 'LxW',
         fields: [
           numberField('lengthFeet', 'Length feet', '20'),
           numberField('widthFeet', 'Width feet', '10'),
           numberField('depthInches', 'Depth inches', '2'),
           numberField('tonsPerCubicYard', 'Tons per cubic yard', '1.35'),
+          numberField('bagSizeCubicFeet', 'Bag volume ft3', '0.5'),
           numberField('wastePercent', 'Waste percent', '5'),
         ],
-        defaultInputs: { lengthFeet: '20', widthFeet: '10', depthInches: '2', tonsPerCubicYard: '1.35', wastePercent: '5' },
+        defaultInputs: { lengthFeet: '20', widthFeet: '10', depthInches: '2', tonsPerCubicYard: '1.35', bagSizeCubicFeet: '0.5', wastePercent: '5' },
         examples: [
-          { label: 'Leveling sand', inputs: { lengthFeet: '20', widthFeet: '10', depthInches: '2', tonsPerCubicYard: '1.35', wastePercent: '5' } },
-          { label: 'Sandbox', inputs: { lengthFeet: '8', widthFeet: '6', depthInches: '8', tonsPerCubicYard: '1.25', wastePercent: '0' } },
+          { label: 'Paver bedding', inputs: { lengthFeet: '10', widthFeet: '10', depthInches: '1', tonsPerCubicYard: '1.35', bagSizeCubicFeet: '0.5', wastePercent: '10' } },
+          { label: 'Sandbox', inputs: { lengthFeet: '8', widthFeet: '6', depthInches: '8', tonsPerCubicYard: '1.25', bagSizeCubicFeet: '0.5', wastePercent: '0' } },
+        ],
+      },
+      {
+        id: 'round-area',
+        label: 'Round area',
+        symbol: 'PI',
+        fields: [
+          numberField('diameterFeet', 'Diameter feet', '12'),
+          numberField('depthInches', 'Depth inches', '2'),
+          numberField('tonsPerCubicYard', 'Tons per cubic yard', '1.35'),
+          numberField('bagSizeCubicFeet', 'Bag volume ft3', '0.5'),
+          numberField('wastePercent', 'Waste percent', '5'),
+        ],
+        defaultInputs: { diameterFeet: '12', depthInches: '2', tonsPerCubicYard: '1.35', bagSizeCubicFeet: '0.5', wastePercent: '5' },
+        examples: [
+          { label: 'Round play area', inputs: { diameterFeet: '12', depthInches: '2', tonsPerCubicYard: '1.35', bagSizeCubicFeet: '0.5', wastePercent: '5' } },
+        ],
+      },
+      {
+        id: 'known-area',
+        label: 'Known area',
+        symbol: 'ft2',
+        fields: [
+          numberField('areaSquareFeet', 'Area square feet', '200'),
+          numberField('depthInches', 'Depth inches', '2'),
+          numberField('tonsPerCubicYard', 'Tons per cubic yard', '1.35'),
+          numberField('bagSizeCubicFeet', 'Bag volume ft3', '0.5'),
+          numberField('wastePercent', 'Waste percent', '5'),
+        ],
+        defaultInputs: { areaSquareFeet: '200', depthInches: '2', tonsPerCubicYard: '1.35', bagSizeCubicFeet: '0.5', wastePercent: '5' },
+        examples: [
+          { label: '200 ft2 layer', inputs: { areaSquareFeet: '200', depthInches: '2', tonsPerCubicYard: '1.35', bagSizeCubicFeet: '0.5', wastePercent: '5' } },
         ],
       },
     ],
@@ -7285,28 +7321,45 @@ function calculateUtility(
       };
     }
     case 'sand': {
-      const result = calculateSandEstimate({
-        lengthFeet: parseNumber(inputs.lengthFeet, 'Length'),
-        widthFeet: parseNumber(inputs.widthFeet, 'Width'),
+      const diameterFeet = modeId === 'round-area' ? parseNumber(inputs.diameterFeet, 'Diameter') : null;
+      const lengthFeet = modeId === 'rectangle' ? parseNumber(inputs.lengthFeet, 'Length') : null;
+      const widthFeet = modeId === 'rectangle' ? parseNumber(inputs.widthFeet, 'Width') : null;
+      const areaSquareFeet =
+        diameterFeet !== null
+          ? Math.PI * (diameterFeet / 2) ** 2
+          : lengthFeet !== null && widthFeet !== null
+            ? lengthFeet * widthFeet
+            : parseNumber(inputs.areaSquareFeet, 'Area');
+      const result = calculateSandAreaEstimate({
+        areaSquareFeet,
         depthInches: parseNumber(inputs.depthInches, 'Depth'),
         tonsPerCubicYard: parseNumber(inputs.tonsPerCubicYard, 'Tons per cubic yard'),
+        bagSizeCubicFeet: parseNumber(inputs.bagSizeCubicFeet, 'Bag volume'),
         wastePercent: parseNumber(inputs.wastePercent, 'Waste percent'),
       });
+      const expression =
+        diameterFeet !== null
+          ? `${formatCalculatorNumber(diameterFeet)} ft diameter x ${formatCalculatorNumber(result.depthInches)} in deep`
+          : lengthFeet !== null && widthFeet !== null
+            ? `${formatCalculatorNumber(lengthFeet)} ft x ${formatCalculatorNumber(widthFeet)} ft x ${formatCalculatorNumber(result.depthInches)} in`
+            : `${formatCalculatorNumber(result.areaSquareFeet)} ft2 x ${formatCalculatorNumber(result.depthInches)} in deep`;
       return {
         label: 'Sand needed',
-        expression: `${formatCalculatorNumber(result.lengthFeet)} ft x ${formatCalculatorNumber(result.widthFeet)} ft x ${formatCalculatorNumber(result.depthInches)} in`,
+        expression,
         answer: `${formatCalculatorNumber(result.cubicYards)} yd3`,
         metrics: [
+          { label: 'Project area', value: `${formatCalculatorNumber(result.areaSquareFeet)} ft2` },
           { label: 'Cubic feet', value: formatCalculatorNumber(result.cubicFeet) },
           { label: 'Estimated tons', value: formatCalculatorNumber(result.tons) },
-          { label: 'Density used', value: `${formatCalculatorNumber(result.tonsPerCubicYard)} tons/yd3` },
+          { label: `${formatCalculatorNumber(result.bagSizeCubicFeet)} ft3 bags`, value: formatCalculatorNumber(result.bagsNeeded) },
         ],
         steps: [
-          'Convert depth from inches to feet.',
-          'Multiply length, width, and depth, then add waste.',
-          'Divide by 27 for cubic yards and multiply by density for tons.',
+          'Find the rectangular, round, or known project area.',
+          'Convert depth from inches to feet, multiply by area, then add waste.',
+          'Divide cubic feet by 27 for cubic yards and multiply by density for tons.',
+          'Divide cubic feet by the bag volume and round up to a whole bag.',
         ],
-        note: 'Sand density changes with moisture, compaction, and material type. Ask your supplier for a project-specific value.',
+        note: 'Use the supplier density and the volume printed on the exact bag. Moisture, compaction, sand type, delivery minimums, and product coverage can change the purchase amount.',
       };
     }
     case 'soil': {

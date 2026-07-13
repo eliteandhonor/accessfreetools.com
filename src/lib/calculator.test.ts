@@ -243,6 +243,7 @@ import {
   calculateRetainingWallEstimate,
   calculateResistorColorCode,
   calculateRoofingEstimate,
+  calculateSandAreaEstimate,
   calculateSandEstimate,
   calculateSidingEstimate,
   calculateSleepSchedule,
@@ -2564,6 +2565,8 @@ describe('utility helpers', () => {
     const cubicYard = calculateCubicYardEstimate(20, 10, 3, 5);
     const pool = calculatePoolVolume('rectangle', 24, 12, 4.5);
     const sand = calculateSandEstimate({ lengthFeet: 20, widthFeet: 10, depthInches: 2, tonsPerCubicYard: 1.35, wastePercent: 5 });
+    const sandFromArea = calculateSandAreaEstimate({ areaSquareFeet: 100, depthInches: 1, tonsPerCubicYard: 1.35, wastePercent: 10, bagSizeCubicFeet: 0.5 });
+    const roundSand = calculateSandAreaEstimate({ areaSquareFeet: Math.PI * 6 ** 2, depthInches: 2, tonsPerCubicYard: 1.35, wastePercent: 5, bagSizeCubicFeet: 0.5 });
     const soil = calculateSoilEstimate(120, 4, 10);
     const soilForFourBeds = calculateSoilEstimate(24, 6, 0, 2, 4);
     const soilForRoundBed = calculateSoilEstimate(Math.PI * 2 ** 2, 12, 10, 1.5);
@@ -2698,6 +2701,12 @@ describe('utility helpers', () => {
     expect(formatCalculatorNumber(cubicYard.cubicYards)).toBe('1.9444444444');
     expect(formatCalculatorNumber(pool.gallons)).toBe('9694.75392');
     expect(formatCalculatorNumber(sand.tons)).toBe('1.75');
+    expect(formatCalculatorNumber(sandFromArea.cubicFeetBeforeWaste)).toBe('8.3333333333');
+    expect(formatCalculatorNumber(sandFromArea.cubicYards)).toBe('0.3395061728');
+    expect(formatCalculatorNumber(sandFromArea.tons)).toBe('0.4583333333');
+    expect(sandFromArea.bagsNeeded).toBe(19);
+    expect(roundSand.bagsNeeded).toBe(40);
+    expect(() => calculateSandAreaEstimate({ areaSquareFeet: 100, depthInches: 1, tonsPerCubicYard: 1.35, wastePercent: 10, bagSizeCubicFeet: 0 })).toThrow('Bag volume must be greater than zero');
     expect(soil.totalAreaSquareFeet).toBe(120);
     expect(soil.cubicFeetBeforeExtra).toBe(40);
     expect(formatCalculatorNumber(soil.liters)).toBe('1245.94125005');
