@@ -30,9 +30,10 @@ Definition of done: a fresh Google crawl date and exact state are recorded. A ma
 
 Priority: High, collect until 2026-09-07
 
-- Run `npm run analytics:production:game` only when the ignored local analytics token is configured, then run `npm run pilot:four-in-a-row`.
+- The ignored local analytics token was configured and verified on 2026-07-13. Run `npm run analytics:production:game`, then `npm run pilot:four-in-a-row`, to refresh the private aggregate and decision gate.
 - Never use `.local/analytics/events.ndjson` as production engagement evidence.
-- Keep the pilot collecting until at least 2026-09-07 and at least 100 measured production starts, with owner/test exclusion confirmed.
+- The owner's current Chrome browser is excluded through the public Privacy Policy control, and the production API reports owner exclusion configured. Keep other owner/test browsers excluded as they are used.
+- Keep the pilot collecting until at least 2026-09-07 and at least 100 measured production starts.
 - Do not add another game or a Games category before the gate passes.
 - The active `Weekly SEO And Pilot Evidence` heartbeat owns the recurring evidence refresh.
 
@@ -51,13 +52,13 @@ Definition of done: a change has current query evidence, browser proof, a passin
 
 ## Task 4: Production Analytics Readiness
 
-Priority: Medium, private setup required
+Priority: Medium, measurement collecting
 
 - Production analytics decisions require `npm run analytics:production`; game decisions require `npm run analytics:production:game`.
-- The local analytics token is currently absent, so production aggregate evidence is `not enough data`. Do not invent it and do not promote local QA events into business evidence.
-- Follow `docs/analytics-dashboard.md` for private token setup. Never commit a token, raw event log, IP, or visitor identifier.
+- The private production aggregate was fetched successfully on 2026-07-13. The initial 30-day report contains one Privacy Policy page view recorded during owner setup before the browser opt-out was enabled and zero tool actions. Treat that setup event as owner traffic, not public-demand evidence.
+- Keep the token in the ignored `.local/analytics-dashboard.env` file. Never commit a token, raw event log, IP, or visitor identifier.
 
-Definition of done: the private production aggregate can be fetched, owner/test traffic is excluded or explicitly documented, and readiness thresholds are met.
+Definition of done: owner/test traffic remains excluded and the genuine production readiness thresholds are met. The private fetch and current-browser exclusion prerequisites are complete.
 
 ## Completed And Retained
 

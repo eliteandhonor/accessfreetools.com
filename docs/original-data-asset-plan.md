@@ -53,7 +53,7 @@ npm run aft -- usage-notes
 
 The readiness command reads only the fresh privacy-safe production aggregate at `output/analytics/production-latest.json`. It never falls back to `.local/analytics/events.ndjson`, which is a local QA log. It writes a private draft and evidence under `output/original-data-assets/`; the output is not automatically public content.
 
-Current status: `not-ready`. Local event files contain QA activity and are not production business evidence. This workspace does not currently have the ignored private analytics token needed by `npm run analytics:production`, so production visitor, page-view, and action thresholds cannot be assessed yet. Report this as `not enough data`; do not substitute local counts.
+Current status: `not-ready`. The ignored private analytics token is configured and `npm run analytics:production` successfully fetched a privacy-safe aggregate on 2026-07-13. That initial report contains one Privacy Policy page view recorded during owner setup before the browser opt-out was enabled and zero tool actions, so it is not public-demand evidence. Keep reporting `not enough data` until genuine production traffic reaches the visitor, page-view, and action thresholds; never substitute local QA counts.
 
 ## How Agents Should Use It
 

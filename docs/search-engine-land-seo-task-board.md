@@ -208,7 +208,7 @@ Useful commands:
 
 ### P1. Original Data Asset Plan
 
-Status: v1 implemented on 2026-05-13 and hardened on 2026-07-13 with `docs/original-data-asset-plan.md`, `npm run content:usage-notes`, and `npm run aft -- usage-notes`. The report now fails closed unless a fresh privacy-safe production aggregate exists; local event files remain QA diagnostics and can never become public-demand evidence. Current status is intentionally `not-ready` because the ignored production analytics token is not configured in this workspace. Do not claim visitor, view, or tool-action readiness until `npm run analytics:production` succeeds and production owner exclusion is confirmed.
+Status: v1 implemented on 2026-05-13 and hardened on 2026-07-13 with `docs/original-data-asset-plan.md`, `npm run content:usage-notes`, and `npm run aft -- usage-notes`. The report fails closed unless a fresh privacy-safe production aggregate exists; local event files remain QA diagnostics and can never become public-demand evidence. The ignored production token and owner-browser exclusion are now configured, and the first private aggregate fetch succeeded. Current status remains `not-ready` because the only recorded page view was the owner's Privacy Policy setup visit before opt-out and there are zero tool actions. Do not claim visitor, view, or tool-action readiness until genuine production thresholds are met.
 
 Goal: create linkable, useful content that competitors cannot easily copy.
 
