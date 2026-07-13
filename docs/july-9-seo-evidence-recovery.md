@@ -1,6 +1,6 @@
 # July SEO Evidence Recovery Handoff
 
-Updated: 2026-07-12
+Updated: 2026-07-13
 
 Use this note with `output/search-console/performance-latest.json` and `output/crawlscout/crawlscout-summary.json`. Do not treat older June blockers or stale `/sitemap/` notes as the active sprint.
 
@@ -10,8 +10,8 @@ Use this note with `output/search-console/performance-latest.json` and `output/c
 - CrawlScout/deindexed sample: 137 not-indexed rows, 127 zero-click rows with impressions, 366 sampled impressions, 4 sampled clicks.
 - Bing Webmaster overview through 2026-07-09: 2,097 impressions, 32 clicks, 1.53% CTR. This is useful aggregate trend evidence, not Google or page-level decision evidence.
 - Since the July 9 export, Google added 559 page impressions and 2 clicks, Bing added 101 impressions and 3 clicks, and the CrawlScout sample fell by one URL. These are small positive movements, not proof that a specific recovery edit caused the change.
-- Local technical proof is clean: production sitemap checked 652 URLs with 0 hard failures, `/sitemap/` is live and noindexed but excluded from XML, and indexing protection has 0 high issues.
-- SEO page review queue is complete: `npm run aft -- seo-tool-queue` reports 602 approved page review units and no active gate.
+- Local technical proof is clean: the July 13 production sitemap check passed 656 URLs with 0 hard failures, `/sitemap/` is live and noindexed but excluded from XML, and indexing protection has 0 high issues.
+- SEO page review queue is complete: `npm run aft -- seo-tool-queue` reports 604 approved page review units and no active gate.
 
 ## What This Means
 
@@ -24,6 +24,8 @@ This is an index-selection and CTR recovery sprint, not a sitemap rewrite sprint
 - Fresh inspection still reports `Crawled - currently not indexed` with successful fetches and matching canonicals for the Personal Loan tool and guide, Wallpaper guide, Device Battery Life Calculator, Brick Calculator, and Unit Price Calculator. Their recorded Google crawls are from May and predate their current page versions.
 - Prioritize the next manual request batch as Device Battery Life, Wallpaper guide, Personal Loan tool, and Personal Loan guide. Keep Brick and Unit Price in the next request batch if the daily Search Console UI quota is exhausted. Do not rewrite these pages from the stale aggregate export before Google tests the current versions.
 - Evidence: `output/search-console/url-inspection-next-sprint-2026-07-13.json`, `output/search-console/url-inspection-manual-request-batch-2-2026-07-13.json`, `output/search-console/url-inspection-love-release-2026-07-13.json`, and `docs/search-console-indexing-requests.json`.
+- A later key-URL refresh at 2026-07-13T07:18:40Z still reports Personal Loan tool, Personal Loan guide, and Wallpaper guide as `Crawled - currently not indexed`; all other URLs in the core 16-URL set passed. Built link proof already shows 8, 5, and 9 source pages respectively, so this remains a manual-request/recrawl watch lane rather than an internal-link rewrite.
+- Four in a Row tool and guide are live in submitted sitemaps. The first post-release inspection reported both as discovered; the later expanded key-URL inspection reports the tool URL as unknown to Google and the guide as `Discovered - currently not indexed`. Track both as new-page discovery states, not as recovery failures.
 
 ## Priority Pages
 

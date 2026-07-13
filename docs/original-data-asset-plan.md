@@ -1,6 +1,6 @@
 # Original Data Asset Plan
 
-Last updated: 2026-05-13
+Last updated: 2026-07-13
 
 Access Free Tools can eventually publish useful "what people are using" reports from anonymous first-party analytics. The point is not bragging. The point is to create helpful, original information competitors cannot copy: which free tools people actually use, what mistakes guides should explain better, and which categories need clearer pathways.
 
@@ -51,6 +51,8 @@ npm run aft -- usage-notes
 ```
 
 It writes a private draft and evidence under `output/original-data-assets/`. The output is not automatically public content.
+
+Current status: `not-ready`. Local event files contain QA activity and are not production business evidence. This workspace does not currently have the ignored private analytics token needed by `npm run analytics:production`, so production visitor, page-view, and action thresholds cannot be assessed yet. Report this as `not enough data`; do not substitute local counts.
 
 ## How Agents Should Use It
 

@@ -1,6 +1,6 @@
 # Search Engine Land SEO Task Board
 
-Last updated: 2026-05-13
+Last updated: 2026-07-13
 
 This board converts the Search Engine Land research pass into concrete Access Free Tools tasks. It is for Codex agents working on SEO, indexing, AI visibility, content quality, internal links, analytics, and promotion.
 
@@ -177,7 +177,7 @@ Useful commands:
 
 ### P1. Recognition Tracker
 
-Status: v1 implemented on 2026-05-13 with `npm run recognition:track` and `npm run aft -- recognition`. Current report shows 23 public proof URLs, 0 claimed rows missing proof, and clearly separates blocked platforms from active-with-proof platforms.
+Status: v1 implemented on 2026-05-13 with `npm run recognition:track` and `npm run aft -- recognition`. The July 13 report shows 30 public proof URLs, 0 claimed rows missing proof, and clearly separates blocked platforms from active-with-proof platforms.
 
 Goal: track where Access Free Tools is recognized across the web because AI search and modern SEO rely on brand mentions, not only classic rankings.
 
@@ -208,7 +208,7 @@ Useful commands:
 
 ### P1. Original Data Asset Plan
 
-Status: v1 implemented on 2026-05-13 with `docs/original-data-asset-plan.md`, `npm run content:usage-notes`, and `npm run aft -- usage-notes`. Current status is intentionally `not-ready`: anonymous analytics has enough visitors and page views for internal learning, but only 1 tool action in the current window, below the 25-action public-report minimum.
+Status: v1 implemented on 2026-05-13 with `docs/original-data-asset-plan.md`, `npm run content:usage-notes`, and `npm run aft -- usage-notes`. Current status is intentionally `not-ready`: local event files are QA diagnostics, not production evidence, and the ignored production analytics token is not configured in this workspace. Do not claim visitor, view, or tool-action readiness until `npm run analytics:production` succeeds and owner/test exclusion is confirmed.
 
 Goal: create linkable, useful content that competitors cannot easily copy.
 
@@ -294,14 +294,11 @@ Useful commands:
 
 ## Recommended Execution Order
 
-1. Build the Indexing Protection System.
-2. Build the AI Crawler Visibility Audit.
-3. Upgrade the top hubs.
-4. Improve semantic depth on the first 10 priority tools.
-5. Build the Recognition Tracker.
-6. Plan the first original data asset after analytics has enough real visitor data.
-7. Reset FAQ guidance so agents stop thinking FAQ schema is the win.
-8. Keep promotion quality gates strict and proof-based.
+1. Keep the implemented indexing, AI crawler, hub, semantic-depth, recognition, FAQ, and promotion systems passing.
+2. Watch exact Search Console recrawls; do not reopen completed pages from stale aggregate exports.
+3. Collect production Four in a Row evidence through the September 7 pilot gate.
+4. Plan the first original data asset only after production analytics and owner exclusion are proven.
+5. Keep promotion quality gates strict and proof-based.
 
 ## Completion Rule
 

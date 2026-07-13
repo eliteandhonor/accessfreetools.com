@@ -212,3 +212,24 @@ page. The Square Footage Calculator now links directly to the Wallpaper
 Calculator because wall area is a natural step before wallpaper roll planning.
 Paint and Flooring FAQs also now explain when to switch to Wallpaper-specific
 roll, waste, and pattern-repeat math.
+
+## 2026-07-13 Current Inspection Notes
+
+The current key-URL inspection set confirms the homepage, `/tools/`, `/blog/`,
+major category hubs, Basic Calculator, OCR, Age, Ad Revenue, Watts to Amps, and
+the Wallpaper tool are submitted and indexed with successful fetches.
+
+Three older crawl records remain `Crawled - currently not indexed`: the Personal
+Loan tool, its guide, and the Wallpaper guide. Their current built pages already
+have 8, 5, and 9 internal-link sources respectively. XML sitemap discovery was
+refreshed on July 13, so the next action is a manual request when the Search
+Console UI is available, followed by a later exact inspection. Do not add
+duplicate links or rewrite these pages from the old crawl state alone.
+
+The newly released Four in a Row tool and guide appear in the submitted XML
+sitemaps. The first post-release inspection found both discovered; the later
+expanded inspection reports the tool URL as unknown to Google and the guide as
+`Discovered - currently not indexed`. These are new-page watch states, not
+evidence of a technical indexing defect. The rotating inspection set now
+includes the game pair plus Device Battery Life, Brick, and Unit Price so future
+automation can compare fresh crawl dates without relying on thread memory.

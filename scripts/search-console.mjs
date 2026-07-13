@@ -55,10 +55,15 @@ const KEY_INSPECTION_URLS = [
   `${CANONICAL_SITE_URL}tools/watts-to-amps-calculator/`,
   `${CANONICAL_SITE_URL}tools/wallpaper-calculator/`,
   `${CANONICAL_SITE_URL}tools/personal-loan-calculator/`,
+  `${CANONICAL_SITE_URL}tools/device-battery-life-calculator/`,
+  `${CANONICAL_SITE_URL}tools/brick-calculator/`,
+  `${CANONICAL_SITE_URL}tools/unit-price-calculator/`,
+  `${CANONICAL_SITE_URL}tools/four-in-a-row-game/`,
   `${CANONICAL_SITE_URL}blog/how-to-use-ad-revenue-calculator/`,
   `${CANONICAL_SITE_URL}blog/how-to-use-watts-to-amps-calculator/`,
   `${CANONICAL_SITE_URL}blog/how-to-use-wallpaper-calculator/`,
   `${CANONICAL_SITE_URL}blog/how-to-use-personal-loan-calculator/`,
+  `${CANONICAL_SITE_URL}blog/how-to-use-four-in-a-row-game/`,
 ];
 
 function parseArgs() {

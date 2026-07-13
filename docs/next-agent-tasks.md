@@ -1,78 +1,72 @@
 # Access Free Tools Next Agent Tasks
 
-Updated: 2026-07-10
+Updated: 2026-07-13
 
-Run `npm run automation:env-check`, `npm run aft -- status`, `npm run aft -- seo-console`, and `npm run aft -- proof-check` before choosing work. Command output and the normalized July 9 reports are the source of truth; old build IDs, old Search Console screenshots, and June approval gates are historical evidence only.
+Run `npm run automation:env-check`, `npm run aft -- status`, `npm run aft -- seo-console`, and `npm run aft -- proof-check` before choosing work. Command output and the latest normalized reports are the source of truth. Old build IDs, old screenshots, and June approval gates are historical evidence only.
 
 ## Current Evidence
 
 - Read `docs/july-9-seo-evidence-recovery.md` for the current Google, Bing, and CrawlScout handoff.
-- Google: 591 ranking URLs, 24,103 page impressions, 39 clicks, and 0.16% page CTR.
-- CrawlScout sample: 138 not-indexed rows; 127 have impressions and no clicks.
-- Bing: 1,996 impressions, 29 clicks, and 1.45% CTR. The Bing export is aggregate trend evidence, not page-level evidence.
-- The controlled SEO queue has 602 approved page review units, 0 remaining, and no active gate.
-- The technical foundation is healthy: production sitemap checks, indexing protection, structured data, AI crawler visibility, and local mobile checks have no confirmed hard blocker.
-- `/sitemap/` is intentionally `noindex,follow` and absent from XML sitemaps.
-- Google discovery uses XML sitemaps. `/feed.xml` remains an RSS reader feed and must not be submitted as a Google sitemap.
+- Latest imported performance evidence: Google has 593 ranking URLs, 24,662 page impressions, 41 clicks, and 0.17% page CTR; Bing has 2,097 impressions, 32 clicks, and 1.53% CTR.
+- The latest CrawlScout sample contains 137 not-indexed rows. It is a supplied sample, not a complete crawl total.
+- The controlled SEO queue is complete: 604 of 604 page review units are approved, with no active gate.
+- Production is Astro 7 on Node 24. The July 13 production sitemap check passed 656 URLs with 0 hard failures.
+- `/sitemap/` remains `noindex,follow` and excluded from XML. `/feed.xml` is an RSS feed and is not submitted to Google as a sitemap.
+- The Four in a Row tool and guide are live, in XML and image sitemaps, and submitted through IndexNow and Search Console discovery. The latest exact inspection says the tool URL is unknown to Google and the guide is `Discovered - currently not indexed`, both normal watch states immediately after release.
 
-## Task 1: Finish And Release The Current Audit Hardening
+## Task 1: Search Console Recrawl Watch
 
-Priority: High
+Priority: High, evidence-only
 
-- Complete the current Node 24/Astro 7 audit branch and run the full quality gate.
-- Preserve public URLs, tool formulas, sitemap architecture, and deterministic Ask/API/MCP behavior.
-- Deploy only after local typechecks, tests, build, SEO checks, accessibility checks, visual checks, and secret/dependency checks pass.
-- After deploy, verify Ask/API/MCP and the production sitemap, then submit the XML sitemap set through Search Console and the changed URL set through IndexNow.
+- Exact July 13 inspection reports Personal Loan tool, Personal Loan guide, and Wallpaper guide as `Crawled - currently not indexed` with successful fetches. Their current pages already have 8, 5, and 9 built internal-link sources respectively.
+- Device Battery Life, Brick, and Unit Price also have old Google crawl evidence that predates current page versions. Keep them in the rotating exact-inspection set.
+- Request indexing manually only when the Search Console UI is available and the daily quota allows it. Record successful requests in `docs/search-console-indexing-requests.json`.
+- Do not rewrite these pages, add duplicate links, restart broad validation, or change sitemap architecture until a fresh crawl evaluates the current versions.
 
-Definition of done: a committed audit report identifies each accepted finding, suppressed false positive, changed file, test result, and any residual risk.
+Definition of done: a fresh Google crawl date and exact state are recorded. A manual request click alone is not an indexing result.
 
-## Task 2: Index-Recovery Lane
+## Task 2: Four In A Row Pilot Evidence
 
-Priority: High after release proof
+Priority: High, collect until 2026-09-07
 
-- Use the index-recovery list in `docs/july-9-seo-evidence-recovery.md`.
-- Classify each page as `recover`, `differentiate`, `merge/canonicalize`, `noindex`, or `monitor` before editing.
-- Run `node scripts/seo-agent-workbench.mjs all <slug> <tool|blog>` for every page-level SEO decision.
-- Use exact Search Console inspection and targeted DataForSEO only when the page's intent or index status is unclear. Do not run a broad paid crawl.
-- Personal Loan Calculator tool and guide are `monitor`: both were fetched successfully but remain `Crawled - currently not indexed`; both current workbench judges pass with zero gaps. Do not rewrite them without newer evidence.
+- Run `npm run analytics:production:game` only when the ignored local analytics token is configured, then run `npm run pilot:four-in-a-row`.
+- Never use `.local/analytics/events.ndjson` as production engagement evidence.
+- Keep the pilot collecting until at least 2026-09-07 and at least 100 measured production starts, with owner/test exclusion confirmed.
+- Do not add another game or a Games category before the gate passes.
+- The active `Weekly SEO And Pilot Evidence` heartbeat owns the recurring evidence refresh.
 
-Definition of done: every edited page has exact evidence, a single recovery classification, browser proof, and a final workbench judge with zero gaps.
+Definition of done: the review date, production-start threshold, owner exclusion, Search Console evidence, and aggregate behavior evidence all pass. Until then the correct decision is `collecting`, not `expand`.
 
-## Task 3: Ranking And CTR Lane
+## Task 3: Ranking And CTR Watch
 
-Priority: Medium
+Priority: Medium after a fresh export window
 
-- Keep ranking/CTR work separate from index recovery so an indexed low-CTR page is not treated as a deindexing problem.
-- Start from the July 9 high-impression list in `docs/july-9-seo-evidence-recovery.md`.
-- Change titles, descriptions, answer blocks, examples, internal links, or schema only when exact page/query evidence supports the change.
-- Avoid generic mass rewrites. Record completed URLs in `docs/seo-console-completions.json` so stale exports do not re-add them automatically.
+- Keep CTR work separate from index recovery.
+- Do not reopen the July recovery pages from the old aggregate export. Many were improved after Google's recorded crawl and now need recrawl time.
+- Re-import newer Google, Bing, and CrawlScout exports when provided, compare against the July baseline, and use exact query/page evidence before editing.
+- Run `node scripts/seo-agent-workbench.mjs all <slug> <tool|blog>` for every supported page-level change and record completed URLs in `docs/seo-console-completions.json`.
 
-Definition of done: edits preserve intent, avoid clickbait, pass the workbench, and are tracked for the next GSC comparison window.
+Definition of done: a change has current query evidence, browser proof, a passing workbench judge, and a later comparison window. Aggregate zero-click status alone is not enough.
 
-## Task 4: Search Console Watch Lane
+## Task 4: Production Analytics Readiness
 
-Priority: Medium
+Priority: Medium, private setup required
 
-- Re-import new GSC and CrawlScout exports when Brendan provides them.
-- Use `npm run search-console:inspect-key-urls` for rotating exact-page evidence.
-- Do not repeatedly request indexing or restart broad validation without a new Google reason or a meaningful recrawl interval.
-- Keep XML sitemap discovery, exact URL inspection, ranking data, and CrawlScout samples as separate evidence types.
+- Production analytics decisions require `npm run analytics:production`; game decisions require `npm run analytics:production:game`.
+- The local analytics token is currently absent, so production aggregate evidence is `not enough data`. Do not invent it and do not promote local QA events into business evidence.
+- Follow `docs/analytics-dashboard.md` for private token setup. Never commit a token, raw event log, IP, or visitor identifier.
 
-Definition of done: the handoff states what changed since July 9 and distinguishes facts from recommendations.
+Definition of done: the private production aggregate can be fetched, owner/test traffic is excluded or explicitly documented, and readiness thresholds are met.
 
-## Task 5: Proof Retention And Safe Cleanup
+## Completed And Retained
 
-Priority: Medium after release verification
-
-- Run `npm run maintenance:retention-audit` before considering proof cleanup.
-- Run `npm run maintenance:clean:dry-run` and then `npm run maintenance:clean:safe` only for allowlisted rebuildable artifacts.
-- Preserve `output/`, `agents/`, `.local/`, Codex state, secrets, and evidence cited by tracked handoffs.
-
-Definition of done: cleanup removes only rebuildable artifacts and all proof, SEO queue, and maintenance audits still pass.
+- Four in a Row release, live verification, discovery submission, visual/accessibility QA, and milestone analytics are complete.
+- Safe cleanup completed on July 13. The follow-up retention audit passed with `output/`, `agents/`, `.local/`, and cited proof preserved.
+- SEO review queue and proof ledger pass. Do not reopen the historical `text-case-converter` gate.
 
 ## Always-On Runtime Rules
 
 - Production and local releases use Node 24 and Astro 7.
-- Ask/API/MCP must use Astro Node routes; do not add PHP fallbacks or duplicate tool data.
+- Ask/API/MCP use Astro Node routes; do not add PHP fallbacks or duplicate tool data.
 - Public promotion requires its platform quality gate and visible public proof. Draft or button-click state is not proof.
 - No page is bulk-noindexed, merged, removed from XML sitemaps, or publicly promoted from aggregate data alone.
