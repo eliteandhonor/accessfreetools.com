@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-03T01:21:00+10:00",
+  "generatedAt": "2026-07-13T11:29:48+10:00",
   "source": "Search Console UI",
   "requests": [
     {
@@ -19,6 +19,42 @@
       "requestedAt": "2026-07-03T01:20:00+10:00",
       "result": "indexing-requested",
       "url": "https://accessfreetools.com/blog/how-to-use-watts-to-amps-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "requestedAt": "2026-07-13T11:19:28+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/color-contrast-checker/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "requestedAt": "2026-07-13T11:21:51+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/reading-level-checker/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "requestedAt": "2026-07-13T11:23:42+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/calories-burned-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "requestedAt": "2026-07-13T11:26:35+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/blog/how-to-use-currency-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "requestedAt": "2026-07-13T11:28:17+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/blog/how-to-use-love-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "requestedAt": "2026-07-13T11:29:48+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/gallery/converters/"
     }
   ]
 }
