@@ -106,6 +106,11 @@ const readerSceneWords = [
   'server',
   'pageviews',
   'traffic',
+  'repository',
+  'readme',
+  'terminal',
+  'install command',
+  'project folder',
 ];
 
 const powerWordGroups = {
@@ -212,6 +217,15 @@ const qualityRules = {
     primaryPhrase: 'markdown table',
     minNumbers: 3,
     requiredIdeas: ['header', 'row', 'copy'],
+  },
+  'github-stars-security-review': {
+    primaryPhrase: 'github stars',
+    minNumbers: 3,
+    maxWords: 1300,
+    allowAiMentions: true,
+    requiredIdeas: ['license', 'dependencies', 'limits'],
+    trustHeading: 'Green flags and stop signs',
+    ctaHeading: 'Keep the checklist beside the install command',
   },
 };
 
@@ -446,8 +460,14 @@ function uniqueItems(items) {
   return [...new Set(items)];
 }
 
-function hasAccessFreeToolsCta(article) {
-  return /(?:Tool|Full guide|Tool or guide):\s+https:\/\/accessfreetools\.com\//.test(article);
+function hasAccessFreeToolsDisclosure(article) {
+  return /^Disclosure:[^\n]*Access Free Tools[^\n]*$/m.test(article);
+}
+
+function hasAccessFreeToolsCta(article, ctaHeading = 'Try the original tool') {
+  if (/(?:Tool|Full guide|Tool or guide):\s+https:\/\/accessfreetools\.com\//.test(article)) return true;
+  const cta = article.split(`\n## ${ctaHeading}`)[1] ?? '';
+  return /https:\/\/accessfreetools\.com\//.test(cta);
 }
 
 function firstWords(text, count) {
@@ -471,6 +491,8 @@ function totalPowerWords(groups) {
 function scoreSeo({ title, headings, text, words, rules, article, numberCount }) {
   const lower = text.toLowerCase();
   const primary = rules.primaryPhrase.toLowerCase();
+  const maxWords = rules.maxWords ?? 1200;
+  const trustHeading = rules.trustHeading ?? 'What to check before trusting the result';
   const primaryCount = countPhrase(lower, primary);
   const density = words.length > 0 ? (primaryCount * primary.split(/\s+/).length) / words.length : 0;
   let score = 0;
@@ -479,11 +501,11 @@ function scoreSeo({ title, headings, text, words, rules, article, numberCount })
   if (title.toLowerCase().includes(primary)) score += 16;
   if (headings.some((heading) => heading.toLowerCase().includes(primary))) score += 8;
   if (headings.length >= 6) score += 10;
-  if (words.length >= 520 && words.length <= 1200) score += 12;
+  if (words.length >= 520 && words.length <= maxWords) score += 12;
   if (numberCount >= rules.minNumbers) score += 8;
-  if (hasAccessFreeToolsCta(article)) score += 10;
-  if (/Disclosure: This companion post is from Access Free Tools\./.test(article)) score += 6;
-  if (headings.includes('What to check before trusting the result')) score += 6;
+  if (hasAccessFreeToolsCta(article, rules.ctaHeading)) score += 10;
+  if (hasAccessFreeToolsDisclosure(article)) score += 6;
+  if (headings.includes(trustHeading)) score += 6;
   if (density > 0 && density < 0.035) score += 6;
 
   return {
@@ -603,6 +625,9 @@ function lintArticle(file, heroAssetReport) {
     minNumbers: 1,
     requiredIdeas: ['example', 'result', 'limit'],
   };
+  const maxWords = rules.maxWords ?? 1200;
+  const trustHeading = rules.trustHeading ?? 'What to check before trusting the result';
+  const ctaHeading = rules.ctaHeading ?? 'Try the original tool';
   const content = readFileSync(file, 'utf8');
   const article = getPublicArticle(content);
   const text = plainText(article);
@@ -653,7 +678,7 @@ function lintArticle(file, heroAssetReport) {
   const heroLayoutCheck = heroAssetReport.layoutChecks?.find((check) => check.slug === slug);
   const accessLinks = extractAccessFreeToolsLinks(article);
   const uniqueAccessLinks = uniqueItems(accessLinks);
-  const beforeCtaArticle = article.split('\n## Try the original tool')[0] ?? article;
+  const beforeCtaArticle = article.split(`\n## ${ctaHeading}`)[0] ?? article;
   const contextualLinks = uniqueItems(extractAccessFreeToolsLinks(beforeCtaArticle));
 
   if (title.length < 35 || title.length > 85) {
@@ -712,8 +737,8 @@ function lintArticle(file, heroAssetReport) {
     errors.push('Hero image alt text in Markdown must match hero_alt frontmatter.');
   }
 
-  if (words.length < 520 || words.length > 1200) {
-    errors.push(`Public article should be 520-1200 words; found ${words.length}.`);
+  if (words.length < 520 || words.length > maxWords) {
+    errors.push(`Public article should be 520-${maxWords} words; found ${words.length}.`);
   }
 
   if (headings.length < 6) {
@@ -724,11 +749,11 @@ function lintArticle(file, heroAssetReport) {
     errors.push('Article needs a realistic example section.');
   }
 
-  if (!/Disclosure: This companion post is from Access Free Tools\./.test(article)) {
+  if (!hasAccessFreeToolsDisclosure(article)) {
     errors.push('Missing Access Free Tools disclosure line.');
   }
 
-  if (!hasAccessFreeToolsCta(article)) {
+  if (!hasAccessFreeToolsCta(article, ctaHeading)) {
     errors.push('Missing source tool or guide URL.');
   }
 
@@ -751,11 +776,11 @@ function lintArticle(file, heroAssetReport) {
     errors.push('Needs at least one contextual Access Free Tools link before the final CTA section.');
   }
 
-  if (!headings.includes('What to check before trusting the result')) {
+  if (!headings.includes(trustHeading)) {
     errors.push('Missing the result-trust limits section.');
   }
 
-  if (!headings.includes('Try the original tool')) {
+  if (!headings.includes(ctaHeading)) {
     errors.push('Missing the original-tool CTA section.');
   }
 

@@ -86,6 +86,13 @@ const staticHeroes = [
     detailLines: ['Custom smoke-kawaii hero image; no generated text overlay.'],
     titleLines: ['How I used a Codex backlink workflow'],
   },
+  {
+    slug: 'github-stars-security-review',
+    expectedWidth: 1200,
+    expectedHeight: 675,
+    detailLines: ['Custom smoke-kawaii repository review scene; no generated text overlay.'],
+    titleLines: ['GitHub stars are not a security review'],
+  },
 ];
 
 const canvas = {

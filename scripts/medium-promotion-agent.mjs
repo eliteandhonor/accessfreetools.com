@@ -16,6 +16,7 @@ const publicationOrder = [
   'ad-revenue-calculator-creator',
   'voltage-drop-wire-length',
   'markdown-table-cleanup',
+  'github-stars-security-review',
 ];
 
 const posts = [
@@ -366,6 +367,89 @@ const posts = [
     callout:
       'The Access Free Tools Markdown Table Generator helps create clean Markdown tables with rows, columns, alignment, preview, and copy-ready output.',
   },
+  {
+    slug: 'github-stars-security-review',
+    title: 'GitHub Stars Are Not a Security Review: What I Check Instead',
+    subtitle:
+      'A seven-step routine I use before a repository can touch Access Free Tools, its secrets, or its build.',
+    seoTitle: 'How I Check If a GitHub Repository Is Safe',
+    seoDescription:
+      'Before I run npm install, I check ownership, licenses, scripts, dependencies, file access, and secrets. Here is my seven-step routine.',
+    sourceUrl: `${SITE_ORIGIN}/blog/how-to-check-github-project-before-installing/`,
+    canonicalUrl: `${SITE_ORIGIN}/blog/how-to-check-github-project-before-installing/`,
+    tags: ['GitHub', 'Open Source', 'Cybersecurity', 'Software Development', 'JavaScript'],
+    audience: 'Developers, small-site owners, and people testing open-source or AI-agent tools.',
+    disclosure:
+      'Disclosure: I am Brendan Chambers, the owner of Access Free Tools. Codex helped organize the source checks and test this draft; the project examples, decisions, and final wording are mine.',
+    contextualLink:
+      'I keep the complete version of this routine in my [GitHub repository safety guide](https://accessfreetools.com/blog/how-to-check-github-project-before-installing/). The checklist below is the shorter version I use when an install command is waiting in another window.',
+    headings: {
+      bestUse: 'When this check is worth doing',
+      limits: 'Green flags and stop signs',
+      cta: 'Keep the checklist beside the install command',
+    },
+    sections: [
+      {
+        heading: 'I use stars as a popularity clue',
+        paragraphs: [
+          'A large star count shows that people noticed a project. I still check whether the latest release is clean and whether the installer asks for too much access.',
+          '[OpenSSF Scorecard](https://github.com/ossf/scorecard) can surface useful signals such as pinned dependencies, maintained status, security policies, and risky workflow patterns. These checks have limits, so I read the findings instead of treating one score as a verdict.',
+        ],
+      },
+      {
+        heading: 'The seven checks I use before installation',
+        paragraphs: [
+          'I made this routine boring on purpose. It helps me notice an unexpected folder, process, or token request before the installer runs.',
+        ],
+        bullets: [
+          'Confirm the real source and owner. I follow redirects and make sure the repository belongs to the project or maintainer I expected.',
+          'Check maintenance. I look at recent releases, open issues, archived status, and whether the instructions still match the files.',
+          'Read the license. It answers what I may copy, modify, or redistribute. It does not prove that the code is secure.',
+          'Inspect every install path. I read shell scripts, PowerShell scripts, package scripts, setup files, and commands that fetch more code.',
+          'Review dependencies. I check the manifest and lockfile for unexpected packages, native binaries, floating versions, and known advisories.',
+          'Map writes and access. I list folders, network calls, environment variables, browser access, tokens, and credentials the tool expects.',
+          'Start isolated. I use a temporary clone, a user-level directory, a help command, or a dry run before the real project is involved.',
+        ],
+      },
+      {
+        heading: 'npm install is an action',
+        paragraphs: [
+          'An npm package can run lifecycle scripts during installation. That may be expected, such as compiling a native helper, but it means `npm install` is doing more than downloading files. I inspect `package.json` for preinstall, install, postinstall, prepare, and shell commands first.',
+          'The [npm scripts documentation](https://docs.npmjs.com/cli/v11/using-npm/scripts/) explains when these scripts run. I also look for a lockfile and exact versions. A reviewed version is easier to reproduce than a command that pulls whatever latest means on the day I run it.',
+        ],
+      },
+      {
+        heading: 'A license and a security check answer different questions',
+        paragraphs: [
+          'A clear license tells me what the author allows. A clean scan tells me something about the code at one point in time. I need both questions answered before code becomes part of a public website.',
+          'GitHub has separate guidance for [repository licensing](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository) and [dependency review](https://docs.github.com/en/code-security/concepts/supply-chain-security/dependency-review). That separation is helpful. Permission to use code is not proof of safety, and a security score is not permission to copy it.',
+        ],
+      },
+      {
+        heading: 'Write locations matter as much as the code',
+        paragraphs: [
+          'A tool can be useful and still be wrong for the place where I am testing it. During my review, I found projects that could create knowledge graphs, project-memory folders, or setup files for another agent system.',
+          'I did not want an experiment to create `.claude/`, replace `AGENTS.md`, or add a large graph file to Access Free Tools. I checked those write paths before deciding where, or whether, the project should run.',
+        ],
+      },
+      {
+        heading: 'I keep secrets out of the review',
+        paragraphs: [
+          'I never paste passwords, API keys, browser cookies, login codes, or private environment values into a repository report. If a tool needs a secret, I record the environment-variable name and what access it grants. The value stays in the approved local secret store.',
+          'I also avoid the sentence "this repository is safe." The honest conclusion is narrower: which version I checked, what I inspected, what I did not inspect, and which permissions I was willing to grant.',
+        ],
+      },
+    ],
+    callout:
+      'The full Access Free Tools guide includes the longer checklist and source notes. My open-source stack article shows which projects later earned a defined job in the site.',
+    finalLinks: [
+      '[Full seven-step GitHub safety guide](https://accessfreetools.com/blog/how-to-check-github-project-before-installing/)',
+      '[Eight open-source projects behind Access Free Tools](https://accessfreetools.com/blog/open-source-projects-behind-access-free-tools/)',
+      '[Browse free developer tools](https://accessfreetools.com/categories/developer-tools/)',
+    ],
+    heroCredit:
+      'Image credit: Access Free Tools smoke-kawaii illustration, created with GPT Image and reviewed by Brendan Chambers.',
+  },
 ];
 
 const heroAltText = {
@@ -389,6 +473,8 @@ const heroAltText = {
     'Branded voltage drop calculator graphic showing wire length, current, voltage, and percent drop.',
   'markdown-table-cleanup':
     'Branded Markdown table generator graphic showing clean headers, rows, preview, and copy-ready output.',
+  'github-stars-security-review':
+    'Full-body smoke-kawaii girl inspecting a sealed software package beside a laptop, magnifying glass, shield, lock, and seven repository checks.',
 };
 
 const publishEnhancements = {
@@ -713,6 +799,45 @@ const publishEnhancements = {
       'Keep cell text short, preview before posting, and link out when a row needs more detail.',
     ],
   },
+  'github-stars-security-review': {
+    preview:
+      'A seven-step routine I use before a GitHub repository can touch Access Free Tools, its secrets, or its build.',
+    seoReview:
+      'The canonical article passed the editorial SEO workbench with a 100 page score and 50/50 Stop Slop score. A targeted DataForSEO seed check returned no useful variants, so keep the approved plain-language intent instead of forcing a higher-volume phrase.',
+    hook: [
+      'A few weeks ago, I had a README open in one browser tab and a terminal waiting beside it while I reviewed free coding-agent skills for Access Free Tools. Several repositories reduced installation to one line: copy, press Enter, done.',
+      'If you have ever copied a setup command from a README, you know how ordinary that moment feels. I cared about what happened next. Would the installer touch the website repository, replace `AGENTS.md`, read environment variables, or download another executable?',
+      'I did not run those commands first. I opened the repositories, read the scripts, and traced where each setup path wanted to write.',
+    ],
+    quickAnswer: [
+      'If you are trying to decide whether a GitHub repository is safe to install, start with its install path, not its star count. You need to know what the reviewed version will run, download, read, and change.',
+      'I confirm the owner, maintenance, license, scripts, dependencies, write locations, and permissions, then run the smallest read-only command in an isolated folder. You finish with a narrow conclusion you can act on instead of a blanket safety label.',
+    ],
+    whyItMatters: [
+      'Access Free Tools has hundreds of pages, deployment rules, local secrets, and proof files. An installer writing into the wrong folder can leave confusing project memory or alter a later build.',
+      'A legitimate one-line command can still do more than expected. I review it before installation so you can choose a temporary folder, a user-level install, or a firm no before cleanup becomes the next job.',
+    ],
+    bestUse: [
+      'Use this routine when you see a remote shell script, unfamiliar `npx` package, browser-control request, API token, native binary, or project-level setup file.',
+      'A readable library may need a quick check. A tool asking for secrets, admin access, browser permissions, or broad writes needs a defined boundary before it runs.',
+    ],
+    example: {
+      heading: 'A four-repository example from Access Free Tools',
+      paragraphs: [
+        'I reviewed 4 repositories while improving the site\'s agent workflow. The [Agentic SEO Skill](https://github.com/Bhanunamikaze/Agentic-SEO-Skill) earned a user-level installation after I inspected its installer in a temporary clone and refused project-local setup.',
+        '[Graphify](https://github.com/safishamsi/graphify), [Understand Anything](https://github.com/Egonex-AI/Understand-Anything), and [GStack](https://github.com/garrytan/gstack) stayed in evaluation mode. Their useful workflows can create graph files, project memory, `.claude` folders, or setup documents. I used help and inventory checks rather than letting a trial change the website repository.',
+        'The result was 1 controlled global install and 3 deferrals. I deferred those projects because I had not defined a place where their writes were useful and contained. I am not calling them unsafe.',
+      ],
+    },
+    limits: [
+      'Green flag: the owner, README, license, release history, and supported platforms are clear.',
+      'Green flag: the installer is short, readable, and names its exact destinations.',
+      'Green flag: dependencies are pinned and the project offers help, dry-run, or read-only commands.',
+      'Stop and inspect: the command pipes remote code straight into a shell or downloads another executable without clear provenance.',
+      'Stop and inspect: the first run asks for admin access, production secrets, browser control, or writes outside the expected directory.',
+      'Stop and inspect: the instructions are copied, stale, obfuscated, or inconsistent with the repository files.',
+    ],
+  },
 };
 
 function parseArgs() {
@@ -781,11 +906,24 @@ function renderBullets(items) {
   return items.map((item) => `- ${item}`).join('\n');
 }
 
+function renderSections(post) {
+  return post.sections
+    .map((section) => {
+      const parts = [`## ${section.heading}`];
+      if (section.paragraphs?.length) parts.push(renderParagraphs(section.paragraphs));
+      if (section.bullets?.length) parts.push(renderBullets(section.bullets));
+      return parts.join('\n\n');
+    })
+    .join('\n\n');
+}
+
 function renderContextualLink(post) {
+  if (post.contextualLink) return post.contextualLink;
   return `If you want to try the page while reading, open the matching Access Free Tools page here: ${post.sourceUrl}`;
 }
 
 function renderFinalLinks(post) {
+  if (post.finalLinks?.length) return post.finalLinks.map((link) => `- ${link}`).join('\n');
   const links = [`Tool: ${post.sourceUrl}`];
   if (post.canonicalUrl !== post.sourceUrl) {
     links.push(`Full guide: ${post.canonicalUrl}`);
@@ -799,33 +937,41 @@ function markdown(post) {
   const heroImageUrl = `${SITE_ORIGIN}/medium/${post.slug}.jpg`;
   const heroImagePath = `public/medium/${post.slug}.jpg`;
   const heroAlt = heroAltText[post.slug] ?? `Branded Access Free Tools hero image for ${post.title}.`;
-  const sections = post.sections
-    .map(
-      (section) => `## ${section.heading}\n\n${section.paragraphs.join('\n\n')}`,
-    )
-    .join('\n\n');
+  const sections = renderSections(post);
+  const headings = {
+    quickAnswer: 'Quick answer',
+    whyItMatters: 'Why this matters',
+    bestUse: 'Best quick use case',
+    limits: 'What to check before trusting the result',
+    cta: 'Try the original tool',
+    ...post.headings,
+  };
+  const disclosure =
+    post.disclosure ??
+    'Disclosure: This companion post is from Access Free Tools. The original tool and full guide live on AccessFreeTools.com.';
+  const heroCredit = post.heroCredit ? `\n\n${post.heroCredit}` : '';
 
 const articleBody = `# ${post.title}
 
 ${post.subtitle}
 
-![${heroAlt}](${heroImageUrl})
+![${heroAlt}](${heroImageUrl})${heroCredit}
 
 ${renderParagraphs(extra.hook)}
 
-Disclosure: This companion post is from Access Free Tools. The original tool and full guide live on AccessFreeTools.com.
+${disclosure}
 
-## Quick answer
+## ${headings.quickAnswer}
 
 ${renderParagraphs(extra.quickAnswer)}
 
 ${renderContextualLink(post)}
 
-## Why this matters
+## ${headings.whyItMatters}
 
 ${renderParagraphs(extra.whyItMatters)}
 
-## Best quick use case
+## ${headings.bestUse}
 
 ${renderParagraphs(extra.bestUse)}
 
@@ -835,11 +981,11 @@ ${sections}
 
 ${renderParagraphs(extra.example.paragraphs)}
 
-## What to check before trusting the result
+## ${headings.limits}
 
 ${renderBullets(extra.limits)}
 
-## Try the original tool
+## ${headings.cta}
 
 ${post.callout}
 
@@ -857,9 +1003,12 @@ approval_required: true
 channel: "Medium"
 source_url: "${post.sourceUrl}"
 canonical_url_to_set: "${post.canonicalUrl}"
+seo_title: "${escapeYaml(post.seoTitle ?? post.title)}"
+seo_description: "${escapeYaml(post.seoDescription ?? extra.preview)}"
 hero_image_url: "${heroImageUrl}"
 hero_image_path: "${heroImagePath}"
 hero_alt: "${escapeYaml(heroAlt)}"
+hero_credit: "${escapeYaml(post.heroCredit ?? 'Access Free Tools branded illustration.')}"
 recommended_preview: "${escapeYaml(extra.preview)}"
 tags: "${tags}"
 word_count_estimate: ${wordCount}
@@ -875,6 +1024,8 @@ Publisher notes:
 - Hero alt text: ${heroAlt}
 - Audience: ${post.audience}
 - Set Medium canonical/source URL to: ${post.canonicalUrl}
+- Set Medium SEO title to: ${post.seoTitle ?? post.title}
+- Set Medium SEO description to: ${post.seoDescription ?? extra.preview}
 - Suggested tags: ${tags}
 - SEO review: ${extra.seoReview ?? 'Run DataForSEO or Search Console intent review before public publishing.'}
 - Article standard: follow docs/article-writing-agent-standard.md. Use the original Access Free Tools voice, not a copied living-writer style.
@@ -890,6 +1041,8 @@ ${articleBody}
 - Owner approved this exact article.
 - Hero image uploaded or imported, with alt text checked.
 - Canonical/source URL set to ${post.canonicalUrl}.
+- SEO title set to ${post.seoTitle ?? post.title}.
+- SEO description set to ${post.seoDescription ?? extra.preview}
 - Link tested: ${post.sourceUrl}.
 - Tags set: ${tags}.
 - Public Medium URL opened after publish or edit; hero image, alt text, large title, bold H2 headings, SEO settings, and canonical/source URL visibly checked.
@@ -898,6 +1051,67 @@ ${articleBody}
 
 Publishing note: Remove this checklist before pasting into Medium if you want the public article to be shorter.
 `;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function inlineMarkdownToHtml(value) {
+  return escapeHtml(value)
+    .replace(
+      /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,
+      '<a href="$2" rel="noopener noreferrer">$1</a>',
+    )
+    .replace(/`([^`]+)`/g, '<code>$1</code>');
+}
+
+function mediumPasteHtml(content) {
+  const lines = publicArticleContent(content).split(/\r?\n/);
+  const html = [];
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index].trim();
+    if (!line) continue;
+
+    if (line.startsWith('# ')) {
+      html.push(`<h1>${inlineMarkdownToHtml(line.slice(2))}</h1>`);
+      continue;
+    }
+
+    if (line.startsWith('## ')) {
+      html.push(`<h2>${inlineMarkdownToHtml(line.slice(3))}</h2>`);
+      continue;
+    }
+
+    const imageMatch = line.match(/^!\[([^\]]*)\]\((https?:\/\/[^)]+)\)$/);
+    if (imageMatch) {
+      html.push(
+        `<figure><img src="${escapeHtml(imageMatch[2])}" alt="${escapeHtml(imageMatch[1])}" width="1200" height="675"></figure>`,
+      );
+      continue;
+    }
+
+    if (line.startsWith('- ')) {
+      const items = [];
+      while (index < lines.length && lines[index].trim().startsWith('- ')) {
+        items.push(`<li>${inlineMarkdownToHtml(lines[index].trim().slice(2))}</li>`);
+        index += 1;
+      }
+      index -= 1;
+      html.push(`<ul>${items.join('')}</ul>`);
+      continue;
+    }
+
+    html.push(`<p>${inlineMarkdownToHtml(line)}</p>`);
+  }
+
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body><!--StartFragment-->${html.join('\n')}<!--EndFragment--></body></html>\n`;
 }
 
 function queueIndex(drafts) {
@@ -969,19 +1183,24 @@ function main() {
 
   for (const post of selected) {
     const path = resolve(args.outputDir, `${safeFileName(post.slug)}.md`);
+    const richHtmlPath = resolve(args.outputDir, `${safeFileName(post.slug)}-live-paste.html`);
     const content = markdown(post);
     const publicPath = resolve(args.publicDir, `${safeFileName(post.slug)}.md`);
     const publicContent = publicArticleContent(content);
     writeText(path, content);
     writeText(publicPath, publicContent);
+    writeText(richHtmlPath, mediumPasteHtml(content));
     const wordCount = estimateWordCount(publicArticleContent(content));
     report.drafts.push({
       slug: post.slug,
       title: post.title,
       path,
       publicPath,
+      richHtmlPath,
       sourceUrl: post.sourceUrl,
       canonicalUrl: post.canonicalUrl,
+      seoTitle: post.seoTitle ?? post.title,
+      seoDescription: post.seoDescription ?? publishEnhancements[post.slug].preview,
       heroImageUrl: `${SITE_ORIGIN}/medium/${post.slug}.jpg`,
       heroImagePath: `public/medium/${post.slug}.jpg`,
       heroAlt: heroAltText[post.slug],
