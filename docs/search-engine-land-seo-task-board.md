@@ -208,7 +208,7 @@ Useful commands:
 
 ### P1. Original Data Asset Plan
 
-Status: v1 implemented on 2026-05-13 with `docs/original-data-asset-plan.md`, `npm run content:usage-notes`, and `npm run aft -- usage-notes`. Current status is intentionally `not-ready`: local event files are QA diagnostics, not production evidence, and the ignored production analytics token is not configured in this workspace. Do not claim visitor, view, or tool-action readiness until `npm run analytics:production` succeeds and owner/test exclusion is confirmed.
+Status: v1 implemented on 2026-05-13 and hardened on 2026-07-13 with `docs/original-data-asset-plan.md`, `npm run content:usage-notes`, and `npm run aft -- usage-notes`. The report now fails closed unless a fresh privacy-safe production aggregate exists; local event files remain QA diagnostics and can never become public-demand evidence. Current status is intentionally `not-ready` because the ignored production analytics token is not configured in this workspace. Do not claim visitor, view, or tool-action readiness until `npm run analytics:production` succeeds and production owner exclusion is confirmed.
 
 Goal: create linkable, useful content that competitors cannot easily copy.
 
@@ -231,7 +231,8 @@ Proof required:
 
 Useful commands:
 
-- `npm run aft -- usage-summary`
+- `npm run analytics:production`
+- `npm run aft -- usage-summary` (local QA diagnostics only)
 - `npm run content:usage-notes`
 - `npm run aft -- usage-notes`
 

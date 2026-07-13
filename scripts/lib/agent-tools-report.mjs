@@ -1044,32 +1044,49 @@ function googlePerformanceExportSignals() {
 }
 
 function analyticsSignals() {
-  const eventsPath = resolve(process.cwd(), process.env.AFT_ANALYTICS_DIR ?? '.local/analytics', 'events.ndjson');
-  if (!existsSync(eventsPath)) {
+  const reportPath = process.env.AFT_PRODUCTION_ANALYTICS_REPORT_PATH ?? 'output/analytics/production-latest.json';
+  const report = readJson(reportPath);
+  if (!report) {
     return {
-      note: 'not enough data: first-party analytics events file is missing.',
+      generatedAt: '',
+      note: `not enough data: production analytics aggregate is missing at ${unixPath(reportPath)}. Run npm run analytics:production.`,
+      reportPath: unixPath(reportPath),
+      source: 'production-aggregate',
       topPages: [],
       topTools: [],
     };
   }
 
-  const events = readFileSync(eventsPath, 'utf8')
-    .split('\n')
-    .filter(Boolean)
-    .map((line) => safeJsonParse(line))
-    .filter(Boolean);
-  const pages = new Map();
-  const tools = new Map();
-
-  for (const event of events) {
-    if (event.type === 'page_view') pages.set(event.pagePath, (pages.get(event.pagePath) ?? 0) + 1);
-    if (event.type === 'tool_action' && event.toolSlug) tools.set(event.toolSlug, (tools.get(event.toolSlug) ?? 0) + 1);
+  const generatedAt = report.generatedAt ?? report.summary?.generatedAt ?? '';
+  const generatedTime = Date.parse(generatedAt);
+  const maxAgeDays = 8;
+  if (!Number.isFinite(generatedTime) || Date.now() - generatedTime > maxAgeDays * 24 * 60 * 60 * 1000) {
+    return {
+      generatedAt,
+      note: `not enough data: production analytics aggregate is stale or undated at ${unixPath(reportPath)}. Run npm run analytics:production.`,
+      reportPath: unixPath(reportPath),
+      source: 'production-aggregate',
+      topPages: [],
+      topTools: [],
+    };
   }
 
+  const topPages = (report.summary?.topPages ?? [])
+    .map((row) => [String(row.path ?? '').trim(), Number(row.count ?? 0)])
+    .filter(([path, count]) => path.startsWith('/') && Number.isFinite(count) && count > 0)
+    .slice(0, 10);
+  const topTools = (report.summary?.topTools ?? [])
+    .map((row) => [String(row.slug ?? '').trim(), Number(row.count ?? 0)])
+    .filter(([slug, count]) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) && Number.isFinite(count) && count > 0)
+    .slice(0, 10);
+
   return {
+    generatedAt,
     note: '',
-    topPages: [...pages.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10),
-    topTools: [...tools.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10),
+    reportPath: unixPath(reportPath),
+    source: 'production-aggregate',
+    topPages,
+    topTools,
   };
 }
 
@@ -1243,8 +1260,8 @@ export function buildLinkHelperReport() {
       anchorIdea: slug.replace(/-/g, ' '),
       priority: 'medium',
       reason: sourceCount
-        ? `First-party analytics recorded ${count} tool actions; built link proof already shows ${sourceCount} source pages.`
-        : `First-party analytics recorded ${count} tool actions.`,
+        ? `Production analytics recorded ${count} tool actions; built link proof already shows ${sourceCount} source pages.`
+        : `Production analytics recorded ${count} tool actions.`,
       target,
     });
   }
@@ -1270,7 +1287,14 @@ export function buildLinkHelperReport() {
     kind: 'link-helper',
     sitemap: { note: sitemap.note, urlCount: sitemap.urls.length },
     sources: {
-      analytics: { note: analytics.note, topPages: analytics.topPages, topTools: analytics.topTools },
+      analytics: {
+        generatedAt: analytics.generatedAt,
+        note: analytics.note,
+        reportPath: analytics.reportPath,
+        source: analytics.source,
+        topPages: analytics.topPages,
+        topTools: analytics.topTools,
+      },
       crawlScout: { completed: crawlScout.completed, note: crawlScout.note, opportunities: crawlScout.opportunities },
       searchConsole,
       searchConsoleDiscovery: searchConsoleDiscovery ? { generatedAt: searchConsoleDiscovery.generatedAt } : null,
@@ -1577,8 +1601,8 @@ const fallbackAgentLaneDefinitions = [
     primaryLens: 'Analytics Reporter',
     proofLens: 'Reality Checker',
     docs: ['docs/recommended-agency-agents.md', 'docs/analytics-dashboard.md', 'docs/original-data-asset-plan.md'],
-    commands: ['npm run aft -- usage-summary', 'npm run aft -- usage-notes'],
-    evidencePaths: ['output/agent-tools/usage-summary/latest.json', 'output/original-data-assets/latest.json'],
+    commands: ['npm run analytics:production', 'npm run aft -- usage-notes'],
+    evidencePaths: ['output/analytics/production-latest.json', 'output/original-data-assets/latest.json'],
   },
   {
     lane: 'automation',
@@ -2044,7 +2068,7 @@ export function buildToolBriefReport(slug = '') {
     nextProofCommands: [
       `npm run aft -- page-seo ${cleanSlug}`,
       'npm run aft -- link-helper',
-      'npm run aft -- usage-summary',
+      'npm run analytics:production',
       'npm run aft -- site-sitemap',
     ],
     related: {

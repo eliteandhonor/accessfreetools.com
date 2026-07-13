@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { summarizeSelectedToolAnalytics, type StoredAnalyticsEvent } from './siteAnalytics';
+import { summarizeAnalyticsRange, summarizeSelectedToolAnalytics, type StoredAnalyticsEvent } from './siteAnalytics';
 
 function event(overrides: Partial<StoredAnalyticsEvent>): StoredAnalyticsEvent {
   return {
@@ -53,5 +53,32 @@ describe('selected tool analytics summary', () => {
 
   it('returns no selected audience when no tool is requested', () => {
     expect(summarizeSelectedToolAnalytics([], '')).toEqual({ actions: [], audience: null });
+  });
+});
+
+describe('analytics range summary', () => {
+  it('returns privacy-safe totals for the requested production window', () => {
+    const allEvents = [
+      event({ day: '2026-07-18', ts: '2026-07-18T00:00:00.000Z' }),
+      event({ eventId: 'event-2', sessionHash: 'session-2', visitorHash: 'visitor-2' }),
+      event({
+        action: 'Start round: computer',
+        eventId: 'event-3',
+        toolSlug: 'four-in-a-row-game',
+        type: 'tool_action',
+      }),
+    ];
+
+    const summary = summarizeAnalyticsRange(allEvents.slice(1), allEvents);
+
+    expect(summary).toEqual({
+      events: 2,
+      pageViews: 1,
+      returningVisitors: 1,
+      toolActions: 1,
+      visitors: 2,
+    });
+    expect(JSON.stringify(summary)).not.toContain('visitorHash');
+    expect(JSON.stringify(summary)).not.toContain('sessionHash');
   });
 });

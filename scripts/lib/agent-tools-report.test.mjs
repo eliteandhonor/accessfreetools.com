@@ -68,6 +68,7 @@ describe('agent tools reports', () => {
     rmSync(resolve(process.cwd(), 'dist/client/test-link-fixture'), { force: true, recursive: true });
     rmSync(resolve(process.cwd(), '.agent-tools-test-dist'), { force: true, recursive: true });
     rmSync(resolve(process.cwd(), '.agent-tools-test-missing-dist'), { force: true, recursive: true });
+    rmSync(resolve(process.cwd(), '.agent-tools-test-local-analytics'), { force: true, recursive: true });
     removeDirectoryIfEmpty('dist');
     rmSync(resolve(process.cwd(), 'output/agent-tools-test'), { force: true, recursive: true });
     rmSync(resolve(process.cwd(), 'output/agent-tools/test-proof'), { force: true, recursive: true });
@@ -252,7 +253,7 @@ describe('agent tools reports', () => {
     expect(report.related.count).toBeGreaterThan(0);
     expect(report.searchConsole.url).toBe('https://accessfreetools.com/tools/percentage-calculator/');
     expect(report.nextProofCommands).toContain('npm run aft -- page-seo percentage-calculator');
-    expect(report.nextProofCommands).toContain('npm run aft -- usage-summary');
+    expect(report.nextProofCommands).toContain('npm run analytics:production');
   });
 
   it('does not recommend completed SEO recovery pages or monitor-only sitemap rows', () => {
@@ -602,6 +603,55 @@ describe('agent tools reports', () => {
     expect(suggestionText).not.toContain('only 0 built pages');
     expect(suggestionText).not.toContain('add contextual support first');
     expect(linkHelperReport.status).toBe('not enough data');
+  });
+
+  it('does not use local QA events as SEO demand evidence', () => {
+    preserveEnv('AFT_ANALYTICS_DIR', '.agent-tools-test-local-analytics');
+    preserveEnv('AFT_PRODUCTION_ANALYTICS_REPORT_PATH', 'output/agent-tools-test/missing-production.json');
+    preserveAndWrite(
+      '.agent-tools-test-local-analytics/events.ndjson',
+      `${JSON.stringify({ toolSlug: 'local-only-tool', type: 'tool_action' })}\n`,
+    );
+    temporarilyRemoveFile('output/agent-tools-test/missing-production.json');
+
+    const report = buildLinkHelperReport();
+    const suggestionTargets = report.suggestions.map((suggestion) => suggestion.target);
+
+    expect(suggestionTargets).not.toContain('/tools/local-only-tool/');
+    expect(report.sources.analytics.source).toBe('production-aggregate');
+    expect(report.sources.analytics.note).toMatch(/production analytics aggregate is missing/i);
+  });
+
+  it('uses a fresh privacy-safe production aggregate for usage recommendations', () => {
+    const productionPath = 'output/agent-tools-test/production-analytics.json';
+    preserveEnv('AFT_PRODUCTION_ANALYTICS_REPORT_PATH', productionPath);
+    preserveAndWrite(
+      productionPath,
+      JSON.stringify(
+        {
+          generatedAt: new Date().toISOString(),
+          summary: {
+            topPages: [{ count: 7, label: 'Production tool', path: '/tools/production-only-tool/' }],
+            topTools: [
+              { count: 5, label: 'Production tool', path: '/tools/production-only-tool/', slug: 'production-only-tool' },
+            ],
+          },
+        },
+        null,
+        2,
+      ),
+    );
+
+    const report = buildLinkHelperReport();
+    const suggestion = report.suggestions.find((item) => item.target === '/tools/production-only-tool/');
+
+    expect(suggestion?.reason).toMatch(/Production analytics recorded 5 tool actions/);
+    expect(report.sources.analytics).toMatchObject({
+      generatedAt: expect.any(String),
+      note: '',
+      reportPath: productionPath,
+      source: 'production-aggregate',
+    });
   });
 
   it('does not turn monitor-only or completed CrawlScout rows into link tasks', () => {

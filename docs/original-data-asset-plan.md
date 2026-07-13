@@ -44,20 +44,21 @@ Do not publish a usage notes article until the data passes these minimums for th
 - At least 25 tool actions.
 - No obvious bot-only spike dominates the report.
 
-The local readiness command is:
+Refresh the private production aggregate, then run the readiness command:
 
 ```powershell
+npm run analytics:production
 npm run aft -- usage-notes
 ```
 
-It writes a private draft and evidence under `output/original-data-assets/`. The output is not automatically public content.
+The readiness command reads only the fresh privacy-safe production aggregate at `output/analytics/production-latest.json`. It never falls back to `.local/analytics/events.ndjson`, which is a local QA log. It writes a private draft and evidence under `output/original-data-assets/`; the output is not automatically public content.
 
 Current status: `not-ready`. Local event files contain QA activity and are not production business evidence. This workspace does not currently have the ignored private analytics token needed by `npm run analytics:production`, so production visitor, page-view, and action thresholds cannot be assessed yet. Report this as `not enough data`; do not substitute local counts.
 
 ## How Agents Should Use It
 
 - Use `npm run analytics:production` for production decisions. Treat `npm run aft -- usage-summary` as local QA diagnostics only.
-- Use `npm run aft -- usage-notes` before proposing a public data asset.
+- Use `npm run aft -- usage-notes` after refreshing the production aggregate and before proposing a public data asset. Missing, stale, wrong-window, or pre-upgrade aggregate evidence must fail closed as `not-ready`.
 - Use the report to improve internal links, guides, and promotion priorities.
 - Do not turn anonymous usage into a public claim unless the readiness rule passes.
 - Do not compare Access Free Tools to competitors using weak or private analytics.

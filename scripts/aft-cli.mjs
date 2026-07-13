@@ -1728,7 +1728,7 @@ program
 
 program
   .command('usage-notes')
-  .description('Create a privacy-safe original data asset readiness report from anonymous usage events.')
+  .description('Create an original data asset readiness report from a privacy-safe production aggregate.')
   .option('--days <days>', 'Number of days to summarize.', '30')
   .option('--json', 'Output JSON.')
   .action(usageNotesCommand);

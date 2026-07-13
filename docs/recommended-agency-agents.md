@@ -95,7 +95,7 @@ Use this router before starting work:
 | Bluesky and DEV | Technical Writer | Evidence Collector | matching quality command |
 | Tool/page UI | Accessibility Auditor | Evidence Collector | `npm run build` then targeted QA |
 | Images/gallery | Performance Benchmarker | Evidence Collector | `npm run images:qa` |
-| Analytics/data assets | Analytics Reporter | Reality Checker | `npm run aft -- usage-summary` |
+| Analytics/data assets | Analytics Reporter | Reality Checker | `npm run analytics:production` |
 | Automations | Automation Governance Architect | Reality Checker | `npm run automation:env-check` |
 | Hostinger/deploy | Automation Governance Architect | Reality Checker | `npm run aft -- hostinger` |
 | Code review | Code Reviewer | Reality Checker | task-specific tests |
@@ -286,8 +286,8 @@ tool-use data, or proposing public data assets.
 
 - Local owner docs: `docs/analytics-dashboard.md`,
   `docs/original-data-asset-plan.md`, `docs/agent-cli.md`
-- Local proof commands: `npm run aft -- usage-summary`,
-  `npm run aft -- usage-notes`
+- Local proof commands: `npm run analytics:production`,
+  `npm run aft -- usage-notes`; use `npm run aft -- usage-summary` only for local QA diagnostics
 - Access Free Tools adaptation: separate owner traffic from public-user signals
   when possible, and do not publish usage stories from tiny samples.
 
@@ -308,7 +308,7 @@ Use when deciding what tools to build or improve next.
 
 - Local owner docs: `docs/next-agent-tasks.md`,
   `docs/original-data-asset-plan.md`, `docs/calculator-net-roadmap.md`
-- Local proof commands: `npm run aft -- usage-summary`,
+- Local proof commands: `npm run analytics:production`,
   `npm run aft -- marketing`, targeted DataForSEO checks when SEO research is
   needed
 - Access Free Tools adaptation: prioritize real utility, Search Console signals,

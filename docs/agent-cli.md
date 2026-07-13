@@ -69,10 +69,10 @@ The CLI is for agent support only. It must not publish posts, edit live social c
 
 - `npm run aft -- usage-summary` (local QA log only; not production-demand proof)
 - `npm run analytics:production` (private production aggregate)
-  - Reads the local first-party analytics event log and summarizes visitors, page views, tool-use actions, top tools, and top pages. Use `--days <number>` for a different range.
+  - Fetches an authenticated, privacy-safe production aggregate with visitors, page views, tool-use actions, top tools, and top pages. Use `-- --days=<number>` for a different range.
 
 - `npm run aft -- usage-notes`
-  - Creates a privacy-safe original data asset readiness report and draft outline from anonymous usage events. It should stay `not-ready` until there are enough real visitors, enough tool actions, and owner traffic is filtered.
+  - Creates an original data asset readiness report and draft outline from the fresh production aggregate only. It never falls back to local QA events and stays `not-ready` until there are enough real visitors, enough tool actions, and production owner exclusion is confirmed.
 
 - `npm run aft -- site-sitemap`
   - Checks built XML sitemap coverage and confirms the public HTML sitemap source exists.

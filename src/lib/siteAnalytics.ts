@@ -76,6 +76,14 @@ export interface AnalyticsSummary {
   };
   days: number;
   generatedAt: string;
+  ownerExclusionConfigured: boolean;
+  range: {
+    events: number;
+    pageViews: number;
+    returningVisitors: number;
+    toolActions: number;
+    visitors: number;
+  };
   rangeStart: string;
   recentEvents: StoredAnalyticsEvent[];
   returningVisitorsToday: number;
@@ -503,6 +511,34 @@ export function summarizeSelectedToolAnalytics(events: StoredAnalyticsEvent[], t
   };
 }
 
+export function summarizeAnalyticsRange(
+  eventsInRange: StoredAnalyticsEvent[],
+  allEvents: StoredAnalyticsEvent[] = eventsInRange,
+) {
+  const firstSeen = new Map<string, StoredAnalyticsEvent>();
+
+  for (const event of allEvents) {
+    const current = firstSeen.get(event.visitorHash);
+    if (!current || event.ts < current.ts) firstSeen.set(event.visitorHash, event);
+  }
+
+  const visitors = new Set(eventsInRange.map((event) => event.visitorHash).filter(Boolean));
+  const returningVisitors = new Set<string>();
+
+  for (const event of eventsInRange) {
+    const firstEvent = firstSeen.get(event.visitorHash);
+    if (firstEvent && event.day !== firstEvent.day) returningVisitors.add(event.visitorHash);
+  }
+
+  return {
+    events: eventsInRange.length,
+    pageViews: eventsInRange.filter((event) => event.type === 'page_view').length,
+    returningVisitors: returningVisitors.size,
+    toolActions: eventsInRange.filter((event) => event.type === 'tool_action').length,
+    visitors: visitors.size,
+  };
+}
+
 export async function summarizeAnalytics(options: { days?: number; now?: Date; toolSlug?: string } = {}): Promise<AnalyticsSummary> {
   const days = Math.max(1, Math.min(365, options.days ?? 30));
   const timeZone = analyticsEnv('AFT_ANALYTICS_TIME_ZONE', DEFAULT_TIME_ZONE);
@@ -553,6 +589,7 @@ export async function summarizeAnalytics(options: { days?: number; now?: Date; t
   const newVisitorsToday = [...todayVisitors].filter((visitorHash) => firstSeen.get(visitorHash) === todayKey).length;
   const returningVisitorsToday = Math.max(0, todayVisitors.size - newVisitorsToday);
   const selectedTool = summarizeSelectedToolAnalytics(eventsInRange, options.toolSlug);
+  const range = summarizeAnalyticsRange(eventsInRange, events);
 
   return {
     activeVisitors: activeVisitors.size,
@@ -564,6 +601,8 @@ export async function summarizeAnalytics(options: { days?: number; now?: Date; t
     },
     days,
     generatedAt: now.toISOString(),
+    ownerExclusionConfigured: getExcludedIps().size > 0,
+    range,
     rangeStart: new Date(rangeStartTime).toISOString(),
     recentEvents: events.slice(-30).reverse(),
     returningVisitorsToday,

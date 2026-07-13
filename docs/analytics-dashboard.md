@@ -131,3 +131,8 @@ hostnames, which prevents local visual and smoke checks from adding new events.
 API using a local-only analytics token. It saves no token or raw visitor data.
 The Four in a Row pilot report then separates aggregate starts, completions,
 and replays from page views and keeps the eight-week decision gate explicit.
+
+The CLI link helper, tool briefs, and SEO console use only the fresh privacy-safe
+`output/analytics/production-latest.json` aggregate for usage-based priorities.
+They never fall back to `.local/analytics/events.ndjson`; when the production
+aggregate is missing or older than eight days, they report `not enough data`.
