@@ -199,6 +199,36 @@ const pins = [
     board: 'Free Online Calculators',
     boardSlug: 'free-online-calculators',
   },
+  {
+    slug: 'sales-tax-calculator',
+    asset: 'sales-tax-calculator.png',
+    title: 'Sales Tax Calculator For Price And Total Checks',
+    description:
+      'Check the tax amount, final price, or pre-tax price before comparing a receipt or checkout. I built this free browser calculator for quick estimates; local tax rules and exemptions can still differ.',
+    url: 'https://accessfreetools.com/tools/sales-tax-calculator/',
+    board: 'Finance Calculators',
+    boardSlug: 'finance-calculators',
+  },
+  {
+    slug: 'kawaii-calculator',
+    asset: 'kawaii-calculator.png',
+    title: 'Kawaii Calculator For Cute Everyday Math',
+    description:
+      'A cute calculator for everyday arithmetic, percentages, memory, and keyboard-friendly checks. I built it for people who want practical math without a dull screen or signup.',
+    url: 'https://accessfreetools.com/tools/kawaii-calculator/',
+    board: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+  },
+  {
+    slug: 'concrete-block-calculator',
+    asset: 'concrete-block-calculator.png',
+    title: 'Concrete Block Calculator For Wall Estimates',
+    description:
+      'Estimate concrete blocks from wall width, height, block size, openings, and waste allowance. I built this for early project planning; check local requirements and your supplier before ordering.',
+    url: 'https://accessfreetools.com/tools/concrete-block-calculator/',
+    board: 'Home Project Calculators',
+    boardSlug: 'home-project-calculators',
+  },
 ];
 
 function parseArgs() {

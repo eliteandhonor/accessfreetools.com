@@ -1,4 +1,4 @@
-import { mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { chromium } from 'playwright';
 
@@ -268,6 +268,39 @@ const pins = [
     accent2: '#2563eb',
     accent3: '#22c55e',
   },
+  {
+    file: 'sales-tax-calculator.png',
+    title: 'Sales Tax Calculator',
+    subtitle: 'Add tax to a price or work backward from a total before checking a receipt or checkout.',
+    chips: ['Price', 'Tax rate', 'Total'],
+    url: 'accessfreetools.com/tools/sales-tax-calculator/',
+    accent: '#0f766e',
+    accent2: '#2563eb',
+    accent3: '#f97316',
+    artPath: 'public/tool-art/sales-tax-calculator-tool.webp',
+  },
+  {
+    file: 'kawaii-calculator.png',
+    title: 'Kawaii Calculator',
+    subtitle: 'A cute browser calculator for everyday math, percentages, memory, and quick checks.',
+    chips: ['Cute design', 'Percent key', 'No signup'],
+    url: 'accessfreetools.com/tools/kawaii-calculator/',
+    accent: '#be185d',
+    accent2: '#6d5dfc',
+    accent3: '#38bdf8',
+    artPath: 'public/tool-art/kawaii-calculator-tool.webp',
+  },
+  {
+    file: 'concrete-block-calculator.png',
+    title: 'Concrete Block Calculator',
+    subtitle: 'Estimate blocks from wall size, block dimensions, openings, and a practical waste allowance.',
+    chips: ['Wall size', 'Openings', 'Block count'],
+    url: 'accessfreetools.com/tools/concrete-block-calculator/',
+    accent: '#475569',
+    accent2: '#0f766e',
+    accent3: '#f59e0b',
+    artPath: 'public/tool-art/concrete-block-calculator-tool.webp',
+  },
 ];
 
 function escapeHtml(value) {
@@ -288,6 +321,21 @@ function brandMarkHtml() {
 
 function pinHtml(pin) {
   const chips = pin.chips.map((chip) => `<span>${escapeHtml(chip)}</span>`).join('');
+  const art = pin.artPath
+    ? `data:image/webp;base64,${readFileSync(resolve(pin.artPath)).toString('base64')}`
+    : '';
+  const lowerPanel = art
+    ? `<section class="art" aria-hidden="true">
+        <img src="${art}" alt="" />
+        <div class="art-url">${escapeHtml(pin.url)}</div>
+      </section>`
+    : `<section class="preview" aria-hidden="true">
+        <div class="bar">
+          <div class="row"><div class="icon">=</div><div><div class="line"></div><br /><div class="line short"></div></div></div>
+          <div class="row"><div class="icon">%</div><div><div class="line short"></div><br /><div class="line"></div></div></div>
+        </div>
+        <div class="url">${escapeHtml(pin.url)}</div>
+      </section>`;
 
   return `<!doctype html>
 <html>
@@ -393,6 +441,11 @@ function pinHtml(pin) {
         margin: 120px 0 34px;
         max-width: 850px;
       }
+      main.has-art h1 {
+        font-size: 82px;
+        line-height: 1;
+        margin: 70px 0 24px;
+      }
       p {
         color: #334155;
         font-size: 42px;
@@ -400,6 +453,10 @@ function pinHtml(pin) {
         line-height: 1.22;
         margin: 0;
         max-width: 840px;
+      }
+      main.has-art p {
+        font-size: 36px;
+        line-height: 1.24;
       }
       .chips {
         display: flex;
@@ -417,6 +474,39 @@ function pinHtml(pin) {
         font-size: 31px;
         font-weight: 950;
         padding: 18px 24px 18px 18px;
+      }
+      main.has-art .chips {
+        margin-top: 34px;
+      }
+      .art {
+        background: #0f172a;
+        border: 2px solid rgba(255, 255, 255, 0.94);
+        border-radius: 34px;
+        box-shadow: 0 28px 76px rgba(15, 23, 42, 0.18);
+        height: 520px;
+        margin-top: auto;
+        overflow: hidden;
+        position: relative;
+      }
+      .art img {
+        display: block;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        width: 100%;
+      }
+      .art-url {
+        backdrop-filter: blur(8px);
+        background: rgba(15, 23, 42, 0.84);
+        border-radius: 18px;
+        bottom: 22px;
+        color: #fff;
+        font-size: 27px;
+        font-weight: 900;
+        left: 24px;
+        padding: 15px 18px;
+        position: absolute;
+        right: 24px;
       }
       .preview {
         background: rgba(255, 255, 255, 0.7);
@@ -470,7 +560,7 @@ function pinHtml(pin) {
   </head>
   <body>
     <div class="grid"></div>
-    <main>
+    <main class="${art ? 'has-art' : ''}">
       <div class="top">
         ${brandMarkHtml()}
         <div class="brand">Access<br />Free Tools</div>
@@ -478,13 +568,7 @@ function pinHtml(pin) {
       <h1>${escapeHtml(pin.title)}</h1>
       <p>${escapeHtml(pin.subtitle)}</p>
       <div class="chips">${chips}</div>
-      <section class="preview" aria-hidden="true">
-        <div class="bar">
-          <div class="row"><div class="icon">=</div><div><div class="line"></div><br /><div class="line short"></div></div></div>
-          <div class="row"><div class="icon">%</div><div><div class="line short"></div><br /><div class="line"></div></div></div>
-        </div>
-        <div class="url">${escapeHtml(pin.url)}</div>
-      </section>
+      ${lowerPanel}
     </main>
   </body>
 </html>`;
