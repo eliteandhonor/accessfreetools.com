@@ -504,6 +504,19 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     publicPinUrl: 'https://au.pinterest.com/pin/1148277236269614267/',
     published: '2026-07-15',
   },
+  {
+    title: 'Engine Horsepower Calculator For Torque And RPM',
+    description:
+      'Calculate horsepower, torque, or RPM from two known values, then estimate engine and wheel horsepower with an editable drivetrain-loss assumption. Use it for comparison, not a dyno measurement.',
+    path: '/tools/engine-horsepower-calculator/',
+    imagePath: '/pinterest/engine-horsepower-calculator.jpg',
+    category: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+    status: 'posted',
+    rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236269618404/',
+    published: '2026-07-15',
+  },
 ];
 
 export function getPinterestBoard(slug: string) {

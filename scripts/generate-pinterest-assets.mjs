@@ -400,6 +400,17 @@ const pins = [
     accent3: '#f59e0b',
     artPath: 'public/tool-art/engine-horsepower-calculator-tool.webp',
   },
+  {
+    file: 'markup-calculator-guide.png',
+    title: 'Markup And Margin Guide',
+    subtitle: 'See why markup and margin differ, then price from cost or work backward from a target margin.',
+    chips: ['Cost', 'Markup', 'Margin'],
+    url: 'accessfreetools.com/blog/how-to-use-markup-calculator/',
+    accent: '#0f766e',
+    accent2: '#be123c',
+    accent3: '#f59e0b',
+    artPath: 'public/tool-art/markup-calculator-guide.webp',
+  },
 ];
 
 function escapeHtml(value) {

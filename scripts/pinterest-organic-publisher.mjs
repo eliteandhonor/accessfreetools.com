@@ -319,6 +319,16 @@ const pins = [
     board: 'Free Online Calculators',
     boardSlug: 'free-online-calculators',
   },
+  {
+    slug: 'markup-calculator-guide',
+    asset: 'markup-calculator-guide.png',
+    title: 'Markup And Margin Calculator Guide',
+    description:
+      'Learn how to calculate selling price from cost and markup, work backward from a target margin, and compare markup with margin using worked examples and a free calculator.',
+    url: 'https://accessfreetools.com/blog/how-to-use-markup-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Finance Calculators',
+    boardSlug: 'finance-calculators',
+  },
 ];
 
 function parseArgs() {

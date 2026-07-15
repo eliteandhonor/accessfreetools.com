@@ -158,8 +158,12 @@ pages. The verified batch covers Interest Rate, Date, Fraction, Gas Mileage,
 Oven Temperature, Golf Handicap, Flooring, and Area. Each public check matched
 the intended destination URL, description, board, and AI-modified disclosure.
 The public Pin URLs are recorded in the queue rows below and in
-`src/data/pinterestFeed.ts`. No additional approved Pinterest assets remain in
-the current batch.
+`src/data/pinterestFeed.ts`. That prepared batch is exhausted; follow-on Pins
+are now being selected one at a time from current search evidence, generated,
+published, and publicly checked before another asset is prepared. The first
+follow-on Pin, Engine Horsepower Calculator, was verified at
+`https://au.pinterest.com/pin/1148277236269618404/` with its destination,
+description, board, alt text, and AI-modified disclosure intact.
 The matching Watts to Amps Medium companion article was also published through
 the user's logged-in external Chrome session on 2026-05-14 after
 `npm run promotion:medium:quality` passed. The public page was checked for H1,
@@ -318,6 +322,7 @@ SEO proof from 2026-05-10:
 | Medium | `/tools/golf-handicap-calculator/` | Estimate a golf handicap while explaining official-result limits | Pinterest | posted | Public Pin and Health And Fitness Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269614203/`. |
 | Medium | `/tools/flooring-calculator/` | Estimate room flooring, pack coverage, and waste allowance | Pinterest | posted | Public Pin and Home Project Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269614243/`. |
 | Medium | `/tools/area-calculator/` | Calculate common-shape areas with units and formulas | Pinterest | posted | Public Pin and School And Study Tools board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269614267/`. |
+| High | `/tools/engine-horsepower-calculator/` | Solve horsepower, torque, RPM, and estimated wheel horsepower without implying a dyno result | Pinterest | posted | Public Pin and Free Online Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269618404/`. |
 | High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Medium | posted | Published and public-page checked on 2026-05-09 with H1, hero image, alt text, SEO title/description, topics, and H2 headings verified: `https://medium.com/@accessfreetools/how-to-think-about-ad-revenue-before-your-site-has-big-traffic-beef3ad9529c` |
 | High | `/tools/ad-revenue-calculator/` | Explain RPM, CTR, CPC, impressions, and earnings-estimate limits | Bluesky | posted | Public post verified on 2026-05-10: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlhkxzok5k2a` |
 | High | `/tools/percentage-calculator/` | Discounts, tips, markups, and percent change | Medium | posted | Live article published and checked on 2026-05-07: `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4`; branded hero image, alt text, Medium SEO title/description, canonical link, reader-interest topics, and live H1/H2 formatting verified in the external browser |
