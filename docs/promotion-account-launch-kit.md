@@ -126,13 +126,17 @@ Organic posting workflow:
 - Pick or create the board before pressing Publish.
 - After a publish attempt, confirm the board page shows the pin and then remove
   any leftover unpublished duplicate drafts.
-- Repeatable local command: run `npm run promotion:pinterest-assets`, then run
-  `node scripts/pinterest-organic-publisher.mjs --slug=percentage-calculator --publish`.
-  To replay the full starter set safely, run `npm run promotion:pinterest:starter`;
-  already-published pins are skipped after board-page verification.
-  The command uses the local external Edge profile at
-  `.local/pinterest-browser-profile`, refuses ad/campaign/billing flows, skips
-  pins already visible on their board, and cleans failed drafts.
+- Generate assets with `npm run promotion:pinterest-assets`, then use
+  `scripts/pinterest-organic-publisher.mjs` in dry-run mode to verify titles,
+  descriptions, destination URLs, and boards before opening Chrome.
+- Use the user's logged-in external Chrome profile for live organic posting.
+  If the Chrome file-chooser API reports `Not allowed` but Pinterest opens the
+  native Windows `Open` dialog, continue through that native picker and select
+  the approved JPG from `public/pinterest/`. This path was verified on
+  2026-07-15 and does not require the ad-focused `pin-builder`.
+- Do not treat a successful upload or Publish click as proof. Record `posted`
+  only after the public profile or board exposes a direct Pin URL and that Pin's
+  Visit Site link points to the intended Access Free Tools page.
 
 RSS auto-publish workflow:
 

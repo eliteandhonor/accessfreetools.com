@@ -16,10 +16,11 @@ export interface PinterestFeedItem {
   boardSlug: string;
   status: PinterestFeedStatus;
   rssEligible: boolean;
+  publicPinUrl?: string;
   published: string;
 }
 
-export const PINTEREST_FEED_UPDATED = '2026-05-14';
+export const PINTEREST_FEED_UPDATED = '2026-07-15';
 
 export const pinterestBoards: PinterestBoard[] = [
   {
@@ -359,6 +360,45 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     status: 'posted',
     rssEligible: false,
     published: '2026-05-07',
+  },
+  {
+    title: 'Sales Tax Calculator For Price And Total Checks',
+    description:
+      'Check the tax amount, final price, or pre-tax price before comparing a receipt or checkout. I built this free browser calculator for quick estimates; local tax rules and exemptions can still differ.',
+    path: '/tools/sales-tax-calculator/',
+    imagePath: '/pinterest/sales-tax-calculator.jpg',
+    category: 'Finance Calculators',
+    boardSlug: 'finance-calculators',
+    status: 'posted',
+    rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236269606694/',
+    published: '2026-07-15',
+  },
+  {
+    title: 'Kawaii Calculator For Cute Everyday Math',
+    description:
+      'A cute calculator for everyday arithmetic, percentages, memory, and keyboard-friendly checks. I built it for people who want practical math without a dull screen or signup.',
+    path: '/tools/kawaii-calculator/',
+    imagePath: '/pinterest/kawaii-calculator.jpg',
+    category: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+    status: 'posted',
+    rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236269606692/',
+    published: '2026-07-15',
+  },
+  {
+    title: 'Concrete Block Calculator For Wall Estimates',
+    description:
+      'Estimate concrete blocks from wall width, height, block size, openings, and waste allowance. I built this for early project planning; check local requirements and your supplier before ordering.',
+    path: '/tools/concrete-block-calculator/',
+    imagePath: '/pinterest/concrete-block-calculator.jpg',
+    category: 'Home Project Calculators',
+    boardSlug: 'home-project-calculators',
+    status: 'posted',
+    rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236269606687/',
+    published: '2026-07-15',
   },
 ];
 
