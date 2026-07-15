@@ -329,6 +329,66 @@ const pins = [
     board: 'Finance Calculators',
     boardSlug: 'finance-calculators',
   },
+  {
+    slug: 'matrix-calculator',
+    asset: 'matrix-calculator.png',
+    title: 'Matrix Calculator For 2x2 And 3x3 Steps',
+    description:
+      'Add, subtract, multiply, or transpose 2x2 and 3x3 matrices, or calculate determinants with clear steps and copyable results. Useful for checking homework and examples.',
+    url: 'https://accessfreetools.com/tools/matrix-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'School And Study Tools',
+    boardSlug: 'school-and-study-tools',
+  },
+  {
+    slug: 'loan-calculator',
+    asset: 'loan-calculator.png',
+    title: 'Loan Calculator For Payments And Interest',
+    description:
+      'Estimate a fixed-rate loan payment, amount, interest rate, or payoff term, then compare total paid and total interest. Use the result for planning and confirm the written lender terms.',
+    url: 'https://accessfreetools.com/tools/loan-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Finance Calculators',
+    boardSlug: 'finance-calculators',
+  },
+  {
+    slug: 'triangle-calculator',
+    asset: 'triangle-calculator.png',
+    title: 'Triangle Calculator For Sides, Area And Angles',
+    description:
+      'Check whether three sides form a triangle, find the possible third-side range, or calculate SSS area, perimeter, angles, and triangle type with the working shown.',
+    url: 'https://accessfreetools.com/tools/triangle-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'School And Study Tools',
+    boardSlug: 'school-and-study-tools',
+  },
+  {
+    slug: 'horsepower-calculator',
+    asset: 'horsepower-calculator.png',
+    title: 'Horsepower To Watts And Kilowatts Converter',
+    description:
+      'Convert mechanical horsepower, metric horsepower, watts, and kilowatts. Useful for comparing motor, tool, and engine labels when you know which horsepower standard is being used.',
+    url: 'https://accessfreetools.com/tools/horsepower-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+  },
+  {
+    slug: 'target-heart-rate-calculator',
+    asset: 'target-heart-rate-calculator.png',
+    title: 'Target Heart Rate Zones By Age Or Pulse Count',
+    description:
+      'Estimate moderate and vigorous heart-rate zones by age, add resting pulse for a heart-rate-reserve comparison, or convert a timed pulse count to BPM. Educational only, not a personal medical limit.',
+    url: 'https://accessfreetools.com/tools/target-heart-rate-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Health And Fitness Calculators',
+    boardSlug: 'health-and-fitness-calculators',
+  },
+  {
+    slug: 'mileage-calculator',
+    asset: 'mileage-calculator.png',
+    title: 'Mileage Reimbursement Calculator With Trip Extras',
+    description:
+      'Calculate mileage reimbursement from miles and an allowed rate, then add eligible parking, tolls, or trip extras. Check the rate source and trip date because employer, contract, and tax rules can differ.',
+    url: 'https://accessfreetools.com/tools/mileage-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Finance Calculators',
+    boardSlug: 'finance-calculators',
+  },
 ];
 
 function parseArgs() {

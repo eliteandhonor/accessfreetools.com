@@ -34,6 +34,7 @@ import { isToolIconMapped } from './toolIcons';
 import { tools } from './tools';
 import { utilityBlogGuides } from './utilityBlogGuides';
 import { verifiedOrganizationSameAs } from './siteEntity';
+import { pinterestFeedItems } from './pinterestFeed';
 
 const PAGE_TITLE_MAX = 70;
 const META_DESCRIPTION_MAX = 170;
@@ -1405,7 +1406,16 @@ describe('site content audit guardrails', () => {
     expect(PINTEREST_FEED_DATA_SOURCE).toContain('/pinterest/free-online-calculators.xml');
     expect(PINTEREST_FEED_DATA_SOURCE).toContain('/tools/watts-to-amps-calculator/');
     expect(PINTEREST_FEED_DATA_SOURCE).toContain('/tools/percentage-calculator/');
-    expect(PINTEREST_FEED_DATA_SOURCE).not.toContain('/blog/');
+    expect(pinterestFeedItems.filter((item) => item.rssEligible).every((item) => item.path.startsWith('/tools/'))).toBe(
+      true,
+    );
+    const postedBlogPins = pinterestFeedItems.filter((item) => item.path.startsWith('/blog/'));
+    expect(postedBlogPins.length).toBeGreaterThan(0);
+    expect(
+      postedBlogPins.every(
+        (item) => item.status === 'posted' && !item.rssEligible && Boolean(item.publicPinUrl),
+      ),
+    ).toBe(true);
     expect(PACKAGE_JSON.scripts['promotion:pinterest:rss-report']).toBe('node scripts/pinterest-rss-report.mjs');
     expect(PACKAGE_JSON.scripts['promotion:pinterest:starter']).not.toContain('--publish');
     expect(PACKAGE_JSON.scripts['promotion:pinterest:second-wave']).not.toContain('--publish');

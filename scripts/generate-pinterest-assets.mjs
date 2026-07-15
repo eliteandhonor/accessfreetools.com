@@ -411,6 +411,72 @@ const pins = [
     accent3: '#f59e0b',
     artPath: 'public/tool-art/markup-calculator-guide.webp',
   },
+  {
+    file: 'matrix-calculator.png',
+    title: 'Matrix Calculator',
+    subtitle: 'Add, subtract, multiply, transpose, and find determinants for 2x2 and 3x3 matrices.',
+    chips: ['2x2', '3x3', 'Determinants'],
+    url: 'accessfreetools.com/tools/matrix-calculator/',
+    accent: '#7c3aed',
+    accent2: '#2563eb',
+    accent3: '#22c55e',
+    artPath: 'public/tool-art/matrix-calculator-tool.webp',
+  },
+  {
+    file: 'loan-calculator.png',
+    title: 'Loan Calculator',
+    subtitle: 'Solve for payment, amount, rate, or term and compare total interest for a fixed-rate loan.',
+    chips: ['Payment', 'Interest', 'Term'],
+    url: 'accessfreetools.com/tools/loan-calculator/',
+    accent: '#0f766e',
+    accent2: '#2563eb',
+    accent3: '#f59e0b',
+    artPath: 'public/tool-art/loan-calculator-tool.webp',
+  },
+  {
+    file: 'triangle-calculator.png',
+    title: 'Triangle Calculator',
+    subtitle: 'Check three sides, find area and angles, or work out the possible third-side range.',
+    chips: ['3 sides', 'Area', 'Angles'],
+    url: 'accessfreetools.com/tools/triangle-calculator/',
+    accent: '#7c3aed',
+    accent2: '#0f766e',
+    accent3: '#f59e0b',
+    artPath: 'public/tool-art/triangle-calculator-tool.webp',
+  },
+  {
+    file: 'horsepower-calculator.png',
+    title: 'Horsepower Converter',
+    subtitle: 'Convert mechanical or metric horsepower to watts and kilowatts, or convert back to hp.',
+    chips: ['hp', 'kW', 'Watts'],
+    url: 'accessfreetools.com/tools/horsepower-calculator/',
+    accent: '#0f766e',
+    accent2: '#f59e0b',
+    accent3: '#2563eb',
+    artPath: 'public/tool-art/horsepower-calculator-tool.webp',
+  },
+  {
+    file: 'target-heart-rate-calculator.png',
+    title: 'Target Heart Rate Calculator',
+    subtitle: 'Estimate moderate and vigorous zones by age or turn a timed pulse count into BPM.',
+    chips: ['Age zones', 'Pulse count', 'BPM'],
+    url: 'accessfreetools.com/tools/target-heart-rate-calculator/',
+    accent: '#be123c',
+    accent2: '#0f766e',
+    accent3: '#f59e0b',
+    artPath: 'public/tool-art/target-heart-rate-calculator-tool.webp',
+  },
+  {
+    file: 'mileage-calculator.png',
+    title: 'Mileage Reimbursement Calculator',
+    subtitle: 'Multiply miles by your allowed rate, then add eligible parking, tolls, and trip extras.',
+    chips: ['Miles', 'Rate', 'Extras'],
+    url: 'accessfreetools.com/tools/mileage-calculator/',
+    accent: '#0f766e',
+    accent2: '#be123c',
+    accent3: '#f59e0b',
+    artPath: 'public/tool-art/mileage-calculator-tool.webp',
+  },
 ];
 
 function escapeHtml(value) {
@@ -756,16 +822,25 @@ function avatarHtml() {
 mkdirSync(outputDir, { recursive: true });
 mkdirSync(publicDir, { recursive: true });
 
-for (const entry of readdirSync(publicDir, { withFileTypes: true })) {
-  if (entry.isFile() && entry.name.endsWith('.png') && entry.name !== 'access-free-tools-avatar.png') {
-    rmSync(resolve(publicDir, entry.name));
+const requestedFile = process.argv.find((arg) => arg.startsWith('--file='))?.slice('--file='.length);
+const selectedPins = requestedFile ? pins.filter((pin) => pin.file === requestedFile) : pins;
+
+if (requestedFile && selectedPins.length === 0) {
+  throw new Error(`Unknown Pinterest asset: ${requestedFile}`);
+}
+
+if (!requestedFile) {
+  for (const entry of readdirSync(publicDir, { withFileTypes: true })) {
+    if (entry.isFile() && entry.name.endsWith('.png') && entry.name !== 'access-free-tools-avatar.png') {
+      rmSync(resolve(publicDir, entry.name));
+    }
   }
 }
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 });
 
-for (const pin of pins) {
+for (const pin of selectedPins) {
   await page.setContent(pinHtml(pin), { waitUntil: 'networkidle' });
   const image = await page.screenshot({
     type: 'png',
@@ -784,16 +859,18 @@ for (const pin of pins) {
   console.log(`Generated public/pinterest/${publicFile}`);
 }
 
-await page.setViewportSize({ width: 1000, height: 1000 });
-await page.setContent(avatarHtml(), { waitUntil: 'networkidle' });
-const avatarImage = await page.screenshot({
-  type: 'png',
-  fullPage: false,
-  omitBackground: true,
-});
-writeFileSync(resolve(outputDir, 'access-free-tools-avatar.png'), avatarImage);
-writeFileSync(resolve(publicDir, 'access-free-tools-avatar.png'), avatarImage);
-console.log('Generated output/promotion/pinterest/access-free-tools-avatar.png');
-console.log('Generated public/pinterest/access-free-tools-avatar.png');
+if (!requestedFile) {
+  await page.setViewportSize({ width: 1000, height: 1000 });
+  await page.setContent(avatarHtml(), { waitUntil: 'networkidle' });
+  const avatarImage = await page.screenshot({
+    type: 'png',
+    fullPage: false,
+    omitBackground: true,
+  });
+  writeFileSync(resolve(outputDir, 'access-free-tools-avatar.png'), avatarImage);
+  writeFileSync(resolve(publicDir, 'access-free-tools-avatar.png'), avatarImage);
+  console.log('Generated output/promotion/pinterest/access-free-tools-avatar.png');
+  console.log('Generated public/pinterest/access-free-tools-avatar.png');
+}
 
 await browser.close();

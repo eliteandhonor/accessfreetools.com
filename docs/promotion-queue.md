@@ -163,7 +163,23 @@ are now being selected one at a time from current search evidence, generated,
 published, and publicly checked before another asset is prepared. The first
 follow-on Pin, Engine Horsepower Calculator, was verified at
 `https://au.pinterest.com/pin/1148277236269618404/` with its destination,
-description, board, alt text, and AI-modified disclosure intact.
+description, board, alt text, and AI-modified disclosure intact. The Markup And
+Margin guide followed at `https://au.pinterest.com/pin/1148277236269619244/`
+with the Finance Calculators board and guide destination publicly verified. The
+Matrix Calculator followed at `https://au.pinterest.com/pin/1148277236269619652/`
+with the School And Study Tools board and exact tool destination verified. The
+Loan Calculator followed at `https://au.pinterest.com/pin/1148277236269620279/`
+with the Finance Calculators board and fixed-rate planning limits intact. The
+Triangle Calculator followed at `https://au.pinterest.com/pin/1148277236269620399/`
+with the School And Study Tools board and exact tool destination verified. The
+Horsepower Converter followed at `https://au.pinterest.com/pin/1148277236269620640/`
+with the Free Online Calculators board and exact converter destination verified.
+The Target Heart Rate Calculator followed at
+`https://au.pinterest.com/pin/1148277236269621271/` with the Health And Fitness
+Calculators board, exact destination, and educational health limitation verified.
+The Mileage Reimbursement Calculator followed at
+`https://au.pinterest.com/pin/1148277236269621684/` with the Finance Calculators
+board, exact destination, and rate-source limitation verified.
 The matching Watts to Amps Medium companion article was also published through
 the user's logged-in external Chrome session on 2026-05-14 after
 `npm run promotion:medium:quality` passed. The public page was checked for H1,
@@ -323,6 +339,13 @@ SEO proof from 2026-05-10:
 | Medium | `/tools/flooring-calculator/` | Estimate room flooring, pack coverage, and waste allowance | Pinterest | posted | Public Pin and Home Project Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269614243/`. |
 | Medium | `/tools/area-calculator/` | Calculate common-shape areas with units and formulas | Pinterest | posted | Public Pin and School And Study Tools board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269614267/`. |
 | High | `/tools/engine-horsepower-calculator/` | Solve horsepower, torque, RPM, and estimated wheel horsepower without implying a dyno result | Pinterest | posted | Public Pin and Free Online Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269618404/`. |
+| High | `/blog/how-to-use-markup-calculator/` | Explain markup versus margin with worked pricing examples | Pinterest | posted | Public Pin and Finance Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269619244/`. |
+| High | `/tools/matrix-calculator/` | Work through 2x2 and 3x3 matrix operations and determinants | Pinterest | posted | Public Pin and School And Study Tools board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269619652/`. |
+| High | `/tools/loan-calculator/` | Estimate fixed-rate payment, amount, rate, term, and total interest | Pinterest | posted | Public Pin and Finance Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269620279/`. |
+| High | `/tools/triangle-calculator/` | Check triangle sides, third-side range, area, angles, and type | Pinterest | posted | Public Pin and School And Study Tools board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269620399/`. |
+| High | `/tools/horsepower-calculator/` | Convert mechanical or metric horsepower, watts, and kilowatts | Pinterest | posted | Public Pin and Free Online Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269620640/`. |
+| High | `/tools/target-heart-rate-calculator/` | Estimate age-based exercise zones or convert a timed pulse count to BPM with health limits | Pinterest | posted | Public Pin and Health And Fitness Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269621271/`. |
+| High | `/tools/mileage-calculator/` | Calculate mileage reimbursement from miles, an allowed rate, and eligible trip extras | Pinterest | posted | Public Pin and Finance Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269621684/`. |
 | High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Medium | posted | Published and public-page checked on 2026-05-09 with H1, hero image, alt text, SEO title/description, topics, and H2 headings verified: `https://medium.com/@accessfreetools/how-to-think-about-ad-revenue-before-your-site-has-big-traffic-beef3ad9529c` |
 | High | `/tools/ad-revenue-calculator/` | Explain RPM, CTR, CPC, impressions, and earnings-estimate limits | Bluesky | posted | Public post verified on 2026-05-10: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlhkxzok5k2a` |
 | High | `/tools/percentage-calculator/` | Discounts, tips, markups, and percent change | Medium | posted | Live article published and checked on 2026-05-07: `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4`; branded hero image, alt text, Medium SEO title/description, canonical link, reader-interest topics, and live H1/H2 formatting verified in the external browser |
