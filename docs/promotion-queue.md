@@ -152,6 +152,14 @@ descriptions, AI-modified disclosures, and organic Visit Site links:
 `https://au.pinterest.com/pin/1148277236269606694/` for Sales Tax,
 `https://au.pinterest.com/pin/1148277236269606692/` for Kawaii Calculator, and
 `https://au.pinterest.com/pin/1148277236269606687/` for Concrete Block.
+Later on 2026-07-15, eight more approved organic Pins were uploaded one at a
+time through the standard Create Pin form and verified on their public Pin
+pages. The verified batch covers Interest Rate, Date, Fraction, Gas Mileage,
+Oven Temperature, Golf Handicap, Flooring, and Area. Each public check matched
+the intended destination URL, description, board, and AI-modified disclosure.
+The public Pin URLs are recorded in the queue rows below and in
+`src/data/pinterestFeed.ts`. No additional approved Pinterest assets remain in
+the current batch.
 The matching Watts to Amps Medium companion article was also published through
 the user's logged-in external Chrome session on 2026-05-14 after
 `npm run promotion:medium:quality` passed. The public page was checked for H1,
@@ -302,6 +310,14 @@ SEO proof from 2026-05-10:
 | High | `/tools/percentage-calculator/` | Discounts, percent change, markups, and reverse percentages | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06 |
 | High | `/tools/mortgage-calculator/` | Estimate monthly payments and understand amortization | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/finance-calculators/` on 2026-05-06 |
 | High | `/tools/sales-tax-calculator/` | Add sales tax, find pre-tax price, or check a final total | Pinterest | posted | Public Pin and Finance Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269606694/` links to `https://accessfreetools.com/tools/sales-tax-calculator/?utm_source=Pinterest&utm_medium=organic`. |
+| High | `/tools/interest-rate-calculator/` | Compare loan and savings interest estimates with clear finance limits | Pinterest | posted | Public Pin and Finance Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269611927/`. |
+| High | `/tools/date-calculator/` | Add or subtract days and count time between dates | Pinterest | posted | Public Pin and Free Online Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269612963/`. |
+| High | `/tools/fraction-calculator/` | Add, subtract, multiply, divide, and simplify fractions | Pinterest | posted | Public Pin and School And Study Tools board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269613324/`. |
+| High | `/tools/gas-mileage-calculator/` | Estimate fuel economy, fuel used, and trip cost | Pinterest | posted | Public Pin and Free Online Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269613499/`. |
+| Medium | `/tools/oven-temperature-converter/` | Convert Celsius, Fahrenheit, and gas mark for recipes | Pinterest | posted | Public Pin and Free Online Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269614140/`. |
+| Medium | `/tools/golf-handicap-calculator/` | Estimate a golf handicap while explaining official-result limits | Pinterest | posted | Public Pin and Health And Fitness Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269614203/`. |
+| Medium | `/tools/flooring-calculator/` | Estimate room flooring, pack coverage, and waste allowance | Pinterest | posted | Public Pin and Home Project Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269614243/`. |
+| Medium | `/tools/area-calculator/` | Calculate common-shape areas with units and formulas | Pinterest | posted | Public Pin and School And Study Tools board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269614267/`. |
 | High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Medium | posted | Published and public-page checked on 2026-05-09 with H1, hero image, alt text, SEO title/description, topics, and H2 headings verified: `https://medium.com/@accessfreetools/how-to-think-about-ad-revenue-before-your-site-has-big-traffic-beef3ad9529c` |
 | High | `/tools/ad-revenue-calculator/` | Explain RPM, CTR, CPC, impressions, and earnings-estimate limits | Bluesky | posted | Public post verified on 2026-05-10: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlhkxzok5k2a` |
 | High | `/tools/percentage-calculator/` | Discounts, tips, markups, and percent change | Medium | posted | Live article published and checked on 2026-05-07: `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4`; branded hero image, alt text, Medium SEO title/description, canonical link, reader-interest topics, and live H1/H2 formatting verified in the external browser |
