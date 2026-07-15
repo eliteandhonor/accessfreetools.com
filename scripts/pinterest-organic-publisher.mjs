@@ -389,6 +389,76 @@ const pins = [
     board: 'Finance Calculators',
     boardSlug: 'finance-calculators',
   },
+  {
+    slug: 'va-mortgage-calculator-guide',
+    asset: 'va-mortgage-calculator-guide.png',
+    title: 'VA Mortgage Funding Fee And Payment Guide',
+    description:
+      'Learn what to enter in a VA mortgage estimate, how funding-fee status, exemptions, and a financed fee can change the result, and why to compare written VA and lender paperwork. Planning only, not eligibility or approval.',
+    url: 'https://accessfreetools.com/blog/how-to-use-va-mortgage-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Finance Calculators',
+    boardSlug: 'finance-calculators',
+  },
+  {
+    slug: 'mortgage-calculator-uk-guide',
+    asset: 'mortgage-calculator-uk-guide.png',
+    title: 'UK Mortgage Repayment, Deposit And LTV Guide',
+    description:
+      'Learn how a UK repayment mortgage estimate uses property price, deposit, interest rate, term, and monthly fees. Compare repayment, loan amount, LTV, and total interest, then confirm lender quotes and buying costs.',
+    url: 'https://accessfreetools.com/blog/how-to-use-mortgage-calculator-uk/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Finance Calculators',
+    boardSlug: 'finance-calculators',
+  },
+  {
+    slug: 'molarity-calculator-guide',
+    asset: 'molarity-calculator-guide.png',
+    title: 'Molarity, Moles And Grams Calculator Guide',
+    description:
+      'Use four formulas to find molarity, moles, or grams from final solution volume in L or mL. Includes a 0.2 M NaCl example and reminders to use the correct molar mass, hydration state, and lab safety instructions.',
+    url: 'https://accessfreetools.com/blog/how-to-use-molarity-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'School And Study Tools',
+    boardSlug: 'school-and-study-tools',
+  },
+  {
+    slug: 'big-number-calculator-guide',
+    asset: 'big-number-calculator-guide.png',
+    title: 'Big Number Calculator Guide For Exact Huge Integers',
+    description:
+      'Learn when ordinary browser numbers can lose integer precision, then add, subtract, multiply, or divide huge whole numbers exactly. See quotient, remainder, digit counts, and grouped versus raw copying.',
+    url: 'https://accessfreetools.com/blog/how-to-use-big-number-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'School And Study Tools',
+    boardSlug: 'school-and-study-tools',
+  },
+  {
+    slug: 'rounding-calculator-guide',
+    asset: 'rounding-calculator-guide.png',
+    title: 'Rounding Decimals And Significant Figures Guide',
+    description:
+      'Learn how to round by decimal places, significant figures, or place value, then compare nearest, round up, round down, and truncate methods. Includes negative-number and half-value examples.',
+    url: 'https://accessfreetools.com/blog/how-to-use-rounding-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'School And Study Tools',
+    boardSlug: 'school-and-study-tools',
+  },
+  {
+    slug: 'bmr-calculator-guide',
+    asset: 'bmr-calculator-guide.png',
+    title: 'BMR Calculator Mifflin-St Jeor Formula Guide',
+    description:
+      'Learn how the Mifflin-St Jeor formula estimates resting energy from age, formula sex, height, and weight, with worked kcal-per-day examples and BMR versus TDEE context. Educational estimate, not a calorie prescription or medical nutrition plan.',
+    url: 'https://accessfreetools.com/blog/how-to-use-bmr-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Health And Fitness Calculators',
+    boardSlug: 'health-and-fitness-calculators',
+  },
+  {
+    slug: 'resistor-calculator',
+    asset: 'resistor-calculator.png',
+    title: '4-Band Resistor Color Code And Ohms Calculator',
+    description:
+      'Decode common 4-band resistor colors into nominal ohms, tolerance, minimum, and maximum values. Includes 220 ohm, 1 kOhm, 4.7 kOhm, 10 kOhm, and 47 kOhm examples. Check real parts with a multimeter and proper circuit safety.',
+    url: 'https://accessfreetools.com/tools/resistor-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'School And Study Tools',
+    boardSlug: 'school-and-study-tools',
+  },
 ];
 
 function parseArgs() {

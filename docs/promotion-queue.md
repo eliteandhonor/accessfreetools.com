@@ -179,7 +179,26 @@ The Target Heart Rate Calculator followed at
 Calculators board, exact destination, and educational health limitation verified.
 The Mileage Reimbursement Calculator followed at
 `https://au.pinterest.com/pin/1148277236269621684/` with the Finance Calculators
-board, exact destination, and rate-source limitation verified.
+board, exact destination, and rate-source limitation verified. The VA Mortgage
+Funding Fee guide followed at `https://au.pinterest.com/pin/1148277236269622865/`
+with the Finance Calculators board, exact guide destination, and planning-only
+eligibility limitation verified. The UK Mortgage Repayment guide followed at
+`https://au.pinterest.com/pin/1148277236269623241/` with the Finance Calculators
+board, exact guide destination, and lender-quote limitation verified. The
+Molarity, Moles And Grams guide followed at
+`https://au.pinterest.com/pin/1148277236269623415/` with the School And Study
+Tools board, exact guide destination, and chemistry safety limitation verified.
+The Big Number Calculator guide followed at
+`https://au.pinterest.com/pin/1148277236269623703/` with the School And Study
+Tools board, exact guide destination, and whole-number limitation verified. The
+Rounding Calculator guide followed at
+`https://au.pinterest.com/pin/1148277236269623817/` with the School And Study
+Tools board and exact guide destination verified. The BMR Mifflin-St Jeor guide
+followed at `https://au.pinterest.com/pin/1148277236269624100/` with the Health
+And Fitness Calculators board, exact guide destination, and non-prescriptive
+health limitation verified. The 4-Band Resistor Calculator followed at
+`https://au.pinterest.com/pin/1148277236269625000/` with the School And Study
+Tools board, exact tool destination, and multimeter safety limitation verified.
 The matching Watts to Amps Medium companion article was also published through
 the user's logged-in external Chrome session on 2026-05-14 after
 `npm run promotion:medium:quality` passed. The public page was checked for H1,
@@ -346,6 +365,13 @@ SEO proof from 2026-05-10:
 | High | `/tools/horsepower-calculator/` | Convert mechanical or metric horsepower, watts, and kilowatts | Pinterest | posted | Public Pin and Free Online Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269620640/`. |
 | High | `/tools/target-heart-rate-calculator/` | Estimate age-based exercise zones or convert a timed pulse count to BPM with health limits | Pinterest | posted | Public Pin and Health And Fitness Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269621271/`. |
 | High | `/tools/mileage-calculator/` | Calculate mileage reimbursement from miles, an allowed rate, and eligible trip extras | Pinterest | posted | Public Pin and Finance Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269621684/`. |
+| High | `/blog/how-to-use-va-mortgage-calculator/` | Explain VA funding-fee status, financed fees, payment inputs, and lender paperwork | Pinterest | posted | Public Pin and Finance Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269622865/`. |
+| High | `/blog/how-to-use-mortgage-calculator-uk/` | Explain UK repayment estimates from property price, deposit, rate, term, fees, and LTV | Pinterest | posted | Public Pin and Finance Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269623241/`. |
+| High | `/blog/how-to-use-molarity-calculator/` | Explain molarity, moles, grams, final solution volume, and unit conversion formulas | Pinterest | posted | Public Pin and School And Study Tools board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269623415/`. |
+| High | `/blog/how-to-use-big-number-calculator/` | Explain exact huge-integer arithmetic, quotient, remainder, and safe copying | Pinterest | posted | Public Pin and School And Study Tools board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269623703/`. |
+| High | `/blog/how-to-use-rounding-calculator/` | Explain decimal-place, significant-figure, place-value, and method-based rounding | Pinterest | posted | Public Pin and School And Study Tools board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269623817/`. |
+| High | `/blog/how-to-use-bmr-calculator/` | Explain Mifflin-St Jeor resting-energy estimates and BMR versus TDEE context | Pinterest | posted | Public Pin and Health And Fitness Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269624100/`. |
+| High | `/tools/resistor-calculator/` | Decode 4-band resistor colors into ohms, tolerance, minimum, and maximum values | Pinterest | posted | Public Pin and School And Study Tools board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269625000/`. |
 | High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Medium | posted | Published and public-page checked on 2026-05-09 with H1, hero image, alt text, SEO title/description, topics, and H2 headings verified: `https://medium.com/@accessfreetools/how-to-think-about-ad-revenue-before-your-site-has-big-traffic-beef3ad9529c` |
 | High | `/tools/ad-revenue-calculator/` | Explain RPM, CTR, CPC, impressions, and earnings-estimate limits | Bluesky | posted | Public post verified on 2026-05-10: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlhkxzok5k2a` |
 | High | `/tools/percentage-calculator/` | Discounts, tips, markups, and percent change | Medium | posted | Live article published and checked on 2026-05-07: `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4`; branded hero image, alt text, Medium SEO title/description, canonical link, reader-interest topics, and live H1/H2 formatting verified in the external browser |
