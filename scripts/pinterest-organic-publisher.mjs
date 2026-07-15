@@ -459,6 +459,66 @@ const pins = [
     board: 'School And Study Tools',
     boardSlug: 'school-and-study-tools',
   },
+  {
+    slug: 'take-home-paycheck-calculator',
+    asset: 'take-home-paycheck-calculator.png',
+    title: 'Take-Home Paycheck Calculator With FICA Estimate',
+    description:
+      'Estimate net pay per paycheck from salary, pay schedule, pretax deductions, entered tax percentages, and simplified 2026 employee FICA. Rough planning only, not Form W-4 withholding, a payroll system, or a tax return.',
+    url: 'https://accessfreetools.com/tools/take-home-paycheck-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Finance Calculators',
+    boardSlug: 'finance-calculators',
+  },
+  {
+    slug: 'refinance-calculator-guide',
+    asset: 'refinance-calculator-guide.png',
+    title: 'Mortgage Refinance Savings And Break-Even Guide',
+    description:
+      'Compare a current loan with a refinance estimate using monthly payment, closing costs, break-even time, interest change, and total cost change. A lower payment can still cost more over a longer term, so confirm APR, points, fees, and lender disclosures.',
+    url: 'https://accessfreetools.com/blog/how-to-use-refinance-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Finance Calculators',
+    boardSlug: 'finance-calculators',
+  },
+  {
+    slug: 'statistics-calculator',
+    asset: 'statistics-calculator.png',
+    title: 'Statistics Calculator For Mean, Median And Standard Deviation',
+    description:
+      'Summarize one list of numbers with count, sum, mean, median, mode, range, quartiles, IQR, sample variance, population variance, and standard deviation. Useful for class scores, survey responses, measurements, and spreadsheet checks.',
+    url: 'https://accessfreetools.com/tools/statistics-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'School And Study Tools',
+    boardSlug: 'school-and-study-tools',
+  },
+  {
+    slug: 'half-life-calculator-guide',
+    asset: 'half-life-calculator-guide.png',
+    title: 'Half-Life Calculator Guide For Remaining Amount And Time',
+    description:
+      'Learn how to calculate remaining amount, elapsed time, or half-life with matching time units, percent remaining, halving steps, and worked examples. This is general decay math for study and planning, not dosing, medical, lab, or radiation-safety advice.',
+    url: 'https://accessfreetools.com/blog/how-to-use-half-life-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'School And Study Tools',
+    boardSlug: 'school-and-study-tools',
+  },
+  {
+    slug: 'wire-resistance-calculator',
+    asset: 'wire-resistance-calculator.png',
+    title: 'Copper Wire Resistance Calculator For AWG And Length',
+    description:
+      'Estimate total copper wire resistance from common AWG size, one-way length, and conductor count. The result is simplified planning math: temperature, strand type, material, connections, ampacity, breaker size, and local electrical code can change a real installation.',
+    url: 'https://accessfreetools.com/tools/wire-resistance-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'School And Study Tools',
+    boardSlug: 'school-and-study-tools',
+  },
+  {
+    slug: 'nutrition-points-calculator',
+    asset: 'nutrition-points-calculator.png',
+    title: 'Transparent Nutrition Points Calculator For Food Labels',
+    description:
+      'Compare equal-serving Nutrition Facts labels with an original visible formula using calories, saturated fat, added sugar, sodium, fiber, and protein. This is an Access Free Tools educational score, not Weight Watchers or WW, a universal food grade, or medical nutrition advice.',
+    url: 'https://accessfreetools.com/tools/nutrition-points-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Health And Fitness Calculators',
+    boardSlug: 'health-and-fitness-calculators',
+  },
 ];
 
 function parseArgs() {
