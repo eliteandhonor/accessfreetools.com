@@ -35,6 +35,7 @@
     "promotion:pinterest": "node scripts/pinterest-organic-publisher.mjs",
     "promotion:pinterest:starter": "node scripts/pinterest-organic-publisher.mjs --slug=tools,free-calculator-resources,percentage-calculator,basic-calculator,mortgage-calculator,bmi-calculator,wallpaper-calculator,ai-tools,image-to-text-ocr-tool",
     "promotion:pinterest:second-wave": "node scripts/pinterest-organic-publisher.mjs --slug=voltage-drop-calculator,sand-calculator,markdown-table-generator,body-surface-area-calculator,speed-calculator,payment-calculator,hex-calculator,amp-hours-to-watt-hours-calculator",
+    "promotion:pinterest:july-growth": "node scripts/pinterest-organic-publisher.mjs --slug=interest-rate-calculator,date-calculator,fraction-calculator,gas-mileage-calculator,oven-temperature-converter,golf-handicap-calculator,flooring-calculator,area-calculator",
     "promotion:pinterest:cleanup": "node scripts/pinterest-organic-publisher.mjs --cleanup-drafts",
     "promotion:pinterest:rss-report": "node scripts/pinterest-rss-report.mjs",
     "promotion:medium:images": "node scripts/generate-medium-hero-assets.mjs",

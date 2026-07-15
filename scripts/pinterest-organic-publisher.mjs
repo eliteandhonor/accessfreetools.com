@@ -229,6 +229,86 @@ const pins = [
     board: 'Home Project Calculators',
     boardSlug: 'home-project-calculators',
   },
+  {
+    slug: 'interest-rate-calculator',
+    asset: 'interest-rate-calculator.png',
+    title: 'Interest Rate Calculator For Loans And Savings',
+    description:
+      'Compare interest estimates from a starting amount, rate, time, and compounding choice. I built this free calculator for planning checks, not financial advice.',
+    url: 'https://accessfreetools.com/tools/interest-rate-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Finance Calculators',
+    boardSlug: 'finance-calculators',
+  },
+  {
+    slug: 'date-calculator',
+    asset: 'date-calculator.png',
+    title: 'Date Calculator For Adding Or Counting Days',
+    description:
+      'Add or subtract days from a date, or count the time between two dates. Use it for deadlines, trips, study plans, and quick calendar checks.',
+    url: 'https://accessfreetools.com/tools/date-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+  },
+  {
+    slug: 'fraction-calculator',
+    asset: 'fraction-calculator.png',
+    title: 'Fraction Calculator For Adding And Simplifying',
+    description:
+      'Add, subtract, multiply, or divide fractions, then reduce the result and follow the working. Use it for homework checks and everyday measurements.',
+    url: 'https://accessfreetools.com/tools/fraction-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'School And Study Tools',
+    boardSlug: 'school-and-study-tools',
+  },
+  {
+    slug: 'gas-mileage-calculator',
+    asset: 'gas-mileage-calculator.png',
+    title: 'Gas Mileage Calculator For Fuel Cost Checks',
+    description:
+      'Estimate MPG, litres per 100 km, fuel used, and trip cost from distance, fuel, and price. Use it to compare journeys or check a fill-up.',
+    url: 'https://accessfreetools.com/tools/gas-mileage-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+  },
+  {
+    slug: 'oven-temperature-converter',
+    asset: 'oven-temperature-converter.png',
+    title: 'Oven Temperature Converter For Celsius And Fahrenheit',
+    description:
+      'Convert oven temperatures between Celsius, Fahrenheit, and gas mark before following a recipe. Check your oven and recipe notes when precision matters.',
+    url: 'https://accessfreetools.com/tools/oven-temperature-converter/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+  },
+  {
+    slug: 'golf-handicap-calculator',
+    asset: 'golf-handicap-calculator.png',
+    title: 'Golf Handicap Calculator For Round Estimates',
+    description:
+      'Estimate a golf handicap from scores, course rating, slope, and round data. Use it for practice tracking; official handicaps follow governing rules.',
+    url: 'https://accessfreetools.com/tools/golf-handicap-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Health And Fitness Calculators',
+    boardSlug: 'health-and-fitness-calculators',
+  },
+  {
+    slug: 'flooring-calculator',
+    asset: 'flooring-calculator.png',
+    title: 'Flooring Calculator For Room Area And Waste',
+    description:
+      'Estimate flooring from room size, pack coverage, and a waste allowance. Use the result for planning, then confirm pack coverage before buying.',
+    url: 'https://accessfreetools.com/tools/flooring-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Home Project Calculators',
+    boardSlug: 'home-project-calculators',
+  },
+  {
+    slug: 'area-calculator',
+    asset: 'area-calculator.png',
+    title: 'Area Calculator For Common Shapes',
+    description:
+      'Calculate area for rectangles, triangles, circles, trapezoids, and more, with units and formulas shown. Use it for study checks or early project planning.',
+    url: 'https://accessfreetools.com/tools/area-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'School And Study Tools',
+    boardSlug: 'school-and-study-tools',
+  },
 ];
 
 function parseArgs() {
