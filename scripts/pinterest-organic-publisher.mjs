@@ -309,6 +309,16 @@ const pins = [
     board: 'School And Study Tools',
     boardSlug: 'school-and-study-tools',
   },
+  {
+    slug: 'engine-horsepower-calculator',
+    asset: 'engine-horsepower-calculator.png',
+    title: 'Engine Horsepower Calculator For Torque And RPM',
+    description:
+      'Calculate horsepower, torque, or RPM from two known values, then estimate engine and wheel horsepower with an editable drivetrain-loss assumption. Use it for comparison, not a dyno measurement.',
+    url: 'https://accessfreetools.com/tools/engine-horsepower-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+  },
 ];
 
 function parseArgs() {

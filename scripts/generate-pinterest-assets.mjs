@@ -389,6 +389,17 @@ const pins = [
     accent3: '#22c55e',
     artPath: 'public/tool-art/triangle-calculator-tool.webp',
   },
+  {
+    file: 'engine-horsepower-calculator.png',
+    title: 'Engine Horsepower Calculator',
+    subtitle: 'Solve horsepower, torque, or RPM and compare engine power with an estimated wheel result.',
+    chips: ['Torque', 'RPM', 'Wheel HP'],
+    url: 'accessfreetools.com/tools/engine-horsepower-calculator/',
+    accent: '#be123c',
+    accent2: '#2563eb',
+    accent3: '#f59e0b',
+    artPath: 'public/tool-art/engine-horsepower-calculator-tool.webp',
+  },
 ];
 
 function escapeHtml(value) {
