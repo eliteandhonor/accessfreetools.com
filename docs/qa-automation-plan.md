@@ -32,11 +32,45 @@ npm run check:structured-data
 npm run check:performance
 npm run check:ai-assets
 npm run check:external-links
+npm run audit:lightpanda:preflight
 npm run dataforseo:account -- -- --min-balance=2
 npm run seo:self-evaluate
 npm run test:smoke
 npm run security:audit
 ```
+
+## Optional Lightpanda DOM Audit Pilot
+
+Lightpanda is an optional, read-only DOM and SEO audit lane. It is not part of
+`npm run check`, deployment, weekly automation, Search Console, IndexNow, or
+promotion work. Chromium remains authoritative for screenshots, responsive
+layout, accessibility conformance, Lighthouse, and logged-in browser tasks.
+
+The pilot uses the official Lightpanda `0.3.4` Docker image pinned by digest. It
+does not install `@lightpanda/browser` and does not mount project files, cookies,
+credentials, or secrets into the container.
+
+Run the lane explicitly:
+
+```bash
+npm run audit:lightpanda:preflight
+npm run audit:lightpanda:setup
+npm run audit:lightpanda:pilot
+```
+
+The pilot compares three Chromium and Lightpanda runs across 50 deterministic
+built-sitemap URLs. It checks critical metadata, internal links, normalized main
+content, native Markdown, and the accessibility tree. External requests are
+blocked. Reports contain hashes and counts rather than page bodies and are saved
+under ignored `output/lightpanda-pilot/`.
+
+Lightpanda's open-source multi-client model supports one context and one page per
+CDP connection. The pilot keeps concurrency at four by using four isolated CDP
+connections to the single hardened container.
+
+Lightpanda is adopted only when every acceptance threshold passes. A blocked or
+failed pilot is recorded as `not-adopted`, leaves Chromium unchanged, and is not
+a reason to weaken the main QA gate.
 
 ## Playwright Visual Smoke Lane
 
