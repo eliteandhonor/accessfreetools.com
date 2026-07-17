@@ -519,6 +519,26 @@ const pins = [
     board: 'Health And Fitness Calculators',
     boardSlug: 'health-and-fitness-calculators',
   },
+  {
+    slug: 'commission-calculator-guide',
+    asset: 'commission-calculator-guide.png',
+    title: 'Sales Commission Calculator Guide For Gross, Split And Total Pay',
+    description:
+      'Estimate simple commission from sales and rate, apply a split, then add base pay or bonus. The guide explains gross commission, before-tax total pay, and limits such as tiers, quotas, clawbacks, draw plans, chargebacks, and written company rules.',
+    url: 'https://accessfreetools.com/blog/how-to-use-commission-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Finance Calculators',
+    boardSlug: 'finance-calculators',
+  },
+  {
+    slug: 'day-of-the-week-calculator-guide',
+    asset: 'day-of-the-week-calculator-guide.png',
+    title: 'Day Of The Week Calculator Guide For Any Calendar Date',
+    description:
+      'Find the weekday for a birthday, deadline, holiday, or event date, with ISO weekday numbers and Sunday-based indexes. This uses modern UTC calendar-date math; check time zones near midnight and specialized sources for historical calendar reforms.',
+    url: 'https://accessfreetools.com/blog/how-to-use-day-of-the-week-calculator/?utm_source=Pinterest&utm_medium=organic',
+    board: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+  },
 ];
 
 function parseArgs() {

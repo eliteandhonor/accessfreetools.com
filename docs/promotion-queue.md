@@ -217,6 +217,9 @@ Tools board, exact tool destination, and simplified electrical-planning limitati
 The Transparent Nutrition Points Calculator followed at
 `https://au.pinterest.com/pin/1148277236269637171/` with the Health And Fitness
 Calculators board, exact tool destination, and non-affiliation and nutrition limitation verified.
+The Sales Commission Calculator guide followed at
+`https://au.pinterest.com/pin/1148277236269639699/` with the Finance Calculators
+board, exact guide destination, and commission-plan limitation verified.
 The matching Watts to Amps Medium companion article was also published through
 the user's logged-in external Chrome session on 2026-05-14 after
 `npm run promotion:medium:quality` passed. The public page was checked for H1,
@@ -396,6 +399,7 @@ SEO proof from 2026-05-10:
 | High | `/blog/how-to-use-half-life-calculator/` | Explain remaining amount, elapsed time, half-life, matching units, and decay steps | Pinterest | posted | Public Pin and School And Study Tools board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269634943/`. |
 | High | `/tools/wire-resistance-calculator/` | Estimate copper wire resistance from AWG size, one-way length, and conductor count | Pinterest | posted | Public Pin and School And Study Tools board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269636196/`. |
 | High | `/tools/nutrition-points-calculator/` | Compare equal-serving food labels with an original transparent points formula | Pinterest | posted | Public Pin and Health And Fitness Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269637171/`. |
+| High | `/blog/how-to-use-commission-calculator/` | Explain gross commission, split, base pay, bonus, and written-plan limitations | Pinterest | posted | Public Pin and Finance Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269639699/`. |
 | High | `/tools/ad-revenue-calculator/` | Estimate RPM, CTR, CPC, impressions, and ad revenue | Medium | posted | Published and public-page checked on 2026-05-09 with H1, hero image, alt text, SEO title/description, topics, and H2 headings verified: `https://medium.com/@accessfreetools/how-to-think-about-ad-revenue-before-your-site-has-big-traffic-beef3ad9529c` |
 | High | `/tools/ad-revenue-calculator/` | Explain RPM, CTR, CPC, impressions, and earnings-estimate limits | Bluesky | posted | Public post verified on 2026-05-10: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlhkxzok5k2a` |
 | High | `/tools/percentage-calculator/` | Discounts, tips, markups, and percent change | Medium | posted | Live article published and checked on 2026-05-07: `https://medium.com/@accessfreetools/how-percentage-calculators-help-with-discounts-and-tips-33b1f6fa6ea4`; branded hero image, alt text, Medium SEO title/description, canonical link, reader-interest topics, and live H1/H2 formatting verified in the external browser |

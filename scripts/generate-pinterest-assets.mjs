@@ -620,6 +620,28 @@ const pins = [
     accent3: '#e11d48',
     artPath: 'public/tool-art/nutrition-points-calculator-tool.webp',
   },
+  {
+    file: 'commission-calculator-guide.png',
+    title: 'Sales Commission Calculator Guide',
+    subtitle: 'Estimate gross commission, your split, and before-tax total pay from a simple plan.',
+    chips: ['Sales', 'Rate and split', 'Total pay'],
+    url: 'accessfreetools.com/blog/how-to-use-commission-calculator/',
+    accent: '#0f766e',
+    accent2: '#f59e0b',
+    accent3: '#2563eb',
+    artPath: 'public/tool-art/commission-calculator-guide.webp',
+  },
+  {
+    file: 'day-of-the-week-calculator-guide.png',
+    title: 'Day Of The Week Calculator Guide',
+    subtitle: 'Find the weekday name, ISO weekday number, and Sunday-based index for a calendar date.',
+    chips: ['Calendar date', 'Weekday name', 'ISO number'],
+    url: 'accessfreetools.com/blog/how-to-use-day-of-the-week-calculator/',
+    accent: '#0f766e',
+    accent2: '#2563eb',
+    accent3: '#f59e0b',
+    artPath: 'public/tool-art/day-of-the-week-calculator-guide.webp',
+  },
 ];
 
 function escapeHtml(value) {

@@ -777,6 +777,19 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     publicPinUrl: 'https://au.pinterest.com/pin/1148277236269637171/',
     published: '2026-07-15',
   },
+  {
+    title: 'Sales Commission Calculator Guide For Gross, Split And Total Pay',
+    description:
+      'Estimate simple commission from sales and rate, apply a split, then add base pay or bonus. The guide explains gross commission, before-tax total pay, and limits such as tiers, quotas, clawbacks, draw plans, chargebacks, and written company rules.',
+    path: '/blog/how-to-use-commission-calculator/',
+    imagePath: '/pinterest/commission-calculator-guide.jpg',
+    category: 'Finance Calculators',
+    boardSlug: 'finance-calculators',
+    status: 'posted',
+    rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236269639699/',
+    published: '2026-07-15',
+  },
 ];
 
 export function getPinterestBoard(slug: string) {
