@@ -138,6 +138,15 @@ mortgage-amortization, concrete, recipe-scaler, and word-counter are now marked
 posted in the Pinterest feed source and excluded from future RSS imports. A
 zero-item future RSS queue is clean when there are no newly approved image-backed
 Pins waiting to be imported.
+On 2026-07-17, the complete Pinterest archive was reconciled through the owner's
+logged-in Microsoft Edge session. All 59 posted archive items now have direct
+public Pin URLs recorded in `src/data/pinterestFeed.ts`; the 25 older rows that
+previously had board-level proof were opened individually and verified for live
+title, expected board, and the exact Access Free Tools destination path. The
+53 prepared publisher definitions also map to archive rows with their local
+assets present, while the six older RSS/archive-only rows remain intentionally
+outside the publisher definitions. No eligible RSS-ready or approved Pinterest
+item remains. Historical duplicate Pins were left public rather than deleted.
 Later on 2026-05-14, a fresh organic Pinterest Pin was published through the
 user's logged-in external Chrome session for the Watts to Amps Calculator. The
 public Pin was checked on the Home Project Calculators board and direct Pin URL:

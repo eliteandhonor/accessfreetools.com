@@ -20,7 +20,7 @@ export interface PinterestFeedItem {
   published: string;
 }
 
-export const PINTEREST_FEED_UPDATED = '2026-07-15';
+export const PINTEREST_FEED_UPDATED = '2026-07-17';
 
 export const pinterestBoards: PinterestBoard[] = [
   {
@@ -72,6 +72,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'free-online-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264639080/',
     published: '2026-05-06',
   },
   {
@@ -84,6 +85,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'free-online-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264640833/',
     published: '2026-05-06',
   },
   {
@@ -96,6 +98,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'free-online-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264640959/',
     published: '2026-05-06',
   },
   {
@@ -108,6 +111,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'free-online-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264640445/',
     published: '2026-05-06',
   },
   {
@@ -120,6 +124,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'finance-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264641021/',
     published: '2026-05-06',
   },
   {
@@ -132,6 +137,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'health-and-fitness-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264641068/',
     published: '2026-05-06',
   },
   {
@@ -144,6 +150,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'home-project-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264641128/',
     published: '2026-05-06',
   },
   {
@@ -156,6 +163,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'ai-browser-tools',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264641181/',
     published: '2026-05-06',
   },
   {
@@ -168,6 +176,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'ai-browser-tools',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264641224/',
     published: '2026-05-06',
   },
   {
@@ -180,6 +189,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'home-project-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264702428/',
     published: '2026-05-07',
   },
   {
@@ -192,6 +202,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'home-project-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264702501/',
     published: '2026-05-07',
   },
   {
@@ -204,6 +215,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'school-and-study-tools',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264702573/',
     published: '2026-05-07',
   },
   {
@@ -216,6 +228,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'health-and-fitness-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264702631/',
     published: '2026-05-07',
   },
   {
@@ -228,6 +241,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'school-and-study-tools',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264702687/',
     published: '2026-05-07',
   },
   {
@@ -240,6 +254,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'finance-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264702728/',
     published: '2026-05-07',
   },
   {
@@ -252,6 +267,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'school-and-study-tools',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264702766/',
     published: '2026-05-07',
   },
   {
@@ -263,6 +279,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'home-project-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264702811/',
     published: '2026-05-07',
   },
   {
@@ -275,6 +292,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'home-project-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264840011/',
     published: '2026-05-07',
   },
   {
@@ -287,6 +305,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'finance-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264769497/',
     published: '2026-05-13',
   },
   {
@@ -299,6 +318,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'free-online-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264771561/',
     published: '2026-05-07',
   },
   {
@@ -311,6 +331,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'finance-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264769498/',
     published: '2026-05-07',
   },
   {
@@ -323,6 +344,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'home-project-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264770582/',
     published: '2026-05-07',
   },
   {
@@ -335,6 +357,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'free-online-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264771563/',
     published: '2026-05-07',
   },
   {
@@ -347,6 +370,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'free-online-calculators',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236265110127/',
     published: '2026-05-13',
   },
   {
@@ -359,6 +383,7 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     boardSlug: 'school-and-study-tools',
     status: 'posted',
     rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236264771757/',
     published: '2026-05-07',
   },
   {

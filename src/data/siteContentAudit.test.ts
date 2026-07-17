@@ -1416,6 +1416,11 @@ describe('site content audit guardrails', () => {
         (item) => item.status === 'posted' && !item.rssEligible && Boolean(item.publicPinUrl),
       ),
     ).toBe(true);
+    expect(
+      pinterestFeedItems
+        .filter((item) => item.status === 'posted' && !item.rssEligible)
+        .every((item) => Boolean(item.publicPinUrl)),
+    ).toBe(true);
     expect(PACKAGE_JSON.scripts['promotion:pinterest:rss-report']).toBe('node scripts/pinterest-rss-report.mjs');
     expect(PACKAGE_JSON.scripts['promotion:pinterest:starter']).not.toContain('--publish');
     expect(PACKAGE_JSON.scripts['promotion:pinterest:second-wave']).not.toContain('--publish');
