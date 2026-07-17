@@ -60,6 +60,8 @@ export function loadPinterestAppCoverage(rootDir = resolve('.')) {
     const savedProof = proof[tool.slug];
     const board = boardConfig[tool.category];
     const source = manual ? 'manual' : 'catalog';
+    const boardSlug = manual?.boardSlug || board?.boardSlug || '';
+    const boardTitle = manual?.category || board?.boardTitle || '';
     const publicPinUrl = manual?.publicPinUrl || savedProof?.publicPinUrl || '';
     const status = publicPinUrl ? 'posted' : 'rss-ready';
     const assetPath = manual?.imagePath || `/pinterest/apps/${tool.slug}.jpg`;
@@ -85,8 +87,8 @@ export function loadPinterestAppCoverage(rootDir = resolve('.')) {
       path: `/tools/${tool.slug}/`,
       assetPath,
       assetExists,
-      boardSlug: board?.boardSlug ?? '',
-      boardTitle: board?.boardTitle ?? '',
+      boardSlug,
+      boardTitle,
       published: manual?.published || savedProof?.published || '',
     };
   });

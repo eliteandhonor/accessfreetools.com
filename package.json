@@ -34,6 +34,8 @@
     "promotion:pinterest-assets": "node scripts/generate-pinterest-assets.mjs",
     "promotion:pinterest:all-app-assets": "node scripts/generate-pinterest-app-assets.mjs --all",
     "promotion:pinterest:coverage": "node scripts/pinterest-app-coverage.mjs",
+    "promotion:pinterest:proof-scan": "node scripts/pinterest-public-proof-scan.mjs",
+    "promotion:pinterest:proof-import": "node scripts/pinterest-public-proof-scan.mjs --apply",
     "promotion:pinterest:all-apps:prepare": "npm run promotion:pinterest:all-app-assets && npm run promotion:pinterest:coverage && npm run promotion:pinterest:rss-report",
     "promotion:pinterest": "node scripts/pinterest-organic-publisher.mjs",
     "promotion:pinterest:starter": "node scripts/pinterest-organic-publisher.mjs --slug=tools,free-calculator-resources,percentage-calculator,basic-calculator,mortgage-calculator,bmi-calculator,wallpaper-calculator,ai-tools,image-to-text-ocr-tool",

@@ -29,4 +29,15 @@ describe('Pinterest app catalog', () => {
     expect(report.counts.missingApps).toBe(0);
     expect(report.apps.every((app) => app.boardSlug)).toBe(true);
   });
+
+  it('keeps intentional board overrides from manual public proof rows', () => {
+    const report = loadPinterestAppCoverage();
+    const wattsToAmps = report.apps.find((app) => app.slug === 'watts-to-amps-calculator');
+
+    expect(wattsToAmps).toMatchObject({
+      source: 'manual',
+      boardSlug: 'home-project-calculators',
+      boardTitle: 'Home Project Calculators',
+    });
+  });
 });

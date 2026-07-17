@@ -149,10 +149,10 @@ outside the publisher definitions. No eligible RSS-ready or approved Pinterest
 item remains. Historical duplicate Pins were left public rather than deleted.
 Correction from the catalog-level audit later on 2026-07-17: this proved only
 the existing 59-item archive, not the owner's requirement to promote every
-public app. The site has 302 public tool apps; only 44 distinct tool pages had
-Pinterest proof, leaving 258 apps to prepare, publish, and verify. The full
-Pinterest goal stays active until `npm run promotion:pinterest:coverage` reports
-302 apps with direct public Pin proof and zero apps waiting in RSS.
+public app. At that checkpoint, only 44 of the site's 302 public tool apps had
+direct Pinterest proof. Use the latest `npm run promotion:pinterest:coverage`
+output for the current count. The full Pinterest goal stays active until it
+reports 302 apps with direct public Pin proof and zero apps waiting in RSS.
 The all-app release was deployed on 2026-07-17 with Astro 7 on Node 24. The six
 non-empty board feeds were then visibly connected in the owner's logged-in
 Microsoft Edge session: Finance Calculators, Home Project Calculators, Free
@@ -178,6 +178,16 @@ on Finance Calculators at
 to `/tools/401k-calculator/` with Pinterest organic tracking parameters. The
 direct proof is recorded in `src/data/pinterestAppProof.json`, so this app must
 be excluded from future RSS imports.
+The same Edge session then exposed active RSS imports on the six public boards.
+`npm run promotion:pinterest:proof-scan` now reads the public board state without
+changing project files, validates each numeric Pin URL against its exact
+`/tools/<slug>/` destination and intended board, and writes an ignored evidence
+report under `output/promotion/`. `npm run promotion:pinterest:proof-import`
+uses the explicit apply path and preserves existing proof. The first clean
+import recorded 18 additional public Pins with zero hard issues, moving current
+coverage to 63 of 302 apps and leaving 239 RSS-ready apps. Rerun the scanner
+after each Pinterest import wave; do not infer proof from a connected feed or
+local image alone.
 Later on 2026-05-14, a fresh organic Pinterest Pin was published through the
 user's logged-in external Chrome session for the Watts to Amps Calculator. The
 public Pin was checked on the Home Project Calculators board and direct Pin URL:
