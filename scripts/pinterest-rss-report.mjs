@@ -1,6 +1,8 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 
+import { loadPinterestAppCoverage } from './lib/pinterest-app-catalog.mjs';
+
 const sourcePath = resolve('src', 'data', 'pinterestFeed.ts');
 const source = readFileSync(sourcePath, 'utf8');
 const outputDir = resolve('output', 'promotion');
@@ -25,23 +27,24 @@ const boards = boardBlocks.map((block) => ({
 }));
 const boardSlugs = new Set(boards.map((board) => board.slug));
 
-const itemBlocks = [
-  ...source.matchAll(/\{\s*title:\s*'[^']+'[\s\S]*?\n\s*published:\s*'[^']+',\n\s*\}/g),
-].map((match) => match[0]);
-const items = itemBlocks.map((block) => ({
-  title: extractString(block, 'title'),
-  path: extractString(block, 'path'),
-  imagePath: extractString(block, 'imagePath'),
-  category: extractString(block, 'category'),
-  boardSlug: extractString(block, 'boardSlug'),
-  status: extractString(block, 'status'),
-  rssEligible: extractBoolean(block, 'rssEligible'),
-  published: extractString(block, 'published'),
-}));
+const appCoverage = loadPinterestAppCoverage();
+const catalogItems = appCoverage.apps
+  .filter((app) => app.source === 'catalog')
+  .map((app) => ({
+    title: app.name,
+    path: app.path,
+    imagePath: app.assetPath,
+    category: app.boardTitle,
+    boardSlug: app.boardSlug,
+    status: app.status,
+    rssEligible: app.status === 'rss-ready',
+    published: app.published || '2026-07-17',
+  }));
+const items = [...appCoverage.manualItems, ...catalogItems];
 
 const rssReadyItems = items.filter((item) => item.status === 'rss-ready' && item.rssEligible);
 const postedArchiveItems = items.filter((item) => item.status === 'posted' && !item.rssEligible);
-const issues = [];
+const issues = [...appCoverage.issues];
 const notices = [];
 
 for (const item of items) {
@@ -90,6 +93,10 @@ const report = {
     rssReadyItems: rssReadyItems.length,
     postedArchiveItems: postedArchiveItems.length,
     boards: boards.length,
+    totalApps: appCoverage.counts.totalApps,
+    postedApps: appCoverage.counts.postedApps,
+    rssReadyApps: appCoverage.counts.rssReadyApps,
+    assetReadyApps: appCoverage.counts.assetReadyApps,
   },
   issues,
   notices,
@@ -106,6 +113,10 @@ const markdown = [
   `- RSS-ready future items: ${report.counts.rssReadyItems}`,
   `- Posted archive items excluded from RSS: ${report.counts.postedArchiveItems}`,
   `- Board feeds: ${report.counts.boards}`,
+  `- Public apps covered by the Pinterest catalog: ${report.counts.totalApps}`,
+  `- Apps with verified public Pins: ${report.counts.postedApps}`,
+  `- Apps waiting for Pinterest publication proof: ${report.counts.rssReadyApps}`,
+  `- Apps with ready Pinterest assets: ${report.counts.assetReadyApps}`,
   '',
   '## Feeds',
   '',

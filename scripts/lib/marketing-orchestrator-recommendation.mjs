@@ -78,3 +78,19 @@ export function createIndexingRecommendation(topGap, linkHelper) {
     'Search Console state change, XML sitemap submission report, or public promotion proof.',
   );
 }
+
+export function createPinterestCatalogRecommendation(pinterestRss) {
+  const waiting = Number(pinterestRss?.counts?.rssReadyApps ?? pinterestRss?.counts?.rssReadyItems ?? 0);
+  const total = Number(pinterestRss?.counts?.totalApps ?? 0);
+  const posted = Number(pinterestRss?.counts?.postedApps ?? Math.max(0, total - waiting));
+
+  return recommendation(
+    'High',
+    'Publish and verify the remaining Pinterest app catalog',
+    `${waiting} of ${total} public apps are still waiting for a verified public Pinterest Pin; ${posted} currently have proof.`,
+    'Deploy the ready board RSS feeds, confirm every required feed is connected to the intended public board, then verify imported Pins and record each direct public Pin URL before removing it from the feed.',
+    ['output/promotion/pinterest-app-coverage.json', 'output/promotion/pinterest-rss-report.json', 'docs/promotion-queue.md'],
+    'Do not call Pinterest complete while any public app remains RSS-ready or lacks a direct public Pin URL.',
+    'A direct public Pinterest Pin URL for every public app, with the expected Access Free Tools destination.',
+  );
+}

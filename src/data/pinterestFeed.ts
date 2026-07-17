@@ -1,3 +1,7 @@
+import pinterestAppProofData from './pinterestAppProof.json';
+import pinterestCategoryBoards from './pinterestCategoryBoards.json';
+import { tools, type ToolDefinition } from './tools';
+
 export type PinterestFeedStatus = 'posted' | 'rss-ready';
 
 export interface PinterestBoard {
@@ -61,7 +65,7 @@ export const pinterestBoards: PinterestBoard[] = [
   },
 ];
 
-export const pinterestFeedItems: PinterestFeedItem[] = [
+const pinterestManualFeedItems: PinterestFeedItem[] = [
   {
     title: 'Free Online Tools For Calculators, Converters, And AI Tasks',
     description:
@@ -828,6 +832,77 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     publicPinUrl: 'https://au.pinterest.com/pin/1148277236269780621/',
     published: '2026-07-17',
   },
+];
+
+interface PinterestAppProof {
+  publicPinUrl: string;
+  published: string;
+}
+
+const pinterestAppProof = pinterestAppProofData as Record<string, PinterestAppProof>;
+const manualToolPaths = new Set(
+  pinterestManualFeedItems
+    .filter((item) => item.path.startsWith('/tools/'))
+    .map((item) => item.path),
+);
+
+function trimPinterestText(value: string, maxLength: number) {
+  const clean = value.replace(/\s+/g, ' ').trim();
+  if (clean.length <= maxLength) return clean;
+  const shortened = clean.slice(0, maxLength + 1).replace(/\s+\S*$/, '').trim();
+  return `${shortened || clean.slice(0, maxLength).trim()}...`;
+}
+
+function pinterestTitleForTool(tool: ToolDefinition) {
+  const title = tool.seoTitle
+    .replace(/\s*[|\-]\s*Access Free Tools\s*$/i, '')
+    .trim();
+  return trimPinterestText(title || tool.name, 100);
+}
+
+function pinterestDisclosureForTool(tool: ToolDefinition) {
+  if (tool.category === 'finance') {
+    return 'Built by Access Free Tools for planning estimates, not financial advice.';
+  }
+  if (tool.category === 'health-fitness') {
+    return 'Built by Access Free Tools for education, not diagnosis or medical advice.';
+  }
+  if (tool.category === 'home-projects') {
+    return 'Built by Access Free Tools for early planning; check local rules and professional requirements.';
+  }
+  if (tool.category === 'ai-tools' || tool.category === 'image-tools') {
+    return 'Built by Access Free Tools; check important output because browser models can be wrong.';
+  }
+  return 'Built by Access Free Tools with clear examples and no signup.';
+}
+
+function pinterestDescriptionForTool(tool: ToolDefinition) {
+  return trimPinterestText(`${tool.seoDescription} ${pinterestDisclosureForTool(tool)}`, 500);
+}
+
+const pinterestCatalogFeedItems: PinterestFeedItem[] = tools
+  .filter((tool) => !manualToolPaths.has(`/tools/${tool.slug}/`))
+  .map((tool) => {
+    const board = pinterestCategoryBoards[tool.category];
+    const proof = pinterestAppProof[tool.slug];
+
+    return {
+      title: pinterestTitleForTool(tool),
+      description: pinterestDescriptionForTool(tool),
+      path: `/tools/${tool.slug}/`,
+      imagePath: `/pinterest/apps/${tool.slug}.jpg`,
+      category: board.boardTitle,
+      boardSlug: board.boardSlug,
+      status: proof ? 'posted' : 'rss-ready',
+      rssEligible: !proof,
+      ...(proof ? { publicPinUrl: proof.publicPinUrl } : {}),
+      published: proof?.published ?? PINTEREST_FEED_UPDATED,
+    };
+  });
+
+export const pinterestFeedItems: PinterestFeedItem[] = [
+  ...pinterestManualFeedItems,
+  ...pinterestCatalogFeedItems,
 ];
 
 export function getPinterestBoard(slug: string) {

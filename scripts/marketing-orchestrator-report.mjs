@@ -1,7 +1,10 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 
-import { createIndexingRecommendation } from './lib/marketing-orchestrator-recommendation.mjs';
+import {
+  createIndexingRecommendation,
+  createPinterestCatalogRecommendation,
+} from './lib/marketing-orchestrator-recommendation.mjs';
 
 const outputDir = resolve('output', 'marketing-orchestrator');
 const jsonPath = resolve(outputDir, 'daily-plan.json');
@@ -312,6 +315,10 @@ function chooseRecommendations({
         'Public URL/profile proof, screenshot, or generated report evidence.',
       ),
     );
+  }
+
+  if (!failedQuality && Number(pinterestRss?.counts?.rssReadyApps ?? 0) > 0) {
+    recommendations.push(createPinterestCatalogRecommendation(pinterestRss));
   }
 
   if (!failedQuality && indexingGaps.length) {

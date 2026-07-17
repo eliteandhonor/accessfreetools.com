@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
-import { createIndexingRecommendation } from './marketing-orchestrator-recommendation.mjs';
+import {
+  createIndexingRecommendation,
+  createPinterestCatalogRecommendation,
+} from './marketing-orchestrator-recommendation.mjs';
 
 const gap = {
   state: 'Crawled - currently not indexed',
@@ -92,5 +95,18 @@ describe('marketing indexing recommendation', () => {
 
     expect(result.title).toBe('Improve discovery for not-indexed priority pages');
     expect(result.action).toMatch(/contextual internal links/);
+  });
+});
+
+describe('Pinterest catalog recommendation', () => {
+  it('keeps the full app catalog active until every app has direct proof', () => {
+    const result = createPinterestCatalogRecommendation({
+      counts: { totalApps: 302, postedApps: 44, rssReadyApps: 258 },
+    });
+
+    expect(result.priority).toBe('High');
+    expect(result.reason).toContain('258 of 302');
+    expect(result.gate).toMatch(/Do not call Pinterest complete/);
+    expect(result.proofNeeded).toMatch(/every public app/);
   });
 });

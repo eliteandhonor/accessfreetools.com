@@ -1421,7 +1421,28 @@ describe('site content audit guardrails', () => {
         .filter((item) => item.status === 'posted' && !item.rssEligible)
         .every((item) => Boolean(item.publicPinUrl)),
     ).toBe(true);
+    const canonicalToolPaths = new Set(tools.map((tool) => `/tools/${tool.slug}/`));
+    const pinterestToolPaths = new Set(
+      pinterestFeedItems
+        .map((item) => item.path)
+        .filter((path) => canonicalToolPaths.has(path)),
+    );
+    expect(pinterestToolPaths.size).toBe(tools.length);
+    expect(tools.every((tool) => pinterestToolPaths.has(`/tools/${tool.slug}/`))).toBe(true);
+    expect(
+      pinterestFeedItems
+        .filter((item) => item.status === 'rss-ready')
+        .every(
+          (item) =>
+            item.rssEligible &&
+            item.path.startsWith('/tools/') &&
+            item.imagePath.startsWith('/pinterest/apps/') &&
+            item.imagePath.endsWith('.jpg'),
+        ),
+    ).toBe(true);
     expect(PACKAGE_JSON.scripts['promotion:pinterest:rss-report']).toBe('node scripts/pinterest-rss-report.mjs');
+    expect(PACKAGE_JSON.scripts['promotion:pinterest:coverage']).toBe('node scripts/pinterest-app-coverage.mjs');
+    expect(PACKAGE_JSON.scripts['promotion:pinterest:all-app-assets']).toContain('generate-pinterest-app-assets.mjs');
     expect(PACKAGE_JSON.scripts['promotion:pinterest:starter']).not.toContain('--publish');
     expect(PACKAGE_JSON.scripts['promotion:pinterest:second-wave']).not.toContain('--publish');
     expect(PINTEREST_PUBLISH_SOURCE).toContain("args.includes('--confirm-public-post')");

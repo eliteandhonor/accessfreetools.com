@@ -147,6 +147,12 @@ title, expected board, and the exact Access Free Tools destination path. The
 assets present, while the six older RSS/archive-only rows remain intentionally
 outside the publisher definitions. No eligible RSS-ready or approved Pinterest
 item remains. Historical duplicate Pins were left public rather than deleted.
+Correction from the catalog-level audit later on 2026-07-17: this proved only
+the existing 59-item archive, not the owner's requirement to promote every
+public app. The site has 302 public tool apps; only 44 distinct tool pages had
+Pinterest proof, leaving 258 apps to prepare, publish, and verify. The full
+Pinterest goal stays active until `npm run promotion:pinterest:coverage` reports
+302 apps with direct public Pin proof and zero apps waiting in RSS.
 Later on 2026-05-14, a fresh organic Pinterest Pin was published through the
 user's logged-in external Chrome session for the Watts to Amps Calculator. The
 public Pin was checked on the Home Project Calculators board and direct Pin URL:
