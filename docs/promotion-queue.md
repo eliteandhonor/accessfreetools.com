@@ -169,6 +169,15 @@ feeds were connected. `src/data/pinterestFeedXml.ts` was corrected to render
 date-only Pinterest timestamps at midnight UTC, with a regression test. Keep
 the queue active and recheck the public boards after Pinterest reads the
 corrected feed.
+The owner's Microsoft Edge Pinterest session was verified later on 2026-07-17.
+Because the browser extension still refused local file chooser uploads, the
+official Pinterest Save button URL was used with the already-deployed vertical
+asset and exact tool destination. The 401K Calculator Pin is publicly visible
+on Finance Calculators at
+`https://au.pinterest.com/pin/1148277236269785514/`; its Visit site link points
+to `/tools/401k-calculator/` with Pinterest organic tracking parameters. The
+direct proof is recorded in `src/data/pinterestAppProof.json`, so this app must
+be excluded from future RSS imports.
 Later on 2026-05-14, a fresh organic Pinterest Pin was published through the
 user's logged-in external Chrome session for the Watts to Amps Calculator. The
 public Pin was checked on the Home Project Calculators board and direct Pin URL:
@@ -406,6 +415,7 @@ SEO proof from 2026-05-10:
 | High | `/tools/basic-calculator/` | Simple everyday calculator with guide and keyboard support | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06 |
 | High | `/tools/percentage-calculator/` | Discounts, percent change, markups, and reverse percentages | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/free-online-calculators/` on 2026-05-06 |
 | High | `/tools/mortgage-calculator/` | Estimate monthly payments and understand amortization | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/finance-calculators/` on 2026-05-06 |
+| High | `/tools/401k-calculator/` | Project contributions, employer match, and estimated retirement-account growth | Pinterest | posted | Public Pin and exact tool destination verified through Microsoft Edge on 2026-07-17: `https://au.pinterest.com/pin/1148277236269785514/`. |
 | High | `/tools/sales-tax-calculator/` | Add sales tax, find pre-tax price, or check a final total | Pinterest | posted | Public Pin and Finance Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269606694/` links to `https://accessfreetools.com/tools/sales-tax-calculator/?utm_source=Pinterest&utm_medium=organic`. |
 | High | `/tools/interest-rate-calculator/` | Compare loan and savings interest estimates with clear finance limits | Pinterest | posted | Public Pin and Finance Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269611927/`. |
 | High | `/tools/date-calculator/` | Add or subtract days and count time between dates | Pinterest | posted | Public Pin and Free Online Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269612963/`. |
