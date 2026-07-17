@@ -153,6 +153,15 @@ public app. The site has 302 public tool apps; only 44 distinct tool pages had
 Pinterest proof, leaving 258 apps to prepare, publish, and verify. The full
 Pinterest goal stays active until `npm run promotion:pinterest:coverage` reports
 302 apps with direct public Pin proof and zero apps waiting in RSS.
+The all-app release was deployed on 2026-07-17 with Astro 7 on Node 24. The six
+non-empty board feeds were then visibly connected in the owner's logged-in
+Microsoft Edge session: Finance Calculators, Home Project Calculators, Free
+Online Calculators, School And Study Tools, Health And Fitness Calculators, and
+AI Browser Tools. Connection proof is saved at
+`output/promotion/pinterest-six-rss-feeds-connected-2026-07-17.png`. This is
+setup proof only. Keep all 258 catalog entries `rss-ready` until each imported
+Pin is visible publicly and its direct Pin URL and expected destination are
+recorded.
 Later on 2026-05-14, a fresh organic Pinterest Pin was published through the
 user's logged-in external Chrome session for the Watts to Amps Calculator. The
 public Pin was checked on the Home Project Calculators board and direct Pin URL:
