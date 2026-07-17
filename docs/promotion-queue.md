@@ -190,8 +190,9 @@ extended to follow Pinterest's live Edge board-feed bookmarks through `-end-`
 instead of stopping at the newest 15 Pins. That complete scan recovered 51 more
 public app proofs that had already moved below the first board page. The current
 scanner run after the Node 24 release found and imported 10 more direct public
-Pin URLs with zero hard issues. The current checkpoint is 124 of 302 verified
-apps with 178 RSS-ready apps remaining. Rerun
+Pin URLs with zero hard issues. A second live import wave added 5 more verified
+Pins, followed by two complete scans with zero new candidates. The current
+checkpoint is 129 of 302 verified apps with 173 RSS-ready apps remaining. Rerun
 the scanner after each Pinterest import wave; do not infer proof from a connected
 feed or local image alone.
 Later on 2026-05-14, a fresh organic Pinterest Pin was published through the
