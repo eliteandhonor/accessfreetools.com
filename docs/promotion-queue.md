@@ -218,7 +218,13 @@ Health And Fitness Calculators feed. Two Pins that lagged in the public board
 feed were verified directly from their public Pin pages before being recorded,
 and the final Sleep Calculator Pin was recovered after a browser-session timeout.
 The current checkpoint is 259 of 302 verified apps with 43 RSS-ready apps
-remaining. Rerun
+remaining. Six direct Edge batches then published all 27 AI Browser Tools
+items, followed by two Home Project Calculators batches and two School And Study
+Tools batches. The public scanner imported every direct Pin except Brick
+Calculator, whose public Pin page was checked directly for the Access Free Tools
+destination, Home Project Calculators board, and matching description before its
+proof was recorded. The completed checkpoint is 302 of 302 verified apps with
+zero apps waiting for publication proof and all six board feeds cleared. Rerun
 the scanner after each Pinterest import wave; do not infer proof from a connected
 feed or local image alone.
 Later on 2026-05-14, a fresh organic Pinterest Pin was published through the
