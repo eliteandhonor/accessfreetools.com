@@ -162,6 +162,13 @@ AI Browser Tools. Connection proof is saved at
 setup proof only. Keep all 258 catalog entries `rss-ready` until each imported
 Pin is visible publicly and its direct Pin URL and expected destination are
 recorded.
+The first follow-up board audit at 2026-07-17 22:13 AEST still showed the old
+board totals and no catalog imports. The generated RSS had rendered date-only
+values at noon UTC, which placed the new items hours in the future when the
+feeds were connected. `src/data/pinterestFeedXml.ts` was corrected to render
+date-only Pinterest timestamps at midnight UTC, with a regression test. Keep
+the queue active and recheck the public boards after Pinterest reads the
+corrected feed.
 Later on 2026-05-14, a fresh organic Pinterest Pin was published through the
 user's logged-in external Chrome session for the Watts to Amps Calculator. The
 public Pin was checked on the Home Project Calculators board and direct Pin URL:

@@ -1,7 +1,7 @@
 import { absoluteUrl, escapeXml } from './discovery';
 import type { PinterestBoard, PinterestFeedItem } from './pinterestFeed';
 import { PINTEREST_FEED_UPDATED } from './pinterestFeed';
-import { SITE_ORIGIN, toRfc822Date } from './siteDates';
+import { SITE_ORIGIN } from './siteDates';
 
 interface PinterestRssOptions {
   title: string;
@@ -14,6 +14,10 @@ interface PinterestRssOptions {
 
 function getImageContentType(imagePath: string) {
   return imagePath.endsWith('.jpg') || imagePath.endsWith('.jpeg') ? 'image/jpeg' : 'image/png';
+}
+
+export function toPinterestRfc822Date(date: string) {
+  return new Date(`${date}T00:00:00.000Z`).toUTCString();
 }
 
 export function renderPinterestRssFeed({
@@ -35,7 +39,7 @@ export function renderPinterestRssFeed({
   <guid isPermaLink="true">${pageUrl}</guid>
   <description>${escapeXml(item.description)}</description>
   <category>${escapeXml(board?.title ?? item.category)}</category>
-  <pubDate>${toRfc822Date(item.published)}</pubDate>
+  <pubDate>${toPinterestRfc822Date(item.published)}</pubDate>
   <media:content url="${imageUrl}" medium="image" type="${getImageContentType(item.imagePath)}" width="1000" height="1500" />
 </item>`;
     })
@@ -49,7 +53,7 @@ export function renderPinterestRssFeed({
   <atom:link href="${SITE_ORIGIN}${selfPath}" rel="self" type="application/rss+xml" />
   <description>${escapeXml(description)}</description>
   <language>en</language>
-  <lastBuildDate>${toRfc822Date(PINTEREST_FEED_UPDATED)}</lastBuildDate>
+  <lastBuildDate>${toPinterestRfc822Date(PINTEREST_FEED_UPDATED)}</lastBuildDate>
   <ttl>1440</ttl>
   ${rssItems}
 </channel>
