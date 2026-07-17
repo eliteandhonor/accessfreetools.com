@@ -197,7 +197,9 @@ Free Online Calculators board. A second direct Edge batch published 10 more;
 nine were imported through the public board feed and the lagging P-value Pin was
 verified from its public Pin page, destination, board, and description. The
 current checkpoint is 149 of 302 verified apps with 153 RSS-ready apps
-remaining. Rerun
+remaining. A third direct Edge batch added 10 more verified apps to Free Online
+Calculators with zero scanner issues. The current checkpoint is 159 of 302
+verified apps with 143 RSS-ready apps remaining. Rerun
 the scanner after each Pinterest import wave; do not infer proof from a connected
 feed or local image alone.
 Later on 2026-05-14, a fresh organic Pinterest Pin was published through the
