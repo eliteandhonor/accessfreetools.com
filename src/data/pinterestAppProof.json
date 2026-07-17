@@ -87,6 +87,10 @@
     "publicPinUrl": "https://au.pinterest.com/pin/1148277236269788401/",
     "published": "2026-07-17"
   },
+  "confidence-interval-calculator": {
+    "publicPinUrl": "https://au.pinterest.com/pin/1148277236269790304/",
+    "published": "2026-07-17"
+  },
   "countertop-calculator": {
     "publicPinUrl": "https://au.pinterest.com/pin/1148277236269788492/",
     "published": "2026-07-17"
@@ -195,12 +199,20 @@
     "publicPinUrl": "https://au.pinterest.com/pin/1148277236269787208/",
     "published": "2026-07-17"
   },
+  "mean-median-mode-range-calculator": {
+    "publicPinUrl": "https://au.pinterest.com/pin/1148277236269790274/",
+    "published": "2026-07-17"
+  },
   "mortgage-calculator-uk": {
     "publicPinUrl": "https://au.pinterest.com/pin/1148277236269787542/",
     "published": "2026-07-17"
   },
   "mulch-calculator": {
     "publicPinUrl": "https://au.pinterest.com/pin/1148277236269788261/",
+    "published": "2026-07-17"
+  },
+  "number-sequence-calculator": {
+    "publicPinUrl": "https://au.pinterest.com/pin/1148277236269790231/",
     "published": "2026-07-17"
   },
   "operations-ratios-calculator": {
@@ -217,6 +229,10 @@
   },
   "percent-error-calculator": {
     "publicPinUrl": "https://au.pinterest.com/pin/1148277236269788992/",
+    "published": "2026-07-17"
+  },
+  "permutation-and-combination-calculator": {
+    "publicPinUrl": "https://au.pinterest.com/pin/1148277236269790284/",
     "published": "2026-07-17"
   },
   "plant-spacing-calculator": {
@@ -239,8 +255,16 @@
     "publicPinUrl": "https://au.pinterest.com/pin/1148277236269787483/",
     "published": "2026-07-17"
   },
+  "probability-calculator": {
+    "publicPinUrl": "https://au.pinterest.com/pin/1148277236269790268/",
+    "published": "2026-07-17"
+  },
   "profitability-ratios-calculator": {
     "publicPinUrl": "https://au.pinterest.com/pin/1148277236269787179/",
+    "published": "2026-07-17"
+  },
+  "quadratic-formula-calculator": {
+    "publicPinUrl": "https://au.pinterest.com/pin/1148277236269790184/",
     "published": "2026-07-17"
   },
   "ratio-calculator": {
@@ -295,6 +319,10 @@
     "publicPinUrl": "https://au.pinterest.com/pin/1148277236269786930/",
     "published": "2026-07-17"
   },
+  "sample-size-calculator": {
+    "publicPinUrl": "https://au.pinterest.com/pin/1148277236269790255/",
+    "published": "2026-07-17"
+  },
   "scientific-calculator": {
     "publicPinUrl": "https://au.pinterest.com/pin/1148277236269789073/",
     "published": "2026-07-17"
@@ -305,6 +333,10 @@
   },
   "siding-calculator": {
     "publicPinUrl": "https://au.pinterest.com/pin/1148277236269788361/",
+    "published": "2026-07-17"
+  },
+  "slope-calculator": {
+    "publicPinUrl": "https://au.pinterest.com/pin/1148277236269790320/",
     "published": "2026-07-17"
   },
   "social-security-calculator": {
@@ -335,8 +367,16 @@
     "publicPinUrl": "https://au.pinterest.com/pin/1148277236269787343/",
     "published": "2026-07-17"
   },
+  "volume-calculator": {
+    "publicPinUrl": "https://au.pinterest.com/pin/1148277236269790313/",
+    "published": "2026-07-17"
+  },
   "wall-stud-calculator": {
     "publicPinUrl": "https://au.pinterest.com/pin/1148277236269788503/",
+    "published": "2026-07-17"
+  },
+  "z-score-calculator": {
+    "publicPinUrl": "https://au.pinterest.com/pin/1148277236269790296/",
     "published": "2026-07-17"
   }
 }
