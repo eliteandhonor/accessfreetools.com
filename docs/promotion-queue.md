@@ -193,8 +193,11 @@ scanner run after the Node 24 release found and imported 10 more direct public
 Pin URLs with zero hard issues. A second live import wave added 5 more verified
 Pins, followed by two complete scans with zero new candidates. The current
 Edge promotion session then published and publicly verified 10 more apps on the
-Free Online Calculators board. The current checkpoint is 139 of 302 verified
-apps with 163 RSS-ready apps remaining. Rerun
+Free Online Calculators board. A second direct Edge batch published 10 more;
+nine were imported through the public board feed and the lagging P-value Pin was
+verified from its public Pin page, destination, board, and description. The
+current checkpoint is 149 of 302 verified apps with 153 RSS-ready apps
+remaining. Rerun
 the scanner after each Pinterest import wave; do not infer proof from a connected
 feed or local image alone.
 Later on 2026-05-14, a fresh organic Pinterest Pin was published through the
