@@ -790,6 +790,19 @@ export const pinterestFeedItems: PinterestFeedItem[] = [
     publicPinUrl: 'https://au.pinterest.com/pin/1148277236269639699/',
     published: '2026-07-15',
   },
+  {
+    title: 'Day Of The Week Calculator Guide For Any Calendar Date',
+    description:
+      'Find the weekday for a birthday, deadline, holiday, or event date, with ISO weekday numbers and Sunday-based indexes. This uses modern UTC calendar-date math; check time zones near midnight and specialized sources for historical calendar reforms.',
+    path: '/blog/how-to-use-day-of-the-week-calculator/',
+    imagePath: '/pinterest/day-of-the-week-calculator-guide.jpg',
+    category: 'Free Online Calculators',
+    boardSlug: 'free-online-calculators',
+    status: 'posted',
+    rssEligible: false,
+    publicPinUrl: 'https://au.pinterest.com/pin/1148277236269780621/',
+    published: '2026-07-17',
+  },
 ];
 
 export function getPinterestBoard(slug: string) {
