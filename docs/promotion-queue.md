@@ -212,7 +212,13 @@ verified apps with 114 RSS-ready apps remaining. Five direct Edge Finance
 batches then published and publicly verified all 42 pending items from the
 Finance Calculators feed. The public scanner imported the direct Pin URLs with
 zero hard issues, clearing that board's local RSS queue and moving the current
-checkpoint to 230 of 302 verified apps with 72 RSS-ready apps remaining. Rerun
+checkpoint to 230 of 302 verified apps with 72 RSS-ready apps remaining.
+Three direct Edge Health batches then published all 29 pending items from the
+Health And Fitness Calculators feed. Two Pins that lagged in the public board
+feed were verified directly from their public Pin pages before being recorded,
+and the final Sleep Calculator Pin was recovered after a browser-session timeout.
+The current checkpoint is 259 of 302 verified apps with 43 RSS-ready apps
+remaining. Rerun
 the scanner after each Pinterest import wave; do not infer proof from a connected
 feed or local image alone.
 Later on 2026-05-14, a fresh organic Pinterest Pin was published through the
