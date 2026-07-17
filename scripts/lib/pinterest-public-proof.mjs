@@ -2,6 +2,8 @@ const INITIAL_PROPS_PATTERN = /<script[^>]+id=["']__PWS_INITIAL_PROPS__["'][^>]*
 const PIN_ID_PATTERN = /^\d+$/;
 const TOOL_PATH_PATTERN = /^\/tools\/([^/]+)\/$/;
 const ALLOWED_DESTINATION_HOSTS = new Set(['accessfreetools.com', 'www.accessfreetools.com']);
+const PINTEREST_USER_AGENT =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36 Edg/150.0.0.0';
 
 function normalizeBoardPath(pathname) {
   const normalized = pathname.startsWith('/') ? pathname : `/${pathname}`;
@@ -37,6 +39,20 @@ function destinationFromPin(pin) {
   return { kind: 'missing', value: '' };
 }
 
+function parsePin(pin, feedIndex) {
+  return {
+    id: String(pin.id ?? ''),
+    boardPath: normalizeBoardPath(pin.board?.url ?? ''),
+    boardTitle: pin.board?.name ?? '',
+    ownerUsername: pin.board?.owner?.username ?? pin.pinner?.username ?? '',
+    title: pin.grid_title ?? pin.title ?? pin.story_pin_data?.metadata?.pin_title ?? '',
+    description: pin.unified_user_note ?? pin.description ?? '',
+    altText: pin.seo_alt_text ?? pin.alt_text ?? '',
+    destination: destinationFromPin(pin),
+    feedIndex,
+  };
+}
+
 export function extractPinterestInitialState(html) {
   const match = html.match(INITIAL_PROPS_PATTERN);
   if (!match) {
@@ -60,6 +76,8 @@ export function parsePinterestBoardHtml({ html, boardSlug, boardTitle, accountNa
 
   const expectedBoardPath = `/${accountName}/${boardSlug}/`;
   const entries = Object.values(resources);
+  const resourceKey = Object.keys(resources)[0];
+  const resourceOptions = resourceKey ? Object.fromEntries(JSON.parse(resourceKey)) : null;
   const pins = [];
   let nextBookmark = '-end-';
   let feedIndex = 0;
@@ -70,18 +88,7 @@ export function parsePinterestBoardHtml({ html, boardSlug, boardTitle, accountNa
 
     for (const pin of entry.data) {
       if (pin?.type !== 'pin') continue;
-
-      pins.push({
-        id: String(pin.id ?? ''),
-        boardPath: normalizeBoardPath(pin.board?.url ?? ''),
-        boardTitle: pin.board?.name ?? '',
-        ownerUsername: pin.board?.owner?.username ?? pin.pinner?.username ?? '',
-        title: pin.grid_title ?? pin.story_pin_data?.metadata?.pin_title ?? '',
-        description: pin.unified_user_note ?? pin.description ?? '',
-        altText: pin.seo_alt_text ?? pin.alt_text ?? '',
-        destination: destinationFromPin(pin),
-        feedIndex,
-      });
+      pins.push(parsePin(pin, feedIndex));
       feedIndex += 1;
     }
   }
@@ -92,6 +99,64 @@ export function parsePinterestBoardHtml({ html, boardSlug, boardTitle, accountNa
     expectedBoardPath,
     nextBookmark,
     pins,
+    resourceOptions,
+    appVersion: html.match(/"appVersion":"([^"]+)"/)?.[1] ?? '',
+  };
+}
+
+export function buildPinterestBoardFeedRequest({
+  boardPath,
+  resourceOptions,
+  bookmark,
+  appVersion,
+  now = Date.now(),
+}) {
+  const options = {
+    ...resourceOptions,
+    bookmarks: [bookmark],
+  };
+  const data = JSON.stringify({ options, context: {} });
+  const url = new URL('https://au.pinterest.com/resource/BoardFeedResource/get/');
+  url.searchParams.set('source_url', boardPath);
+  url.searchParams.set('data', data);
+  url.searchParams.set('_', String(now));
+
+  return {
+    url: url.href,
+    headers: {
+      accept: 'application/json, text/javascript, */*, q=0.01',
+      referer: 'https://au.pinterest.com/',
+      'screen-dpr': '1',
+      'user-agent': PINTEREST_USER_AGENT,
+      'x-app-version': appVersion,
+      'x-pinterest-appstate': 'active',
+      'x-pinterest-pws-handler': 'www/[username]/[slug].js',
+      'x-pinterest-source-url': boardPath,
+      'x-requested-with': 'XMLHttpRequest',
+    },
+  };
+}
+
+export function parsePinterestBoardFeedResponse({
+  json,
+  boardSlug,
+  boardTitle,
+  accountName = 'accessfreetools',
+  startIndex = 0,
+}) {
+  const response = json?.resource_response;
+  if (!response || response.status !== 'success' || !Array.isArray(response.data)) {
+    throw new Error(`Pinterest board ${boardSlug} returned an invalid paginated response.`);
+  }
+
+  return {
+    boardSlug,
+    boardTitle,
+    expectedBoardPath: `/${accountName}/${boardSlug}/`,
+    nextBookmark: response.bookmark || '-end-',
+    pins: response.data
+      .filter((pin) => pin?.type === 'pin')
+      .map((pin, index) => parsePin(pin, startIndex + index)),
   };
 }
 
@@ -140,7 +205,12 @@ export function collectPinterestPublicProof({ boardResults, apps }) {
 
       const app = appBySlug.get(pin.destination.slug);
       if (!app) {
-        hardIssues.push(`Pin ${pin.id} targets unknown app slug ${pin.destination.slug}.`);
+        skipped.push({
+          boardSlug: board.boardSlug,
+          pinId: pin.id,
+          reason: 'non-catalog-tool',
+          destination: pin.destination.destination,
+        });
         continue;
       }
 
@@ -215,4 +285,4 @@ export function mergePinterestProof({ currentProof, candidates, published }) {
   };
 }
 
-export { ALLOWED_DESTINATION_HOSTS, PIN_ID_PATTERN, TOOL_PATH_PATTERN };
+export { ALLOWED_DESTINATION_HOSTS, PIN_ID_PATTERN, PINTEREST_USER_AGENT, TOOL_PATH_PATTERN };

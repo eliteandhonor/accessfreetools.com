@@ -185,9 +185,13 @@ changing project files, validates each numeric Pin URL against its exact
 report under `output/promotion/`. `npm run promotion:pinterest:proof-import`
 uses the explicit apply path and preserves existing proof. The first clean
 import recorded 18 additional public Pins with zero hard issues, moving current
-coverage to 63 of 302 apps and leaving 239 RSS-ready apps. Rerun the scanner
-after each Pinterest import wave; do not infer proof from a connected feed or
-local image alone.
+coverage to 63 of 302 apps and leaving 239 RSS-ready apps. The scanner was then
+extended to follow Pinterest's live Edge board-feed bookmarks through `-end-`
+instead of stopping at the newest 15 Pins. That complete scan recovered 51 more
+public app proofs that had already moved below the first board page. The current
+checkpoint is 114 of 302 verified apps with 188 RSS-ready apps remaining. Rerun
+the scanner after each Pinterest import wave; do not infer proof from a connected
+feed or local image alone.
 Later on 2026-05-14, a fresh organic Pinterest Pin was published through the
 user's logged-in external Chrome session for the Watts to Amps Calculator. The
 public Pin was checked on the Home Project Calculators board and direct Pin URL:

@@ -1,17 +1,23 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  buildPinterestBoardFeedRequest,
   collectPinterestPublicProof,
   mergePinterestProof,
   parsePinterestBoardHtml,
+  parsePinterestBoardFeedResponse,
 } from './pinterest-public-proof.mjs';
 
 function boardHtml(pins, nextBookmark = '-end-') {
+  const resourceKey = JSON.stringify([
+    ['board_id', '123'],
+    ['page_size', 15],
+  ]);
   return `<script id="__PWS_INITIAL_PROPS__" type="application/json">${JSON.stringify({
     initialReduxState: {
       resources: {
         BoardFeedResource: {
-          request: {
+          [resourceKey]: {
             data: pins,
             nextBookmark,
           },
@@ -81,6 +87,42 @@ describe('Pinterest public proof scanner', () => {
     ]);
   });
 
+  it('builds the public Edge board pagination request with the current bookmark', () => {
+    const request = buildPinterestBoardFeedRequest({
+      boardPath: '/accessfreetools/finance-calculators/',
+      resourceOptions: { board_id: '123', page_size: 15 },
+      bookmark: 'next-page',
+      appVersion: 'abc123',
+      now: 42,
+    });
+    const url = new URL(request.url);
+    const data = JSON.parse(url.searchParams.get('data'));
+
+    expect(url.pathname).toBe('/resource/BoardFeedResource/get/');
+    expect(url.searchParams.get('source_url')).toBe('/accessfreetools/finance-calculators/');
+    expect(data.options.bookmarks).toEqual(['next-page']);
+    expect(request.headers['x-app-version']).toBe('abc123');
+    expect(request.headers['x-pinterest-pws-handler']).toBe('www/[username]/[slug].js');
+  });
+
+  it('parses a paginated public board response with a stable feed offset', () => {
+    const page = parsePinterestBoardFeedResponse({
+      json: {
+        resource_response: {
+          status: 'success',
+          data: [pin({ id: '555', slug: 'interest-calculator' })],
+          bookmark: '-end-',
+        },
+      },
+      boardSlug: 'finance-calculators',
+      boardTitle: 'Finance Calculators',
+      startIndex: 15,
+    });
+
+    expect(page.nextBookmark).toBe('-end-');
+    expect(page.pins[0]).toMatchObject({ id: '555', feedIndex: 15 });
+  });
+
   it('ignores recommendations and non-tool Access Free Tools links', () => {
     const board = parse([
       pin({ id: '123', slug: 'interest-calculator', link: 'https://example.com/tools/interest-calculator/' }),
@@ -90,6 +132,20 @@ describe('Pinterest public proof scanner', () => {
 
     expect(report.discovered).toEqual([]);
     expect(report.skipped.map((item) => item.reason)).toEqual(['external', 'non-tool']);
+  });
+
+  it('ignores historical tool Pins outside the current canonical app catalog', () => {
+    const board = parse([pin({ id: '123', slug: 'retired-tool' })]);
+    const report = collectPinterestPublicProof({ boardResults: [board], apps });
+
+    expect(report.hardIssues).toEqual([]);
+    expect(report.skipped).toMatchObject([
+      {
+        pinId: '123',
+        reason: 'non-catalog-tool',
+        destination: 'https://accessfreetools.com/tools/retired-tool/',
+      },
+    ]);
   });
 
   it('rejects a Pin saved to the wrong board', () => {

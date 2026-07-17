@@ -3,9 +3,12 @@ import { dirname, resolve } from 'node:path';
 
 import { loadPinterestAppCoverage } from './lib/pinterest-app-catalog.mjs';
 import {
+  buildPinterestBoardFeedRequest,
   collectPinterestPublicProof,
   mergePinterestProof,
   parsePinterestBoardHtml,
+  parsePinterestBoardFeedResponse,
+  PINTEREST_USER_AGENT,
 } from './lib/pinterest-public-proof.mjs';
 
 const args = process.argv.slice(2);
@@ -24,6 +27,7 @@ const boards = [...new Map(coverage.apps.map((app) => [app.boardSlug, {
 }])).values()].sort((left, right) => left.boardSlug.localeCompare(right.boardSlug));
 const boardResults = [];
 const fetchFailures = [];
+const maxPages = 20;
 
 for (const board of boards) {
   const boardUrl = `https://au.pinterest.com/accessfreetools/${board.boardSlug}/`;
@@ -33,7 +37,7 @@ for (const board of boards) {
       headers: {
         accept: 'text/html,application/xhtml+xml',
         'cache-control': 'no-cache',
-        'user-agent': 'Mozilla/5.0 (compatible; AccessFreeToolsPinterestProof/1.0)',
+        'user-agent': PINTEREST_USER_AGENT,
       },
       redirect: 'follow',
       signal: AbortSignal.timeout(20_000),
@@ -45,10 +49,59 @@ for (const board of boards) {
 
     const html = await response.text();
     const parsed = parsePinterestBoardHtml({ html, ...board });
+    const pins = [...parsed.pins];
+    let nextBookmark = parsed.nextBookmark;
+    let pagesFetched = 1;
+    const seenBookmarks = new Set();
+
+    if (!parsed.resourceOptions || !parsed.appVersion) {
+      throw new Error('Pinterest board pagination metadata was missing.');
+    }
+
+    while (nextBookmark && nextBookmark !== '-end-' && pagesFetched < maxPages) {
+      if (seenBookmarks.has(nextBookmark)) {
+        throw new Error('Pinterest returned a repeated board pagination bookmark.');
+      }
+      seenBookmarks.add(nextBookmark);
+
+      const request = buildPinterestBoardFeedRequest({
+        boardPath: parsed.expectedBoardPath,
+        resourceOptions: parsed.resourceOptions,
+        bookmark: nextBookmark,
+        appVersion: parsed.appVersion,
+      });
+      const pageResponse = await fetch(request.url, {
+        headers: request.headers,
+        redirect: 'follow',
+        signal: AbortSignal.timeout(20_000),
+      });
+
+      if (!pageResponse.ok) {
+        throw new Error(`Pinterest board pagination returned HTTP ${pageResponse.status}.`);
+      }
+
+      const page = parsePinterestBoardFeedResponse({
+        json: await pageResponse.json(),
+        ...board,
+        startIndex: pins.length,
+      });
+      pins.push(...page.pins);
+      nextBookmark = page.nextBookmark;
+      pagesFetched += 1;
+    }
+
+    if (nextBookmark && nextBookmark !== '-end-') {
+      throw new Error(`Pinterest board pagination exceeded ${maxPages} pages.`);
+    }
+
     boardResults.push({
       ...parsed,
+      pins,
+      nextBookmark,
       boardUrl,
       initialPinCount: parsed.pins.length,
+      publicPinCount: pins.length,
+      pagesFetched,
     });
   } catch (error) {
     fetchFailures.push(`${board.boardSlug}: ${error.message}`);
@@ -77,13 +130,15 @@ const generatedAt = new Date().toISOString();
 const report = {
   generatedAt,
   mode: apply ? 'apply' : 'dry-run',
-  scanScope: 'Public Pinterest board initial state; up to 15 current feed items per board.',
+  scanScope: 'Complete public Pinterest board feed using the live Edge pagination request.',
   published,
   boards: boardResults.map((board) => ({
     boardSlug: board.boardSlug,
     boardTitle: board.boardTitle,
     boardUrl: board.boardUrl,
     initialPinCount: board.initialPinCount,
+    publicPinCount: board.publicPinCount,
+    pagesFetched: board.pagesFetched,
     nextBookmark: board.nextBookmark,
   })),
   counts: {
@@ -105,7 +160,8 @@ const report = {
   notices: [
     'The scanner is read-only unless --apply is provided.',
     'Existing saved or manual public proof is preserved.',
-    'Current public board HTML exposes the newest feed page; rerun after RSS import waves to capture later Pins.',
+    'The scanner follows public board bookmarks until Pinterest returns -end-.',
+    'Rerun after each RSS import wave so newly public Pins are removed from future feeds promptly.',
   ],
 };
 
