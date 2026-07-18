@@ -23,6 +23,7 @@ import {
   buildSeoToolResearchReport,
   runSeoCompetitorGapReport,
 } from './lib/seo-tool-review.mjs';
+import { loadLatestSearchConsoleInspectionEvidence } from './lib/search-console-inspection-evidence.mjs';
 
 const SITE_ORIGIN = 'https://accessfreetools.com';
 const root = process.cwd();
@@ -34,12 +35,13 @@ const evidencePaths = {
   marketingPlan: 'output/marketing-orchestrator/daily-plan.json',
   promotionQueue: 'docs/promotion-queue.md',
   seoEvaluation: 'output/seo-agent-self-evaluation.json',
-  searchConsole: 'output/search-console-url-inspection.json',
+  searchConsole: 'output/search-console/url-inspection-latest.json',
   searchConsoleCoverageExport: 'output/search-console-coverage-export.json',
   searchConsoleCoverageDrilldown: 'output/search-console-coverage-drilldown.json',
   searchConsoleDiscovery: 'output/search-console-discovery.json',
   searchConsoleIndexingRequests: 'docs/search-console-indexing-requests.json',
   searchConsolePerformanceExport: 'output/search-console/performance-latest.json',
+  bingWebmaster: 'output/bing-webmaster/latest.json',
   productionSitemapCheck: 'output/production-sitemap-check.json',
   dataForSeoAccount: 'output/dataforseo-account.json',
   dataForSeoStatus: 'output/dataforseo-status.json',
@@ -297,7 +299,7 @@ function getHostingerStatus() {
 }
 
 function getIndexingGaps() {
-  const inspection = readJson(evidencePaths.searchConsole);
+  const inspection = loadLatestSearchConsoleInspectionEvidence({ write: true });
   const seoReport = readJson(evidencePaths.seoEvaluation);
   const fromInspection = Array.isArray(inspection?.inspections)
     ? inspection.inspections.map((item) => ({
@@ -449,6 +451,22 @@ function getPerformanceExportSummary() {
     tierARecovery: report.tierARecovery ?? [],
     highImpressionZeroClickPages: report.opportunities?.highImpressionZeroClickPages ?? [],
     queryQuickWins: report.opportunities?.queryQuickWins ?? [],
+  };
+}
+
+function getBingWebmasterSummary() {
+  const report = readJson(evidencePaths.bingWebmaster);
+  if (!report || report.parseError) return null;
+
+  return {
+    aiCitations: Number(report.totals?.ai?.citations ?? 0),
+    aiQueries: Number(report.totals?.ai?.queries ?? 0),
+    generatedAt: report.generatedAt ?? '',
+    keywordRows: Number(report.totals?.keywords?.raw?.rows ?? 0),
+    latestLinks: Number(report.totals?.latestLinks ?? 0),
+    qualityIssues: Number(report.totals?.qualityIssues ?? 0),
+    status: report.status ?? 'unknown',
+    validatedKeywordRows: Number(report.totals?.keywords?.validated?.rows ?? 0),
   };
 }
 
@@ -835,6 +853,7 @@ function statusCommand(command) {
   const qualityReports = platformQualityReports();
   const indexingGaps = getIndexingGaps();
   const performanceExport = getPerformanceExportSummary();
+  const bingWebmaster = getBingWebmasterSummary();
   const balance = getDataForSeoBalance();
   const hostinger = getHostingerStatus();
   const marketingPlan = readJson(evidencePaths.marketingPlan);
@@ -855,6 +874,7 @@ function statusCommand(command) {
     },
     indexingGaps: indexingGaps.length,
     searchConsolePerformance: performanceExport,
+    bingWebmaster,
     qualityReports,
   };
 
@@ -878,6 +898,9 @@ function statusCommand(command) {
     performanceExport
       ? `- GSC performance import: ${performanceExport.totals?.deindexedRows ?? 0} deindexed URLs, ${performanceExport.highImpressionZeroClickPages.length} high-impression zero-click pages`
       : '- GSC performance import: not imported yet',
+    bingWebmaster
+      ? `- Bing Webmaster import: ${bingWebmaster.status}; ${bingWebmaster.validatedKeywordRows}/${bingWebmaster.keywordRows} validated keyword rows, ${bingWebmaster.aiCitations} AI citations across ${bingWebmaster.aiQueries} queries, ${bingWebmaster.latestLinks} latest links`
+      : '- Bing Webmaster import: not imported yet',
     `- Quality: ${qualityReports.map(formatQuality).join('; ')}`,
   ]);
 }

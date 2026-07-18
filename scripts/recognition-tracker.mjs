@@ -1,6 +1,11 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 
+import {
+  LATEST_INSPECTION_EVIDENCE_PATH,
+  loadLatestSearchConsoleInspectionEvidence,
+} from './lib/search-console-inspection-evidence.mjs';
+
 const args = process.argv.slice(2);
 const option = (name, fallback = undefined) =>
   args.find((arg) => arg.startsWith(`${name}=`))?.slice(name.length + 1) ?? fallback;
@@ -155,7 +160,7 @@ function platformStatus(definition, markdown, rows) {
 }
 
 function searchConsoleStatus() {
-  const report = readJson(resolve('output', 'search-console-url-inspection.json'));
+  const report = loadLatestSearchConsoleInspectionEvidence({ write: true });
   const inspections = Array.isArray(report?.inspections) ? report.inspections : [];
   const indexed = inspections.filter((item) => String(item.verdict).toUpperCase() === 'PASS').length;
   const gaps = inspections.length - indexed;
@@ -164,7 +169,7 @@ function searchConsoleStatus() {
     key: 'search-console',
     label: 'Google Search Console',
     status: report?.parseError ? 'parse-error' : inspections.length ? 'snapshot-present' : 'missing',
-    reportPath: 'output/search-console-url-inspection.json',
+    reportPath: LATEST_INSPECTION_EVIDENCE_PATH,
     indexed,
     gaps,
     generatedAt: report?.generatedAt ?? '',
@@ -172,6 +177,7 @@ function searchConsoleStatus() {
 }
 
 function bingStatus() {
+  const bingEvidence = readJson(resolve('output', 'bing-webmaster', 'latest.json'));
   const report = readJson(resolve('output', 'seo-agent-self-evaluation.json'));
   const statusReport = readJson(resolve('output', 'dataforseo-status.json'));
   const bingFreshness =
@@ -182,8 +188,21 @@ function bingStatus() {
   return {
     key: 'bing',
     label: 'Bing',
-    status: report || statusReport ? 'snapshot-present' : 'missing',
-    reportPath: report ? 'output/seo-agent-self-evaluation.json' : statusReport ? 'output/dataforseo-status.json' : '',
+    status: bingEvidence?.status
+      ? `webmaster-${bingEvidence.status}`
+      : report || statusReport
+        ? 'snapshot-present'
+        : 'missing',
+    reportPath: bingEvidence
+      ? 'output/bing-webmaster/latest.json'
+      : report
+        ? 'output/seo-agent-self-evaluation.json'
+        : statusReport
+          ? 'output/dataforseo-status.json'
+          : '',
+    keywordRows: bingEvidence?.totals?.keywords?.validated?.rows ?? null,
+    aiCitations: bingEvidence?.totals?.ai?.citations ?? null,
+    latestLinks: bingEvidence?.totals?.latestLinks ?? null,
     bingDatabaseFreshness: bingFreshness,
   };
 }

@@ -10,6 +10,7 @@ import {
   summarizeDataForSeoServiceStatus,
   summarizeDataForSeoUserData,
 } from './lib/dataforseo.mjs';
+import { loadLatestSearchConsoleInspectionEvidence } from './lib/search-console-inspection-evidence.mjs';
 
 const TARGET_DOMAIN = 'accessfreetools.com';
 const SITE_ORIGIN = `https://${TARGET_DOMAIN}`;
@@ -308,7 +309,7 @@ function relatedKeywordItems(snapshot) {
 }
 
 const gsc = readJsonIfExists('output/search-console-performance.json');
-const inspections = readJsonIfExists('output/search-console-url-inspection.json');
+const inspections = loadLatestSearchConsoleInspectionEvidence({ write: true });
 let dataForSeo;
 try {
   dataForSeo = await fetchDataForSeoSnapshot();

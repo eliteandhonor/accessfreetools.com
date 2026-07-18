@@ -5,6 +5,10 @@ import {
   createIndexingRecommendation,
   createPinterestCatalogRecommendation,
 } from './lib/marketing-orchestrator-recommendation.mjs';
+import {
+  LATEST_INSPECTION_EVIDENCE_PATH,
+  loadLatestSearchConsoleInspectionEvidence,
+} from './lib/search-console-inspection-evidence.mjs';
 
 const outputDir = resolve('output', 'marketing-orchestrator');
 const jsonPath = resolve(outputDir, 'daily-plan.json');
@@ -16,7 +20,7 @@ const evidencePaths = {
   automationPlan: 'docs/automation-operating-plan.md',
   promotionQueue: 'docs/promotion-queue.md',
   seoEvaluation: 'output/seo-agent-self-evaluation.json',
-  searchConsoleInspection: 'output/search-console-url-inspection.json',
+  searchConsoleInspection: LATEST_INSPECTION_EVIDENCE_PATH,
   searchConsoleDiscovery: 'output/search-console-discovery.json',
   linkHelper: 'output/agent-tools/link-helper/latest.json',
   dataForSeoAccount: 'output/dataforseo-account.json',
@@ -473,7 +477,7 @@ const recommendedAgents = readText(evidencePaths.recommendedAgents);
 const automationPlan = readText(evidencePaths.automationPlan);
 const promotionQueue = readText(evidencePaths.promotionQueue);
 const seoEvaluation = readJson(evidencePaths.seoEvaluation);
-const searchConsoleInspection = readJson(evidencePaths.searchConsoleInspection);
+const searchConsoleInspection = loadLatestSearchConsoleInspectionEvidence({ write: true });
 const searchConsoleDiscovery = readJson(evidencePaths.searchConsoleDiscovery);
 const linkHelper = readJson(evidencePaths.linkHelper);
 const dataForSeoAccount = readJson(evidencePaths.dataForSeoAccount);

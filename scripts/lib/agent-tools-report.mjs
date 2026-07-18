@@ -1,6 +1,11 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, relative, resolve } from 'node:path';
 
+import {
+  LATEST_INSPECTION_EVIDENCE_PATH,
+  loadLatestSearchConsoleInspectionEvidence,
+} from './search-console-inspection-evidence.mjs';
+
 export const SITE_ORIGIN = 'https://accessfreetools.com';
 export const AGENT_TOOLS_OUTPUT_DIR = 'output/agent-tools';
 export const AGENT_ROUTING_RULES_PATH = 'docs/agent-routing-rules.json';
@@ -757,7 +762,7 @@ ${markdownList(issues)}
 }
 
 function searchConsoleGaps() {
-  const report = readJson('output/search-console-url-inspection.json');
+  const report = loadLatestSearchConsoleInspectionEvidence({ write: true });
   if (!report?.inspections) {
     return {
       gaps: [],
@@ -778,7 +783,9 @@ function searchConsoleGaps() {
 }
 
 function searchConsoleIndexingRequests() {
-  const report = readJson('docs/search-console-indexing-requests.json');
+  const report = readJson(
+    process.env.AFT_SEARCH_CONSOLE_INDEXING_REQUESTS_PATH || 'docs/search-console-indexing-requests.json',
+  );
   const requests = Array.isArray(report?.requests) ? report.requests : [];
   const deferred = Array.isArray(report?.deferred) ? report.deferred : [];
 
@@ -1518,7 +1525,7 @@ export function buildSeoConsoleReport() {
 
       return {
         evidence:
-          'output/search-console-url-inspection.json + output/search-console-discovery.json + docs/search-console-indexing-requests.json + output/agent-tools/link-helper/latest.md',
+          `${LATEST_INSPECTION_EVIDENCE_PATH} + output/search-console-discovery.json + docs/search-console-indexing-requests.json + output/agent-tools/link-helper/latest.md`,
         priority: hasBuiltLinkEvidence
           ? hasEnoughInternalLinks
             ? 'medium'
@@ -1622,8 +1629,9 @@ const fallbackAgentLaneDefinitions = [
     evidencePaths: [
       'output/agent-tools/seo-console/latest.json',
       'output/agent-tools/link-helper/latest.json',
-      'output/search-console-url-inspection.json',
+      LATEST_INSPECTION_EVIDENCE_PATH,
       'output/search-console/performance-latest.json',
+      'output/bing-webmaster/latest.json',
       'output/seo-agent-self-evaluation.json',
     ],
   },

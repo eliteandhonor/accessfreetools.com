@@ -8,6 +8,7 @@ import {
   parsePerformanceRowLimit,
   performancePageFilterGroups,
 } from './lib/search-console-performance-query.mjs';
+import { writeLatestSearchConsoleInspectionEvidence } from './lib/search-console-inspection-evidence.mjs';
 
 const DEFAULT_SECRET_PATH = resolve('.local/google-search-console-client-secret.json');
 const TOKEN_PATH = resolve(process.env.GSC_TOKEN_PATH ?? '.local/search-console-token.json');
@@ -669,6 +670,10 @@ async function main() {
     };
     writeJson(URL_INSPECTION_REPORT_PATH, report);
     console.log(`Saved URL inspection report to ${URL_INSPECTION_REPORT_PATH}`);
+    const latestEvidence = writeLatestSearchConsoleInspectionEvidence();
+    console.log(
+      `Merged ${latestEvidence.report.summary.uniqueUrls} current URL inspections from ${latestEvidence.report.summary.sourceReports} reports into ${latestEvidence.outputPath}`,
+    );
     return;
   }
 

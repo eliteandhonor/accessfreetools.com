@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, relative, resolve } from 'node:path';
 
 import { extractToolRecords, genericContentPhrases, readJson, SITE_ORIGIN } from './agent-tools-report.mjs';
+import { loadLatestSearchConsoleInspectionEvidence } from './search-console-inspection-evidence.mjs';
 
 export const SEO_REVIEW_OUTPUT_DIR = 'output/seo-tool-review';
 export const SEO_REVIEW_TRACKER_PATH = 'docs/seo-tool-review-queue.md';
@@ -391,28 +392,34 @@ function writeReviewReport(parts, fileBase, report, markdown, write = true) {
   };
 }
 
-function searchConsolePriority(slug) {
-  const reports = [
-    readJson('output/search-console-url-inspection.json'),
+function priorityEvidence() {
+  const searchConsoleReports = [
+    loadLatestSearchConsoleInspectionEvidence({ write: true }),
     readJson('output/search-console-coverage-export.json'),
     readJson('output/seo-agent-self-evaluation.json'),
   ].filter(Boolean);
-  const text = JSON.stringify(reports).toLowerCase();
-  if (!text.includes(slug.toLowerCase())) return { score: 0, reason: '' };
-  return { score: 45, reason: 'Search Console/local SEO report mentions this slug' };
-}
-
-function usagePriority(slug) {
-  const reports = [
+  const usageReports = [
     readJson('output/agent-tools/usage-summary/latest.json'),
     readJson('output/usage-data-asset-report.json'),
   ].filter(Boolean);
-  const text = JSON.stringify(reports).toLowerCase();
-  if (!text.includes(slug.toLowerCase())) return { score: 0, reason: '' };
+
+  return {
+    searchConsoleText: JSON.stringify(searchConsoleReports).toLowerCase(),
+    usageText: JSON.stringify(usageReports).toLowerCase(),
+  };
+}
+
+function searchConsolePriority(slug, evidence) {
+  if (!evidence.searchConsoleText.includes(slug.toLowerCase())) return { score: 0, reason: '' };
+  return { score: 45, reason: 'Search Console/local SEO report mentions this slug' };
+}
+
+function usagePriority(slug, evidence) {
+  if (!evidence.usageText.includes(slug.toLowerCase())) return { score: 0, reason: '' };
   return { score: 25, reason: 'first-party usage/report evidence mentions this slug' };
 }
 
-function priorityForTool(tool) {
+function priorityForTool(tool, evidence) {
   const reasons = [];
   let score = 0;
 
@@ -421,13 +428,13 @@ function priorityForTool(tool) {
     reasons.push('current SEO task-board fallback priority');
   }
 
-  const searchConsole = searchConsolePriority(tool.slug);
+  const searchConsole = searchConsolePriority(tool.slug, evidence);
   if (searchConsole.score) {
     score += searchConsole.score;
     reasons.push(searchConsole.reason);
   }
 
-  const usage = usagePriority(tool.slug);
+  const usage = usagePriority(tool.slug, evidence);
   if (usage.score) {
     score += usage.score;
     reasons.push(usage.reason);
@@ -497,6 +504,7 @@ ${rows}
 export function buildSeoToolQueueReport(options = {}) {
   const generatedAt = new Date().toISOString();
   const tools = extractToolRecords();
+  const evidence = priorityEvidence();
   const trackerText =
     typeof options.trackerText === 'string' ? options.trackerText : readText(SEO_REVIEW_TRACKER_PATH);
   const approvalRows = parseApprovalRows(trackerText);
@@ -505,7 +513,7 @@ export function buildSeoToolQueueReport(options = {}) {
   const ranked = tools
     .map((tool) => ({
       ...tool,
-      priority: priorityForTool(tool),
+      priority: priorityForTool(tool, evidence),
     }))
     .sort((a, b) => b.priority.score - a.priority.score || a.category.localeCompare(b.category) || a.slug.localeCompare(b.slug));
 

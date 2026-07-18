@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-13T19:09:33+10:00",
+  "generatedAt": "2026-07-18T14:51:03+10:00",
   "source": "Search Console UI",
   "requests": [
     {
@@ -85,6 +85,83 @@
       "requestedAt": "2026-07-13T19:09:33+10:00",
       "result": "indexing-requested",
       "url": "https://accessfreetools.com/tools/four-in-a-row-game/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "proof": "output/search-console/recrawl-requests/2026-07-18/kawaii-calculator-tool-indexing-requested.png",
+      "requestedAt": "2026-07-18T14:41:41+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/kawaii-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "proof": "output/search-console/recrawl-requests/2026-07-18/kawaii-calculator-guide-indexing-requested.png",
+      "requestedAt": "2026-07-18T14:43:30+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/blog/how-to-use-kawaii-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "proof": "output/search-console/recrawl-requests/2026-07-18/gas-mileage-calculator-tool-indexing-requested.png",
+      "requestedAt": "2026-07-18T14:44:35+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/gas-mileage-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "proof": "output/search-console/recrawl-requests/2026-07-18/ai-token-cost-calculator-tool-indexing-requested.png",
+      "requestedAt": "2026-07-18T14:45:08+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/ai-token-cost-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "proof": "output/search-console/recrawl-requests/2026-07-18/mileage-calculator-guide-indexing-requested.png",
+      "requestedAt": "2026-07-18T14:45:46+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/blog/how-to-use-mileage-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "proof": "output/search-console/recrawl-requests/2026-07-18/watt-hours-to-amp-hours-tool-indexing-requested.png",
+      "requestedAt": "2026-07-18T14:46:15+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/watt-hours-to-amp-hours-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "proof": "output/search-console/recrawl-requests/2026-07-18/markdown-table-generator-guide-indexing-requested.png",
+      "requestedAt": "2026-07-18T14:47:06+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/blog/how-to-use-markdown-table-generator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "proof": "output/search-console/recrawl-requests/2026-07-18/loan-payment-debt-payoff-hub-indexing-requested.png",
+      "requestedAt": "2026-07-18T14:47:35+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/hubs/loan-payment-debt-payoff-calculators/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "proof": "output/search-console/recrawl-requests/2026-07-18/repayment-calculator-guide-indexing-requested.png",
+      "requestedAt": "2026-07-18T14:48:32+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/blog/how-to-use-repayment-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "proof": "output/search-console/recrawl-requests/2026-07-18/mean-median-mode-range-guide-indexing-requested.png",
+      "requestedAt": "2026-07-18T14:49:03+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/blog/how-to-use-mean-median-mode-range-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue.",
+      "proof": "output/search-console/recrawl-requests/2026-07-18/concrete-calculator-guide-indexing-requested.png",
+      "requestedAt": "2026-07-18T14:49:50+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/blog/how-to-use-concrete-calculator/"
     }
   ],
   "deferred": [
@@ -100,8 +177,39 @@
     },
     {
       "attemptedAt": null,
-      "reason": "Not attempted after Search Console reported the daily request quota was exceeded.",
+      "reason": "Not attempted on July 18 after Search Console visibly reported the daily request quota was exceeded.",
       "url": "https://accessfreetools.com/blog/how-to-use-four-in-a-row-game/"
+    },
+    {
+      "attemptedAt": "2026-07-18T14:50:35+10:00",
+      "proof": "output/search-console/recrawl-requests/2026-07-18/daily-quota-exceeded-after-11-requests.png",
+      "reason": "Search Console visibly reported that the daily request quota was exceeded. Retry on a later day.",
+      "url": "https://accessfreetools.com/blog/how-to-use-income-tax-calculator/"
+    },
+    {
+      "attemptedAt": null,
+      "reason": "Not attempted on July 18 after Search Console visibly reported the daily request quota was exceeded.",
+      "url": "https://accessfreetools.com/blog/how-to-use-margin-calculator/"
+    },
+    {
+      "attemptedAt": null,
+      "reason": "Not attempted on July 18 after Search Console visibly reported the daily request quota was exceeded.",
+      "url": "https://accessfreetools.com/blog/how-to-use-debt-consolidation-calculator/"
+    },
+    {
+      "attemptedAt": null,
+      "reason": "Not attempted on July 18 after Search Console visibly reported the daily request quota was exceeded.",
+      "url": "https://accessfreetools.com/blog/how-to-use-bond-calculator/"
+    },
+    {
+      "attemptedAt": null,
+      "reason": "Not attempted on July 18 after Search Console visibly reported the daily request quota was exceeded.",
+      "url": "https://accessfreetools.com/tools/income-tax-calculator/"
+    },
+    {
+      "attemptedAt": null,
+      "reason": "Not attempted on July 18 after Search Console visibly reported the daily request quota was exceeded.",
+      "url": "https://accessfreetools.com/tools/cd-calculator/"
     }
   ]
 }

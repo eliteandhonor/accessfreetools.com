@@ -1,12 +1,19 @@
-import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 
+import AdmZip from 'adm-zip';
+
 import {
   buildSearchConsolePerformanceReport,
+  dataDateFromName,
+  extractPerformanceExportZip,
   newestDeindexedFile,
+  newestPerformanceExportZip,
+  newestPerformanceOverviewFile,
   parseCsv,
+  sourceDataDate,
   writeSearchConsolePerformanceReport,
 } from './search-console-performance-import.mjs';
 
@@ -121,5 +128,63 @@ describe('Search Console performance import', () => {
     const deindexedFile = writeFixture(root, 'kifx0p91f5-deindexed-2026-07-02 (1).csv', 'URL,Status\n');
 
     expect(newestDeindexedFile(root)).toBe(deindexedFile);
+  });
+
+  it('parses ISO and underscored export dates', () => {
+    expect(dataDateFromName('https___accessfreetools.com_-Performance-on-Search-2026-07-18')).toBe('2026-07-18');
+    expect(dataDateFromName('accessfreetools.com_SearchPerformanceOverview_All_7_18_2026.csv')).toBe('2026-07-18');
+    expect(sourceDataDate('no-date.csv', 'kifx0p91f5-deindexed-2026-07-18.csv')).toBe('2026-07-18');
+  });
+
+  it('selects only a date-matched Bing overview', () => {
+    const root = makeRoot();
+    writeFixture(root, 'accessfreetools.com_SearchPerformanceOverview_All_7_12_2026.csv', 'Date,Clicks,Impressions\n');
+    const matching = writeFixture(
+      root,
+      'accessfreetools.com_SearchPerformanceOverview_All_7_18_2026.csv',
+      'Date,Clicks,Impressions\n',
+    );
+
+    expect(newestPerformanceOverviewFile(root, '2026-07-18')).toBe(matching);
+    expect(newestPerformanceOverviewFile(root, '2026-07-20')).toBe('');
+  });
+
+  it('finds and safely extracts the newest zipped performance export', () => {
+    const root = makeRoot();
+    const olderZipPath = join(root, 'https___accessfreetools.com_-Performance-on-Search-2026-07-12.zip');
+    const newestZipPath = join(root, 'accessfreetools.com-Performance-on-Search-2026-07-18.zip');
+    const olderZip = new AdmZip();
+    olderZip.addFile('Chart.csv', Buffer.from('Date,Clicks,Impressions\n'));
+    olderZip.addFile('Pages.csv', Buffer.from('Top pages,Clicks,Impressions\n'));
+    olderZip.addFile('Queries.csv', Buffer.from('Top queries,Clicks,Impressions\n'));
+    olderZip.writeZip(olderZipPath);
+    const newestZip = new AdmZip();
+    newestZip.addFile('nested/Chart.csv', Buffer.from('Date,Clicks,Impressions\n2026-07-18,2,100\n'));
+    newestZip.addFile('nested/Pages.csv', Buffer.from('Top pages,Clicks,Impressions\n'));
+    newestZip.addFile('nested/Queries.csv', Buffer.from('Top queries,Clicks,Impressions\n'));
+    newestZip.addFile('../ignored.txt', Buffer.from('do not extract'));
+    newestZip.writeZip(newestZipPath);
+
+    expect(newestPerformanceExportZip(root)).toBe(newestZipPath);
+    const extractedDirectory = extractPerformanceExportZip(newestZipPath, join(root, 'cache'));
+
+    expect(readFileSync(join(extractedDirectory, 'Chart.csv'), 'utf8')).toContain('2026-07-18');
+    expect(existsSync(join(extractedDirectory, 'Pages.csv'))).toBe(true);
+    expect(existsSync(join(root, 'ignored.txt'))).toBe(false);
+  });
+
+  it('refuses an explicitly mismatched Bing overview', () => {
+    const root = makeRoot();
+    const performanceDir = join(root, 'https___accessfreetools.com_-Performance-on-Search-2026-07-18');
+    mkdirSync(performanceDir, { recursive: true });
+    const overviewFile = writeFixture(
+      root,
+      'accessfreetools.com_SearchPerformanceOverview_All_7_12_2026.csv',
+      'Date,Clicks,Impressions\n',
+    );
+
+    expect(() => buildSearchConsolePerformanceReport({ overviewFile, performanceDir })).toThrow(
+      'does not match Search Console export date',
+    );
   });
 });

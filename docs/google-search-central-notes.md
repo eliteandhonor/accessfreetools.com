@@ -233,3 +233,45 @@ expanded inspection reports the tool URL as unknown to Google and the guide as
 evidence of a technical indexing defect. The rotating inspection set now
 includes the game pair plus Device Battery Life, Brick, and Unit Price so future
 automation can compare fresh crawl dates without relying on thread memory.
+
+## 2026-07-18 Search Recovery Handoff
+
+The July 18 evidence shows improving discovery but weak click growth, not a live
+sitemap or robots failure:
+
+- Search Console chart data rose from 1,545 to 2,615 impressions week over
+  week, while clicks remained at 2 and CTR fell from 0.13% to 0.08%.
+- The supplied CrawlScout sample fell from 137 to 124 not-indexed URLs, with 13
+  URLs removed from the sample and no additions.
+- Production sitemap and indexing-protection checks remain clean. Do not
+  restart sitemap work, bulk-noindex guides, or reopen completed SEO pages from
+  cumulative performance data alone.
+- Exact URL Inspection shows the priority not-indexed pages have successful
+  fetches, indexing allowed, and matching canonicals. Their page-level SEO
+  workbenches report no gaps, so request recrawling and wait for a fresh crawl
+  before rewriting them.
+- Bing's supplied keyword export contains at least one impossible row where
+  clicks exceed impressions. Use `npm run bing:import-evidence` and its
+  validated subtotal. AI citation counts are visibility evidence, not traffic
+  or ranking proof.
+
+First recrawl batch: Kawaii Calculator tool and guide, Gas Mileage Calculator,
+AI Token Cost Calculator, Mileage guide, Watt Hours to Amp Hours, Markdown Table
+Generator guide, and the loan/debt resource hub. Record only requests visibly
+confirmed in Search Console, then recheck exact crawl dates after 14 days.
+
+The July 18 browser run visibly confirmed all eight first-batch requests, then
+used the remaining daily quota for the Repayment, Mean/Median/Mode/Range, and
+Concrete guides. Search Console accepted 11 requests in total before displaying
+`Quota Exceeded` on the Income Tax guide. Confirmation screenshots are stored
+under ignored `output/search-console/recrawl-requests/2026-07-18/`, and the
+proof-gated ledger is `docs/search-console-indexing-requests.json`. Resume with
+the Income Tax guide on a later day, followed by the remaining second-batch
+guides and tools. A request is only a discovery signal, not proof of indexing.
+
+Search Console performance imports must use only date-matched Bing overview
+files. `npm run search-console:import-performance` safely extracts the newest
+matching Performance ZIP when no extracted folder is available. Use
+`--no-overview` for a GSC-only import. URL inspection consumers use
+`output/search-console/url-inspection-latest.json`, which merges the newest
+successful result for each canonical URL.

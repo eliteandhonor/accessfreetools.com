@@ -1,6 +1,6 @@
 # Access Free Tools Agent CLI
 
-Last updated: 2026-05-18
+Last updated: 2026-07-18
 
 `npm run aft -- ...` is the internal command surface for Codex agents working on Access Free Tools. It keeps daily orientation short, repeatable, and proof-based without replacing the existing scripts.
 
@@ -44,8 +44,19 @@ The CLI is for agent support only. It must not publish posts, edit live social c
   - Reads `docs/promotion-queue.md` and shows safe promotion candidates plus rows that still need public proof.
 
 - `npm run aft -- indexing-gaps`
-  - Reads Search Console and SEO snapshots in `output/` and lists URLs that are unknown, discovered, crawled but not indexed, or otherwise not passing.
+  - Merges valid Search Console URL-inspection reports by URL and uses the newest successful result for each URL before listing URLs that are unknown, discovered, crawled but not indexed, or otherwise not passing.
+  - Writes the merged snapshot to `output/search-console/url-inspection-latest.json`. A newer collection error is recorded but does not erase the last valid inspection.
   - Also summarizes the latest imported Google Coverage CSV export when `npm run search-console:import-coverage` has been run.
+
+- `npm run bing:import-evidence`
+  - Imports the newest Bing Webmaster keyword, AI Search Queries, and Latest Links CSV exports from Downloads.
+  - Writes `output/bing-webmaster/latest.json` and `.md`, flags impossible metric rows, and keeps raw and validated keyword totals separate.
+  - Treats AI citations as references in supported AI answers, not clicks, rankings, backlinks, or authority proof.
+
+- `npm run search-console:import-performance`
+  - Imports the newest Access Free Tools Google Performance export from either an extracted Downloads folder or its original ZIP.
+  - Use `--dir=C:\path\to\export`, `--zip=C:\path\to\export.zip`, or `--no-overview` when an explicit source or GSC-only report is required.
+  - Includes a Bing overview only when its filename date matches the Google export date.
 
 - `node scripts/search-console.mjs --row-limit=1000 --performance-page=https://accessfreetools.com/tools/example/`
   - Pulls current Search Console performance evidence for one exact canonical page, including its query rows and page/query pairs.
@@ -176,6 +187,7 @@ The CLI can summarize proof, but it cannot create proof by itself. Public promot
 6. Run `npm run aft -- hostinger` before Hostinger, DNS, deployment, or hosting-environment claims.
 7. If the user provides Google Coverage CSVs, run `npm run search-console:import-coverage` before indexing claims. It finds the newest Access Free Tools Coverage export in Downloads; use `node scripts/import-google-coverage-export.mjs --dir="C:\path\to\export"` only when the folder is somewhere else.
 8. If the user provides a CrawlScout/deindexed URL CSV, run `npm run crawlscout:import` for the newest matching Downloads file, or `node scripts/import-crawlscout-export.mjs --file="C:\path\to\deindexed.csv"` when the file is elsewhere, before using CrawlScout as evidence. It writes `output/crawlscout/crawlscout-summary.json` and `.md`; the report is a local URL sample unless the export itself includes full crawl totals.
+   - If the user also provides Bing Webmaster keyword, AI Search Queries, or Latest Links CSV files, run `npm run bing:import-evidence` before making Bing demand, citation, or backlink claims. Use validated keyword totals when impossible rows are flagged.
 9. Run `npm run aft -- indexing-protection` after Search Engine Land-style indexing, soft-404, or discovery work.
 10. Run `npm run aft -- ai-crawler` after hub, tool-page, or AI-search visibility work.
 11. Run `npm run aft -- hub-strength` after changing hub copy, category discovery, or internal-link pathways.

@@ -61,6 +61,13 @@ function removeDirectoryIfEmpty(relativePath) {
 describe('agent tools reports', () => {
   beforeEach(() => {
     preserveEnv('AFT_AGENT_TOOLS_DIST_ROOT', resolve(process.cwd(), '.agent-tools-test-dist'));
+    preserveEnv('AFT_SEARCH_CONSOLE_INSPECTION_CANONICAL_ONLY', 'true');
+    preserveEnv(
+      'AFT_SEARCH_CONSOLE_INDEXING_REQUESTS_PATH',
+      resolve(process.cwd(), '.agent-tools-test-indexing-requests.json'),
+    );
+    temporarilyRemoveFile('output/search-console/url-inspection-latest.json');
+    temporarilyRemoveFile('.agent-tools-test-indexing-requests.json');
   });
 
   afterEach(() => {
@@ -434,7 +441,7 @@ describe('agent tools reports', () => {
       JSON.stringify({ generatedAt: '2026-07-02T15:14:00.000Z' }, null, 2),
     );
     preserveAndWrite(
-      'docs/search-console-indexing-requests.json',
+      '.agent-tools-test-indexing-requests.json',
       JSON.stringify(
         {
           generatedAt: '2026-07-02T15:20:00.000Z',
@@ -514,7 +521,7 @@ describe('agent tools reports', () => {
       ),
     );
     preserveAndWrite(
-      'docs/search-console-indexing-requests.json',
+      '.agent-tools-test-indexing-requests.json',
       JSON.stringify(
         {
           generatedAt: '2026-07-02T15:20:00.000Z',
@@ -572,7 +579,7 @@ describe('agent tools reports', () => {
       ),
     );
     preserveAndWrite(
-      'docs/search-console-indexing-requests.json',
+      '.agent-tools-test-indexing-requests.json',
       JSON.stringify(
         {
           generatedAt: '2026-07-02T15:20:00.000Z',
@@ -623,7 +630,7 @@ describe('agent tools reports', () => {
         2,
       ),
     );
-    temporarilyRemoveFile('docs/search-console-indexing-requests.json');
+    temporarilyRemoveFile('.agent-tools-test-indexing-requests.json');
     for (const index of [1, 2, 3]) {
       preserveAndWrite(
         `.agent-tools-test-dist/test-link-fixture/source-${index}/index.html`,

@@ -1,5 +1,8 @@
+import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
+
+import AdmZip from 'adm-zip';
 
 export const SITE_ORIGIN = 'https://accessfreetools.com';
 
@@ -243,25 +246,95 @@ function newestMatchingPath(directory, predicate) {
     .sort((left, right) => right.mtime - left.mtime)[0]?.fullPath ?? '';
 }
 
-function isoDateFromName(value) {
-  return basename(String(value ?? '')).match(/\d{4}-\d{2}-\d{2}/)?.[0] ?? '';
+export function dataDateFromName(value) {
+  const name = basename(String(value ?? ''));
+  const isoMatch = name.match(/(?:^|[^0-9])(\d{4})-(\d{2})-(\d{2})(?:[^0-9]|$)/);
+  if (isoMatch) return `${isoMatch[1]}-${isoMatch[2]}-${isoMatch[3]}`;
+
+  const underscoredMatch = name.match(/(?:^|_)(\d{1,2})_(\d{1,2})_(\d{4})(?:[^0-9]|$)/);
+  if (!underscoredMatch) return '';
+
+  const [, month, day, year] = underscoredMatch;
+  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 }
 
-function sourceDataDate(...paths) {
-  return paths.map(isoDateFromName).find(Boolean) ?? '';
+export function sourceDataDate(...paths) {
+  return paths.map(dataDateFromName).find(Boolean) ?? '';
 }
 
 export function newestPerformanceExportDirectory(downloads = process.env.USERPROFILE ? join(process.env.USERPROFILE, 'Downloads') : '') {
   return newestMatchingPath(
     downloads,
-    (entry) => entry.isDirectory() && /^https___accessfreetools\.com_-Performance-on-Search-/i.test(entry.name),
+    (entry) =>
+      entry.isDirectory() &&
+      /^(?:https___accessfreetools\.com_|accessfreetools\.com)-Performance-on-Search-/i.test(entry.name),
   );
 }
 
-export function newestPerformanceOverviewFile(downloads = process.env.USERPROFILE ? join(process.env.USERPROFILE, 'Downloads') : '') {
+export function newestPerformanceExportZip(downloads = process.env.USERPROFILE ? join(process.env.USERPROFILE, 'Downloads') : '') {
   return newestMatchingPath(
     downloads,
-    (entry) => entry.isFile() && /^accessfreetools\.com_SearchPerformanceOverview_All_.*\.csv$/i.test(entry.name),
+    (entry) =>
+      entry.isFile() &&
+      /^(?:https___accessfreetools\.com_|accessfreetools\.com)-Performance-on-Search-.*\.zip$/i.test(entry.name),
+  );
+}
+
+export function extractPerformanceExportZip(
+  zipPath,
+  outputRoot = resolve('output', 'search-console', 'import-cache'),
+) {
+  if (!zipPath || !existsSync(zipPath)) {
+    throw new Error('Search Console Performance ZIP was not found.');
+  }
+
+  const archiveBuffer = readFileSync(zipPath);
+  const hash = createHash('sha256').update(archiveBuffer).digest('hex');
+  const dataDate = sourceDataDate(zipPath) || 'unknown-date';
+  const destination = resolve(outputRoot, `${dataDate}-${hash.slice(0, 12)}`);
+  const allowedFiles = new Set(PERFORMANCE_EXPORT_FILES);
+  const requiredFiles = new Set(['Chart.csv', 'Pages.csv', 'Queries.csv']);
+  const extracted = new Set();
+  let totalBytes = 0;
+
+  mkdirSync(destination, { recursive: true });
+  const archive = new AdmZip(archiveBuffer);
+  for (const entry of archive.getEntries()) {
+    if (entry.isDirectory) continue;
+    const fileName = basename(entry.entryName.replace(/\\/g, '/'));
+    if (!allowedFiles.has(fileName)) continue;
+    if (extracted.has(fileName)) {
+      throw new Error(`Search Console Performance ZIP contains duplicate ${fileName} entries.`);
+    }
+
+    const data = entry.getData();
+    totalBytes += data.length;
+    if (data.length > 10 * 1024 * 1024 || totalBytes > 50 * 1024 * 1024) {
+      throw new Error('Search Console Performance ZIP exceeds the safe extraction size limit.');
+    }
+
+    writeFileSync(join(destination, fileName), data);
+    extracted.add(fileName);
+  }
+
+  const missing = [...requiredFiles].filter((fileName) => !extracted.has(fileName));
+  if (missing.length) {
+    throw new Error(`Search Console Performance ZIP is missing required files: ${missing.join(', ')}.`);
+  }
+
+  return destination;
+}
+
+export function newestPerformanceOverviewFile(
+  downloads = process.env.USERPROFILE ? join(process.env.USERPROFILE, 'Downloads') : '',
+  expectedDataDate = '',
+) {
+  return newestMatchingPath(
+    downloads,
+    (entry) =>
+      entry.isFile() &&
+      /^accessfreetools\.com_SearchPerformanceOverview_All_.*\.csv$/i.test(entry.name) &&
+      (!expectedDataDate || dataDateFromName(entry.name) === expectedDataDate),
   );
 }
 
@@ -275,6 +348,14 @@ export function newestDeindexedFile(downloads = process.env.USERPROFILE ? join(p
 export function buildSearchConsolePerformanceReport({ deindexedFile = '', generatedAt = new Date().toISOString(), overviewFile = '', performanceDir }) {
   if (!performanceDir || !existsSync(performanceDir)) {
     throw new Error('Search Console Performance export directory not found.');
+  }
+
+  const performanceDataDate = sourceDataDate(performanceDir);
+  const overviewDataDate = sourceDataDate(overviewFile);
+  if (overviewFile && performanceDataDate && overviewDataDate && performanceDataDate !== overviewDataDate) {
+    throw new Error(
+      `Bing overview date ${overviewDataDate} does not match Search Console export date ${performanceDataDate}.`,
+    );
   }
 
   const chart = readCsvIfExists(join(performanceDir, 'Chart.csv')).map(normalizeChartRow);
@@ -302,9 +383,10 @@ export function buildSearchConsolePerformanceReport({ deindexedFile = '', genera
     kind: 'search-console-performance-import',
     status: deindexed.length || topRows(pages, { onlyZeroClicks: true, minImpressions: 100 }).length ? 'attention' : 'pass',
     source: {
-      dataDate: sourceDataDate(performanceDir, deindexedFile),
+      dataDate: performanceDataDate || sourceDataDate(deindexedFile),
       performanceDir,
       overviewFile,
+      overviewDataDate,
       overviewKind: overviewFile ? 'bing-webmaster-performance-overview' : '',
       deindexedFile,
       files: PERFORMANCE_EXPORT_FILES.filter((file) => existsSync(join(performanceDir, file))),
@@ -370,7 +452,9 @@ Source: ${basename(report.source.performanceDir)}
 
 - Page export: ${report.totals.pageRows} URLs, ${report.totals.pageImpressions} impressions, ${report.totals.pageClicks} clicks, ${report.totals.pageCtrPercent}% CTR.
 - Chart export: ${report.totals.chartDays} days, ${report.totals.chartImpressions} impressions, ${report.totals.chartClicks} clicks, ${report.totals.chartCtrPercent}% CTR.
-- Bing Webmaster overview: ${report.totals.bingOverviewRows} days, ${report.totals.bingOverviewImpressions} impressions, ${report.totals.bingOverviewClicks} clicks, ${report.totals.bingOverviewCtrPercent}% CTR. Use this as aggregate trend evidence, not Google or page-level evidence.
+${report.source.overviewFile
+  ? `- Bing Webmaster overview: ${report.totals.bingOverviewRows} days, ${report.totals.bingOverviewImpressions} impressions, ${report.totals.bingOverviewClicks} clicks, ${report.totals.bingOverviewCtrPercent}% CTR. Use this as aggregate trend evidence, not Google or page-level evidence.`
+  : '- Bing Webmaster overview: not included. Use a date-matched overview or the dedicated Bing evidence importer.'}
 - Deindexed export: ${report.totals.deindexedRows} URLs; ${report.totals.deindexedOverlapWithPerformance} also appear in the performance pages export.
 - Search appearance rows: ${report.searchAppearance.length}.
 

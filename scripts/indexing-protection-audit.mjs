@@ -1,6 +1,8 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, normalize, relative, resolve } from 'node:path';
 
+import { loadLatestSearchConsoleInspectionEvidence } from './lib/search-console-inspection-evidence.mjs';
+
 const SITE_ORIGIN = 'https://accessfreetools.com';
 const args = process.argv.slice(2);
 const warnOnly = args.includes('--warn-only') || process.env.npm_config_warn_only === 'true';
@@ -204,7 +206,7 @@ function addMap(map, key, value) {
 }
 
 function searchConsoleGaps() {
-  const report = readJsonIfExists(resolve('output', 'search-console-url-inspection.json'));
+  const report = loadLatestSearchConsoleInspectionEvidence({ write: true });
   if (!report || report.parseError || !Array.isArray(report.inspections)) {
     return { available: false, generatedAt: report?.generatedAt ?? '', gaps: [], parseError: report?.parseError ?? '' };
   }

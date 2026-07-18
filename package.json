@@ -84,6 +84,7 @@
     "seo:onpage-audit": "node scripts/seo-onpage-audit.mjs",
     "seo:keyword-planner": "node scripts/google-keyword-planner-analysis.mjs",
     "seo:editorial-keywords": "node scripts/editorial-keyword-research.mjs",
+    "seo:targeted-research": "node scripts/targeted-seo-research.mjs",
     "automation:env-check": "node scripts/automation-environment-check.mjs",
     "automation:monthly-onpage": "node scripts/monthly-onpage-automation.mjs",
     "automation:monthly-onpage:dry-run": "node scripts/monthly-onpage-automation.mjs --dry-run",
@@ -98,6 +99,7 @@
     "search-console:import-coverage-drilldown": "node scripts/import-search-console-coverage-drilldown.mjs",
     "search-console:import-performance": "node scripts/import-search-console-performance-export.mjs",
     "crawlscout:import": "node scripts/import-crawlscout-export.mjs",
+    "bing:import-evidence": "node scripts/import-bing-webmaster-evidence.mjs",
     "seo:self-evaluate": "node scripts/seo-agent-self-evaluation.mjs",
     "seo:daily": "node scripts/dataforseo-account.mjs --min-balance=2 --warn-balance=10 && node scripts/dataforseo-status.mjs && node scripts/search-console.mjs --inspect-key-urls && node scripts/seo-agent-self-evaluation.mjs && node scripts/indexnow-submit.mjs --verify-key",
     "audit:local": "node scripts/deep-audit-local.mjs",
@@ -149,11 +151,13 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@typescript/native": "npm:typescript@^7.0.2",
+    "adm-zip": "^0.6.0",
     "commander": "^14.0.3",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vitest": "^4.1.5"
   },
   "overrides": {
+    "adm-zip": "^0.6.0",
     "esbuild": "0.28.1"
   }
 }
