@@ -38,6 +38,26 @@ The complete ignored evidence is stored under `output/seo-opportunities/new-tool
 - Submit only the new tool and guide through Google Search Console discovery and IndexNow.
 - Pause the sequence if the pages are not discovered, a sitemap or indexing check fails, CrawlScout gains new affected URLs, or the release does not meet the planned feature baseline.
 
+## JSON To CSV Release Evidence
+
+The first pilot release went live on July 18, 2026:
+
+- Tool: `https://accessfreetools.com/tools/json-to-csv-converter/`
+- Guide: `https://accessfreetools.com/blog/how-to-use-json-to-csv-converter/`
+- Release commit: `5fc6b982`
+- Hostinger build: `019f7437-e0f2-71e0-b6f2-b20c53f1bd69`
+- Runtime: Astro 7 on Node 24.
+- Production sitemap: 659 URLs checked, 0 hard failures.
+- Browser proof: desktop and 390 x 844 mobile checks passed for conversion, formula protection, canonical metadata, Clarity masking, and page overflow.
+- IndexNow: both exact URLs accepted with HTTP 200.
+- Google Search Console: the canonical sitemap was resubmitted with 0 errors and 0 warnings. Both exact URLs were still unknown to Google immediately after release, so discovery is submitted but indexing is not yet proven.
+
+Ignored release reports are stored under `output/search-console/`, `output/indexnow/`, and `output/playwright/json-to-csv/live/`.
+
+The full project check passed every functional, content, image, performance, sitemap, and SEO stage before reaching a new upstream `adm-zip` advisory through `@huggingface/transformers` and `onnxruntime-node`. The release did not change those dependencies. Do not force `adm-zip@0.6.0` through an override because its extraction behavior can break the current ONNX installer. Recheck upstream package compatibility before changing the dependency tree.
+
+The Time Zone Meeting Planner must not be released before August 1, 2026. It also remains blocked until the JSON to CSV pages are discovered and the release has no new sitemap, indexing, or CrawlScout regression.
+
 ## Measurement
 
 Review each release after 28 and 56 days using fixed windows:
