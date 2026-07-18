@@ -54,7 +54,7 @@ The first pilot release went live on July 18, 2026:
 
 Ignored release reports are stored under `output/search-console/`, `output/indexnow/`, and `output/playwright/json-to-csv/live/`.
 
-The full project check passed every functional, content, image, performance, sitemap, and SEO stage before reaching a new upstream `adm-zip` advisory through `@huggingface/transformers` and `onnxruntime-node`. The release did not change those dependencies. Do not force `adm-zip@0.6.0` through an override because its extraction behavior can break the current ONNX installer. Recheck upstream package compatibility before changing the dependency tree.
+The release initially inherited an `adm-zip` advisory through `@huggingface/transformers` and `onnxruntime-node`. A scoped override now pins `adm-zip@0.6.0`. The patched release changes directory-entry extraction, while the ONNX installer extracts individual file entries; that exact file-entry call was tested before adopting the override. Keep the local lockfile guard until ONNX Runtime widens its own dependency range to include the patched release.
 
 The Time Zone Meeting Planner must not be released before August 1, 2026. It also remains blocked until the JSON to CSV pages are discovered and the release has no new sitemap, indexing, or CrawlScout regression.
 
