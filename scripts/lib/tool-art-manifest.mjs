@@ -52,6 +52,22 @@ const categoryVisualCues = {
 };
 
 const toolArtMetadataOverrides = {
+  'json-to-csv-converter': {
+    tool: {
+      alt: 'Full-body smoke-kawaii mascot guiding nested JSON cards through a conversion portal into protected CSV table columns.',
+      caption:
+        'JSON to CSV Converter artwork shows nested object fields becoming columns, arrays staying inside cells, and a shield marking spreadsheet-safe output.',
+      prompt:
+        'Show the full-body mascot guiding translucent nested JSON object cards through a conversion portal into a clean table. Make nested fields visibly separate into connected columns, keep one compact array together inside a cell, and place a small shield on formula-protected cells. Use a practical developer-workbench composition with teal and coral accents, no readable text, and no external product branding.',
+    },
+    guide: {
+      alt: 'Full-body smoke-kawaii mascot explaining nested JSON boxes, flattened CSV columns, protected cells, and a downloadable table.',
+      caption:
+        'The JSON to CSV guide artwork explains nested-field flattening, quoted array cells, spreadsheet protection, and local CSV download as one visual sequence.',
+      prompt:
+        'Show the full-body mascot teaching a distinct three-stage sequence: nested translucent JSON boxes, separated dot-connected columns, then a protected table and download sheet. Include abstract quote marks, one compact array cell, a formula shield, and an encoding sparkle. Use no readable text or external product branding.',
+    },
+  },
   'four-in-a-row-game': {
     tool: {
       alt: 'Smoke-kawaii mascot playing a 7-column Four in a Row board with teal and coral patterned pieces and a highlighted diagonal win.',

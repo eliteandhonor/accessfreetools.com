@@ -967,6 +967,22 @@ const sourceLinks = {
     href: 'https://www.rfc-editor.org/rfc/rfc9562',
     label: 'RFC 9562: Universally Unique IDentifiers',
   },
+  rfc8259: {
+    href: 'https://www.rfc-editor.org/info/rfc8259/',
+    label: 'RFC 8259: The JSON Data Interchange Format',
+  },
+  rfc4180: {
+    href: 'https://www.rfc-editor.org/info/rfc4180/',
+    label: 'RFC 4180: Common CSV format and text/csv media type',
+  },
+  owaspCsvInjection: {
+    href: 'https://owasp.org/www-community/attacks/CSV_Injection',
+    label: 'OWASP: CSV Injection',
+  },
+  mdnBlob: {
+    href: 'https://developer.mozilla.org/en-US/docs/Web/API/Blob',
+    label: 'MDN: Blob browser API',
+  },
   mdnSubtleCryptoDigest: {
     href: 'https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest',
     label: 'MDN: SubtleCrypto digest()',
@@ -7263,6 +7279,131 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       'Check trailing commas, missing quotes, and mismatched braces when parsing fails.',
     ],
     sources: [],
+  },
+  'json-to-csv-converter': {
+    title: 'How to Convert JSON to CSV Safely',
+    summary:
+      'Learn how to turn JSON objects into CSV rows, flatten nested fields, preserve arrays, and protect spreadsheet cells.',
+    metaDescription:
+      'Convert JSON to CSV safely with nested dot-notation columns, CSV quoting, array handling, formula protection, UTF-8 notes, and a worked example.',
+    purpose:
+      'The JSON to CSV Converter turns one JSON object or an array of objects into a rectangular CSV table. It is useful for small API responses, exports, and test data that you want to inspect in a spreadsheet without uploading the content.',
+    intro:
+      'Start with the shape of the JSON. One object becomes one row. An array of objects becomes several rows. Nested objects become dot-notation columns, while arrays remain compact JSON inside one cell so the converter does not invent extra records.',
+    inputMatch:
+      'valid JSON with an object at the top level or an array containing only objects, plus the delimiter and spreadsheet-safety settings required by the app that will open the file',
+    logicAnswer:
+      'The converter parses the JSON, walks each object in first-seen key order, and flattens nested object paths such as profile.city. It builds one shared header list across all records, leaves missing fields blank, serializes arrays as JSON text, then applies CSV quoting to delimiters, quotes, and line breaks.',
+    logicNote:
+      'For `[{"id":1,"profile":{"city":"Brisbane"}},{"id":2,"profile":{"city":"Perth"}}]`, the shared headers are `id` and `profile.city`. The two objects become two rows. A later field is appended to the header list instead of rearranging earlier columns.',
+    readIntro:
+      'Check the row and column counts first. Then scan the preview headers, especially dot-notation columns and blank cells. The preview is capped for readability, but copy and download include the complete converted result.',
+    mistakeIntro:
+      'Most conversion problems come from invalid JSON, mixed top-level array items, ambiguous dotted field names, or opening untrusted cells in a spreadsheet with formula protection turned off.',
+    sidecarText:
+      'Open the JSON to CSV Converter beside this guide. Load the two-person sample, convert it with comma output and formula protection on, then compare profile.city and spreadsheet_note in the preview.',
+    bestUsesIntro:
+      'Use this workflow for small browser-side conversions, API samples, test fixtures, and quick spreadsheet review. Use a scripted ETL or database workflow when data is large, highly nested, or needs a custom schema.',
+    referenceIntro:
+      'RFC 8259 defines JSON objects and arrays. RFC 4180 documents common CSV quoting and record rules. OWASP explains why spreadsheet formula injection deserves a separate protection step. MDN documents the browser Blob used for the local download.',
+    enter: [
+      'Paste one JSON object or an array containing only objects. Use double-quoted JSON keys and strings, with no trailing commas.',
+      'Choose comma for common CSV, semicolon when your locale or receiving app expects it, or tab for a tab-separated file.',
+      'Keep Escape spreadsheet formulas on when any field may contain text you did not write yourself.',
+      'Add the UTF-8 BOM only when the spreadsheet app has trouble recognising non-English characters, then press Convert JSON.',
+    ],
+    read: [
+      'Rows is the number of top-level objects converted. One standalone object counts as one row.',
+      'Columns is the union of first-seen field paths across all objects.',
+      'A header such as profile.city came from a nested object path.',
+      'A blank cell means that object did not contain the shared field; it does not mean the converter deleted another value.',
+      'Protected cells counts values prefixed with an apostrophe because they began with =, +, -, or @ after optional whitespace.',
+    ],
+    mistakes: [
+      'Do not paste a JavaScript object literal with single quotes, comments, undefined, or trailing commas. Those are not valid JSON.',
+      'Do not mix strings, numbers, or arrays with objects in the top-level array.',
+      'Do not assume nested arrays should become extra rows. This converter keeps each array together in one cell.',
+      'Do not switch off spreadsheet formula protection for untrusted exports unless you have another reviewed sanitisation step.',
+      'Do not treat a UTF-8 BOM as a general repair for broken source encoding. It only helps some apps recognise the output encoding.',
+      'Do not use the browser tool as a replacement for schema validation, very large data processing, or a repeatable production ETL pipeline.',
+    ],
+    extraSections: [
+      {
+        title: 'Worked example: nested JSON to two CSV rows',
+        paragraphs: [
+          'Start with `[{"name":"Ada","profile":{"city":"Brisbane"},"tags":["browser","private"]},{"name":"Grace","profile":{"city":"Sydney"},"tags":["csv","json"]}]`.',
+          'The converter creates `name`, `profile.city`, and `tags` headers. Each person stays on one row. The tags arrays remain JSON text inside their cells and are quoted because the array text contains commas and double quotes.',
+        ],
+      },
+      {
+        title: 'Why CSV fields sometimes need double quotes',
+        paragraphs: [
+          'A CSV field containing the selected delimiter, a line break, or a double quote must be wrapped in double quotes for common CSV readers. A double quote inside that field becomes two double quotes.',
+          'That is separate from spreadsheet formula protection. CSV quoting preserves the field boundary; the apostrophe prefix helps stop formula-like text from being interpreted as a command by a spreadsheet.',
+        ],
+      },
+      {
+        title: 'When to use a script or data pipeline instead',
+        paragraphs: [
+          'Use code when one array item should become several rows, column names need custom mapping, values need type conversion, or records need joins and validation. Those choices depend on your data model and should not be guessed by a general browser converter.',
+          'The 5 MB browser limit is deliberate. It keeps this page useful for quick local jobs without pretending to be a large-file processing service.',
+        ],
+        links: [
+          { href: '/tools/json-formatter/', label: 'Format and validate JSON syntax first' },
+          { href: '/tools/markdown-table-generator/', label: 'Build a small Markdown table instead' },
+          { href: '/categories/developer-tools/', label: 'Browse more developer tools' },
+        ],
+      },
+    ],
+    faqItems: [
+      {
+        question: 'Can I convert a single JSON object?',
+        answer:
+          'Yes. A single object becomes one CSV row. Its object keys become the header columns.',
+      },
+      {
+        question: 'Can I convert an array of JSON objects?',
+        answer:
+          'Yes. Each top-level object becomes one row. Every array item must be an object; mixed primitive items are rejected.',
+      },
+      {
+        question: 'What happens to nested objects?',
+        answer:
+          'Nested keys become dot-notation headers such as profile.city. If a direct key and a nested path flatten to the same name, the tool stops and asks you to rename one field.',
+      },
+      {
+        question: 'What happens to arrays inside a record?',
+        answer:
+          'They remain compact JSON inside one CSV cell. The tool does not explode an array into extra rows.',
+      },
+      {
+        question: 'Why does a value start with an apostrophe in the CSV?',
+        answer:
+          'Spreadsheet-safe mode adds it to cells starting with =, +, -, or @ so spreadsheet apps are more likely to treat the value as text instead of a formula.',
+      },
+      {
+        question: 'Should I add a UTF-8 BOM?',
+        answer:
+          'Usually leave it off. Turn it on when a spreadsheet app misreads accented or non-English characters in a UTF-8 CSV.',
+      },
+      {
+        question: 'Does Access Free Tools receive my JSON?',
+        answer:
+          'No. The conversion runs in your browser tab, and the JSON and CSV areas are masked from Microsoft Clarity.',
+      },
+      {
+        question: 'Can this replace a production data pipeline?',
+        answer:
+          'No. Use it for small conversions and inspection. Large files, custom schemas, joins, array expansion, and repeatable imports need a reviewed script or ETL workflow.',
+      },
+    ],
+    faqDisplayCount: 8,
+    sources: [
+      sourceLinks.rfc8259,
+      sourceLinks.rfc4180,
+      sourceLinks.owaspCsvInjection,
+      sourceLinks.mdnBlob,
+    ],
   },
   'uuid-generator': {
     summary: 'Learn how to generate UUID v4 identifiers locally in the browser.',

@@ -14,6 +14,7 @@ import GeometryCalculator, { type GeometryToolVariant } from '../../components/G
 import HalfLifeCalculator from '../../components/HalfLifeCalculator';
 import HealthFitnessCalculator, { type HealthToolVariant } from '../../components/HealthFitnessCalculator';
 import HexCalculator from '../../components/HexCalculator';
+import JsonToCsvConverter from '../../components/JsonToCsvConverter';
 import LogCalculator from '../../components/LogCalculator';
 import MatrixCalculator from '../../components/MatrixCalculator';
 import NumberTheoryCalculator from '../../components/NumberTheoryCalculator';
@@ -463,6 +464,7 @@ const aiToolVariant = aiToolVariants[tool.slug];
 const isAiTool = Boolean(aiToolVariant);
 const isReadingLevelTool = tool.slug === 'reading-level-checker';
 const isFourInARowGame = tool.slug === 'four-in-a-row-game';
+const isJsonToCsvConverter = tool.slug === 'json-to-csv-converter';
 const hasInteractiveTool =
   isCalculatorTool ||
   isPercentageTool ||
@@ -490,7 +492,8 @@ const hasInteractiveTool =
   Boolean(financeToolVariant) ||
   Boolean(utilityToolVariant) ||
   Boolean(aiToolVariant) ||
-  isFourInARowGame;
+  isFourInARowGame ||
+  isJsonToCsvConverter;
 const statsToolInstructions: Record<string, string[]> = {
   'standard-deviation-calculator': [
     'Enter a list of numbers separated by commas, spaces, or line breaks.',
@@ -1736,7 +1739,15 @@ const gameToolInstructions = isFourInARowGame
       'Use Undo to take back the last friend move or the latest human-computer turn pair, then start a new round when you are ready.',
     ]
   : undefined;
-const toolInstructions = gameToolInstructions ?? statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
+const jsonToCsvInstructions = isJsonToCsvConverter
+  ? [
+      'Paste one JSON object or an array containing only objects, or choose a JSON file up to 5 MB.',
+      'Choose comma, semicolon, or tab output. Keep spreadsheet formula escaping on for untrusted data.',
+      'Press Convert JSON, then check the row count, column count, dot-notation headers, blank cells, and preview.',
+      'Copy the CSV or download it. Add a UTF-8 BOM only when your spreadsheet app needs help reading non-English characters.',
+    ]
+  : undefined;
+const toolInstructions = jsonToCsvInstructions ?? gameToolInstructions ?? statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
   ? [
       'Choose the percentage question you want to answer.',
       'For Reverse percent, choose whether you know a part or a final value after an increase or decrease.',
@@ -4075,6 +4086,7 @@ const toolInstructions = gameToolInstructions ?? statsToolInstructions[tool.slug
         {utilityToolVariant && <UtilityCalculator variant={utilityToolVariant} client:load />}
         {aiToolVariant && <AiBrowserTool variant={aiToolVariant} client:load />}
         {isFourInARowGame && <FourInARowGame client:load />}
+        {isJsonToCsvConverter && <JsonToCsvConverter client:load />}
       </div>
     )}
 
@@ -4168,7 +4180,7 @@ const toolInstructions = gameToolInstructions ?? statsToolInstructions[tool.slug
       </ul>
     </section>
 
-    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section', isGeometryTool && 'advanced-faq-section', isHealthTool && 'advanced-faq-section', isFinanceTool && 'advanced-faq-section', isUtilityTool && 'advanced-faq-section', isAiTool && 'advanced-faq-section']}>
+    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section', isGeometryTool && 'advanced-faq-section', isHealthTool && 'advanced-faq-section', isFinanceTool && 'advanced-faq-section', isUtilityTool && 'advanced-faq-section', isAiTool && 'advanced-faq-section', isJsonToCsvConverter && 'advanced-faq-section']}>
       <div class="section-title-block">
         <h2>Frequently asked questions</h2>
         {isKawaiiTool && <p>Quick answers about the cute design, shortcuts, privacy, and copying results.</p>}
@@ -4203,6 +4215,7 @@ const toolInstructions = gameToolInstructions ?? statsToolInstructions[tool.slug
           isFinanceTool && <p>Plain-language answers about when to use the estimate, what your numbers mean, what is left out, and how privacy works.</p>
         )}
         {isUtilityTool && <p>Plain-language answers about when to use the tool, what it does with your inputs, what to double-check, and how privacy works.</p>}
+        {isJsonToCsvConverter && <p>Plain-language answers about accepted JSON shapes, nested columns, CSV quoting, spreadsheet safety, file encoding, and browser privacy.</p>}
         {isAiTool && (
           isReadingLevelTool ? (
             <p>Plain-language answers about English formulas, sample size, sentence checks, privacy, and what the scores cannot prove.</p>

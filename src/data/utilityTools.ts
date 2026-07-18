@@ -22,7 +22,11 @@ interface UtilityToolSpec {
   useCases: string[];
   examples: ToolExample[];
   relatedSlugs: string[];
-  applicationCategory?: 'UtilitiesApplication' | 'GameApplication';
+  applicationCategory?:
+    | 'UtilitiesApplication'
+    | 'GameApplication'
+    | 'DeveloperApplication'
+    | 'BusinessApplication';
 }
 
 interface UtilityFaqLanguage {
@@ -8446,6 +8450,119 @@ export const utilityTools: ToolDefinition[] = [
       { label: 'Sorted keys', expression: '{"z":3,"a":1}', result: 'Keys sorted alphabetically' },
     ],
     relatedSlugs: ['url-encode-decode', 'utm-builder', 'markdown-table-generator'],
+  }),
+  makeUtilityTool({
+    slug: 'json-to-csv-converter',
+    name: 'JSON to CSV Converter',
+    category: 'developer-tools',
+    summary:
+      'Convert JSON objects or arrays to CSV with nested fields, a table preview, and spreadsheet-safe output.',
+    description:
+      'Paste a JSON object or array, flatten nested fields into dot-notation columns, preview the rows, and copy or download the CSV without uploading your data.',
+    seoTitle: 'JSON to CSV Converter | Free Private Browser Tool',
+    seoDescription:
+      'Convert JSON objects or arrays to CSV in your browser. Flatten nested objects, preview columns, escape spreadsheet formulas, and download CSV.',
+    icon: 'tool-json',
+    aliases: [
+      'Convert JSON to CSV',
+      'JSON Array to CSV',
+      'JSON CSV Converter',
+      'JSON to CSV Online',
+    ],
+    applicationCategory: 'DeveloperApplication',
+    formula:
+      'The tool parses one JSON object or an array of objects, recursively flattens nested objects into dot-notation columns, keeps arrays together as JSON cells, preserves first-seen column order, and applies CSV quoting rules. Spreadsheet-safe mode prefixes cells that start with =, +, -, or @.',
+    limit:
+      'The input must be valid JSON with an object at the top level or an array containing only objects. The browser limit is 5 MB, arrays stay inside one cell, and dot-notation field collisions must be renamed before conversion.',
+    faqLanguage: {
+      expectedInputs:
+        'valid JSON containing one object or an array of objects, plus the delimiter and export-safety settings you need',
+      inputFallback:
+        'Paste one JSON object or an array containing only objects. Choose comma, semicolon, or tab as the delimiter, keep spreadsheet formula escaping on for untrusted data, and add a UTF-8 BOM only when your spreadsheet app needs it.',
+      examplePhrase: 'converted JSON example',
+      doubleCheck:
+        'Also check nested dot-notation headers, serialized array cells, missing fields, the chosen delimiter, and whether formula escaping changes a value you expected to remain numeric.',
+      privacy:
+        'No. Parsing, flattening, previewing, copying, and downloading run in your browser tab. Access Free Tools does not receive your JSON or generated CSV, and the input and output areas are masked from Microsoft Clarity.',
+    },
+    inputExplanations: [
+      {
+        term: 'JSON input',
+        meaning:
+          'One object becomes one CSV row. An array of objects becomes multiple rows. Primitive roots and arrays containing non-object items are rejected.',
+      },
+      {
+        term: 'Delimiter',
+        meaning:
+          'Comma makes standard CSV, semicolon can help in comma-decimal locales, and tab makes tab-separated output.',
+      },
+      {
+        term: 'Escape spreadsheet formulas',
+        meaning:
+          'When on, cells starting with =, +, -, or @ after optional whitespace get an apostrophe prefix before export.',
+      },
+      {
+        term: 'UTF-8 BOM',
+        meaning:
+          'An optional invisible marker that can help some spreadsheet apps recognise non-English characters.',
+      },
+    ],
+    extraFaq: [
+      {
+        question: 'How are nested JSON objects converted?',
+        answer:
+          'Nested object keys become dot-notation columns. For example, profile.city becomes one column. Empty objects stay as {} so the field is not silently lost.',
+      },
+      {
+        question: 'What happens to arrays inside a JSON object?',
+        answer:
+          'An array stays together as compact JSON inside one CSV cell. The converter does not create extra rows from array items because that could change the meaning of the original record.',
+      },
+      {
+        question: 'How are commas, quotes, and line breaks escaped?',
+        answer:
+          'A field containing the selected delimiter, a double quote, or a line break is wrapped in double quotes. Any double quote inside that field is doubled, following the common CSV format described by RFC 4180.',
+      },
+      {
+        question: 'Why does spreadsheet-safe mode add an apostrophe?',
+        answer:
+          'Spreadsheet programs may treat cells beginning with =, +, -, or @ as formulas. The apostrophe asks the spreadsheet to treat the cell as text. Keep this on for exports containing data you did not write yourself.',
+      },
+      {
+        question: 'Why is a column blank in some rows?',
+        answer:
+          'The converter uses the union of first-seen fields across every object. If one object does not contain a field that another object has, its CSV cell is left blank.',
+      },
+    ],
+    useCases: [
+      'Turn a small API response into spreadsheet rows without uploading it.',
+      'Flatten nested customer, product, or event objects into dot-notation columns.',
+      'Preview irregular JSON records before copying them into a data-cleaning workflow.',
+      'Create comma, semicolon, or tab-separated exports with spreadsheet formula protection.',
+    ],
+    examples: [
+      {
+        label: 'Two simple rows',
+        expression:
+          '[{"name":"Ada","team":"Data"},{"name":"Grace","team":"Platform"}]',
+        result: 'Two CSV rows with name and team columns',
+      },
+      {
+        label: 'Nested profile',
+        expression: '[{"id":1,"profile":{"city":"Brisbane"}}]',
+        result: 'Columns named id and profile.city',
+      },
+      {
+        label: 'Spreadsheet-safe cell',
+        expression: '[{"label":"=2+2"}]',
+        result: "The exported label starts with an apostrophe when protection is on",
+      },
+    ],
+    relatedSlugs: [
+      'json-formatter',
+      'markdown-table-generator',
+      'query-string-parser',
+    ],
   }),
   makeUtilityTool({
     slug: 'uuid-generator',

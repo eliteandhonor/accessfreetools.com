@@ -114,10 +114,14 @@ const guidePrivacyCopyBySlug: Partial<Record<string, string>> = {
     'Use Copy answer when you want to save the dice count, sides, rolls, subtotal, modifier, and final total for notes, a game log, or a classroom example. Do not use copied rolls as official proof for gambling, legal drawings, audits, or certified random selection.',
   'four-in-a-row-game':
     'Changing modes resets the session score. Refreshing or closing the tab clears the current round and scores.',
+  'json-to-csv-converter':
+    'Use Copy CSV when you want to paste the complete converted table into a spreadsheet, text editor, or data-cleaning workflow. Check the delimiter, dot-notation headers, blank cells, and spreadsheet protection before reusing it.',
 };
 const privacyHeading = tool?.slug === 'four-in-a-row-game' ? 'Privacy and session scores' : 'Privacy and copying results';
 const privacyBrowserCopy = tool?.slug === 'four-in-a-row-game'
   ? 'Moves, round results, and session scores stay only in the current browser tab. They are not sent to a game server.'
+  : tool?.slug === 'json-to-csv-converter'
+    ? 'Your JSON and converted CSV stay only in the current browser tab. They are not sent to a conversion service, and the input, preview, and output are masked from Microsoft Clarity.'
   : 'Recent answers stay visible only while you work in the current browser tab. They are not sent to a server.';
 const privacyCopy = {
   copy:

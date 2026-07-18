@@ -416,6 +416,26 @@ const mdnJson = {
   label: 'MDN: JSON reference',
 };
 
+const rfc8259Json = {
+  href: 'https://www.rfc-editor.org/info/rfc8259/',
+  label: 'RFC 8259: The JSON Data Interchange Format',
+};
+
+const rfc4180Csv = {
+  href: 'https://www.rfc-editor.org/info/rfc4180/',
+  label: 'RFC 4180: Common CSV format and text/csv media type',
+};
+
+const owaspCsvInjection = {
+  href: 'https://owasp.org/www-community/attacks/CSV_Injection',
+  label: 'OWASP: CSV Injection',
+};
+
+const mdnBlob = {
+  href: 'https://developer.mozilla.org/en-US/docs/Web/API/Blob',
+  label: 'MDN: Blob browser API',
+};
+
 const mdnSubtleCryptoDigest = {
   href: 'https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest',
   label: 'MDN: SubtleCrypto digest()',
@@ -7812,6 +7832,30 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
     followUps: [
       'Add JSON schema validation only as a separate mode with clear schema input and error output.',
+    ],
+  },
+  {
+    slug: 'json-to-csv-converter',
+    status: 'deep-reviewed',
+    batch: 'bing-led-new-tool-growth-pilot-2026-07-18',
+    reviewedOn: '2026-07-18',
+    scope: commonMathScope,
+    sources: [rfc8259Json, rfc4180Csv, owaspCsvInjection, mdnBlob],
+    findings: [
+      'Bing exact-phrase research and targeted Google keyword validation both support JSON-to-CSV as the strongest demand-to-build candidate in the three-tool pilot.',
+      'The pure conversion module accepts one object or an array containing only objects, preserves first-seen header order, recursively flattens nested objects with dot-notation columns, serializes arrays as JSON cells, and rejects ambiguous flattened paths.',
+      'CSV output uses CRLF records, doubles embedded quotes, and quotes fields containing the selected delimiter, quotes, or line breaks. Formula protection is enabled by default for cells starting with equals, plus, minus, or at signs after optional whitespace.',
+      'The dedicated React workbench supports paste and local file input, comma, semicolon, and tab output, preview, copy, download, optional UTF-8 BOM, actionable errors, keyboard focus, responsive layouts, and a 5 MB browser limit.',
+      'JSON input, CSV output, and the preview table are masked from Microsoft Clarity. Anonymous analytics record only convert, file load, sample, copy, and download actions without field values, filenames, URLs, or generated content.',
+    ],
+    improvements: [
+      'Added the JSON to CSV Converter tool, a matching safety-focused guide, ten visible tool FAQs, eight guide FAQs, worked nested-data examples, RFC and OWASP citations, DeveloperApplication schema, related developer-tool links, and deterministic unit tests.',
+      'Added distinct approved smoke-kawaii tool and guide artwork with literal alt text, gallery links, image sitemap metadata, and full-body visual QA.',
+    ],
+    followUps: [
+      'Review indexed state, target-query impressions, clicks, organic landing sessions, conversions, and downloads after 28 and 56 days.',
+      'Do not add array expansion, schema mapping, or large-file processing without a separate data-model and performance review.',
+      'Do not release the Time Zone Meeting Planner until at least 14 days after this release passes live, sitemap, and discovery checks.',
     ],
   },
   {

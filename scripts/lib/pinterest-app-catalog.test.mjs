@@ -4,7 +4,7 @@ import { loadPinterestAppCoverage, parseManualPinterestItems } from './pinterest
 
 describe('Pinterest app catalog', () => {
   it('parses manual public proof without treating generated entries as manual rows', () => {
-    const items = parseManualPinterestItems(`
+    const source = `
       {
         title: 'Example',
         path: '/tools/example/',
@@ -16,15 +16,18 @@ describe('Pinterest app catalog', () => {
         publicPinUrl: 'https://au.pinterest.com/pin/123/',
         published: '2026-07-17',
       },
-    `);
+    `;
+    const items = parseManualPinterestItems(source);
+    const windowsItems = parseManualPinterestItems(source.replace(/\n/g, '\r\n'));
 
     expect(items).toHaveLength(1);
     expect(items[0].publicPinUrl).toBe('https://au.pinterest.com/pin/123/');
+    expect(windowsItems).toEqual(items);
   });
 
   it('covers every canonical public app exactly once at catalog level', () => {
     const report = loadPinterestAppCoverage();
-    expect(report.counts.totalApps).toBe(302);
+    expect(report.counts.totalApps).toBe(303);
     expect(new Set(report.apps.map((app) => app.slug)).size).toBe(report.counts.totalApps);
     expect(report.counts.missingApps).toBe(0);
     expect(report.apps.every((app) => app.boardSlug)).toBe(true);

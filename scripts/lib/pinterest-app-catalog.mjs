@@ -3,7 +3,8 @@ import { resolve } from 'node:path';
 
 import { readCanonicalTools } from './tool-art-manifest.mjs';
 
-const MANUAL_ITEM_PATTERN = /\{\s*title:\s*'[^']+'[\s\S]*?\n\s*published:\s*'[^']+',\n\s*\}/g;
+const MANUAL_ITEM_PATTERN =
+  /\{\s*title:\s*'[^']+'[\s\S]*?\r?\n\s*published:\s*'[^']+',\r?\n\s*\}/g;
 const PIN_URL_PATTERN = /^https:\/\/au\.pinterest\.com\/pin\/\d+\/$/;
 
 function extractString(block, key) {
