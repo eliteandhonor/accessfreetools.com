@@ -58,6 +58,16 @@ The full project check passed every functional, content, image, performance, sit
 
 The Time Zone Meeting Planner must not be released before August 1, 2026. It also remains blocked until the JSON to CSV pages are discovered and the release has no new sitemap, indexing, or CrawlScout regression.
 
+Run the read-only checkpoint before planning that release:
+
+`npm run pilot:new-tool-growth`
+
+When evidence is split across worktrees, add the other workspace without copying ignored reports:
+
+`$env:AFT_PILOT_EVIDENCE_ROOTS="C:\Users\chamb\OneDrive\Desktop\accessfreetools.com"; npm run pilot:new-tool-growth`
+
+The checkpoint follows the rollout rule literally: the 14-day wait must pass, at least one of the two JSON to CSV URLs must be discovered, the post-release production sitemap must have no hard failures, and a post-release CrawlScout sample must not exceed the July 18 baseline of 124 affected rows. It reports indexing and usage separately without treating them as proof of discovery.
+
 ## Measurement
 
 Review each release after 28 and 56 days using fixed windows:

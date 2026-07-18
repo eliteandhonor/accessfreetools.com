@@ -1,6 +1,6 @@
 # Access Free Tools Agent CLI
 
-Last updated: 2026-05-18
+Last updated: 2026-07-18
 
 `npm run aft -- ...` is the internal command surface for Codex agents working on Access Free Tools. It keeps daily orientation short, repeatable, and proof-based without replacing the existing scripts.
 
@@ -70,6 +70,11 @@ The CLI is for agent support only. It must not publish posts, edit live social c
 - `npm run aft -- usage-summary` (local QA log only; not production-demand proof)
 - `npm run analytics:production` (private production aggregate)
   - Fetches an authenticated, privacy-safe production aggregate with visitors, page views, tool-use actions, top tools, and top pages. Use `-- --days=<number>` for a different range.
+
+- `npm run pilot:new-tool-growth`
+  - Creates a read-only JSON to CSV pilot checkpoint from the newest exact URL inspections, production sitemap check, CrawlScout sample, search performance, and production analytics evidence.
+  - Keeps the Time Zone Meeting Planner blocked until the 14-day wait has passed, at least one pilot URL is discovered, the post-release sitemap has no hard failures, and a post-release CrawlScout sample has not regressed.
+  - Saves `output/new-tool-growth-pilot/latest.json` and `.md`.
 
 - `npm run aft -- usage-notes`
   - Creates an original data asset readiness report and draft outline from the fresh production aggregate only. It never falls back to local QA events and stays `not-ready` until there are enough real visitors, enough tool actions, and production owner exclusion is confirmed.

@@ -66,6 +66,7 @@
     "promotion:weekly-review": "npm run promotion:pinterest-assets && npm run promotion:pinterest:coverage && npm run promotion:pinterest:rss-report && npm run promotion:medium:quality && npm run promotion:reddit:quality && npm run promotion:bluesky:quality && npm run promotion:quora:quality && npm run promotion:devto:quality",
     "aft": "node scripts/aft-cli.mjs",
     "pilot:four-in-a-row": "node scripts/four-in-a-row-pilot-report.mjs",
+    "pilot:new-tool-growth": "node scripts/new-tool-growth-pilot-report.mjs",
     "analytics:production": "node scripts/fetch-production-analytics.mjs",
     "analytics:production:game": "node scripts/fetch-production-analytics.mjs --days=90 --tool=four-in-a-row-game",
     "serpforge": "node scripts/serpforge-agent-tools.mjs",
