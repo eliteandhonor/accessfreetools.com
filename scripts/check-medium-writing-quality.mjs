@@ -216,7 +216,15 @@ const qualityRules = {
   'markdown-table-cleanup': {
     primaryPhrase: 'markdown table',
     minNumbers: 3,
-    requiredIdeas: ['header', 'row', 'copy'],
+    requiredIdeas: ['pipe', 'delimiter', 'readme', 'preview'],
+    trustHeading: 'Where this shortcut stops helping',
+    ctaHeading: 'Try it with your own rows',
+    requiredPatterns: [
+      {
+        pattern: /```markdown[\s\S]*\|[^|\n]+\|[^|\n]+\|[\s\S]*```/i,
+        message: 'Markdown table article must show an actual fenced table output, not only describe one.',
+      },
+    ],
   },
   'github-stars-security-review': {
     primaryPhrase: 'github stars',
@@ -787,6 +795,12 @@ function lintArticle(file, heroAssetReport) {
   const missingIdeas = containsAllIdeas(text, rules.requiredIdeas);
   if (missingIdeas.length > 0) {
     errors.push(`Missing required topic idea(s): ${missingIdeas.join(', ')}.`);
+  }
+
+  for (const requirement of rules.requiredPatterns ?? []) {
+    if (!requirement.pattern.test(article)) {
+      errors.push(requirement.message);
+    }
   }
 
   if (numberCount < rules.minNumbers) {

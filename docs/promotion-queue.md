@@ -97,14 +97,19 @@ the custom SEO title and description, canonical link to the original Access
 Free Tools guide, literal smoke-kawaii hero alt text, five focused topics,
 free-reader access, H1/H2 structure, and contextual Access Free Tools links:
 `https://medium.com/@accessfreetools/github-stars-are-not-a-security-review-what-i-check-instead-a1a261be3fbe`.
-On 2026-07-18, the Markdown table companion story passed the Medium quality
-gate with all five review scores at 100 and was scheduled in the logged-in
-external Chrome session for 2026-07-21 at 10:00 AEST. The draft has a branded
-hero image, literal alt text, five focused topics, a 57-character preview title,
-a 139-character preview description, a custom SEO title and description, and a
-canonical link to the original Access Free Tools guide. Medium confirmed the
-scheduled time at `https://medium.com/p/38e6ee5ff563`. Keep this record
-`scheduled` until the public story URL is visible and checked after release.
+On 2026-07-18, the first Markdown table companion draft was removed from the
+schedule after an owner review found that it did not read like a coherent human
+article. The automated perfect score was rejected. The story was rewritten as
+`The Markdown Table Mistake I Kept Making in README Files`, then checked with
+Stop Slop and the manual reader-first checklist before it was rescheduled for
+2026-07-21 at 10:00 AEST. The revised quality report scores SEO 92,
+originality 100, human interest 84, reader desire 100, and overall 94. External
+Chrome verification confirmed the concrete README example, rendered Markdown
+code block, branded hero, literal alt text, five topics, preview title and
+subtitle, SEO title and description, canonical link, contextual tool link, and
+final tool/guide links. Medium confirmed the schedule at
+`https://medium.com/p/38e6ee5ff563`. Keep this record `scheduled` until the
+public story URL is visible and checked after release.
 Follow-up from the 2026-05-07 review: Medium posts now require a branded hero
 image, alt text, canonical/source URL metadata, and focused tags in the local
 quality gate before future public posting. The live percentage article now uses
@@ -540,7 +545,7 @@ SEO proof from 2026-05-10:
 | Medium | `/tools/voltage-drop-calculator/` | Wire length, current, voltage, and percent drop explained safely | Pinterest, Medium | posted | Published to `https://au.pinterest.com/accessfreetools/home-project-calculators/` on 2026-05-07; Medium draft is approved but not posted |
 | Medium | `/tools/sand-calculator/` | Estimate sand volume and weight for practical home projects | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/home-project-calculators/` on 2026-05-07 |
 | Medium | `/tools/markdown-table-generator/` | Make clean Markdown tables without hand-spacing rows | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/school-and-study-tools/` on 2026-05-07. |
-| Medium | `/blog/how-to-use-markdown-table-generator/` | Make clean Markdown tables without hand-spacing every row | Medium | scheduled | Scheduled in Medium for 2026-07-21 at 10:00 AEST after the quality gate passed with all review scores at 100. Hero, literal alt text, five topics, preview text, SEO title/description, canonical link, contextual tool link, and final tool/guide links were verified before scheduling. Medium confirmation: `https://medium.com/p/38e6ee5ff563`. Do not mark posted until the public URL is visible and checked. |
+| Medium | `/blog/how-to-use-markdown-table-generator/` | The Markdown table mistake I kept making in README files | Medium | scheduled | The first version was unscheduled after failing the owner reader-quality review. The rewritten 778-word story passed manual Stop Slop and reader-first review plus the revised gate: SEO 92, originality 100, human interest 84, reader desire 100, overall 94. External Chrome verified the rendered code example, hero alt text, five topics, preview text, SEO metadata, canonical, and links before Medium accepted the 2026-07-21 10:00 AEST schedule. Proof: `https://medium.com/p/38e6ee5ff563`. Do not mark posted until the public URL is visible and checked. |
 | Medium | `/tools/markdown-table-generator/` | Clean Markdown tables for docs and README files | Bluesky | posted | Public post verified on 2026-05-08: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mld43sxrjy2h` |
 | Medium | `/tools/markdown-table-generator/` | Broken README table rows and separator mistakes | DEV Community | blocked | DEV draft passed quality, but posting is blocked until DEV restores the account or the user approves a replacement account path. |
 | Medium | `/tools/body-surface-area-calculator/` | BSA estimate with height, weight, and health-result limits | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/health-and-fitness-calculators/` on 2026-05-07 |

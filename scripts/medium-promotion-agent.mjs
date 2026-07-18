@@ -335,37 +335,55 @@ const posts = [
   },
   {
     slug: 'markdown-table-cleanup',
-    title: 'How To Make A Markdown Table Without Fighting The Spacing',
-    subtitle: 'Markdown tables are simple when the rows are lined up, but annoying when you build them by hand.',
+    title: 'The Markdown Table Mistake I Kept Making in README Files',
+    subtitle: 'I kept lining up spaces. GitHub was reading the pipes and delimiter row.',
+    seoTitle: 'How to Make a Markdown Table for a README',
+    seoDescription:
+      'Before copying a Markdown table into a README, check the pipes, delimiter row, cell count, alignment, and preview. Here is my practical routine.',
     sourceUrl: `${SITE_ORIGIN}/tools/markdown-table-generator/`,
     canonicalUrl: `${SITE_ORIGIN}/blog/how-to-use-markdown-table-generator/`,
     tags: ['Markdown', 'Writing', 'Developer Tools', 'Productivity', 'Guides'],
-    audience: 'Students, writers, developers, and documentation editors making quick Markdown tables.',
+    audience: 'Developers, students, and writers making small tables for README files, notes, and documentation.',
+    disclosure:
+      'Disclosure: I am Brendan Chambers, the owner of Access Free Tools. I built this generator for the small Markdown tables I use in site notes and documentation. Codex helped me organize and check this draft; I reviewed the example and final wording.',
+    contextualLink:
+      'I use the [Access Free Tools Markdown Table Generator](https://accessfreetools.com/tools/markdown-table-generator/) to build the table structure before I paste it into a README or draft.',
+    headings: {
+      quickAnswer: 'The rule I had wrong',
+      whyItMatters: 'What GitHub-flavored Markdown reads',
+      bestUse: 'The three inputs I use',
+      limits: 'Where this shortcut stops helping',
+      cta: 'Try it with your own rows',
+    },
     sections: [
       {
-        heading: 'Why Markdown tables get messy',
+        heading: 'Check the row shape before copying',
         paragraphs: [
-          'A Markdown table is just text, so tiny spacing mistakes can make it hard to read while editing. The final page may still render, but the source can become painful fast.',
-          'A table generator helps by letting you think about the rows and columns first, then copying clean Markdown when the structure is ready.',
+          'The generator keeps every row to the number of cells in the header. If the header has 3 cells and a row has 2, the result gets a blank third cell. If a row has 4 cells, the fourth value does not appear in the output.',
+          'A tidy result can hide an input mistake, so I compare each source row with the header count before copying. I use [GitHub\'s table documentation](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/organizing-information-with-tables) when I need to check the final syntax.',
         ],
       },
       {
-        heading: 'The parts that matter',
+        heading: 'Use commas for simple cells',
         paragraphs: [
-          'A basic Markdown table needs a header row, a separator row, and the body rows. The separator row is the line with dashes that tells Markdown where the headers end.',
-          'If you want alignment, colons can tell Markdown whether a column should be left, center, or right aligned. That is useful for numbers, prices, scores, and short labels.',
+          'The generator accepts comma-separated or pipe-separated cells. Commas are convenient for short entries such as `Tool, Best for, Status`.',
+          'If a cell contains a comma, switch to pipes so the comma stays inside that cell. This helper handles simple separators rather than quoted CSV, so spreadsheet exports and cells containing literal pipe characters need a manual check.',
         ],
       },
       {
-        heading: 'A better workflow',
+        heading: 'Alignment lives in the delimiter row',
         paragraphs: [
-          'Start with the column names, add the rows, preview the result, and copy the final Markdown. If a row needs more detail, keep the cell short or link to another section instead of stuffing a paragraph into the table.',
-          'That keeps the table useful for readers and easier to maintain later.',
+          'Left alignment uses `---`, centered text uses `:---:`, and right alignment uses `---:`. The current generator applies one alignment choice to every column.',
+          'One alignment setting works for a quick list with similar cells. If you need labels on the left and numbers on the right, copy the result and edit the delimiter for each column before publishing.',
         ],
       },
     ],
     callout:
-      'The Access Free Tools Markdown Table Generator helps create clean Markdown tables with rows, columns, alignment, preview, and copy-ready output.',
+      'I use the Access Free Tools Markdown Table Generator when I want the pipes, delimiter row, and row shape built before I paste a table into a README or draft.',
+    finalLinks: [
+      '[Open the Markdown Table Generator](https://accessfreetools.com/tools/markdown-table-generator/)',
+      '[Read the full Markdown table guide](https://accessfreetools.com/blog/how-to-use-markdown-table-generator/)',
+    ],
   },
   {
     slug: 'github-stars-security-review',
@@ -767,36 +785,38 @@ const publishEnhancements = {
     ],
   },
   'markdown-table-cleanup': {
-    preview:
-      'A practical guide to making Markdown tables without hand-spacing every row. Useful for docs, school notes, GitHub READMEs, and quick comparisons.',
+    preview: 'I kept lining up spaces. GitHub was reading the pipes and delimiter row.',
     seoReview:
       'DataForSEO reviewed on 2026-05-07: "markdown table generator" is informational intent. Keep this post practical and tool-focused for writers, students, and developers.',
     hook: [
-      'Markdown tables look easy until one row has a longer word than the others. Then the neat little table starts looking like homework from a printer that gave up.',
-      'A table generator fixes the boring part so you can focus on what the table is supposed to explain.',
+      'I was adding a small tool list to an Access Free Tools README. It had three columns: Tool, Best for, and Status. I kept adding spaces until every pipe lined up in the editor.',
+      'I opened the README preview and saw the same table. GitHub-flavored Markdown uses the pipe characters and the delimiter row to find columns. Equal-width source columns add no structure. I was polishing whitespace while the real mistakes were missing separators and uneven cells.',
     ],
     quickAnswer: [
-      'A Markdown table generator lets you enter headers, rows, and alignment choices, then copy clean Markdown. You do not have to count spaces or rebuild the separator row by hand.',
-      'For example, a 3-column table for Tool, Use, and Link can be built once, previewed, and copied into a README, blog draft, issue, or school note.',
+      'A Markdown table needs 1 header line, 1 delimiter line, and 1 line for each body row. Source columns can have different visual widths.',
+      'I check the cell count, the pipes between cells, and the delimiter row below the header. Spaces are just there to make the source easier to scan.',
     ],
     whyItMatters: [
-      'This matters because tables are supposed to make information easier to scan. If the source table is messy, it becomes harder to update, and small mistakes are easier to miss.',
+      'GitHub treats each section between pipes as a table cell. The delimiter row, such as `| --- | --- | --- |`, confirms the table structure and controls alignment.',
+      'A long cell can sit under a short header and render in the right column. A missing pipe changes where one cell ends and the next begins.',
     ],
     bestUse: [
-      'Use it when you need a quick comparison table, checklist table, pricing table, tool list, or documentation table.',
-      'It is best for short cells. If a cell needs a whole paragraph, the table is probably trying to do too much.',
+      'I enter the headers first, add one row per line, and choose left, center, or right alignment. For my example, the headers are `Tool, Best for, Status`.',
+      'The 2 body rows produce a result with 3 columns and 2 rows. I compare those counts with what I typed before copying the Markdown.',
     ],
     example: {
-      heading: 'A quick table example',
+      heading: 'The two-row table I actually wanted',
       paragraphs: [
-        'Say you want 3 columns: Calculator, Best for, and Link. Add those as headers, then add 3 rows: Percentage Calculator, Mortgage Calculator, and BMI Calculator.',
-        'The generator can turn that into a clean Markdown table with 1 header row, 1 separator row, and 3 body rows that you can paste without fixing every pipe symbol yourself.',
+        'I entered `Tool, Best for, Status` as the headers. Then I added `Markdown Table Generator, README tables, Live` and `JSON Formatter, Checking data, Live` as two separate rows.',
+        'The result was 3 columns and 2 body rows:\n\n```markdown\n| Tool | Best for | Status |\n| --- | --- | --- |\n| Markdown Table Generator | README tables | Live |\n| JSON Formatter | Checking data | Live |\n```',
+        'The first data row is much wider than the second, but GitHub still renders 3 columns because the pipes mark the cell boundaries. I can spend my time checking the wording instead of padding cells with spaces.',
       ],
     },
     limits: [
-      'Markdown table support can vary a little between editors.',
-      'Very wide tables may still be hard to read on mobile screens.',
-      'Keep cell text short, preview before posting, and link out when a row needs more detail.',
+      'Preview the output where you plan to publish it because not every Markdown editor supports GitHub-style tables.',
+      'Keep cells short. A wide table may force awkward horizontal scrolling on a phone.',
+      'Clean up quoted CSV, embedded commas, and literal pipe characters before you rely on the generated columns.',
+      'Edit the copied delimiter row by hand when different columns need different alignment.',
     ],
   },
   'github-stars-security-review': {
@@ -1078,6 +1098,17 @@ function mediumPasteHtml(content) {
   for (let index = 0; index < lines.length; index += 1) {
     const line = lines[index].trim();
     if (!line) continue;
+
+    if (line.startsWith('```')) {
+      const codeLines = [];
+      index += 1;
+      while (index < lines.length && !lines[index].trim().startsWith('```')) {
+        codeLines.push(lines[index]);
+        index += 1;
+      }
+      html.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`);
+      continue;
+    }
 
     if (line.startsWith('# ')) {
       html.push(`<h1>${inlineMarkdownToHtml(line.slice(2))}</h1>`);
