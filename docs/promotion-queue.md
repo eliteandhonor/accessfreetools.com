@@ -97,6 +97,14 @@ the custom SEO title and description, canonical link to the original Access
 Free Tools guide, literal smoke-kawaii hero alt text, five focused topics,
 free-reader access, H1/H2 structure, and contextual Access Free Tools links:
 `https://medium.com/@accessfreetools/github-stars-are-not-a-security-review-what-i-check-instead-a1a261be3fbe`.
+On 2026-07-18, the Markdown table companion story passed the Medium quality
+gate with all five review scores at 100 and was scheduled in the logged-in
+external Chrome session for 2026-07-21 at 10:00 AEST. The draft has a branded
+hero image, literal alt text, five focused topics, a 57-character preview title,
+a 139-character preview description, a custom SEO title and description, and a
+canonical link to the original Access Free Tools guide. Medium confirmed the
+scheduled time at `https://medium.com/p/38e6ee5ff563`. Keep this record
+`scheduled` until the public story URL is visible and checked after release.
 Follow-up from the 2026-05-07 review: Medium posts now require a branded hero
 image, alt text, canonical/source URL metadata, and focused tags in the local
 quality gate before future public posting. The live percentage article now uses
@@ -334,6 +342,11 @@ On 2026-05-14, the build-in-public Bluesky post for
 session after the API publisher was blocked by missing local Bluesky env vars.
 The public profile showed the post text, mission-page link card, and permalink:
 `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlrrl7pmzk2i`.
+On 2026-07-18, the Kawaii Calculator post passed the focused Bluesky quality
+check and was published through the logged-in external Chrome session. The
+public permalink verified the exact post text, ownership disclosure, destination
+link, two focused tags, and the Kawaii Calculator preview card:
+`https://bsky.app/profile/accessfreetools.bsky.social/post/3mqvjntoduk27`.
 DEV Community is the recommended next technical blogging channel as of
 2026-05-13. Use it only for developer, browser AI, Markdown, JSON, encoding,
 token, API, and productivity topics. Drafts and quality checks are local with
@@ -509,6 +522,7 @@ SEO proof from 2026-05-10:
 | High | `/why-access-free-tools/` | Build-in-public story about using Codex to grow the free utility website | DEV Community | blocked | Draft `codex-build-utility-website` passed `npm run promotion:devto:quality` on 2026-05-13 with score 100 and no warnings. External Chrome checked DEV `/new`, but the user-created account still returned "Forbidden" with a suspended/limited-access warning. Do not mark posted without a public DEV URL. |
 | Medium | `/tools/bmi-calculator/` | BMI estimate with health disclaimer and plain-language result notes | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/health-and-fitness-calculators/` on 2026-05-06 |
 | Medium | `/tools/kawaii-calculator/` | Cute everyday arithmetic, percentage, memory, and keyboard checks | Pinterest | posted | Public Pin and Free Online Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269606692/` links to `https://accessfreetools.com/tools/kawaii-calculator/?utm_source=Pinterest&utm_medium=organic`. |
+| Medium | `/tools/kawaii-calculator/` | Percent rules, memory state, keyboard support, and clear operators | Bluesky | posted | Public post verified on 2026-07-18 with ownership disclosure, exact destination, two focused tags, and link preview card: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mqvjntoduk27`. |
 | Medium | `/tools/concrete-block-calculator/` | Wall-size, opening, waste, and concrete-block quantity planning | Pinterest | posted | Public Pin and Home Project Calculators board verified on 2026-07-15: `https://au.pinterest.com/pin/1148277236269606687/` links to `https://accessfreetools.com/tools/concrete-block-calculator/?utm_source=Pinterest&utm_medium=organic`. |
 | Medium | `/tools/bmi-calculator/` | BMI estimate limits explained carefully | Medium | posted | Published on 2026-05-15 and public-page checked with no draft label, H1/H2 formatting, hero image alt text, ownership disclosure, tool link, and guide link visible: `https://medium.com/@accessfreetools/the-biggest-mistake-people-make-with-bmi-calculator-results-d46d0ceacd41`. Proof screenshot: `output/promotion/medium/bmi-result-limits-live-2026-05-15.png` |
 | Medium | `/tools/wallpaper-calculator/` | Rolls, wall area, pattern repeat, and waste percent explained | Pinterest, Medium | posted | Pinterest published; Medium live article manually fixed by the user and externally checked on 2026-05-08: `https://medium.com/@accessfreetools/what-waste-percent-means-in-a-wallpaper-calculator-8189dc219150` |
@@ -525,7 +539,8 @@ SEO proof from 2026-05-10:
 | Medium | `/tools/image-to-text-ocr-tool/` | Why screenshot text copying fails and how browser OCR helps | DEV Community | blocked | DEV draft passed quality, but the user-created account returned "Forbidden" on `/new` with a suspended/limited-access warning on 2026-05-13. |
 | Medium | `/tools/voltage-drop-calculator/` | Wire length, current, voltage, and percent drop explained safely | Pinterest, Medium | posted | Published to `https://au.pinterest.com/accessfreetools/home-project-calculators/` on 2026-05-07; Medium draft is approved but not posted |
 | Medium | `/tools/sand-calculator/` | Estimate sand volume and weight for practical home projects | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/home-project-calculators/` on 2026-05-07 |
-| Medium | `/tools/markdown-table-generator/` | Make clean Markdown tables without hand-spacing rows | Pinterest, Medium | posted | Published to `https://au.pinterest.com/accessfreetools/school-and-study-tools/` on 2026-05-07; Medium draft is approved but not posted |
+| Medium | `/tools/markdown-table-generator/` | Make clean Markdown tables without hand-spacing rows | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/school-and-study-tools/` on 2026-05-07. |
+| Medium | `/blog/how-to-use-markdown-table-generator/` | Make clean Markdown tables without hand-spacing every row | Medium | scheduled | Scheduled in Medium for 2026-07-21 at 10:00 AEST after the quality gate passed with all review scores at 100. Hero, literal alt text, five topics, preview text, SEO title/description, canonical link, contextual tool link, and final tool/guide links were verified before scheduling. Medium confirmation: `https://medium.com/p/38e6ee5ff563`. Do not mark posted until the public URL is visible and checked. |
 | Medium | `/tools/markdown-table-generator/` | Clean Markdown tables for docs and README files | Bluesky | posted | Public post verified on 2026-05-08: `https://bsky.app/profile/accessfreetools.bsky.social/post/3mld43sxrjy2h` |
 | Medium | `/tools/markdown-table-generator/` | Broken README table rows and separator mistakes | DEV Community | blocked | DEV draft passed quality, but posting is blocked until DEV restores the account or the user approves a replacement account path. |
 | Medium | `/tools/body-surface-area-calculator/` | BSA estimate with height, weight, and health-result limits | Pinterest | posted | Published to `https://au.pinterest.com/accessfreetools/health-and-fitness-calculators/` on 2026-05-07 |
