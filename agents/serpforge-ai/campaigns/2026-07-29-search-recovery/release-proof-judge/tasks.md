@@ -1,7 +1,7 @@
 # Tasks
 
-- [ ] Judge EV-01 through EV-03.
-- [ ] Judge WRT-01.
-- [ ] Judge SEC-01.
-- [ ] Verify original dirty checkout is unchanged.
+- [x] Judge EV-01 through EV-03.
+- [x] Judge WRT-01.
+- [x] Judge SEC-01.
+- [x] Verify original dirty checkout is unchanged.
 - [ ] Approve or block REL-01 with exact evidence.

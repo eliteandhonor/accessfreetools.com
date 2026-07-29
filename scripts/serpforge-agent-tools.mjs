@@ -2142,6 +2142,9 @@ function july29RecoveryCommand() {
   const bingPrevious = fixedWindow(bingRows, 28, 28);
   const dependencyTask = tasks.find((task) => task.id === 'SEC-01');
   const evidenceTasks = tasks.filter((task) => task.id.startsWith('EV-'));
+  const primaryRecrawlTask = tasks.find((task) => task.id === 'IDX-02');
+  const staleCrawlTask = tasks.find((task) => task.id === 'IDX-03');
+  const galleryWatchTask = tasks.find((task) => task.id === 'IDX-04');
   const wins = [
     googleLatest.impressions && googlePrevious.impressions
       ? `Google impressions: ${googleLatest.impressions} in the latest 28 days versus ${googlePrevious.impressions} previously.`
@@ -2157,15 +2160,25 @@ function july29RecoveryCommand() {
       : 'Google click comparison is not available.',
     evidenceTasks.some((task) => task.status !== 'approved')
       ? 'Evidence importer and newest-inspection tasks still require Release and Proof Judge approval.'
-      : 'Evidence importer tasks are approved.',
+      : staleCrawlTask?.status !== 'approved'
+        ? 'Mileage Calculator recrawl remains unconfirmed; Date Calculator stays in watch status.'
+        : 'No stale-crawl task remains open.',
     dependencyTask?.status === 'approved'
-      ? 'Dependency security gate is approved.'
+      ? galleryWatchTask?.status !== 'approved'
+        ? '/gallery/converters/ remains a watch item through August 11.'
+        : 'No gallery watch task remains open.'
       : 'Dependency security gate is not approved; deployment remains blocked.',
   ];
   const bestNextAction =
     evidenceTasks.some((task) => task.status !== 'approved') || dependencyTask?.status !== 'approved'
       ? 'Finish and judge EV-01 through EV-03 and SEC-01, then request recrawling before editing page copy.'
-      : 'Run the proven recrawl batch, record visible confirmations, and begin page-specific OpenSEO research.';
+      : primaryRecrawlTask?.status !== 'approved'
+        ? 'Run the proven five-URL recrawl batch and record visible Search Console confirmation for every URL.'
+        : staleCrawlTask?.status !== 'approved'
+          ? 'Retry the Mileage Calculator recrawl only when visible confirmation can be saved; keep Date Calculator in watch status.'
+          : galleryWatchTask?.status !== 'approved'
+            ? 'Watch /gallery/converters/ through August 11 and re-inspect before any rewrite or repeat submission.'
+            : 'Re-import fixed 14-day and 28-day windows before approving any page rewrite.';
   const payload = {
     bestNextAction,
     generatedAt: new Date().toISOString(),

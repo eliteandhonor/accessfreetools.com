@@ -553,6 +553,7 @@ describe('agent tools reports', () => {
   it('does not infer zero internal links when dist was intentionally cleaned', () => {
     preserveEnv('AFT_AGENT_TOOLS_DIST_ROOT', resolve(process.cwd(), '.agent-tools-test-missing-dist'));
     temporarilyRemoveFile('output/search-console-coverage-export.json');
+    temporarilyRemoveFile('output/search-console/performance-latest.json');
     temporarilyRemoveFile('output/marketing-orchestrator/daily-plan.json');
     preserveAndWrite(
       'output/search-console-url-inspection.json',

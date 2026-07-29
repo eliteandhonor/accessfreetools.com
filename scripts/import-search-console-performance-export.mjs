@@ -9,19 +9,10 @@ import {
   newestPerformanceOverviewFile,
   writeSearchConsolePerformanceReport,
 } from './lib/search-console-performance-import.mjs';
+import { hasFlag, optionValue } from './lib/npm-cli-options.mjs';
 
-function option(name) {
-  const prefix = `${name}=`;
-  const found = process.argv.slice(2).find((arg) => arg.startsWith(prefix));
-  return found ? found.slice(prefix.length) : '';
-}
-
-function hasFlag(name) {
-  return process.argv.slice(2).includes(name);
-}
-
-const requestedDir = option('--dir');
-const requestedZip = option('--zip');
+const requestedDir = optionValue('--dir');
+const requestedZip = optionValue('--zip');
 const automaticZip = !requestedDir && !requestedZip ? newestPerformanceExportZip() : '';
 const automaticDir = !requestedDir && !requestedZip && !automaticZip ? newestPerformanceExportDirectory() : '';
 const performanceDir = requestedDir ? resolve(requestedDir) : automaticDir;
@@ -36,13 +27,13 @@ if (!performanceSource || !existsSync(performanceSource)) {
 }
 
 const dataDate = dataDateFromName(performanceSource);
-const explicitOverview = option('--overview');
+const explicitOverview = optionValue('--overview');
 const overviewFile = hasFlag('--no-overview')
   ? ''
   : explicitOverview
     ? resolve(explicitOverview)
     : newestPerformanceOverviewFile(undefined, dataDate);
-const explicitDeindexed = option('--deindexed');
+const explicitDeindexed = optionValue('--deindexed');
 const deindexedFile = explicitDeindexed
   ? resolve(explicitDeindexed)
   : newestDeindexedFile(undefined, dataDate);

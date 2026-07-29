@@ -95,7 +95,7 @@ const HARD_RULES = Object.freeze([
     layer: 'reader-first',
     message: 'Remove internal agent or approval language from public copy.',
     pattern:
-      /\b(?:agent instructions?|approval notes?|final judge|human approval|micro-agent|ready for (?:human )?approval|seo (?:agent|workbench)|the agent should|this (?:article|copy|draft|medium post|page|post|section) should)\b/giu,
+      /\b(?:agent instructions?|approval notes?|human approval|micro-agent|ready for (?:human )?approval|seo agent|the agent should|(?:the )?(?:final judge|seo workbench) (?:must|needs? to|should)|this (?:article|copy|draft|medium post|page|post|section) should)\b/giu,
   },
   {
     id: 'stop-slop.em-dash',

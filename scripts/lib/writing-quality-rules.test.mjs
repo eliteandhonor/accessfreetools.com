@@ -95,6 +95,20 @@ describe('writing quality rules', () => {
     expect(result.status).toBe('fail');
   });
 
+  it('allows factual descriptions of a review process but rejects directives', () => {
+    const factual = analyzeWritingText(
+      "The site's SEO workbench and final judge still control what gets published.",
+      { mode: 'editorial' },
+    );
+    const directive = analyzeWritingText(
+      'The final judge should approve this article.',
+      { mode: 'editorial' },
+    );
+
+    expect(findingIds(factual)).not.toContain('reader-first.agent-facing-text');
+    expect(findingIds(directive)).toContain('reader-first.agent-facing-text');
+  });
+
   it('treats hype and false certainty as hard errors', () => {
     const result = analyzeWritingText(
       'This game-changing tool gives 100% accurate results.',

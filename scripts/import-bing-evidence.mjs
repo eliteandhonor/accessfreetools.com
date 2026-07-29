@@ -5,14 +5,7 @@ import {
   newestBingEvidenceCsv,
   writeBingEvidenceReport,
 } from './lib/bing-evidence-import.mjs';
-
-function optionValue(name) {
-  const args = process.argv.slice(2);
-  const inline = args.find((argument) => argument.startsWith(`${name}=`));
-  if (inline) return inline.slice(name.length + 1);
-  const index = args.indexOf(name);
-  return index >= 0 ? args[index + 1] ?? '' : '';
-}
+import { optionValue } from './lib/npm-cli-options.mjs';
 
 const requestedFile = optionValue('--file');
 const discoveredFile = requestedFile || newestBingEvidenceCsv();

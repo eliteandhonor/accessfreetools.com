@@ -25,3 +25,12 @@ This file is append-only. Record commands, outcomes, and follow-up boundaries.
 - Vitest used a temporary local `node_modules` junction because this worktree
   had no installed dependency folder. The junction was removed after
   verification and did not change tracked project files.
+
+## 2026-07-29 - Release Gate Approved
+
+- Added npm 11 argument-forwarding coverage and shared hard rules for editorial
+  and Medium checks.
+- Refined the reader-first rule so factual process disclosure remains valid
+  while directive language still fails.
+- Release and Proof Judge approved WRT-01 after writing tests, the existing
+  three-article gate, and the combined 430-test release suite passed.

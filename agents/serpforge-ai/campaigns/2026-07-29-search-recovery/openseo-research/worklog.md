@@ -7,3 +7,4 @@ Append dated project, query, source, cost, output path, and decision. Do not rew
 - 2026-07-29: Ran OpenSEO keyword research, live SERPs, shared competitor analysis, and page-filtered Search Console queries for Basic Calculator, `/tools/`, Concrete Mesh, Mileage, and Character Counter.
 - 2026-07-29: Saved bounded findings at `output/seo-opportunities/july29-openseo-research.json` and `.md`.
 - 2026-07-29: Fresh DataForSEO balance was USD 11.73. No separate direct paid batch was needed because OpenSEO returned the required demand, difficulty, intent, SERP, and first-party query evidence.
+- 2026-07-29: Release and Proof Judge approved MKT-01. The research produced watch and recrawl decisions without creating speculative pages or spending an extra direct paid batch.

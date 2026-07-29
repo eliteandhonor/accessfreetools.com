@@ -7,3 +7,4 @@ Append dated page evidence, research paths, recommendation, and judge status. Do
 - 2026-07-29: Classified `/tools/` as `watch`: the broad phrase mixes PDF, design, remote-work, and navigational intent, so no coherent hub rewrite is justified.
 - 2026-07-29: Classified Concrete Mesh as `watch and inspect format`: direct calculator intent is proven, but Australian volume is modest and current positions are 34-50.5.
 - 2026-07-29: No page content was edited. Any later edit still requires the page-specific SEO workbench.
+- 2026-07-29: Release and Proof Judge approved CTR-01 as a research classification. Approval does not authorize a page edit.
