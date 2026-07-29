@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import {
   createToolArtEntries,
   manifestTsSource,
+  normalizeTextLineEndings,
   readCanonicalTools,
   readRedirectedBlogGuideSlugs,
   readTrackedManifestSource,
@@ -93,8 +94,14 @@ function htmlIncludesImageSrc(html, imagePath) {
 const entries = createToolArtEntries(readCanonicalTools());
 const approvedEntries = entries.filter((entry) => entry.status === 'approved');
 const redirectedBlogGuideSlugs = readRedirectedBlogGuideSlugs();
-const expectedManifest = manifestTsSource(entries).replace(/Last regenerated: \d{4}-\d{2}-\d{2}/, 'Last regenerated: DATE');
-const actualManifest = readTrackedManifestSource().replace(/Last regenerated: \d{4}-\d{2}-\d{2}/, 'Last regenerated: DATE');
+const expectedManifest = normalizeTextLineEndings(manifestTsSource(entries)).replace(
+  /Last regenerated: \d{4}-\d{2}-\d{2}/,
+  'Last regenerated: DATE',
+);
+const actualManifest = normalizeTextLineEndings(readTrackedManifestSource()).replace(
+  /Last regenerated: \d{4}-\d{2}-\d{2}/,
+  'Last regenerated: DATE',
+);
 const issues = [];
 const warnings = [];
 const distAvailable = existsSync(resolve(rootDir, 'dist/client'));
