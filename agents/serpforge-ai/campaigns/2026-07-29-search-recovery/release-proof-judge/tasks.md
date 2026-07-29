@@ -5,4 +5,4 @@
 - [x] Judge SEC-01.
 - [x] Verify original dirty checkout is unchanged.
 - [x] Prepare a support-ready Hostinger incident record.
-- [ ] Re-approve OPS-01 and REL-01 only after stable regional production proof.
+- [x] Re-approve OPS-01 and REL-01 only after stable regional production proof.

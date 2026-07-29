@@ -4,11 +4,11 @@ Generated: 2026-07-29
 
 ## Scope Result
 
-The July 29 code, evidence, writing, indexing-request, research, and dependency
-work is complete. The final production delivery gate is blocked by a recurring
-Hostinger Sydney edge-to-origin failure after the latest docs-only deployment.
-Future search-engine observations are scheduled and are not reported as already
-achieved.
+The July 29 implementation is complete. All current campaign tasks are approved
+by the Release and Proof Judge. The temporary Hostinger regional delivery
+incident and its recovery remain documented rather than being erased from the
+record. Future search-engine observations are scheduled and are not reported as
+already achieved.
 
 ## Evidence Pipeline
 
@@ -78,8 +78,12 @@ achieved.
   intermittent same-URL 307 responses and 504 timeouts for the homepage,
   sitemap, and API registry.
 - The exact built application passes repeated local forwarded-header requests,
-  so OPS-01 and REL-01 are blocked on Hostinger delivery rather than code,
-  dependency, build, or sitemap correctness.
+  proving the incident did not justify a code or dependency rollback.
+- At 2026-07-29T09:56Z, a fresh 659-URL production sitemap check completed with
+  zero hard failures and zero gateway recoveries. Ask, API, and MCP checks all
+  passed.
+- Two later rounds against both newly assigned Sydney edge IPs returned 12 of
+  12 HTTP 200 responses for the homepage, sitemap, and API registry.
 
 ## Preservation And Interface Review
 
@@ -88,8 +92,7 @@ achieved.
 - No public route, sitemap policy, API contract, canonical, or index directive
   changed in the evidence and agent-infrastructure release.
 - Git was pushed without force. The deployed build remains Astro 7 on Node 24,
-  but production delivery cannot be approved until Hostinger restores a stable
-  edge-to-origin path.
+  and production delivery has current stable proof.
 
 ## Post-Closure Recurrence
 
@@ -99,3 +102,9 @@ completed successfully, but bounded probes at 2026-07-29T09:40Z reproduced the
 same delivery failure on both Sydney CDN edge IPs. The support-ready incident
 record is stored in ignored output at
 `output/hostinger/support-escalation-2026-07-29.md`.
+
+Hostinger subsequently rotated the apex to Sydney edge IPs `37.98.151.80` and
+`91.108.99.117`. After the edge change, the complete production sitemap and
+Ask/API/MCP gates passed, followed by two clean rounds against both edge IPs.
+The prepared support report remains local evidence and was not sent because the
+platform recovered before approval for external communication was received.

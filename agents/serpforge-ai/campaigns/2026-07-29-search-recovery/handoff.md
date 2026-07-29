@@ -16,14 +16,15 @@
 
 Let Google process the seven visibly confirmed recrawl requests. The active weekly SEO heartbeat will recheck `/gallery/converters/` after August 11 and refresh fixed 14-day and 28-day evidence windows.
 
-## Active Release Blocker
+## Resolved Release Blocker
 
 - Search Console visibly confirmed all seven authorized July 29 indexing requests, including Mileage and Date.
 - Hostinger build `019fad32-41d2-7372-84b4-13f224800ed3` completed on Astro 7 and Node 24 with zero dependency vulnerabilities.
 - The previous build briefly passed a 659-URL sitemap check and all Ask/API/MCP checks after a restart.
 - The latest docs-only deployment reproduced intermittent same-URL 307 responses and 504 timeouts on both Sydney CDN edge IPs.
 - Local execution of the exact built app remains healthy, so the open blocker is Hostinger's Node upstream/CDN routing, not a code rollback candidate.
-- Do not approve OPS-01 or REL-01 until Hostinger intervention or a proven platform recovery is followed by stable sitemap, Ask, API, and MCP checks.
+- Hostinger later assigned new Sydney edge IPs. A fresh 659-URL sitemap check completed with zero hard failures and zero gateway recoveries, Ask/API/MCP passed, and two rounds across both current edges returned only HTTP 200.
+- OPS-01 and REL-01 are approved from current proof. Retain the support package for recurrence, but do not send it while production remains healthy.
 
 ## Do Not Repeat
 
