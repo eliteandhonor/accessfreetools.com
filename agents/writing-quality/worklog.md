@@ -34,3 +34,9 @@ This file is append-only. Record commands, outcomes, and follow-up boundaries.
   while directive language still fails.
 - Release and Proof Judge approved WRT-01 after writing tests, the existing
   three-article gate, and the combined 430-test release suite passed.
+- Added `npm run writing:quality -- --mode editorial|technical <path>`.
+- Reused the hard writing-rule implementation in editorial and Medium quality
+  checks instead of maintaining duplicate phrase lists.
+- Created the attributed global skill at
+  `C:\Users\chamb\.codex\skills\clear-technical-writing\SKILL.md`.
+- Updated WQ-005 and WQ-006 from stale deferred labels to complete.

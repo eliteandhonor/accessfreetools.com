@@ -9,12 +9,20 @@
 ## Three Issues
 
 1. Google clicks fell from 25 to 12 despite the impression increase.
-2. Mileage recrawl confirmation is still missing; Date Calculator remains a watch item.
-3. The Hostinger Sydney CDN path returns intermittent or persistent 504 responses to fresh automated checks even though Chrome, independent external fetches, and the completed Node 24 deployment are healthy.
+2. Search Console still reports 125 indexing gaps, so outcomes require post-crawl evidence rather than more same-day page edits.
+3. `/gallery/converters/` has a recent July 28 crawl and stays protected from rewrite or repeat submission until its August 11 recheck.
 
 ## Best Next Action
 
-Allow the regional CDN path to cool down, then rerun the production sitemap and Ask audit once. Escalate to Hostinger with request IDs if it still fails; do not rewrite pages or roll back to the vulnerable dependency tree.
+Let Google process the seven visibly confirmed recrawl requests. The active weekly SEO heartbeat will recheck `/gallery/converters/` after August 11 and refresh fixed 14-day and 28-day evidence windows.
+
+## Resolved Release Blockers
+
+- Search Console visibly confirmed all seven authorized July 29 indexing requests, including Mileage and Date.
+- Hostinger build `019fad0f-a04f-738a-9a30-a35c1b6bca1e` completed on Astro 7 and Node 24 with zero dependency vulnerabilities.
+- A post-maintenance Node restart restored Sydney delivery.
+- The final production sitemap check passed 659 URLs with zero hard failures.
+- Live Ask, Ask audit, API registry, and MCP smoke all passed.
 
 ## Do Not Repeat
 

@@ -4,4 +4,4 @@
 - [x] Judge WRT-01.
 - [x] Judge SEC-01.
 - [x] Verify original dirty checkout is unchanged.
-- [ ] Approve or block REL-01 with exact evidence.
+- [x] Approve REL-01 with exact evidence.
