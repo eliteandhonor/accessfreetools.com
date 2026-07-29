@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-13T19:09:33+10:00",
+  "generatedAt": "2026-07-29T20:39:23+10:00",
   "source": "Search Console UI",
   "requests": [
     {
@@ -85,6 +85,12 @@
       "requestedAt": "2026-07-13T19:09:33+10:00",
       "result": "indexing-requested",
       "url": "https://accessfreetools.com/tools/four-in-a-row-game/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue. Initial inspection reported the newly published URL as unknown to Google.",
+      "requestedAt": "2026-07-29T20:39:23+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/blog/browser-ai-vs-local-ai-privacy/"
     }
   ],
   "deferred": [
