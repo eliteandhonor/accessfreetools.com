@@ -1,28 +1,29 @@
 # Access Free Tools Next Agent Tasks
 
-Updated: 2026-07-13
+Updated: 2026-07-29
 
 Run `npm run automation:env-check`, `npm run aft -- status`, `npm run aft -- seo-console`, and `npm run aft -- proof-check` before choosing work. Command output and the latest normalized reports are the source of truth. Old build IDs, old screenshots, and June approval gates are historical evidence only.
 
 ## Current Evidence
 
-- Read `docs/july-9-seo-evidence-recovery.md` for the current Google, Bing, and CrawlScout handoff.
-- Latest imported performance evidence: Google has 593 ranking URLs, 24,662 page impressions, 41 clicks, and 0.17% page CTR; Bing has 2,097 impressions, 32 clicks, and 1.53% CTR.
-- The latest CrawlScout sample contains 137 not-indexed rows. It is a supplied sample, not a complete crawl total.
+- Read `agents/serpforge-ai/campaigns/2026-07-29-search-recovery/` for the current Google, Bing, CrawlScout, OpenSEO, agent, and proof handoff. July 9 and July 13 notes are historical baselines.
+- The July 29 Google chart contains 48 clicks and 29,838 impressions across 87 days. Its page export contains 597 ranking URLs, 49 clicks, and 31,728 impressions; privacy filtering means these dimensions must not be substituted for chart totals.
+- The matching Bing overview contains 67 clicks and 3,367 impressions. Latest fixed 28-day Bing clicks rose from 20 to 44.
+- The latest CrawlScout supplied sample contains 118 not-indexed rows, down from 124 on July 18. It is not a complete crawl total.
 - The controlled SEO queue is complete: 604 of 604 page review units are approved, with no active gate.
-- Production is Astro 7 on Node 24. The July 13 production sitemap check passed 656 URLs with 0 hard failures.
+- Production is Astro 7 on Node 24. The latest production sitemap check passed 660 URLs with 0 hard failures.
 - `/sitemap/` remains `noindex,follow` and excluded from XML. `/feed.xml` is an RSS feed and is not submitted to Google as a sitemap.
 - The Four in a Row tool and guide are live, in XML and image sitemaps, and submitted through IndexNow and Search Console discovery. The latest exact inspection says the tool URL is unknown to Google and the guide is `Discovered - currently not indexed`, both normal watch states immediately after release.
 
-## Task 1: Search Console Recrawl Watch
+## Task 1: July 29 Evidence And Recrawl Recovery
 
 Priority: High, evidence-only
 
-- Exact July 13 inspection reports Personal Loan tool, Personal Loan guide, and Wallpaper guide as `Crawled - currently not indexed` with successful fetches. Their current pages already have 8, 5, and 9 built internal-link sources respectively.
-- Device Battery Life, Brick, and Unit Price also have old Google crawl evidence that predates current page versions. Keep them in the rotating exact-inspection set.
-- The July 13 evening Search Console batch accepted Personal Loan tool, Device Battery Life, Brick, Unit Price, and the Four in a Row tool into the priority crawl queue. Google then reported the daily quota on the Wallpaper guide. The next manual batch is limited to the Wallpaper guide, Personal Loan guide, and Four in a Row guide; do not resubmit the five accepted URLs.
-- Request indexing manually only when the Search Console UI is available and the daily quota allows it. Record successful requests in `docs/search-console-indexing-requests.json`.
-- Do not rewrite these pages, add duplicate links, restart broad validation, or change sitemap architecture until a fresh crawl evaluates the current versions.
+- First finish EV-01 through EV-03 on the dated campaign board so `aft` reads the ZIP-native Google report, matching Bing evidence, and newest inspection for each URL.
+- Protect the seven confirmed recoveries from duplicate edits: Repayment guide, Watt Hours to Amp Hours tool, Mileage guide, Mean/Median/Mode/Range guide, Markdown Table guide, Concrete guide, and AI Token Cost tool.
+- Request indexing in order for Character Counter, CD Calculator, Siding tool, Siding guide, and Right Triangle guide. Use later quota for Mileage and Date recrawl.
+- Record successful requests only after visible Search Console confirmation. A button click is not proof.
+- Keep `/gallery/converters/` in watch status through August 11 because Google crawled it on July 28.
 
 Definition of done: a fresh Google crawl date and exact state are recorded. A manual request click alone is not an indexing result.
 
@@ -45,7 +46,9 @@ Priority: Medium after a fresh export window
 
 - Keep CTR work separate from index recovery.
 - Do not reopen the July recovery pages from the old aggregate export. Many were improved after Google's recorded crawl and now need recrawl time.
-- Re-import newer Google, Bing, and CrawlScout exports when provided, compare against the July baseline, and use exact query/page evidence before editing.
+- Use OpenSEO first for Basic Calculator, `/tools/`, Concrete Mesh, Mileage, and Character Counter. Use DataForSEO only for unresolved intent, with no more than 15 phrases and USD 0.50.
+- Google impressions rose while clicks fell in the latest fixed 28-day comparison. Do not treat pages around positions 40-70 as title-only CTR problems.
+- Protect the Kawaii Calculator wording unless newer evidence contradicts Bing's qualified-click cluster.
 - Run `node scripts/seo-agent-workbench.mjs all <slug> <tool|blog>` for every supported page-level change and record completed URLs in `docs/seo-console-completions.json`.
 
 Definition of done: a change has current query evidence, browser proof, a passing workbench judge, and a later comparison window. Aggregate zero-click status alone is not enough.
@@ -63,6 +66,7 @@ Definition of done: owner/test traffic remains excluded and the genuine producti
 ## Completed And Retained
 
 - Four in a Row release, live verification, discovery submission, visual/accessibility QA, and milestone analytics are complete.
+- The seven July 18 recovery URLs listed in Task 1 now have indexed evidence and must not be reopened without newer contrary proof.
 - Safe cleanup completed on July 13. The follow-up retention audit passed with `output/`, `agents/`, `.local/`, and cited proof preserved.
 - SEO review queue and proof ledger pass. Do not reopen the historical `text-case-converter` gate.
 

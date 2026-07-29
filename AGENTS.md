@@ -63,6 +63,7 @@ Every new public tool should include:
 ## Article Writing Standard
 
 - Use `docs/article-writing-agent-standard.md` before drafting or editing blog guides, Medium posts, or longer promotion content.
+- Use `docs/writing-quality-system.md` and the installed `clear-technical-writing` skill after factual, brand, reader-first, and Stop Slop review. Run `npm run writing:quality -- --mode=editorial <path>` for public copy and `--mode=technical` for procedures, errors, warnings, and safety text. Clarity warnings are diagnostic; defined hype, false-certainty, public agent text, and em dashes remain hard failures.
 - Use the Access Free Tools voice: smart 14-year-old clarity, practical examples, plain language, and honest limits.
 - Do not copy the personality, voice, or exact style of Neil Patel or any other living writer. Use public SEO lessons only: clear value, useful structure, evidence, examples, and a practical next step.
 - Run a small SEO review before public Medium articles: DataForSEO account/status, one main keyword intent, source URL match, and no off-topic terms.

@@ -1,5 +1,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { basename, dirname, join, resolve } from 'node:path';
+import { readZipEntries } from './zip-reader.mjs';
 
 export const SITE_ORIGIN = 'https://accessfreetools.com';
 
@@ -181,6 +183,11 @@ function readCsvIfExists(filePath) {
   return parseCsv(readFileSync(filePath, 'utf8'));
 }
 
+function sha256File(filePath) {
+  if (!filePath || !existsSync(filePath)) return '';
+  return createHash('sha256').update(readFileSync(filePath)).digest('hex');
+}
+
 function sumField(rows, field) {
   return rows.reduce((sum, row) => sum + Number(row[field] ?? 0), 0);
 }
@@ -243,12 +250,20 @@ function newestMatchingPath(directory, predicate) {
     .sort((left, right) => right.mtime - left.mtime)[0]?.fullPath ?? '';
 }
 
-function isoDateFromName(value) {
-  return basename(String(value ?? '')).match(/\d{4}-\d{2}-\d{2}/)?.[0] ?? '';
+export function dataDateFromName(value) {
+  const name = basename(String(value ?? ''));
+  const isoDate = name.match(/\d{4}-\d{2}-\d{2}/)?.[0];
+  if (isoDate) return isoDate;
+
+  const usDate = name.match(/(?:^|_)(\d{1,2})_(\d{1,2})_(\d{4})(?:\.|_|$)/);
+  if (!usDate) return '';
+
+  const [, month, day, year] = usDate;
+  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 }
 
 function sourceDataDate(...paths) {
-  return paths.map(isoDateFromName).find(Boolean) ?? '';
+  return paths.map(dataDateFromName).find(Boolean) ?? '';
 }
 
 export function newestPerformanceExportDirectory(downloads = process.env.USERPROFILE ? join(process.env.USERPROFILE, 'Downloads') : '') {
@@ -258,32 +273,74 @@ export function newestPerformanceExportDirectory(downloads = process.env.USERPRO
   );
 }
 
-export function newestPerformanceOverviewFile(downloads = process.env.USERPROFILE ? join(process.env.USERPROFILE, 'Downloads') : '') {
+export function newestPerformanceExportZip(downloads = process.env.USERPROFILE ? join(process.env.USERPROFILE, 'Downloads') : '') {
   return newestMatchingPath(
     downloads,
-    (entry) => entry.isFile() && /^accessfreetools\.com_SearchPerformanceOverview_All_.*\.csv$/i.test(entry.name),
+    (entry) => entry.isFile() && /^https___accessfreetools\.com_-Performance-on-Search-\d{4}-\d{2}-\d{2}\.zip$/i.test(entry.name),
   );
 }
 
-export function newestDeindexedFile(downloads = process.env.USERPROFILE ? join(process.env.USERPROFILE, 'Downloads') : '') {
+export function newestPerformanceOverviewFile(
+  downloads = process.env.USERPROFILE ? join(process.env.USERPROFILE, 'Downloads') : '',
+  requiredDataDate = '',
+) {
   return newestMatchingPath(
     downloads,
-    (entry) => entry.isFile() && /-deindexed-\d{4}-\d{2}-\d{2}(?: \(\d+\))?\.csv$/i.test(entry.name),
+    (entry) =>
+      entry.isFile() &&
+      /^accessfreetools\.com_SearchPerformanceOverview_All_.*\.csv$/i.test(entry.name) &&
+      (!requiredDataDate || dataDateFromName(entry.name) === requiredDataDate),
   );
 }
 
-export function buildSearchConsolePerformanceReport({ deindexedFile = '', generatedAt = new Date().toISOString(), overviewFile = '', performanceDir }) {
-  if (!performanceDir || !existsSync(performanceDir)) {
-    throw new Error('Search Console Performance export directory not found.');
+export function newestDeindexedFile(
+  downloads = process.env.USERPROFILE ? join(process.env.USERPROFILE, 'Downloads') : '',
+  requiredDataDate = '',
+) {
+  return newestMatchingPath(
+    downloads,
+    (entry) =>
+      entry.isFile() &&
+      /-deindexed-\d{4}-\d{2}-\d{2}(?: \(\d+\))?\.csv$/i.test(entry.name) &&
+      (!requiredDataDate || dataDateFromName(entry.name) === requiredDataDate),
+  );
+}
+
+export function buildSearchConsolePerformanceReport({
+  deindexedFile = '',
+  generatedAt = new Date().toISOString(),
+  overviewFile = '',
+  performanceDir = '',
+  performanceZip = '',
+}) {
+  const hasDirectory = Boolean(performanceDir && existsSync(performanceDir));
+  const hasZip = Boolean(performanceZip && existsSync(performanceZip));
+  if (!hasDirectory && !hasZip) {
+    throw new Error('Search Console Performance export directory or ZIP not found.');
   }
 
-  const chart = readCsvIfExists(join(performanceDir, 'Chart.csv')).map(normalizeChartRow);
-  const pages = readCsvIfExists(join(performanceDir, 'Pages.csv')).map(normalizePageRow).filter((row) => row.path);
-  const queries = readCsvIfExists(join(performanceDir, 'Queries.csv')).map(normalizeQueryRow).filter((row) => row.query);
-  const countries = readCsvIfExists(join(performanceDir, 'Countries.csv')).map((row) => normalizeMetricRow(row, 'Country', 'country'));
-  const devices = readCsvIfExists(join(performanceDir, 'Devices.csv')).map((row) => normalizeMetricRow(row, 'Device', 'device'));
-  const filters = readCsvIfExists(join(performanceDir, 'Filters.csv'));
-  const searchAppearance = readCsvIfExists(join(performanceDir, 'Search appearance.csv')).map((row) =>
+  const zipEntries = hasZip ? readZipEntries(performanceZip, PERFORMANCE_EXPORT_FILES) : new Map();
+  const readPerformanceCsv = (fileName) => {
+    if (hasZip) {
+      const content = zipEntries.get(fileName);
+      return content ? parseCsv(content.toString('utf8')) : [];
+    }
+    return readCsvIfExists(join(performanceDir, fileName));
+  };
+  const performanceSource = hasZip ? performanceZip : performanceDir;
+  const dataDate = sourceDataDate(performanceSource, deindexedFile);
+  const overviewDate = dataDateFromName(overviewFile);
+  if (overviewFile && dataDate && overviewDate !== dataDate) {
+    throw new Error(`Bing overview date ${overviewDate || 'unknown'} does not match Search Console export date ${dataDate}.`);
+  }
+
+  const chart = readPerformanceCsv('Chart.csv').map(normalizeChartRow);
+  const pages = readPerformanceCsv('Pages.csv').map(normalizePageRow).filter((row) => row.path);
+  const queries = readPerformanceCsv('Queries.csv').map(normalizeQueryRow).filter((row) => row.query);
+  const countries = readPerformanceCsv('Countries.csv').map((row) => normalizeMetricRow(row, 'Country', 'country'));
+  const devices = readPerformanceCsv('Devices.csv').map((row) => normalizeMetricRow(row, 'Device', 'device'));
+  const filters = readPerformanceCsv('Filters.csv');
+  const searchAppearance = readPerformanceCsv('Search appearance.csv').map((row) =>
     normalizeMetricRow(row, 'Search Appearance', 'appearance'),
   );
   const overview = overviewFile ? readCsvIfExists(overviewFile).map(normalizeChartRow) : [];
@@ -297,17 +354,38 @@ export function buildSearchConsolePerformanceReport({ deindexedFile = '', genera
   const bingOverviewClicks = sumField(overview, 'clicks');
   const bingOverviewImpressions = sumField(overview, 'impressions');
 
+  const sourceFiles = hasZip
+    ? PERFORMANCE_EXPORT_FILES.filter((file) => zipEntries.has(file))
+    : PERFORMANCE_EXPORT_FILES.filter((file) => existsSync(join(performanceDir, file)));
+  const chartDates = chart.map((row) => row.date).filter(Boolean).sort();
+
   return {
     generatedAt,
     kind: 'search-console-performance-import',
     status: deindexed.length || topRows(pages, { onlyZeroClicks: true, minImpressions: 100 }).length ? 'attention' : 'pass',
     source: {
-      dataDate: sourceDataDate(performanceDir, deindexedFile),
-      performanceDir,
+      dataDate,
+      performanceKind: hasZip ? 'zip' : 'directory',
+      performanceSource,
+      performanceDir: hasDirectory ? performanceDir : '',
+      performanceZip: hasZip ? performanceZip : '',
       overviewFile,
       overviewKind: overviewFile ? 'bing-webmaster-performance-overview' : '',
+      overviewDataDate: overviewDate,
       deindexedFile,
-      files: PERFORMANCE_EXPORT_FILES.filter((file) => existsSync(join(performanceDir, file))),
+      files: sourceFiles,
+      hashes: {
+        performanceZip: hasZip ? sha256File(performanceZip) : '',
+        performanceFiles: hasDirectory
+          ? Object.fromEntries(sourceFiles.map((file) => [file, sha256File(join(performanceDir, file))]))
+          : {},
+        overviewFile: sha256File(overviewFile),
+        deindexedFile: sha256File(deindexedFile),
+      },
+      period: {
+        start: chartDates[0] ?? '',
+        end: chartDates.at(-1) ?? '',
+      },
     },
     totals: {
       chartDays: chart.length,
@@ -364,7 +442,7 @@ Generated: ${report.generatedAt}
 
 Status: ${report.status}
 
-Source: ${basename(report.source.performanceDir)}
+Source: ${basename(report.source.performanceSource)}
 
 ## Summary
 

@@ -181,6 +181,10 @@ The CLI can summarize proof, but it cannot create proof by itself. Public promot
 6. Run `npm run aft -- hostinger` before Hostinger, DNS, deployment, or hosting-environment claims.
 7. If the user provides Google Coverage CSVs, run `npm run search-console:import-coverage` before indexing claims. It finds the newest Access Free Tools Coverage export in Downloads; use `node scripts/import-google-coverage-export.mjs --dir="C:\path\to\export"` only when the folder is somewhere else.
 8. If the user provides a CrawlScout/deindexed URL CSV, run `npm run crawlscout:import` for the newest matching Downloads file, or `node scripts/import-crawlscout-export.mjs --file="C:\path\to\deindexed.csv"` when the file is elsewhere, before using CrawlScout as evidence. It writes `output/crawlscout/crawlscout-summary.json` and `.md`; the report is a local URL sample unless the export itself includes full crawl totals.
+9. For a zipped Google Performance export, run `npm run search-console:import-performance -- --zip="C:\path\to\Performance-on-Search.zip"`. The importer matches Bing and CrawlScout evidence by source date, records hashes, and keeps chart totals separate from privacy-filtered row sums. Use `--no-overview` for an explicit Google-only import.
+10. Import Bing overview evidence with `npm run bing:import-evidence -- --file="C:\path\to\SearchPerformanceOverview.csv"`. Invalid rows are retained as anomalies and excluded from totals.
+11. Merge dated Search Console URL Inspection reports with `npm run search-console:merge-inspections` before using `npm run aft -- indexing-gaps`.
+12. Run `npm run serpforge -- july29-recovery` for the active dated campaign summary.
 9. Run `npm run aft -- indexing-protection` after Search Engine Land-style indexing, soft-404, or discovery work.
 10. Run `npm run aft -- ai-crawler` after hub, tool-page, or AI-search visibility work.
 11. Run `npm run aft -- hub-strength` after changing hub copy, category discovery, or internal-link pathways.

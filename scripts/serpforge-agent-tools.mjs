@@ -13,6 +13,7 @@ const briefsDir = join(workspaceDir, 'briefs');
 const evidenceDir = join(workspaceDir, 'evidence');
 const reportsDir = join(workspaceDir, 'reports');
 const tasksDir = join(workspaceDir, 'tasks');
+const july29CampaignDir = join(workspaceDir, 'campaigns', '2026-07-29-search-recovery');
 const auditDownloadPath = join(process.env.USERPROFILE ?? 'C:\\Users\\chamb', 'Downloads', 'accessfreetools-seo-audit-report.md');
 const auditEvidencePath = join(evidenceDir, 'accessfreetools-seo-audit-report-2026-05-24.md');
 const deepAuditDownloadPdfPath = join(process.env.USERPROFILE ?? 'C:\\Users\\chamb', 'Downloads', 'SEO_Audit_Report_accessfreetools.pdf');
@@ -408,6 +409,7 @@ function parseJsonResult(result) {
 
 function writePair(baseDir, baseName, payload, markdown) {
   ensureDirs();
+  mkdirSync(baseDir, { recursive: true });
   const jsonPath = join(baseDir, `${baseName}.json`);
   const markdownPath = join(baseDir, `${baseName}.md`);
   writeFileSync(jsonPath, `${JSON.stringify(payload, null, 2)}\n`);
@@ -2097,6 +2099,116 @@ function orientationCommand() {
   for (const result of results) {
     console.log(`- ${result.label}: exit ${result.status}`);
   }
+}
+
+function fixedWindow(rows, days, offset = 0) {
+  const ordered = [...(rows ?? [])]
+    .filter((row) => row?.date)
+    .sort((left, right) => String(left.date).localeCompare(String(right.date)));
+  const end = Math.max(0, ordered.length - offset);
+  const selected = ordered.slice(Math.max(0, end - days), end);
+  return {
+    clicks: selected.reduce((sum, row) => sum + Number(row.clicks ?? 0), 0),
+    impressions: selected.reduce((sum, row) => sum + Number(row.impressions ?? 0), 0),
+  };
+}
+
+function campaignTaskRows(markdown) {
+  return String(markdown ?? '')
+    .split(/\r?\n/)
+    .filter((line) => /^\|\s*(?:EV|IDX|CTR|MKT|WRT|SEC|REL)-\d+\s*\|/.test(line))
+    .map((line) => {
+      const cells = line.split('|').slice(1, -1).map((cell) => cell.trim());
+      return {
+        id: cells[0] ?? '',
+        priority: cells[1] ?? '',
+        status: cells[2] ?? '',
+        owner: cells[3] ?? '',
+        target: cells[4] ?? '',
+      };
+    });
+}
+
+function july29RecoveryCommand() {
+  const google = readJsonFile(join(root, 'output', 'search-console', 'performance-latest.json'));
+  const bing = readJsonFile(join(root, 'output', 'bing-webmaster', 'latest.json'));
+  const crawlScout = readJsonFile(join(root, 'output', 'crawlscout', 'crawlscout-summary.json'));
+  const taskBoardPath = join(july29CampaignDir, 'task-board.md');
+  const tasks = campaignTaskRows(readTextIfExists(taskBoardPath));
+  const googleLatest = fixedWindow(google?.chart, 28);
+  const googlePrevious = fixedWindow(google?.chart, 28, 28);
+  const bingRows = bing?.traditionalSearch?.rows ?? [];
+  const bingLatest = fixedWindow(bingRows, 28);
+  const bingPrevious = fixedWindow(bingRows, 28, 28);
+  const dependencyTask = tasks.find((task) => task.id === 'SEC-01');
+  const evidenceTasks = tasks.filter((task) => task.id.startsWith('EV-'));
+  const wins = [
+    googleLatest.impressions && googlePrevious.impressions
+      ? `Google impressions: ${googleLatest.impressions} in the latest 28 days versus ${googlePrevious.impressions} previously.`
+      : 'Google fixed-window comparison is not available.',
+    bingLatest.clicks || bingPrevious.clicks
+      ? `Bing clicks: ${bingLatest.clicks} in the latest 28 days versus ${bingPrevious.clicks} previously.`
+      : 'Bing fixed-window comparison is not available.',
+    `CrawlScout supplied sample: ${crawlScout?.totals?.nonIndexedRows ?? 'not available'} rows; seven July 18 rows have separate recovery evidence.`,
+  ];
+  const issues = [
+    googleLatest.clicks || googlePrevious.clicks
+      ? `Google clicks: ${googleLatest.clicks} in the latest 28 days versus ${googlePrevious.clicks} previously.`
+      : 'Google click comparison is not available.',
+    evidenceTasks.some((task) => task.status !== 'approved')
+      ? 'Evidence importer and newest-inspection tasks still require Release and Proof Judge approval.'
+      : 'Evidence importer tasks are approved.',
+    dependencyTask?.status === 'approved'
+      ? 'Dependency security gate is approved.'
+      : 'Dependency security gate is not approved; deployment remains blocked.',
+  ];
+  const bestNextAction =
+    evidenceTasks.some((task) => task.status !== 'approved') || dependencyTask?.status !== 'approved'
+      ? 'Finish and judge EV-01 through EV-03 and SEC-01, then request recrawling before editing page copy.'
+      : 'Run the proven recrawl batch, record visible confirmations, and begin page-specific OpenSEO research.';
+  const payload = {
+    bestNextAction,
+    generatedAt: new Date().toISOString(),
+    issues,
+    kind: 'july29-search-recovery',
+    sourceDates: {
+      bing: bing?.source?.dataDate ?? '',
+      crawlScout: crawlScout?.source?.dataDate ?? crawlScout?.generatedAt ?? '',
+      google: google?.source?.dataDate ?? '',
+    },
+    status: tasks.some((task) => task.priority === 'P0' && task.status !== 'approved') ? 'needs-attention' : 'ready',
+    tasks,
+    wins,
+  };
+  const markdown = [
+    '# July 29 Search Recovery Status',
+    '',
+    `Generated: ${payload.generatedAt}`,
+    `Status: ${payload.status}`,
+    '',
+    '## Three Wins',
+    '',
+    ...wins.map((item, index) => `${index + 1}. ${item}`),
+    '',
+    '## Three Issues',
+    '',
+    ...issues.map((item, index) => `${index + 1}. ${item}`),
+    '',
+    '## Best Next Action',
+    '',
+    bestNextAction,
+    '',
+    '## Task Status',
+    '',
+    '| ID | Priority | Status | Owner | Target |',
+    '| --- | --- | --- | --- | --- |',
+    ...tasks.map((task) => `| ${task.id} | ${task.priority} | ${task.status} | ${task.owner} | ${task.target} |`),
+  ].join('\n');
+  const paths = writePair(join(root, 'output', 'serpforge'), 'july29-recovery-latest', payload, markdown);
+
+  console.log(`July 29 recovery: ${payload.status}`);
+  console.log(`- Saved report: ${paths.markdownPath}`);
+  console.log(`- Best next action: ${bestNextAction}`);
 }
 
 function opportunityCommand() {
@@ -4602,6 +4714,11 @@ program
   .command('orientation')
   .description('Run read-only status, evidence, queue, indexing, and proof checks for SERPForge.')
   .action(orientationCommand);
+
+program
+  .command('july29-recovery')
+  .description('Summarize the July 29 evidence, campaign task board, and best next action.')
+  .action(july29RecoveryCommand);
 
 program
   .command('opportunity')

@@ -120,6 +120,7 @@ The final state from SERPForge can be `ready-for-human-approval`, not approved.
 - `npm run serpforge -- all-pages-seo`: alias for `sitewide-seo-audit`.
 - `npm run serpforge -- audit-sprint`: combine sub-agent audit lanes into one sprint report.
 - `npm run serpforge -- orientation`: build a read-only status pack under `reports/`.
+- `npm run serpforge -- july29-recovery`: summarize the dated July 29 campaign as three wins, three issues, and one best next action.
 - `npm run serpforge -- opportunity`: rank next SEO opportunities from current local evidence.
 - `npm run serpforge -- technical`: run report-only technical SEO checks.
 - `npm run serpforge -- template-qa`: scan source for audit template-copy risks.

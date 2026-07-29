@@ -1,26 +1,11 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { analyzeWritingText, findSharedSlopHits } from './lib/writing-quality-rules.mjs';
 
 const root = process.cwd();
 const blogDir = resolve(root, 'dist', 'blog');
 const outputDir = resolve(root, 'output', 'editorial-quality');
 const minimumStopSlopScore = 40;
-const slopPatterns = [
-  /in today(?:'|’)s (?:fast-paced|digital) world/gi,
-  /game[- ]chang(?:er|ing)/gi,
-  /unlock (?:the|your|new)/gi,
-  /delve into/gi,
-  /it(?:'|’)s important to note/gi,
-  /whether you(?:'|’)re/gi,
-  /not just .{0,80} but also/gi,
-  /revolutionary/gi,
-  /transformative/gi,
-  /the ultimate/gi,
-  /a testament to/gi,
-  /navigate the (?:complexities|landscape)/gi,
-  /seamlessly/gi,
-  /leverage/gi,
-];
 
 function stripHtml(html = '') {
   return String(html)
@@ -70,7 +55,9 @@ function scoreArticle({ slug, path }) {
   const internalLinks = [...articleHtml.matchAll(/<a\s+[^>]*href=["'](\/[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi)]
     .map((match) => ({ href: match[1], text: stripHtml(match[2]) }));
   const externalLinks = [...articleHtml.matchAll(/<a\s+[^>]*href=["'](https?:\/\/[^"']*)["'][^>]*>/gi)].map((match) => match[1]);
-  const slopHits = slopPatterns.flatMap((pattern) => [...visibleText.matchAll(pattern)].map((match) => match[0]));
+  const sharedWritingReview = analyzeWritingText(visibleText, { mode: 'editorial', sourcePath: path });
+  const sharedHardErrors = sharedWritingReview.findings.filter((finding) => finding.severity === 'error');
+  const slopHits = findSharedSlopHits(visibleText);
   const emDashHits = countMatches(visibleText, /—/g);
   const firstPersonHits = countMatches(visibleText, /\b(?:I|my|me)\b/g);
   const accessFreeToolsHits = countMatches(visibleText, /Access Free Tools/g);
@@ -106,6 +93,7 @@ function scoreArticle({ slug, path }) {
     processDisclosure: /AI helped with research organization and draft checks/i.test(visibleText),
     noSlopFloorFailure: stopSlopScore >= minimumStopSlopScore,
     noEmDashes: emDashHits === 0,
+    noSharedWritingHardErrors: sharedHardErrors.length === 0,
   };
   const failures = Object.entries(checks).filter(([, passed]) => !passed).map(([name]) => name);
   const status = failures.length ? 'fail' : 'pass';
@@ -124,6 +112,7 @@ function scoreArticle({ slug, path }) {
       longSentenceRatio: Number(longSentenceRatio.toFixed(3)),
       slopHits,
       emDashHits,
+      sharedHardErrors,
     },
     stopSlop: {
       score: stopSlopScore,

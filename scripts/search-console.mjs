@@ -8,6 +8,12 @@ import {
   parsePerformanceRowLimit,
   performancePageFilterGroups,
 } from './lib/search-console-performance-query.mjs';
+import {
+  discoverInspectionReportFiles,
+  mergeInspectionReports,
+  readInspectionReports,
+  writeMergedInspectionReport,
+} from './lib/search-console-inspection-reports.mjs';
 
 const DEFAULT_SECRET_PATH = resolve('.local/google-search-console-client-secret.json');
 const TOKEN_PATH = resolve(process.env.GSC_TOKEN_PATH ?? '.local/search-console-token.json');
@@ -19,6 +25,7 @@ const DISCOVERY_REPORT_PATH = resolve(process.env.GSC_DISCOVERY_REPORT_PATH ?? '
 const URL_INSPECTION_REPORT_PATH = resolve(
   process.env.GSC_URL_INSPECTION_REPORT_PATH ?? 'output/search-console-url-inspection.json',
 );
+const CANONICAL_URL_INSPECTION_REPORT_PATH = resolve('output/search-console-url-inspection.json');
 const DOMAIN_VERIFICATION_REPORT_PATH = resolve(
   process.env.GSC_DOMAIN_VERIFICATION_REPORT_PATH ?? 'output/search-console-domain-verification.json',
 );
@@ -641,6 +648,7 @@ async function main() {
       throw new Error('No verified accessfreetools.com Search Console property is available for URL inspection.');
     }
 
+    const existingInspectionReports = readInspectionReports(discoverInspectionReportFiles(resolve('output')));
     const urlsToInspect = args.urls.length > 0 ? args.urls : KEY_INSPECTION_URLS;
     const inspections = [];
 
@@ -667,8 +675,18 @@ async function main() {
       site,
       inspections,
     };
-    writeJson(URL_INSPECTION_REPORT_PATH, report);
-    console.log(`Saved URL inspection report to ${URL_INSPECTION_REPORT_PATH}`);
+    if (URL_INSPECTION_REPORT_PATH !== CANONICAL_URL_INSPECTION_REPORT_PATH) {
+      writeJson(URL_INSPECTION_REPORT_PATH, report);
+      console.log(`Saved URL inspection run to ${URL_INSPECTION_REPORT_PATH}`);
+    }
+    const mergedReport = mergeInspectionReports([
+      ...existingInspectionReports,
+      { report, sourcePath: URL_INSPECTION_REPORT_PATH },
+    ]);
+    writeMergedInspectionReport(mergedReport, CANONICAL_URL_INSPECTION_REPORT_PATH);
+    console.log(
+      `Saved ${mergedReport.inspections.length} newest-per-URL inspections to ${CANONICAL_URL_INSPECTION_REPORT_PATH}`,
+    );
     return;
   }
 

@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { basename, dirname, extname, join, resolve } from 'node:path';
+import { analyzeWritingText, findSharedSlopHits } from './lib/writing-quality-rules.mjs';
 
 const DEFAULT_TARGET = resolve('output', 'promotion', 'medium');
 const DEFAULT_REPORT_PATH = resolve('output', 'promotion', 'medium-quality-report.json');
@@ -12,21 +13,6 @@ const minScores = {
   readerDesire: 82,
   overall: 82,
 };
-
-const bannedPhrases = [
-  "in today's digital world",
-  'ultimate guide',
-  'game changer',
-  'revolutionary',
-  'unlock the power',
-  'seamlessly',
-  'delve',
-  'leverage',
-  'robust',
-  'supercharge',
-  'cutting-edge',
-  'transform the way',
-];
 
 const weakReaderPhrases = [
   'this medium post should',
@@ -518,7 +504,7 @@ function scoreSeo({ title, headings, text, words, rules, article, numberCount })
 function scoreOriginality({ words, text, article, title, numberCount }) {
   const ratio = uniqueRatio(words);
   const duplicates = repeatedSentenceCount(text);
-  const genericHits = bannedPhrases.filter((phrase) => text.toLowerCase().includes(phrase));
+  const genericHits = [...new Set(findSharedSlopHits(text).map((hit) => hit.toLowerCase()))];
   const titleIsSpecific = /\b(before|without|what|why|how|mistake|calculator|privacy|payment|waste|amps|bmi|revenue)\b/i.test(title);
   const exampleSpecific = numberCount >= 3 && /\b(example|say|suppose|if)\b/i.test(article);
   let score = 35;
@@ -675,6 +661,7 @@ function lintArticle(file, heroAssetReport) {
   );
   const errors = [];
   const warnings = [];
+  const sharedWritingReview = analyzeWritingText(text, { mode: 'editorial', sourcePath: file });
   const heroLayoutCheck = heroAssetReport.layoutChecks?.find((check) => check.slug === slug);
   const accessLinks = extractAccessFreeToolsLinks(article);
   const uniqueAccessLinks = uniqueItems(accessLinks);
@@ -802,10 +789,14 @@ function lintArticle(file, heroAssetReport) {
     errors.push(`Paragraphs are too dense; longest paragraph is ${longParagraph} words.`);
   }
 
-  for (const phrase of bannedPhrases) {
-    if (lower.includes(phrase)) {
-      errors.push(`Banned generic/hype phrase found: "${phrase}".`);
-    }
+  for (const phrase of originality.genericHits) {
+    errors.push(`Banned generic/hype phrase found: "${phrase}".`);
+  }
+
+  for (const finding of sharedWritingReview.findings.filter(
+    (item) => item.severity === 'error' && item.id !== 'brand.hype',
+  )) {
+    errors.push(`Shared writing hard error ${finding.id}: ${finding.message}`);
   }
 
   for (const phrase of readerDesire.hardSelfReferences) {

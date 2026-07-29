@@ -31,20 +31,18 @@ npm run serpforge -- sitewide-seo-audit
 npm run serpforge -- audit-sprint
 npm run serpforge -- deep-audit-sprint
 npm run serpforge -- orientation
+npm run serpforge -- july29-recovery
 npm run serpforge -- opportunity
 npm run aft -- status
 npm run aft -- marketing
 ```
 
-For the latest live recommendations that still need agent work:
+For the current July 29 recovery campaign:
 
 ```powershell
-Get-Content agents/serpforge-ai/tasks/live-recommendation-agent-tasks-2026-05-25.md
-Get-Content agents/serpforge-ai/tasks/gsc-performance-agent-tasks-2026-05-26.md
-node scripts/seo-agent-workbench.mjs all wallpaper-calculator tool
-node scripts/seo-agent-workbench.mjs all interest-rate-calculator tool
-npm run search-console:inspect-key-urls
-npm run serpforge -- deep-audit-sprint
+Get-Content agents/serpforge-ai/campaigns/2026-07-29-search-recovery/task-board.md
+npm run serpforge -- july29-recovery
+npm run aft -- indexing-gaps
 ```
 
 For page-specific SEO work:

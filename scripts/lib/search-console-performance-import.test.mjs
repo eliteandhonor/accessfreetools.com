@@ -5,7 +5,10 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import {
   buildSearchConsolePerformanceReport,
+  dataDateFromName,
   newestDeindexedFile,
+  newestPerformanceExportZip,
+  newestPerformanceOverviewFile,
   parseCsv,
   writeSearchConsolePerformanceReport,
 } from './search-console-performance-import.mjs';
@@ -24,6 +27,56 @@ function writeFixture(root, relativePath, content) {
   mkdirSync(join(path, '..'), { recursive: true });
   writeFileSync(path, content);
   return path;
+}
+
+function createStoredZip(entries) {
+  const localParts = [];
+  const centralParts = [];
+  let localOffset = 0;
+
+  for (const [name, value] of Object.entries(entries)) {
+    const nameBuffer = Buffer.from(name);
+    const content = Buffer.from(value);
+    const localHeader = Buffer.alloc(30);
+    localHeader.writeUInt32LE(0x04034b50, 0);
+    localHeader.writeUInt16LE(20, 4);
+    localHeader.writeUInt16LE(0, 6);
+    localHeader.writeUInt16LE(0, 8);
+    localHeader.writeUInt32LE(0, 14);
+    localHeader.writeUInt32LE(content.length, 18);
+    localHeader.writeUInt32LE(content.length, 22);
+    localHeader.writeUInt16LE(nameBuffer.length, 26);
+    localHeader.writeUInt16LE(0, 28);
+    localParts.push(localHeader, nameBuffer, content);
+
+    const centralHeader = Buffer.alloc(46);
+    centralHeader.writeUInt32LE(0x02014b50, 0);
+    centralHeader.writeUInt16LE(20, 4);
+    centralHeader.writeUInt16LE(20, 6);
+    centralHeader.writeUInt16LE(0, 8);
+    centralHeader.writeUInt16LE(0, 10);
+    centralHeader.writeUInt32LE(0, 16);
+    centralHeader.writeUInt32LE(content.length, 20);
+    centralHeader.writeUInt32LE(content.length, 24);
+    centralHeader.writeUInt16LE(nameBuffer.length, 28);
+    centralHeader.writeUInt16LE(0, 30);
+    centralHeader.writeUInt16LE(0, 32);
+    centralHeader.writeUInt16LE(0, 34);
+    centralHeader.writeUInt16LE(0, 36);
+    centralHeader.writeUInt32LE(0, 38);
+    centralHeader.writeUInt32LE(localOffset, 42);
+    centralParts.push(centralHeader, nameBuffer);
+    localOffset += localHeader.length + nameBuffer.length + content.length;
+  }
+
+  const central = Buffer.concat(centralParts);
+  const end = Buffer.alloc(22);
+  end.writeUInt32LE(0x06054b50, 0);
+  end.writeUInt16LE(Object.keys(entries).length, 8);
+  end.writeUInt16LE(Object.keys(entries).length, 10);
+  end.writeUInt32LE(central.length, 12);
+  end.writeUInt32LE(localOffset, 16);
+  return Buffer.concat([...localParts, central, end]);
 }
 
 afterEach(() => {
@@ -121,5 +174,68 @@ describe('Search Console performance import', () => {
     const deindexedFile = writeFixture(root, 'kifx0p91f5-deindexed-2026-07-02 (1).csv', 'URL,Status\n');
 
     expect(newestDeindexedFile(root)).toBe(deindexedFile);
+  });
+
+  it('imports ZIP exports, preserves source hashes, and matches evidence by date', () => {
+    const root = makeRoot();
+    const zipFile = join(root, 'folder with spaces', 'https___accessfreetools.com_-Performance-on-Search-2026-07-29.zip');
+    mkdirSync(join(zipFile, '..'), { recursive: true });
+    writeFileSync(
+      zipFile,
+      createStoredZip({
+        'Chart.csv': 'Date,Clicks,Impressions,CTR,Position\n2026-07-28,1,100,1%,10\n2026-07-29,2,200,1%,9\n',
+        'Pages.csv': 'Top pages,Clicks,Impressions,CTR,Position\nhttps://accessfreetools.com/tools/,3,300,1%,9\n',
+        'Queries.csv': 'Top queries,Clicks,Impressions,CTR,Position\nfree tools,1,20,5%,10\n',
+        'Countries.csv': 'Country,Clicks,Impressions,CTR,Position\nAustralia,1,20,5%,10\n',
+        'Devices.csv': 'Device,Clicks,Impressions,CTR,Position\nMobile,1,20,5%,10\n',
+        'Filters.csv': 'Filter,Value\nSearch type,Web\n',
+        'Search appearance.csv': 'Search Appearance,Clicks,Impressions,CTR,Position\n',
+      }),
+    );
+    const matchingOverview = writeFixture(
+      root,
+      'accessfreetools.com_SearchPerformanceOverview_All_7_29_2026.csv',
+      'Date,Clicks,Impressions,CTR\n7/29/2026 12:00:00 AM,4,100,4%\n',
+    );
+    writeFixture(
+      root,
+      'accessfreetools.com_SearchPerformanceOverview_All_7_18_2026.csv',
+      'Date,Clicks,Impressions,CTR\n7/18/2026 12:00:00 AM,99,100,99%\n',
+    );
+
+    const report = buildSearchConsolePerformanceReport({
+      overviewFile: matchingOverview,
+      performanceZip: zipFile,
+    });
+
+    expect(report.source.performanceKind).toBe('zip');
+    expect(report.source.dataDate).toBe('2026-07-29');
+    expect(report.source.period).toEqual({ start: '2026-07-28', end: '2026-07-29' });
+    expect(report.source.hashes.performanceZip).toMatch(/^[a-f0-9]{64}$/);
+    expect(report.totals.chartClicks).toBe(3);
+    expect(report.totals.chartImpressions).toBe(300);
+    expect(report.searchAppearance).toEqual([]);
+    expect(newestPerformanceExportZip(join(root, 'folder with spaces'))).toBe(zipFile);
+    expect(newestPerformanceOverviewFile(root, '2026-07-29')).toBe(matchingOverview);
+    expect(dataDateFromName(matchingOverview)).toBe('2026-07-29');
+  });
+
+  it('rejects a stale Bing overview attached to a newer Google export', () => {
+    const root = makeRoot();
+    const performanceDir = join(root, 'https___accessfreetools.com_-Performance-on-Search-2026-07-29');
+    mkdirSync(performanceDir, { recursive: true });
+    writeFixture(performanceDir, 'Chart.csv', 'Date,Clicks,Impressions,CTR,Position\n2026-07-29,1,10,10%,1\n');
+    const staleOverview = writeFixture(
+      root,
+      'accessfreetools.com_SearchPerformanceOverview_All_7_18_2026.csv',
+      'Date,Clicks,Impressions,CTR\n7/18/2026 12:00:00 AM,1,10,10%\n',
+    );
+
+    expect(() =>
+      buildSearchConsolePerformanceReport({
+        overviewFile: staleOverview,
+        performanceDir,
+      }),
+    ).toThrow(/does not match/);
   });
 });
