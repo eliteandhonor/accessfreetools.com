@@ -1,6 +1,6 @@
 # Editorial Content Program
 
-Updated: 2026-07-13
+Updated: 2026-07-29
 
 This is the source of truth for first-person Brendan Chambers editorial articles. It is separate from the completed generated tool/blog SEO review queue.
 
@@ -20,7 +20,7 @@ This is the source of truth for first-person Brendan Chambers editorial articles
 | - | - | - | - | - |
 | 1 | `open-source-projects-behind-access-free-tools` | 8 Open-Source Projects I Use to Build Access Free Tools | 2026-07-13 | published |
 | 2 | `how-to-check-github-project-before-installing` | How I Check a GitHub Project Before Installing It | 2026-07-13 | published |
-| 3 | `browser-ai-vs-local-ai-privacy` | Browser AI vs Local AI: What Actually Stays on Your Device? | 2026-07-20 | planned |
+| 3 | `browser-ai-vs-local-ai-privacy` | Browser AI vs Local AI: What Actually Stays on Your Device? | 2026-07-20 | release-ready |
 | 4 | `tesseract-js-browser-ocr-image-quality` | How I Improve Tesseract.js OCR Results in a Browser | 2026-07-27 | planned |
 | 5 | `test-free-tools-playwright-vitest` | How I Test Hundreds of Free Tools with Playwright and Vitest | 2026-08-03 | planned |
 | 6 | `remove-ai-writing-tells-before-publishing` | How I Remove AI Writing Tells Before Publishing | 2026-08-10 | planned |

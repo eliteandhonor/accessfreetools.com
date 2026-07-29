@@ -16,6 +16,13 @@ export const editorialBlogPosts: BlogPostDefinition[] = [
       'The repository, license, install-script, dependency, write-location, and sandbox checks Brendan uses before adding an open-source project.',
   },
   {
+    slug: 'browser-ai-vs-local-ai-privacy',
+    title: 'Browser AI vs Local AI: What Stays on Your Device?',
+    label: 'Owner privacy notes',
+    summary:
+      'Brendan Chambers explains which inputs stay on a device, which model files download, and when browser, local, and cloud AI still make network requests.',
+  },
+  {
     slug: 'free-ai-skills-open-source-tools-organic-growth',
     title: "9 Free AI Skills I'm Testing",
     label: 'Owner notes',
