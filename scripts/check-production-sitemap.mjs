@@ -1,10 +1,17 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import {
+  fetchWithTransientRetry,
+  isSameUrlRedirect,
+  isTransientHttpStatus,
+} from './lib/transient-http.mjs';
 
 const SITE_ORIGIN = 'https://accessfreetools.com';
 const SITEMAP_URL = `${SITE_ORIGIN}/sitemap.xml`;
 const REPORT_PATH = resolve('output/production-sitemap-check.json');
 const SEARCH_CONSOLE_REPORT = resolve('output/search-console-performance.json');
+const USER_AGENT =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/138.0.0.0 Safari/537.36 AccessFreeToolsProductionSitemapCheck/1.0';
 const LEGACY_URLS = [
   `${SITE_ORIGIN}/calculators`,
   `${SITE_ORIGIN}/deep-research`,
@@ -47,22 +54,45 @@ function isSitemapIndex(xml) {
 }
 
 async function fetchSitemapUrls(url, seen = new Set()) {
-  if (seen.has(url)) return { sitemapsChecked: [], urls: [] };
+  if (seen.has(url)) return { sitemapRequests: [], sitemapsChecked: [], urls: [] };
   seen.add(url);
 
-  const response = await fetch(url);
+  const request = await fetchWithTransientRetry(
+    url,
+    {
+      headers: {
+        'user-agent': USER_AGENT,
+      },
+    },
+    {
+      attempts: retries + 1,
+      retryDelayMs: 500,
+    },
+  );
+  const response = request.response;
   if (!response.ok) {
-    throw new Error(`Could not fetch ${url}: HTTP ${response.status}`);
+    throw new Error(`Could not fetch ${url}: HTTP ${response.status} after ${request.attempts} attempt(s)`);
   }
 
   const xml = await response.text();
   const locs = sitemapUrls(xml);
   if (!isSitemapIndex(xml)) {
-    return { sitemapsChecked: [url], urls: locs };
+    return {
+      sitemapRequests: [{ attempts: request.attempts, url }],
+      sitemapsChecked: [url],
+      urls: locs,
+    };
   }
 
-  const nested = await Promise.all(locs.map((loc) => fetchSitemapUrls(loc, seen)));
+  const nested = [];
+  for (const loc of locs) {
+    nested.push(await fetchSitemapUrls(loc, seen));
+  }
   return {
+    sitemapRequests: [
+      { attempts: request.attempts, url },
+      ...nested.flatMap((item) => item.sitemapRequests),
+    ],
     sitemapsChecked: [url, ...nested.flatMap((item) => item.sitemapsChecked)],
     urls: nested.flatMap((item) => item.urls),
   };
@@ -91,7 +121,7 @@ async function fetchUrl(url, method) {
     redirect: 'manual',
     signal: AbortSignal.timeout(timeoutMs),
     headers: {
-      'user-agent': 'AccessFreeToolsProductionSitemapCheck/1.0',
+      'user-agent': USER_AGENT,
     },
   });
 }
@@ -106,13 +136,25 @@ async function checkUrl(url) {
         response = await fetchUrl(url, 'GET');
       }
 
+      const transientStatus = isTransientHttpStatus(response.status);
+      const selfRedirect = isSameUrlRedirect(response, url);
+      if ((transientStatus || selfRedirect) && attempt < retries) {
+        lastError = selfRedirect ? `self-redirect HTTP ${response.status}` : `HTTP ${response.status}`;
+        await response.arrayBuffer().catch(() => {});
+        await sleep(500 * (attempt + 1));
+        continue;
+      }
+
       return {
         url,
         status: response.status,
-        ok: response.status >= 200 && response.status < 400,
+        ok: response.status >= 200 && response.status < 400 && !selfRedirect,
         location: response.headers.get('location') ?? '',
         durationMs: Date.now() - startedAt,
         attempts: attempt + 1,
+        selfRedirect,
+        ...(selfRedirect ? { error: 'Hostinger/CDN returned a redirect to the same URL.' } : {}),
+        ...(lastError ? { recoveredFrom: lastError } : {}),
       };
     } catch (error) {
       lastError = error instanceof Error ? error.message : String(error);
@@ -165,12 +207,13 @@ const sitemapResult = await fetchSitemapUrls(SITEMAP_URL);
 const sitemap = sitemapResult.urls;
 const urls = [...new Set([...sitemap, ...searchConsolePageUrls(), ...LEGACY_URLS])].slice(0, maxUrls);
 const results = await runPool(urls, checkUrl);
-const hardFailures = results.filter((result) => result.status >= 400 || result.status === 0);
+const hardFailures = results.filter((result) => result.status >= 400 || result.status === 0 || result.selfRedirect);
 const redirects = results.filter((result) => result.status >= 300 && result.status < 400);
 const report = {
   generatedAt: new Date().toISOString(),
   sitemapUrl: SITEMAP_URL,
   sitemapsChecked: sitemapResult.sitemapsChecked,
+  sitemapRequests: sitemapResult.sitemapRequests,
   checked: results.length,
   concurrency,
   timeoutMs,
@@ -188,6 +231,8 @@ console.log(`Checked ${report.checked} production URL(s).`);
 console.log(`OK: ${report.ok}`);
 console.log(`Redirects: ${report.redirects}`);
 console.log(`Hard failures: ${report.hardFailures}`);
+const recoveredSitemaps = report.sitemapRequests.filter((request) => request.attempts > 1);
+console.log(`Sitemap gateway recoveries: ${recoveredSitemaps.length}`);
 console.log(`Report: ${REPORT_PATH}`);
 
 if (hardFailures.length) {

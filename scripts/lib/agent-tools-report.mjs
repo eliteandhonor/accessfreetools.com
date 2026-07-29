@@ -1,5 +1,8 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, relative, resolve } from 'node:path';
+import { fetchWithTransientRetry, isTransientHttpStatus } from './transient-http.mjs';
+
+export { fetchWithTransientRetry, isTransientHttpStatus } from './transient-http.mjs';
 
 export const SITE_ORIGIN = 'https://accessfreetools.com';
 export const AGENT_TOOLS_OUTPUT_DIR = 'output/agent-tools';
@@ -430,12 +433,18 @@ async function readResponseJson(response) {
 }
 
 async function postJson(url, body, headers = {}) {
-  const response = await fetch(url, {
+  const { attempts, response } = await fetchWithTransientRetry(url, {
     body: JSON.stringify(body),
     headers: { accept: 'application/json', 'content-type': 'application/json', ...headers },
     method: 'POST',
   });
-  return { body: await readResponseJson(response), ok: response.ok, status: response.status, url };
+  return {
+    attempts,
+    body: await readResponseJson(response),
+    ok: response.ok,
+    status: response.status,
+    url,
+  };
 }
 
 function includesExpected(value, expected) {
@@ -503,6 +512,21 @@ async function fillVisibleTool(page, testCase) {
   }
 }
 
+async function gotoWithTransientRetry(page, url, attempts = 3) {
+  let response;
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    response = await page.goto(url, { waitUntil: 'networkidle' });
+    const status = response?.status() ?? 0;
+    if (!isTransientHttpStatus(status) || attempt === attempts) {
+      return { attempts: attempt, response };
+    }
+    await page.waitForTimeout(300);
+  }
+
+  return { attempts, response };
+}
+
 async function runVisibleToolChecks(site, results, warnings) {
   let chromium;
   try {
@@ -523,7 +547,18 @@ async function runVisibleToolChecks(site, results, warnings) {
       if (!testCase) continue;
 
       try {
-        await page.goto(`${site}/tools/${testCase.slug}/`, { waitUntil: 'networkidle' });
+        const navigation = await gotoWithTransientRetry(page, `${site}/tools/${testCase.slug}/`);
+        const navigationStatus = navigation.response?.status() ?? 0;
+        if (!navigation.response?.ok()) {
+          throw new Error(
+            `tool page returned HTTP ${navigationStatus || 'unknown'} after ${navigation.attempts} attempt(s)`,
+          );
+        }
+        if (navigation.attempts > 1) {
+          warnings.push(
+            `${testCase.slug}: rendered page recovered from a transient Hostinger/CDN response after ${navigation.attempts} attempts.`,
+          );
+        }
         await fillVisibleTool(page, testCase);
         await page.getByRole('button', { name: testCase.button }).click();
         await page.waitForTimeout(250);
@@ -532,9 +567,10 @@ async function runVisibleToolChecks(site, results, warnings) {
         result.page = {
           checkedWithBrowser: true,
           expected: testCase.visibleExpected,
+          navigationAttempts: navigation.attempts,
           ok: missing.length === 0,
           snippet: mainText.slice(0, 1000),
-          status: 200,
+          status: navigationStatus,
         };
         if (missing.length) result.issues.push(`Rendered tool page did not show: ${missing.join(', ')}`);
       } catch (error) {
@@ -561,9 +597,17 @@ export async function runAskAudit(options = {}) {
 
   let registryCount = 0;
   try {
-    const response = await fetch(`${site}/api/v1/tools`, { headers: { accept: 'application/json' } });
+    const registryRequest = await fetchWithTransientRetry(`${site}/api/v1/tools`, {
+      headers: { accept: 'application/json' },
+    });
+    const response = registryRequest.response;
     const body = await readResponseJson(response);
     registryCount = Array.isArray(body.tools) ? body.tools.length : 0;
+    if (registryRequest.attempts > 1) {
+      warnings.push(
+        `API registry recovered from a transient Hostinger/CDN response after ${registryRequest.attempts} attempts.`,
+      );
+    }
     if (!response.ok || !body.ok || registryCount < 10) {
       issues.push(`not enough data: ${site}/api/v1/tools did not return the live registry.`);
     }
@@ -583,6 +627,11 @@ export async function runAskAudit(options = {}) {
 
     try {
       result.run = await postJson(`${site}/api/v1/run/${testCase.slug}`, { inputs: testCase.inputs });
+      if (result.run.attempts > 1) {
+        warnings.push(
+          `${testCase.slug}: REST run recovered from a transient Hostinger/CDN response after ${result.run.attempts} attempts.`,
+        );
+      }
       if (!result.run.ok || !includesExpected(result.run.body, testCase.expected)) {
         result.issues.push('REST run result did not include the expected deterministic answer.');
       }
@@ -594,6 +643,11 @@ export async function runAskAudit(options = {}) {
 
     try {
       result.ask = await postJson(`${site}/api/v1/ask`, { message: testCase.question });
+      if (result.ask.attempts > 1) {
+        warnings.push(
+          `${testCase.slug}: Ask recovered from a transient Hostinger/CDN response after ${result.ask.attempts} attempts.`,
+        );
+      }
       if (!result.ask.ok || result.ask.body?.route?.tool_slug !== testCase.slug) {
         result.issues.push(`Ask routed to ${result.ask.body?.route?.tool_slug ?? 'unknown'} instead of ${testCase.slug}.`);
       }
@@ -620,6 +674,11 @@ export async function runAskAudit(options = {}) {
         },
         { accept: 'application/json, text/event-stream' },
       );
+      if (result.mcp.attempts > 1) {
+        warnings.push(
+          `${testCase.slug}: MCP recovered from a transient Hostinger/CDN response after ${result.mcp.attempts} attempts.`,
+        );
+      }
       if (!result.mcp.ok || !includesExpected(result.mcp.body, testCase.expected)) {
         result.issues.push('MCP run_tool result did not include the expected deterministic answer.');
       }

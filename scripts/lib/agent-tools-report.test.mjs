@@ -13,6 +13,8 @@ import {
   buildSeoConsoleReport,
   buildToolBriefReport,
   extractToolRecords,
+  fetchWithTransientRetry,
+  isTransientHttpStatus,
   runClaimCheckReport,
 } from './agent-tools-report.mjs';
 
@@ -100,6 +102,42 @@ describe('agent tools reports', () => {
     ]);
     expect(askAuditCases.find((testCase) => testCase.slug === 'percentage-calculator')?.expected).toContain('43.2');
     expect(askAuditCases.find((testCase) => testCase.slug === 'download-time-calculator')?.expected).toContain('9m 16s');
+  });
+
+  it('retries only transient gateway responses for live proof calls', async () => {
+    const statuses = [504, 200];
+    const fetchImpl = async () => new Response(
+      JSON.stringify({ ok: statuses[0] === 200 }),
+      {
+        headers: { 'content-type': 'application/json' },
+        status: statuses.shift(),
+      },
+    );
+
+    const result = await fetchWithTransientRetry(
+      'https://accessfreetools.com/api/v1/tools',
+      {},
+      { fetchImpl },
+    );
+
+    expect(isTransientHttpStatus(504)).toBe(true);
+    expect(isTransientHttpStatus(429)).toBe(false);
+    expect(result.attempts).toBe(2);
+    expect(result.response.status).toBe(200);
+  });
+
+  it('keeps a persistent transient response visible after the retry bound', async () => {
+    const result = await fetchWithTransientRetry(
+      'https://accessfreetools.com/api/v1/tools',
+      {},
+      {
+        attempts: 3,
+        fetchImpl: async () => new Response('gateway timeout', { status: 504 }),
+      },
+    );
+
+    expect(result.attempts).toBe(3);
+    expect(result.response.status).toBe(504);
   });
 
   it('extracts source tool records for registry expansion scoring', () => {
