@@ -9,12 +9,12 @@
 ## Three Issues
 
 1. Google clicks fell from 25 to 12 despite the impression increase.
-2. The old evidence lane could select stale July 18 files and one fixed URL-inspection snapshot.
-3. The dependency audit blocks deployment until moderate and high findings are removed without waivers.
+2. Mileage recrawl confirmation is still missing; Date Calculator remains a watch item.
+3. The Hostinger Sydney CDN path returns intermittent or persistent 504 responses to fresh automated checks even though Chrome, independent external fetches, and the completed Node 24 deployment are healthy.
 
 ## Best Next Action
 
-Finish and judge the evidence importer and dependency-remediation tasks. Then request recrawling for proven stale or non-indexed pages before changing page copy.
+Allow the regional CDN path to cool down, then rerun the production sitemap and Ask audit once. Escalate to Hostinger with request IDs if it still fails; do not rewrite pages or roll back to the vulnerable dependency tree.
 
 ## Do Not Repeat
 

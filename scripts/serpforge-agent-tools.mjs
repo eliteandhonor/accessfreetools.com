@@ -2116,7 +2116,7 @@ function fixedWindow(rows, days, offset = 0) {
 function campaignTaskRows(markdown) {
   return String(markdown ?? '')
     .split(/\r?\n/)
-    .filter((line) => /^\|\s*(?:EV|IDX|CTR|MKT|WRT|SEC|REL)-\d+\s*\|/.test(line))
+    .filter((line) => /^\|\s*(?:EV|IDX|CTR|MKT|WRT|SEC|REL|OPS)-\d+\s*\|/.test(line))
     .map((line) => {
       const cells = line.split('|').slice(1, -1).map((cell) => cell.trim());
       return {
@@ -2141,6 +2141,7 @@ function july29RecoveryCommand() {
   const bingLatest = fixedWindow(bingRows, 28);
   const bingPrevious = fixedWindow(bingRows, 28, 28);
   const dependencyTask = tasks.find((task) => task.id === 'SEC-01');
+  const operationsTask = tasks.find((task) => task.id === 'OPS-01');
   const evidenceTasks = tasks.filter((task) => task.id.startsWith('EV-'));
   const primaryRecrawlTask = tasks.find((task) => task.id === 'IDX-02');
   const staleCrawlTask = tasks.find((task) => task.id === 'IDX-03');
@@ -2164,7 +2165,9 @@ function july29RecoveryCommand() {
         ? 'Mileage Calculator recrawl remains unconfirmed; Date Calculator stays in watch status.'
         : 'No stale-crawl task remains open.',
     dependencyTask?.status === 'approved'
-      ? galleryWatchTask?.status !== 'approved'
+      ? operationsTask?.status !== 'approved'
+        ? 'Hostinger regional CDN checks still require a clean production sitemap and Ask audit.'
+        : galleryWatchTask?.status !== 'approved'
         ? '/gallery/converters/ remains a watch item through August 11.'
         : 'No gallery watch task remains open.'
       : 'Dependency security gate is not approved; deployment remains blocked.',
@@ -2172,6 +2175,8 @@ function july29RecoveryCommand() {
   const bestNextAction =
     evidenceTasks.some((task) => task.status !== 'approved') || dependencyTask?.status !== 'approved'
       ? 'Finish and judge EV-01 through EV-03 and SEC-01, then request recrawling before editing page copy.'
+      : operationsTask?.status !== 'approved'
+        ? 'Allow the regional CDN path to cool down, then rerun the production sitemap and Ask audit once; escalate to Hostinger if 504 responses persist.'
       : primaryRecrawlTask?.status !== 'approved'
         ? 'Run the proven five-URL recrawl batch and record visible Search Console confirmation for every URL.'
         : staleCrawlTask?.status !== 'approved'
