@@ -24,3 +24,6 @@ Append dated gate, result, evidence path, and approval or blocker. Do not rewrit
 - 2026-07-29: A post-maintenance Node application restart restored the apex path. Fresh Sydney requests returned 200 for the homepage, sitemap, and API registry.
 - 2026-07-29: Final regional proof passed 659 production URLs with zero hard failures. Live Ask returned the deterministic 43.2 result, Ask audit passed four cases with zero issues, API registry reported 34 tools, and MCP smoke passed all three checks.
 - 2026-07-29: Approved OPS-01 and REL-01. No Hostinger support escalation or rollback is required.
+- 2026-07-29: Closure commit `60348f4d` triggered docs-only Hostinger build `019fad32-41d2-7372-84b4-13f224800ed3`, which completed on Astro 7 and Node 24 with `dist`, `app.js`, and zero vulnerabilities.
+- 2026-07-29: The final deployment invalidated the earlier OPS-01 and REL-01 approval. At 09:40 UTC, the homepage, sitemap, and API registry reproduced same-URL 307 responses and 504 timeouts across both Sydney CDN edge IPs `91.108.99.54` and `37.98.151.163`.
+- 2026-07-29: The exact built app passed 20 of 20 local forwarded-header API requests. Cacheless mode, cache clearing, application restarts, and repeated clean deployments did not provide durable recovery. OPS-01 and REL-01 are blocked pending Hostinger edge-to-origin intervention and stable production proof.

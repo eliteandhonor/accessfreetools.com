@@ -4,9 +4,11 @@ Generated: 2026-07-29
 
 ## Scope Result
 
-The July 29 implementation is complete. All current campaign tasks are approved
-by the Release and Proof Judge. Future search-engine observations are scheduled
-and are not reported as already achieved.
+The July 29 code, evidence, writing, indexing-request, research, and dependency
+work is complete. The final production delivery gate is blocked by a recurring
+Hostinger Sydney edge-to-origin failure after the latest docs-only deployment.
+Future search-engine observations are scheduled and are not reported as already
+achieved.
 
 ## Evidence Pipeline
 
@@ -69,9 +71,15 @@ and are not reported as already achieved.
   image, gallery, secret, and dependency checks.
 - Hostinger build `019fad0f-a04f-738a-9a30-a35c1b6bca1e` completed with
   `dist`, `app.js`, Node 24, and zero vulnerabilities.
-- Final regional production proof checked 659 URLs with zero hard failures.
-- Live Ask returned the deterministic 43.2 percentage result; Ask audit,
-  API registry, and MCP smoke passed.
+- One regional production run checked 659 URLs with zero hard failures, and
+  Live Ask returned the deterministic 43.2 percentage result.
+- The later docs-only build `019fad32-41d2-7372-84b4-13f224800ed3` also
+  completed on Node 24, but both Sydney edge IPs subsequently returned
+  intermittent same-URL 307 responses and 504 timeouts for the homepage,
+  sitemap, and API registry.
+- The exact built application passes repeated local forwarded-header requests,
+  so OPS-01 and REL-01 are blocked on Hostinger delivery rather than code,
+  dependency, build, or sitemap correctness.
 
 ## Preservation And Interface Review
 
@@ -79,4 +87,15 @@ and are not reported as already achieved.
 - The unfinished Browser AI article and images are absent from this release.
 - No public route, sitemap policy, API contract, canonical, or index directive
   changed in the evidence and agent-infrastructure release.
-- Git was pushed without force. Production remains Astro 7 on Node 24.
+- Git was pushed without force. The deployed build remains Astro 7 on Node 24,
+  but production delivery cannot be approved until Hostinger restores a stable
+  edge-to-origin path.
+
+## Post-Closure Recurrence
+
+The earlier release approval was invalidated after closure commit `60348f4d`
+triggered Hostinger build `019fad32-41d2-7372-84b4-13f224800ed3`. The build
+completed successfully, but bounded probes at 2026-07-29T09:40Z reproduced the
+same delivery failure on both Sydney CDN edge IPs. The support-ready incident
+record is stored in ignored output at
+`output/hostinger/support-escalation-2026-07-29.md`.

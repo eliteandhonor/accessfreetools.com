@@ -4,4 +4,5 @@
 - [x] Judge WRT-01.
 - [x] Judge SEC-01.
 - [x] Verify original dirty checkout is unchanged.
-- [x] Approve REL-01 with exact evidence.
+- [x] Prepare a support-ready Hostinger incident record.
+- [ ] Re-approve OPS-01 and REL-01 only after stable regional production proof.
