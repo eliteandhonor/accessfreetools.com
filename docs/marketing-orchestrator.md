@@ -1,6 +1,6 @@
 # Access Free Tools Marketing Orchestrator
 
-Last updated: 2026-05-18
+Last updated: 2026-08-08
 
 The Marketing Orchestrator is the coordinator above the SEO, content, internal-link, and promotion agents. It does not replace platform agents. It decides what should happen next, checks evidence, prevents duplicate reporting, and blocks unsafe "done" claims.
 
@@ -17,7 +17,7 @@ The orchestrator is report-only in v1. It can read reports, rank next actions, a
 
 2. Content
    - Source of truth: `docs/brand-code.md` and `docs/article-writing-agent-standard.md`.
-   - Jobs: improve tool pages, blog guides, Medium articles, DEV Community articles, Quora answers, Reddit replies, Bluesky posts, and Pinterest copy.
+   - Jobs: improve site editorials, Medium stories, Bluesky posts, and Pinterest copy.
    - Standard: practical examples, clear limits, natural internal links, no generic filler.
 
 3. Review And Testing
@@ -26,7 +26,8 @@ The orchestrator is report-only in v1. It can read reports, rank next actions, a
 
 4. Distribution
    - Source of truth: platform-specific agent docs.
-   - Jobs: route work to Pinterest, Medium, DEV Community, Bluesky, Quora, Quora Space, and Reddit.
+   - Jobs: route work only to the Access Free Tools blog, Medium, Bluesky, and Pinterest.
+   - Owner policy: Quora is retired, Reddit is blocked, LinkedIn is not in use, Flipboard is unverified/inactive, and other platforms are inactive unless explicitly reactivated.
    - Rule: promotion must answer a real question first and disclose ownership when linking.
    - Recognition rule: a platform counts only when the public proof exists. Drafts and submit-button success do not count.
 
@@ -60,10 +61,8 @@ action. It must still keep recommendations to 1 to 3 items.
 | DataForSEO balance and service health | Daily SEO/marketing overview, weekly SEO, monthly crawl, deep audit | `output/dataforseo-account.json`, `output/dataforseo-status.json` |
 | Medium draft quality | Medium Promotion Agent | `output/promotion/medium-quality-report.json` |
 | Pinterest RSS health | Pinterest RSS report | `output/promotion/pinterest-rss-report.json` |
-| Reddit draft safety | Reddit Promotion Agent | `output/promotion/reddit-quality-report.json` |
 | Bluesky draft safety and API posting proof | Bluesky Promotion Agent | `output/promotion/bluesky/bluesky-quality-report.json` |
-| Quora draft safety | Quora Promotion Agent | `output/promotion/quora-quality-report.json` |
-| DEV Community draft safety | DEV Community Promotion Agent | `output/promotion/devto/devto-quality-report.json` |
+| Four-channel review | Promotion policy runner | `output/promotion/four-channel-review.json` |
 | Public live status | Platform proof only | public URL, public profile/feed view, or screenshot |
 | Brand recognition tracker | Recognition Tracker | `output/recognition-tracker/` |
 

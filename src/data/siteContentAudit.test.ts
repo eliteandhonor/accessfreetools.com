@@ -1452,8 +1452,15 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts['promotion:reddit:setup-browser']).toContain('reddit-external-setup.mjs');
     expect(PACKAGE_JSON.scripts['promotion:reddit:publish-profile']).toContain('--confirm-public-post');
     expect(PACKAGE_JSON.scripts['promotion:reddit:verify-profile']).toContain('reddit-verify-profile-post.mjs');
-    expect(PACKAGE_JSON.scripts['promotion:weekly-review']).toContain('promotion:pinterest:rss-report');
-    expect(PACKAGE_JSON.scripts['promotion:weekly-review']).toContain('promotion:reddit:quality');
+    expect(PACKAGE_JSON.scripts['promotion:four-channel-review']).toBe(
+      'node scripts/four-channel-promotion-review.mjs',
+    );
+    expect(PACKAGE_JSON.scripts['promotion:weekly-review']).toBe(
+      'npm run promotion:four-channel-review',
+    );
+    expect(PACKAGE_JSON.scripts['promotion:weekly-review']).not.toMatch(
+      /reddit|quora|linkedin|flipboard|devto/i,
+    );
     expect(REDDIT_PROMOTION_AGENT_SOURCE).toContain("username: 'accessfreetools'");
     expect(REDDIT_PROMOTION_AGENT_SOURCE).toContain('readCommunityRulesFirst');
     expect(REDDIT_PROMOTION_AGENT_SOURCE).toContain('noCredentialStorage');

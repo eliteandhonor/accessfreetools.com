@@ -1,6 +1,6 @@
 # Editorial Content Program
 
-Updated: 2026-07-29
+Updated: 2026-08-08
 
 This is the source of truth for first-person Brendan Chambers editorial articles. It is separate from the completed generated tool/blog SEO review queue.
 
@@ -21,9 +21,17 @@ This is the source of truth for first-person Brendan Chambers editorial articles
 | 1 | `open-source-projects-behind-access-free-tools` | 8 Open-Source Projects I Use to Build Access Free Tools | 2026-07-13 | published |
 | 2 | `how-to-check-github-project-before-installing` | How I Check a GitHub Project Before Installing It | 2026-07-13 | published |
 | 3 | `browser-ai-vs-local-ai-privacy` | Browser AI vs Local AI: What Actually Stays on Your Device? | 2026-07-20 | published |
-| 4 | `tesseract-js-browser-ocr-image-quality` | How I Improve Tesseract.js OCR Results in a Browser | 2026-07-27 | planned |
-| 5 | `test-free-tools-playwright-vitest` | How I Test Hundreds of Free Tools with Playwright and Vitest | 2026-08-03 | planned |
-| 6 | `remove-ai-writing-tells-before-publishing` | How I Remove AI Writing Tells Before Publishing | 2026-08-10 | planned |
+| 4 | `tesseract-js-browser-ocr-image-quality` | How I Improve Tesseract.js OCR Results in a Browser | 2026-08-26 | planned |
+| 5 | `test-free-tools-playwright-vitest` | How I Test Hundreds of Free Tools with Playwright and Vitest | 2026-09-09 | planned |
+| 6 | `remove-ai-writing-tells-before-publishing` | How I Remove AI Writing Tells Before Publishing | 2026-09-23 | planned |
+
+## Active Distribution Policy
+
+- The site blog is the primary canonical publication.
+- Active external channels are Medium, Bluesky, and Pinterest only.
+- Medium companions wait at least seven days and canonicalize to the site article. Original Medium-only stories keep canonical unset.
+- Bluesky and Pinterest point to the exact site article after its live release is verified.
+- Quora, Reddit, LinkedIn, Flipboard, DEV Community, and other platforms are not part of this program.
 
 ## Launch Evidence
 

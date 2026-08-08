@@ -4,27 +4,22 @@ import { dirname, join, resolve } from 'node:path';
 import { loadPinterestAppCoverage } from './lib/pinterest-app-catalog.mjs';
 
 const sourcePath = resolve('src', 'data', 'pinterestFeed.ts');
-const source = readFileSync(sourcePath, 'utf8');
+const boardConfigPath = resolve('src', 'data', 'pinterestCategoryBoards.json');
+const boardConfig = JSON.parse(readFileSync(boardConfigPath, 'utf8'));
 const outputDir = resolve('output', 'promotion');
 const jsonPath = join(outputDir, 'pinterest-rss-report.json');
 const mdPath = join(outputDir, 'pinterest-rss-report.md');
 
-function extractString(block, key) {
-  return block.match(new RegExp(`${key}:\\s*'([^']*)'`))?.[1] ?? '';
-}
-
-function extractBoolean(block, key) {
-  return block.match(new RegExp(`${key}:\\s*(true|false)`))?.[1] === 'true';
-}
-
-const boardBlocks = [...source.matchAll(/\{\s*slug:\s*'[^']+'[\s\S]*?\n\s*path:\s*'\/pinterest\/[^']+\.xml',\n\s*\}/g)].map(
-  (match) => match[0],
-);
-const boards = boardBlocks.map((block) => ({
-  slug: extractString(block, 'slug'),
-  title: extractString(block, 'title'),
-  path: extractString(block, 'path'),
-}));
+const boards = [...new Map(
+  Object.values(boardConfig).map((board) => [
+    board.boardSlug,
+    {
+      slug: board.boardSlug,
+      title: board.boardTitle,
+      path: `/pinterest/${board.boardSlug}.xml`,
+    },
+  ]),
+).values()].sort((left, right) => left.slug.localeCompare(right.slug));
 const boardSlugs = new Set(boards.map((board) => board.slug));
 
 const appCoverage = loadPinterestAppCoverage();
@@ -82,6 +77,7 @@ const byBoard = boards.map((board) => ({
 const report = {
   generatedAt: new Date().toISOString(),
   source: sourcePath,
+  boardSource: boardConfigPath,
   generalFeed: 'https://accessfreetools.com/pinterest-feed.xml',
   boardFeeds: boards.map((board) => ({
     board: board.title,

@@ -9,6 +9,17 @@ const LOCAL_ENV_PATH = resolve('.local', 'bluesky.env');
 
 const targets = [
   {
+    slug: 'browser-ai-vs-local-ai-privacy',
+    priority: 'High',
+    risk: 'ai/privacy',
+    page: '/blog/browser-ai-vs-local-ai-privacy/',
+    title: 'Browser AI Vs Local AI Privacy',
+    text:
+      '"Browser AI" is often used as shorthand for "private." It is not that simple. I checked what stays on your device, what downloads, and when network calls or analytics matter on Access Free Tools.',
+    tags: ['#BrowserAI', '#Privacy'],
+    url: `${SITE}/blog/browser-ai-vs-local-ai-privacy/`,
+  },
+  {
     slug: 'codex-build-in-public',
     priority: 'High',
     risk: 'low',

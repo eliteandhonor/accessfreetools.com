@@ -123,6 +123,31 @@ describe('Pinterest public proof scanner', () => {
     expect(page.pins[0]).toMatchObject({ id: '555', feedIndex: 15 });
   });
 
+  it('uses the requested board when paginated Pins omit repeated board metadata', () => {
+    const page = parsePinterestBoardFeedResponse({
+      json: {
+        resource_response: {
+          status: 'success',
+          data: [{
+            type: 'pin',
+            id: '556',
+            link: 'https://accessfreetools.com/tools/interest-calculator/',
+          }],
+          bookmark: '-end-',
+        },
+      },
+      boardSlug: 'finance-calculators',
+      boardTitle: 'Finance Calculators',
+      startIndex: 16,
+    });
+
+    expect(page.pins[0]).toMatchObject({
+      boardPath: '/accessfreetools/finance-calculators/',
+      boardTitle: 'Finance Calculators',
+      ownerUsername: 'accessfreetools',
+    });
+  });
+
   it('ignores recommendations and non-tool Access Free Tools links', () => {
     const board = parse([
       pin({ id: '123', slug: 'interest-calculator', link: 'https://example.com/tools/interest-calculator/' }),

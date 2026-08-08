@@ -1,6 +1,6 @@
 # Access Free Tools Automation Operating Plan
 
-Last updated: 2026-05-18
+Last updated: 2026-08-08
 
 This file records the Codex automation jobs that keep Access Free Tools checked without relying on chat memory.
 
@@ -8,13 +8,13 @@ This file records the Codex automation jobs that keep Access Free Tools checked 
 
 | Automation | Cadence | Purpose | Safe limits |
 | --- | --- | --- | --- |
-| Access Free Tools Marketing Orchestrator | Daily at 10:00 | Owns the daily SEO/promotion overview and deduped next-action plan: DataForSEO status only when needed, Search Console key URLs, sitemap/feed/robots health, IndexNow, Pinterest RSS, Medium, DEV Community, Reddit, Bluesky, and Quora queue status. | Report-only by default. No passwords, no ads, no public-post completion claims without public URL/profile proof. Report DataForSEO balance only when it is below warning/stop/top-up thresholds or when an API error affects the task. |
+| Access Free Tools Marketing Orchestrator | Daily at 10:00 | Owns the daily SEO/promotion overview and deduped next-action plan for the site blog, Medium, Bluesky, and Pinterest. | Report-only by default. No passwords, no ads, no inactive-channel tasks, and no public-post completion claims without public URL/profile proof. |
 | AFT Weekly QA Audit | Weekly on Monday | Runs local QA gates, `npm run aft -- agent-doctor`, smoke tests, external-link checks, and a deep audit without paid crawl. | Reports fixes; does not push automatically from the scheduled run. |
 | AFT Monthly OnPage Crawl | Monthly on day 1 | Runs a paid DataForSEO OnPage crawl when balance is safely above the warning threshold. | Skips paid crawl at or below 10 USD; never uses Backlinks API. |
-| AFT Weekly Promotion Draft Review | Weekly on Wednesday at 10:00 | Refreshes Pinterest assets, Pinterest RSS reports, Medium drafts, DEV Community drafts, Reddit drafts, Bluesky drafts, Quora drafts, writing-quality scores, and promotion/internal-link opportunities. | No paid ads, outreach emails, password storage, or duplicate platform reports; RSS feeds exclude already-posted pins; DEV, Reddit, and Quora drafts must stay disclosed and answer-first. |
+| AFT Four-Channel Promotion Review | Weekly on Wednesday at 10:00 | Runs site editorial, Medium, Bluesky, and Pinterest quality checks through `npm run promotion:four-channel-review`. | No paid ads, outreach, password storage, duplicate reports, or work on inactive channels. |
 | Medium Promotion Agent | Weekly on Wednesday at 10:00 | Specialist quality pass for Medium draft/image/article readiness. | Do not repeat the full daily SEO report. Mention DataForSEO only if a keyword check changes the recommendation or a warning/error blocks publishing. |
 | Pinterest Promotion Agent | Tuesday, Thursday, Saturday at 10:00 | Specialist Pinterest board, RSS, image, and Pin-angle recommendations. | Do not repeat Search Console or DataForSEO summaries unless a specific URL or keyword changes the Pin plan. |
-| AFT Reddit Promotion Agent | Weekly on Friday at 10:00 | Runs the Reddit draft agent and quality gate, then recommends safe profile posts or replies. | External-browser account work only; no password storage, subreddit posting, direct messages, or paid ads. |
+| Bluesky Promotion Agent | Tuesday and Friday at 10:00 | Specialist review for useful owner notes and article release posts. | One useful post at a time; require public permalink proof. |
 
 ## Paused Or Removed Automations
 
@@ -26,6 +26,8 @@ These jobs were retired on 2026-05-09 to reduce repeated reports:
 | AFT Daily SEO Pulse | Paused | Its duties are now owned by Access Free Tools Daily SEO Promotion Review. |
 | Daily Promotion Agent | Paused | Its daily promotion overview overlapped with Access Free Tools Daily SEO Promotion Review. |
 | Weekly Content Promotion Agent | Paused | Its weekly plan overlapped with AFT Weekly Promotion Draft Review. |
+| AFT Reddit Promotion Agent | Removed | Owner marked Reddit blocked on 2026-08-08. |
+| Quora promotion jobs | Removed | Owner retired Quora on 2026-08-08. |
 
 ## Automation Prompt Rules
 

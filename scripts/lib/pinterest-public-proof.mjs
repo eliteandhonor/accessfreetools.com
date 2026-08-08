@@ -39,12 +39,12 @@ function destinationFromPin(pin) {
   return { kind: 'missing', value: '' };
 }
 
-function parsePin(pin, feedIndex) {
+function parsePin(pin, feedIndex, context = {}) {
   return {
     id: String(pin.id ?? ''),
-    boardPath: normalizeBoardPath(pin.board?.url ?? ''),
-    boardTitle: pin.board?.name ?? '',
-    ownerUsername: pin.board?.owner?.username ?? pin.pinner?.username ?? '',
+    boardPath: normalizeBoardPath(pin.board?.url || context.boardPath || ''),
+    boardTitle: pin.board?.name || context.boardTitle || '',
+    ownerUsername: pin.board?.owner?.username ?? pin.pinner?.username ?? context.ownerUsername ?? '',
     title: pin.grid_title ?? pin.title ?? pin.story_pin_data?.metadata?.pin_title ?? '',
     description: pin.unified_user_note ?? pin.description ?? '',
     altText: pin.seo_alt_text ?? pin.alt_text ?? '',
@@ -88,7 +88,11 @@ export function parsePinterestBoardHtml({ html, boardSlug, boardTitle, accountNa
 
     for (const pin of entry.data) {
       if (pin?.type !== 'pin') continue;
-      pins.push(parsePin(pin, feedIndex));
+      pins.push(parsePin(pin, feedIndex, {
+        boardPath: expectedBoardPath,
+        boardTitle,
+        ownerUsername: accountName,
+      }));
       feedIndex += 1;
     }
   }
@@ -149,14 +153,20 @@ export function parsePinterestBoardFeedResponse({
     throw new Error(`Pinterest board ${boardSlug} returned an invalid paginated response.`);
   }
 
+  const expectedBoardPath = `/${accountName}/${boardSlug}/`;
+
   return {
     boardSlug,
     boardTitle,
-    expectedBoardPath: `/${accountName}/${boardSlug}/`,
+    expectedBoardPath,
     nextBookmark: response.bookmark || '-end-',
     pins: response.data
       .filter((pin) => pin?.type === 'pin')
-      .map((pin, index) => parsePin(pin, startIndex + index)),
+      .map((pin, index) => parsePin(pin, startIndex + index, {
+        boardPath: expectedBoardPath,
+        boardTitle,
+        ownerUsername: accountName,
+      })),
   };
 }
 

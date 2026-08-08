@@ -27,15 +27,17 @@ handoff queue below so the owner can create or choose the email account later.
 
 ## Core Brand Profiles
 
+Owner correction, 2026-08-08: active promotion is limited to the Access Free Tools blog, Medium, Bluesky, and Pinterest. Older directory and profile records below are historical evidence, not an active promotion queue.
+
 | Platform | Status | Public URL | Login/Owner Notes | Proof And Next Action |
 | --- | --- | --- | --- | --- |
 | Pinterest Business | live | `https://au.pinterest.com/accessfreetools/` | Created by user on 2026-05-06. | Public profile, verified website, avatar, starter boards, and starter pins were verified. See `docs/promotion-account-launch-kit.md`. |
 | Medium | live | `https://medium.com/@accessfreetools` | Created with `contact@accessfreetools.com`. | Public profile setup complete. Use canonical/source links in approved posts; do not post without quality gate. |
-| Reddit | active | `https://www.reddit.com/user/accessfreetools/` | Created by user on 2026-05-07. | Use answer-first promotion only. Run `npm run promotion:reddit:quality` before public drafts. |
-| Quora | live | `https://www.quora.com/profile/Access-Free-Tools` | Created by user on 2026-05-08. | Profile and branded avatar verified. Use disclosed, useful answers only. |
-| Quora Space | live | `https://accessfreetoolssspace.quora.com/` | Created on 2026-05-08. | Description, visuals, and first useful post were verified. Do not bulk-invite contacts. |
+| Reddit | blocked | `https://www.reddit.com/user/accessfreetools/` | Historical account record. | Owner marked Reddit blocked on 2026-08-08. Do not retry or create promotion tasks. |
+| Quora | retired-by-owner | `https://www.quora.com/profile/Access-Free-Tools` | Historical account record. | Owner retired Quora on 2026-08-08. Do not publish or recommend it. |
+| Quora Space | retired-by-owner | `https://accessfreetoolssspace.quora.com/` | Historical account record. | Do not publish, invite, or create campaign tasks. |
 | Bluesky | live | `https://bsky.app/profile/accessfreetools.bsky.social` | Brand account active. | Profile bio was updated on 2026-07-03 to include `accessfreetools.com`. Use Chrome or API only after approval and quality gate. |
-| LinkedIn Company Page | live | `https://www.linkedin.com/company/access-free-tools/` | Created from Brendan Chambers' LinkedIn session on 2026-07-03. | Public member view verified with website link `https://accessfreetools.com/`. Overview was completed and verified on 2026-07-03. Logo is still the default placeholder because Chrome file upload was blocked. |
+| LinkedIn Company Page | not-in-use | Historical URL only | Owner states LinkedIn was never used for this campaign. | Do not rely on the older setup claim or create promotion work without fresh owner activation and proof. |
 | Linktree | live | `https://linktr.ee/accessfreetools` | Created through Google OAuth from the brand Google account on 2026-07-03. | Public profile verified with Access Free Tools display name, brand-safe bio, and clickable links to `https://accessfreetools.com/`, Pinterest, GitHub, LinkedIn, and Gravatar. Free plan only; Pro trial was skipped. |
 
 ## Developer And Directory Profiles
@@ -68,7 +70,7 @@ handoff queue below so the owner can create or choose the email account later.
 | AlternativeTo | live | `https://alternativeto.net/user/access-free-tools/` | Created with GitHub OAuth from the brand GitHub account on 2026-07-03. | Public profile verified with Access Free Tools name, Australia location, brand-safe bio, and a clickable `https://accessfreetools.com/` profile link. Link is marked `nofollow ugc`, which is expected for user-generated profiles. New app/Calculator.net alternative submission was reviewed on 2026-07-03 but is blocked because AlternativeTo requires new app submissions to come from an account at least 7 days old; earliest retry is 2026-07-10. The form also requires an icon, and may deny submissions without screenshots. Use URL-based icon/screenshot fields if possible; do not post reviews, votes, or fake activity. |
 | WebCatalog | active | Pending review | Account created through Google OAuth from the brand Google account on 2026-07-03. | Access Free Tools was submitted through `https://webcatalog.io/en/apps/submit` with public app name and homepage URL after the owner completed the robot/security step in Chrome. WebCatalog showed: "The request has been sent successfully. Thank you! We will review the app submission as soon as possible." Do not count this as a live backlink until a public WebCatalog listing URL is visible and verified. |
 | Diigo | blocked | Pending | Free-plan signup path reviewed on 2026-07-03. | The free plan opens a standalone username/email/password signup with reCAPTCHA and adjacent payment fields. No account was created. Continue only if the owner creates credentials and completes verification directly; do not use Diigo for thin bookmark spam. |
-| Flipboard magazine | live | `https://flipboard.com/@brendancham2026/access-free-tools-n6uohj4ly` | Created from the owner's logged-in Flipboard session on 2026-07-03. | Public magazine verified with title `Access Free Tools`, a brand-safe description, and one real flipped homepage link to `https://accessfreetools.com/` through Flipboard's redirect URL. No fake activity, mass following, contributor invites, or spam bookmark set was created. |
+| Flipboard magazine | unverified-inactive | Historical URL only | Owner does not recognize this as an active channel. | Do not use or recommend it unless the owner explicitly reactivates and verifies it. |
 | Linklist.bio | blocked | Pending | Signup path reviewed on 2026-07-03. | Registration requires standalone name/email/password fields and terms acceptance; no Google OAuth path was visible. No account was created. Since Linktree and About.me are already live, treat this as low priority unless the owner explicitly wants another link-in-bio profile and creates credentials directly. |
 | JustPaste.it profile | live | `https://justpaste.it/u/accessfreetools` | Account/profile page was opened by the owner in Chrome on 2026-07-03. | Public profile verified with Access Free Tools display name, Australia location, short brand-safe description, and a clickable `https://accessfreetools.com/` website link. No notes, file uploads, pasted articles, or link-dump pages were created. |
 | Pearltrees | live | `https://www.pearltrees.com/accessfreetools` | Owner completed signup on 2026-07-03 after Codex prepared the non-sensitive public fields. | Public profile verified with Access Free Tools display name and brand-safe bio. The visible profile shows `AccessFreeTools.com` as bio text, but no clickable website link or collection item was verified yet. Next safe action is one real public collection of useful calculator/tool resources, not a thin bookmark dump. |
@@ -185,10 +187,10 @@ Source: user-provided backlink possibilities list.
 | Medium | Publishing/profile | live | Existing live profile: `https://medium.com/@accessfreetools`. Use only after Medium quality gates. |
 | Tumblr | Web 2.0 / publishing | defer | Would require a real content plan. Do not create a thin link-only blog. |
 | Weebly / Wix / Jimdo / Strikingly / Site123 | Website builders | spam risk | Avoid thin satellite sites solely for backlinks. Use only if a real microsite/product page strategy is approved. |
-| Reddit | Profile/community | active | Existing profile is active. Use answer-first promotion only, no spam. |
-| Quora | Profile/Q&A | live | Existing profile and Space are live. Use disclosed, useful answers only. |
+| Reddit | Profile/community | blocked | Owner marked this channel blocked. No retries or promotion work. |
+| Quora | Profile/Q&A | retired-by-owner | Historical account only. No active work. |
 | Pinterest | Visual/profile | live | Existing Business profile is live and verified. |
-| LinkedIn | Company profile | live | Existing page is live. Overview was completed on 2026-07-03 and public website link is verified. Logo upload remains blocked by Chrome file upload permissions. |
+| LinkedIn | Company profile | not-in-use | Owner states LinkedIn was never used. Exclude from campaigns and reports. |
 | GitHub | Developer profile | live | Brand account and README repo are live. Avatar upload remains blocked by Chrome file upload permissions. |
 | StackBlitz | Developer profile | live | Public profile created and verified: `https://stackblitz.com/@access-free-tools`. Includes Access Free Tools name and clickable website link. Do not create starter projects unless there is a real code/demo asset. |
 | Behance / Dribbble | Creative portfolio | not relevant | Design-portfolio sites are a poor fit unless Access Free Tools starts publishing original design/UI case studies. |
@@ -202,7 +204,7 @@ Source: user-provided backlink possibilities list.
 | Observable | Developer profile/notebooks | live | Public profile created and verified: `https://observablehq.com/user/@accessfreetools`. Includes Access Free Tools name, brand-safe bio, and clickable website link. Do not create notebooks unless there is a real data/visualization asset. |
 | Dev.to | Developer publishing/profile | defer | Existing account had limited/suspended access; do not retry until restored or replaced. |
 | Mix / Folkd / Diigo | Social bookmarking | spam risk | Avoid as Tier 1 unless used as real curated collections with useful context. |
-| Flipboard | Curated magazine | live | Public magazine verified: `https://flipboard.com/@brendancham2026/access-free-tools-n6uohj4ly`. It contains one real Access Free Tools homepage flip; do not add broad bookmark spam. |
+| Flipboard | Curated magazine | unverified-inactive | Historical claim only. Exclude from campaigns and reports. |
 | Slashdot / SourceForge | Software directory/news | defer | SourceForge was reviewed on 2026-07-03. It is best for open-source/downloadable projects or vendor software listings. Do not import the small GitHub profile repo as a thin project; revisit only if Access Free Tools publishes a real open-source package or app repo. |
 
 ### Shrushti Web 2.0 Sites 2026 Article

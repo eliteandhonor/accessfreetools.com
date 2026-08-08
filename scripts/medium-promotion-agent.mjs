@@ -133,8 +133,12 @@ const posts = [
     slug: 'browser-only-ai-tools-privacy',
     title: 'What No One Tells You About Browser-Only AI Tools And Privacy',
     subtitle: 'Browser-side AI can be useful for quick private tasks, but it still has limits.',
-    sourceUrl: `${SITE_ORIGIN}/categories/ai-tools/`,
-    canonicalUrl: `${SITE_ORIGIN}/categories/ai-tools/`,
+    sourceUrl: `${SITE_ORIGIN}/blog/browser-ai-vs-local-ai-privacy/`,
+    canonicalUrl: '',
+    originalMediumArticle: true,
+    seoTitle: 'Browser AI vs Local AI Privacy: What Stays on Your Device?',
+    seoDescription:
+      'Browser AI is not automatically private. I checked what stays on your device, what downloads, and when network calls or analytics still matter in practice.',
     tags: ['AI', 'Privacy', 'Tools', 'OCR', 'Productivity'],
     audience: 'People curious about OCR, tone checking, summaries, language detection, and privacy.',
     sections: [
@@ -161,7 +165,15 @@ const posts = [
       },
     ],
     callout:
-      'Access Free Tools has a starter AI Tools section with OCR, sentiment, language, summarizer, keyword, image, tone, and reading-level tools.',
+      'I wrote a deeper comparison of browser AI and local AI after checking model downloads, network calls, analytics, and the limits of each setup.',
+    contextualLink:
+      'My longer [Browser AI vs local AI privacy guide](https://accessfreetools.com/blog/browser-ai-vs-local-ai-privacy/) explains what stays on your device, what may still download, and what to check before calling a tool private.',
+    finalLinks: [
+      '[Read the Browser AI vs local AI privacy guide](https://accessfreetools.com/blog/browser-ai-vs-local-ai-privacy/)',
+      '[Explore browser AI tools](https://accessfreetools.com/categories/ai-tools/)',
+    ],
+    disclosure:
+      'Disclosure: I am Brendan Chambers, the owner of Access Free Tools. I wrote this story for Medium. Codex helped me organize research and quality checks, but the project experience and final wording are mine.',
   },
   {
     slug: 'mortgage-payment-before-shopping',
@@ -925,10 +937,16 @@ function renderContextualLink(post) {
 function renderFinalLinks(post) {
   if (post.finalLinks?.length) return post.finalLinks.map((link) => `- ${link}`).join('\n');
   const links = [`Tool: ${post.sourceUrl}`];
-  if (post.canonicalUrl !== post.sourceUrl) {
+  if (post.canonicalUrl && post.canonicalUrl !== post.sourceUrl) {
     links.push(`Full guide: ${post.canonicalUrl}`);
   }
   return links.join('\n');
+}
+
+function canonicalInstruction(post) {
+  return post.originalMediumArticle
+    ? 'Leave Medium canonical/source URL unset. This story was originally published on Medium.'
+    : `Set Medium canonical/source URL to: ${post.canonicalUrl}`;
 }
 
 function markdown(post) {
@@ -1003,6 +1021,7 @@ approval_required: true
 channel: "Medium"
 source_url: "${post.sourceUrl}"
 canonical_url_to_set: "${post.canonicalUrl}"
+original_medium_article: ${Boolean(post.originalMediumArticle)}
 seo_title: "${escapeYaml(post.seoTitle ?? post.title)}"
 seo_description: "${escapeYaml(post.seoDescription ?? extra.preview)}"
 hero_image_url: "${heroImageUrl}"
@@ -1023,7 +1042,7 @@ Publisher notes:
 - Hero image URL: ${heroImageUrl}
 - Hero alt text: ${heroAlt}
 - Audience: ${post.audience}
-- Set Medium canonical/source URL to: ${post.canonicalUrl}
+- ${canonicalInstruction(post)}
 - Set Medium SEO title to: ${post.seoTitle ?? post.title}
 - Set Medium SEO description to: ${post.seoDescription ?? extra.preview}
 - Suggested tags: ${tags}
@@ -1040,7 +1059,7 @@ ${articleBody}
 
 - Owner approved this exact article.
 - Hero image uploaded or imported, with alt text checked.
-- Canonical/source URL set to ${post.canonicalUrl}.
+- ${canonicalInstruction(post)}
 - SEO title set to ${post.seoTitle ?? post.title}.
 - SEO description set to ${post.seoDescription ?? extra.preview}
 - Link tested: ${post.sourceUrl}.

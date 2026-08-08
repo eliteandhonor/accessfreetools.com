@@ -5,6 +5,12 @@ import {
   createIndexingRecommendation,
   createPinterestCatalogRecommendation,
 } from './lib/marketing-orchestrator-recommendation.mjs';
+import {
+  activePromotionChannels,
+  filterActivePromotionRows,
+  promotionChannelFor,
+  promotionChannels,
+} from './lib/promotion-channel-policy.mjs';
 
 const outputDir = resolve('output', 'marketing-orchestrator');
 const jsonPath = resolve(outputDir, 'daily-plan.json');
@@ -23,10 +29,8 @@ const evidencePaths = {
   dataForSeoStatus: 'output/dataforseo-status.json',
   pinterestRss: 'output/promotion/pinterest-rss-report.json',
   mediumQuality: 'output/promotion/medium-quality-report.json',
-  redditQuality: 'output/promotion/reddit-quality-report.json',
   blueskyQuality: 'output/promotion/bluesky/bluesky-quality-report.json',
-  quoraQuality: 'output/promotion/quora-quality-report.json',
-  devtoQuality: 'output/promotion/devto/devto-quality-report.json',
+  fourChannelReview: 'output/promotion/four-channel-review.json',
   recognitionTracker: 'output/recognition-tracker/latest.json',
   originalDataAssets: 'output/original-data-assets/latest.json',
 };
@@ -148,7 +152,7 @@ function qualitySummary(report, label) {
 function hasFreshPassingPromotionReview(qualityReports, now = new Date()) {
   const weekMs = 7 * 24 * 60 * 60 * 1000;
   return (
-    qualityReports.length >= 5 &&
+    qualityReports.length >= 2 &&
     qualityReports.every((report) => {
       const generatedAt = report.generatedAt ? new Date(report.generatedAt) : null;
       return (
@@ -222,28 +226,15 @@ function recommendation(priority, title, reason, action, evidence, gate, proofNe
 }
 
 function qualityReportForChannel(channel, qualityReports) {
-  const normalized = String(channel).toLowerCase();
-  const label = normalized.includes('medium')
-    ? 'Medium'
-    : normalized.includes('reddit')
-      ? 'Reddit'
-      : normalized.includes('bluesky')
-        ? 'Bluesky'
-        : normalized.includes('quora')
-          ? 'Quora'
-          : normalized.includes('dev')
-            ? 'DEV Community'
-            : '';
+  const policy = promotionChannelFor(channel);
+  const label = policy?.id === 'medium' || policy?.id === 'bluesky' ? policy.label : '';
 
   return label ? qualityReports.find((report) => report.label === label) ?? null : null;
 }
 
 function qualityEvidencePath(label) {
   if (label === 'Medium') return evidencePaths.mediumQuality;
-  if (label === 'Reddit') return evidencePaths.redditQuality;
   if (label === 'Bluesky') return evidencePaths.blueskyQuality;
-  if (label === 'Quora') return evidencePaths.quoraQuality;
-  if (label === 'DEV Community') return evidencePaths.devtoQuality;
   return null;
 }
 
@@ -382,10 +373,9 @@ function chooseRecommendations({
         'Hold promotion changes until there is a new approved public-posting task, live-proof gap, or fresh Search Console priority.',
         [
           evidencePaths.mediumQuality,
-          evidencePaths.redditQuality,
           evidencePaths.blueskyQuality,
-          evidencePaths.quoraQuality,
-          evidencePaths.devtoQuality,
+          evidencePaths.pinterestRss,
+          evidencePaths.fourChannelReview,
         ],
         'Do not publish or mark promotion complete without public URL, profile/feed proof, or screenshot evidence.',
         'Fresh generated quality reports are enough for the review cadence; public URL proof is only needed after live posting.',
@@ -399,7 +389,7 @@ function chooseRecommendations({
         'Low',
         'Run a fresh weekly promotion review',
         'No urgent blocker was found from the existing evidence, so the best next move is refreshing platform draft evidence.',
-        'Run `npm run promotion:weekly-review`, then rerun `npm run marketing:orchestrate`.',
+        'Run `npm run promotion:four-channel-review`, then rerun `npm run marketing:orchestrate`.',
         ['docs/promotion-queue.md'],
         'All platform quality reports should pass before public posting.',
         'Generated quality reports and public URLs for any live changes.',
@@ -480,21 +470,18 @@ const dataForSeoAccount = readJson(evidencePaths.dataForSeoAccount);
 const dataForSeoStatus = readJson(evidencePaths.dataForSeoStatus);
 const pinterestRss = readJson(evidencePaths.pinterestRss);
 const mediumQuality = readJson(evidencePaths.mediumQuality);
-const redditQuality = readJson(evidencePaths.redditQuality);
 const blueskyQuality = readJson(evidencePaths.blueskyQuality);
-const quoraQuality = readJson(evidencePaths.quoraQuality);
-const devtoQuality = readJson(evidencePaths.devtoQuality);
+const fourChannelReview = readJson(evidencePaths.fourChannelReview);
 const recognitionTracker = readJson(evidencePaths.recognitionTracker);
 const originalDataAssets = readJson(evidencePaths.originalDataAssets);
 
 const activeAutomations = parseActiveAutomationRows(automationPlan);
-const queueRows = parseQueueRows(promotionQueue);
+const parsedQueueRows = parseQueueRows(promotionQueue);
+const queueRows = filterActivePromotionRows(parsedQueueRows);
+const excludedQueueRows = parsedQueueRows.filter((row) => !queueRows.includes(row));
 const qualityReports = [
   qualitySummary(mediumQuality, 'Medium'),
-  qualitySummary(redditQuality, 'Reddit'),
   qualitySummary(blueskyQuality, 'Bluesky'),
-  qualitySummary(quoraQuality, 'Quora'),
-  qualitySummary(devtoQuality, 'DEV Community'),
 ];
 const indexingGaps = neutralIndexingItems(seoEvaluation, searchConsoleInspection);
 const balance = dataForSeoBalance(dataForSeoAccount, seoEvaluation);
@@ -526,10 +513,8 @@ const evidence = [
   asEvidence('dataForSeoStatus', evidencePaths.dataForSeoStatus, dataForSeoStatus),
   asEvidence('pinterestRss', evidencePaths.pinterestRss, pinterestRss),
   asEvidence('mediumQuality', evidencePaths.mediumQuality, mediumQuality),
-  asEvidence('redditQuality', evidencePaths.redditQuality, redditQuality),
   asEvidence('blueskyQuality', evidencePaths.blueskyQuality, blueskyQuality),
-  asEvidence('quoraQuality', evidencePaths.quoraQuality, quoraQuality),
-  asEvidence('devtoQuality', evidencePaths.devtoQuality, devtoQuality),
+  asEvidence('fourChannelReview', evidencePaths.fourChannelReview, fourChannelReview),
   asEvidence('recognitionTracker', evidencePaths.recognitionTracker, recognitionTracker),
   asEvidence('originalDataAssets', evidencePaths.originalDataAssets, originalDataAssets),
 ];
@@ -538,6 +523,7 @@ const wins = [];
 if (brandCode) wins.push('Brand code is present and can be loaded before public copy or promotion work.');
 if (recommendedAgents) wins.push('Recommended agency-agent routing is present for specialist lens selection.');
 if (!duplicateBalanceOwnerActive) wins.push('No active standalone DataForSEO balance-only automation was found.');
+if (activePromotionChannels.length === 4) wins.push('Owner-approved four-channel promotion policy is active.');
 if (qualityReports.every((item) => item.status === 'passed')) wins.push('All available platform quality reports pass.');
 if (pinterestRss && !pinterestRss.parseError && !pinterestRss.issues?.length) wins.push('Pinterest RSS report has no issues.');
 if (recognitionTracker && !recognitionTracker.parseError) wins.push('Recognition tracker is available for public proof and blocked-channel checks.');
@@ -558,8 +544,10 @@ const report = {
   activeAutomations,
   duplicateBalanceOwnerActive,
   balance,
+  promotionChannelPolicy: promotionChannels.map(({ id, label, status }) => ({ id, label, status })),
   queueSummary: {
     rows: queueRows.length,
+    excludedInactiveRows: excludedQueueRows.length,
     liveProofGaps: liveProofGapRows.length,
     approved: queueRows.filter((row) => row.status === 'approved').length,
     rssConnected: queueRows.filter((row) => row.status === 'rss-connected').length,

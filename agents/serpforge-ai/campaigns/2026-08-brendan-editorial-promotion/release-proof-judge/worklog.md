@@ -1,0 +1,9 @@
+# Worklog
+
+- 2026-08-08: Judge opened. No campaign task is approved at campaign creation.
+- 2026-08-08: Approved EVD-01 after public Medium RSS proved ten stories and both reconciled story URLs.
+- 2026-08-08: Approved TODAY-01 after Medium quality scored 93 overall and the public page proved the link, H1/H2 formatting, image alt, SEO description, and self-canonical.
+- 2026-08-08: Approved TODAY-02 after the focused Bluesky gate passed and the public permalink proved the exact post and article card.
+- 2026-08-08: Marked TODAY-03 blocked, not approved. The exact 1000 x 1500 asset exists, but there is no public Pin proof while Chrome file upload permission is disabled.
+- 2026-08-08: Approved POL-01 after policy tests, the full four-channel review, Pinterest coverage/RSS/public-proof checks, and the marketing orchestrator all passed. Inactive platforms appeared only as policy history, not as active recommendations.
+- 2026-08-08: Final local audit passed with 441 tests, the full `npm run check` chain, zero moderate-or-higher dependency vulnerabilities, and the original dirty checkout unchanged. TODAY-03 remains blocked because local readiness is not public Pin proof.

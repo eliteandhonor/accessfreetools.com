@@ -10,6 +10,19 @@ const DEFAULT_BROWSER_CHANNEL = 'chrome';
 
 const pins = [
   {
+    slug: 'browser-ai-vs-local-ai-privacy',
+    asset: 'browser-ai-vs-local-ai-privacy.png',
+    title: 'Browser AI vs Local AI: What Stays on Your Device?',
+    description:
+      'Browser AI and local AI are not automatic synonyms for privacy. See what can stay on your device, what may still download, and when network calls or analytics matter.',
+    url: 'https://accessfreetools.com/blog/browser-ai-vs-local-ai-privacy/?utm_source=pinterest&utm_medium=organic&utm_campaign=browser_ai_privacy',
+    board: 'AI Browser Tools',
+    boardSlug: 'ai-browser-tools',
+    altText:
+      'Full-body smoke-kawaii girl comparing browser AI and local AI beside a laptop, privacy shield, model download symbols, and network connection indicators.',
+    aiModified: true,
+  },
+  {
     slug: 'tools',
     asset: 'free-online-tools-library.png',
     title: 'Free Online Tools For Calculators, Converters, And AI Tasks',
@@ -764,6 +777,8 @@ async function publishPin(page, pin, options = {}) {
     board: pin.board,
     url: pin.url,
     asset: assetPath(pin),
+    altText: pin.altText ?? '',
+    aiModified: Boolean(pin.aiModified),
     status: 'pending',
     steps: [],
   };
@@ -868,6 +883,8 @@ async function main() {
       url: pin.url,
       asset: assetPath(pin),
       assetExists: existsSync(assetPath(pin)),
+      altText: pin.altText ?? '',
+      aiModified: Boolean(pin.aiModified),
     }));
     console.log(
       `Pinterest dry run: ${selectedPins.length} selected pin(s). Publishing requires both --publish and --confirm-public-post.`,
