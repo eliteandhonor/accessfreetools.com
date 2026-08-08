@@ -4,3 +4,4 @@
 - 2026-08-08: Public Medium RSS proved a ten-story baseline and included the Codex Backlink Workflow and Markdown Table story URLs. Evidence saved to `output/promotion/proof/medium-rss-baseline-2026-08-08.json`.
 - 2026-08-08: Central policy, account states, queue, orchestrator, and automation documentation now limit active work to the site blog, Medium, Bluesky, and Pinterest.
 - 2026-08-08: Focused policy tests passed, the full four-channel review passed, and the generated orchestrator recommendations contained zero inactive-platform matches.
+- 2026-08-08: Pinterest public proof recorded at `https://au.pinterest.com/pin/1148277236271526861/`; the profile card exposed the literal alt text and the public Pin exposed the title, description, AI-modified label, and tracked Browser AI destination.
