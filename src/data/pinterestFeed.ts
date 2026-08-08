@@ -24,7 +24,7 @@ export interface PinterestFeedItem {
   published: string;
 }
 
-export const PINTEREST_FEED_UPDATED = '2026-07-17';
+export const PINTEREST_FEED_UPDATED = '2026-08-08';
 
 export const pinterestBoards: PinterestBoard[] = [
   {

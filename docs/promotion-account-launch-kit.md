@@ -152,6 +152,12 @@ RSS auto-publish workflow:
   `https://accessfreetools.com/pinterest/ai-browser-tools.xml`, and
   `https://accessfreetools.com/pinterest/school-and-study-tools.xml`.
 - Keep feed items curated in `src/data/pinterestFeed.ts`.
+- Keep both an RSS `<enclosure>` and Media RSS `<media:content>` under every
+  `<item>`. Both entries must use the same public image URL, MIME type, and real
+  byte length so Pinterest can fall back when one parser path misses the other.
+- Before reconnecting a feed after an image-ingestion error, verify the live XML
+  and image with a Pinterestbot user agent. A successful local build is not
+  proof that Pinterest can fetch the deployed image.
 - Do not connect `/feed.xml` to Pinterest because it is the general guide RSS
   feed and does not include the dedicated Pinterest images.
 

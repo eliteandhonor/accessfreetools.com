@@ -1389,7 +1389,10 @@ describe('site content audit guardrails', () => {
     expect(FEED_SOURCE).not.toContain('const updatedDate = new Date()');
     expect(PINTEREST_FEED_XML_SOURCE).toContain('rss version="2.0"');
     expect(PINTEREST_FEED_XML_SOURCE).toContain('xmlns:media="http://search.yahoo.com/mrss/"');
+    expect(PINTEREST_FEED_XML_SOURCE).toContain('<enclosure');
+    expect(PINTEREST_FEED_XML_SOURCE).toContain('length="${imageByteLength}"');
     expect(PINTEREST_FEED_XML_SOURCE).toContain('media:content');
+    expect(PINTEREST_FEED_XML_SOURCE).toContain('fileSize="${imageByteLength}"');
     expect(PINTEREST_FEED_XML_SOURCE).toContain('image/jpeg');
     expect(PINTEREST_FEED_SOURCE).toContain('getPinterestFeedItems()');
     expect(PINTEREST_FEED_SOURCE).toContain('Already-posted manual pins stay out of this feed');

@@ -1,3 +1,6 @@
+import { statSync } from 'node:fs';
+import { resolve, sep } from 'node:path';
+
 import { absoluteUrl, escapeXml } from './discovery';
 import type { PinterestBoard, PinterestFeedItem } from './pinterestFeed';
 import { PINTEREST_FEED_UPDATED } from './pinterestFeed';
@@ -16,6 +19,19 @@ function getImageContentType(imagePath: string) {
   return imagePath.endsWith('.jpg') || imagePath.endsWith('.jpeg') ? 'image/jpeg' : 'image/png';
 }
 
+const publicAssetRoot = resolve('public');
+
+function getImageByteLength(imagePath: string) {
+  const relativePath = imagePath.replace(/^\/+/, '');
+  const assetPath = resolve(publicAssetRoot, relativePath);
+
+  if (!assetPath.startsWith(`${publicAssetRoot}${sep}`)) {
+    throw new Error(`Pinterest feed image must stay inside public/: ${imagePath}`);
+  }
+
+  return statSync(assetPath).size;
+}
+
 export function toPinterestRfc822Date(date: string) {
   return new Date(`${date}T00:00:00.000Z`).toUTCString();
 }
@@ -32,6 +48,8 @@ export function renderPinterestRssFeed({
     .map((item) => {
       const pageUrl = absoluteUrl(item.path);
       const imageUrl = absoluteUrl(item.imagePath);
+      const imageContentType = getImageContentType(item.imagePath);
+      const imageByteLength = getImageByteLength(item.imagePath);
 
       return `<item>
   <title>${escapeXml(item.title)}</title>
@@ -40,7 +58,8 @@ export function renderPinterestRssFeed({
   <description>${escapeXml(item.description)}</description>
   <category>${escapeXml(board?.title ?? item.category)}</category>
   <pubDate>${toPinterestRfc822Date(item.published)}</pubDate>
-  <media:content url="${imageUrl}" medium="image" type="${getImageContentType(item.imagePath)}" width="1000" height="1500" />
+  <enclosure url="${imageUrl}" length="${imageByteLength}" type="${imageContentType}" />
+  <media:content url="${imageUrl}" medium="image" type="${imageContentType}" fileSize="${imageByteLength}" width="1000" height="1500" />
 </item>`;
     })
     .join('\n');
