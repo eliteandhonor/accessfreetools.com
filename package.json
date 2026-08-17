@@ -49,6 +49,7 @@
     "promotion:medium:starter": "node scripts/medium-promotion-agent.mjs --all",
     "promotion:medium:quality": "npm run promotion:medium:images && node scripts/medium-promotion-agent.mjs --all && node scripts/check-medium-writing-quality.mjs output/promotion/medium",
     "promotion:medium:quality:first": "npm run promotion:medium:images && node scripts/medium-promotion-agent.mjs --slug=right-free-online-calculator && node scripts/check-medium-writing-quality.mjs output/promotion/medium/right-free-online-calculator.md",
+    "editorial:ocr-experiment": "node scripts/editorial-ocr-experiment.mjs",
     "promotion:reddit": "node scripts/reddit-promotion-agent.mjs --all",
     "promotion:reddit:quality": "node scripts/reddit-promotion-agent.mjs --all && node scripts/check-reddit-promotion-quality.mjs output/promotion/reddit/drafts",
     "promotion:reddit:setup-browser": "node scripts/reddit-external-setup.mjs --keep-open",

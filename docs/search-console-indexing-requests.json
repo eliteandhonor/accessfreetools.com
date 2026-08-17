@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-17T14:33:18+10:00",
+  "generatedAt": "2026-08-17T15:01:32+10:00",
   "source": "Search Console UI",
   "requests": [
     {
@@ -109,18 +109,19 @@
       "requestedAt": "2026-08-17T10:20:03+10:00",
       "result": "indexing-requested",
       "url": "https://accessfreetools.com/blog/how-to-use-four-in-a-row-game/"
-    }
-  ],
-  "deferred": [
-    {
-      "attemptedAt": null,
-      "reason": "Fresh exact URL Inspection on 2026-08-17 reports Discovered - currently not indexed. This is the first URL in the next request batch and has not previously been submitted.",
-      "url": "https://accessfreetools.com/tools/json-to-csv-converter/"
     },
     {
-      "attemptedAt": null,
-      "reason": "Fresh exact URL Inspection on 2026-08-17 reports Discovered - currently not indexed. This is the second URL in the next request batch and has not previously been submitted.",
+      "evidence": "Visible Search Console confirmation recorded in output/search-console/indexing-requests-2026-08-17/json-to-csv-guide-confirmed.json and json-to-csv-guide-confirmed.png. URL was added to a priority crawl queue.",
+      "requestedAt": "2026-08-17T14:57:16+10:00",
+      "result": "indexing-requested",
       "url": "https://accessfreetools.com/blog/how-to-use-json-to-csv-converter/"
+    },
+    {
+      "evidence": "Visible Search Console confirmation recorded in output/search-console/indexing-requests-2026-08-17/json-to-csv-tool-confirmed.json and json-to-csv-tool-confirmed.png. URL was added to a priority crawl queue.",
+      "requestedAt": "2026-08-17T14:58:37+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/json-to-csv-converter/"
     }
-  ]
+  ],
+  "deferred": []
 }

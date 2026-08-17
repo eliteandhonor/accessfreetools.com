@@ -17,6 +17,7 @@ const publicationOrder = [
   'voltage-drop-wire-length',
   'markdown-table-cleanup',
   'github-stars-security-review',
+  'kawaii-calculator-serious-math',
 ];
 
 const posts = [
@@ -462,6 +463,68 @@ const posts = [
     heroCredit:
       'Image credit: Access Free Tools smoke-kawaii illustration, created with GPT Image and reviewed by Brendan Chambers.',
   },
+  {
+    slug: 'kawaii-calculator-serious-math',
+    title: 'Why I Gave a Calculator a Kawaii Face and Kept the Math Serious',
+    subtitle:
+      'The pastel buttons are friendly. Percent rules, memory, keyboard support, history, and honest limits still have to work.',
+    seoTitle: 'Why I Built a Kawaii Calculator With Serious Math Checks',
+    seoDescription:
+      'I gave my calculator a kawaii face, then tested percent rules, keyboard input, memory, history, and limits so the friendly design did not weaken the math.',
+    sourceUrl: `${SITE_ORIGIN}/tools/kawaii-calculator/`,
+    canonicalUrl: '',
+    originalMediumArticle: true,
+    tags: ['Calculators', 'Web Development', 'UX Design', 'Build In Public', 'Mathematics'],
+    audience: 'People who build or use small web tools and care about friendly design, clear behavior, and dependable everyday math.',
+    disclosure:
+      'Disclosure: I am Brendan Chambers, the owner of Access Free Tools. Codex helped me organize checks and review the draft, but the calculator decisions, test examples, and final wording are mine.',
+    contextualLink:
+      'You can try the [Kawaii Calculator](https://accessfreetools.com/tools/kawaii-calculator/) while reading. Its matching [calculator guide](https://accessfreetools.com/blog/how-to-use-kawaii-calculator/) explains the percent key, memory, history, keyboard controls, and when to switch to a different calculator.',
+    headings: {
+      bestUse: 'Where the friendly design helps',
+      limits: 'What the cute design does not change',
+      cta: 'Try the Kawaii Calculator',
+    },
+    sections: [
+      {
+        heading: 'The face started as a usability decision',
+        paragraphs: [
+          'I did not add a kawaii face because a calculator needed a mascot to do arithmetic. I added it because a small tool can feel cold before you press the first button. A friendly expression, softer colors, and a tidy display make the page easier to approach.',
+          'That choice created a harder question for me as the owner: would the visual personality make the tool feel less trustworthy? I decided the design could stay playful only if the behavior remained predictable. Every button needed a clear job, the keyboard needed to match the screen, and the result history needed to show what happened.',
+        ],
+      },
+      {
+        heading: 'The percent key needed one clear rule',
+        paragraphs: [
+          'Percent buttons are where simple calculators often become confusing. If you enter 45 minus 15 percent, you may expect a sale price of 38.25. If the tool treats 15 percent as the number 0.15 without context, you get a different answer.',
+          'I kept the everyday calculator rule: the percent uses the current base value for addition and subtraction. The display and history then preserve the calculation so you can check whether the tool did what you meant. That rule matters more than the color of the button.',
+        ],
+      },
+      {
+        heading: 'Keyboard and history checks carry the trust',
+        paragraphs: [
+          'A browser calculator should not force you to move between the keyboard and mouse. Number keys, decimal input, operators, Enter, Backspace, Escape, and percent behavior all need to agree with the visible controls. A cute interface becomes annoying when one input path behaves differently from another.',
+          'History matters for the same reason. If you type the wrong operator or forget whether you used 15 or 50, the previous expression gives you something to inspect. I would rather show a short trail than ask you to trust a result with no context.',
+        ],
+      },
+      {
+        heading: 'Friendly design still needs a stopping point',
+        paragraphs: [
+          'The Kawaii Calculator handles everyday arithmetic, percentages, memory, and quick checks. It does not pretend to be a scientific calculator, fraction solver, finance model, or proof of a high-stakes decision.',
+          'When the task needs order of operations, named functions, exact fractions, loan assumptions, tax rules, or safety guidance, I point readers to a more specific tool. The friendly face should help you start. It should never hide the limits of the page.',
+        ],
+      },
+    ],
+    callout:
+      'The Kawaii Calculator is free to use in your browser, with keyboard controls, memory, percent behavior, history, and plain-language limits.',
+    finalLinks: [
+      '[Try the Kawaii Calculator](https://accessfreetools.com/tools/kawaii-calculator/)',
+      '[Read the Kawaii Calculator guide](https://accessfreetools.com/blog/how-to-use-kawaii-calculator/)',
+      '[Why I am building Access Free Tools](https://accessfreetools.com/why-access-free-tools/)',
+    ],
+    heroCredit:
+      'Image credit: Access Free Tools smoke-kawaii illustration, created with GPT Image and reviewed by Brendan Chambers.',
+  },
 ];
 
 const heroAltText = {
@@ -487,6 +550,8 @@ const heroAltText = {
     'Branded Markdown table generator graphic showing clean headers, rows, preview, and copy-ready output.',
   'github-stars-security-review':
     'Full-body smoke-kawaii girl inspecting a sealed software package beside a laptop, magnifying glass, shield, lock, and seven repository checks.',
+  'kawaii-calculator-serious-math':
+    'Full-body smoke-kawaii girl testing a pastel calculator beside a keyboard, history chart, checklist, and magnifying glass.',
 };
 
 const publishEnhancements = {
@@ -848,6 +913,43 @@ const publishEnhancements = {
       'Stop and inspect: the command pipes remote code straight into a shell or downloads another executable without clear provenance.',
       'Stop and inspect: the first run asks for admin access, production secrets, browser control, or writes outside the expected directory.',
       'Stop and inspect: the instructions are copied, stale, obfuscated, or inconsistent with the repository files.',
+    ],
+  },
+  'kawaii-calculator-serious-math': {
+    preview:
+      'I gave a calculator a kawaii face, then tested percent rules, keyboard input, memory, history, and limits so the friendly design stayed dependable.',
+    seoReview:
+      'Original Brendan Chambers owner story. Keep the Kawaii Calculator phrase natural, use real calculator behavior, and leave Medium canonical unset because this story originates on Medium.',
+    hook: [
+      'I had the Kawaii Calculator open in one browser tab when I noticed the problem I had created for myself. The page looked cheerful. The buttons were soft pink and teal. The little calculator face made the tool feel easy to approach.',
+      'A wrong answer would still be a wrong answer. A friendly design can make you lower your guard, so I needed the behavior to be easier to check than the artwork was to like.',
+      'That meant testing the percent key, keyboard controls, memory, decimal input, backspace, clearing, and calculation history. The kawaii face could stay only if the math remained serious.',
+    ],
+    quickAnswer: [
+      'I built the Kawaii Calculator as a normal everyday calculator with a friendlier visual style. It handles arithmetic, percent calculations, memory, keyboard input, copying, and a short history. The design does not change the calculation rules.',
+      'If you use it, you should be able to see what you entered, repeat the same action from the keyboard, and check the previous expression. Those small checks matter more than decorative polish.',
+    ],
+    whyItMatters: [
+      'Small tools earn trust through consistent details. If the percent key follows one rule with the mouse and another rule with the keyboard, the interface fails even when both results look neat.',
+      'I also wanted a calculator that a student, shopper, or tired person could open without feeling as if they had entered an accounting system. Clear behavior and a friendly surface can support each other, but the behavior has to lead.',
+    ],
+    bestUse: [
+      'Use the Kawaii Calculator for quick arithmetic, sale prices, tips, simple markups, decimals, and calculations you may want to repeat. The visible history helps when you need to check the last step.',
+      'If you need powers, trigonometry, exact fractions, matrices, loan schedules, or tax rules, choose a calculator built for that job. A focused tool is easier to explain and easier for you to verify.',
+    ],
+    example: {
+      heading: 'A 15 percent example that exposed the rule',
+      paragraphs: [
+        'Suppose a $45 item is 15 percent off. The discount is 45 x 0.15 = $6.75. The sale price is $45 - $6.75 = $38.25.',
+        'On the Kawaii Calculator, entering 45, minus, 15, percent produces 38.25 because the percent key uses 15 percent of the current base value. The history lets you check the expression instead of trusting the display by itself.',
+        'Try the same numbers with multiplication and you are asking a different question. That is why I explain the percent rule in the guide rather than treating the percent symbol as self-explanatory.',
+      ],
+    },
+    limits: [
+      'Check the expression in history when a percent result surprises you.',
+      'Use the Scientific Calculator when the task needs order of operations or named functions.',
+      'Use the Fraction Calculator when an exact fraction matters more than a decimal.',
+      'Treat finance, tax, health, construction, and electrical results as separate problems with their own assumptions and limits.',
     ],
   },
 };

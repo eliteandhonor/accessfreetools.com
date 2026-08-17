@@ -213,6 +213,15 @@ const qualityRules = {
     trustHeading: 'Green flags and stop signs',
     ctaHeading: 'Keep the checklist beside the install command',
   },
+  'kawaii-calculator-serious-math': {
+    primaryPhrase: 'kawaii calculator',
+    minNumbers: 6,
+    maxWords: 1300,
+    allowAiMentions: true,
+    requiredIdeas: ['percent', 'history', 'limits'],
+    trustHeading: 'What the cute design does not change',
+    ctaHeading: 'Try the Kawaii Calculator',
+  },
 };
 
 function parseArgs() {

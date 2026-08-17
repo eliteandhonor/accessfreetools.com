@@ -2,6 +2,13 @@ import type { BlogPostDefinition } from './blogPosts';
 
 export const editorialBlogPosts: BlogPostDefinition[] = [
   {
+    slug: 'tesseract-js-browser-ocr-image-quality',
+    title: 'How I Improve Tesseract.js OCR Results in a Browser',
+    label: 'Owner experiment',
+    summary:
+      'Brendan Chambers tests blur, contrast, cropping, tiny text, glare, and language choice with six synthetic browser OCR images.',
+  },
+  {
     slug: 'open-source-projects-behind-access-free-tools',
     title: '8 Open-Source Projects Behind Access Free Tools',
     label: 'Owner notes',

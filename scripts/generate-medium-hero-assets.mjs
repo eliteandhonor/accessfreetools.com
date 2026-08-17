@@ -93,6 +93,13 @@ const staticHeroes = [
     detailLines: ['Custom smoke-kawaii repository review scene; no generated text overlay.'],
     titleLines: ['GitHub stars are not a security review'],
   },
+  {
+    slug: 'kawaii-calculator-serious-math',
+    expectedWidth: 1200,
+    expectedHeight: 675,
+    detailLines: ['Custom smoke-kawaii calculator testing scene; no generated text overlay.'],
+    titleLines: ['Why the cute calculator still needs serious math checks'],
+  },
 ];
 
 const canvas = {

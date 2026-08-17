@@ -336,6 +336,11 @@ On 2026-05-14, the build-in-public Bluesky post for
 session after the API publisher was blocked by missing local Bluesky env vars.
 The public profile showed the post text, mission-page link card, and permalink:
 `https://bsky.app/profile/accessfreetools.bsky.social/post/3mlrrl7pmzk2i`.
+On 2026-08-17, the rounded production-usage owner update passed the focused
+Bluesky and editorial writing gates and was published through logged-in Chrome.
+The post linked Random Number Generator, rounded anonymous totals, and explained
+that one visitor can record several action events. Public proof:
+`https://bsky.app/profile/accessfreetools.bsky.social/post/3mtaw676xes2a`.
 DEV Community is the recommended next technical blogging channel as of
 2026-05-13. Use it only for developer, browser AI, Markdown, JSON, encoding,
 token, API, and productivity topics. Drafts and quality checks are local with
