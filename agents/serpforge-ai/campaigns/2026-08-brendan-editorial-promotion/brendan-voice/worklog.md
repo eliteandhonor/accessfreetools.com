@@ -7,5 +7,6 @@
 - Kept the experiment boundaries visible: these are fixed synthetic cases, not a universal OCR benchmark.
 - Prepared the complete first-person article, source links, internal links, metadata, and article-specific smoke-kawaii art.
 - Prepared the original Kawaii Calculator Medium story with its canonical intentionally unset.
+- The OCR article is live on Access Free Tools, and the original Kawaii Calculator story is live on Medium with public quality proof. No invented result or external canonical was added.
 
 - 2026-08-08: Voice constraints loaded. No invented scenes, results, or platform claims are allowed.

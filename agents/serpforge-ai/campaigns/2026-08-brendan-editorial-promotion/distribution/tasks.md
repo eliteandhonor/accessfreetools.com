@@ -6,3 +6,4 @@
 - [ ] Process future dated rows only when due and quality-passed.
 - [x] Deduplicate FUT-01 into FUT-02 without publishing another Kawaii post.
 - [x] Publish and publicly verify the rounded Random Number Generator owner update.
+- [x] Publish and publicly verify FUT-04 as an original Kawaii Calculator Medium story with no external canonical.

@@ -4,3 +4,4 @@
 - [x] Approve TODAY-01, TODAY-02, and TODAY-03 only after exact public proof.
 - [ ] Keep future rows planned until their due date and complete release gate.
 - [x] Run final scope, dirty-worktree, dependency, and full-check audit.
+- [x] Approve EDT-01 and FUT-04 only after live site and Medium proof.
