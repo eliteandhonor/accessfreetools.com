@@ -30,6 +30,10 @@ export default defineConfig({
       status: 301,
       destination: '/tools/age-calculator/',
     },
+    '/tools/love': {
+      status: 301,
+      destination: '/tools/love-calculator/',
+    },
     '/maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025': {
       status: 301,
       destination: '/tools/ad-revenue-calculator/',

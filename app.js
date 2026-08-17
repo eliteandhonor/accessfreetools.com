@@ -1,13 +1,6 @@
-const parsedPort = Number(process.env.PORT);
-if (!process.env.PORT || process.env.PORT === 'undefined' || !Number.isFinite(parsedPort) || parsedPort <= 0) {
-  process.env.PORT = '3000';
-}
+import { startHostingerServer } from './scripts/lib/hostinger-server.mjs';
 
-if (!process.env.HOST || process.env.HOST === 'undefined') {
-  process.env.HOST = '0.0.0.0';
-}
-
-import('./dist/server/entry.mjs').catch((error) => {
+startHostingerServer(new URL('./dist/server/entry.mjs', import.meta.url)).catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });

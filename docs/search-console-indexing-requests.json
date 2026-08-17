@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-29T20:39:23+10:00",
+  "generatedAt": "2026-08-17T14:33:18+10:00",
   "source": "Search Console UI",
   "requests": [
     {
@@ -91,23 +91,36 @@
       "requestedAt": "2026-07-29T20:39:23+10:00",
       "result": "indexing-requested",
       "url": "https://accessfreetools.com/blog/browser-ai-vs-local-ai-privacy/"
+    },
+    {
+      "evidence": "Visible Search Console confirmation recorded in output/search-console/indexing-requests-2026-08-17/summary.json. This was a deferred request and did not repeat the July 29 batch.",
+      "requestedAt": "2026-08-17T10:20:03+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/blog/how-to-use-wallpaper-calculator/"
+    },
+    {
+      "evidence": "Visible Search Console confirmation recorded in output/search-console/indexing-requests-2026-08-17/summary.json. This was a deferred request and did not repeat the July 29 batch.",
+      "requestedAt": "2026-08-17T10:20:03+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/blog/how-to-use-personal-loan-calculator/"
+    },
+    {
+      "evidence": "Visible Search Console confirmation recorded in output/search-console/indexing-requests-2026-08-17/summary.json. This was a deferred request and did not repeat the July 29 batch.",
+      "requestedAt": "2026-08-17T10:20:03+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/blog/how-to-use-four-in-a-row-game/"
     }
   ],
   "deferred": [
     {
-      "attemptedAt": "2026-07-13T19:09:33+10:00",
-      "reason": "Search Console daily request quota exceeded; retry in a later daily batch.",
-      "url": "https://accessfreetools.com/blog/how-to-use-wallpaper-calculator/"
+      "attemptedAt": null,
+      "reason": "Fresh exact URL Inspection on 2026-08-17 reports Discovered - currently not indexed. This is the first URL in the next request batch and has not previously been submitted.",
+      "url": "https://accessfreetools.com/tools/json-to-csv-converter/"
     },
     {
       "attemptedAt": null,
-      "reason": "Not attempted after Search Console reported the daily request quota was exceeded.",
-      "url": "https://accessfreetools.com/blog/how-to-use-personal-loan-calculator/"
-    },
-    {
-      "attemptedAt": null,
-      "reason": "Not attempted after Search Console reported the daily request quota was exceeded.",
-      "url": "https://accessfreetools.com/blog/how-to-use-four-in-a-row-game/"
+      "reason": "Fresh exact URL Inspection on 2026-08-17 reports Discovered - currently not indexed. This is the second URL in the next request batch and has not previously been submitted.",
+      "url": "https://accessfreetools.com/blog/how-to-use-json-to-csv-converter/"
     }
   ]
 }

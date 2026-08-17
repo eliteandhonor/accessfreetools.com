@@ -1704,9 +1704,11 @@ describe('site content audit guardrails', () => {
     expect(MIDDLEWARE_SOURCE).toContain('LEGACY_REDIRECTS');
     expect(MIDDLEWARE_SOURCE).toContain('/advanced-age-calculator');
     expect(MIDDLEWARE_SOURCE).toContain('/tools/age-calculator/');
+    expect(MIDDLEWARE_SOURCE).toContain('/tools/love-calculator/');
     expect(MIDDLEWARE_SOURCE).toContain('/maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025');
     expect(MIDDLEWARE_SOURCE).toContain('/tools/ad-revenue-calculator/');
     expect(HTACCESS_SOURCE).toContain('RewriteRule ^advanced-age-calculator/?$ /tools/age-calculator/');
+    expect(HTACCESS_SOURCE).toContain('RewriteRule ^tools/love/?$ /tools/love-calculator/');
     expect(HTACCESS_SOURCE).toContain(
       'RewriteRule ^maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025/?$ /tools/ad-revenue-calculator/',
     );
@@ -1945,12 +1947,11 @@ describe('site content audit guardrails', () => {
     expect(ASTRO_CONFIG_SOURCE).toContain('AFT_API_BETA_TOKEN');
     expect(ASTRO_CONFIG_SOURCE).toContain('SMTP_PASS');
     expect(PACKAGE_JSON_SOURCE).toContain('"start": "node ./app.js"');
-    expect(APP_JS_SOURCE).toContain("import('./dist/server/entry.mjs').catch");
-    expect(APP_JS_SOURCE).toContain("process.env.PORT = '3000'");
+    expect(APP_JS_SOURCE).toContain("startHostingerServer(new URL('./dist/server/entry.mjs', import.meta.url))");
     expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("join(distDir, 'app.js')");
-    expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("import('./server/entry.mjs').catch");
-    expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("process.env.PORT = '3000'");
-    expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("process.env.HOST = '0.0.0.0'");
+    expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("startHostingerServer(new URL('./server/entry.mjs', import.meta.url))");
+    expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("join(serverDir, 'hostinger-server.mjs')");
+    expect(MIRROR_STATIC_OUTPUT_SOURCE).toContain("join(serverDir, 'hostinger-request-redirects.mjs')");
     expect(MIRROR_STATIC_OUTPUT_SOURCE).not.toContain('serverChunksDir');
     expect(MIRROR_STATIC_OUTPUT_SOURCE).not.toContain('server_.*');
 

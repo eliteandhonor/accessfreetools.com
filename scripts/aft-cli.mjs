@@ -25,6 +25,8 @@ import {
 } from './lib/seo-tool-review.mjs';
 
 const SITE_ORIGIN = 'https://accessfreetools.com';
+const EVIDENCE_FRESH_DAYS = 7;
+const DAY_MS = 24 * 60 * 60 * 1000;
 const root = process.cwd();
 
 const evidencePaths = {
@@ -296,7 +298,32 @@ function getHostingerStatus() {
   };
 }
 
-function getIndexingGaps() {
+function evidenceFreshness(generatedAt, now = Date.now()) {
+  const generatedTime = Date.parse(generatedAt ?? '');
+  if (!Number.isFinite(generatedTime)) return { ageDays: null, label: 'undated' };
+
+  const ageDays = Math.max(0, (now - generatedTime) / DAY_MS);
+  return {
+    ageDays: Number(ageDays.toFixed(1)),
+    label: ageDays <= EVIDENCE_FRESH_DAYS ? 'fresh' : 'stale',
+  };
+}
+
+function evidenceDetails(generatedAt, source) {
+  return {
+    generatedAt: generatedAt ?? '',
+    source,
+    ...evidenceFreshness(generatedAt),
+  };
+}
+
+function formatEvidenceDetails(evidence) {
+  const date = evidence?.generatedAt || 'unknown date';
+  const age = evidence?.ageDays == null ? '' : `, ${evidence.ageDays} day(s) old`;
+  return `${evidence?.label ?? 'undated'}; ${date}${age}; source ${evidence?.source ?? 'unknown'}`;
+}
+
+function getIndexingGapSnapshot() {
   const inspection = readJson(evidencePaths.searchConsole);
   const seoReport = readJson(evidencePaths.seoEvaluation);
   const fromInspection = Array.isArray(inspection?.inspections)
@@ -316,11 +343,33 @@ function getIndexingGaps() {
       }))
     : [];
   const items = fromInspection.length ? fromInspection : fromSeo;
-
-  return items.filter((item) => {
+  const gaps = items.filter((item) => {
     const joined = `${item.verdict} ${item.state}`;
     return !/^PASS$/i.test(String(item.verdict)) && /unknown|not indexed|discovered|crawled/i.test(joined);
   });
+
+  if (fromInspection.length) {
+    const newestItemDate = inspection.inspections
+      .map((item) => item.sourceGeneratedAt ?? '')
+      .filter(Boolean)
+      .sort((left, right) => Date.parse(right) - Date.parse(left))[0];
+    const generatedAt = inspection.latestSourceGeneratedAt ?? newestItemDate ?? inspection.generatedAt ?? '';
+    return {
+      evidence: evidenceDetails(generatedAt, evidencePaths.searchConsole),
+      evidenceKind: 'exact-url-inspection',
+      items: gaps,
+    };
+  }
+
+  return {
+    evidence: evidenceDetails(seoReport?.generatedAt ?? '', evidencePaths.seoEvaluation),
+    evidenceKind: 'aggregate-seo-summary',
+    items: gaps,
+  };
+}
+
+function getIndexingGaps() {
+  return getIndexingGapSnapshot().items;
 }
 
 function getSearchConsoleIndexingRequests() {
@@ -366,12 +415,19 @@ function indexingGapRecommendation(gaps, requestReport) {
   if (!gaps.length) return 'No indexing gaps found in the current local snapshot.';
 
   const requestedGaps = gaps.filter((gap) => searchConsoleIndexingRequestForUrl(gap.url, requestReport));
+  const deferredGaps = gaps.filter(
+    (gap) => !searchConsoleIndexingRequestForUrl(gap.url, requestReport) && searchConsoleIndexingDeferredForUrl(gap.url, requestReport),
+  );
   if (requestedGaps.length === gaps.length) {
     return 'Recommended action: Search Console UI request-indexing is already submitted for every current gap; do not repeat clicks yet. Recheck URL Inspection after Google crawls.';
   }
 
   if (requestedGaps.length > 0) {
     return `Recommended action: ${requestedGaps.length}/${gaps.length} gaps already have request-indexing proof; recheck those after Google crawls, and use link-helper/URL Inspection only for the remaining gaps.`;
+  }
+
+  if (deferredGaps.length === gaps.length) {
+    return 'Recommended action: every current exact gap is already queued in the local request registry. Request only that batch in Search Console, save visible confirmation, and do not rewrite the pages first.';
   }
 
   return 'Recommended action: improve contextual internal links, submit discovery, and use one quality-passed promotion item when useful.';
@@ -382,6 +438,7 @@ function getCoverageExportSummary() {
   if (!report || report.parseError) return null;
 
   return {
+    evidence: evidenceDetails(report.generatedAt ?? '', evidencePaths.searchConsoleCoverageExport),
     generatedAt: report.generatedAt ?? '',
     latest: report.latest ?? null,
     totals: report.totals ?? null,
@@ -431,6 +488,7 @@ function getCoverageDrilldownSummary() {
 
   return {
     actions: coverageDrilldownActions(report, watchProof),
+    evidence: evidenceDetails(report.generatedAt ?? '', evidencePaths.searchConsoleCoverageDrilldown),
     generatedAt: report.generatedAt ?? '',
     issue: report.metadata?.Issue ?? 'unknown',
     newestExamples: report.newestExamples ?? [],
@@ -444,6 +502,7 @@ function getPerformanceExportSummary() {
   if (!report || report.parseError) return null;
 
   return {
+    evidence: evidenceDetails(report.generatedAt ?? '', evidencePaths.searchConsolePerformanceExport),
     generatedAt: report.generatedAt ?? '',
     totals: report.totals ?? null,
     tierARecovery: report.tierARecovery ?? [],
@@ -956,7 +1015,8 @@ function promoteNextCommand(command) {
 }
 
 function indexingGapsCommand(command) {
-  const gaps = getIndexingGaps();
+  const indexingSnapshot = getIndexingGapSnapshot();
+  const gaps = indexingSnapshot.items;
   const coverageExport = getCoverageExportSummary();
   const coverageDrilldown = getCoverageDrilldownSummary();
   const performanceExport = getPerformanceExportSummary();
@@ -993,11 +1053,16 @@ function indexingGapsCommand(command) {
       deferredTotal: indexingRequests.deferred.length,
       total: indexingRequests.requests.length,
     },
+    inspectionEvidence: {
+      ...indexingSnapshot.evidence,
+      kind: indexingSnapshot.evidenceKind,
+    },
     performanceExport,
   };
 
   emit(command, payload, [
-    `Indexing gaps: ${gaps.length}`,
+    `Exact URL inspection gaps: ${gaps.length}`,
+    `Exact URL inspection evidence: ${formatEvidenceDetails(indexingSnapshot.evidence)}; kind ${indexingSnapshot.evidenceKind}.`,
     ...gapsWithRequestProof.slice(0, 10).map((gap, index) => {
       const requestedAt = gap.indexingRequest ? formatIndexingRequestTime(gap.indexingRequest) : '';
       return `${index + 1}. ${gap.url} - ${gap.state}${gap.lastCrawlTime ? ` (last crawl ${gap.lastCrawlTime})` : ''}${
@@ -1005,20 +1070,20 @@ function indexingGapsCommand(command) {
       }${!gap.indexingRequest && gap.indexingDeferred ? `; request deferred: ${gap.indexingDeferred.reason}` : ''}`;
     }),
     coverageExport
-      ? `Coverage export: latest ${coverageExport.latest?.date ?? 'unknown'} has ${coverageExport.totals?.latestIndexed ?? 'unknown'} indexed and ${coverageExport.totals?.latestNotIndexed ?? 'unknown'} not indexed; critical buckets total ${coverageExport.totals?.criticalPages ?? 'unknown'} pages.`
+      ? `Coverage aggregate (${formatEvidenceDetails(coverageExport.evidence)}): latest data row ${coverageExport.latest?.date ?? 'unknown'} has ${coverageExport.totals?.latestIndexed ?? 'unknown'} indexed and ${coverageExport.totals?.latestNotIndexed ?? 'unknown'} not indexed; critical buckets total ${coverageExport.totals?.criticalPages ?? 'unknown'} pages.`
       : 'Coverage export: not imported yet. Run npm run search-console:import-coverage after downloading Google Coverage CSVs.',
     ...(coverageExport?.criticalIssues?.length
       ? coverageExport.criticalIssues.map((issue) => `- ${issue.reason}: ${issue.pages} page(s), validation ${issue.validation}`)
       : []),
     coverageDrilldown
-      ? `Coverage drilldown: ${coverageDrilldown.issue}, ${coverageDrilldown.totals?.rowCount ?? 0} URL example(s); types ${Object.entries(
+      ? `Coverage drilldown aggregate (${formatEvidenceDetails(coverageDrilldown.evidence)}): ${coverageDrilldown.issue}, ${coverageDrilldown.totals?.rowCount ?? 0} URL example(s); types ${Object.entries(
           coverageDrilldown.totals?.rowsByType ?? {},
         )
           .map(([type, count]) => `${type} ${count}`)
           .join(', ') || 'unknown'}.`
       : 'Coverage drilldown: not imported yet. Run npm run search-console:import-coverage-drilldown after downloading a Coverage Drilldown export.',
     performanceExport
-      ? `Performance/deindex export: ${performanceExport.totals?.deindexedRows ?? 0} deindexed URLs, ${performanceExport.totals?.pageImpressions ?? 'unknown'} page impressions, ${performanceExport.totals?.pageClicks ?? 'unknown'} page clicks.`
+      ? `Performance/deindex aggregate (${formatEvidenceDetails(performanceExport.evidence)}): ${performanceExport.totals?.deindexedRows ?? 0} deindexed URLs, ${performanceExport.totals?.pageImpressions ?? 'unknown'} page impressions, ${performanceExport.totals?.pageClicks ?? 'unknown'} page clicks.`
       : 'Performance/deindex export: not imported yet. Run npm run search-console:import-performance after downloading Search Performance CSVs.',
     ...(performanceExport?.tierARecovery?.length
       ? [`Tier A recovery sample: ${performanceExport.tierARecovery.slice(0, 5).map((item) => item.path).join(', ')}`]

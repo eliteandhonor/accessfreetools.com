@@ -26,6 +26,103 @@ afterEach(() => {
 });
 
 describe('aft CLI indexing gaps', () => {
+  it('labels exact URL inspection freshness separately from aggregate evidence', () => {
+    const root = makeRoot();
+    const generatedAt = new Date().toISOString();
+
+    writeFixture(
+      root,
+      'output/search-console-url-inspection.json',
+      JSON.stringify({
+        generatedAt,
+        inspections: [
+          {
+            coverageState: 'Discovered - currently not indexed',
+            inspectionUrl: 'https://accessfreetools.com/tools/json-to-csv-converter/',
+            verdict: 'NEUTRAL',
+          },
+        ],
+      }),
+    );
+    writeFixture(
+      root,
+      'output/search-console/performance-latest.json',
+      JSON.stringify({
+        generatedAt: '2026-01-01T00:00:00.000Z',
+        totals: { deindexedRows: 118, pageClicks: 12, pageImpressions: 9276 },
+      }),
+    );
+
+    const result = spawnSync(process.execPath, [aftCli, 'indexing-gaps'], {
+      cwd: root,
+      encoding: 'utf8',
+    });
+
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain('Exact URL inspection gaps: 1');
+    expect(result.stdout).toContain('Exact URL inspection evidence: fresh');
+    expect(result.stdout).toContain('Performance/deindex aggregate (stale');
+  });
+
+  it('labels old exact inspections as stale instead of presenting them as current', () => {
+    const root = makeRoot();
+
+    writeFixture(
+      root,
+      'output/search-console-url-inspection.json',
+      JSON.stringify({
+        generatedAt: '2026-01-01T00:00:00.000Z',
+        inspections: [
+          {
+            coverageState: 'Crawled - currently not indexed',
+            inspectionUrl: 'https://accessfreetools.com/tools/percentage-calculator/',
+            verdict: 'NEUTRAL',
+          },
+        ],
+      }),
+    );
+
+    const result = spawnSync(process.execPath, [aftCli, 'indexing-gaps'], {
+      cwd: root,
+      encoding: 'utf8',
+    });
+
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain('Exact URL inspection evidence: stale');
+  });
+
+  it('keeps deferred exact gaps as a request-only batch instead of recommending rewrites', () => {
+    const root = makeRoot();
+    const url = 'https://accessfreetools.com/tools/json-to-csv-converter/';
+
+    writeFixture(
+      root,
+      'output/search-console-url-inspection.json',
+      JSON.stringify({
+        generatedAt: new Date().toISOString(),
+        inspections: [{ coverageState: 'Discovered - currently not indexed', inspectionUrl: url, verdict: 'NEUTRAL' }],
+      }),
+    );
+    writeFixture(
+      root,
+      'docs/search-console-indexing-requests.json',
+      JSON.stringify({
+        deferred: [{ attemptedAt: null, reason: 'Next exact request batch.', url }],
+        requests: [],
+      }),
+    );
+
+    const result = spawnSync(process.execPath, [aftCli, 'indexing-gaps'], {
+      cwd: root,
+      encoding: 'utf8',
+    });
+
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain('already queued in the local request registry');
+    expect(result.stdout).toContain('do not rewrite the pages first');
+    expect(result.stdout).not.toContain('improve contextual internal links');
+  });
+
   it('uses request-indexing proof before recommending repeat SEO actions', () => {
     const root = makeRoot();
     const url = 'https://accessfreetools.com/tools/percentage-calculator/';

@@ -10,3 +10,4 @@ Append dated actions, commands, report paths, and blockers. Do not rewrite prior
 - 2026-07-29: Focused importer and writing tests passed: 4 files and 26 tests.
 - 2026-07-29: Added npm 11 option forwarding coverage for exact `--zip`, `--file`, and `--no-overview` interfaces. The final merged inspection run reports 403 URLs and 125 current gaps; the earlier 124 count remains a dated intermediate snapshot.
 - 2026-07-29: Release and Proof Judge approved EV-01 through EV-03 after 430 combined tests, exact July 29 imports, source hashing, and newest-per-URL proof passed.
+- 2026-08-17: Added separate exact URL Inspection and aggregate evidence labels to `aft indexing-gaps`. Each source now reports its path, generated date, age, and `fresh`, `stale`, or `undated`; focused CLI tests passed and EV-04 is evidence-ready pending the full release gate.

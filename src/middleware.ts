@@ -1,6 +1,7 @@
 import { defineMiddleware } from 'astro:middleware';
 import { getRedirectedBlogGuidePath } from './data/blogGuideCanonicals';
 import { robotsContentForPath } from './data/indexationPolicy';
+import { collapseRepeatedPublicPageSlashes } from './lib/canonicalPathRedirects';
 
 const CANONICAL_HOST = 'accessfreetools.com';
 const WWW_HOST = `www.${CANONICAL_HOST}`;
@@ -11,6 +12,7 @@ const LEGACY_REDIRECTS = new Map<string, string>([
   ['/calculators', '/categories/calculators/'],
   ['/deep-research', '/categories/ai-tools/'],
   ['/advanced-age-calculator', '/tools/age-calculator/'],
+  ['/tools/love', '/tools/love-calculator/'],
   [
     '/maximize-your-revenue-the-ultimate-free-google-adsense-earnings-calculator-for-2025',
     '/tools/ad-revenue-calculator/',
@@ -78,11 +80,19 @@ function applyResponseHeaders(response: Response, url: URL) {
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url);
+  const collapsedPath = collapseRepeatedPublicPageSlashes(url.pathname, context.request.method);
   const legacyTarget = LEGACY_REDIRECTS.get(normalizeLegacyPath(url.pathname));
   const duplicateBlogTarget = getRedirectedBlogGuidePath(url.pathname);
 
   if (url.hostname.toLowerCase() === WWW_HOST) {
     url.hostname = CANONICAL_HOST;
+    if (collapsedPath) url.pathname = collapsedPath;
+    url.protocol = 'https:';
+    return applyResponseHeaders(context.redirect(url.toString(), 301), url);
+  }
+
+  if (collapsedPath && url.hostname.toLowerCase() === CANONICAL_HOST) {
+    url.pathname = collapsedPath;
     url.protocol = 'https:';
     return applyResponseHeaders(context.redirect(url.toString(), 301), url);
   }

@@ -1,4 +1,4 @@
-import { cpSync, existsSync, readdirSync, writeFileSync } from 'node:fs';
+import { copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const distDir = join(process.cwd(), 'dist');
@@ -19,17 +19,20 @@ for (const entry of readdirSync(clientDir, { withFileTypes: true })) {
   });
 }
 
+const serverDir = join(distDir, 'server');
+mkdirSync(serverDir, { recursive: true });
+copyFileSync(join(process.cwd(), 'scripts', 'lib', 'hostinger-server.mjs'), join(serverDir, 'hostinger-server.mjs'));
+copyFileSync(
+  join(process.cwd(), 'scripts', 'lib', 'hostinger-request-redirects.mjs'),
+  join(serverDir, 'hostinger-request-redirects.mjs'),
+);
+
 writeFileSync(
   join(distDir, 'app.js'),
   [
-    "const parsedPort = Number(process.env.PORT);",
-    "if (!process.env.PORT || process.env.PORT === 'undefined' || !Number.isFinite(parsedPort) || parsedPort <= 0) {",
-    "  process.env.PORT = '3000';",
-    '}',
-    "if (!process.env.HOST || process.env.HOST === 'undefined') {",
-    "  process.env.HOST = '0.0.0.0';",
-    '}',
-    "import('./server/entry.mjs').catch((error) => {",
+    "import { startHostingerServer } from './server/hostinger-server.mjs';",
+    '',
+    "startHostingerServer(new URL('./server/entry.mjs', import.meta.url)).catch((error) => {",
     '  console.error(error);',
     '  process.exitCode = 1;',
     '});',
@@ -37,4 +40,4 @@ writeFileSync(
   ].join('\n'),
 );
 
-console.log('Mirrored dist/client into dist and wrote the guarded dist/app.js Hostinger entry.');
+console.log('Mirrored dist/client and wrote the guarded Node 24 Hostinger entry.');
