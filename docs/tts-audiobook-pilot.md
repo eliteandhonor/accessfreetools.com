@@ -128,6 +128,14 @@ Verified on August 18, 2026 against the local Astro production preview:
 - Desktop at 1440px and mobile layout at 390px had no horizontal overflow. The current full accessibility check passed every tested TTS page and viewport pair.
 - Physical Android, iOS, and Safari generation have not been tested. They remain unsupported for beta compatibility claims until real-device evidence exists; viewport emulation is not counted.
 
+### Production beta start
+
+- The expanded release was deployed on August 18, 2026 from commit `359d0068` on Astro 7 and Node 24.
+- A fresh Chrome production run with WebGPU disabled used Kokoro q8 WebAssembly and downloaded a valid 1.92-second MP3 at exactly 128 kbps.
+- The production result remained paused, used a blob-backed audio URL, loaded only the selected Bella voice file, and did not place the test text in request URLs or bodies.
+- Both public pages returned `noindex,follow` and remain excluded from XML sitemaps.
+- The restarted seven-day beta runs through August 24, 2026. The earliest indexability review is August 25, 2026, after a fresh production, browser, privacy, and sitemap check.
+
 ### Earlier two-model runtime evidence
 
 - Microsoft Edge loaded the full-precision Kokoro model on WebGPU, used the Bella voice, and generated an audible 8.808-second MP3 at 24 kHz, mono, exactly 128 kbps. The first uncached run completed in 70.4 seconds.
@@ -143,7 +151,7 @@ Verified on August 18, 2026 against the local Astro production preview:
 - The inspected generation requests contained model and runtime files only. The pasted test sentence did not appear in a request URL or body.
 - Browser generation produced no page errors. Transformers.js emitted one non-fatal architecture-mapping warning while loading Kokoro.
 
-The seven-day beta restarts only after the expanded release is deployed and live generation is verified. The pages therefore remain `noindex,follow` and outside XML sitemaps.
+The expanded release is deployed and live generation is verified. The pages remain `noindex,follow` and outside XML sitemaps for the seven-day beta recorded above.
 
 ## Release Gates
 
