@@ -4564,6 +4564,22 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "text-to-speech-audiobook-generator",
+    "kind": "guide",
+    "imagePath": "/tool-art/text-to-speech-audiobook-generator-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/text-to-speech-audiobook-generator-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "text-to-speech-audiobook-generator",
+    "kind": "tool",
+    "imagePath": "/tool-art/text-to-speech-audiobook-generator-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/text-to-speech-audiobook-generator-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "tile-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/tile-calculator-guide.webp",

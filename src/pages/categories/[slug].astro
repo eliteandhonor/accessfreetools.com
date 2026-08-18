@@ -89,9 +89,9 @@ const categorySeoOverrides: Partial<
     title: 'Free Browser AI Tools | Access Free Tools',
     heading: 'AI Tools',
     description:
-      'Try browser-only AI tools for OCR, summaries, sentiment, language detection, keywords, image labels, tone, and reading level checks.',
+      'Try browser AI tools for OCR, summaries, sentiment, language checks, reading feedback, and local audiobook generation.',
     intro:
-      'Use browser AI tools for quick text and image helpers that run locally when the model is available in the browser. They are built for private first drafts, checks, and learning, with clear notes about model downloads, confidence limits, and when to double-check the result.',
+      'Use browser AI tools for quick text, image, and speech helpers that run on your device. Some heavier models download from a third-party model host after you choose to load them. Each page explains the download, privacy limits, and what you should double-check.',
   },
   'developer-tools': {
     title: 'Free Developer Tools | Access Free Tools',
@@ -335,6 +335,11 @@ const categoryIntentConfig: Partial<
         title: 'I need prompt size math',
         text: 'Estimate rough token usage before sending a prompt to a model with a context limit.',
       },
+      {
+        href: '/tools/text-to-speech-audiobook-generator/',
+        title: 'I need chapter audio',
+        text: 'Prepare permitted TXT or EPUB text and generate one downloadable WAV chapter at a time in your browser.',
+      },
     ],
   },
   'developer-tools': {
@@ -512,7 +517,7 @@ const categoryGuideConfig: Partial<
   'ai-tools': {
     heading: 'Guides for browser AI limits',
     text:
-      'AI helpers are useful when the limits are visible. These guides explain privacy, model downloads, uncertainty, and when to double-check.',
+      'AI helpers are useful when the limits are visible. These guides explain browser processing, model downloads, privacy, uncertainty, and when to double-check.',
     links: [
       {
         href: '/blog/how-to-use-image-to-text-ocr-tool/',
@@ -533,6 +538,11 @@ const categoryGuideConfig: Partial<
         href: '/blog/how-to-use-prompt-token-estimator/',
         title: 'Prompt token guide',
         text: 'Rough token counts, model differences, context windows, and cost-limit planning.',
+      },
+      {
+        href: '/blog/how-to-use-text-to-speech-audiobook-generator/',
+        title: 'Audiobook TTS guide',
+        text: 'TXT and EPUB preparation, fixed voices, local chapter limits, model downloads, rights, and pronunciation checks.',
       },
     ],
   },
@@ -754,7 +764,7 @@ const categoryTrustNotes: Partial<
     className: 'trust-note-ai',
     title: 'Private-first AI with model limits',
     text:
-      'AI tools are designed to run in the browser and not upload your input to Access Free Tools. Some models may download from a third-party host unless we self-host them later, and AI results can be wrong or uncertain.',
+      'AI tools run in the browser and do not upload your input to Access Free Tools. Some models download from a third-party host after you choose to load them. Results can still be wrong, uncertain, or unsuitable for sensitive information.',
   },
   'developer-tools': {
     className: 'trust-note-utility',
@@ -817,9 +827,9 @@ const categoryTasks: Record<string, string[]> = {
     'Practical notes for export dimensions, color states, and platform-specific requirements.',
   ],
   'ai-tools': [
-    'Browser-only AI helpers for OCR, text summaries, sentiment, language checks, image labels, and writing feedback.',
-    'Local-first workflows where text or images are not uploaded to Access Free Tools.',
-    'Plain-language model limits so visitors know when to double-check an AI result.',
+    'Local browser helpers for OCR, summaries, sentiment, language checks, image labels, and writing feedback.',
+    'Explicit model-download notices before heavier browser AI files use bandwidth or device memory.',
+    'Plain-language privacy and model limits so visitors know what stays on the device and what to double-check.',
   ],
   converters: [
     'Fast metric and U.S. customary conversions for length, mass, volume, temperature, and future unit tools.',

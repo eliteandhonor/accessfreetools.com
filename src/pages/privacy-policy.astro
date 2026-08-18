@@ -17,7 +17,7 @@ import BaseLayout from '../components/BaseLayout.astro';
   </section>
 
   <section class="content-section content-section-narrow legal-copy">
-    <p><strong>Last updated:</strong> July 10, 2026</p>
+    <p><strong>Last updated:</strong> August 18, 2026</p>
 
     <h2>Overview</h2>
     <p>
@@ -28,9 +28,23 @@ import BaseLayout from '../components/BaseLayout.astro';
 
     <h2>Browser-first tools</h2>
     <p>
-      Current tools run in your browser. Calculator history, random number results, and similar
+      Most tools run in your browser. Calculator history, random number results, and similar
       temporary tool outputs stay in the current browser tab while you use the page and are not
       sent to a server by these tools.
+    </p>
+
+    <h2>Text-to-speech audiobook pilot</h2>
+    <p>
+      The audiobook pilot reads pasted text, TXT, or EPUB input, runs the speech model, and creates
+      WAV audio inside your browser. Access Free Tools does not receive or store the text, original
+      file, filename, book title, or generated audio. The temporary audio URL disappears when the
+      browser tab is closed or refreshed.
+    </p>
+    <p>
+      After you choose to load the model, the browser downloads pinned model and voice files from
+      Hugging Face. Those requests can expose ordinary network request information to Hugging Face,
+      but they do not contain your chapter text. The pilot records only bounded, text-free actions
+      such as model ready, generation complete, cancellation, and download.
     </p>
 
     <h2>Information we may collect</h2>
@@ -95,6 +109,10 @@ import BaseLayout from '../components/BaseLayout.astro';
       Access Free Tools does not load Clarity on private admin or private analytics pages. The site
       also avoids loading Clarity when the browser has Do Not Track enabled or when this browser has
       the Access Free Tools analytics opt-out set in local storage.
+    </p>
+    <p>
+      Text, chapter, model-status, and generated-audio surfaces in the audiobook pilot are masked
+      from Clarity. We record only bounded, text-free events needed to understand whether the pilot works.
     </p>
 
     <h2>Clipboard actions</h2>

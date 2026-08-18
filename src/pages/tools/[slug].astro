@@ -15,6 +15,7 @@ import HalfLifeCalculator from '../../components/HalfLifeCalculator';
 import HealthFitnessCalculator, { type HealthToolVariant } from '../../components/HealthFitnessCalculator';
 import HexCalculator from '../../components/HexCalculator';
 import JsonToCsvConverter from '../../components/JsonToCsvConverter';
+import TextToSpeechAudiobookGenerator from '../../components/TextToSpeechAudiobookGenerator';
 import LogCalculator from '../../components/LogCalculator';
 import MatrixCalculator from '../../components/MatrixCalculator';
 import NumberTheoryCalculator from '../../components/NumberTheoryCalculator';
@@ -465,6 +466,7 @@ const isAiTool = Boolean(aiToolVariant);
 const isReadingLevelTool = tool.slug === 'reading-level-checker';
 const isFourInARowGame = tool.slug === 'four-in-a-row-game';
 const isJsonToCsvConverter = tool.slug === 'json-to-csv-converter';
+const isTextToSpeechAudiobookGenerator = tool.slug === 'text-to-speech-audiobook-generator';
 const hasInteractiveTool =
   isCalculatorTool ||
   isPercentageTool ||
@@ -493,7 +495,8 @@ const hasInteractiveTool =
   Boolean(utilityToolVariant) ||
   Boolean(aiToolVariant) ||
   isFourInARowGame ||
-  isJsonToCsvConverter;
+  isJsonToCsvConverter ||
+  isTextToSpeechAudiobookGenerator;
 const statsToolInstructions: Record<string, string[]> = {
   'standard-deviation-calculator': [
     'Enter a list of numbers separated by commas, spaces, or line breaks.',
@@ -1747,7 +1750,15 @@ const jsonToCsvInstructions = isJsonToCsvConverter
       'Copy the CSV or download it. Add a UTF-8 BOM only when your spreadsheet app needs help reading non-English characters.',
     ]
   : undefined;
-const toolInstructions = jsonToCsvInstructions ?? gameToolInstructions ?? statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
+const textToSpeechInstructions = isTextToSpeechAudiobookGenerator
+  ? [
+      'Paste text you have permission to convert, or choose a TXT or EPUB file up to 10 MB.',
+      'Choose one chapter of at most 10,000 characters, then select its language, fixed voice, speed, and quality passes.',
+      'Confirm the rights and model-use notice, then load about 398 MB of pinned model files into the browser.',
+      'Generate, listen, and download the WAV before closing or refreshing the tab.',
+    ]
+  : undefined;
+const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? gameToolInstructions ?? statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
   ? [
       'Choose the percentage question you want to answer.',
       'For Reverse percent, choose whether you know a part or a final value after an increase or decrease.',
@@ -1949,7 +1960,7 @@ const toolInstructions = jsonToCsvInstructions ?? gameToolInstructions ?? statsT
         <h1>{displayName}</h1>
         <p>{displayDescription}</p>
       </div>
-      <div class="tool-title-actions" aria-label="Tool page actions">
+      <div class="tool-title-actions" role="group" aria-label="Tool page actions">
         <a class="button-primary" href={guidePath}>Read guide</a>
         <a class="button-secondary" href="/tools/">All tools</a>
       </div>
@@ -2471,7 +2482,7 @@ const toolInstructions = jsonToCsvInstructions ?? gameToolInstructions ?? statsT
     }
 
     {
-      isAiTool && (
+      isAiTool && !isTextToSpeechAudiobookGenerator && (
         <div class="advanced-tool-points ai-tool-points" aria-label={`${tool.name} highlights`}>
           {isReadingLevelTool ? (
             <>
@@ -2488,6 +2499,17 @@ const toolInstructions = jsonToCsvInstructions ?? gameToolInstructions ?? statsT
               <span>Copy after checking</span>
             </>
           )}
+        </div>
+      )
+    }
+
+    {
+      isTextToSpeechAudiobookGenerator && (
+        <div class="advanced-tool-points ai-tool-points" role="group" aria-label={`${tool.name} highlights`}>
+          <span>TXT and EPUB preparation</span>
+          <span>31 language choices</span>
+          <span>10 fixed voices</span>
+          <span>Local WAV in this tab</span>
         </div>
       )
     }
@@ -4047,6 +4069,24 @@ const toolInstructions = jsonToCsvInstructions ?? gameToolInstructions ?? statsT
       )
     }
 
+    {
+      isTextToSpeechAudiobookGenerator && (
+        <aside class="trust-note trust-note-ai" aria-label={`${tool.name} browser processing and license limits`}>
+          <strong>Browser speech model with no text upload</strong>
+          <p>
+            TXT or EPUB preparation, speech generation, preview, and WAV creation happen in this browser tab. Your
+            text and filename are not uploaded to Access Free Tools. The pinned model is about 398 MB and downloads
+            from its model host only after you choose to load it.
+          </p>
+          <p>
+            Use only text you have permission to convert. Supertonic 3 uses fixed voices and OpenRAIL-M model terms;
+            this page does not offer voice cloning, promise perfect pronunciation, or guarantee that every device can
+            run the model.
+          </p>
+        </aside>
+      )
+    }
+
     {hasInteractiveTool && (
       <div
         class="tool-interaction-surface"
@@ -4087,6 +4127,7 @@ const toolInstructions = jsonToCsvInstructions ?? gameToolInstructions ?? statsT
         {aiToolVariant && <AiBrowserTool variant={aiToolVariant} client:load />}
         {isFourInARowGame && <FourInARowGame client:load />}
         {isJsonToCsvConverter && <JsonToCsvConverter client:load />}
+        {isTextToSpeechAudiobookGenerator && <TextToSpeechAudiobookGenerator client:load />}
       </div>
     )}
 
@@ -4180,7 +4221,7 @@ const toolInstructions = jsonToCsvInstructions ?? gameToolInstructions ?? statsT
       </ul>
     </section>
 
-    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section', isGeometryTool && 'advanced-faq-section', isHealthTool && 'advanced-faq-section', isFinanceTool && 'advanced-faq-section', isUtilityTool && 'advanced-faq-section', isAiTool && 'advanced-faq-section', isJsonToCsvConverter && 'advanced-faq-section']}>
+    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section', isGeometryTool && 'advanced-faq-section', isHealthTool && 'advanced-faq-section', isFinanceTool && 'advanced-faq-section', isUtilityTool && 'advanced-faq-section', isAiTool && 'advanced-faq-section', isJsonToCsvConverter && 'advanced-faq-section', isTextToSpeechAudiobookGenerator && 'advanced-faq-section']}>
       <div class="section-title-block">
         <h2>Frequently asked questions</h2>
         {isKawaiiTool && <p>Quick answers about the cute design, shortcuts, privacy, and copying results.</p>}
@@ -4216,6 +4257,7 @@ const toolInstructions = jsonToCsvInstructions ?? gameToolInstructions ?? statsT
         )}
         {isUtilityTool && <p>Plain-language answers about when to use the tool, what it does with your inputs, what to double-check, and how privacy works.</p>}
         {isJsonToCsvConverter && <p>Plain-language answers about accepted JSON shapes, nested columns, CSV quoting, spreadsheet safety, file encoding, and browser privacy.</p>}
+        {isTextToSpeechAudiobookGenerator && <p>Plain-language answers about TXT and EPUB input, browser processing, model downloads, language and voice limits, rights, pronunciation checks, and device limits.</p>}
         {isAiTool && (
           isReadingLevelTool ? (
             <p>Plain-language answers about English formulas, sample size, sentence checks, privacy, and what the scores cannot prove.</p>

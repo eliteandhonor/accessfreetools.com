@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, relative, resolve } from 'node:path';
 
 import { extractToolRecords, genericContentPhrases, readJson, SITE_ORIGIN } from './agent-tools-report.mjs';
+import { readExplicitIndexationPolicies } from './indexation-policy-source.mjs';
 
 export const SEO_REVIEW_OUTPUT_DIR = 'output/seo-tool-review';
 export const SEO_REVIEW_TRACKER_PATH = 'docs/seo-tool-review-queue.md';
@@ -483,6 +484,7 @@ Generated: ${report.generatedAt}
 - Page review units: ${report.summary.pages}
 - Approved page review units: ${report.summary.approvedPages}
 - Remaining page review units: ${report.summary.remainingPages}
+- Deferred noindex page units: ${report.summary.deferredPages}
 - Approval unit: ${report.summary.approvalUnit}
 ${gate}
 
@@ -496,20 +498,20 @@ ${rows}
 
 export function buildSeoToolQueueReport(options = {}) {
   const generatedAt = new Date().toISOString();
-  const tools = extractToolRecords();
+  const allTools = extractToolRecords();
   const trackerText =
     typeof options.trackerText === 'string' ? options.trackerText : readText(SEO_REVIEW_TRACKER_PATH);
   const approvalRows = parseApprovalRows(trackerText);
   const activeGate = activeApprovalGate(approvalRows);
   const approvalGate = activeGate.blocked ? activeGate : matchingPageApprovalGate(approvalRows);
-  const ranked = tools
+  const ranked = allTools
     .map((tool) => ({
       ...tool,
       priority: priorityForTool(tool),
     }))
     .sort((a, b) => b.priority.score - a.priority.score || a.category.localeCompare(b.category) || a.slug.localeCompare(b.slug));
 
-  const allEntries = ranked.flatMap((tool) =>
+  const candidateEntries = ranked.flatMap((tool) =>
     ['tool', 'blog'].map((page) => {
       const approval = approvalPageState(approvalRows, tool.slug, page);
       return {
@@ -526,6 +528,11 @@ export function buildSeoToolQueueReport(options = {}) {
       };
     }),
   );
+  const indexationPolicies = readExplicitIndexationPolicies();
+  const isReviewEligible = (entry) => indexationPolicies.get(routeFor(entry.slug, entry.page))?.index !== false;
+  const allEntries = candidateEntries.filter(isReviewEligible);
+  const deferredEntries = candidateEntries.filter((entry) => !isReviewEligible(entry));
+  const reviewToolCount = new Set(allEntries.map((entry) => entry.slug)).size;
   const entries = allEntries
     .filter((entry) => !entry.approval.approved)
     .filter(
@@ -550,9 +557,11 @@ export function buildSeoToolQueueReport(options = {}) {
           ? `${entries[0].slug}:${entries[0].page}`
           : '',
       pages: allEntries.length,
+      deferredPages: deferredEntries.length,
+      deferredTools: allTools.length - reviewToolCount,
       remainingPages: entries.length + (approvalGate.blocked ? 1 : 0),
       approvedPages,
-      tools: tools.length,
+      tools: reviewToolCount,
     },
     approvalGate,
     rules: [

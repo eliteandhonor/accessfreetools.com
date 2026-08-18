@@ -31,6 +31,20 @@ describe('indexation policy', () => {
     expect(robotsContentForPath('/sitemap/')).toBe('noindex,follow');
   });
 
+  it('keeps both TTS pilot pages noindexed and outside XML sitemaps before launch', () => {
+    for (const path of [
+      '/tools/text-to-speech-audiobook-generator/',
+      '/blog/how-to-use-text-to-speech-audiobook-generator/',
+    ]) {
+      const policy = getIndexationPolicy(path);
+      expect(policy.index).toBe(false);
+      expect(policy.follow).toBe(true);
+      expect(policy.includeInXmlSitemap).toBe(false);
+      expect(robotsContentForPath(path)).toBe('noindex,follow');
+      expect(shouldIncludeInXmlSitemap(path)).toBe(false);
+    }
+  });
+
   it('keeps RSS feed resources crawlable but out of Google landing pages', () => {
     for (const path of ['/feed.xml', '/pinterest-feed.xml']) {
       const policy = getIndexationPolicy(path);

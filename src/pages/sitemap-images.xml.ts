@@ -3,6 +3,7 @@ import type { APIRoute } from 'astro';
 import { editorialArticleImages } from '../data/editorialBlogPosts';
 import { toolArtEntries } from '../data/toolArt';
 import { absoluteUrl, escapeXml } from '../data/discovery';
+import { shouldIncludeInXmlSitemap } from '../data/indexationPolicy';
 import { getBlogDates, getToolLastmod } from '../data/siteDates';
 import { DISCOVERY_CACHE_CONTROL } from '../lib/cacheHeaders';
 
@@ -12,16 +13,20 @@ function lastmodForEntry(entry: (typeof toolArtEntries)[number]) {
 }
 
 function renderImageSitemap() {
-  const toolEntries = toolArtEntries.map((entry) => ({
-    pagePath: entry.pagePath,
-    imagePath: entry.imagePath,
-    lastmod: lastmodForEntry(entry),
-  }));
-  const editorialEntries = editorialArticleImages.map((entry) => ({
-    pagePath: entry.pagePath,
-    imagePath: entry.imagePath,
-    lastmod: getBlogDates(entry.slug).modified,
-  }));
+  const toolEntries = toolArtEntries
+    .filter((entry) => shouldIncludeInXmlSitemap(entry.pagePath))
+    .map((entry) => ({
+      pagePath: entry.pagePath,
+      imagePath: entry.imagePath,
+      lastmod: lastmodForEntry(entry),
+    }));
+  const editorialEntries = editorialArticleImages
+    .filter((entry) => shouldIncludeInXmlSitemap(entry.pagePath))
+    .map((entry) => ({
+      pagePath: entry.pagePath,
+      imagePath: entry.imagePath,
+      lastmod: getBlogDates(entry.slug).modified,
+    }));
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">

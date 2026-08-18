@@ -460,4 +460,100 @@ export const aiTools: ToolDefinition[] = [
     ],
     relatedSlugs: ['keyword-extractor', 'text-summarizer', 'word-counter'],
   }),
+  makeAiTool({
+    slug: 'text-to-speech-audiobook-generator',
+    name: 'Text to Speech Audiobook Generator',
+    summary: 'Turn permitted pasted text, TXT, or EPUB chapters into downloadable WAV audio directly in your browser.',
+    description:
+      'Prepare pasted text, TXT, or EPUB chapters in your browser, then run the multilingual Supertonic model on your device and download one WAV chapter at a time. No text is uploaded to Access Free Tools.',
+    aliases: ['Audiobook Generator', 'EPUB to Audiobook Converter', 'Multilingual Text to Speech'],
+    seoTitle: 'Text to Speech Audiobook Generator | TXT & EPUB',
+    seoDescription:
+      'Convert permitted pasted text, TXT, or EPUB chapters into multilingual WAV audio locally with 31 languages and 10 fixed voices.',
+    icon: 'tool-ai-voice',
+    modelNote:
+      'Uses a pinned Supertonic 3 ONNX model in a browser worker. The first run downloads about 398 MB of model files from Hugging Face, then inference and WAV creation stay on the visitor device.',
+    inputMeaning:
+      'Paste text or choose a TXT or EPUB file you have permission to convert. The browser extracts chapter text, blocks EPUB scripts and remote resources, and never sends the text, original file, or filename to Access Free Tools.',
+    resultMeaning:
+      'Generate and download one 44.1 kHz mono WAV chapter at a time. Listen to names, numbers, abbreviations, and technical terms before relying on the recording.',
+    doubleCheck:
+      'Check pronunciation, chapter order, language choice, missing lines, repeated lines, rights to the source text, and any prohibited use before sharing or publishing generated audio.',
+    useCases: [
+      'Create private listening copies of your own notes, drafts, stories, or public-domain text.',
+      'Turn a permitted EPUB into separate chapter WAV files without uploading the original book file.',
+      'Test pronunciation across 31 supported language choices and 10 fixed preset voices.',
+      'Prepare accessibility or study audio without a server queue, account, or paid processing plan.',
+    ],
+    examples: [
+      {
+        label: 'Short English draft',
+        expression: 'Paste a 2,000-character draft, choose English, preset F1, and 1.0x speed',
+        result: 'One 44.1 kHz mono WAV held in the browser tab for preview and download',
+      },
+      {
+        label: 'Three-chapter EPUB',
+        expression: 'Choose a permitted EPUB whose spine contains three readable chapters',
+        result: 'A chapter selector that lets you generate and download each chapter in spine order',
+      },
+      {
+        label: 'Language not specified',
+        expression: 'Choose best effort only when you do not know the text language',
+        result: 'Language-agnostic model processing, not a detected-language claim',
+      },
+    ],
+    faq: [
+      {
+        question: 'What files can the audiobook generator read?',
+        answer:
+          'The pilot accepts pasted text, UTF-8 or UTF-16 TXT files, and EPUB files up to 10 MB. It does not accept PDF, DOCX, URLs, custom voice files, or audio uploads.',
+      },
+      {
+        question: 'Does Access Free Tools upload my whole EPUB file?',
+        answer:
+          'No. The browser reads the EPUB, checks its ZIP directory, blocks scripts and remote resources, and follows the readable spine locally. The original file, filename, and extracted chapter text do not leave the browser.',
+      },
+      {
+        question: 'Where is the text-to-speech model running?',
+        answer:
+          'The Supertonic model runs in a dedicated worker inside your browser. Access Free Tools serves the page, while pinned model files are downloaded from Hugging Face only after you choose to load them.',
+      },
+      {
+        question: 'Does Access Free Tools store my text or generated audio?',
+        answer:
+          'No. Your text is not uploaded. It stays in a worker inside this browser tab, and generated WAV audio is held in a temporary browser URL for the current tab. Download the file before closing or refreshing the page.',
+      },
+      {
+        question: 'Does best effort detect the language?',
+        answer:
+          'No. Best effort tells the model to process text without a named language. Choose one of the 31 language options when you know it because the fallback is not language detection.',
+      },
+      {
+        question: 'Can I clone a voice or upload my own voice?',
+        answer:
+          'No. The pilot offers only the 10 fixed Supertonic voice presets F1 to F5 and M1 to M5. It does not support voice uploads, cloning, reference audio, or custom voice JSON.',
+      },
+      {
+        question: 'What are the audiobook pilot limits?',
+        answer:
+          'The parser accepts up to 500,000 characters, 100 chapters, and a 10 MB TXT or EPUB input. Generate one selected chapter of at most 10,000 characters at a time to keep browser memory and generation time bounded.',
+      },
+      {
+        question: 'Can I use any book or article I find online?',
+        answer:
+          'No. Use text you wrote, public-domain text, or material you have permission to convert. You must also follow the model license, prohibited-use terms, copyright rules, and any limits on sharing the resulting audio.',
+      },
+      {
+        question: 'Will every name and number be pronounced correctly?',
+        answer:
+          'No. Text-to-speech can misread names, abbreviations, formulas, code, dates, phone numbers, mixed languages, and unusual punctuation. Double-check important chapters by listening, then correct the text before generating again.',
+      },
+      {
+        question: 'Why can browser speech generation take a long time?',
+        answer:
+          'The first use downloads about 398 MB of model files. WebGPU is normally faster, while the WebAssembly fallback can be much slower. Generation time also depends on chapter length, quality passes, and device memory.',
+      },
+    ],
+    relatedSlugs: ['text-summarizer', 'reading-level-checker', 'word-counter'],
+  }),
 ];

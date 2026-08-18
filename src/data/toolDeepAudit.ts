@@ -7859,6 +7859,47 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
   },
   {
+    slug: 'text-to-speech-audiobook-generator',
+    status: 'deep-reviewed',
+    batch: 'browser-tts-audiobook-pilot-2026-08-18',
+    reviewedOn: '2026-08-18',
+    scope: commonMathScope,
+    sources: [
+      {
+        href: 'https://github.com/supertone-inc/supertonic',
+        label: 'Supertonic official repository and browser WebGPU example',
+      },
+      {
+        href: 'https://onnxruntime.ai/docs/tutorials/web/',
+        label: 'ONNX Runtime Web browser inference documentation',
+      },
+      {
+        href: 'https://huggingface.co/Supertone/supertonic-3/blob/main/LICENSE',
+        label: 'Supertonic 3 model weights: OpenRAIL-M license',
+      },
+      {
+        href: 'https://www.w3.org/TR/epub-33/',
+        label: 'W3C: EPUB 3.3 specification',
+      },
+    ],
+    findings: [
+      'The browser parser accepts pasted text, UTF-8 or UTF-16 TXT, and EPUB only; it checks the ZIP central directory before extraction, rejects unsafe paths and expansion limits, and blocks scripts and remote resources.',
+      'The dedicated browser worker pins the official Supertonic browser implementation and model revision 3cadd1ee6394adea1bd021217a0e650ede09a323. Text, audio, and filenames are not uploaded to Access Free Tools.',
+      'The first explicit model load downloads about 398 MB from Hugging Face. WebGPU is preferred, WebAssembly is a slower fallback, and generated 44.1 kHz mono WAV audio exists only in the current browser tab.',
+      'The tool supports the documented 31 language choices and 10 fixed voices, generates one chapter of at most 10,000 characters at a time, and avoids voice-cloning, language-detection, pronunciation, or unrestricted-rights claims.',
+      'Both URLs remain noindex and outside XML sitemaps until production-device generation and a seven-day browser beta pass.',
+    ],
+    improvements: [
+      'Added the dedicated React workbench, pure browser parser, Web Worker inference, ten visible FAQs, matching source-backed guide, legal disclosures, processing-mode metadata, and indexation gate.',
+      'Removed the rejected VPS, Docker, Redis, queue, DNS, Turnstile, and server-retention design so the pilot uses only the existing Hostinger site and visitor-side compute.',
+    ],
+    followUps: [
+      'Test current Chrome, Edge, Firefox, Safari, Android, and iOS behavior without claiming that every device can hold the model in memory.',
+      'Require live model download, WebGPU and WebAssembly behavior, WAV generation, cancellation, and seven stable beta days before changing index policy.',
+      'Keep the 398 MB download explicit and monitor whether model-host rate limits or browser memory make the no-purchase design impractical.',
+    ],
+  },
+  {
     slug: 'uuid-generator',
     status: 'deep-reviewed',
     batch: 'seo-gsc-refresh-2026-06-11',

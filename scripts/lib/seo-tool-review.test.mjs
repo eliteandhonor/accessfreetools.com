@@ -10,7 +10,7 @@ import {
 } from './seo-tool-review.mjs';
 
 describe('seo tool/page review lane', () => {
-  it('builds a page-level queue for every canonical tool and guide', () => {
+  it('builds a page-level queue for every indexable canonical tool and guide', () => {
     const report = buildSeoToolQueueReport({ trackerText: '', write: false });
 
     expect(report.kind).toBe('seo-tool-queue');
@@ -20,6 +20,7 @@ describe('seo tool/page review lane', () => {
     expect(report.summary.remainingPages).toBe(report.summary.pages);
     expect(report.summary.approvedPages).toBe(0);
     expect(report.summary.approvalUnit).toBe('page');
+    expect(report.summary.deferredPages).toBeGreaterThanOrEqual(2);
     expect(report.summary.firstPage).toBe('wallpaper-calculator:tool');
     expect(report.approvalGate.blocked).toBe(false);
 
@@ -27,6 +28,7 @@ describe('seo tool/page review lane', () => {
     expect(wallpaperEntries.map((entry) => entry.page).sort()).toEqual(['blog', 'tool']);
     expect(wallpaperEntries.every((entry) => entry.approvalRequired)).toBe(true);
     expect(report.entries[0].slug).toBe('wallpaper-calculator');
+    expect(report.entries.some((entry) => entry.slug === 'text-to-speech-audiobook-generator')).toBe(false);
   });
 
   it('skips approved pages when choosing the next actionable queue item', () => {

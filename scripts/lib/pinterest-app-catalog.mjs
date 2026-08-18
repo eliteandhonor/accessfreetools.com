@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
+import { readExplicitIndexationPolicies } from './indexation-policy-source.mjs';
 import { readCanonicalTools } from './tool-art-manifest.mjs';
 
 const MANUAL_ITEM_PATTERN =
@@ -43,7 +44,10 @@ export function loadPinterestAppCoverage(rootDir = resolve('.')) {
   const feedSource = readFileSync(feedPath, 'utf8');
   const boardConfig = JSON.parse(readFileSync(boardConfigPath, 'utf8'));
   const proof = JSON.parse(readFileSync(proofPath, 'utf8'));
-  const tools = readCanonicalTools();
+  const indexationPolicies = readExplicitIndexationPolicies(rootDir);
+  const tools = readCanonicalTools().filter(
+    (tool) => indexationPolicies.get(`/tools/${tool.slug}/`)?.index !== false,
+  );
   const manualItems = parseManualPinterestItems(feedSource);
   const manualToolItems = manualItems.filter((item) => toolSlugFromPath(item.path));
   const manualBySlug = new Map();

@@ -31,6 +31,20 @@ const explicitPolicies: Record<string, Partial<IndexationPolicy>> = {
     priorityTier: 'noindex',
     reason: 'HTML sitemap is useful for users and crawlers, but it is not a search landing page.',
   },
+  '/tools/text-to-speech-audiobook-generator/': {
+    follow: true,
+    includeInXmlSitemap: false,
+    index: false,
+    priorityTier: 'noindex',
+    reason: 'Browser TTS pilot remains private until the pinned model loads, generates, downloads, and passes the seven-day beta gates on production devices.',
+  },
+  '/blog/how-to-use-text-to-speech-audiobook-generator/': {
+    follow: true,
+    includeInXmlSitemap: false,
+    index: false,
+    priorityTier: 'noindex',
+    reason: 'TTS guide remains private until the browser generator passes its production-device launch gates.',
+  },
 };
 
 export function normalizeIndexationPath(path: string) {

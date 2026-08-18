@@ -4065,6 +4065,9 @@ function hasFaqQuestionMatching(tool: ToolDefinition, pattern: RegExp) {
 }
 
 function getCategoryInputAnswer(tool: ToolDefinition) {
+  if (tool.slug === 'text-to-speech-audiobook-generator') {
+    return 'The main inputs are permitted pasted text, TXT, or EPUB chapters, plus a language, one fixed voice, reading speed, and quality passes. The file parser, model inference, audio preview, and WAV creation all run in the browser; no chapter text is uploaded.';
+  }
   switch (tool.category) {
     case 'finance':
       return 'Money tools are picky about labels. Enter dollar fields as dollars, rate fields as percentages like 6.5 instead of 0.065, and time fields in the years or months shown on the page. If a field says monthly, do not enter a yearly total unless the tool says to.';
@@ -4095,6 +4098,9 @@ function getCategoryInputAnswer(tool: ToolDefinition) {
 }
 
 function getCategoryReadingAnswer(tool: ToolDefinition) {
+  if (tool.slug === 'text-to-speech-audiobook-generator') {
+    return 'Wait for the model-ready message before generating a selected chapter. Preview the WAV in the page, listen for names, numbers, abbreviations, and missing lines, then download it before leaving or unloading the model.';
+  }
   switch (tool.category) {
     case 'finance':
       return 'Start with the headline number, then look at the supporting lines for interest, principal, taxes, fees, payments, or totals over time. Those extra lines explain why two answers that look close can cost very different amounts later.';
@@ -4117,6 +4123,9 @@ function getCategoryReadingAnswer(tool: ToolDefinition) {
 }
 
 function getCategoryDoubleCheckAnswer(tool: ToolDefinition) {
+  if (tool.slug === 'text-to-speech-audiobook-generator') {
+    return 'Check that you have permission to convert the text, that it contains no sensitive information, and that the selected language and fixed voice fit the material. Listen for names, numbers, abbreviations, missing lines, and pronunciation errors before sharing the audio.';
+  }
   switch (tool.category) {
     case 'finance':
       return 'Check rates, time periods, payment frequency, fees, and whether values are before tax or after tax. Mixing monthly and yearly numbers is the classic mistake because the final answer can still look believable.';

@@ -255,6 +255,7 @@ export type CalculatorIconMark =
   | 'ai-image'
   | 'ai-tone'
   | 'ai-reading'
+  | 'ai-voice'
   | 'ai-token'
   | 'prompt-token'
   | 'api-price'
@@ -534,6 +535,7 @@ const calculatorIconMarks: Record<string, CalculatorIconMark> = {
   'tool-ai-image': 'ai-image',
   'tool-ai-tone': 'ai-tone',
   'tool-ai-reading': 'ai-reading',
+  'tool-ai-voice': 'ai-voice',
   'tool-ai-token-cost': 'ai-token',
   'tool-prompt-token': 'prompt-token',
   'tool-api-pricing': 'api-price',
@@ -781,6 +783,7 @@ const calculatorIconTextLabels: Partial<Record<CalculatorIconMark, string>> = {
   'ai-image': 'img',
   'ai-tone': 'tone',
   'ai-reading': 'read',
+  'ai-voice': 'voice',
   'ai-token': 'tok$',
   'prompt-token': 'tok',
   'api-price': 'api',

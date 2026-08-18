@@ -31,6 +31,7 @@ import {
   toolDeepAuditRecords,
 } from './toolDeepAudit';
 import { isToolIconMapped } from './toolIcons';
+import { getIndexationPolicy } from './indexationPolicy';
 import { tools } from './tools';
 import { utilityBlogGuides } from './utilityBlogGuides';
 import { verifiedOrganizationSameAs } from './siteEntity';
@@ -97,6 +98,14 @@ const INTERNAL_LINK_CHECK_SOURCE = readFileSync(
 );
 const AI_BROWSER_TOOL_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/AiBrowserTool.tsx', import.meta.url)),
+  'utf8',
+);
+const TTS_AUDIOBOOK_TOOL_SOURCE = readFileSync(
+  fileURLToPath(new URL('../components/TextToSpeechAudiobookGenerator.tsx', import.meta.url)),
+  'utf8',
+);
+const TTS_AUDIOBOOK_WORKER_SOURCE = readFileSync(
+  fileURLToPath(new URL('../workers/supertonic.worker.ts', import.meta.url)),
   'utf8',
 );
 const UTILITY_CALCULATOR_SOURCE = readFileSync(
@@ -1270,7 +1279,7 @@ describe('site content audit guardrails', () => {
     const aiCategories = new Set(aiTools.map((tool) => tool.category));
     const issues: string[] = [];
 
-    expect(aiTools.length).toBe(8);
+    expect(aiTools.length).toBe(9);
     expect(aiCategories).toEqual(new Set(['ai-tools']));
     expect(AI_BROWSER_TOOL_SOURCE).toContain("await import('@huggingface/transformers')");
     expect(AI_BROWSER_TOOL_SOURCE).toContain("await import('tesseract.js')");
@@ -1307,7 +1316,6 @@ describe('site content audit guardrails', () => {
       }
 
       const faqText = tool.faq.flatMap((faq) => [faq.question, faq.answer]).join(' ');
-
       for (const requiredPhrase of ['browser tab', 'model', 'uploaded', 'double-check']) {
         if (!faqText.toLowerCase().includes(requiredPhrase)) {
           issues.push(`${tool.slug} FAQ should mention ${requiredPhrase}`);
@@ -1316,6 +1324,20 @@ describe('site content audit guardrails', () => {
     }
 
     expect(issues).toEqual([]);
+  });
+
+  it('keeps browser TTS explicit, bounded, masked, and independent of paid infrastructure', () => {
+    const tool = aiTools.find((item) => item.slug === 'text-to-speech-audiobook-generator');
+    expect(tool?.faq.length).toBeGreaterThanOrEqual(6);
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('data-clarity-mask="true"');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('No paid server or queue');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('TTS_INPUT_LIMITS.maxCharacters');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('TTS_INPUT_LIMITS.maxSynthesisCharacters');
+    expect(TTS_AUDIOBOOK_WORKER_SOURCE).toContain("executionProviders: [provider]");
+    expect(TTS_AUDIOBOOK_WORKER_SOURCE).toContain('3cadd1ee6394adea1bd021217a0e650ede09a323');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toContain('tts.accessfreetools.com');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toContain('turnstile');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toContain('voice clone');
   });
 
   it('keeps self-hosted AI model assets present and within GitHub-friendly file sizes', () => {
@@ -1424,14 +1446,16 @@ describe('site content audit guardrails', () => {
         .filter((item) => item.status === 'posted' && !item.rssEligible)
         .every((item) => Boolean(item.publicPinUrl)),
     ).toBe(true);
-    const canonicalToolPaths = new Set(tools.map((tool) => `/tools/${tool.slug}/`));
+    const pinterestEligibleTools = tools.filter((tool) => getIndexationPolicy(`/tools/${tool.slug}/`).index);
+    const canonicalToolPaths = new Set(pinterestEligibleTools.map((tool) => `/tools/${tool.slug}/`));
     const pinterestToolPaths = new Set(
       pinterestFeedItems
         .map((item) => item.path)
         .filter((path) => canonicalToolPaths.has(path)),
     );
-    expect(pinterestToolPaths.size).toBe(tools.length);
-    expect(tools.every((tool) => pinterestToolPaths.has(`/tools/${tool.slug}/`))).toBe(true);
+    expect(pinterestToolPaths.size).toBe(pinterestEligibleTools.length);
+    expect(pinterestEligibleTools.every((tool) => pinterestToolPaths.has(`/tools/${tool.slug}/`))).toBe(true);
+    expect(pinterestFeedItems.some((item) => item.path === '/tools/text-to-speech-audiobook-generator/')).toBe(false);
     expect(
       pinterestFeedItems
         .filter((item) => item.status === 'rss-ready')
