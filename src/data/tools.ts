@@ -4066,7 +4066,7 @@ function hasFaqQuestionMatching(tool: ToolDefinition, pattern: RegExp) {
 
 function getCategoryInputAnswer(tool: ToolDefinition) {
   if (tool.slug === 'text-to-speech-audiobook-generator') {
-    return 'The main input is up to 10,000 characters of permitted text, plus a language, one fixed voice, and reading speed. Model inference, audio preview, and MP3 creation all run in the browser; no text is uploaded.';
+    return 'The main input is up to 10,000 characters of permitted text, plus a browser model, supported language, fixed voice, and reading speed. Model inference, audio preview, and MP3 creation all run in the browser; no text is uploaded.';
   }
   switch (tool.category) {
     case 'finance':
@@ -4099,7 +4099,7 @@ function getCategoryInputAnswer(tool: ToolDefinition) {
 
 function getCategoryReadingAnswer(tool: ToolDefinition) {
   if (tool.slug === 'text-to-speech-audiobook-generator') {
-    return 'Press Generate MP3 and allow the first model download to finish. Preview the MP3 in the page, listen for names, numbers, abbreviations, and missing lines, then download it before leaving or unloading the model.';
+    return 'Press Generate MP3 and allow the selected model download to finish. Preview the MP3 in the page, listen for names, numbers, abbreviations, and missing lines, then download it before leaving or unloading the model.';
   }
   switch (tool.category) {
     case 'finance':
@@ -4124,7 +4124,7 @@ function getCategoryReadingAnswer(tool: ToolDefinition) {
 
 function getCategoryDoubleCheckAnswer(tool: ToolDefinition) {
   if (tool.slug === 'text-to-speech-audiobook-generator') {
-    return 'Check that you have permission to convert the text, that it contains no sensitive information, and that the selected language and fixed voice fit the material. Listen for names, numbers, abbreviations, missing lines, and pronunciation errors before sharing the audio.';
+    return 'Check that you have permission to convert the text, that it contains no sensitive information, and that the selected model, language, and fixed voice fit the material. Listen for names, numbers, abbreviations, missing lines, and pronunciation errors before sharing the audio.';
   }
   switch (tool.category) {
     case 'finance':

@@ -79,6 +79,26 @@ const sourceLinks = {
     href: 'https://huggingface.co/Supertone/supertonic-3/blob/main/LICENSE',
     label: 'Supertonic 3 model weights: OpenRAIL-M license terms',
   },
+  kokoroBrowser: {
+    href: 'https://github.com/hexgrad/kokoro/tree/dfb907a02bba8152ca444717ca5d78747ccb4bec/kokoro.js',
+    label: 'Kokoro: official browser implementation and fixed English voices',
+  },
+  kokoroModel: {
+    href: 'https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX',
+    label: 'Kokoro 82M: pinned ONNX model files and voice data',
+  },
+  kokoroLicense: {
+    href: 'https://huggingface.co/hexgrad/Kokoro-82M/blob/main/LICENSE',
+    label: 'Kokoro 82M model: Apache-2.0 license',
+  },
+  phonemizer: {
+    href: 'https://github.com/xenova/phonemizer.js',
+    label: 'Phonemizer.js: browser wrapper used for Kokoro English phonemes',
+  },
+  espeak: {
+    href: 'https://github.com/espeak-ng/espeak-ng',
+    label: 'eSpeak NG: speech synthesis and phoneme engine',
+  },
   wasmMediaEncoders: {
     href: 'https://github.com/arseneyr/wasm-media-encoders',
     label: 'wasm-media-encoders: browser MP3 encoder',
@@ -303,34 +323,46 @@ const guideDetails: Record<string, AiGuideDetail> = {
   'text-to-speech-audiobook-generator': {
     title: 'How to Turn Text into an MP3 in Your Browser',
     description:
-      'Paste permitted text, choose a fixed multilingual voice, generate speech in your browser, and download a 128 kbps MP3 without uploading the text.',
+      'Choose multilingual Supertonic or smaller English Kokoro, generate permitted text in your browser, and download a 128 kbps MP3.',
     summary:
-      'Learn how to turn permitted text into a downloadable MP3, choose a fixed multilingual voice, and check the finished audio.',
+      'Learn how to choose a browser speech model, turn permitted text into a downloadable MP3, and check the finished audio.',
     purpose:
-      'The Text to Speech MP3 Generator runs the pinned Supertonic model and MP3 encoder in a browser worker. It is for text you wrote, public-domain material, or text you have permission to convert.',
+      'The Text to Speech MP3 Generator runs either pinned Supertonic 3 or pinned Kokoro 82M with its MP3 encoder in a browser worker. It is for text you wrote, public-domain material, or text you have permission to convert.',
     enter: [
       'Paste up to 10,000 characters of text you have permission to convert.',
-      'Choose the known language when possible, one fixed voice preset, and a reading speed from 0.9x to 1.5x.',
+      'Choose Supertonic for multilingual text or Kokoro for the smaller US and UK English option.',
+      'Choose a supported language, one fixed voice preset, and a reading speed from 0.9x to 1.5x.',
       'Confirm your rights and the model-use terms, then press Generate MP3.',
-      'Allow the first generation to download about 398 MB of pinned model files into the browser.',
+      'Allow the selected model to download on first use: about 398 MB for Supertonic or about 90 MB for Kokoro.',
       'Preview the result and download the MP3 before closing or refreshing the tab.',
     ],
     read: [
       'Model loading downloads the ONNX files from the pinned Hugging Face revision. It does not send your text to Hugging Face.',
-      'WebGPU is normally the faster backend. WebAssembly is a slower fallback when WebGPU is unavailable.',
+      'Supertonic prefers WebGPU and falls back to WebAssembly. The smaller Kokoro q8 option currently runs through WebAssembly.',
+      'Only one model worker stays loaded. Changing the model unloads the previous one before the new model can start.',
+      'Long Kokoro input is divided into ordered sections before generation instead of being silently truncated at the model limit.',
       'Completed generation provides one 128 kbps mono MP3. The temporary audio URL belongs to the current browser tab.',
-      'The Language not specified option is best-effort model processing. It does not detect or confirm the language.',
+      'Supertonic Language not specified is best-effort processing, not detection. Kokoro browser support is currently US and UK English only.',
       'Listen for names, dates, abbreviations, formulas, numbers, missing lines, repeated lines, and mixed-language pronunciation before sharing the audio.',
     ],
     mistakes: [
       'Do not convert a book, article, course, or private document unless you have permission.',
       'Do not assume browser processing removes copyright, consent, or prohibited-use responsibilities.',
-      'Do not describe the fixed voices as voice cloning or upload reference audio. The pilot supports neither feature.',
+      'Do not describe either model\'s fixed voices as voice cloning or upload reference audio. The pilot supports neither feature.',
       'Do not assume a successful job means every word was pronounced correctly.',
       'Do not close or refresh the tab before downloading the MP3 because the browser-only result is not stored by Access Free Tools.',
-      'Do not treat an open model as unrestricted. The model weights use OpenRAIL-M terms and prohibited-use conditions.',
+      'Do not treat an open model as unrestricted. Supertonic uses OpenRAIL-M terms, while Kokoro and its browser code use Apache-2.0 components with separate attribution requirements.',
     ],
-    sources: [sourceLinks.supertonic, sourceLinks.supertonicLicense, sourceLinks.wasmMediaEncoders],
+    sources: [
+      sourceLinks.supertonic,
+      sourceLinks.supertonicLicense,
+      sourceLinks.kokoroBrowser,
+      sourceLinks.kokoroModel,
+      sourceLinks.kokoroLicense,
+      sourceLinks.phonemizer,
+      sourceLinks.espeak,
+      sourceLinks.wasmMediaEncoders,
+    ],
   },
 };
 
@@ -384,7 +416,7 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
             : isReadingLevelTool
               ? 'The result uses word count, sentence count, and an English syllable estimate. Names, abbreviations, numbers, and mixed-language text can make that estimate less reliable.'
               : isBrowserTtsTool
-                ? 'The first generation downloads about 398 MB of pinned ONNX model files from Hugging Face. Inference and MP3 creation then run in a dedicated browser worker.'
+                ? 'The selected model downloads on first use: about 398 MB for multilingual Supertonic or about 90 MB for English Kokoro. Only that model runs in a dedicated browser worker, where inference and MP3 creation stay local.'
                 : 'For this first self-hosted pass, OCR files and the starter text classifier files are served from Access Free Tools after you click the tool button. Heavier experimental model tools may still download model files from a third-party model host until we self-host more models.',
         ],
       },

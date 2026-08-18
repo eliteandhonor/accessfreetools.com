@@ -108,6 +108,22 @@ const TTS_AUDIOBOOK_WORKER_SOURCE = readFileSync(
   fileURLToPath(new URL('../workers/supertonic.worker.ts', import.meta.url)),
   'utf8',
 );
+const TTS_KOKORO_WORKER_SOURCE = readFileSync(
+  fileURLToPath(new URL('../workers/kokoro.worker.ts', import.meta.url)),
+  'utf8',
+);
+const TTS_MODEL_REGISTRY_SOURCE = readFileSync(
+  fileURLToPath(new URL('../lib/browserTtsModels.ts', import.meta.url)),
+  'utf8',
+);
+const TTS_KOKORO_TEXT_SOURCE = readFileSync(
+  fileURLToPath(new URL('../lib/kokoroBrowserText.ts', import.meta.url)),
+  'utf8',
+);
+const TTS_MP3_ENCODER_SOURCE = readFileSync(
+  fileURLToPath(new URL('../lib/mp3Encoder.ts', import.meta.url)),
+  'utf8',
+);
 const UTILITY_CALCULATOR_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/UtilityCalculator.tsx', import.meta.url)),
   'utf8',
@@ -1336,10 +1352,22 @@ describe('site content audit guardrails', () => {
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('Download MP3');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toContain('Choose TXT or EPUB');
     expect(TTS_AUDIOBOOK_WORKER_SOURCE).toContain("executionProviders: [provider]");
-    expect(TTS_AUDIOBOOK_WORKER_SOURCE).toContain('3cadd1ee6394adea1bd021217a0e650ede09a323');
+    expect(TTS_MODEL_REGISTRY_SOURCE).toContain('3cadd1ee6394adea1bd021217a0e650ede09a323');
+    expect(TTS_MODEL_REGISTRY_SOURCE).toContain('1939ad2a8e416c0acfeecc08a694d14ef25f2231');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain("new URL('../workers/supertonic.worker.ts'");
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain("new URL('../workers/kokoro.worker.ts'");
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('Only the selected model loads');
     expect(TTS_AUDIOBOOK_WORKER_SOURCE).toContain('encodePcmToMp3');
+    expect(TTS_KOKORO_WORKER_SOURCE).toContain('encodePcmToMp3');
+    expect(TTS_KOKORO_WORKER_SOURCE).toContain("dtype: 'q8'");
+    expect(TTS_KOKORO_TEXT_SOURCE).toContain('KOKORO_MAX_MODEL_TOKENS = 509');
+    expect(TTS_KOKORO_WORKER_SOURCE).toContain('selectKokoroVoiceStyle');
     expect(TTS_AUDIOBOOK_WORKER_SOURCE).toContain("mimeType: 'audio/mpeg'");
+    expect(TTS_KOKORO_WORKER_SOURCE).toContain("mimeType: 'audio/mpeg'");
+    expect(TTS_MP3_ENCODER_SOURCE).toContain('24_000');
+    expect(TTS_MP3_ENCODER_SOURCE).toContain('44_100');
     expect(PACKAGE_JSON_SOURCE).toContain('"wasm-media-encoders": "0.7.0"');
+    expect(PACKAGE_JSON_SOURCE).toContain('"phonemizer": "1.2.1"');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toContain('tts.accessfreetools.com');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toContain('turnstile');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toContain('voice clone');

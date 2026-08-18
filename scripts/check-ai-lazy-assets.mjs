@@ -16,6 +16,7 @@ const aiToolPaths = new Set([
   'tools/image-classifier/index.html',
   'tools/tone-checker/index.html',
   'tools/reading-level-checker/index.html',
+  'tools/text-to-speech-audiobook-generator/index.html',
 ]);
 const disallowedStaticModelPatterns = [
   /\/ai-models\//i,
@@ -24,6 +25,14 @@ const disallowedStaticModelPatterns = [
   /tesseract-core/i,
   /ort-wasm/i,
   /transformers\.web/i,
+  /kokoro\.worker/i,
+  /supertonic\.worker/i,
+];
+const disallowedRuntimeRequestPatterns = [
+  ...disallowedStaticModelPatterns,
+  /phonemizer/i,
+  /kokoro-82m/i,
+  /supertonic-3/i,
 ];
 const mimeTypes = new Map([
   ['.html', 'text/html; charset=utf-8'],
@@ -87,7 +96,7 @@ const report = {
 };
 
 function isModelOrRuntimeRequest(url) {
-  return disallowedStaticModelPatterns.some((pattern) => pattern.test(url));
+  return disallowedRuntimeRequestPatterns.some((pattern) => pattern.test(url));
 }
 
 function isInsidePublicDist(filePath) {

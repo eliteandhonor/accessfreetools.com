@@ -56,7 +56,7 @@ const toolArtMetadataOverrides = {
     tool: {
       alt: 'Full-body smoke-kawaii mascot turning text cards into downloadable audio beside a laptop, headphones, fixed voice choices, and a privacy shield.',
       caption:
-        'Text to Speech MP3 Generator artwork shows pasted text, fixed multilingual voices, browser processing, and a downloadable MP3.',
+        'Text to Speech MP3 Generator artwork shows pasted text, two fixed-voice browser model choices, local processing, and a downloadable MP3.',
       prompt:
         'Show the full-body smoke-kawaii girl beside a laptop that turns simple text cards into one downloadable audio waveform through a model chip inside the browser. Connect the laptop to headphones and an MP3-style download symbol without readable text. Include ten small abstract fixed-voice selectors and a privacy shield, but no logos, servers, clouds, microphones, voice-cloning imagery, or brand marks. Keep the whole mascot visible from hair to shoes, with hands unobstructed, in an original polished Access Free Tools illustration using teal, coral, lime, charcoal, and white.',
     },

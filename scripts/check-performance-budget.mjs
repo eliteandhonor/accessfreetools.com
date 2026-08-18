@@ -60,7 +60,7 @@ function relativeDistPath(file) {
 }
 
 function isLazyAiRuntime(rel) {
-  return /^_astro\/(?:ort-wasm|transformers\.web)[.-]/.test(rel);
+  return /^_astro\/(?:ort-wasm|transformers\.web|kokoro\.worker|supertonic\.worker)[.-]/.test(rel);
 }
 
 const files = walk(publicDistDir);

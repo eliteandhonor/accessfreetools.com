@@ -129,7 +129,7 @@ const privacyBrowserCopy = tool?.slug === 'four-in-a-row-game'
   : tool?.slug === 'json-to-csv-converter'
     ? 'Your JSON and converted CSV stay only in the current browser tab. They are not sent to a conversion service, and the input, preview, and output are masked from Microsoft Clarity.'
     : tool?.slug === 'text-to-speech-audiobook-generator'
-      ? 'The browser runs the pinned speech model and MP3 encoder in a worker. Pasted text and generated audio are not uploaded to Access Free Tools, and private surfaces are masked from Microsoft Clarity.'
+      ? 'The browser runs only the selected pinned speech model and MP3 encoder in a worker. Pasted text and generated audio are not uploaded to Access Free Tools, and private surfaces are masked from Microsoft Clarity.'
       : 'Recent answers stay visible only while you work in the current browser tab. They are not sent to a server.';
 const privacyCopy = {
   copy:

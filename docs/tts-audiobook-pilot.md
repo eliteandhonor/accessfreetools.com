@@ -1,98 +1,130 @@
-# Browser-Only Text to Speech MP3 Pilot
+# Browser Text-to-Speech MP3 Pilot
 
 ## Decision
 
-The pilot uses the existing Access Free Tools Astro 7 application on Hostinger Node 24. It does not require or permit a VPS purchase, separate TTS server, paid inference API, Redis queue, Docker deployment, DNS record, background worker, or Brendan's PC.
+The tool runs entirely in the visitor's browser through the existing Astro 7 site on Hostinger Node 24. It does not require a VPS, paid API, server queue, DNS change, account, or the owner's computer.
 
-Supertonic 3 runs in a Web Worker on the visitor's device through ONNX Runtime Web. The same worker encodes the generated samples as a 128 kbps MP3. The Hostinger site serves the page and JavaScript. Pinned model files are fetched from Hugging Face only when the visitor starts the first generation.
+The public beta remains noindex,follow and outside XML sitemaps until its browser and device gates pass. Paid infrastructure is not the fallback.
 
-The tool and guide remain `noindex,follow` and outside XML sitemaps until browser compatibility and the seven-day beta gate pass.
+## User Flow
 
-## Product Scope
+1. Paste up to 10,000 characters of text.
+2. Choose Supertonic 3 or Kokoro 82M.
+3. Choose a language supported by that browser model, a fixed voice, and speed.
+4. Confirm permission to convert the text and accept the selected model terms.
+5. Generate, preview, and download a 128 kbps mono MP3.
 
-The product is deliberately small:
+Only the selected model worker loads. Changing models terminates the old worker and releases its in-memory runtime before the other model can start.
 
-1. Paste up to 10,000 characters.
-2. Choose a known language, one of ten fixed voices, and reading speed.
-3. Confirm permission to use the text and accept the model terms.
-4. Press **Generate MP3**.
-5. Preview the result and press **Download MP3**.
+## Model Choices
 
-There is no TXT or EPUB upload, chapter parser, model-load button, WAV output, account, server queue, URL import, voice upload, or voice cloning.
+| Model | Browser support in this pilot | First download | Backend | Audio source |
+| --- | --- | ---: | --- | --- |
+| Supertonic 3 | 31 named languages, best effort, 10 fixed voices | About 398 MB plus a voice style | WebGPU with WebAssembly fallback | 44.1 kHz |
+| Kokoro 82M q8 | US and UK English, 10 curated fixed voices | About 90 MB including the 88.1 MB model plus tokenizer and one voice | WebAssembly | 24 kHz |
 
-## Cost Boundary
-
-- No hosting purchase or plan upgrade.
-- No VPS, cloud GPU, paid speech API, or separately billed compute.
-- No new DNS host such as `tts.accessfreetools.com`.
-- No server-side storage, queue, cron job, database, or retention service.
-- No requirement for Brendan's computer to remain powered on.
-- Stop the feature rather than adding paid infrastructure if browser inference is not reliable enough.
+Supertonic stays the default because it offers the broadest language coverage and can use WebGPU. Kokoro is an experimental smaller-download option for English. The current official Kokoro browser implementation exposes American and British English voices only, so this page does not claim its broader Python language list.
 
 ## Browser Architecture
 
-1. The Astro page loads the React interface only on the TTS route.
+1. The Astro page hydrates the React interface only on the TTS route.
 2. Pasted text stays in the current browser tab.
-3. The first generation downloads about 398 MB of pinned Supertonic ONNX assets from Hugging Face.
-4. A dedicated browser worker prefers WebGPU and falls back to WebAssembly.
-5. The worker generates 44.1 kHz mono samples and encodes them as a 128 kbps MP3 with pinned `wasm-media-encoders`.
+3. A model-specific Web Worker downloads pinned files from Hugging Face only after generation starts.
+4. Supertonic generates 44.1 kHz PCM. Kokoro generates 24 kHz PCM.
+5. The same pinned wasm-media-encoders runtime encodes either source rate as a 128 kbps mono MP3.
 6. The MP3 uses a temporary object URL in the current tab. Access Free Tools does not upload or retain it.
-
-The speech implementation is adapted from Supertone's MIT-licensed browser example at commit `7e2804f96016a7028cb1ed627353c61c1e9dd281`. The model is pinned to revision `3cadd1ee6394adea1bd021217a0e650ede09a323` and remains subject to its OpenRAIL-M license. MP3 encoding uses the MIT-licensed `wasm-media-encoders@0.7.0` package.
-
-## Honest Limits
-
-- Pasted text only, up to 10,000 characters per generation.
-- 31 named language choices plus `Language not specified, best effort`. The fallback is not language detection.
-- Ten fixed voices: F1-F5 and M1-M5.
-- Speed from 0.9x to 1.5x.
-- 128 kbps mono MP3 preview and download.
-- No file input, M4B, merged book, ZIP, account, sharing link, voice upload, or cloning.
-- Model download, inference speed, memory use, and compatibility depend on the visitor's browser and device.
-- WebAssembly can be substantially slower than WebGPU.
-- Refreshing or closing the tab discards generated audio that has not been downloaded.
-
-## Privacy And Analytics
-
-- Pasted text and generated audio do not go to Access Free Tools.
-- Hugging Face receives ordinary model-file requests after generation begins, but those requests do not contain the pasted text.
-- Text, status, and audio surfaces use Microsoft Clarity masking.
-- Analytics may record model ready, generation started, generation completed, cancellation, and download. They must not record text, language, voice, or output.
-- The tool requires a rights and model-terms confirmation before generation.
+7. Kokoro input is split in order, phonemized, checked against the 509-token model limit, generated section by section, and joined with short silence. Long text must not be silently truncated.
 
 ## Model And Dependency Pins
 
-- Supertonic source commit: `7e2804f96016a7028cb1ed627353c61c1e9dd281`
-- Supertonic 3 model revision: `3cadd1ee6394adea1bd021217a0e650ede09a323`
-- `onnxruntime-web`: `1.27.0`
-- `wasm-media-encoders`: `0.7.0`
-- Model download: approximately 398 MB before one voice-style file
+- Supertonic browser source commit: 7e2804f96016a7028cb1ed627353c61c1e9dd281
+- Supertonic 3 model revision: 3cadd1ee6394adea1bd021217a0e650ede09a323
+- Kokoro official browser source commit: dfb907a02bba8152ca444717ca5d78747ccb4bec
+- Kokoro ONNX model revision: 1939ad2a8e416c0acfeecc08a694d14ef25f2231
+- Kokoro dtype: q8, resolved as model_quantized.onnx
+- @huggingface/transformers: current project dependency
+- onnxruntime-web: 1.27.0
+- phonemizer: 1.2.1
+- wasm-media-encoders: 0.7.0
+
+Supertonic's browser implementation is MIT-licensed and its model weights use OpenRAIL-M. Kokoro's model and official browser implementation use Apache-2.0. The Kokoro text preparation is adapted from the pinned official browser source. Phonemizer.js is Apache-2.0 and wraps eSpeak NG, whose source uses GPL-3.0-or-later. The visible tool, guide, and terms page link to the relevant model and engine sources. This record is an engineering attribution note, not legal advice.
 
 Primary sources:
 
 - https://github.com/supertone-inc/supertonic
 - https://huggingface.co/Supertone/supertonic-3/tree/3cadd1ee6394adea1bd021217a0e650ede09a323
 - https://huggingface.co/Supertone/supertonic-3/blob/main/LICENSE
-- https://onnxruntime.ai/docs/tutorials/web/
+- https://github.com/hexgrad/kokoro/tree/dfb907a02bba8152ca444717ca5d78747ccb4bec/kokoro.js
+- https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/tree/1939ad2a8e416c0acfeecc08a694d14ef25f2231
+- https://huggingface.co/hexgrad/Kokoro-82M/blob/main/LICENSE
+- https://github.com/xenova/phonemizer.js
+- https://github.com/espeak-ng/espeak-ng
 - https://github.com/arseneyr/wasm-media-encoders
 
-## Internal Command
+## Other Models Reviewed
 
-```powershell
-npm run tts:browser-check
-```
+- PocketTTS remains a watch-list candidate. Its official project currently describes browser ports as community projects rather than an official browser runtime.
+- Qwen3-TTS and Chatterbox are not adopted because their practical browser footprint and runtime requirements do not fit this no-server pilot.
+- OmniVoice is not adopted because its current weights are non-commercial and its runtime is too heavy for this browser-only product.
+- Voice-cloning models are out of scope. The tool provides fixed voices only.
 
-The check verifies pinned dependencies and model revision, the dedicated worker, WebGPU/WASM fallback, MP3 creation and download, Clarity masking, the explicit model size, paste-only input, and absence of a rejected server runtime.
+## Honest Limits
+
+- Pasted text only. No TXT, EPUB, PDF, DOCX, URL import, or file upload.
+- 10,000 characters per generation.
+- Supertonic: 31 named language choices, best effort, and F1-F5/M1-M5 fixed voices.
+- Kokoro: US and UK English with 10 curated fixed voices.
+- Speed from 0.9x to 1.5x.
+- 128 kbps mono MP3 preview and download.
+- No M4B, merged book, ZIP, account, sharing link, voice upload, or cloning.
+- Model download, inference speed, memory use, and compatibility depend on the visitor's browser and device.
+- Refreshing or closing the tab discards generated audio that has not been downloaded.
+- Names, abbreviations, numbers, mixed-language text, and unusual punctuation can be mispronounced.
+
+## Privacy And Analytics
+
+- Pasted text and generated audio do not go to Access Free Tools.
+- Hugging Face receives ordinary pinned model, tokenizer, and voice-file requests after generation begins. Those requests do not contain the pasted text.
+- Text, status, and audio surfaces use Microsoft Clarity masking.
+- Analytics may record model ready, generation started, generation completed, cancellation, and download. They must not record model choice, text, language, voice, file content, or output.
+- The tool requires a rights and model-terms confirmation before generation.
+
+## Internal Commands
+
+    npm run tts:browser-check
+    npm run typecheck
+    npm run typecheck:ts6
+    npm test
+    npm run build
+    npm run check
+
+The browser check verifies both pinned model revisions, model-specific lazy workers, one-model-at-a-time selection, MP3 creation for 24 kHz and 44.1 kHz sources, Clarity masking, paste-only input, and the absence of rejected server infrastructure.
+
+## Current Browser Evidence
+
+Verified on August 18, 2026 in desktop Playwright Chromium against the local Astro production preview:
+
+- Kokoro generated and downloaded a 10.368-second MP3 at 24 kHz, mono, 128 kbps.
+- Supertonic generated and downloaded a 10.423-second MP3 at 44.1 kHz, mono, approximately 128 kbps.
+- Both files contained audible, non-silent output according to FFmpeg volume analysis.
+- Switching from Kokoro to Supertonic terminated the first worker before loading the second model.
+- The generated-audio controls and model cards had no horizontal overflow at 1440px desktop or 390px mobile viewport widths.
+- The inspected generation requests contained model and runtime files only. The pasted test sentence did not appear in a request URL or body.
+- Browser generation produced no page errors. Transformers.js emitted one non-fatal architecture-mapping warning while loading Kokoro.
+
+This is desktop Chromium evidence, not proof for Edge, Firefox, Safari, Android, or iOS. Mobile layout was inspected at a simulated viewport, but generation was not run on a physical mobile device. The pages therefore remain `noindex,follow` and outside XML sitemaps.
 
 ## Release Gates
 
-1. Unit, type, build, security, site, schema, image, SEO, and accessibility checks pass.
-2. The route-specific worker, model runtime, and MP3 encoder do not load on unrelated pages.
-3. Current Chrome and Edge generate, preview, and download a valid MP3 on desktop.
-4. Firefox, Safari, Android, and iOS are tested and documented as pass, fallback, or unsupported. Do not guess.
-5. Cancellation releases the worker and in-memory model.
-6. No pasted text appears in network requests, logs, analytics, or Clarity.
-7. A publicly accessible but `noindex` production beta remains stable for seven days.
-8. The Release Judge records the evidence before changing index policy.
+1. Unit, TypeScript 7, TypeScript 6, build, security, site, schema, image, SEO, and accessibility checks pass.
+2. The route-specific workers, model runtimes, phonemizer, and MP3 encoder do not load on unrelated pages.
+3. Current Chrome generates, previews, and downloads valid MP3 files with both models.
+4. Current Edge generates, previews, and downloads valid MP3 files with both models.
+5. Firefox, Safari, Android, and iOS are documented as pass, fallback, or unsupported. Do not guess.
+6. Long Kokoro text is generated in order without silent truncation.
+7. Cancellation and model switching terminate the active worker.
+8. No pasted text appears in network requests, logs, analytics, or Clarity.
+9. The publicly accessible noindex beta remains stable for seven days.
+10. The Release Judge records evidence before changing the index policy.
 
-If the model download, device memory, browser support, or third-party model hosting is not good enough, keep the pages noindexed or remove the pilot. Paid infrastructure is not the fallback.
+If download size, memory, browser support, licensing, or third-party model hosting is not good enough, keep the pages noindexed or remove the model. Do not buy infrastructure to work around a failed browser pilot.

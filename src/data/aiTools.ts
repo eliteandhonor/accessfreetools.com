@@ -465,16 +465,16 @@ export const aiTools: ToolDefinition[] = [
     name: 'Text to Speech MP3 Generator',
     summary: 'Turn permitted text into a downloadable MP3 directly in your browser.',
     description:
-      'Paste text, choose a language and fixed voice, generate speech on your device, preview it, and download a 128 kbps MP3. No text is uploaded to Access Free Tools.',
+      'Paste text, choose a browser model, language, and fixed voice, generate speech on your device, preview it, and download a 128 kbps MP3. No text is uploaded to Access Free Tools.',
     aliases: ['Text to Speech Generator', 'Text to MP3 Converter', 'Multilingual Text to Speech'],
     seoTitle: 'Text to Speech MP3 Generator | Browser TTS',
     seoDescription:
-      'Convert permitted text into a downloadable 128 kbps MP3 in your browser with 31 language choices and 10 fixed voices. No text upload.',
+      'Convert permitted text into a downloadable MP3 with multilingual Supertonic or smaller English Kokoro browser speech. No text upload.',
     icon: 'tool-ai-voice',
     modelNote:
-      'Uses a pinned Supertonic 3 ONNX model and a pinned browser MP3 encoder in a worker. The first run downloads about 398 MB of model files from Hugging Face, then inference and MP3 creation stay on the visitor device.',
+      'Choose pinned Supertonic 3 for 31 named languages and 10 voices, or the pinned Kokoro 82M q8 model for a smaller English-only download and 10 curated voices. Only the selected model loads. Inference and MP3 creation stay on the visitor device.',
     inputMeaning:
-      'Paste up to 10,000 characters of text you wrote or have permission to convert. Choose the language, one fixed voice, and a reading speed before generating.',
+      'Paste up to 10,000 characters of text you wrote or have permission to convert. Choose a model, supported language, fixed voice, and reading speed before generating.',
     resultMeaning:
       'Preview and download a 128 kbps mono MP3. Listen to names, numbers, abbreviations, and technical terms before relying on the recording.',
     doubleCheck:
@@ -482,13 +482,13 @@ export const aiTools: ToolDefinition[] = [
     useCases: [
       'Create private listening copies of your own notes, drafts, stories, or public-domain text.',
       'Download spoken instructions or study notes as a standard MP3 file.',
-      'Test pronunciation across 31 supported language choices and 10 fixed preset voices.',
+      'Use Supertonic for multilingual text or compare Kokoro fixed voices for US and UK English.',
       'Create accessibility or study audio without a server queue, account, or paid processing plan.',
     ],
     examples: [
       {
         label: 'Short English draft',
-        expression: 'Paste a 2,000-character draft, choose English, preset F1, and 1.0x speed',
+        expression: 'Paste a 2,000-character draft, choose Supertonic, English, preset F1, and 1.0x speed',
         result: 'One 128 kbps MP3 held in the browser tab for preview and download',
       },
       {
@@ -497,16 +497,16 @@ export const aiTools: ToolDefinition[] = [
         result: 'A local audio preview and MP3 download without uploading the notes',
       },
       {
-        label: 'Language not specified',
-        expression: 'Choose best effort only when you do not know the text language',
-        result: 'Language-agnostic model processing, not a detected-language claim',
+        label: 'Smaller English model',
+        expression: 'Choose Kokoro, English (United Kingdom), and the Emma fixed voice',
+        result: 'English speech from the smaller q8 browser model as a downloadable MP3',
       },
     ],
     faq: [
       {
         question: 'How do I turn text into an MP3?',
         answer:
-          'Paste up to 10,000 characters, choose the text language, a fixed voice, and a reading speed, accept the rights notice, then press Generate MP3. Preview the result and use Download MP3 to save it.',
+          'Paste up to 10,000 characters, choose Supertonic or Kokoro, then choose a supported language, fixed voice, and reading speed. Accept the rights notice, press Generate MP3, preview the result, and use Download MP3 to save it.',
       },
       {
         question: 'Does Access Free Tools upload my text?',
@@ -516,7 +516,7 @@ export const aiTools: ToolDefinition[] = [
       {
         question: 'Where is the text-to-speech model running?',
         answer:
-          'The Supertonic model runs in a dedicated worker inside your browser. Access Free Tools serves the page, while pinned model files are downloaded from Hugging Face only after you choose to load them.',
+          'The selected Supertonic or Kokoro model runs in a dedicated worker inside your browser. Access Free Tools serves the page, while pinned model files are downloaded from Hugging Face only after you start generation.',
       },
       {
         question: 'Does Access Free Tools store my text or generated audio?',
@@ -531,12 +531,12 @@ export const aiTools: ToolDefinition[] = [
       {
         question: 'Does best effort detect the language?',
         answer:
-          'No. Best effort tells the model to process text without a named language. Choose one of the 31 language options when you know it because the fallback is not language detection.',
+          'No. Supertonic best effort processes text without a named language; it is not language detection. Kokoro does not offer that option and its current browser path supports only US and UK English.',
       },
       {
         question: 'Can I clone a voice or upload my own voice?',
         answer:
-          'No. The pilot offers only the 10 fixed Supertonic voice presets F1 to F5 and M1 to M5. It does not support voice uploads, cloning, reference audio, or custom voice JSON.',
+          'No. The pilot offers 10 fixed Supertonic presets and 10 curated fixed Kokoro voices. It does not support voice uploads, cloning, reference audio, or custom voice data.',
       },
       {
         question: 'How much text can I convert at once?',
@@ -556,7 +556,12 @@ export const aiTools: ToolDefinition[] = [
       {
         question: 'Why can browser speech generation take a long time?',
         answer:
-          'The first use downloads about 398 MB of model files. WebGPU is normally faster, while the WebAssembly fallback can be much slower. Generation time also depends on text length and device memory.',
+          'Supertonic downloads about 398 MB and prefers WebGPU, with a slower WebAssembly fallback. Kokoro downloads about 90 MB and currently uses WebAssembly. Generation time also depends on text length, section count, connection speed, and device memory.',
+      },
+      {
+        question: 'Which browser text-to-speech model should I choose?',
+        answer:
+          'Choose Supertonic when you need one of its 31 named languages or the best chance of faster WebGPU generation. Try Kokoro for US or UK English when a smaller first download matters. Both use fixed voices, stay in the browser tab, and need a listening check before you rely on the MP3.',
       },
     ],
     relatedSlugs: ['text-summarizer', 'reading-level-checker', 'word-counter'],

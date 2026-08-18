@@ -4,22 +4,15 @@ import {
   loadTextToSpeech,
   loadVoiceStyle,
 } from '../lib/supertonicWebHelper.js';
+import { SUPERTONIC_MODEL_REVISION } from '../lib/browserTtsModels';
+import type { BrowserTtsWorkerRequest } from '../lib/browserTtsWorkerTypes';
 import { encodePcmToMp3, MP3_BITRATE_KBPS } from '../lib/mp3Encoder';
 
-const MODEL_REVISION = '3cadd1ee6394adea1bd021217a0e650ede09a323';
-const MODEL_BASE = `https://huggingface.co/Supertone/supertonic-3/resolve/${MODEL_REVISION}`;
+const MODEL_ID = 'supertonic-3';
+const MODEL_BASE = `https://huggingface.co/Supertone/supertonic-3/resolve/${SUPERTONIC_MODEL_REVISION}`;
 const ONNX_BASE = `${MODEL_BASE}/onnx`;
 
-type LoadRequest = { type: 'load' };
-type GenerateRequest = {
-  type: 'generate';
-  language: string;
-  speed: number;
-  steps: number;
-  text: string;
-  voice: string;
-};
-type WorkerRequest = GenerateRequest | LoadRequest;
+type GenerateRequest = Extract<BrowserTtsWorkerRequest, { type: 'generate' }>;
 
 interface TextToSpeechRuntime {
   call: (
@@ -68,7 +61,7 @@ function safeError(error: unknown) {
 
 async function loadRuntime() {
   if (runtime) {
-    send({ type: 'ready', backend, revision: MODEL_REVISION });
+    send({ type: 'ready', backend, modelId: MODEL_ID, revision: SUPERTONIC_MODEL_REVISION });
     return;
   }
 
@@ -95,7 +88,7 @@ async function loadRuntime() {
       );
       runtime = result.textToSpeech;
       backend = provider;
-      send({ type: 'ready', backend, revision: MODEL_REVISION });
+      send({ type: 'ready', backend, modelId: MODEL_ID, revision: SUPERTONIC_MODEL_REVISION });
       return;
     } catch (error) {
       lastError = error;
@@ -116,7 +109,7 @@ async function ensureVoice(voice: string) {
 }
 
 async function generate(request: GenerateRequest) {
-  await loadRuntime();
+  if (!runtime) await loadRuntime();
   await ensureVoice(request.voice);
   if (!runtime || !voiceStyle) throw new Error('The browser model is not ready.');
 
@@ -128,7 +121,12 @@ async function generate(request: GenerateRequest) {
     request.steps,
     request.speed,
     0.3,
-    (step, total) => send({ type: 'generation-progress', step, total }),
+    (step, total) => send({
+      type: 'generation-progress',
+      message: `Generating speech pass ${step} of ${total}`,
+      step,
+      total,
+    }),
   );
   const audioLength = Math.floor(runtime.sampleRate * duration[0]);
   const buffer = await encodePcmToMp3(Float32Array.from(wav.slice(0, audioLength)), runtime.sampleRate);
@@ -141,14 +139,15 @@ async function generate(request: GenerateRequest) {
       durationSeconds: duration[0],
       generationSeconds: (performance.now() - startedAt) / 1_000,
       mimeType: 'audio/mpeg',
-      revision: MODEL_REVISION,
+      modelId: MODEL_ID,
+      revision: SUPERTONIC_MODEL_REVISION,
       sampleRate: runtime.sampleRate,
     },
     [buffer],
   );
 }
 
-worker.onmessage = (event: MessageEvent<WorkerRequest>) => {
+worker.onmessage = (event: MessageEvent<BrowserTtsWorkerRequest>) => {
   void (async () => {
     try {
       if (event.data.type === 'load') await loadRuntime();

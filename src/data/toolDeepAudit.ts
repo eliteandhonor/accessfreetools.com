@@ -7870,6 +7870,10 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
         label: 'Supertonic official repository and browser WebGPU example',
       },
       {
+        href: 'https://github.com/hexgrad/kokoro/tree/dfb907a02bba8152ca444717ca5d78747ccb4bec/kokoro.js',
+        label: 'Kokoro official browser implementation and English voice support',
+      },
+      {
         href: 'https://onnxruntime.ai/docs/tutorials/web/',
         label: 'ONNX Runtime Web browser inference documentation',
       },
@@ -7878,25 +7882,38 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
         label: 'Supertonic 3 model weights: OpenRAIL-M license',
       },
       {
+        href: 'https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/tree/1939ad2a8e416c0acfeecc08a694d14ef25f2231',
+        label: 'Pinned Kokoro 82M ONNX model revision and voice files',
+      },
+      {
+        href: 'https://github.com/xenova/phonemizer.js',
+        label: 'Phonemizer.js browser wrapper for eSpeak NG',
+      },
+      {
+        href: 'https://github.com/espeak-ng/espeak-ng',
+        label: 'eSpeak NG phoneme engine and license source',
+      },
+      {
         href: 'https://github.com/arseneyr/wasm-media-encoders',
         label: 'wasm-media-encoders browser MP3 encoder',
       },
     ],
     findings: [
       'The workbench accepts pasted text only and caps each generation at 10,000 characters. It has no file, EPUB, URL, microphone, or voice-upload input.',
-      'The dedicated browser worker pins the official Supertonic browser implementation and model revision 3cadd1ee6394adea1bd021217a0e650ede09a323. Text and audio are not uploaded to Access Free Tools.',
-      'The first generation downloads about 398 MB from Hugging Face. WebGPU is preferred, WebAssembly is a slower fallback, and the generated 128 kbps mono MP3 exists only in the current browser tab.',
-      'The tool supports the documented 31 language choices and 10 fixed voices, generates up to 10,000 characters at a time, and avoids voice-cloning, language-detection, pronunciation, or unrestricted-rights claims.',
+      'Separate lazy browser workers pin Supertonic revision 3cadd1ee6394adea1bd021217a0e650ede09a323 and Kokoro ONNX revision 1939ad2a8e416c0acfeecc08a694d14ef25f2231. Text and audio are not uploaded to Access Free Tools.',
+      'Supertonic downloads about 398 MB and prefers WebGPU with WebAssembly fallback. Kokoro uses an approximately 90 MB q8 English model through WebAssembly. Only the selected worker and model remain loaded.',
+      'The tool supports Supertonic\'s documented 31 language choices and 10 fixed voices plus 10 curated Kokoro voices for US and UK English. It avoids voice-cloning, language-detection, perfect-pronunciation, or unrestricted-rights claims.',
+      'Kokoro long text is split in order, phonemized, checked against the 509-token model limit, generated section by section, and joined before 24 kHz PCM is encoded as MP3. Supertonic 44.1 kHz PCM uses the same encoder.',
       'Both URLs remain noindex and outside XML sitemaps until production-device generation and a seven-day browser beta pass.',
     ],
     improvements: [
-      'Added the dedicated React workbench, paste-only input, Web Worker inference and MP3 encoding, visible FAQs, matching source-backed guide, legal disclosures, processing-mode metadata, and indexation gate.',
+      'Added model selection, one-model-at-a-time worker lifecycle, a smaller English option, model-specific languages and voices, 24 kHz and 44.1 kHz MP3 support, bounded Kokoro chunking, source attribution, and model-specific terms.',
       'Removed the rejected VPS, Docker, Redis, queue, DNS, Turnstile, and server-retention design so the pilot uses only the existing Hostinger site and visitor-side compute.',
     ],
     followUps: [
       'Test current Chrome, Edge, Firefox, Safari, Android, and iOS behavior without claiming that every device can hold the model in memory.',
-      'Require live model download, WebGPU and WebAssembly behavior, MP3 generation and download, cancellation, and seven stable beta days before changing index policy.',
-      'Keep the 398 MB download explicit and monitor whether model-host rate limits or browser memory make the no-purchase design impractical.',
+      'Require live downloads, generation, preview, and valid MP3 downloads for both models, plus cancellation and model switching, before changing index policy.',
+      'Keep both model sizes explicit and monitor whether model-host rate limits, eSpeak/phonemizer compatibility, or browser memory make either option impractical.',
     ],
   },
   {
