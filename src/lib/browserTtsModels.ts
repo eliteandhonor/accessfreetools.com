@@ -17,6 +17,7 @@ export interface BrowserTtsModelDefinition {
   defaultVoice: string;
   description: string;
   downloadMegabytes: number;
+  fallbackDownloadMegabytes?: number;
   id: BrowserTtsModelId;
   languages: readonly BrowserTtsLanguage[];
   licenseLabel: string;
@@ -29,6 +30,13 @@ export interface BrowserTtsModelDefinition {
 
 export const SUPERTONIC_MODEL_REVISION = '3cadd1ee6394adea1bd021217a0e650ede09a323';
 export const KOKORO_MODEL_REVISION = '1939ad2a8e416c0acfeecc08a694d14ef25f2231';
+
+export interface KokoroRuntimePlan {
+  backend: 'wasm' | 'webgpu';
+  downloadMegabytes: number;
+  dtype: 'fp32' | 'q8';
+  qualityLabel: string;
+}
 
 const supertonicLanguages: readonly BrowserTtsLanguage[] = [
   { value: 'na', label: 'Language not specified, best effort' },
@@ -105,13 +113,14 @@ export const browserTtsModels: Readonly<Record<BrowserTtsModelId, BrowserTtsMode
   },
   'kokoro-82m': {
     id: 'kokoro-82m',
-    name: 'Kokoro 82M',
-    recommendation: 'Smaller experimental English model',
-    description: 'US and UK English with 10 curated fixed voices.',
-    downloadMegabytes: 90,
-    backendNote: 'WebAssembly',
+    name: 'Kokoro 82M HQ',
+    recommendation: 'Natural English with a compact fallback',
+    description: 'Full-precision WebGPU speech for US and UK English, with 10 fixed voices.',
+    downloadMegabytes: 326,
+    fallbackDownloadMegabytes: 92,
+    backendNote: 'Full-precision WebGPU, q8 WebAssembly fallback',
     defaultLanguage: 'en-us',
-    defaultVoice: 'af_heart',
+    defaultVoice: 'af_bella',
     languages: kokoroLanguages,
     voices: kokoroVoices,
     modelRevision: KOKORO_MODEL_REVISION,
@@ -126,4 +135,27 @@ export function getBrowserTtsModel(modelId: BrowserTtsModelId) {
 
 export function getBrowserTtsVoices(modelId: BrowserTtsModelId, language: string) {
   return browserTtsModels[modelId].voices.filter((voice) => !voice.language || voice.language === language);
+}
+
+export function getBrowserTtsDownloadNote(modelId: BrowserTtsModelId) {
+  const model = getBrowserTtsModel(modelId);
+  if (!model.fallbackDownloadMegabytes) return `about ${model.downloadMegabytes} MB on first use`;
+  return `about ${model.downloadMegabytes} MB for full quality or ${model.fallbackDownloadMegabytes} MB in compatibility mode`;
+}
+
+export function selectKokoroRuntimePlan(webGpuAvailable: boolean, forceWasm = false): KokoroRuntimePlan {
+  if (webGpuAvailable && !forceWasm) {
+    return {
+      backend: 'webgpu',
+      downloadMegabytes: 326,
+      dtype: 'fp32',
+      qualityLabel: 'full precision',
+    };
+  }
+  return {
+    backend: 'wasm',
+    downloadMegabytes: 92,
+    dtype: 'q8',
+    qualityLabel: 'compatibility',
+  };
 }

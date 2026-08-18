@@ -4,6 +4,7 @@ import {
   browserTtsModels,
   getBrowserTtsVoices,
   KOKORO_MODEL_REVISION,
+  selectKokoroRuntimePlan,
   SUPERTONIC_MODEL_REVISION,
 } from './browserTtsModels';
 
@@ -29,7 +30,19 @@ describe('browser TTS model registry', () => {
     expect(supertonic.voices).toHaveLength(10);
     expect(kokoro.languages.map((language) => language.value)).toEqual(['en-us', 'en-gb']);
     expect(kokoro.voices).toHaveLength(10);
+    expect(kokoro.defaultVoice).toBe('af_bella');
     expect(getBrowserTtsVoices('kokoro-82m', 'en-us')).toHaveLength(6);
     expect(getBrowserTtsVoices('kokoro-82m', 'en-gb')).toHaveLength(4);
+  });
+
+  it('uses full-precision WebGPU with a bounded WebAssembly fallback', () => {
+    expect(selectKokoroRuntimePlan(true)).toEqual({
+      backend: 'webgpu',
+      downloadMegabytes: 326,
+      dtype: 'fp32',
+      qualityLabel: 'full precision',
+    });
+    expect(selectKokoroRuntimePlan(false)).toMatchObject({ backend: 'wasm', dtype: 'q8' });
+    expect(selectKokoroRuntimePlan(true, true)).toMatchObject({ backend: 'wasm', dtype: 'q8' });
   });
 });

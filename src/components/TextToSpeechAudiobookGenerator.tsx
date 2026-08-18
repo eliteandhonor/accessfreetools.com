@@ -15,6 +15,7 @@ import {
 import { emitAftToolAction } from '../lib/aftToolAnalytics';
 import {
   browserTtsModels,
+  getBrowserTtsDownloadNote,
   getBrowserTtsModel,
   getBrowserTtsVoices,
   type BrowserTtsModelId,
@@ -32,6 +33,7 @@ interface AudioResult {
   backend: BrowserTtsBackend;
   bitrateKbps: number;
   durationSeconds: number;
+  dtype?: 'fp32' | 'q8';
   generationSeconds: number;
   modelId: BrowserTtsModelId;
   revision: string;
@@ -44,6 +46,7 @@ const MAX_TEXT_CHARACTERS = 10_000;
 const MP3_BITRATE_KBPS = 128;
 const QUALITY_PASSES = 8;
 const DEFAULT_MODEL_ID: BrowserTtsModelId = 'supertonic-3';
+const WORKER_STALL_TIMEOUT_MS = 90_000;
 
 function emitTtsAction(action: string, clarityEvent: string) {
   emitAftToolAction({
@@ -82,24 +85,83 @@ export default function TextToSpeechAudiobookGenerator() {
   const [consent, setConsent] = useState(false);
   const [runtimeState, setRuntimeState] = useState<RuntimeState>('idle');
   const [runtimeBackend, setRuntimeBackend] = useState<BrowserTtsBackend | ''>('');
+  const [runtimeDtype, setRuntimeDtype] = useState<'fp32' | 'q8' | ''>('');
   const [status, setStatus] = useState('Ready for text');
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<AudioResult | null>(null);
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const workerRef = useRef<Worker | null>(null);
   const activeWorkerModelRef = useRef<BrowserTtsModelId | null>(null);
   const pendingRequestRef = useRef<GenerationRequest | null>(null);
   const lastRequestRef = useRef<GenerationRequest | null>(null);
   const resultUrlRef = useRef('');
+  const fallbackAttemptedRef = useRef(false);
+  const operationStartedAtRef = useRef(0);
+  const watchdogRef = useRef<number | null>(null);
   const selectedModel = getBrowserTtsModel(modelId);
   const availableVoices = getBrowserTtsVoices(modelId, language);
 
+  useEffect(() => {
+    if (!busy || operationStartedAtRef.current === 0) return undefined;
+    const updateElapsed = () => {
+      setElapsedSeconds(Math.max(0, Math.floor((Date.now() - operationStartedAtRef.current) / 1_000)));
+    };
+    updateElapsed();
+    const interval = window.setInterval(updateElapsed, 1_000);
+    return () => window.clearInterval(interval);
+  }, [busy]);
+
   useEffect(() => () => {
+    clearWatchdog();
     workerRef.current?.terminate();
     if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);
   }, []);
+
+  function clearWatchdog() {
+    if (watchdogRef.current !== null) window.clearTimeout(watchdogRef.current);
+    watchdogRef.current = null;
+  }
+
+  function handleWorkerStall() {
+    const activeModelId = activeWorkerModelRef.current;
+    const retryRequest = pendingRequestRef.current ?? lastRequestRef.current;
+    workerRef.current?.terminate();
+    workerRef.current = null;
+
+    if (activeModelId === 'kokoro-82m' && retryRequest && !fallbackAttemptedRef.current) {
+      fallbackAttemptedRef.current = true;
+      pendingRequestRef.current = retryRequest;
+      lastRequestRef.current = null;
+      setRuntimeBackend('');
+      setRuntimeDtype('');
+      setRuntimeState('loading');
+      setProgress(0);
+      setStatus('High-quality mode paused. Retrying Kokoro compatibility mode');
+      setNotice('The browser stopped reporting progress, so the smaller WebAssembly model is loading automatically.');
+      operationStartedAtRef.current = Date.now();
+      setElapsedSeconds(0);
+      const retryWorker = createWorker('kokoro-82m');
+      armWatchdog();
+      retryWorker.postMessage({ forceWasm: true, type: 'load' } satisfies BrowserTtsWorkerRequest);
+      return;
+    }
+
+    pendingRequestRef.current = null;
+    lastRequestRef.current = null;
+    activeWorkerModelRef.current = null;
+    setRuntimeState('error');
+    setStatus('Browser generation timed out');
+    setError('The browser stopped reporting progress for 90 seconds. The model was unloaded. Try shorter text or generate again.');
+    setBusy(false);
+  }
+
+  function armWatchdog() {
+    clearWatchdog();
+    watchdogRef.current = window.setTimeout(handleWorkerStall, WORKER_STALL_TIMEOUT_MS);
+  }
 
   function clearResult() {
     if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);
@@ -108,6 +170,7 @@ export default function TextToSpeechAudiobookGenerator() {
   }
 
   function resetRuntime(message = 'Ready for text') {
+    clearWatchdog();
     workerRef.current?.terminate();
     workerRef.current = null;
     activeWorkerModelRef.current = null;
@@ -115,9 +178,12 @@ export default function TextToSpeechAudiobookGenerator() {
     lastRequestRef.current = null;
     setRuntimeState('idle');
     setRuntimeBackend('');
+    setRuntimeDtype('');
     setProgress(0);
     setStatus(message);
     setBusy(false);
+    operationStartedAtRef.current = 0;
+    setElapsedSeconds(0);
   }
 
   function postGeneration(request: GenerationRequest) {
@@ -131,6 +197,7 @@ export default function TextToSpeechAudiobookGenerator() {
     setProgress(0);
     setRuntimeState('generating');
     setStatus('Generating MP3 in this browser');
+    armWatchdog();
     workerRef.current.postMessage(request);
   }
 
@@ -141,6 +208,7 @@ export default function TextToSpeechAudiobookGenerator() {
     const activeModel = getBrowserTtsModel(activeModelId);
 
     if (data.type === 'load-progress' || data.type === 'voice-progress') {
+      armWatchdog();
       setStatus(data.message ?? 'Loading browser speech model');
       if (typeof data.current === 'number' && typeof data.total === 'number' && data.total > 0) {
         setProgress(Math.round((data.current / data.total) * 100));
@@ -149,6 +217,7 @@ export default function TextToSpeechAudiobookGenerator() {
     }
     if (data.type === 'ready') {
       setRuntimeBackend(data.backend ?? 'wasm');
+      setRuntimeDtype(data.dtype ?? '');
       setProgress(100);
       emitTtsAction('Load browser TTS model', 'tts_model_ready');
       const pendingRequest = pendingRequestRef.current;
@@ -157,6 +226,7 @@ export default function TextToSpeechAudiobookGenerator() {
         postGeneration(pendingRequest);
         return;
       }
+      clearWatchdog();
       setRuntimeState('ready');
       setStatus(`${activeModel.name} ready using ${(data.backend ?? 'wasm').toUpperCase()}`);
       setBusy(false);
@@ -164,6 +234,7 @@ export default function TextToSpeechAudiobookGenerator() {
       return;
     }
     if (data.type === 'generation-progress') {
+      armWatchdog();
       const value = typeof data.step === 'number' && typeof data.total === 'number' && data.total > 0
         ? Math.round((data.step / data.total) * 100)
         : 0;
@@ -172,6 +243,7 @@ export default function TextToSpeechAudiobookGenerator() {
       return;
     }
     if (data.type === 'result' && data.audio) {
+      clearWatchdog();
       const lastRequest = lastRequestRef.current;
       clearResult();
       const url = URL.createObjectURL(new Blob([data.audio], { type: 'audio/mpeg' }));
@@ -180,6 +252,7 @@ export default function TextToSpeechAudiobookGenerator() {
         backend: data.backend ?? 'wasm',
         bitrateKbps: data.bitrateKbps ?? MP3_BITRATE_KBPS,
         durationSeconds: data.durationSeconds ?? 0,
+        dtype: data.dtype,
         generationSeconds: data.generationSeconds ?? 0,
         modelId: activeModelId,
         revision: data.revision ?? activeModel.modelRevision,
@@ -197,6 +270,7 @@ export default function TextToSpeechAudiobookGenerator() {
       return;
     }
     if (data.type === 'error') {
+      clearWatchdog();
       pendingRequestRef.current = null;
       setRuntimeState('error');
       setStatus('Speech generation stopped');
@@ -211,10 +285,19 @@ export default function TextToSpeechAudiobookGenerator() {
     activeWorkerModelRef.current = modelToLoad;
     nextWorker.onmessage = handleWorkerMessage;
     nextWorker.onerror = () => {
+      clearWatchdog();
       pendingRequestRef.current = null;
       setRuntimeState('error');
       setStatus('Browser worker could not start');
       setError('This browser could not start the speech worker. Try current Chrome or Edge on a desktop device.');
+      setBusy(false);
+    };
+    nextWorker.onmessageerror = () => {
+      clearWatchdog();
+      pendingRequestRef.current = null;
+      setRuntimeState('error');
+      setStatus('Browser worker response failed');
+      setError('This browser could not read the speech worker response. Reload the page and try again.');
       setBusy(false);
     };
     workerRef.current = nextWorker;
@@ -248,6 +331,9 @@ export default function TextToSpeechAudiobookGenerator() {
       voice,
     };
     emitTtsAction('Generate browser text to speech MP3', 'tts_generate');
+    fallbackAttemptedRef.current = false;
+    operationStartedAtRef.current = Date.now();
+    setElapsedSeconds(0);
 
     if (
       workerRef.current
@@ -262,7 +348,8 @@ export default function TextToSpeechAudiobookGenerator() {
     setBusy(true);
     setProgress(0);
     setRuntimeState('loading');
-    setStatus(`Loading ${selectedModel.name}, about ${selectedModel.downloadMegabytes} MB on first use`);
+    setStatus(`Loading ${selectedModel.name}, ${getBrowserTtsDownloadNote(modelId)}`);
+    armWatchdog();
     createWorker(modelId).postMessage({ type: 'load' } satisfies BrowserTtsWorkerRequest);
   }
 
@@ -332,7 +419,7 @@ export default function TextToSpeechAudiobookGenerator() {
       <div className="tts-audiobook__canary" role="note">
         <strong>No paid server or upload queue</strong>
         <p>
-          The first generation downloads about {selectedModel.downloadMegabytes} MB for {selectedModel.name} from Hugging Face.
+          The first generation downloads {getBrowserTtsDownloadNote(modelId)} for {selectedModel.name} from Hugging Face.
           {' '}{selectedModel.backendNote}. Only the selected model loads.
         </p>
       </div>
@@ -374,7 +461,7 @@ export default function TextToSpeechAudiobookGenerator() {
             <span><Volume2 aria-hidden="true" size={20} /></span>
             <div>
               <h3 id="tts-voice-heading">2. Choose model and voice</h3>
-              <p>Pick multilingual coverage or a smaller English model</p>
+              <p>Pick multilingual speed or higher-quality English speech</p>
             </div>
           </div>
 
@@ -392,7 +479,7 @@ export default function TextToSpeechAudiobookGenerator() {
                   />
                   <strong>{model.name}</strong>
                   <span>{model.recommendation}</span>
-                  <small>{model.description} About {model.downloadMegabytes} MB.</small>
+                  <small>{model.description} First use: {getBrowserTtsDownloadNote(model.id)}.</small>
                 </label>
               ))}
             </div>
@@ -455,14 +542,44 @@ export default function TextToSpeechAudiobookGenerator() {
           </div>
         </div>
 
+        {busy && (
+          <div className="tts-audiobook__loading-scene" aria-hidden="true">
+            <div className="tts-audiobook__loading-art">
+              <img
+                src="/tool-art/text-to-speech-audiobook-generator-tool.webp"
+                alt=""
+                width="1200"
+                height="630"
+              />
+            </div>
+            <div className="tts-audiobook__loading-copy">
+              <div className="tts-audiobook__sound-wave">
+                <span /><span /><span /><span /><span />
+              </div>
+              <strong>{runtimeState === 'loading' ? 'Warming up the voice studio' : 'Turning your text into sound'}</strong>
+              <span>{elapsedSeconds} seconds elapsed. Keep this tab open while the browser works.</span>
+            </div>
+          </div>
+        )}
+
         {runtimeState !== 'idle' && (
-          <div className="tts-audiobook__progress" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress} aria-label="Text to speech progress">
+          <div
+            className={`tts-audiobook__progress${busy && progress === 0 ? ' is-indeterminate' : ''}`}
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={busy && progress === 0 ? undefined : progress}
+            aria-valuetext={busy && progress === 0 ? status : `${progress}%`}
+            aria-label="Text to speech progress"
+          >
             <span style={{ width: `${progress}%` }} />
           </div>
         )}
         <div className="tts-audiobook__job-stats" aria-live="polite">
           <span>{selectedModel.name}</span>
           <span>{runtimeBackend ? `${runtimeBackend.toUpperCase()} backend` : selectedModel.backendNote}</span>
+          {runtimeDtype && <span>{runtimeDtype === 'fp32' ? 'Full precision' : 'q8 compatibility'}</span>}
+          {busy && <span>{elapsedSeconds}s elapsed</span>}
           <span>Revision {selectedModel.modelRevision.slice(0, 8)}</span>
           <span>No text upload</span>
         </div>
@@ -500,6 +617,7 @@ export default function TextToSpeechAudiobookGenerator() {
             <audio controls preload="metadata" src={result.url} aria-label="Generated MP3 preview" />
             <div className="tts-audiobook__result-meta">
               <span>{getBrowserTtsModel(result.modelId).name}</span>
+              {result.dtype && <span>{result.dtype === 'fp32' ? 'Full precision' : 'q8 compatibility'}</span>}
               <span>{formatSeconds(result.durationSeconds)} audio</span>
               <span>{formatSeconds(result.generationSeconds)} generation</span>
               <span>{result.bitrateKbps} kbps MP3</span>

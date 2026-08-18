@@ -3,7 +3,7 @@ import type { BrowserTtsModelId } from './browserTtsModels';
 export type BrowserTtsBackend = 'wasm' | 'webgpu';
 
 export type BrowserTtsWorkerRequest =
-  | { type: 'load' }
+  | { forceWasm?: boolean; type: 'load' }
   | {
       type: 'generate';
       language: string;
@@ -19,6 +19,7 @@ export interface BrowserTtsWorkerEvent {
   bitrateKbps?: number;
   current?: number;
   durationSeconds?: number;
+  dtype?: 'fp32' | 'q8';
   generationSeconds?: number;
   message?: string;
   modelId?: BrowserTtsModelId;

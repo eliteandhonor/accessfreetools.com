@@ -9,6 +9,8 @@ import {
 import {
   getBrowserTtsModel,
   KOKORO_MODEL_REVISION,
+  selectKokoroRuntimePlan,
+  type KokoroRuntimePlan,
 } from '../lib/browserTtsModels';
 import type { BrowserTtsWorkerRequest } from '../lib/browserTtsWorkerTypes';
 import {
@@ -48,6 +50,7 @@ const modelDefinition = getBrowserTtsModel(MODEL_ID);
 const supportedVoices = new Map(modelDefinition.voices.map((voice) => [voice.value, voice]));
 let model: KokoroModelRuntime | null = null;
 let tokenizer: KokoroTokenizerRuntime | null = null;
+let runtimePlan: KokoroRuntimePlan | null = null;
 let loadedVoice = '';
 let loadedVoiceData: Float32Array | null = null;
 
@@ -90,28 +93,69 @@ function reportLoadProgress(progress: unknown) {
   });
 }
 
-async function loadRuntime() {
+async function loadTokenizer() {
+  if (tokenizer) return tokenizer;
+  tokenizer = await AutoTokenizer.from_pretrained(MODEL_REPOSITORY, {
+    progress_callback: reportLoadProgress,
+    revision: KOKORO_MODEL_REVISION,
+  }) as unknown as KokoroTokenizerRuntime;
+  return tokenizer;
+}
+
+async function loadRuntime(forceWasm = false) {
   if (model && tokenizer) {
-    send({ type: 'ready', backend: 'wasm', modelId: MODEL_ID, revision: KOKORO_MODEL_REVISION });
+    send({
+      type: 'ready',
+      backend: runtimePlan?.backend ?? 'wasm',
+      dtype: runtimePlan?.dtype ?? 'q8',
+      modelId: MODEL_ID,
+      revision: KOKORO_MODEL_REVISION,
+    });
     return;
   }
 
-  send({ type: 'load-progress', message: 'Starting the smaller Kokoro WebAssembly model' });
-  const [loadedModel, loadedTokenizer] = await Promise.all([
-    StyleTextToSpeech2Model.from_pretrained(MODEL_REPOSITORY, {
-      device: 'wasm',
-      dtype: 'q8',
-      progress_callback: reportLoadProgress,
-      revision: KOKORO_MODEL_REVISION,
-    }),
-    AutoTokenizer.from_pretrained(MODEL_REPOSITORY, {
-      progress_callback: reportLoadProgress,
-      revision: KOKORO_MODEL_REVISION,
-    }),
-  ]);
-  model = loadedModel as unknown as KokoroModelRuntime;
-  tokenizer = loadedTokenizer as unknown as KokoroTokenizerRuntime;
-  send({ type: 'ready', backend: 'wasm', modelId: MODEL_ID, revision: KOKORO_MODEL_REVISION });
+  await loadTokenizer();
+  const webGpuAvailable = 'gpu' in worker.navigator;
+  const preferredPlan = selectKokoroRuntimePlan(webGpuAvailable, forceWasm);
+  const candidates = preferredPlan.backend === 'webgpu'
+    ? [preferredPlan, selectKokoroRuntimePlan(false)]
+    : [preferredPlan];
+  let lastError: unknown;
+
+  for (const candidate of candidates) {
+    send({
+      type: 'load-progress',
+      message: candidate.backend === 'webgpu'
+        ? 'Loading full-precision Kokoro with WebGPU'
+        : 'Loading Kokoro compatibility mode with WebAssembly',
+    });
+    try {
+      const loadedModel = await StyleTextToSpeech2Model.from_pretrained(MODEL_REPOSITORY, {
+        device: candidate.backend,
+        dtype: candidate.dtype,
+        progress_callback: reportLoadProgress,
+        revision: KOKORO_MODEL_REVISION,
+      });
+      model = loadedModel as unknown as KokoroModelRuntime;
+      runtimePlan = candidate;
+      send({
+        type: 'ready',
+        backend: candidate.backend,
+        dtype: candidate.dtype,
+        modelId: MODEL_ID,
+        revision: KOKORO_MODEL_REVISION,
+      });
+      return;
+    } catch (error) {
+      lastError = error;
+      model = null;
+      runtimePlan = null;
+      if (candidate.backend === 'webgpu') {
+        send({ type: 'load-progress', message: 'WebGPU was unavailable, switching to compatibility mode' });
+      }
+    }
+  }
+  throw lastError ?? new Error('No Kokoro browser backend was available.');
 }
 
 async function ensureVoice(voice: string, language: KokoroEnglishDialect) {
@@ -143,6 +187,7 @@ async function prepareChunk(
   const { input_ids: inputIds } = tokenizer(phonemes, { truncation: false });
   const tokenCount = Math.max(getInputLength(inputIds) - 2, 0);
   if (tokenCount > 0 && tokenCount <= KOKORO_MAX_MODEL_TOKENS) return [{ inputIds, tokenCount }];
+  inputIds.dispose();
   if (depth >= 8 || text.length < 2) throw new Error('Kokoro could not safely split this text into model-sized sections.');
 
   let parts = splitTextForKokoro(text, Math.max(40, Math.floor(text.length / 2)));
@@ -194,12 +239,24 @@ async function generate(request: GenerateRequest) {
       step: index,
       total: preparedChunks.length,
     });
-    const { waveform } = await model({
-      input_ids: chunk.inputIds,
-      style: new Tensor('float32', style, [1, KOKORO_STYLE_DIMENSIONS]),
-      speed: new Tensor('float32', [request.speed], [1]),
-    });
-    audioChunks.push(Float32Array.from(waveform.data as ArrayLike<number>));
+    const styleTensor = new Tensor('float32', style, [1, KOKORO_STYLE_DIMENSIONS]);
+    const speedTensor = new Tensor('float32', [request.speed], [1]);
+    try {
+      const { waveform } = await model({
+        input_ids: chunk.inputIds,
+        style: styleTensor,
+        speed: speedTensor,
+      });
+      try {
+        audioChunks.push(Float32Array.from(waveform.data as ArrayLike<number>));
+      } finally {
+        waveform.dispose();
+      }
+    } finally {
+      chunk.inputIds.dispose();
+      speedTensor.dispose();
+      styleTensor.dispose();
+    }
   }
 
   const pcm = concatenateAudio(audioChunks);
@@ -214,9 +271,10 @@ async function generate(request: GenerateRequest) {
     {
       type: 'result',
       audio: buffer,
-      backend: 'wasm',
+      backend: runtimePlan?.backend ?? 'wasm',
       bitrateKbps: MP3_BITRATE_KBPS,
       durationSeconds: pcm.length / SAMPLE_RATE,
+      dtype: runtimePlan?.dtype ?? 'q8',
       generationSeconds: (performance.now() - startedAt) / 1_000,
       mimeType: 'audio/mpeg',
       modelId: MODEL_ID,
@@ -231,7 +289,7 @@ async function generate(request: GenerateRequest) {
 worker.onmessage = (event: MessageEvent<BrowserTtsWorkerRequest>) => {
   void (async () => {
     try {
-      if (event.data.type === 'load') await loadRuntime();
+      if (event.data.type === 'load') await loadRuntime(event.data.forceWasm);
       if (event.data.type === 'generate') await generate(event.data);
     } catch (error) {
       send({ type: 'error', message: safeError(error), modelId: MODEL_ID });

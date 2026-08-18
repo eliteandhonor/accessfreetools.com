@@ -469,10 +469,10 @@ export const aiTools: ToolDefinition[] = [
     aliases: ['Text to Speech Generator', 'Text to MP3 Converter', 'Multilingual Text to Speech'],
     seoTitle: 'Text to Speech MP3 Generator | Browser TTS',
     seoDescription:
-      'Convert permitted text into a downloadable MP3 with multilingual Supertonic or smaller English Kokoro browser speech. No text upload.',
+      'Convert permitted text into a downloadable MP3 with multilingual Supertonic or full-precision English Kokoro browser speech. No text upload.',
     icon: 'tool-ai-voice',
     modelNote:
-      'Choose pinned Supertonic 3 for 31 named languages and 10 voices, or the pinned Kokoro 82M q8 model for a smaller English-only download and 10 curated voices. Only the selected model loads. Inference and MP3 creation stay on the visitor device.',
+      'Choose pinned Supertonic 3 for 31 named languages and 10 voices, or pinned Kokoro 82M for full-precision English speech with 10 curated voices. Kokoro uses WebGPU when available and automatically falls back to its compact q8 WebAssembly model. Only the selected model loads. Inference and MP3 creation stay on the visitor device.',
     inputMeaning:
       'Paste up to 10,000 characters of text you wrote or have permission to convert. Choose a model, supported language, fixed voice, and reading speed before generating.',
     resultMeaning:
@@ -497,9 +497,9 @@ export const aiTools: ToolDefinition[] = [
         result: 'A local audio preview and MP3 download without uploading the notes',
       },
       {
-        label: 'Smaller English model',
-        expression: 'Choose Kokoro, English (United Kingdom), and the Emma fixed voice',
-        result: 'English speech from the smaller q8 browser model as a downloadable MP3',
+        label: 'Higher-quality English model',
+        expression: 'Choose Kokoro, English (United States), and the Bella fixed voice',
+        result: 'English speech from full-precision WebGPU or the automatic q8 compatibility fallback as a downloadable MP3',
       },
     ],
     faq: [
@@ -556,12 +556,12 @@ export const aiTools: ToolDefinition[] = [
       {
         question: 'Why can browser speech generation take a long time?',
         answer:
-          'Supertonic downloads about 398 MB and prefers WebGPU, with a slower WebAssembly fallback. Kokoro downloads about 90 MB and currently uses WebAssembly. Generation time also depends on text length, section count, connection speed, and device memory.',
+          'Supertonic downloads about 398 MB and prefers WebGPU, with a slower WebAssembly fallback. Kokoro downloads about 326 MB for full-precision WebGPU or about 92 MB for its automatic q8 WebAssembly compatibility mode. Generation time also depends on text length, section count, connection speed, and device memory.',
       },
       {
         question: 'Which browser text-to-speech model should I choose?',
         answer:
-          'Choose Supertonic when you need one of its 31 named languages or the best chance of faster WebGPU generation. Try Kokoro for US or UK English when a smaller first download matters. Both use fixed voices, stay in the browser tab, and need a listening check before you rely on the MP3.',
+          'Choose Supertonic when you need one of its 31 named languages. Try Kokoro 82M HQ for US or UK English and a more natural English voice choice. Kokoro prefers full-precision WebGPU and can retry with a smaller q8 WebAssembly model when compatibility mode is needed. Both use fixed voices, stay in the browser tab, and need a listening check before you rely on the MP3.',
       },
     ],
     relatedSlugs: ['text-summarizer', 'reading-level-checker', 'word-counter'],

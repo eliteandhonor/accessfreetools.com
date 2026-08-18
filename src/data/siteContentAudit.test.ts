@@ -1359,7 +1359,13 @@ describe('site content audit guardrails', () => {
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('Only the selected model loads');
     expect(TTS_AUDIOBOOK_WORKER_SOURCE).toContain('encodePcmToMp3');
     expect(TTS_KOKORO_WORKER_SOURCE).toContain('encodePcmToMp3');
-    expect(TTS_KOKORO_WORKER_SOURCE).toContain("dtype: 'q8'");
+    expect(TTS_MODEL_REGISTRY_SOURCE).toContain('selectKokoroRuntimePlan');
+    expect(TTS_MODEL_REGISTRY_SOURCE).toContain('downloadMegabytes: 326');
+    expect(TTS_MODEL_REGISTRY_SOURCE).toContain('fallbackDownloadMegabytes: 92');
+    expect(TTS_KOKORO_WORKER_SOURCE).toContain('selectKokoroRuntimePlan(webGpuAvailable, forceWasm)');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('WORKER_STALL_TIMEOUT_MS = 90_000');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('Retrying Kokoro compatibility mode');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('tts-audiobook__loading-scene');
     expect(TTS_KOKORO_TEXT_SOURCE).toContain('KOKORO_MAX_MODEL_TOKENS = 509');
     expect(TTS_KOKORO_WORKER_SOURCE).toContain('selectKokoroVoiceStyle');
     expect(TTS_AUDIOBOOK_WORKER_SOURCE).toContain("mimeType: 'audio/mpeg'");

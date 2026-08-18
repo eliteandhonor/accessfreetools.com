@@ -21,9 +21,9 @@ Only the selected model worker loads. Changing models terminates the old worker 
 | Model | Browser support in this pilot | First download | Backend | Audio source |
 | --- | --- | ---: | --- | --- |
 | Supertonic 3 | 31 named languages, best effort, 10 fixed voices | About 398 MB plus a voice style | WebGPU with WebAssembly fallback | 44.1 kHz |
-| Kokoro 82M q8 | US and UK English, 10 curated fixed voices | About 90 MB including the 88.1 MB model plus tokenizer and one voice | WebAssembly | 24 kHz |
+| Kokoro 82M HQ | US and UK English, 10 curated fixed voices | About 326 MB full precision; about 92 MB compatibility fallback | Full-precision WebGPU with q8 WebAssembly fallback | 24 kHz |
 
-Supertonic stays the default because it offers the broadest language coverage and can use WebGPU. Kokoro is an experimental smaller-download option for English. The current official Kokoro browser implementation exposes American and British English voices only, so this page does not claim its broader Python language list.
+Supertonic stays the default because it offers the broadest language coverage. Kokoro is the English-focused higher-quality option. It prefers the full-precision ONNX model on WebGPU and automatically retries with the compact q8 model on WebAssembly when WebGPU is unavailable or the high-quality path fails. Bella is the default Kokoro voice. The current official Kokoro browser implementation exposes American and British English voices only, so this page does not claim its broader Python language list.
 
 ## Browser Architecture
 
@@ -34,6 +34,8 @@ Supertonic stays the default because it offers the broadest language coverage an
 5. The same pinned wasm-media-encoders runtime encodes either source rate as a 128 kbps mono MP3.
 6. The MP3 uses a temporary object URL in the current tab. Access Free Tools does not upload or retain it.
 7. Kokoro input is split in order, phonemized, checked against the 509-token model limit, generated section by section, and joined with short silence. Long text must not be silently truncated.
+8. Loading and generation use a 90-second no-progress watchdog. A stalled Kokoro job gets one automatic q8 WebAssembly retry; a second stall stops the worker and gives the user a clear recovery message.
+9. The status area shows elapsed time, actual backend and precision, an indeterminate state when byte progress is unavailable, and a reduced-motion-safe mascot scene.
 
 ## Model And Dependency Pins
 
@@ -41,7 +43,8 @@ Supertonic stays the default because it offers the broadest language coverage an
 - Supertonic 3 model revision: 3cadd1ee6394adea1bd021217a0e650ede09a323
 - Kokoro official browser source commit: dfb907a02bba8152ca444717ca5d78747ccb4bec
 - Kokoro ONNX model revision: 1939ad2a8e416c0acfeecc08a694d14ef25f2231
-- Kokoro dtype: q8, resolved as model_quantized.onnx
+- Kokoro preferred dtype: fp32, resolved as model.onnx on WebGPU
+- Kokoro fallback dtype: q8, resolved as model_quantized.onnx on WebAssembly
 - @huggingface/transformers: current project dependency
 - onnxruntime-web: 1.27.0
 - phonemizer: 1.2.1
@@ -61,8 +64,13 @@ Primary sources:
 - https://github.com/espeak-ng/espeak-ng
 - https://github.com/arseneyr/wasm-media-encoders
 
+Comparative context:
+
+- https://openvoxai.com/blog/best-free-local-tts-models-2026
+
 ## Other Models Reviewed
 
+- The supplied OpenVox comparison was used as a discovery list, then each candidate was checked against its primary project source before making an implementation decision.
 - PocketTTS remains a watch-list candidate. Its official project currently describes browser ports as community projects rather than an official browser runtime.
 - Qwen3-TTS and Chatterbox are not adopted because their practical browser footprint and runtime requirements do not fit this no-server pilot.
 - OmniVoice is not adopted because its current weights are non-commercial and its runtime is too heavy for this browser-only product.
@@ -73,7 +81,7 @@ Primary sources:
 - Pasted text only. No TXT, EPUB, PDF, DOCX, URL import, or file upload.
 - 10,000 characters per generation.
 - Supertonic: 31 named language choices, best effort, and F1-F5/M1-M5 fixed voices.
-- Kokoro: US and UK English with 10 curated fixed voices.
+- Kokoro: US and UK English with 10 curated fixed voices, full-precision WebGPU, and automatic q8 WebAssembly compatibility fallback.
 - Speed from 0.9x to 1.5x.
 - 128 kbps mono MP3 preview and download.
 - No M4B, merged book, ZIP, account, sharing link, voice upload, or cloning.
@@ -98,21 +106,26 @@ Primary sources:
     npm run build
     npm run check
 
-The browser check verifies both pinned model revisions, model-specific lazy workers, one-model-at-a-time selection, MP3 creation for 24 kHz and 44.1 kHz sources, Clarity masking, paste-only input, and the absence of rejected server infrastructure.
+The browser check verifies both pinned model revisions, model-specific lazy workers, one-model-at-a-time selection, Kokoro full-precision and compatibility paths, bounded stall recovery, the mascot loading state, MP3 creation for 24 kHz and 44.1 kHz sources, Clarity masking, paste-only input, and the absence of rejected server infrastructure.
 
 ## Current Browser Evidence
 
-Verified on August 18, 2026 in desktop Playwright Chromium against the local Astro production preview:
+Verified on August 18, 2026 against the local Astro production preview:
 
-- Kokoro generated and downloaded a 10.368-second MP3 at 24 kHz, mono, 128 kbps.
+- Microsoft Edge loaded the full-precision Kokoro model on WebGPU, used the Bella voice, and generated an audible 8.808-second MP3 at 24 kHz, mono, exactly 128 kbps. The first uncached run completed in 70.4 seconds.
+- A controlled Edge test blocked the full-precision model. The worker automatically loaded q8 Kokoro on WebAssembly and generated an audible 7.368-second MP3 at 24 kHz, mono, exactly 128 kbps in 37.6 seconds.
+- A controlled Edge no-progress test confirmed one automatic compatibility retry, then a clear timeout error, worker unload, hidden Stop button, and restored Generate button. Production timeout remains 90 seconds.
+- Google Chrome loaded full-precision Kokoro on WebGPU and generated a 6.3-second MP3 in 67.1 seconds on its first uncached run.
 - Supertonic generated and downloaded a 10.423-second MP3 at 44.1 kHz, mono, approximately 128 kbps.
-- Both files contained audible, non-silent output according to FFmpeg volume analysis.
+- The checked MP3 files contained audible, non-silent output according to FFmpeg volume analysis.
 - Switching from Kokoro to Supertonic terminated the first worker before loading the second model.
-- The generated-audio controls and model cards had no horizontal overflow at 1440px desktop or 390px mobile viewport widths.
+- The loading and generated-audio controls had no horizontal overflow at 1440px desktop or 390px mobile viewport widths.
+- The loading scene rendered five visible sound bars and the approved full-body mascot. Axe reported zero violations before and during loading at desktop and mobile widths.
+- Reduced-motion mode disabled both the mascot and sound-wave animations while retaining progress, elapsed time, and status text.
 - The inspected generation requests contained model and runtime files only. The pasted test sentence did not appear in a request URL or body.
 - Browser generation produced no page errors. Transformers.js emitted one non-fatal architecture-mapping warning while loading Kokoro.
 
-This is desktop Chromium evidence, not proof for Edge, Firefox, Safari, Android, or iOS. Mobile layout was inspected at a simulated viewport, but generation was not run on a physical mobile device. The pages therefore remain `noindex,follow` and outside XML sitemaps.
+This is current desktop Chrome and Edge evidence, not proof for Firefox, Safari, Android, or iOS. Mobile layout was inspected at a simulated viewport, but generation was not run on a physical mobile device. The pages therefore remain `noindex,follow` and outside XML sitemaps.
 
 ## Release Gates
 

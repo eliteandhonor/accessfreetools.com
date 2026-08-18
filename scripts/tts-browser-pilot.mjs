@@ -25,7 +25,10 @@ const checks = {
   browserDependencyPinned: packageJson.dependencies?.['onnxruntime-web'] === '1.27.0',
   phonemizerPinned: packageJson.dependencies?.phonemizer === '1.2.1',
   clarityMasked: component.includes('data-clarity-mask="true"'),
-  explicitModelDownloads: registry.includes('downloadMegabytes: 398') && registry.includes('downloadMegabytes: 90'),
+  explicitModelDownloads:
+    registry.includes('downloadMegabytes: 398')
+    && registry.includes('downloadMegabytes: 326')
+    && registry.includes('fallbackDownloadMegabytes: 92'),
   modelRevisionsPinned: registry.includes(supertonicRevision) && registry.includes(kokoroRevision),
   noServerServiceTree: !existsSync(join(repoRoot, 'services', 'tts', 'compose.yaml')),
   noServerTermsInRuntime: forbidden.every((term) => !`${component}\n${supertonicWorker}\n${kokoroWorker}`.includes(term)),
@@ -35,7 +38,18 @@ const checks = {
   loadsOnlySelectedModel: component.includes('Only the selected model loads') && component.includes('activeWorkerModelRef'),
   supertonicUsesWebGpuWithFallback:
     supertonicWorker.includes("['webgpu', 'wasm']") && supertonicWorker.includes("['wasm']"),
-  kokoroUsesSmallWasmModel: kokoroWorker.includes("dtype: 'q8'") && kokoroWorker.includes("device: 'wasm'"),
+  kokoroUsesWebGpuWithCompatibilityFallback:
+    registry.includes('selectKokoroRuntimePlan')
+    && kokoroWorker.includes('selectKokoroRuntimePlan(webGpuAvailable, forceWasm)')
+    && kokoroWorker.includes('selectKokoroRuntimePlan(false)'),
+  stalledWorkerHasBoundedRecovery:
+    component.includes('WORKER_STALL_TIMEOUT_MS = 90_000')
+    && component.includes('Retrying Kokoro compatibility mode')
+    && component.includes('forceWasm: true'),
+  mascotLoadingState:
+    component.includes('tts-audiobook__loading-scene')
+    && component.includes('/tool-art/text-to-speech-audiobook-generator-tool.webp')
+    && component.includes('tts-audiobook__sound-wave'),
   kokoroLongTextIsChunked:
     kokoroText.includes('KOKORO_MAX_MODEL_TOKENS = 509')
     && kokoroWorker.includes('splitTextForKokoro')

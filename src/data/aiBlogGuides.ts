@@ -323,22 +323,23 @@ const guideDetails: Record<string, AiGuideDetail> = {
   'text-to-speech-audiobook-generator': {
     title: 'How to Turn Text into an MP3 in Your Browser',
     description:
-      'Choose multilingual Supertonic or smaller English Kokoro, generate permitted text in your browser, and download a 128 kbps MP3.',
+      'Choose multilingual Supertonic or full-precision English Kokoro, generate permitted text in your browser, and download a 128 kbps MP3.',
     summary:
       'Learn how to choose a browser speech model, turn permitted text into a downloadable MP3, and check the finished audio.',
     purpose:
       'The Text to Speech MP3 Generator runs either pinned Supertonic 3 or pinned Kokoro 82M with its MP3 encoder in a browser worker. It is for text you wrote, public-domain material, or text you have permission to convert.',
     enter: [
       'Paste up to 10,000 characters of text you have permission to convert.',
-      'Choose Supertonic for multilingual text or Kokoro for the smaller US and UK English option.',
+      'Choose Supertonic for multilingual text or Kokoro 82M HQ for US and UK English.',
       'Choose a supported language, one fixed voice preset, and a reading speed from 0.9x to 1.5x.',
       'Confirm your rights and the model-use terms, then press Generate MP3.',
-      'Allow the selected model to download on first use: about 398 MB for Supertonic or about 90 MB for Kokoro.',
+      'Allow the selected model to download on first use: about 398 MB for Supertonic, about 326 MB for full-precision Kokoro WebGPU, or about 92 MB for Kokoro compatibility mode.',
       'Preview the result and download the MP3 before closing or refreshing the tab.',
     ],
     read: [
       'Model loading downloads the ONNX files from the pinned Hugging Face revision. It does not send your text to Hugging Face.',
-      'Supertonic prefers WebGPU and falls back to WebAssembly. The smaller Kokoro q8 option currently runs through WebAssembly.',
+      'Supertonic prefers WebGPU and falls back to WebAssembly. Kokoro prefers full-precision WebGPU and automatically retries with its q8 WebAssembly compatibility model when needed.',
+      'A 90-second no-progress watchdog stops a stalled worker. Kokoro gets one automatic compatibility retry instead of leaving the Stop button running forever.',
       'Only one model worker stays loaded. Changing the model unloads the previous one before the new model can start.',
       'Long Kokoro input is divided into ordered sections before generation instead of being silently truncated at the model limit.',
       'Completed generation provides one 128 kbps mono MP3. The temporary audio URL belongs to the current browser tab.',
@@ -416,7 +417,7 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
             : isReadingLevelTool
               ? 'The result uses word count, sentence count, and an English syllable estimate. Names, abbreviations, numbers, and mixed-language text can make that estimate less reliable.'
               : isBrowserTtsTool
-                ? 'The selected model downloads on first use: about 398 MB for multilingual Supertonic or about 90 MB for English Kokoro. Only that model runs in a dedicated browser worker, where inference and MP3 creation stay local.'
+                ? 'The selected model downloads on first use: about 398 MB for multilingual Supertonic, about 326 MB for full-precision English Kokoro on WebGPU, or about 92 MB for Kokoro compatibility mode. Only that model runs in a dedicated browser worker, where inference and MP3 creation stay local.'
                 : 'For this first self-hosted pass, OCR files and the starter text classifier files are served from Access Free Tools after you click the tool button. Heavier experimental model tools may still download model files from a third-party model host until we self-host more models.',
         ],
       },
