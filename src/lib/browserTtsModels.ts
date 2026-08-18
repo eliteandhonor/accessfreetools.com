@@ -175,6 +175,12 @@ export function getBrowserTtsVoice(modelId: BrowserTtsModelId, value: string) {
   return browserTtsModels[modelId].voices.find((voice) => voice.value === value);
 }
 
+export function getBrowserTtsVoiceSampleUrl(modelId: BrowserTtsModelId, value: string) {
+  const voice = getBrowserTtsVoice(modelId, value);
+  if (!voice) return '';
+  return `/audio/tts-voice-samples/${modelId}/${voice.value.toLowerCase()}.mp3`;
+}
+
 export function getBrowserTtsVoiceGroups(modelId: BrowserTtsModelId, language: string): BrowserTtsVoiceGroup[] {
   const groups = new Map<string, BrowserTtsVoice[]>();
   for (const voice of getBrowserTtsVoices(modelId, language)) {

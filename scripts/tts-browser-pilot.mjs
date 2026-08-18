@@ -20,6 +20,11 @@ const kokoroEnglishVoices = [
   'bf_alice', 'bf_emma', 'bf_isabella', 'bf_lily',
   'bm_daniel', 'bm_fable', 'bm_george', 'bm_lewis',
 ];
+const supertonicVoices = ['F1', 'F2', 'F3', 'F4', 'F5', 'M1', 'M2', 'M3', 'M4', 'M5'];
+const voiceSamplePaths = [
+  ...supertonicVoices.map((voice) => join(repoRoot, 'public', 'audio', 'tts-voice-samples', 'supertonic-3', `${voice.toLowerCase()}.mp3`)),
+  ...kokoroEnglishVoices.map((voice) => join(repoRoot, 'public', 'audio', 'tts-voice-samples', 'kokoro-82m', `${voice}.mp3`)),
+];
 const forbidden = [
   'tts.accessfreetools.com',
   'turnstile',
@@ -55,6 +60,16 @@ const checks = {
     component.includes('<optgroup key={group.label} label={group.label}>')
     && component.includes('getBrowserTtsVoiceGroups')
     && component.includes('tts-audiobook__voice-summary'),
+  staticVoiceSamplesAvailable:
+    voiceSamplePaths.length === 38
+    && voiceSamplePaths.every((path) => existsSync(path) && readFileSync(path).byteLength > 32_000),
+  voiceSamplesAvoidModelStartup:
+    component.includes('getBrowserTtsVoiceSampleUrl')
+    && component.includes('preload="none"')
+    && component.includes("'tts_voice_sample_play'")
+    && !component.includes("startGeneration('preview')")
+    && !inputHelpers.includes('MAX_TTS_PREVIEW_CHARACTERS')
+    && !component.includes('autoPlay'),
   supertonicUsesWebGpuWithFallback:
     supertonicWorker.includes("['webgpu', 'wasm']") && supertonicWorker.includes("['wasm']"),
   kokoroUsesWebGpuWithCompatibilityFallback:
@@ -88,11 +103,6 @@ const checks = {
     && inputHelpers.includes('MAX_TTS_TEXT_FILE_BYTES = 64 * 1024')
     && inputHelpers.includes('MAX_TTS_TEXT_CHARACTERS = 10_000')
     && !component.includes('FormData'),
-  voicePreviewIsBoundedAndManual:
-    component.includes('Preview first sentence')
-    && component.includes("startGeneration('preview')")
-    && inputHelpers.includes('MAX_TTS_PREVIEW_CHARACTERS = 220')
-    && !component.includes('autoPlay'),
   portableMp3Filename:
     component.includes('MP3 filename (optional)')
     && component.includes('sanitizeMp3Filename')
@@ -134,6 +144,7 @@ writeFileSync(
     '- Model loading: one model-specific worker at a time',
     '- Voice loading: one selected fixed voice file at a time',
     '- Kokoro library: 28 pinned English voices in four groups',
+    '- Voice samples: 38 pre-generated local MP3s; no model load before generation',
     '- Purchases, VPS, DNS, Docker, Redis, and server queue: not used',
     '',
     '## Checks',

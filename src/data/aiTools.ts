@@ -465,7 +465,7 @@ export const aiTools: ToolDefinition[] = [
     name: 'Text to Speech MP3 Generator',
     summary: 'Turn permitted text into a downloadable MP3 directly in your browser.',
     description:
-      'Paste text or open a local TXT file, choose a browser model, language, and fixed voice, preview the first sentence, then download a 128 kbps MP3. No text is uploaded to Access Free Tools.',
+      'Listen to instant samples, choose a fixed voice, then turn pasted text or a local TXT file into a downloadable 128 kbps MP3. No text is uploaded to Access Free Tools.',
     aliases: ['Text to Speech Generator', 'Text to MP3 Converter', 'Multilingual Text to Speech'],
     seoTitle: 'Text to Speech MP3 Generator | Browser TTS',
     seoDescription:
@@ -476,7 +476,7 @@ export const aiTools: ToolDefinition[] = [
     inputMeaning:
       'Paste or open a plain TXT file containing up to 10,000 characters of text you wrote or have permission to convert. Choose a model, supported language, fixed voice, and reading speed before generating.',
     resultMeaning:
-      'Create a short first-sentence voice preview without autoplay, then generate, name, preview, and download a 128 kbps mono MP3. Listen to names, numbers, abbreviations, and technical terms before relying on the recording.',
+      'Compare a short pre-recorded sample for every fixed voice without loading a model. Then generate, name, listen to, and download a 128 kbps mono MP3. Check names, numbers, abbreviations, and technical terms before relying on the recording.',
     doubleCheck:
       'Check pronunciation, language choice, missing or repeated lines, rights to the source text, and any prohibited use before sharing or publishing generated audio.',
     useCases: [
@@ -489,12 +489,12 @@ export const aiTools: ToolDefinition[] = [
       {
         label: 'Short English draft',
         expression: 'Paste a 2,000-character draft, choose Supertonic, English, preset F1, and 1.0x speed',
-        result: 'One 128 kbps MP3 held in the browser tab for preview and download',
+        result: 'One 128 kbps MP3 held in the browser tab for listening and download',
       },
       {
         label: 'Study notes',
         expression: 'Paste permitted notes, choose their language and a fixed voice, then press Generate MP3',
-        result: 'A local audio preview and MP3 download without uploading the notes',
+        result: 'Local audio playback and an MP3 download without uploading the notes',
       },
       {
         label: 'Higher-quality English model',
@@ -506,7 +506,12 @@ export const aiTools: ToolDefinition[] = [
       {
         question: 'How do I turn text into an MP3?',
         answer:
-          'Paste or open a local TXT file with up to 10,000 characters, choose Supertonic or Kokoro, then choose a supported language, fixed voice, and reading speed. Accept the rights notice, preview the first sentence if useful, press Generate MP3, and use Download MP3 to save it.',
+          'Paste or open a local TXT file with up to 10,000 characters, choose Supertonic or Kokoro, then compare the fixed voice samples. Choose a language, voice, and reading speed, accept the rights notice, press Generate MP3, and use Download MP3 to save it.',
+      },
+      {
+        question: 'Does playing a voice sample download the speech model?',
+        answer:
+          'No. Each fixed voice has a short pre-recorded MP3 sample. Playing it downloads only that small audio file, not the Supertonic or Kokoro model, and it does not use your text.',
       },
       {
         question: 'Does Access Free Tools upload my text?',
@@ -526,7 +531,7 @@ export const aiTools: ToolDefinition[] = [
       {
         question: 'Can I download the generated speech as an MP3?',
         answer:
-          'Yes. The browser encodes the generated audio as a 128 kbps mono MP3. You can preview it on the page and press Download MP3 to save the file to your device.',
+          'Yes. The browser encodes the generated audio as a 128 kbps mono MP3. You can listen to it on the page and press Download MP3 to save the file to your device.',
       },
       {
         question: 'Does best effort detect the language?',

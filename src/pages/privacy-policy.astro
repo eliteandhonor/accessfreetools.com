@@ -37,14 +37,15 @@ import BaseLayout from '../components/BaseLayout.astro';
     <p>
       The text-to-speech pilot reads pasted text or a TXT file you open locally, runs the speech
       model, and creates MP3 audio inside your browser. Access Free Tools does not receive or store
-      the text, the local filename, or generated audio. Temporary preview and full-audio URLs
-      disappear when the browser tab is closed or refreshed.
+      the text, the local filename, or generated audio. The temporary generated-audio URL disappears
+      when the browser tab is closed or refreshed. Fixed voice samples contain only a public comparison
+      sentence and do not use text you enter.
     </p>
     <p>
       After you choose to load the model, the browser downloads pinned model and voice files from
       Hugging Face. Those requests can expose ordinary network request information to Hugging Face,
       but they do not contain your text. The pilot records only bounded, text-free actions such as
-      model ready, preview or generation complete, cancellation, download, timeout, model-download
+      voice sample played, model ready, generation complete, cancellation, download, timeout, model-download
       failure, unsupported browser, and generation failure.
     </p>
 
@@ -112,7 +113,7 @@ import BaseLayout from '../components/BaseLayout.astro';
       the Access Free Tools analytics opt-out set in local storage.
     </p>
     <p>
-      Text, local-file, filename, model-status, preview-audio, and generated-audio surfaces in the
+      Text, local-file, filename, model-status, voice-sample, and generated-audio surfaces in the
       text-to-speech pilot are masked from Clarity. We record only bounded, text-free events needed
       to understand whether the pilot works.
     </p>

@@ -1355,7 +1355,11 @@ describe('site content audit guardrails', () => {
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('Download MP3');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('accept=".txt,text/plain"');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('await file.text()');
-    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('Preview first sentence');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('Play fixed voice sample');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('getBrowserTtsVoiceSampleUrl');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('preload="none"');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toContain('Preview first sentence');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toContain("startGeneration('preview')");
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toContain('autoPlay');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('MP3 filename (optional)');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('sanitizeMp3Filename');

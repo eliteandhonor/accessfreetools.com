@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-  getTtsPreviewText,
   MAX_TTS_TEXT_FILE_BYTES,
   prepareLocalTxtContent,
   sanitizeMp3Filename,
@@ -9,19 +8,6 @@ import {
 } from './browserTtsInput';
 
 describe('browser TTS input helpers', () => {
-  it('uses the first complete sentence for a voice preview', () => {
-    expect(getTtsPreviewText('  First sentence. Second sentence follows.  ')).toBe('First sentence.');
-    expect(getTtsPreviewText('No punctuation here', 8)).toBe('No punct');
-    expect(getTtsPreviewText('')).toBe('');
-  });
-
-  it('bounds voice preview text without cutting a normal word', () => {
-    const preview = getTtsPreviewText(`${'useful '.repeat(50)}ending.`, 80);
-    expect(preview.length).toBeLessThanOrEqual(80);
-    expect(preview.endsWith(' ')).toBe(false);
-    expect(preview.split(' ').every(Boolean)).toBe(true);
-  });
-
   it('accepts only bounded plain TXT files', () => {
     expect(validateLocalTxtFile({ name: 'notes.txt', size: 120, type: 'text/plain' })).toBe('');
     expect(validateLocalTxtFile({ name: 'notes.txt', size: 120, type: '' })).toBe('');

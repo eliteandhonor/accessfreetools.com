@@ -329,19 +329,19 @@ const guideDetails: Record<string, AiGuideDetail> = {
     description:
       'Choose multilingual Supertonic or full-precision English Kokoro, generate permitted text in your browser, and download a 128 kbps MP3.',
     summary:
-      'Learn how to open or paste permitted text, compare fixed browser voices, create a short preview, and check a downloadable MP3.',
+      'Learn how to open or paste permitted text, compare instant fixed-voice samples, and check a downloadable MP3.',
     purpose:
       'The Text to Speech MP3 Generator runs either pinned Supertonic 3 or pinned Kokoro 82M with its MP3 encoder in a browser worker. It is for text you wrote, public-domain material, or text you have permission to convert.',
     enter: [
       'Paste up to 10,000 characters or open a plain TXT file no larger than 64 KB. The file is read locally and is not uploaded.',
       'Choose Supertonic for multilingual text or Kokoro 82M HQ for US and UK English.',
       'Choose a supported language, one fixed voice preset, and a reading speed from 0.9x to 1.5x. Kokoro has 28 grouped US and UK English voices.',
-      'Confirm your rights and the model-use terms, then preview the first sentence or press Generate MP3.',
+      'Play the pre-recorded samples to compare voices without loading a model, then confirm your rights and the model-use terms before pressing Generate MP3.',
       'Allow the selected model to download on first use: about 398 MB for Supertonic, about 326 MB for full-precision Kokoro WebGPU, or about 92 MB for Kokoro compatibility mode.',
-      'Preview the result and download the MP3 before closing or refreshing the tab.',
+      'Play the result and download the MP3 before closing or refreshing the tab.',
     ],
     read: [
-      'The voice preview uses the first complete sentence or at most 220 characters. It creates a separate temporary MP3 and never starts playing by itself.',
+      'Every fixed voice has a short pre-recorded sample at 1.0x speed. Playing a sample loads only that MP3, not the speech model, and it never uses your text.',
       'Model loading downloads the ONNX files from the pinned Hugging Face revision. It does not send your text to Hugging Face.',
       'Supertonic prefers WebGPU and falls back to WebAssembly. Kokoro prefers full-precision WebGPU and automatically retries with its q8 WebAssembly compatibility model when needed.',
       'A 90-second no-progress watchdog stops a stalled worker. Kokoro gets one automatic compatibility retry instead of leaving the Stop button running forever.',

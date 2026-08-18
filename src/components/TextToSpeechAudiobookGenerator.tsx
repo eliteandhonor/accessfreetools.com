@@ -7,7 +7,6 @@ import {
   FileText,
   FileUp,
   LoaderCircle,
-  Play,
   RotateCcw,
   ShieldCheck,
   Square,
@@ -16,8 +15,6 @@ import {
 
 import { emitAftToolAction } from '../lib/aftToolAnalytics';
 import {
-  getTtsPreviewText,
-  MAX_TTS_PREVIEW_CHARACTERS,
   MAX_TTS_TEXT_CHARACTERS,
   prepareLocalTxtContent,
   sanitizeMp3Filename,
@@ -29,6 +26,7 @@ import {
   getBrowserTtsModel,
   getBrowserTtsVoice,
   getBrowserTtsVoiceGroups,
+  getBrowserTtsVoiceSampleUrl,
   getBrowserTtsVoices,
   type BrowserTtsModelId,
 } from '../lib/browserTtsModels';
@@ -39,12 +37,10 @@ import type {
 } from '../lib/browserTtsWorkerTypes';
 
 type BrowserReadiness = 'checking' | 'compatibility' | 'webgpu';
-type GenerationPurpose = 'full' | 'preview';
 type RuntimeState = 'complete' | 'error' | 'generating' | 'idle' | 'loading' | 'ready';
 type GenerationRequest = Extract<BrowserTtsWorkerRequest, { type: 'generate' }>;
 
 interface GenerationJob {
-  purpose: GenerationPurpose;
   request: GenerationRequest;
 }
 
@@ -114,20 +110,17 @@ export default function TextToSpeechAudiobookGenerator() {
   const [status, setStatus] = useState('Ready for text');
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<AudioResult | null>(null);
-  const [previewResult, setPreviewResult] = useState<AudioResult | null>(null);
   const [outputFilename, setOutputFilename] = useState('');
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
-  const [operationPurpose, setOperationPurpose] = useState<GenerationPurpose>('full');
   const [browserReadiness, setBrowserReadiness] = useState<BrowserReadiness>('checking');
   const workerRef = useRef<Worker | null>(null);
   const activeWorkerModelRef = useRef<BrowserTtsModelId | null>(null);
   const pendingJobRef = useRef<GenerationJob | null>(null);
   const activeJobRef = useRef<GenerationJob | null>(null);
   const resultUrlRef = useRef('');
-  const previewUrlRef = useRef('');
   const fallbackAttemptedRef = useRef(false);
   const operationStartedAtRef = useRef(0);
   const watchdogRef = useRef<number | null>(null);
@@ -135,6 +128,7 @@ export default function TextToSpeechAudiobookGenerator() {
   const availableVoices = getBrowserTtsVoices(modelId, language);
   const selectedVoice = getBrowserTtsVoice(modelId, voice) ?? availableVoices[0];
   const voiceGroups = getBrowserTtsVoiceGroups(modelId, language);
+  const voiceSampleUrl = selectedVoice ? getBrowserTtsVoiceSampleUrl(modelId, selectedVoice.value) : '';
 
   useEffect(() => {
     let cancelled = false;
@@ -169,7 +163,6 @@ export default function TextToSpeechAudiobookGenerator() {
     clearWatchdog();
     workerRef.current?.terminate();
     if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);
-    if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
   }, []);
 
   function clearWatchdog() {
@@ -181,17 +174,6 @@ export default function TextToSpeechAudiobookGenerator() {
     if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);
     resultUrlRef.current = '';
     setResult(null);
-  }
-
-  function clearPreviewResult() {
-    if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
-    previewUrlRef.current = '';
-    setPreviewResult(null);
-  }
-
-  function clearAudioResults() {
-    clearResult();
-    clearPreviewResult();
   }
 
   function handleWorkerStall() {
@@ -261,7 +243,7 @@ export default function TextToSpeechAudiobookGenerator() {
     setBusy(true);
     setProgress(0);
     setRuntimeState('generating');
-    setStatus(job.purpose === 'preview' ? 'Generating a voice preview in this browser' : 'Generating MP3 in this browser');
+    setStatus('Generating MP3 in this browser');
     armWatchdog();
     workerRef.current.postMessage(job.request);
   }
@@ -338,21 +320,12 @@ export default function TextToSpeechAudiobookGenerator() {
       }
       const url = URL.createObjectURL(new Blob([data.audio], { type: 'audio/mpeg' }));
       const audioResult = createAudioResult(data, job, activeModelId, url);
-      if (job.purpose === 'preview') {
-        clearPreviewResult();
-        previewUrlRef.current = url;
-        setPreviewResult(audioResult);
-        setStatus('Voice preview ready');
-        setNotice('The short preview is ready. It will not play until you press play.');
-        emitTtsAction('Complete voice preview', 'tts_preview_complete');
-      } else {
-        clearResult();
-        resultUrlRef.current = url;
-        setResult(audioResult);
-        setStatus('Your MP3 is ready');
-        setNotice('Preview or download the MP3 before closing or refreshing this tab.');
-        emitTtsAction('Complete browser text to speech MP3', 'tts_complete');
-      }
+      clearResult();
+      resultUrlRef.current = url;
+      setResult(audioResult);
+      setStatus('Your MP3 is ready');
+      setNotice('Listen to or download the MP3 before closing or refreshing this tab.');
+      emitTtsAction('Complete browser text to speech MP3', 'tts_complete');
       setRuntimeState('complete');
       setRuntimeBackend(data.backend ?? 'wasm');
       setProgress(100);
@@ -404,7 +377,7 @@ export default function TextToSpeechAudiobookGenerator() {
     return nextWorker;
   }
 
-  function startGeneration(purpose: GenerationPurpose) {
+  function startGeneration() {
     const cleanText = text.trim();
     setError('');
     setNotice('');
@@ -421,32 +394,21 @@ export default function TextToSpeechAudiobookGenerator() {
       return;
     }
 
-    const sourceText = purpose === 'preview' ? getTtsPreviewText(cleanText) : cleanText;
-    if (!sourceText) {
-      setError('Add a sentence to preview or generate.');
-      return;
-    }
-    if (purpose === 'preview') clearPreviewResult();
-    else clearResult();
+    clearResult();
 
     const job: GenerationJob = {
-      purpose,
       request: {
         type: 'generate',
         language,
         speed,
         steps: QUALITY_PASSES,
-        text: sourceText,
+        text: cleanText,
         voice,
       },
     };
-    emitTtsAction(
-      purpose === 'preview' ? 'Generate voice preview' : 'Generate browser text to speech MP3',
-      purpose === 'preview' ? 'tts_preview_generate' : 'tts_generate',
-    );
+    emitTtsAction('Generate browser text to speech MP3', 'tts_generate');
     fallbackAttemptedRef.current = false;
     operationStartedAtRef.current = Date.now();
-    setOperationPurpose(purpose);
     setElapsedSeconds(0);
 
     if (
@@ -471,7 +433,7 @@ export default function TextToSpeechAudiobookGenerator() {
     if (nextModelId === modelId) return;
     const nextModel = getBrowserTtsModel(nextModelId);
     resetRuntime(`Ready to load ${nextModel.name}`);
-    clearAudioResults();
+    clearResult();
     setModelId(nextModelId);
     setLanguage(nextModel.defaultLanguage);
     setVoice(nextModel.defaultVoice);
@@ -483,13 +445,13 @@ export default function TextToSpeechAudiobookGenerator() {
     const nextVoices = getBrowserTtsVoices(modelId, nextLanguage);
     setLanguage(nextLanguage);
     if (!nextVoices.some((item) => item.value === voice)) setVoice(nextVoices[0]?.value ?? selectedModel.defaultVoice);
-    clearAudioResults();
+    clearResult();
   }
 
   function chooseVoice(nextVoice: string) {
     setVoice(nextVoice);
     setError('');
-    clearAudioResults();
+    clearResult();
   }
 
   async function importTxtFile(event: ChangeEvent<HTMLInputElement>) {
@@ -511,7 +473,7 @@ export default function TextToSpeechAudiobookGenerator() {
         return;
       }
       setText(prepared.text);
-      clearAudioResults();
+      clearResult();
       setNotice('TXT text loaded in this browser. The file was not uploaded.');
       emitTtsAction('Open local TXT text', 'tts_txt_import');
     } catch {
@@ -523,7 +485,7 @@ export default function TextToSpeechAudiobookGenerator() {
     setText('');
     setNotice('');
     setError('');
-    clearAudioResults();
+    clearResult();
   }
 
   function stopRuntime(reason: 'cancel' | 'unload') {
@@ -612,7 +574,7 @@ export default function TextToSpeechAudiobookGenerator() {
             onChange={(event) => {
               setText(event.target.value);
               setError('');
-              clearAudioResults();
+              clearResult();
             }}
           />
           <div className="tts-audiobook__source-meta">
@@ -704,25 +666,26 @@ export default function TextToSpeechAudiobookGenerator() {
             disabled={busy}
             onChange={(event) => {
               setSpeed(Number(event.target.value));
-              clearAudioResults();
+              clearResult();
             }}
           />
 
-          <div className="tts-audiobook__voice-preview" data-clarity-mask="true">
-            <button
-              type="button"
-              className="tts-audiobook__preview-button"
-              data-aft-analytics-manual="true"
-              disabled={busy || !text.trim()}
-              onClick={() => startGeneration('preview')}
-            >
-              <Play aria-hidden="true" size={17} /> Preview first sentence
-            </button>
-            <span>Uses the first complete sentence or up to {MAX_TTS_PREVIEW_CHARACTERS} characters. It never plays automatically.</span>
-            {previewResult && (
-              <audio controls preload="metadata" src={previewResult.url} aria-label="Selected voice MP3 preview" />
-            )}
-          </div>
+          {selectedVoice && voiceSampleUrl && (
+            <div className="tts-audiobook__voice-sample" data-clarity-mask="true">
+              <div>
+                <strong>Hear {selectedVoice.label}</strong>
+                <span>Pre-recorded at 1.0x. Playing this sample does not load the speech model or use your text.</span>
+              </div>
+              <audio
+                key={`${modelId}-${selectedVoice.value}`}
+                controls
+                preload="none"
+                src={voiceSampleUrl}
+                aria-label={`${selectedVoice.label} voice sample`}
+                onPlay={() => emitTtsAction('Play fixed voice sample', 'tts_voice_sample_play')}
+              />
+            </div>
+          )}
         </section>
       </div>
 
@@ -745,9 +708,7 @@ export default function TextToSpeechAudiobookGenerator() {
               <strong>
                 {runtimeState === 'loading'
                   ? 'Warming up the voice studio'
-                  : operationPurpose === 'preview'
-                    ? 'Preparing a short voice sample'
-                    : 'Turning your text into sound'}
+                  : 'Turning your text into sound'}
               </strong>
               <span>{elapsedSeconds} seconds elapsed. Keep this tab open while the browser works.</span>
             </div>
@@ -787,7 +748,7 @@ export default function TextToSpeechAudiobookGenerator() {
         <div className="tts-audiobook__runtime-actions">
           {!['loading', 'generating'].includes(runtimeState) && (
             <>
-              <button type="button" className="tts-audiobook__generate" data-aft-analytics-manual="true" disabled={busy} onClick={() => startGeneration('full')}>
+              <button type="button" className="tts-audiobook__generate" data-aft-analytics-manual="true" disabled={busy} onClick={startGeneration}>
                 <Volume2 aria-hidden="true" size={19} /> {result ? 'Generate another MP3' : 'Generate MP3'}
               </button>
               {workerRef.current && (
@@ -806,7 +767,7 @@ export default function TextToSpeechAudiobookGenerator() {
 
         {result && (
           <div className="tts-audiobook__downloads">
-            <audio controls preload="metadata" src={result.url} aria-label="Generated MP3 preview" />
+            <audio controls preload="metadata" src={result.url} aria-label="Generated MP3 playback" />
             <div className="tts-audiobook__result-meta">
               <span>{getBrowserTtsModel(result.modelId).name}</span>
               {result.dtype && <span>{result.dtype === 'fp32' ? 'Full precision' : 'q8 compatibility'}</span>}

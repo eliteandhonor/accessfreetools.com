@@ -1,4 +1,3 @@
-export const MAX_TTS_PREVIEW_CHARACTERS = 220;
 export const MAX_TTS_TEXT_CHARACTERS = 10_000;
 export const MAX_TTS_TEXT_FILE_BYTES = 64 * 1024;
 
@@ -11,20 +10,6 @@ export interface TextFileMetadata {
 export interface PreparedTextImport {
   error?: string;
   text?: string;
-}
-
-function truncateAtWord(value: string, maxCharacters: number) {
-  if (value.length <= maxCharacters) return value;
-  const shortened = value.slice(0, maxCharacters + 1);
-  const lastSpace = shortened.lastIndexOf(' ');
-  return shortened.slice(0, lastSpace > maxCharacters * 0.6 ? lastSpace : maxCharacters).trimEnd();
-}
-
-export function getTtsPreviewText(value: string, maxCharacters = MAX_TTS_PREVIEW_CHARACTERS) {
-  const normalized = value.trim().replace(/\s+/g, ' ');
-  if (!normalized) return '';
-  const firstSentence = normalized.match(/^.*?[.!?](?:["')\]]?)(?=\s|$)/)?.[0] ?? normalized;
-  return truncateAtWord(firstSentence, maxCharacters);
 }
 
 export function validateLocalTxtFile(file: TextFileMetadata) {

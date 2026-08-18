@@ -1753,9 +1753,9 @@ const jsonToCsvInstructions = isJsonToCsvConverter
 const textToSpeechInstructions = isTextToSpeechAudiobookGenerator
   ? [
       'Paste up to 10,000 characters or open a plain TXT file no larger than 64 KB. The file stays in this browser.',
-      'Choose multilingual Supertonic or English Kokoro, then choose a supported language, grouped fixed voice, and reading speed.',
-      'Confirm the rights and selected model notice. Preview the first sentence if you want to compare a voice before the full generation.',
-      'Generate, name, preview, and download the 128 kbps MP3 before closing or refreshing the tab.',
+      'Choose multilingual Supertonic or English Kokoro, then listen to the instant samples and choose a supported language, grouped fixed voice, and reading speed.',
+      'Confirm the rights and selected model notice. Voice samples do not load the model or use your text.',
+      'Generate, name, listen to, and download the 128 kbps MP3 before closing or refreshing the tab.',
     ]
   : undefined;
 const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? gameToolInstructions ?? statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
@@ -4074,8 +4074,9 @@ const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? ga
         <aside class="trust-note trust-note-ai" aria-label={`${tool.name} browser processing and license limits`}>
           <strong>Browser speech model with no text upload</strong>
           <p>
-            Pasted text, locally opened TXT content, speech generation, preview, and MP3 creation stay in this browser
-            tab. Access Free Tools does not receive the text or filename. Choose the approximately 398 MB multilingual Supertonic model or English Kokoro,
+            Pasted text, locally opened TXT content, speech generation, playback, and MP3 creation stay in this browser
+            tab. Access Free Tools does not receive the text or filename. The fixed voice samples are small public MP3s and do not use your text.
+            Choose the approximately 398 MB multilingual Supertonic model or English Kokoro,
             which uses an approximately 326 MB full-precision WebGPU model with an approximately 92 MB q8
             WebAssembly compatibility fallback. Only the selected model and fixed voice load during generation.
           </p>
