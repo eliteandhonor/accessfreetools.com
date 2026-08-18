@@ -1353,8 +1353,12 @@ describe('site content audit guardrails', () => {
     expect(MAX_TTS_TEXT_FILE_BYTES).toBe(64 * 1024);
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('Generate MP3');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('Download MP3');
-    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('accept=".txt,text/plain"');
-    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('await file.text()');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain(
+      'accept=".txt,.md,.markdown,.epub,text/plain,text/markdown,text/x-markdown,application/epub+zip"',
+    );
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('await file.arrayBuffer()');
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain("await import('../lib/browserTtsMarkdownImport')");
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain("await import('../lib/browserTtsEpubImport')");
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('Play fixed voice sample');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('getBrowserTtsVoiceSampleUrl');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('preload="none"');
@@ -1364,7 +1368,7 @@ describe('site content audit guardrails', () => {
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('MP3 filename (optional)');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).toContain('sanitizeMp3Filename');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toContain('FormData');
-    expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toMatch(/accept="[^"]*(?:epub|pdf|docx)/i);
+    expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toMatch(/accept="[^"]*(?:pdf|docx)/i);
     expect(browserTtsModels['kokoro-82m'].voices).toHaveLength(28);
     expect(browserTtsModels['kokoro-82m'].voices.filter((item) => item.language === 'en-us')).toHaveLength(20);
     expect(browserTtsModels['kokoro-82m'].voices.filter((item) => item.language === 'en-gb')).toHaveLength(8);

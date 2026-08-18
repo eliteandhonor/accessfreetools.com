@@ -1752,10 +1752,11 @@ const jsonToCsvInstructions = isJsonToCsvConverter
   : undefined;
 const textToSpeechInstructions = isTextToSpeechAudiobookGenerator
   ? [
-      'Paste up to 10,000 characters or open a plain TXT file no larger than 64 KB. The file stays in this browser.',
+      'Paste up to 10,000 characters, open a TXT or Markdown file up to 64 KB, or open an EPUB up to 8 MB. Parsing stays in this browser.',
+      'Choose one MP3 or named chapter MP3s. Review, rename, reorder, add, or remove chapters before generation.',
       'Choose multilingual Supertonic or English Kokoro, then listen to the instant samples and choose a supported language, grouped fixed voice, and reading speed.',
       'Confirm the rights and selected model notice. Voice samples do not load the model or use your text.',
-      'Generate, name, listen to, and download the 128 kbps MP3 before closing or refreshing the tab.',
+      'Generate and download a 128 kbps MP3, or keep the separate chapter MP3s and download their audio-only ZIP before closing the tab.',
     ]
   : undefined;
 const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? gameToolInstructions ?? statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
@@ -2506,10 +2507,10 @@ const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? ga
     {
       isTextToSpeechAudiobookGenerator && (
         <div class="advanced-tool-points ai-tool-points" role="group" aria-label={`${tool.name} highlights`}>
-          <span>Paste or local TXT</span>
+          <span>Local TXT, Markdown, or EPUB</span>
           <span>Two browser models</span>
           <span>10 + 28 fixed voices</span>
-          <span>128 kbps MP3 download</span>
+          <span>MP3 or chapter ZIP</span>
         </div>
       )
     }
@@ -4074,8 +4075,9 @@ const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? ga
         <aside class="trust-note trust-note-ai" aria-label={`${tool.name} browser processing and license limits`}>
           <strong>Browser speech model with no text upload</strong>
           <p>
-            Pasted text, locally opened TXT content, speech generation, playback, and MP3 creation stay in this browser
-            tab. Access Free Tools does not receive the text or filename. The fixed voice samples are small public MP3s and do not use your text.
+            Pasted text, locally parsed TXT, Markdown, and EPUB content, speech generation, playback, MP3 creation, and
+            chapter ZIP creation stay in this browser tab. Access Free Tools does not receive the document, text, filename,
+            chapter names, or generated audio. The fixed voice samples are small public MP3s and do not use your text.
             Choose the approximately 398 MB multilingual Supertonic model or English Kokoro,
             which uses an approximately 326 MB full-precision WebGPU model with an approximately 92 MB q8
             WebAssembly compatibility fallback. Only the selected model and fixed voice load during generation.

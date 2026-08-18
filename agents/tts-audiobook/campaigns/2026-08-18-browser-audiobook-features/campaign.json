@@ -3,7 +3,7 @@
   "campaignId": "2026-08-18-browser-audiobook-features",
   "title": "Browser Audiobook Feature Campaign",
   "objective": "Deliver local voice preferences, pre-download audio estimates, a chapter-to-MP3-and-ZIP workflow, and browser-only Markdown and EPUB import without adding accounts, servers, purchases, uploads, or hosted inference.",
-  "state": "planned",
+  "state": "in_progress",
   "allowedStatuses": [
     "planned",
     "in_progress",
@@ -117,7 +117,7 @@
       "feature": "favorites-recent-voices",
       "owner": "voice-preference",
       "priority": "P1",
-      "status": "planned",
+      "status": "evidence_ready",
       "dependsOn": [],
       "evidencePaths": [
         "src/lib/browserTtsPreferences.ts",
@@ -133,8 +133,10 @@
       "feature": "favorites-recent-voices",
       "owner": "voice-preference",
       "priority": "P1",
-      "status": "planned",
-      "dependsOn": ["VP-01"],
+      "status": "evidence_ready",
+      "dependsOn": [
+        "VP-01"
+      ],
       "evidencePaths": [
         "src/components/TextToSpeechAudiobookGenerator.tsx",
         "output/tts-feature-campaign/voice-preferences/"
@@ -149,7 +151,7 @@
       "feature": "audio-estimate",
       "owner": "audio-estimation",
       "priority": "P1",
-      "status": "planned",
+      "status": "evidence_ready",
       "dependsOn": [],
       "evidencePaths": [
         "src/lib/browserTtsEstimate.ts",
@@ -165,8 +167,10 @@
       "feature": "audio-estimate",
       "owner": "audio-estimation",
       "priority": "P1",
-      "status": "planned",
-      "dependsOn": ["AE-01"],
+      "status": "evidence_ready",
+      "dependsOn": [
+        "AE-01"
+      ],
       "evidencePaths": [
         "src/components/TextToSpeechAudiobookGenerator.tsx",
         "output/tts-feature-campaign/audio-estimate/"
@@ -181,7 +185,7 @@
       "feature": "document-import",
       "owner": "document-import-security",
       "priority": "P0",
-      "status": "planned",
+      "status": "evidence_ready",
       "dependsOn": [],
       "evidencePaths": [
         "docs/tts-browser-import-security.md",
@@ -197,8 +201,11 @@
       "feature": "document-import",
       "owner": "document-import-security",
       "priority": "P1",
-      "status": "planned",
-      "dependsOn": ["DI-01", "CB-01"],
+      "status": "evidence_ready",
+      "dependsOn": [
+        "DI-01",
+        "CB-01"
+      ],
       "evidencePaths": [
         "src/lib/browserTtsMarkdownImport.ts",
         "src/lib/browserTtsMarkdownImport.test.ts"
@@ -213,8 +220,11 @@
       "feature": "document-import",
       "owner": "document-import-security",
       "priority": "P1",
-      "status": "planned",
-      "dependsOn": ["DI-01", "CB-01"],
+      "status": "evidence_ready",
+      "dependsOn": [
+        "DI-01",
+        "CB-01"
+      ],
       "evidencePaths": [
         "src/lib/browserTtsEpubImport.ts",
         "src/lib/browserTtsEpubImport.test.ts",
@@ -230,7 +240,7 @@
       "feature": "chapter-builder",
       "owner": "chapter-workflow",
       "priority": "P0",
-      "status": "planned",
+      "status": "evidence_ready",
       "dependsOn": [],
       "evidencePaths": [
         "src/lib/browserTtsChapters.ts",
@@ -246,8 +256,10 @@
       "feature": "chapter-builder",
       "owner": "chapter-workflow",
       "priority": "P1",
-      "status": "planned",
-      "dependsOn": ["CB-01"],
+      "status": "evidence_ready",
+      "dependsOn": [
+        "CB-01"
+      ],
       "evidencePaths": [
         "src/lib/browserTtsChapterQueue.ts",
         "src/lib/browserTtsChapterQueue.test.ts",
@@ -263,14 +275,16 @@
       "feature": "chapter-builder",
       "owner": "chapter-workflow",
       "priority": "P1",
-      "status": "planned",
-      "dependsOn": ["CB-02"],
+      "status": "evidence_ready",
+      "dependsOn": [
+        "CB-02"
+      ],
       "evidencePaths": [
-        "src/lib/browserTtsChapterArchive.ts",
-        "src/lib/browserTtsChapterArchive.test.ts",
+        "src/lib/browserTtsArchive.ts",
+        "src/lib/browserTtsArchive.test.ts",
         "output/tts-feature-campaign/chapter-zip/"
       ],
-      "evidenceCommand": "npx vitest run --configLoader runner src/lib/browserTtsChapterArchive.test.ts",
+      "evidenceCommand": "npx vitest run --configLoader runner src/lib/browserTtsArchive.test.ts",
       "doneRule": "The browser creates one ordered ZIP containing valid separate 128 kbps MP3 files with unique sanitized names, no source text, no remote upload, and revoked object URLs after use.",
       "approvalGate": "release-proof-judge"
     },
@@ -280,8 +294,12 @@
       "feature": "chapter-builder",
       "owner": "chapter-workflow",
       "priority": "P1",
-      "status": "planned",
-      "dependsOn": ["CB-03", "DI-02", "DI-03"],
+      "status": "evidence_ready",
+      "dependsOn": [
+        "CB-03",
+        "DI-02",
+        "DI-03"
+      ],
       "evidencePaths": [
         "output/tts-feature-campaign/chapter-soak/latest.json",
         "output/tts-feature-campaign/chapter-soak/latest.md"
@@ -296,8 +314,14 @@
       "feature": "cross-cutting",
       "owner": "product-accessibility-privacy",
       "priority": "P1",
-      "status": "planned",
-      "dependsOn": ["VP-02", "AE-02", "CB-01", "DI-02", "DI-03"],
+      "status": "evidence_ready",
+      "dependsOn": [
+        "VP-02",
+        "AE-02",
+        "CB-01",
+        "DI-02",
+        "DI-03"
+      ],
       "evidencePaths": [
         "src/components/TextToSpeechAudiobookGenerator.tsx",
         "output/tts-feature-campaign/integration/"
@@ -312,8 +336,11 @@
       "feature": "cross-cutting",
       "owner": "product-accessibility-privacy",
       "priority": "P1",
-      "status": "planned",
-      "dependsOn": ["CB-04", "PX-01"],
+      "status": "in_progress",
+      "dependsOn": [
+        "CB-04",
+        "PX-01"
+      ],
       "evidencePaths": [
         "output/tts-feature-campaign/browser-matrix/latest.json",
         "output/tts-feature-campaign/privacy-sentinel/latest.json"
@@ -329,7 +356,12 @@
       "owner": "release-proof-judge",
       "priority": "P0",
       "status": "planned",
-      "dependsOn": ["VP-02", "AE-02", "CB-04", "PX-02"],
+      "dependsOn": [
+        "VP-02",
+        "AE-02",
+        "CB-04",
+        "PX-02"
+      ],
       "evidencePaths": [
         "output/agent-campaigns/tts-feature-campaign/latest.json",
         "output/tts-feature-campaign/release-judge/latest.md"
@@ -345,7 +377,9 @@
       "owner": "release-proof-judge",
       "priority": "P0",
       "status": "planned",
-      "dependsOn": ["RJ-01"],
+      "dependsOn": [
+        "RJ-01"
+      ],
       "evidencePaths": [
         "agents/tts-audiobook/campaigns/2026-08-18-browser-audiobook-features/completion-audit.md",
         "output/tts-feature-campaign/release-judge/production-proof.md"

@@ -327,18 +327,20 @@ const guideDetails: Record<string, AiGuideDetail> = {
   'text-to-speech-audiobook-generator': {
     title: 'How to Turn Text into an MP3 in Your Browser',
     description:
-      'Choose multilingual Supertonic or full-precision English Kokoro, generate permitted text in your browser, and download a 128 kbps MP3.',
+      'Choose multilingual Supertonic or English Kokoro, generate permitted text or local document chapters in your browser, and download 128 kbps MP3 files.',
     summary:
-      'Learn how to open or paste permitted text, compare instant fixed-voice samples, and check a downloadable MP3.',
+      'Learn how to paste text, import TXT, Markdown, or EPUB chapters locally, compare voice samples, and download one MP3 or an ordered chapter ZIP.',
     purpose:
       'The Text to Speech MP3 Generator runs either pinned Supertonic 3 or pinned Kokoro 82M with its MP3 encoder in a browser worker. It is for text you wrote, public-domain material, or text you have permission to convert.',
     enter: [
-      'Paste up to 10,000 characters or open a plain TXT file no larger than 64 KB. The file is read locally and is not uploaded.',
+      'Paste up to 10,000 characters, or open a local TXT or Markdown file up to 64 KB or an EPUB up to 8 MB. The document is parsed locally and is not uploaded.',
+      'Choose Single MP3 or Chapter MP3s. Review chapter names, text, and order before generating anything.',
       'Choose Supertonic for multilingual text or Kokoro 82M HQ for US and UK English.',
       'Choose a supported language, one fixed voice preset, and a reading speed from 0.9x to 1.5x. Kokoro has 28 grouped US and UK English voices.',
       'Play the pre-recorded samples to compare voices without loading a model, then confirm your rights and the model-use terms before pressing Generate MP3.',
       'Allow the selected model to download on first use: about 398 MB for Supertonic, about 326 MB for full-precision Kokoro WebGPU, or about 92 MB for Kokoro compatibility mode.',
-      'Play the result and download the MP3 before closing or refreshing the tab.',
+      'Check the estimated duration and MP3 size before downloading the model. Then play and download the result before closing or refreshing the tab.',
+      'In chapter mode, download each MP3 separately or create an ordered ZIP containing only the completed MP3 files.',
     ],
     read: [
       'Every fixed voice has a short pre-recorded sample at 1.0x speed. Playing a sample loads only that MP3, not the speech model, and it never uses your text.',
@@ -347,8 +349,10 @@ const guideDetails: Record<string, AiGuideDetail> = {
       'A 90-second no-progress watchdog stops a stalled worker. Kokoro gets one automatic compatibility retry instead of leaving the Stop button running forever.',
       'Only one model worker stays loaded. Changing the model unloads the previous one before the new model can start.',
       'Long Kokoro input is divided into ordered sections before generation instead of being silently truncated at the model limit.',
-      'Completed generation provides one 128 kbps mono MP3. The temporary audio URL belongs to the current browser tab.',
-      'An optional filename is cleaned for Windows and macOS before download and always ends in .mp3.',
+      'Single mode provides one 128 kbps mono MP3. Chapter mode generates one chapter at a time through the same loaded worker, preserves completed files after a later failure, and allows one retry for the failed chapter.',
+      'Optional MP3 and ZIP names are cleaned for Windows and macOS. The chapter ZIP contains separate audio files only, never the source text.',
+      'Favourite and recent voice IDs stay in local browser storage. Text, document names, audio, language, and voice choices are not stored there.',
+      'Markdown headings and the EPUB reading spine become editable chapters. Unsafe paths, scripts, remote resources, encrypted EPUBs, nested archives, and suspicious compression are rejected.',
       'Supertonic Language not specified is best-effort processing, not detection. Kokoro browser support is currently US and UK English only.',
       'Listen for names, dates, abbreviations, formulas, numbers, missing lines, repeated lines, and mixed-language pronunciation before sharing the audio.',
     ],
@@ -358,6 +362,7 @@ const guideDetails: Record<string, AiGuideDetail> = {
       'Do not describe either model\'s fixed voices as voice cloning or upload reference audio. The pilot supports neither feature.',
       'Do not assume a successful job means every word was pronounced correctly.',
       'Do not close or refresh the tab before downloading the MP3 because the browser-only result is not stored by Access Free Tools.',
+      'Do not skip the imported chapter review. Navigation pages, unusual markup, names, and abbreviations can still need a manual correction before speech generation.',
       'Do not treat an open model as unrestricted. Supertonic uses OpenRAIL-M terms, while Kokoro and its browser code use Apache-2.0 components with separate attribution requirements.',
     ],
     sources: [

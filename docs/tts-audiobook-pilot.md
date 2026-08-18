@@ -8,11 +8,12 @@ The public beta remains noindex,follow and outside XML sitemaps until its browse
 
 ## User Flow
 
-1. Paste up to 10,000 characters of text or open a plain TXT file up to 64 KB.
-2. Choose Supertonic 3 or Kokoro 82M.
-3. Choose a supported language and compare the pre-recorded samples before choosing a grouped fixed voice and speed.
-4. Confirm permission to convert the text and accept the selected model terms.
-5. Generate, name, listen to, and download a 128 kbps mono MP3.
+1. Paste up to 10,000 characters, or open a local TXT or Markdown file up to 64 KB or EPUB up to 8 MB.
+2. Choose one MP3 or review, rename, and reorder imported chapters for separate MP3 output.
+3. Choose Supertonic 3 or Kokoro 82M, then compare pre-recorded samples before choosing a language, fixed voice, and speed.
+4. Optionally save voice IDs as local favourites and review the estimated audio duration and 128 kbps MP3 size before loading a model.
+5. Confirm permission to convert the text and accept the selected model terms.
+6. Generate, listen to, and download one MP3 or separate ordered chapter MP3s with an audio-only ZIP.
 
 Only the selected model worker loads. Changing models terminates the old worker and releases its in-memory runtime before the other model can start.
 
@@ -28,16 +29,19 @@ Supertonic stays the default because it offers the broadest language coverage. I
 ## Browser Architecture
 
 1. The Astro page hydrates the React interface only on the TTS route.
-2. Pasted text and locally opened TXT content stay in the current browser tab. The browser never sends the original file or filename.
-3. A model-specific Web Worker downloads pinned files from Hugging Face only after generation starts.
-4. Each fixed voice has one short local MP3 sample. The shared player uses `preload="none"`, never autoplays, and fetches only the chosen sample when the user presses play. It does not start a worker or load a model.
-5. Supertonic generates 44.1 kHz PCM. Kokoro generates 24 kHz PCM.
-6. The same pinned wasm-media-encoders runtime encodes either source rate as a 128 kbps mono MP3.
-7. The generated MP3 uses a temporary object URL in the current tab. Access Free Tools does not upload or retain it.
-8. Kokoro input is split in order, phonemized, checked against the 509-token model limit, generated section by section, and joined with short silence. Long text must not be silently truncated.
-9. Loading and generation use a 90-second no-progress watchdog. A stalled Kokoro job gets one automatic q8 WebAssembly retry; a second stall stops the worker and gives the user a clear recovery message.
-10. The status area shows elapsed time, actual backend and precision, an indeterminate state when byte progress is unavailable, and a reduced-motion-safe mascot scene.
-11. A readiness note reports whether Kokoro full precision can be attempted or whether the q8 compatibility path is expected. It is not a speed guarantee.
+2. Pasted text and locally opened TXT, Markdown, and EPUB content stay in the current browser tab. The browser never sends the original file or filename.
+3. Markdown is parsed through a structured mdast tree. EPUB is parsed through bounded ZIP and XML readers with traversal, encryption, zip-bomb, script, remote-resource, and malformed-document checks.
+4. A model-specific Web Worker downloads pinned files from Hugging Face only after generation starts.
+5. Each fixed voice has one short local MP3 sample. The shared player uses `preload="none"`, never autoplays, and fetches only the chosen sample when the user presses play. It does not start a worker or load a model.
+6. Voice favourites and recents store validated voice IDs only. Text, language, filenames, and audio are not written to local storage.
+7. A text-only estimator reports a conservative duration and 128 kbps size range without creating a worker, requesting a model, or sending analytics.
+8. Supertonic generates 44.1 kHz PCM. Kokoro generates 24 kHz PCM. The same pinned encoder creates 128 kbps mono MP3 output.
+9. Chapter mode generates sequentially through the same loaded worker. Completed results survive a later failure or cancellation, and one failed chapter can be retried once.
+10. Generated audio uses temporary object URLs in the current tab. The optional ZIP contains separate ordered MP3 files only, never source text or the original document.
+11. Kokoro input is split in order, phonemized, checked against the 509-token model limit, generated section by section, and joined with short silence. Long text must not be silently truncated.
+12. Loading and generation use a 90-second no-progress watchdog. A stalled Kokoro job gets one automatic q8 WebAssembly retry; a second stall stops the worker and gives the user a clear recovery message.
+13. The status area shows elapsed time, actual backend and precision, an indeterminate state when byte progress is unavailable, and a reduced-motion-safe mascot scene.
+14. A readiness note reports whether Kokoro full precision can be attempted or whether the q8 compatibility path is expected. It is not a speed guarantee.
 
 ## Model And Dependency Pins
 
@@ -51,6 +55,10 @@ Supertonic stays the default because it offers the broadest language coverage. I
 - onnxruntime-web: 1.27.0
 - phonemizer: 1.2.1
 - wasm-media-encoders: 0.7.0
+- mdast-util-from-markdown: 2.0.3
+- mdast-util-to-string: 4.0.0
+- @rgrove/parse-xml: 4.2.3
+- @zip.js/zip.js: 2.8.52
 
 Supertonic's browser implementation is MIT-licensed and its model weights use OpenRAIL-M. Kokoro's model and official browser implementation use Apache-2.0. The Kokoro text preparation is adapted from the pinned official browser source. Phonemizer.js is Apache-2.0 and wraps eSpeak NG, whose source uses GPL-3.0-or-later. The visible tool, guide, and terms page link to the relevant model and engine sources. This record is an engineering attribution note, not legal advice.
 
@@ -80,24 +88,26 @@ Comparative context:
 
 ## Honest Limits
 
-- Pasted text or a local plain TXT file up to 64 KB. No EPUB, PDF, DOCX, URL import, microphone, or server upload.
-- 10,000 characters per generation.
+- Pasted text, local TXT or Markdown up to 64 KB, or local EPUB up to 8 MB. No PDF, DOCX, URL import, microphone, or server upload.
+- 10,000 characters per single result or combined chapter set, with at most 100 chapters.
 - Supertonic: 31 named language choices, best effort, and F1-F5/M1-M5 fixed voices.
 - Kokoro: US and UK English with 28 fixed voices, full-precision WebGPU, and automatic q8 WebAssembly compatibility fallback.
 - Speed from 0.9x to 1.5x.
 - One pre-recorded 1.0x sample for each of the 38 fixed voices, loaded only when played and without autoplay or model startup.
-- 128 kbps mono MP3 playback and download.
-- No M4B, merged book, ZIP, account, sharing link, voice upload, or cloning.
+- At most 20 favourite and 8 recent validated voice IDs are stored locally; no user text is stored with them.
+- Pre-download duration and file-size estimates are ranges, not promises.
+- 128 kbps mono MP3 playback and download, with separate chapter MP3 files and an ordered audio-only ZIP.
+- No M4B, merged book, account, sharing link, voice upload, or cloning.
 - Model download, inference speed, memory use, and compatibility depend on the visitor's browser and device.
 - Refreshing or closing the tab discards generated audio that has not been downloaded.
 - Names, abbreviations, numbers, mixed-language text, and unusual punctuation can be mispronounced.
 
 ## Privacy And Analytics
 
-- Pasted text, local TXT content, filenames, and generated audio do not go to Access Free Tools. The public voice samples contain only the fixed Access Free Tools comparison sentence.
+- Pasted text, local TXT/Markdown/EPUB content, filenames, generated audio, and ZIP files do not go to Access Free Tools. The public voice samples contain only the fixed Access Free Tools comparison sentence.
 - Hugging Face receives ordinary pinned model, tokenizer, and voice-file requests after generation begins. Those requests do not contain the pasted text.
 - Text, status, and audio surfaces use Microsoft Clarity masking.
-- Analytics may record a voice sample play, model ready, TXT opened, generation started and completed, cancellation, download, timeout, model-download failure, unsupported browser, and generation failure. They must not record model choice, text, language, voice, filename, file content, or output.
+- Analytics may record a voice sample play, model ready, local document opened, generation started and completed, cancellation, MP3 or ZIP download, timeout, model-download failure, unsupported browser, and generation failure. They must not record model choice, document format, text, language, voice, filename, file content, or output.
 - The tool requires a rights and model-terms confirmation before generation.
 
 ## Internal Commands
@@ -110,7 +120,7 @@ Comparative context:
     npm run build
     npm run check
 
-The browser check verifies both pinned model revisions, model-specific lazy workers, one-model-at-a-time selection, selected-voice loading, all 28 English Kokoro IDs, grouped selection, 38 bounded static samples, no sample autoplay or model startup, local TXT limits, portable filenames, readiness wording, text-free diagnostics, Kokoro full-precision and compatibility paths, bounded stall recovery, the mascot loading state, MP3 creation for 24 kHz and 44.1 kHz sources, Clarity masking, and the absence of rejected server infrastructure. The separate voice check confirms that all 28 pinned voice URLs remain reachable.
+The browser check verifies both pinned model revisions, model-specific lazy workers, one-model-at-a-time selection, selected-voice loading, all 28 English Kokoro IDs, grouped selection, 38 bounded static samples, no sample autoplay or model startup, bounded local TXT/Markdown/EPUB import, hostile-document controls, local voice preferences, pre-download estimates, sequential chapter generation, separate MP3 and ZIP downloads, portable filenames, readiness wording, text-free diagnostics, Kokoro full-precision and compatibility paths, bounded stall recovery, the mascot loading state, MP3 creation for 24 kHz and 44.1 kHz sources, Clarity masking, and the absence of rejected server infrastructure. The separate voice check confirms that all 28 pinned voice URLs remain reachable.
 
 ## Current Browser Evidence
 

@@ -9364,6 +9364,40 @@ main {
   margin-top: 8px;
 }
 
+.tts-audiobook__estimate {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+  margin: 1rem 0;
+  padding: 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+  color: var(--text);
+}
+
+.tts-audiobook__estimate > svg {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0.45rem;
+  border-radius: 8px;
+  color: var(--accent-strong);
+  background: var(--surface);
+}
+
+.tts-audiobook__estimate div {
+  min-width: 0;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.tts-audiobook__estimate span,
+.tts-audiobook__estimate small {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 .tts-audiobook__source-actions {
   align-items: center;
   display: flex;
@@ -9377,6 +9411,95 @@ main {
   flex: 1 1 190px;
   font-size: 0.78rem;
   line-height: 1.4;
+}
+
+.tts-audiobook__source-mode {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin-bottom: 16px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-solid) 82%, var(--border));
+}
+
+.tts-audiobook .tts-audiobook__source-mode button {
+  justify-content: center;
+  min-height: 42px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  box-shadow: none;
+}
+
+.tts-audiobook .tts-audiobook__source-mode button[aria-pressed='true'] {
+  background: var(--surface-solid);
+  color: var(--primary-strong);
+  box-shadow: 0 1px 3px rgb(15 42 39 / 12%);
+}
+
+.tts-audiobook__chapters {
+  display: grid;
+  gap: 12px;
+}
+
+.tts-audiobook__chapters-heading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tts-audiobook__chapters-heading > div {
+  display: grid;
+  gap: 2px;
+}
+
+.tts-audiobook__chapters-heading span,
+.tts-audiobook__chapter > span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.tts-audiobook__chapter-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tts-audiobook__chapter {
+  display: grid;
+  gap: 7px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-left: 4px solid color-mix(in srgb, var(--primary) 65%, var(--border));
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface-solid) 94%, var(--primary));
+}
+
+.tts-audiobook__chapter textarea {
+  min-height: 128px;
+}
+
+.tts-audiobook__chapter-toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tts-audiobook__chapter-toolbar > div {
+  display: flex;
+  gap: 6px;
+}
+
+.tts-audiobook .icon-button.is-danger {
+  color: var(--danger, #b4233b);
 }
 
 .tts-audiobook__actions,
@@ -9547,6 +9670,26 @@ main {
   margin-top: 16px;
 }
 
+.tts-audiobook__voice-label-row {
+  align-items: end;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tts-audiobook__voice-label-row label {
+  margin-bottom: 7px;
+}
+
+.tts-audiobook .tts-audiobook__favorite-voice {
+  color: var(--primary-strong);
+  margin-bottom: 7px;
+}
+
+.tts-audiobook .tts-audiobook__favorite-voice[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--accent) 24%, var(--surface-solid));
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+}
+
 .tts-audiobook__voice-summary {
   align-items: baseline;
   background: color-mix(in srgb, var(--primary) 7%, var(--surface-solid));
@@ -9568,6 +9711,24 @@ main {
 .tts-audiobook__voice-summary span {
   color: var(--muted);
   font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.tts-audiobook__remembered-voices {
+  border-top: 1px solid var(--border);
+  display: grid;
+  gap: 7px;
+  margin-top: 12px;
+  padding-top: 12px;
+}
+
+.tts-audiobook__remembered-voices label {
+  margin: 0;
+}
+
+.tts-audiobook__remembered-voices > span {
+  color: var(--muted);
+  font-size: 0.75rem;
   line-height: 1.4;
 }
 
@@ -9849,6 +10010,105 @@ main {
   margin: 2px 0 0;
 }
 
+.tts-audiobook__chapter-results {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+.tts-audiobook__chapter-results-heading,
+.tts-audiobook__chapter-results-heading > div {
+  display: flex;
+  gap: 8px 14px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.tts-audiobook__chapter-results-heading span,
+.tts-audiobook__chapter-results > p {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.tts-audiobook__chapter-results ol {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tts-audiobook__chapter-results li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  min-height: 58px;
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-solid);
+}
+
+.tts-audiobook__chapter-results li > div {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+  min-width: 0;
+}
+
+.tts-audiobook__chapter-results li > div > span {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--primary) 12%, var(--surface-solid));
+  color: var(--primary-strong);
+  font-weight: 800;
+  font-size: 0.75rem;
+}
+
+.tts-audiobook__chapter-results li > div > div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.tts-audiobook__chapter-results small {
+  color: var(--muted);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.tts-audiobook__chapter-results li.is-failed {
+  border-color: color-mix(in srgb, var(--danger, #b4233b) 40%, var(--border));
+}
+
+.tts-audiobook__zip-download {
+  display: grid;
+  gap: 7px;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--primary) 6%, var(--surface-solid));
+}
+
+.tts-audiobook__zip-download > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.tts-audiobook__zip-download > span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
 .tts-audiobook__delete,
 .tts-audiobook__cancel {
   background: var(--surface-lift);
@@ -9932,6 +10192,17 @@ main {
 
   .tts-audiobook__source-actions {
     align-items: stretch;
+  }
+
+  .tts-audiobook__chapter-results li,
+  .tts-audiobook__zip-download > div {
+    grid-template-columns: 1fr;
+  }
+
+  .tts-audiobook__chapter-results li > button,
+  .tts-audiobook__zip-download button {
+    width: 100%;
+    justify-content: center;
   }
 
   .tts-audiobook__loading-scene {

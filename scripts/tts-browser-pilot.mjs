@@ -7,6 +7,14 @@ const outputDir = join(repoRoot, 'output', 'tts-audiobook-pilot');
 const packageJson = JSON.parse(readFileSync(join(repoRoot, 'package.json'), 'utf8'));
 const component = readFileSync(join(repoRoot, 'src', 'components', 'TextToSpeechAudiobookGenerator.tsx'), 'utf8');
 const inputHelpers = readFileSync(join(repoRoot, 'src', 'lib', 'browserTtsInput.ts'), 'utf8');
+const archiveHelpers = readFileSync(join(repoRoot, 'src', 'lib', 'browserTtsArchive.ts'), 'utf8');
+const chapterHelpers = readFileSync(join(repoRoot, 'src', 'lib', 'browserTtsChapters.ts'), 'utf8');
+const chapterQueue = readFileSync(join(repoRoot, 'src', 'lib', 'browserTtsChapterQueue.ts'), 'utf8');
+const estimateHelpers = readFileSync(join(repoRoot, 'src', 'lib', 'browserTtsEstimate.ts'), 'utf8');
+const importHelpers = readFileSync(join(repoRoot, 'src', 'lib', 'browserTtsImport.ts'), 'utf8');
+const markdownImport = readFileSync(join(repoRoot, 'src', 'lib', 'browserTtsMarkdownImport.ts'), 'utf8');
+const epubImport = readFileSync(join(repoRoot, 'src', 'lib', 'browserTtsEpubImport.ts'), 'utf8');
+const voicePreferences = readFileSync(join(repoRoot, 'src', 'lib', 'browserTtsPreferences.ts'), 'utf8');
 const registry = readFileSync(join(repoRoot, 'src', 'lib', 'browserTtsModels.ts'), 'utf8');
 const mp3Encoder = readFileSync(join(repoRoot, 'src', 'lib', 'mp3Encoder.ts'), 'utf8');
 const kokoroText = readFileSync(join(repoRoot, 'src', 'lib', 'kokoroBrowserText.ts'), 'utf8');
@@ -70,6 +78,18 @@ const checks = {
     && !component.includes("startGeneration('preview')")
     && !inputHelpers.includes('MAX_TTS_PREVIEW_CHARACTERS')
     && !component.includes('autoPlay'),
+  localVoicePreferencesAreBounded:
+    component.includes('createBrowserTtsVoicePreferencesStore')
+    && component.includes('Only voice IDs are saved in this browser')
+    && voicePreferences.includes("BROWSER_TTS_PREFERENCES_STORAGE_KEY = 'aft:tts:voice-preferences:v1'")
+    && voicePreferences.includes('MAX_BROWSER_TTS_FAVORITES = 20')
+    && voicePreferences.includes('MAX_BROWSER_TTS_RECENTS = 8'),
+  estimateRunsBeforeModelDownload:
+    component.includes('estimateBrowserTtsAudio(activeSourceText, speed)')
+    && component.includes('Before you download the model')
+    && estimateHelpers.includes('BROWSER_TTS_MP3_BITRATE_BPS = 128_000')
+    && !estimateHelpers.includes('Worker')
+    && !estimateHelpers.includes('fetch('),
   supertonicUsesWebGpuWithFallback:
     supertonicWorker.includes("['webgpu', 'wasm']") && supertonicWorker.includes("['wasm']"),
   kokoroUsesWebGpuWithCompatibilityFallback:
@@ -97,12 +117,40 @@ const checks = {
     )),
   mp3SupportsBothSourceRates: mp3Encoder.includes('24_000') && mp3Encoder.includes('44_100'),
   mp3DownloadAvailable: component.includes('Download MP3') && component.includes('.mp3'),
-  localTxtInputIsBounded:
-    component.includes('accept=".txt,text/plain"')
-    && component.includes('await file.text()')
+  localDocumentInputIsBounded:
+    component.includes('.txt,.md,.markdown,.epub')
+    && component.includes('await file.arrayBuffer()')
     && inputHelpers.includes('MAX_TTS_TEXT_FILE_BYTES = 64 * 1024')
     && inputHelpers.includes('MAX_TTS_TEXT_CHARACTERS = 10_000')
     && !component.includes('FormData'),
+  markdownAndEpubAreStructuredAndLazy:
+    component.includes("import('../lib/browserTtsMarkdownImport')")
+    && component.includes("import('../lib/browserTtsEpubImport')")
+    && packageJson.dependencies?.['mdast-util-from-markdown'] === '2.0.3'
+    && packageJson.dependencies?.['@rgrove/parse-xml'] === '4.2.3'
+    && packageJson.dependencies?.['@zip.js/zip.js'] === '2.8.52'
+    && markdownImport.includes('fromMarkdown(')
+    && epubImport.includes('ZipReader')
+    && epubImport.includes('parseXml('),
+  hostileDocumentControls:
+    importHelpers.includes("'zip-bomb'")
+    && importHelpers.includes("'drm-or-encryption'")
+    && importHelpers.includes("'scripted-content'")
+    && importHelpers.includes("'remote-resource'")
+    && epubImport.includes('checkOverlappingEntry: true')
+    && component.includes('bytes?.fill(0)'),
+  chapterQueueUsesOneLoadedWorker:
+    component.includes('new BrowserTtsChapterQueue<AudioResult>')
+    && component.includes('workerLoadedRef.current')
+    && chapterQueue.includes('await this.runOne(next.chapterId, signal)')
+    && chapterQueue.includes('retry(chapterId: string')
+    && chapterQueue.includes('AbortSignal'),
+  chapterDownloadsAndZip:
+    chapterHelpers.includes('createBrowserTtsChapterMp3Files')
+    && archiveHelpers.includes('createBrowserTtsChapterZip')
+    && archiveHelpers.includes("await import('@zip.js/zip.js')")
+    && component.includes('Download browser audiobook chapter ZIP')
+    && component.includes('does not contain your text or source document'),
   portableMp3Filename:
     component.includes('MP3 filename (optional)')
     && component.includes('sanitizeMp3Filename')
@@ -114,7 +162,7 @@ const checks = {
     ['tts_timeout', 'tts_model_download_failure', 'tts_unsupported_browser', 'tts_generation_failure']
       .every((event) => component.includes(`'${event}'`)),
   unsupportedFileFamiliesAbsent:
-    ['Choose TXT or EPUB', 'accept=".pdf', 'accept=".epub', 'accept=".docx'].every((term) => !component.includes(term)),
+    ['accept=".pdf', 'accept=".docx'].every((term) => !component.includes(term)),
   noVoiceCloning: !component.toLowerCase().includes('clone a voice') && !component.includes('voice upload'),
 };
 
