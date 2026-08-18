@@ -8,3 +8,4 @@
 - 2026-08-18: Owner rejected all purchase and separate-service options. The earlier VPS, Docker, DNS, and container design is superseded and is not an active blocker or recommendation.
 - 2026-08-18: Replaced the infrastructure lane with the existing Hostinger Astro 7/Node 24 route, visitor-side browser inference, pinned model-host downloads, route isolation, and normal site rollback evidence.
 - 2026-08-18: Fresh build and asset checks proved that the existing Node 24 application serves the route, unrelated pages request no TTS model assets, and the model is fetched only after the visitor chooses to load it. No hosting product, DNS record, or paid service was added.
+- 2026-08-18: Commit `47f558ee` was fast-forwarded to `main`. Hostinger reported a completed Node 24 build with `app.js` and `dist`; the live tool and guide both returned 200. No purchase, VPS, DNS write, container, or paid API was used.

@@ -8,6 +8,17 @@ Supertonic 3 runs in a Web Worker on the visitor's device through ONNX Runtime W
 
 Both pilot pages remain `noindex,follow` and outside XML sitemaps until production-browser testing and the seven-day beta gate pass.
 
+## Current Deployment Proof
+
+- Deployed commit: `47f558ee`
+- Host: the existing `accessfreetools.com` Astro 7 application on Hostinger Node 24
+- Live tool and guide: HTTP 200 with `noindex,follow`
+- Production sitemap check: 661 OK, four redirects, zero hard failures
+- Live browser proof: WebGPU loaded the pinned model and generated a 7.3-second, 44.1 kHz mono WAV in 5.6 seconds from synthetic text
+- Main-site proof: Ask, API, and MCP checks pass after deployment
+- Purchase boundary: no purchase, VPS, DNS write, paid API, or server inference was used
+- Remaining gate: seven days of browser-beta evidence before any indexing decision
+
 ## Permanent Cost Boundary
 
 - No hosting purchase or plan upgrade.
