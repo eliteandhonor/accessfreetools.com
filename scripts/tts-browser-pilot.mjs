@@ -25,7 +25,10 @@ const checks = {
   noServerTermsInRuntime: forbidden.every((term) => !`${component}\n${worker}`.includes(term)),
   usesDedicatedWorker: component.includes("new Worker(new URL('../workers/supertonic.worker.ts'"),
   usesWebGpuWithFallback: worker.includes("['webgpu', 'wasm']") && worker.includes("['wasm']"),
-  wavGeneratedInWorker: worker.includes('writeWavFile'),
+  mp3DependencyPinned: packageJson.dependencies?.['wasm-media-encoders'] === '0.7.0',
+  mp3GeneratedInWorker: worker.includes('encodePcmToMp3') && worker.includes("mimeType: 'audio/mpeg'"),
+  mp3DownloadAvailable: component.includes('Download MP3') && component.includes('.mp3'),
+  pasteOnlyInput: !component.includes('Choose TXT or EPUB') && !component.includes('type="file"'),
 };
 
 const report = {
@@ -41,11 +44,11 @@ writeFileSync(join(outputDir, 'browser-check.json'), `${JSON.stringify(report, n
 writeFileSync(
   join(outputDir, 'browser-check.md'),
   [
-    '# Browser TTS Pilot Check',
+    '# Browser Text-to-MP3 Pilot Check',
     '',
     `- Status: **${report.status.toUpperCase()}**`,
     '- Infrastructure: existing Hostinger Astro site only',
-    '- Inference: visitor browser worker',
+    '- Inference and MP3 encoding: visitor browser worker',
     `- Model revision: \`${modelRevision}\``,
     '- Purchases, VPS, DNS, Docker, Redis, and server queue: not used',
     '',

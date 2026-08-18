@@ -3,8 +3,8 @@
 import {
   loadTextToSpeech,
   loadVoiceStyle,
-  writeWavFile,
 } from '../lib/supertonicWebHelper.js';
+import { encodePcmToMp3, MP3_BITRATE_KBPS } from '../lib/mp3Encoder';
 
 const MODEL_REVISION = '3cadd1ee6394adea1bd021217a0e650ede09a323';
 const MODEL_BASE = `https://huggingface.co/Supertone/supertonic-3/resolve/${MODEL_REVISION}`;
@@ -58,12 +58,12 @@ function send(message: Record<string, unknown>, transfer: Transferable[] = []) {
 function safeError(error: unknown) {
   if (!(error instanceof Error)) return 'Browser speech generation failed.';
   if (/out of memory|memory access out of bounds/i.test(error.message)) {
-    return 'The browser ran out of memory. Close other tabs or try a shorter chapter.';
+    return 'The browser ran out of memory. Close other tabs or try shorter text.';
   }
   if (/fetch|network|load/i.test(error.message)) {
     return 'The speech model could not be downloaded. Check the connection and try again.';
   }
-  return 'Browser speech generation failed. Reload the model and try a shorter chapter.';
+  return 'Browser speech generation failed. Reload the model and try shorter text.';
 }
 
 async function loadRuntime() {
@@ -84,7 +84,11 @@ async function loadRuntime() {
       });
       const result = await loadBrowserTextToSpeech(
         ONNX_BASE,
-        { executionProviders: [provider], graphOptimizationLevel: 'all' },
+        {
+          executionProviders: [provider],
+          graphOptimizationLevel: 'all',
+          logSeverityLevel: 3,
+        },
         (modelName: string, current: number, total: number) => {
           send({ type: 'load-progress', current, total, message: `Loading ${modelName}` });
         },
@@ -127,14 +131,16 @@ async function generate(request: GenerateRequest) {
     (step, total) => send({ type: 'generation-progress', step, total }),
   );
   const audioLength = Math.floor(runtime.sampleRate * duration[0]);
-  const buffer = writeWavFile(wav.slice(0, audioLength), runtime.sampleRate) as ArrayBuffer;
+  const buffer = await encodePcmToMp3(Float32Array.from(wav.slice(0, audioLength)), runtime.sampleRate);
   send(
     {
       type: 'result',
       audio: buffer,
       backend,
+      bitrateKbps: MP3_BITRATE_KBPS,
       durationSeconds: duration[0],
       generationSeconds: (performance.now() - startedAt) / 1_000,
+      mimeType: 'audio/mpeg',
       revision: MODEL_REVISION,
       sampleRate: runtime.sampleRate,
     },

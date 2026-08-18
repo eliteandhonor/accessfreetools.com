@@ -79,6 +79,10 @@ const sourceLinks = {
     href: 'https://huggingface.co/Supertone/supertonic-3/blob/main/LICENSE',
     label: 'Supertonic 3 model weights: OpenRAIL-M license terms',
   },
+  wasmMediaEncoders: {
+    href: 'https://github.com/arseneyr/wasm-media-encoders',
+    label: 'wasm-media-encoders: browser MP3 encoder',
+  },
 };
 
 const guideDetails: Record<string, AiGuideDetail> = {
@@ -297,24 +301,24 @@ const guideDetails: Record<string, AiGuideDetail> = {
     ],
   },
   'text-to-speech-audiobook-generator': {
-    title: 'TXT and EPUB to Browser Audiobook WAV Guide',
+    title: 'How to Turn Text into an MP3 in Your Browser',
     description:
-      'Prepare permitted TXT, EPUB, or pasted text for multilingual WAV audio generated in your browser. Learn the model, device, voice, language, and rights limits.',
+      'Paste permitted text, choose a fixed multilingual voice, generate speech in your browser, and download a 128 kbps MP3 without uploading the text.',
     summary:
-      'Learn how to prepare permitted TXT, EPUB, or pasted text, load the browser model, choose a fixed multilingual voice, and check each WAV chapter.',
+      'Learn how to turn permitted text into a downloadable MP3, choose a fixed multilingual voice, and check the finished audio.',
     purpose:
-      'The Text to Speech Audiobook Generator prepares pasted text, TXT, or EPUB chapters and runs the pinned Supertonic model in a browser worker. It is for text you wrote, public-domain material, or text you have permission to convert.',
+      'The Text to Speech MP3 Generator runs the pinned Supertonic model and MP3 encoder in a browser worker. It is for text you wrote, public-domain material, or text you have permission to convert.',
     enter: [
-      'Paste permitted text or choose a TXT or EPUB file no larger than 10 MB.',
-      'Choose one chapter of at most 10,000 characters. Larger books can be prepared, but audio is generated one chapter at a time.',
-      'Choose the known language when possible, one fixed voice preset, a reading speed from 0.9x to 1.5x, and the number of quality passes.',
-      'Confirm your rights and the model-use terms, then load about 398 MB of pinned model files into the browser.',
-      'Generate, listen, and download the WAV before closing or refreshing the tab.',
+      'Paste up to 10,000 characters of text you have permission to convert.',
+      'Choose the known language when possible, one fixed voice preset, and a reading speed from 0.9x to 1.5x.',
+      'Confirm your rights and the model-use terms, then press Generate MP3.',
+      'Allow the first generation to download about 398 MB of pinned model files into the browser.',
+      'Preview the result and download the MP3 before closing or refreshing the tab.',
     ],
     read: [
-      'Model loading downloads the ONNX files from the pinned Hugging Face revision. It does not send your chapter text to Hugging Face.',
+      'Model loading downloads the ONNX files from the pinned Hugging Face revision. It does not send your text to Hugging Face.',
       'WebGPU is normally the faster backend. WebAssembly is a slower fallback when WebGPU is unavailable.',
-      'Completed generation provides one 44.1 kHz mono WAV for the selected chapter. The temporary audio URL belongs to the current browser tab.',
+      'Completed generation provides one 128 kbps mono MP3. The temporary audio URL belongs to the current browser tab.',
       'The Language not specified option is best-effort model processing. It does not detect or confirm the language.',
       'Listen for names, dates, abbreviations, formulas, numbers, missing lines, repeated lines, and mixed-language pronunciation before sharing the audio.',
     ],
@@ -323,10 +327,10 @@ const guideDetails: Record<string, AiGuideDetail> = {
       'Do not assume browser processing removes copyright, consent, or prohibited-use responsibilities.',
       'Do not describe the fixed voices as voice cloning or upload reference audio. The pilot supports neither feature.',
       'Do not assume a successful job means every word was pronounced correctly.',
-      'Do not close or refresh the tab before downloading the WAV because the browser-only result is not stored by Access Free Tools.',
+      'Do not close or refresh the tab before downloading the MP3 because the browser-only result is not stored by Access Free Tools.',
       'Do not treat an open model as unrestricted. The model weights use OpenRAIL-M terms and prohibited-use conditions.',
     ],
-    sources: [sourceLinks.supertonic, sourceLinks.supertonicLicense],
+    sources: [sourceLinks.supertonic, sourceLinks.supertonicLicense, sourceLinks.wasmMediaEncoders],
   },
 };
 
@@ -364,7 +368,7 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
           : isReadingLevelTool
             ? 'What this readability tool does'
             : isBrowserTtsTool
-              ? 'What this browser-generated audiobook tool does'
+              ? 'What this browser text-to-MP3 tool does'
               : 'What this AI tool does',
         paragraphs: [
           detail.purpose,
@@ -373,14 +377,14 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
             : isReadingLevelTool
               ? 'Your text stays in the browser tab. The checker uses local English formulas and sentence counts, so it does not need a server model or text upload.'
               : isBrowserTtsTool
-                ? 'The browser reads the original TXT or EPUB file, blocks EPUB scripts and remote resources, and keeps the extracted chapter text inside the tab. There is no TTS upload or server queue.'
+                ? 'The pasted text stays inside the browser tab and is sent only to the dedicated local worker. There is no TTS upload or server queue.'
                 : 'The important privacy idea is simple: your input runs in the browser tab. Access Free Tools does not need to receive the image or text for the tool to work.',
           isOcrTool
             ? 'The OCR worker, WebAssembly core, and language files are served from Access Free Tools after you press Read text. That first run can take longer than a normal calculator.'
             : isReadingLevelTool
               ? 'The result uses word count, sentence count, and an English syllable estimate. Names, abbreviations, numbers, and mixed-language text can make that estimate less reliable.'
               : isBrowserTtsTool
-                ? 'The browser downloads about 398 MB of pinned ONNX model files from Hugging Face only after you choose to load them. Inference and WAV creation then run in a dedicated browser worker.'
+                ? 'The first generation downloads about 398 MB of pinned ONNX model files from Hugging Face. Inference and MP3 creation then run in a dedicated browser worker.'
                 : 'For this first self-hosted pass, OCR files and the starter text classifier files are served from Access Free Tools after you click the tool button. Heavier experimental model tools may still download model files from a third-party model host until we self-host more models.',
         ],
       },
@@ -392,7 +396,7 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
             : isReadingLevelTool
               ? 'Start with the grade and reading-ease estimates, then use the sentence preview and counts to choose one edit. Recheck the same passage so the comparison uses the same sample.'
               : isBrowserTtsTool
-                ? 'Start with one short, low-risk chapter. Download and listen to the WAV before moving through the remaining chapters.'
+                ? 'Start with short, low-risk text. Download and listen to the MP3 before converting something longer.'
                 : 'Start with the main result, then read the supporting notes. Browser AI tools are useful helpers, but they can still be wrong, incomplete, or unsure.',
         ],
         bullets: detail.read,

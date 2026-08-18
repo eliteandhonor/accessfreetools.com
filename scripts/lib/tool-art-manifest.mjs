@@ -54,18 +54,18 @@ const categoryVisualCues = {
 const toolArtMetadataOverrides = {
   'text-to-speech-audiobook-generator': {
     tool: {
-      alt: 'Full-body smoke-kawaii mascot preparing EPUB chapter cards beside a laptop that turns them into downloadable audio waveforms.',
+      alt: 'Full-body smoke-kawaii mascot turning text cards into downloadable audio beside a laptop, headphones, fixed voice choices, and a privacy shield.',
       caption:
-        'Text to Speech Audiobook Generator artwork shows local chapter preparation, fixed multilingual voices, browser model processing, and downloadable WAV audio.',
+        'Text to Speech MP3 Generator artwork shows pasted text, fixed multilingual voices, browser processing, and a downloadable MP3.',
       prompt:
-        'Show the full-body smoke-kawaii girl beside a laptop that is organizing translucent book chapter cards into a neat sequence and processing them through a model chip inside the browser. Connect the laptop to headphones and downloadable audio-wave chapter tiles. Include ten small abstract fixed-voice selectors and a privacy shield, but no readable text, logos, servers, clouds, microphones, voice-cloning imagery, or brand marks. Keep the whole mascot visible from hair to shoes, with hands unobstructed, in an original polished Access Free Tools illustration using teal, coral, lime, charcoal, and white.',
+        'Show the full-body smoke-kawaii girl beside a laptop that turns simple text cards into one downloadable audio waveform through a model chip inside the browser. Connect the laptop to headphones and an MP3-style download symbol without readable text. Include ten small abstract fixed-voice selectors and a privacy shield, but no logos, servers, clouds, microphones, voice-cloning imagery, or brand marks. Keep the whole mascot visible from hair to shoes, with hands unobstructed, in an original polished Access Free Tools illustration using teal, coral, lime, charcoal, and white.',
     },
     guide: {
-      alt: 'Full-body smoke-kawaii mascot checking a three-step TXT and EPUB audiobook workflow with chapter order, pronunciation, and WAV downloads.',
+      alt: 'Full-body smoke-kawaii mascot checking a text-to-MP3 workflow with voice settings, a pronunciation waveform, headphones, and a download symbol.',
       caption:
-        'The audiobook guide artwork explains safe TXT and EPUB preparation, fixed voice selection, local pronunciation review, and browser WAV downloads.',
+        'The text-to-MP3 guide artwork explains permitted text, fixed voice selection, local pronunciation review, and browser MP3 downloads.',
       prompt:
-        'Show the full-body smoke-kawaii girl teaching a distinct three-stage audiobook workflow: safe TXT and EPUB chapter preparation, a fixed preset voice and language control panel, and headphones beside downloadable audio-wave chapter tiles. Add a magnifying glass over one pronunciation waveform and a shield over the source chapters. No readable text, external logos, servers, microphones, voice cloning, or brand marks. Keep the whole mascot visible from hair to shoes with both hands visible; use a calm editorial layout in teal, coral, lime, charcoal, and white that is clearly different from the tool scene.',
+        'Show the full-body smoke-kawaii girl teaching a distinct three-stage text-to-MP3 workflow: permitted text cards, a fixed preset voice and language control panel, and headphones beside one downloadable audio waveform. Add a magnifying glass over the pronunciation waveform and a shield over the source text. No readable text, external logos, servers, microphones, voice cloning, or brand marks. Keep the whole mascot visible from hair to shoes with both hands visible; use a calm editorial layout in teal, coral, lime, charcoal, and white that is clearly different from the tool scene.',
     },
   },
   'json-to-csv-converter': {

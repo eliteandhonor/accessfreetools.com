@@ -33,17 +33,16 @@ import BaseLayout from '../components/BaseLayout.astro';
       sent to a server by these tools.
     </p>
 
-    <h2>Text-to-speech audiobook pilot</h2>
+    <h2>Browser text-to-speech MP3 pilot</h2>
     <p>
-      The audiobook pilot reads pasted text, TXT, or EPUB input, runs the speech model, and creates
-      WAV audio inside your browser. Access Free Tools does not receive or store the text, original
-      file, filename, book title, or generated audio. The temporary audio URL disappears when the
-      browser tab is closed or refreshed.
+      The text-to-speech pilot reads pasted text, runs the speech model, and creates MP3 audio inside
+      your browser. Access Free Tools does not receive or store the text or generated audio. The
+      temporary audio URL disappears when the browser tab is closed or refreshed.
     </p>
     <p>
       After you choose to load the model, the browser downloads pinned model and voice files from
       Hugging Face. Those requests can expose ordinary network request information to Hugging Face,
-      but they do not contain your chapter text. The pilot records only bounded, text-free actions
+      but they do not contain your text. The pilot records only bounded, text-free actions
       such as model ready, generation complete, cancellation, and download.
     </p>
 
@@ -111,7 +110,7 @@ import BaseLayout from '../components/BaseLayout.astro';
       the Access Free Tools analytics opt-out set in local storage.
     </p>
     <p>
-      Text, chapter, model-status, and generated-audio surfaces in the audiobook pilot are masked
+      Text, model-status, and generated-audio surfaces in the text-to-speech pilot are masked
       from Clarity. We record only bounded, text-free events needed to understand whether the pilot works.
     </p>
 

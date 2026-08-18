@@ -4066,7 +4066,7 @@ function hasFaqQuestionMatching(tool: ToolDefinition, pattern: RegExp) {
 
 function getCategoryInputAnswer(tool: ToolDefinition) {
   if (tool.slug === 'text-to-speech-audiobook-generator') {
-    return 'The main inputs are permitted pasted text, TXT, or EPUB chapters, plus a language, one fixed voice, reading speed, and quality passes. The file parser, model inference, audio preview, and WAV creation all run in the browser; no chapter text is uploaded.';
+    return 'The main input is up to 10,000 characters of permitted text, plus a language, one fixed voice, and reading speed. Model inference, audio preview, and MP3 creation all run in the browser; no text is uploaded.';
   }
   switch (tool.category) {
     case 'finance':
@@ -4099,7 +4099,7 @@ function getCategoryInputAnswer(tool: ToolDefinition) {
 
 function getCategoryReadingAnswer(tool: ToolDefinition) {
   if (tool.slug === 'text-to-speech-audiobook-generator') {
-    return 'Wait for the model-ready message before generating a selected chapter. Preview the WAV in the page, listen for names, numbers, abbreviations, and missing lines, then download it before leaving or unloading the model.';
+    return 'Press Generate MP3 and allow the first model download to finish. Preview the MP3 in the page, listen for names, numbers, abbreviations, and missing lines, then download it before leaving or unloading the model.';
   }
   switch (tool.category) {
     case 'finance':

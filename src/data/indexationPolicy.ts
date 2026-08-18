@@ -36,7 +36,7 @@ const explicitPolicies: Record<string, Partial<IndexationPolicy>> = {
     includeInXmlSitemap: false,
     index: false,
     priorityTier: 'noindex',
-    reason: 'Browser TTS pilot remains private until the pinned model loads, generates, downloads, and passes the seven-day beta gates on production devices.',
+    reason: 'Browser TTS pilot remains private until the pinned model generates and downloads valid MP3 files and passes the seven-day beta gates on production devices.',
   },
   '/blog/how-to-use-text-to-speech-audiobook-generator/': {
     follow: true,

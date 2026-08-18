@@ -8,3 +8,5 @@
 - 2026-08-18: Owner rejected the server workflow. The earlier API, queue, refresh-recovery, MP3, and Turnstile entries are superseded.
 - 2026-08-18: Replaced the workbench with local TXT/EPUB parsing, explicit approximately 398 MB model consent, a dedicated browser worker, one selected chapter per run, stop/unload, local preview, and WAV download.
 - 2026-08-18: Fresh visual and accessibility gates passed 27 page/viewport pairs, including the TTS route at narrow mobile sizes. Chrome generated, previewed, and downloaded the local WAV without autoplay; the page retained visible status messaging and no document-level horizontal overflow.
+- 2026-08-18: Removed TXT/EPUB upload, parsing, chapter selection, quality controls, and the separate load step. The new flow is paste text, choose voice settings, Generate MP3, preview, and Download MP3; fresh visual and interaction proof is required.
+- 2026-08-18: Fresh desktop and mobile checks found no overlap or horizontal overflow. The final browser run automatically loaded the model from `Generate MP3`, exposed a playable result, and downloaded `text-to-speech-f1.mp3`.

@@ -1752,10 +1752,10 @@ const jsonToCsvInstructions = isJsonToCsvConverter
   : undefined;
 const textToSpeechInstructions = isTextToSpeechAudiobookGenerator
   ? [
-      'Paste text you have permission to convert, or choose a TXT or EPUB file up to 10 MB.',
-      'Choose one chapter of at most 10,000 characters, then select its language, fixed voice, speed, and quality passes.',
-      'Confirm the rights and model-use notice, then load about 398 MB of pinned model files into the browser.',
-      'Generate, listen, and download the WAV before closing or refreshing the tab.',
+      'Paste up to 10,000 characters of text you have permission to convert.',
+      'Choose the text language, one fixed voice, and a reading speed.',
+      'Confirm the rights and model-use notice, then press Generate MP3. The first generation downloads about 398 MB of pinned model files into the browser.',
+      'Preview the result and download the MP3 before closing or refreshing the tab.',
     ]
   : undefined;
 const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? gameToolInstructions ?? statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
@@ -2506,10 +2506,10 @@ const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? ga
     {
       isTextToSpeechAudiobookGenerator && (
         <div class="advanced-tool-points ai-tool-points" role="group" aria-label={`${tool.name} highlights`}>
-          <span>TXT and EPUB preparation</span>
+          <span>Paste text only</span>
           <span>31 language choices</span>
           <span>10 fixed voices</span>
-          <span>Local WAV in this tab</span>
+          <span>128 kbps MP3 download</span>
         </div>
       )
     }
@@ -4074,9 +4074,9 @@ const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? ga
         <aside class="trust-note trust-note-ai" aria-label={`${tool.name} browser processing and license limits`}>
           <strong>Browser speech model with no text upload</strong>
           <p>
-            TXT or EPUB preparation, speech generation, preview, and WAV creation happen in this browser tab. Your
-            text and filename are not uploaded to Access Free Tools. The pinned model is about 398 MB and downloads
-            from its model host only after you choose to load it.
+            Speech generation, preview, and MP3 creation happen in this browser tab. Your text is not uploaded to
+            Access Free Tools. The pinned model is about 398 MB and downloads from its model host during the first
+            generation.
           </p>
           <p>
             Use only text you have permission to convert. Supertonic 3 uses fixed voices and OpenRAIL-M model terms;
@@ -4257,7 +4257,7 @@ const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? ga
         )}
         {isUtilityTool && <p>Plain-language answers about when to use the tool, what it does with your inputs, what to double-check, and how privacy works.</p>}
         {isJsonToCsvConverter && <p>Plain-language answers about accepted JSON shapes, nested columns, CSV quoting, spreadsheet safety, file encoding, and browser privacy.</p>}
-        {isTextToSpeechAudiobookGenerator && <p>Plain-language answers about TXT and EPUB input, browser processing, model downloads, language and voice limits, rights, pronunciation checks, and device limits.</p>}
+        {isTextToSpeechAudiobookGenerator && <p>Plain-language answers about text input, MP3 downloads, browser processing, model downloads, language and voice limits, rights, pronunciation checks, and device limits.</p>}
         {isAiTool && (
           isReadingLevelTool ? (
             <p>Plain-language answers about English formulas, sample size, sentence checks, privacy, and what the scores cannot prove.</p>

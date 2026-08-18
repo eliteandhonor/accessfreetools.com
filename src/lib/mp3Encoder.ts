@@ -1,0 +1,50 @@
+import { createMp3Encoder } from 'wasm-media-encoders';
+
+export const MP3_BITRATE_KBPS = 128;
+export const MP3_SAMPLE_RATE = 44_100;
+
+const ENCODE_CHUNK_SAMPLES = 1_152 * 64;
+
+export async function encodePcmToMp3(
+  samples: Float32Array | number[],
+  sampleRate: number,
+): Promise<ArrayBuffer> {
+  if (sampleRate !== MP3_SAMPLE_RATE) {
+    throw new Error(`MP3 encoding requires ${MP3_SAMPLE_RATE} Hz audio.`);
+  }
+
+  const pcm = samples instanceof Float32Array ? samples : Float32Array.from(samples);
+  if (pcm.length < 1) throw new Error('MP3 encoding requires non-empty audio.');
+
+  const encoder = await createMp3Encoder();
+  encoder.configure({
+    bitrate: MP3_BITRATE_KBPS,
+    channels: 1,
+    outputSampleRate: MP3_SAMPLE_RATE,
+    sampleRate: MP3_SAMPLE_RATE,
+  });
+
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  const keepChunk = (chunk: Uint8Array) => {
+    if (chunk.length < 1) return;
+    const copy = chunk.slice();
+    chunks.push(copy);
+    totalBytes += copy.length;
+  };
+
+  for (let offset = 0; offset < pcm.length; offset += ENCODE_CHUNK_SAMPLES) {
+    keepChunk(encoder.encode([pcm.subarray(offset, offset + ENCODE_CHUNK_SAMPLES)]));
+  }
+  keepChunk(encoder.finalize());
+
+  if (totalBytes < 1) throw new Error('The MP3 encoder returned an empty file.');
+
+  const output = new Uint8Array(totalBytes);
+  let outputOffset = 0;
+  for (const chunk of chunks) {
+    output.set(chunk, outputOffset);
+    outputOffset += chunk.length;
+  }
+  return output.buffer;
+}

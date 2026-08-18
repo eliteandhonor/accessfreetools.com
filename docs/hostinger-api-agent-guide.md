@@ -2,7 +2,7 @@
 
 ## TTS No-Purchase Boundary (2026-08-18)
 
-The TTS audiobook pilot must use the existing managed Astro 7 and Node 24 deployment plus visitor-side browser inference. Do not purchase a VPS, upgrade the hosting plan, create TTS DNS, deploy Docker, or propose paid speech compute for this pilot. The separately authenticated `hostinger-vps` MCP connector does not grant purchase or write approval and is not part of the TTS architecture.
+The TTS MP3 pilot must use the existing managed Astro 7 and Node 24 deployment plus visitor-side browser inference and MP3 encoding. Do not purchase a VPS, upgrade the hosting plan, create TTS DNS, deploy Docker, or propose paid speech compute for this pilot. The separately authenticated `hostinger-vps` MCP connector does not grant purchase or write approval and is not part of the TTS architecture.
 
 Last updated: 2026-07-13
 

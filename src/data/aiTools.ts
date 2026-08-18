@@ -462,39 +462,39 @@ export const aiTools: ToolDefinition[] = [
   }),
   makeAiTool({
     slug: 'text-to-speech-audiobook-generator',
-    name: 'Text to Speech Audiobook Generator',
-    summary: 'Turn permitted pasted text, TXT, or EPUB chapters into downloadable WAV audio directly in your browser.',
+    name: 'Text to Speech MP3 Generator',
+    summary: 'Turn permitted text into a downloadable MP3 directly in your browser.',
     description:
-      'Prepare pasted text, TXT, or EPUB chapters in your browser, then run the multilingual Supertonic model on your device and download one WAV chapter at a time. No text is uploaded to Access Free Tools.',
-    aliases: ['Audiobook Generator', 'EPUB to Audiobook Converter', 'Multilingual Text to Speech'],
-    seoTitle: 'Text to Speech Audiobook Generator | TXT & EPUB',
+      'Paste text, choose a language and fixed voice, generate speech on your device, preview it, and download a 128 kbps MP3. No text is uploaded to Access Free Tools.',
+    aliases: ['Text to Speech Generator', 'Text to MP3 Converter', 'Multilingual Text to Speech'],
+    seoTitle: 'Text to Speech MP3 Generator | Browser TTS',
     seoDescription:
-      'Convert permitted pasted text, TXT, or EPUB chapters into multilingual WAV audio locally with 31 languages and 10 fixed voices.',
+      'Convert permitted text into a downloadable 128 kbps MP3 in your browser with 31 language choices and 10 fixed voices. No text upload.',
     icon: 'tool-ai-voice',
     modelNote:
-      'Uses a pinned Supertonic 3 ONNX model in a browser worker. The first run downloads about 398 MB of model files from Hugging Face, then inference and WAV creation stay on the visitor device.',
+      'Uses a pinned Supertonic 3 ONNX model and a pinned browser MP3 encoder in a worker. The first run downloads about 398 MB of model files from Hugging Face, then inference and MP3 creation stay on the visitor device.',
     inputMeaning:
-      'Paste text or choose a TXT or EPUB file you have permission to convert. The browser extracts chapter text, blocks EPUB scripts and remote resources, and never sends the text, original file, or filename to Access Free Tools.',
+      'Paste up to 10,000 characters of text you wrote or have permission to convert. Choose the language, one fixed voice, and a reading speed before generating.',
     resultMeaning:
-      'Generate and download one 44.1 kHz mono WAV chapter at a time. Listen to names, numbers, abbreviations, and technical terms before relying on the recording.',
+      'Preview and download a 128 kbps mono MP3. Listen to names, numbers, abbreviations, and technical terms before relying on the recording.',
     doubleCheck:
-      'Check pronunciation, chapter order, language choice, missing lines, repeated lines, rights to the source text, and any prohibited use before sharing or publishing generated audio.',
+      'Check pronunciation, language choice, missing or repeated lines, rights to the source text, and any prohibited use before sharing or publishing generated audio.',
     useCases: [
       'Create private listening copies of your own notes, drafts, stories, or public-domain text.',
-      'Turn a permitted EPUB into separate chapter WAV files without uploading the original book file.',
+      'Download spoken instructions or study notes as a standard MP3 file.',
       'Test pronunciation across 31 supported language choices and 10 fixed preset voices.',
-      'Prepare accessibility or study audio without a server queue, account, or paid processing plan.',
+      'Create accessibility or study audio without a server queue, account, or paid processing plan.',
     ],
     examples: [
       {
         label: 'Short English draft',
         expression: 'Paste a 2,000-character draft, choose English, preset F1, and 1.0x speed',
-        result: 'One 44.1 kHz mono WAV held in the browser tab for preview and download',
+        result: 'One 128 kbps MP3 held in the browser tab for preview and download',
       },
       {
-        label: 'Three-chapter EPUB',
-        expression: 'Choose a permitted EPUB whose spine contains three readable chapters',
-        result: 'A chapter selector that lets you generate and download each chapter in spine order',
+        label: 'Study notes',
+        expression: 'Paste permitted notes, choose their language and a fixed voice, then press Generate MP3',
+        result: 'A local audio preview and MP3 download without uploading the notes',
       },
       {
         label: 'Language not specified',
@@ -504,14 +504,14 @@ export const aiTools: ToolDefinition[] = [
     ],
     faq: [
       {
-        question: 'What files can the audiobook generator read?',
+        question: 'How do I turn text into an MP3?',
         answer:
-          'The pilot accepts pasted text, UTF-8 or UTF-16 TXT files, and EPUB files up to 10 MB. It does not accept PDF, DOCX, URLs, custom voice files, or audio uploads.',
+          'Paste up to 10,000 characters, choose the text language, a fixed voice, and a reading speed, accept the rights notice, then press Generate MP3. Preview the result and use Download MP3 to save it.',
       },
       {
-        question: 'Does Access Free Tools upload my whole EPUB file?',
+        question: 'Does Access Free Tools upload my text?',
         answer:
-          'No. The browser reads the EPUB, checks its ZIP directory, blocks scripts and remote resources, and follows the readable spine locally. The original file, filename, and extracted chapter text do not leave the browser.',
+          'No. The text stays in your browser tab and is sent only to the local browser worker. It is not uploaded to Access Free Tools or included in requests to the model host.',
       },
       {
         question: 'Where is the text-to-speech model running?',
@@ -521,7 +521,12 @@ export const aiTools: ToolDefinition[] = [
       {
         question: 'Does Access Free Tools store my text or generated audio?',
         answer:
-          'No. Your text is not uploaded. It stays in a worker inside this browser tab, and generated WAV audio is held in a temporary browser URL for the current tab. Download the file before closing or refreshing the page.',
+          'No. Your text is not uploaded. It stays in a worker inside this browser tab, and the generated MP3 is held in a temporary browser URL for the current tab. Download the file before closing or refreshing the page.',
+      },
+      {
+        question: 'Can I download the generated speech as an MP3?',
+        answer:
+          'Yes. The browser encodes the generated audio as a 128 kbps mono MP3. You can preview it on the page and press Download MP3 to save the file to your device.',
       },
       {
         question: 'Does best effort detect the language?',
@@ -534,9 +539,9 @@ export const aiTools: ToolDefinition[] = [
           'No. The pilot offers only the 10 fixed Supertonic voice presets F1 to F5 and M1 to M5. It does not support voice uploads, cloning, reference audio, or custom voice JSON.',
       },
       {
-        question: 'What are the audiobook pilot limits?',
+        question: 'How much text can I convert at once?',
         answer:
-          'The parser accepts up to 500,000 characters, 100 chapters, and a 10 MB TXT or EPUB input. Generate one selected chapter of at most 10,000 characters at a time to keep browser memory and generation time bounded.',
+          'You can paste up to 10,000 characters at a time. Shorter text is faster and easier to check, especially on devices with limited memory.',
       },
       {
         question: 'Can I use any book or article I find online?',
@@ -546,12 +551,12 @@ export const aiTools: ToolDefinition[] = [
       {
         question: 'Will every name and number be pronounced correctly?',
         answer:
-          'No. Text-to-speech can misread names, abbreviations, formulas, code, dates, phone numbers, mixed languages, and unusual punctuation. Double-check important chapters by listening, then correct the text before generating again.',
+          'No. Text-to-speech can misread names, abbreviations, formulas, code, dates, phone numbers, mixed languages, and unusual punctuation. Double-check the MP3 by listening, then correct the text before generating again.',
       },
       {
         question: 'Why can browser speech generation take a long time?',
         answer:
-          'The first use downloads about 398 MB of model files. WebGPU is normally faster, while the WebAssembly fallback can be much slower. Generation time also depends on chapter length, quality passes, and device memory.',
+          'The first use downloads about 398 MB of model files. WebGPU is normally faster, while the WebAssembly fallback can be much slower. Generation time also depends on text length and device memory.',
       },
     ],
     relatedSlugs: ['text-summarizer', 'reading-level-checker', 'word-counter'],

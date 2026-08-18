@@ -9,3 +9,5 @@
 - 2026-08-18: Owner rejected the paid-host model. The Python benchmark and earlier archive-risk statement are historical only and do not control the browser implementation.
 - 2026-08-18: Pinned the official browser helper at `7e2804f96016a7028cb1ed627353c61c1e9dd281`, model files at `3cadd1ee6394adea1bd021217a0e650ede09a323`, and `onnxruntime-web` at `1.27.0`; output is local 44.1 kHz WAV through WebGPU with WASM fallback.
 - 2026-08-18: A real Chrome/WebGPU run generated a 6.5-second, 44.1 kHz mono PCM WAV in 3.1 seconds. The 572,754-byte file was decoded and inspected successfully; WASM timing remains a beta compatibility task.
+- 2026-08-18: Owner simplified the product to pasted text and MP3 download. Added pinned `wasm-media-encoders@0.7.0`; prior WAV proof remains inference history but does not approve the corrected MP3 release.
+- 2026-08-18: Final local Chrome/WebGPU proof generated and downloaded a 79,412-byte MP3 from pasted text. `ffprobe` confirmed MP3, 44.1 kHz mono, 128 kbps, and 4.96325 seconds; SHA-256 is `BEFB73817ED2442A94FAA0985A38D2485B71DE6D17B9A7E684719187AFB2EE51`.
