@@ -11,3 +11,4 @@
 - 2026-08-18: A real Chrome/WebGPU run generated a 6.5-second, 44.1 kHz mono PCM WAV in 3.1 seconds. The 572,754-byte file was decoded and inspected successfully; WASM timing remains a beta compatibility task.
 - 2026-08-18: Owner simplified the product to pasted text and MP3 download. Added pinned `wasm-media-encoders@0.7.0`; prior WAV proof remains inference history but does not approve the corrected MP3 release.
 - 2026-08-18: Final local Chrome/WebGPU proof generated and downloaded a 79,412-byte MP3 from pasted text. `ffprobe` confirmed MP3, 44.1 kHz mono, 128 kbps, and 4.96325 seconds; SHA-256 is `BEFB73817ED2442A94FAA0985A38D2485B71DE6D17B9A7E684719187AFB2EE51`.
+- 2026-08-18: The deployed Node 24 page generated a 5.8-second, 128 kbps MP3 result in 1.3 seconds with WebGPU and exposed a browser-local audio preview and MP3 download control.
