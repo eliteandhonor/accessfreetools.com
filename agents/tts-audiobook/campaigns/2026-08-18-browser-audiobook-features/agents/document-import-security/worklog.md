@@ -18,3 +18,9 @@ Append-only. Add dated entries below; do not rewrite earlier entries.
 - Playwright imported a local two-chapter Markdown document and a local two-chapter EPUB in spine order.
 - A hostile Markdown remote-resource reference was rejected in the live component, and request proof showed only lazy local parser chunks.
 - DI-01 through DI-03 moved to `evidence_ready`.
+
+## 2026-08-18, Release Judge approval
+
+- The Release & Proof Judge accepted the focused parser suite, hostile fixtures, and local Markdown and EPUB interaction proof.
+- The request trace contained no imported text, chapter names, filenames, or document bytes; imported buffers are cleared after parsing.
+- DI-01 through DI-03 were approved by `release-proof-judge`.

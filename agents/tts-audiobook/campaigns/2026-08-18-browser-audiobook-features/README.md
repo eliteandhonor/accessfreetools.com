@@ -7,7 +7,7 @@ This campaign turns four owner-requested improvements into bounded, testable age
 3. Named, reorderable chapters with sequential MP3 generation and a local ZIP download.
 4. Browser-only Markdown and EPUB import into the chapter builder.
 
-The campaign creates goals and proof gates. It does not claim the features are implemented. Start with `campaign.json`, then read the assigned agent's five files.
+The campaign records goals, implementation evidence, and the final release decision. Start with `campaign.json`, then read the assigned agent's five files and `completion-audit.md`.
 
 ## Command
 
@@ -19,8 +19,8 @@ The command validates agent ownership, task dependencies, required evidence, fea
 
 ## Current State
 
-- Campaign setup: ready for deterministic verification.
-- Feature implementation: not started.
-- Feature tasks approved: 0.
-- Production behavior: unchanged.
-- Index policy: unchanged.
+- Campaign state: approved by the Release & Proof Judge on August 18, 2026.
+- Feature implementation: deployed from commit `77c33cb6`.
+- Feature tasks approved: 15 of 15.
+- Production behavior: two chapter MP3s generated successfully and exposed separate MP3 plus ZIP controls on Astro 7 and Node 24.
+- Index policy: intentionally unchanged at `noindex,follow`; both beta pages remain outside XML sitemaps.

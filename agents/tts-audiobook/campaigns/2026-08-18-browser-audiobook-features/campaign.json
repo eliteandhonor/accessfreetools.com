@@ -3,7 +3,7 @@
   "campaignId": "2026-08-18-browser-audiobook-features",
   "title": "Browser Audiobook Feature Campaign",
   "objective": "Deliver local voice preferences, pre-download audio estimates, a chapter-to-MP3-and-ZIP workflow, and browser-only Markdown and EPUB import without adding accounts, servers, purchases, uploads, or hosted inference.",
-  "state": "in_progress",
+  "state": "approved",
   "allowedStatuses": [
     "planned",
     "in_progress",
@@ -117,7 +117,9 @@
       "feature": "favorites-recent-voices",
       "owner": "voice-preference",
       "priority": "P1",
-      "status": "evidence_ready",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [],
       "evidencePaths": [
         "src/lib/browserTtsPreferences.ts",
@@ -133,7 +135,9 @@
       "feature": "favorites-recent-voices",
       "owner": "voice-preference",
       "priority": "P1",
-      "status": "evidence_ready",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [
         "VP-01"
       ],
@@ -151,7 +155,9 @@
       "feature": "audio-estimate",
       "owner": "audio-estimation",
       "priority": "P1",
-      "status": "evidence_ready",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [],
       "evidencePaths": [
         "src/lib/browserTtsEstimate.ts",
@@ -167,7 +173,9 @@
       "feature": "audio-estimate",
       "owner": "audio-estimation",
       "priority": "P1",
-      "status": "evidence_ready",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [
         "AE-01"
       ],
@@ -185,7 +193,9 @@
       "feature": "document-import",
       "owner": "document-import-security",
       "priority": "P0",
-      "status": "evidence_ready",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [],
       "evidencePaths": [
         "docs/tts-browser-import-security.md",
@@ -201,7 +211,9 @@
       "feature": "document-import",
       "owner": "document-import-security",
       "priority": "P1",
-      "status": "evidence_ready",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [
         "DI-01",
         "CB-01"
@@ -220,7 +232,9 @@
       "feature": "document-import",
       "owner": "document-import-security",
       "priority": "P1",
-      "status": "evidence_ready",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [
         "DI-01",
         "CB-01"
@@ -240,7 +254,9 @@
       "feature": "chapter-builder",
       "owner": "chapter-workflow",
       "priority": "P0",
-      "status": "evidence_ready",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [],
       "evidencePaths": [
         "src/lib/browserTtsChapters.ts",
@@ -256,7 +272,9 @@
       "feature": "chapter-builder",
       "owner": "chapter-workflow",
       "priority": "P1",
-      "status": "evidence_ready",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [
         "CB-01"
       ],
@@ -275,7 +293,9 @@
       "feature": "chapter-builder",
       "owner": "chapter-workflow",
       "priority": "P1",
-      "status": "evidence_ready",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [
         "CB-02"
       ],
@@ -294,7 +314,9 @@
       "feature": "chapter-builder",
       "owner": "chapter-workflow",
       "priority": "P1",
-      "status": "evidence_ready",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [
         "CB-03",
         "DI-02",
@@ -314,7 +336,9 @@
       "feature": "cross-cutting",
       "owner": "product-accessibility-privacy",
       "priority": "P1",
-      "status": "evidence_ready",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [
         "VP-02",
         "AE-02",
@@ -336,7 +360,9 @@
       "feature": "cross-cutting",
       "owner": "product-accessibility-privacy",
       "priority": "P1",
-      "status": "in_progress",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [
         "CB-04",
         "PX-01"
@@ -355,7 +381,9 @@
       "feature": "release",
       "owner": "release-proof-judge",
       "priority": "P0",
-      "status": "planned",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [
         "VP-02",
         "AE-02",
@@ -376,7 +404,9 @@
       "feature": "release",
       "owner": "release-proof-judge",
       "priority": "P0",
-      "status": "planned",
+      "status": "approved",
+      "approvedBy": "release-proof-judge",
+      "approvedAt": "2026-08-18",
       "dependsOn": [
         "RJ-01"
       ],

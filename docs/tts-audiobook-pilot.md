@@ -153,6 +153,18 @@ Verified on August 18, 2026 against the local Astro production preview:
 - Both public pages returned `noindex,follow` and remain excluded from XML sitemaps.
 - The restarted seven-day beta runs through August 24, 2026. The earliest indexability review is August 25, 2026, after a fresh production, browser, privacy, and sitemap check.
 
+### Browser audiobook feature release
+
+- Commit `77c33cb6` added bounded favorite and recent voice IDs, pre-download duration and 128 kbps size estimates, named reorderable chapters, sequential one-worker chapter generation, separate MP3 downloads, an audio-only ZIP, and entirely local Markdown and EPUB import.
+- The final test run passed 538 tests across 64 files, both TypeScript lanes, Astro production build, dependency audit with zero findings, the TTS browser and voice checks, the 100-chapter soak, and the full repository check.
+- The chapter soak completed 100 chapters and 10,000 combined characters with peak inference concurrency one and 100 ordered ZIP entries.
+- A real local Kokoro q8 run generated two MPEG MP3 files in `local-chapter-set.zip`. The archive SHA-256 was `3BCB37E2D3D13185274E7591BC42FCDF72274AA9F9831DF9FD44C257A3A07A22`.
+- Request inspection found only pinned runtime, model, tokenizer, and selected Bella voice requests. Source text, chapter names, filenames, imported document bytes, and generated audio were absent.
+- Hostinger build `01a014d5-8ce9-7201-ad57-6dffa4da8241` completed on Node 24 with `app.js` and `dist`.
+- A live production run reached `2 chapter MP3s ready`, exposed two separate MP3 controls and `Download all as ZIP`, and logged no browser errors.
+- Live Ask, API, MCP, and production sitemap checks passed. The sitemap check reported 661 checked URLs, 661 OK, and zero hard failures.
+- Both the tool and guide still return `noindex,follow` with their correct canonicals and remain outside XML sitemaps. No Search Console or IndexNow submission was made for this beta release.
+
 ### Earlier two-model runtime evidence
 
 - Microsoft Edge loaded the full-precision Kokoro model on WebGPU, used the Bella voice, and generated an audible 8.808-second MP3 at 24 kHz, mono, exactly 128 kbps. The first uncached run completed in 70.4 seconds.

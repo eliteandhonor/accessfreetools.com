@@ -2,7 +2,7 @@
 
 | ID | Status | Task | Completion Rule |
 |---|---|---|---|
-| VP-01 | evidence_ready | Build versioned bounded preference storage | Focused tests pass; no user content is stored |
-| VP-02 | evidence_ready | Integrate favorites and recents into the selector | Accessible UI and no-eager-download proof exist |
+| VP-01 | approved | Build versioned bounded preference storage | Focused tests pass; no user content is stored |
+| VP-02 | approved | Integrate favorites and recents into the selector | Accessible UI and no-eager-download proof exist |
 
 Update statuses here and in `../../campaign.json` together. Only the Release & Proof Judge may use `approved`.

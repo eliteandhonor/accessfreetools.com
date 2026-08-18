@@ -18,3 +18,9 @@ Append-only. Add dated entries below; do not rewrite earlier entries.
 - Seven focused preference tests pass under the final integration branch.
 - Playwright confirmed a favorite persists after reload and local storage contains only `supertonic-3:F1`, never text or filenames.
 - The page loaded no voice sample or model asset before user action, so VP-01 and VP-02 moved to `evidence_ready`.
+
+## 2026-08-18, Release Judge approval
+
+- The Release & Proof Judge reran the full test and browser gates from commit `77c33cb6`.
+- Local browser proof showed a favorite persisted after reload while storage contained only the validated voice ID `supertonic-3:F1`.
+- VP-01 and VP-02 were approved by `release-proof-judge`.
