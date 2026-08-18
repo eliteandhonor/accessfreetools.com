@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "campaignId": "2026-08-18-browser-audiobook-features",
+  "title": "Browser Audiobook Feature Campaign",
+  "objective": "Deliver local voice preferences, pre-download audio estimates, a chapter-to-MP3-and-ZIP workflow, and browser-only Markdown and EPUB import without adding accounts, servers, purchases, uploads, or hosted inference.",
+  "state": "planned",
+  "allowedStatuses": [
+    "planned",
+    "in_progress",
+    "evidence_ready",
+    "approved",
+    "blocked"
+  ],
+  "approvalAuthority": "release-proof-judge",
+  "features": [
+    {
+      "id": "favorites-recent-voices",
+      "title": "Favorites and recent voices"
+    },
+    {
+      "id": "audio-estimate",
+      "title": "Audio duration and MP3 size estimate"
+    },
+    {
+      "id": "chapter-builder",
+      "title": "Chapter builder and ZIP export"
+    },
+    {
+      "id": "document-import",
+      "title": "Browser-only EPUB and Markdown import"
+    }
+  ],
+  "invariants": [
+    {
+      "id": "local-only-processing",
+      "rule": "Text, chapters, imported document content, and generated audio are processed only in the visitor browser."
+    },
+    {
+      "id": "no-account-or-server-storage",
+      "rule": "No account, database, server storage, cloud sync, or hosted job state is introduced."
+    },
+    {
+      "id": "no-purchase-or-hosted-inference",
+      "rule": "No purchase, VPS, paid speech API, hosted inference, or user-PC service is introduced."
+    },
+    {
+      "id": "no-document-upload",
+      "rule": "TXT, Markdown, and EPUB files are read locally and the original document is never uploaded."
+    },
+    {
+      "id": "no-sensitive-analytics",
+      "rule": "Analytics and Clarity never receive text, chapter names, document titles, filenames, voice IDs, language choices, audio, or generated output."
+    },
+    {
+      "id": "bounded-browser-resources",
+      "rule": "Storage, archive entries, extracted bytes, chapters, characters, object URLs, workers, and generated files have explicit limits and cleanup."
+    },
+    {
+      "id": "beta-indexing-unchanged",
+      "rule": "The current noindex beta and sitemap policy stay unchanged until the Release and Proof Judge records a separate evidence-backed decision."
+    }
+  ],
+  "agents": [
+    {
+      "id": "voice-preference",
+      "name": "Voice Preference Agent",
+      "feature": "favorites-recent-voices",
+      "goal": "Make the 38-voice library easy to revisit using bounded, validated browser-local preferences.",
+      "directory": "agents/voice-preference",
+      "mayApprove": false
+    },
+    {
+      "id": "audio-estimation",
+      "name": "Audio Estimate Agent",
+      "feature": "audio-estimate",
+      "goal": "Show an honest duration and 128 kbps MP3 size estimate before a speech model is requested.",
+      "directory": "agents/audio-estimation",
+      "mayApprove": false
+    },
+    {
+      "id": "chapter-workflow",
+      "name": "Chapter Workflow Agent",
+      "feature": "chapter-builder",
+      "goal": "Create a bounded chapter editor, sequential one-worker generation queue, and local ZIP download.",
+      "directory": "agents/chapter-workflow",
+      "mayApprove": false
+    },
+    {
+      "id": "document-import-security",
+      "name": "Document Import and Security Agent",
+      "feature": "document-import",
+      "goal": "Parse Markdown and EPUB locally into safe ordered chapters while treating every file as untrusted.",
+      "directory": "agents/document-import-security",
+      "mayApprove": false
+    },
+    {
+      "id": "product-accessibility-privacy",
+      "name": "Product Accessibility and Privacy Agent",
+      "feature": "cross-cutting",
+      "goal": "Integrate the features without regressions in privacy, accessibility, responsive layout, performance, or browser recovery.",
+      "directory": "agents/product-accessibility-privacy",
+      "mayApprove": false
+    },
+    {
+      "id": "release-proof-judge",
+      "name": "Release and Proof Judge",
+      "feature": "release",
+      "goal": "Independently verify final evidence and make the only allowed approval or release decision.",
+      "directory": "agents/release-proof-judge",
+      "mayApprove": true
+    }
+  ],
+  "tasks": [
+    {
+      "id": "VP-01",
+      "title": "Build a versioned bounded voice preference store",
+      "feature": "favorites-recent-voices",
+      "owner": "voice-preference",
+      "priority": "P1",
+      "status": "planned",
+      "dependsOn": [],
+      "evidencePaths": [
+        "src/lib/browserTtsPreferences.ts",
+        "src/lib/browserTtsPreferences.test.ts"
+      ],
+      "evidenceCommand": "npx vitest run --configLoader runner src/lib/browserTtsPreferences.test.ts",
+      "doneRule": "A versioned localStorage record keeps at most 20 favorites and 8 recent valid voice IDs, survives corruption or unavailable storage, and stores no user content or filename.",
+      "approvalGate": "release-proof-judge"
+    },
+    {
+      "id": "VP-02",
+      "title": "Add favorites and recent voices to the grouped selector",
+      "feature": "favorites-recent-voices",
+      "owner": "voice-preference",
+      "priority": "P1",
+      "status": "planned",
+      "dependsOn": ["VP-01"],
+      "evidencePaths": [
+        "src/components/TextToSpeechAudiobookGenerator.tsx",
+        "output/tts-feature-campaign/voice-preferences/"
+      ],
+      "evidenceCommand": "npm run tts:browser-check",
+      "doneRule": "Users can favorite, unfavorite, and revisit recent voices by keyboard or touch without eager voice/model downloads, layout overflow, or an account.",
+      "approvalGate": "release-proof-judge"
+    },
+    {
+      "id": "AE-01",
+      "title": "Implement pure duration and MP3 size estimates",
+      "feature": "audio-estimate",
+      "owner": "audio-estimation",
+      "priority": "P1",
+      "status": "planned",
+      "dependsOn": [],
+      "evidencePaths": [
+        "src/lib/browserTtsEstimate.ts",
+        "src/lib/browserTtsEstimate.test.ts"
+      ],
+      "evidenceCommand": "npx vitest run --configLoader runner src/lib/browserTtsEstimate.test.ts",
+      "doneRule": "A deterministic estimator returns a clearly labeled duration range and approximate 128 kbps MP3 size for empty, Latin, CJK, RTL, punctuation-heavy, and selected-speed inputs without loading a model.",
+      "approvalGate": "release-proof-judge"
+    },
+    {
+      "id": "AE-02",
+      "title": "Show estimates before model download",
+      "feature": "audio-estimate",
+      "owner": "audio-estimation",
+      "priority": "P1",
+      "status": "planned",
+      "dependsOn": ["AE-01"],
+      "evidencePaths": [
+        "src/components/TextToSpeechAudiobookGenerator.tsx",
+        "output/tts-feature-campaign/audio-estimate/"
+      ],
+      "evidenceCommand": "npm run tts:browser-check",
+      "doneRule": "The estimate is visible and understandable before consent or model loading, updates with text and speed, promises no exact runtime, and a browser trace shows zero model requests.",
+      "approvalGate": "release-proof-judge"
+    },
+    {
+      "id": "DI-01",
+      "title": "Define the untrusted document parser contract",
+      "feature": "document-import",
+      "owner": "document-import-security",
+      "priority": "P0",
+      "status": "planned",
+      "dependsOn": [],
+      "evidencePaths": [
+        "docs/tts-browser-import-security.md",
+        "src/lib/browserTtsImport.test.ts"
+      ],
+      "evidenceCommand": "npx vitest run --configLoader runner src/lib/browserTtsImport.test.ts",
+      "doneRule": "The contract pins structured parsers, file/entry/extracted-byte/chapter limits, ZIP path checks, script and remote-resource rejection, text-only output, and no network access.",
+      "approvalGate": "release-proof-judge"
+    },
+    {
+      "id": "DI-02",
+      "title": "Parse Markdown into ordered local chapters",
+      "feature": "document-import",
+      "owner": "document-import-security",
+      "priority": "P1",
+      "status": "planned",
+      "dependsOn": ["DI-01", "CB-01"],
+      "evidencePaths": [
+        "src/lib/browserTtsMarkdownImport.ts",
+        "src/lib/browserTtsMarkdownImport.test.ts"
+      ],
+      "evidenceCommand": "npx vitest run --configLoader runner src/lib/browserTtsMarkdownImport.test.ts",
+      "doneRule": "A pinned structured Markdown parser extracts headings and plain text into the shared chapter model, never renders imported HTML, and rejects oversized or binary input without truncation.",
+      "approvalGate": "release-proof-judge"
+    },
+    {
+      "id": "DI-03",
+      "title": "Parse EPUB spine content into ordered local chapters",
+      "feature": "document-import",
+      "owner": "document-import-security",
+      "priority": "P1",
+      "status": "planned",
+      "dependsOn": ["DI-01", "CB-01"],
+      "evidencePaths": [
+        "src/lib/browserTtsEpubImport.ts",
+        "src/lib/browserTtsEpubImport.test.ts",
+        "output/tts-feature-campaign/document-import/"
+      ],
+      "evidenceCommand": "npx vitest run --configLoader runner src/lib/browserTtsEpubImport.test.ts",
+      "doneRule": "A bounded browser ZIP/XML parser follows the EPUB spine, extracts text-only chapters, and rejects DRM, traversal, zip bombs, scripts, remote resources, malformed manifests, and excessive output.",
+      "approvalGate": "release-proof-judge"
+    },
+    {
+      "id": "CB-01",
+      "title": "Create the pure chapter model and editor operations",
+      "feature": "chapter-builder",
+      "owner": "chapter-workflow",
+      "priority": "P0",
+      "status": "planned",
+      "dependsOn": [],
+      "evidencePaths": [
+        "src/lib/browserTtsChapters.ts",
+        "src/lib/browserTtsChapters.test.ts"
+      ],
+      "evidenceCommand": "npx vitest run --configLoader runner src/lib/browserTtsChapters.test.ts",
+      "doneRule": "Users can split, name, edit, delete, and reorder bounded chapters with stable IDs, unique sanitized download names, deterministic character totals, and no silent text loss.",
+      "approvalGate": "release-proof-judge"
+    },
+    {
+      "id": "CB-02",
+      "title": "Generate chapter MP3 files sequentially with one worker",
+      "feature": "chapter-builder",
+      "owner": "chapter-workflow",
+      "priority": "P1",
+      "status": "planned",
+      "dependsOn": ["CB-01"],
+      "evidencePaths": [
+        "src/lib/browserTtsChapterQueue.ts",
+        "src/lib/browserTtsChapterQueue.test.ts",
+        "output/tts-feature-campaign/chapter-generation/"
+      ],
+      "evidenceCommand": "npm run tts:browser-check",
+      "doneRule": "One loaded model generates chapters in order, exposes per-chapter and overall status, supports cancel and bounded retry, preserves completed local results, and never starts concurrent inference workers.",
+      "approvalGate": "release-proof-judge"
+    },
+    {
+      "id": "CB-03",
+      "title": "Download completed chapter MP3 files as a local ZIP",
+      "feature": "chapter-builder",
+      "owner": "chapter-workflow",
+      "priority": "P1",
+      "status": "planned",
+      "dependsOn": ["CB-02"],
+      "evidencePaths": [
+        "src/lib/browserTtsChapterArchive.ts",
+        "src/lib/browserTtsChapterArchive.test.ts",
+        "output/tts-feature-campaign/chapter-zip/"
+      ],
+      "evidenceCommand": "npx vitest run --configLoader runner src/lib/browserTtsChapterArchive.test.ts",
+      "doneRule": "The browser creates one ordered ZIP containing valid separate 128 kbps MP3 files with unique sanitized names, no source text, no remote upload, and revoked object URLs after use.",
+      "approvalGate": "release-proof-judge"
+    },
+    {
+      "id": "CB-04",
+      "title": "Benchmark chapter limits and memory cleanup",
+      "feature": "chapter-builder",
+      "owner": "chapter-workflow",
+      "priority": "P1",
+      "status": "planned",
+      "dependsOn": ["CB-03", "DI-02", "DI-03"],
+      "evidencePaths": [
+        "output/tts-feature-campaign/chapter-soak/latest.json",
+        "output/tts-feature-campaign/chapter-soak/latest.md"
+      ],
+      "evidenceCommand": "npm run tts:browser-check",
+      "doneRule": "A measured desktop and mobile-class browser soak passes at the existing 10,000-character aggregate limit with no OOM, orphan worker, object URL, or retained document; any higher limit remains blocked without separate proof.",
+      "approvalGate": "release-proof-judge"
+    },
+    {
+      "id": "PX-01",
+      "title": "Integrate responsive accessible privacy-safe controls",
+      "feature": "cross-cutting",
+      "owner": "product-accessibility-privacy",
+      "priority": "P1",
+      "status": "planned",
+      "dependsOn": ["VP-02", "AE-02", "CB-01", "DI-02", "DI-03"],
+      "evidencePaths": [
+        "src/components/TextToSpeechAudiobookGenerator.tsx",
+        "output/tts-feature-campaign/integration/"
+      ],
+      "evidenceCommand": "npm run check:accessibility",
+      "doneRule": "Desktop, tablet, and 390px layouts have no overlap or overflow; keyboard and screen-reader flows work; reduced motion is respected; imported/user content is masked and absent from analytics.",
+      "approvalGate": "release-proof-judge"
+    },
+    {
+      "id": "PX-02",
+      "title": "Prove cross-browser import, generation, download, and cleanup",
+      "feature": "cross-cutting",
+      "owner": "product-accessibility-privacy",
+      "priority": "P1",
+      "status": "planned",
+      "dependsOn": ["CB-04", "PX-01"],
+      "evidencePaths": [
+        "output/tts-feature-campaign/browser-matrix/latest.json",
+        "output/tts-feature-campaign/privacy-sentinel/latest.json"
+      ],
+      "evidenceCommand": "npm run tts:browser-check",
+      "doneRule": "Installed Chrome and Edge pass the full flow, fallback engines are truthfully classified, cancellation and refresh clean local resources, and a request sentinel finds no user content or document bytes leaving the page.",
+      "approvalGate": "release-proof-judge"
+    },
+    {
+      "id": "RJ-01",
+      "title": "Run the independent final evidence audit",
+      "feature": "release",
+      "owner": "release-proof-judge",
+      "priority": "P0",
+      "status": "planned",
+      "dependsOn": ["VP-02", "AE-02", "CB-04", "PX-02"],
+      "evidencePaths": [
+        "output/agent-campaigns/tts-feature-campaign/latest.json",
+        "output/tts-feature-campaign/release-judge/latest.md"
+      ],
+      "evidenceCommand": "npm run agents:tts-feature-campaign:verify && npm run check",
+      "doneRule": "The judge reruns every required command from the final commit, inspects browser/privacy evidence, records failures and missing data, and is the only agent allowed to approve tasks.",
+      "approvalGate": "release-proof-judge"
+    },
+    {
+      "id": "RJ-02",
+      "title": "Make the bounded beta release and index-policy decision",
+      "feature": "release",
+      "owner": "release-proof-judge",
+      "priority": "P0",
+      "status": "planned",
+      "dependsOn": ["RJ-01"],
+      "evidencePaths": [
+        "agents/tts-audiobook/campaigns/2026-08-18-browser-audiobook-features/completion-audit.md",
+        "output/tts-feature-campaign/release-judge/production-proof.md"
+      ],
+      "evidenceCommand": "npm run check:production-sitemap",
+      "doneRule": "The judge records an explicit release, rollback, and indexability verdict after live Node 24 proof; no sitemap or Search Console submission occurs unless a separate indexability gate passes.",
+      "approvalGate": "release-proof-judge"
+    }
+  ]
+}
