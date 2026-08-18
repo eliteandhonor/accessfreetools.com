@@ -6,9 +6,16 @@ export interface BrowserTtsLanguage {
 }
 
 export interface BrowserTtsVoice {
+  description: string;
+  group: string;
   label: string;
   language?: string;
   value: string;
+}
+
+export interface BrowserTtsVoiceGroup {
+  label: string;
+  voices: readonly BrowserTtsVoice[];
 }
 
 export interface BrowserTtsModelDefinition {
@@ -74,8 +81,17 @@ const supertonicLanguages: readonly BrowserTtsLanguage[] = [
 ];
 
 const supertonicVoices: readonly BrowserTtsVoice[] = [
-  'F1', 'F2', 'F3', 'F4', 'F5', 'M1', 'M2', 'M3', 'M4', 'M5',
-].map((value) => ({ value, label: value }));
+  { value: 'F1', label: 'F1', group: 'Female voices', description: 'Calm and steady. Suits guided instructions and professional narration.' },
+  { value: 'F2', label: 'F2', group: 'Female voices', description: 'Bright and playful. Suits lively and youth-focused narration.' },
+  { value: 'F3', label: 'F3', group: 'Female voices', description: 'Clear announcer style. Suits documentaries and formal narration.' },
+  { value: 'F4', label: 'F4', group: 'Female voices', description: 'Crisp and confident. Suits training and product explainers.' },
+  { value: 'F5', label: 'F5', group: 'Female voices', description: 'Kind and gentle. Suits audiobooks and supportive narration.' },
+  { value: 'M1', label: 'M1', group: 'Male voices', description: 'Lively and upbeat. Suits explainers and casual narration.' },
+  { value: 'M2', label: 'M2', group: 'Male voices', description: 'Deep and composed. Suits documentaries and formal guidance.' },
+  { value: 'M3', label: 'M3', group: 'Male voices', description: 'Polished and authoritative. Suits business and high-trust narration.' },
+  { value: 'M4', label: 'M4', group: 'Male voices', description: 'Soft and friendly. Suits education and onboarding.' },
+  { value: 'M5', label: 'M5', group: 'Male voices', description: 'Warm storyteller. Suits audiobooks and reflective narration.' },
+];
 
 const kokoroLanguages: readonly BrowserTtsLanguage[] = [
   { value: 'en-us', label: 'English (United States)' },
@@ -83,16 +99,34 @@ const kokoroLanguages: readonly BrowserTtsLanguage[] = [
 ];
 
 const kokoroVoices: readonly BrowserTtsVoice[] = [
-  { value: 'af_heart', label: 'Heart', language: 'en-us' },
-  { value: 'af_bella', label: 'Bella', language: 'en-us' },
-  { value: 'af_nicole', label: 'Nicole', language: 'en-us' },
-  { value: 'am_michael', label: 'Michael', language: 'en-us' },
-  { value: 'am_fenrir', label: 'Fenrir', language: 'en-us' },
-  { value: 'am_puck', label: 'Puck', language: 'en-us' },
-  { value: 'bf_emma', label: 'Emma', language: 'en-gb' },
-  { value: 'bf_isabella', label: 'Isabella', language: 'en-gb' },
-  { value: 'bm_george', label: 'George', language: 'en-gb' },
-  { value: 'bm_fable', label: 'Fable', language: 'en-gb' },
+  { value: 'af_heart', label: 'Heart', language: 'en-us', group: 'United States, female', description: 'American English, female voice.' },
+  { value: 'af_alloy', label: 'Alloy', language: 'en-us', group: 'United States, female', description: 'American English, female voice.' },
+  { value: 'af_aoede', label: 'Aoede', language: 'en-us', group: 'United States, female', description: 'American English, female voice.' },
+  { value: 'af_bella', label: 'Bella', language: 'en-us', group: 'United States, female', description: 'American English, female voice.' },
+  { value: 'af_jessica', label: 'Jessica', language: 'en-us', group: 'United States, female', description: 'American English, female voice.' },
+  { value: 'af_kore', label: 'Kore', language: 'en-us', group: 'United States, female', description: 'American English, female voice.' },
+  { value: 'af_nicole', label: 'Nicole', language: 'en-us', group: 'United States, female', description: 'American English, female voice.' },
+  { value: 'af_nova', label: 'Nova', language: 'en-us', group: 'United States, female', description: 'American English, female voice.' },
+  { value: 'af_river', label: 'River', language: 'en-us', group: 'United States, female', description: 'American English, female voice.' },
+  { value: 'af_sarah', label: 'Sarah', language: 'en-us', group: 'United States, female', description: 'American English, female voice.' },
+  { value: 'af_sky', label: 'Sky', language: 'en-us', group: 'United States, female', description: 'American English, female voice.' },
+  { value: 'am_adam', label: 'Adam', language: 'en-us', group: 'United States, male', description: 'American English, male voice.' },
+  { value: 'am_echo', label: 'Echo', language: 'en-us', group: 'United States, male', description: 'American English, male voice.' },
+  { value: 'am_eric', label: 'Eric', language: 'en-us', group: 'United States, male', description: 'American English, male voice.' },
+  { value: 'am_fenrir', label: 'Fenrir', language: 'en-us', group: 'United States, male', description: 'American English, male voice.' },
+  { value: 'am_liam', label: 'Liam', language: 'en-us', group: 'United States, male', description: 'American English, male voice.' },
+  { value: 'am_michael', label: 'Michael', language: 'en-us', group: 'United States, male', description: 'American English, male voice.' },
+  { value: 'am_onyx', label: 'Onyx', language: 'en-us', group: 'United States, male', description: 'American English, male voice.' },
+  { value: 'am_puck', label: 'Puck', language: 'en-us', group: 'United States, male', description: 'American English, male voice.' },
+  { value: 'am_santa', label: 'Santa', language: 'en-us', group: 'United States, male', description: 'American English, male voice.' },
+  { value: 'bf_alice', label: 'Alice', language: 'en-gb', group: 'United Kingdom, female', description: 'British English, female voice.' },
+  { value: 'bf_emma', label: 'Emma', language: 'en-gb', group: 'United Kingdom, female', description: 'British English, female voice.' },
+  { value: 'bf_isabella', label: 'Isabella', language: 'en-gb', group: 'United Kingdom, female', description: 'British English, female voice.' },
+  { value: 'bf_lily', label: 'Lily', language: 'en-gb', group: 'United Kingdom, female', description: 'British English, female voice.' },
+  { value: 'bm_daniel', label: 'Daniel', language: 'en-gb', group: 'United Kingdom, male', description: 'British English, male voice.' },
+  { value: 'bm_fable', label: 'Fable', language: 'en-gb', group: 'United Kingdom, male', description: 'British English, male voice.' },
+  { value: 'bm_george', label: 'George', language: 'en-gb', group: 'United Kingdom, male', description: 'British English, male voice.' },
+  { value: 'bm_lewis', label: 'Lewis', language: 'en-gb', group: 'United Kingdom, male', description: 'British English, male voice.' },
 ];
 
 export const browserTtsModels: Readonly<Record<BrowserTtsModelId, BrowserTtsModelDefinition>> = {
@@ -115,7 +149,7 @@ export const browserTtsModels: Readonly<Record<BrowserTtsModelId, BrowserTtsMode
     id: 'kokoro-82m',
     name: 'Kokoro 82M HQ',
     recommendation: 'Natural English with a compact fallback',
-    description: 'Full-precision WebGPU speech for US and UK English, with 10 fixed voices.',
+    description: 'Full-precision WebGPU speech for US and UK English, with 28 fixed voices.',
     downloadMegabytes: 326,
     fallbackDownloadMegabytes: 92,
     backendNote: 'Full-precision WebGPU, q8 WebAssembly fallback',
@@ -135,6 +169,20 @@ export function getBrowserTtsModel(modelId: BrowserTtsModelId) {
 
 export function getBrowserTtsVoices(modelId: BrowserTtsModelId, language: string) {
   return browserTtsModels[modelId].voices.filter((voice) => !voice.language || voice.language === language);
+}
+
+export function getBrowserTtsVoice(modelId: BrowserTtsModelId, value: string) {
+  return browserTtsModels[modelId].voices.find((voice) => voice.value === value);
+}
+
+export function getBrowserTtsVoiceGroups(modelId: BrowserTtsModelId, language: string): BrowserTtsVoiceGroup[] {
+  const groups = new Map<string, BrowserTtsVoice[]>();
+  for (const voice of getBrowserTtsVoices(modelId, language)) {
+    const voices = groups.get(voice.group) ?? [];
+    voices.push(voice);
+    groups.set(voice.group, voices);
+  }
+  return [...groups].map(([label, voices]) => ({ label, voices }));
 }
 
 export function getBrowserTtsDownloadNote(modelId: BrowserTtsModelId) {

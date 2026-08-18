@@ -35,15 +35,17 @@ import BaseLayout from '../components/BaseLayout.astro';
 
     <h2>Browser text-to-speech MP3 pilot</h2>
     <p>
-      The text-to-speech pilot reads pasted text, runs the speech model, and creates MP3 audio inside
-      your browser. Access Free Tools does not receive or store the text or generated audio. The
-      temporary audio URL disappears when the browser tab is closed or refreshed.
+      The text-to-speech pilot reads pasted text or a TXT file you open locally, runs the speech
+      model, and creates MP3 audio inside your browser. Access Free Tools does not receive or store
+      the text, the local filename, or generated audio. Temporary preview and full-audio URLs
+      disappear when the browser tab is closed or refreshed.
     </p>
     <p>
       After you choose to load the model, the browser downloads pinned model and voice files from
       Hugging Face. Those requests can expose ordinary network request information to Hugging Face,
-      but they do not contain your text. The pilot records only bounded, text-free actions
-      such as model ready, generation complete, cancellation, and download.
+      but they do not contain your text. The pilot records only bounded, text-free actions such as
+      model ready, preview or generation complete, cancellation, download, timeout, model-download
+      failure, unsupported browser, and generation failure.
     </p>
 
     <h2>Information we may collect</h2>
@@ -110,8 +112,9 @@ import BaseLayout from '../components/BaseLayout.astro';
       the Access Free Tools analytics opt-out set in local storage.
     </p>
     <p>
-      Text, model-status, and generated-audio surfaces in the text-to-speech pilot are masked
-      from Clarity. We record only bounded, text-free events needed to understand whether the pilot works.
+      Text, local-file, filename, model-status, preview-audio, and generated-audio surfaces in the
+      text-to-speech pilot are masked from Clarity. We record only bounded, text-free events needed
+      to understand whether the pilot works.
     </p>
 
     <h2>Clipboard actions</h2>

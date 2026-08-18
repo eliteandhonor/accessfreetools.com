@@ -13,6 +13,7 @@
     "preview": "astro preview",
     "test": "vitest run --configLoader runner",
     "tts:browser-check": "node scripts/tts-browser-pilot.mjs",
+    "tts:voice-check": "node scripts/verify-kokoro-voices.mjs",
     "audit:site": "vitest run --configLoader runner src/data/siteContentAudit.test.ts",
     "check:links": "node scripts/check-internal-links.mjs",
     "check:site": "node scripts/check-built-site.mjs",

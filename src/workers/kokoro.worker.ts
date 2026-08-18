@@ -102,6 +102,18 @@ async function loadTokenizer() {
   return tokenizer;
 }
 
+async function hasWebGpuAdapter() {
+  if (!('gpu' in worker.navigator)) return false;
+  try {
+    const gpu = (worker.navigator as WorkerNavigator & {
+      gpu?: { requestAdapter: () => Promise<unknown | null> };
+    }).gpu;
+    return Boolean(await gpu?.requestAdapter());
+  } catch {
+    return false;
+  }
+}
+
 async function loadRuntime(forceWasm = false) {
   if (model && tokenizer) {
     send({
@@ -115,7 +127,7 @@ async function loadRuntime(forceWasm = false) {
   }
 
   await loadTokenizer();
-  const webGpuAvailable = 'gpu' in worker.navigator;
+  const webGpuAvailable = !forceWasm && await hasWebGpuAdapter();
   const preferredPlan = selectKokoroRuntimePlan(webGpuAvailable, forceWasm);
   const candidates = preferredPlan.backend === 'webgpu'
     ? [preferredPlan, selectKokoroRuntimePlan(false)]

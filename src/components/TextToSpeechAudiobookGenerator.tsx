@@ -1,11 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import {
   CheckCircle2,
   Cpu,
   Download,
   FileAudio,
   FileText,
+  FileUp,
   LoaderCircle,
+  Play,
   RotateCcw,
   ShieldCheck,
   Square,
@@ -14,9 +16,19 @@ import {
 
 import { emitAftToolAction } from '../lib/aftToolAnalytics';
 import {
+  getTtsPreviewText,
+  MAX_TTS_PREVIEW_CHARACTERS,
+  MAX_TTS_TEXT_CHARACTERS,
+  prepareLocalTxtContent,
+  sanitizeMp3Filename,
+  validateLocalTxtFile,
+} from '../lib/browserTtsInput';
+import {
   browserTtsModels,
   getBrowserTtsDownloadNote,
   getBrowserTtsModel,
+  getBrowserTtsVoice,
+  getBrowserTtsVoiceGroups,
   getBrowserTtsVoices,
   type BrowserTtsModelId,
 } from '../lib/browserTtsModels';
@@ -26,12 +38,20 @@ import type {
   BrowserTtsWorkerRequest,
 } from '../lib/browserTtsWorkerTypes';
 
+type BrowserReadiness = 'checking' | 'compatibility' | 'webgpu';
+type GenerationPurpose = 'full' | 'preview';
 type RuntimeState = 'complete' | 'error' | 'generating' | 'idle' | 'loading' | 'ready';
 type GenerationRequest = Extract<BrowserTtsWorkerRequest, { type: 'generate' }>;
+
+interface GenerationJob {
+  purpose: GenerationPurpose;
+  request: GenerationRequest;
+}
 
 interface AudioResult {
   backend: BrowserTtsBackend;
   bitrateKbps: number;
+  byteLength: number;
   durationSeconds: number;
   dtype?: 'fp32' | 'q8';
   generationSeconds: number;
@@ -42,7 +62,6 @@ interface AudioResult {
   voice: string;
 }
 
-const MAX_TEXT_CHARACTERS = 10_000;
 const MP3_BITRATE_KBPS = 128;
 const QUALITY_PASSES = 8;
 const DEFAULT_MODEL_ID: BrowserTtsModelId = 'supertonic-3';
@@ -60,6 +79,12 @@ function emitTtsAction(action: string, clarityEvent: string) {
 
 function formatCount(value: number) {
   return new Intl.NumberFormat('en').format(value);
+}
+
+function formatBytes(value: number) {
+  if (value < 1_024) return `${value} bytes`;
+  if (value < 1_048_576) return `${(value / 1_024).toFixed(1)} KB`;
+  return `${(value / 1_048_576).toFixed(1)} MB`;
 }
 
 function formatSeconds(value: number) {
@@ -89,20 +114,46 @@ export default function TextToSpeechAudiobookGenerator() {
   const [status, setStatus] = useState('Ready for text');
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<AudioResult | null>(null);
+  const [previewResult, setPreviewResult] = useState<AudioResult | null>(null);
+  const [outputFilename, setOutputFilename] = useState('');
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [operationPurpose, setOperationPurpose] = useState<GenerationPurpose>('full');
+  const [browserReadiness, setBrowserReadiness] = useState<BrowserReadiness>('checking');
   const workerRef = useRef<Worker | null>(null);
   const activeWorkerModelRef = useRef<BrowserTtsModelId | null>(null);
-  const pendingRequestRef = useRef<GenerationRequest | null>(null);
-  const lastRequestRef = useRef<GenerationRequest | null>(null);
+  const pendingJobRef = useRef<GenerationJob | null>(null);
+  const activeJobRef = useRef<GenerationJob | null>(null);
   const resultUrlRef = useRef('');
+  const previewUrlRef = useRef('');
   const fallbackAttemptedRef = useRef(false);
   const operationStartedAtRef = useRef(0);
   const watchdogRef = useRef<number | null>(null);
   const selectedModel = getBrowserTtsModel(modelId);
   const availableVoices = getBrowserTtsVoices(modelId, language);
+  const selectedVoice = getBrowserTtsVoice(modelId, voice) ?? availableVoices[0];
+  const voiceGroups = getBrowserTtsVoiceGroups(modelId, language);
+
+  useEffect(() => {
+    let cancelled = false;
+    const gpu = (navigator as Navigator & { gpu?: { requestAdapter: () => Promise<unknown> } }).gpu;
+    if (!gpu) {
+      setBrowserReadiness('compatibility');
+      return undefined;
+    }
+    void gpu.requestAdapter()
+      .then((adapter) => {
+        if (!cancelled) setBrowserReadiness(adapter ? 'webgpu' : 'compatibility');
+      })
+      .catch(() => {
+        if (!cancelled) setBrowserReadiness('compatibility');
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     if (!busy || operationStartedAtRef.current === 0) return undefined;
@@ -118,6 +169,7 @@ export default function TextToSpeechAudiobookGenerator() {
     clearWatchdog();
     workerRef.current?.terminate();
     if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);
+    if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
   }, []);
 
   function clearWatchdog() {
@@ -125,16 +177,33 @@ export default function TextToSpeechAudiobookGenerator() {
     watchdogRef.current = null;
   }
 
+  function clearResult() {
+    if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);
+    resultUrlRef.current = '';
+    setResult(null);
+  }
+
+  function clearPreviewResult() {
+    if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
+    previewUrlRef.current = '';
+    setPreviewResult(null);
+  }
+
+  function clearAudioResults() {
+    clearResult();
+    clearPreviewResult();
+  }
+
   function handleWorkerStall() {
     const activeModelId = activeWorkerModelRef.current;
-    const retryRequest = pendingRequestRef.current ?? lastRequestRef.current;
+    const retryJob = pendingJobRef.current ?? activeJobRef.current;
     workerRef.current?.terminate();
     workerRef.current = null;
 
-    if (activeModelId === 'kokoro-82m' && retryRequest && !fallbackAttemptedRef.current) {
+    if (activeModelId === 'kokoro-82m' && retryJob && !fallbackAttemptedRef.current) {
       fallbackAttemptedRef.current = true;
-      pendingRequestRef.current = retryRequest;
-      lastRequestRef.current = null;
+      pendingJobRef.current = retryJob;
+      activeJobRef.current = null;
       setRuntimeBackend('');
       setRuntimeDtype('');
       setRuntimeState('loading');
@@ -149,13 +218,14 @@ export default function TextToSpeechAudiobookGenerator() {
       return;
     }
 
-    pendingRequestRef.current = null;
-    lastRequestRef.current = null;
+    pendingJobRef.current = null;
+    activeJobRef.current = null;
     activeWorkerModelRef.current = null;
     setRuntimeState('error');
     setStatus('Browser generation timed out');
     setError('The browser stopped reporting progress for 90 seconds. The model was unloaded. Try shorter text or generate again.');
     setBusy(false);
+    emitTtsAction('Browser speech timeout', 'tts_timeout');
   }
 
   function armWatchdog() {
@@ -163,19 +233,13 @@ export default function TextToSpeechAudiobookGenerator() {
     watchdogRef.current = window.setTimeout(handleWorkerStall, WORKER_STALL_TIMEOUT_MS);
   }
 
-  function clearResult() {
-    if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);
-    resultUrlRef.current = '';
-    setResult(null);
-  }
-
   function resetRuntime(message = 'Ready for text') {
     clearWatchdog();
     workerRef.current?.terminate();
     workerRef.current = null;
     activeWorkerModelRef.current = null;
-    pendingRequestRef.current = null;
-    lastRequestRef.current = null;
+    pendingJobRef.current = null;
+    activeJobRef.current = null;
     setRuntimeState('idle');
     setRuntimeBackend('');
     setRuntimeDtype('');
@@ -186,19 +250,37 @@ export default function TextToSpeechAudiobookGenerator() {
     setElapsedSeconds(0);
   }
 
-  function postGeneration(request: GenerationRequest) {
+  function postGeneration(job: GenerationJob) {
     if (!workerRef.current) {
       setError('The browser speech worker could not start. Reload the page and try again.');
       setBusy(false);
+      emitTtsAction('Browser speech unsupported', 'tts_unsupported_browser');
       return;
     }
-    lastRequestRef.current = request;
+    activeJobRef.current = job;
     setBusy(true);
     setProgress(0);
     setRuntimeState('generating');
-    setStatus('Generating MP3 in this browser');
+    setStatus(job.purpose === 'preview' ? 'Generating a voice preview in this browser' : 'Generating MP3 in this browser');
     armWatchdog();
-    workerRef.current.postMessage(request);
+    workerRef.current.postMessage(job.request);
+  }
+
+  function createAudioResult(data: BrowserTtsWorkerEvent, job: GenerationJob, activeModelId: BrowserTtsModelId, url: string): AudioResult {
+    const activeModel = getBrowserTtsModel(activeModelId);
+    return {
+      backend: data.backend ?? 'wasm',
+      bitrateKbps: data.bitrateKbps ?? MP3_BITRATE_KBPS,
+      byteLength: data.audio?.byteLength ?? 0,
+      durationSeconds: data.durationSeconds ?? 0,
+      dtype: data.dtype,
+      generationSeconds: data.generationSeconds ?? 0,
+      modelId: activeModelId,
+      revision: data.revision ?? activeModel.modelRevision,
+      sampleRate: data.sampleRate ?? 44_100,
+      url,
+      voice: job.request.voice,
+    };
   }
 
   function handleWorkerMessage(event: MessageEvent<BrowserTtsWorkerEvent>) {
@@ -220,10 +302,10 @@ export default function TextToSpeechAudiobookGenerator() {
       setRuntimeDtype(data.dtype ?? '');
       setProgress(100);
       emitTtsAction('Load browser TTS model', 'tts_model_ready');
-      const pendingRequest = pendingRequestRef.current;
-      pendingRequestRef.current = null;
-      if (pendingRequest) {
-        postGeneration(pendingRequest);
+      const pendingJob = pendingJobRef.current;
+      pendingJobRef.current = null;
+      if (pendingJob) {
+        postGeneration(pendingJob);
         return;
       }
       clearWatchdog();
@@ -244,38 +326,52 @@ export default function TextToSpeechAudiobookGenerator() {
     }
     if (data.type === 'result' && data.audio) {
       clearWatchdog();
-      const lastRequest = lastRequestRef.current;
-      clearResult();
+      const job = activeJobRef.current;
+      activeJobRef.current = null;
+      if (!job) {
+        setRuntimeState('error');
+        setStatus('Speech result could not be matched');
+        setError('The browser returned audio for an expired request. Generate it again.');
+        setBusy(false);
+        emitTtsAction('Browser speech response failure', 'tts_generation_failure');
+        return;
+      }
       const url = URL.createObjectURL(new Blob([data.audio], { type: 'audio/mpeg' }));
-      resultUrlRef.current = url;
-      setResult({
-        backend: data.backend ?? 'wasm',
-        bitrateKbps: data.bitrateKbps ?? MP3_BITRATE_KBPS,
-        durationSeconds: data.durationSeconds ?? 0,
-        dtype: data.dtype,
-        generationSeconds: data.generationSeconds ?? 0,
-        modelId: activeModelId,
-        revision: data.revision ?? activeModel.modelRevision,
-        sampleRate: data.sampleRate ?? 44_100,
-        url,
-        voice: lastRequest?.voice ?? activeModel.defaultVoice,
-      });
+      const audioResult = createAudioResult(data, job, activeModelId, url);
+      if (job.purpose === 'preview') {
+        clearPreviewResult();
+        previewUrlRef.current = url;
+        setPreviewResult(audioResult);
+        setStatus('Voice preview ready');
+        setNotice('The short preview is ready. It will not play until you press play.');
+        emitTtsAction('Complete voice preview', 'tts_preview_complete');
+      } else {
+        clearResult();
+        resultUrlRef.current = url;
+        setResult(audioResult);
+        setStatus('Your MP3 is ready');
+        setNotice('Preview or download the MP3 before closing or refreshing this tab.');
+        emitTtsAction('Complete browser text to speech MP3', 'tts_complete');
+      }
       setRuntimeState('complete');
       setRuntimeBackend(data.backend ?? 'wasm');
-      setStatus('Your MP3 is ready');
       setProgress(100);
       setBusy(false);
-      setNotice('Preview or download the MP3 before closing or refreshing this tab.');
-      emitTtsAction('Complete browser text to speech MP3', 'tts_complete');
       return;
     }
     if (data.type === 'error') {
       clearWatchdog();
-      pendingRequestRef.current = null;
+      const wasGenerating = Boolean(activeJobRef.current);
+      pendingJobRef.current = null;
+      activeJobRef.current = null;
       setRuntimeState('error');
       setStatus('Speech generation stopped');
       setError(data.message ?? 'Browser speech generation failed.');
       setBusy(false);
+      emitTtsAction(
+        wasGenerating ? 'Browser speech generation failure' : 'Browser speech model download failure',
+        wasGenerating ? 'tts_generation_failure' : 'tts_model_download_failure',
+      );
     }
   }
 
@@ -286,35 +382,38 @@ export default function TextToSpeechAudiobookGenerator() {
     nextWorker.onmessage = handleWorkerMessage;
     nextWorker.onerror = () => {
       clearWatchdog();
-      pendingRequestRef.current = null;
+      pendingJobRef.current = null;
+      activeJobRef.current = null;
       setRuntimeState('error');
       setStatus('Browser worker could not start');
-      setError('This browser could not start the speech worker. Try current Chrome or Edge on a desktop device.');
+      setError('This browser could not start the speech worker. Try a current desktop browser.');
       setBusy(false);
+      emitTtsAction('Browser speech unsupported', 'tts_unsupported_browser');
     };
     nextWorker.onmessageerror = () => {
       clearWatchdog();
-      pendingRequestRef.current = null;
+      pendingJobRef.current = null;
+      activeJobRef.current = null;
       setRuntimeState('error');
       setStatus('Browser worker response failed');
       setError('This browser could not read the speech worker response. Reload the page and try again.');
       setBusy(false);
+      emitTtsAction('Browser speech response failure', 'tts_generation_failure');
     };
     workerRef.current = nextWorker;
     return nextWorker;
   }
 
-  function generateMp3() {
+  function startGeneration(purpose: GenerationPurpose) {
     const cleanText = text.trim();
     setError('');
     setNotice('');
-    clearResult();
     if (!cleanText) {
-      setError('Paste the text you want to turn into speech.');
+      setError('Paste text or open a TXT file before generating speech.');
       return;
     }
-    if (cleanText.length > MAX_TEXT_CHARACTERS) {
-      setError(`Use no more than ${formatCount(MAX_TEXT_CHARACTERS)} characters at a time.`);
+    if (cleanText.length > MAX_TTS_TEXT_CHARACTERS) {
+      setError(`Use no more than ${formatCount(MAX_TTS_TEXT_CHARACTERS)} characters at a time.`);
       return;
     }
     if (!consent) {
@@ -322,17 +421,32 @@ export default function TextToSpeechAudiobookGenerator() {
       return;
     }
 
-    const request: GenerationRequest = {
-      type: 'generate',
-      language,
-      speed,
-      steps: QUALITY_PASSES,
-      text: cleanText,
-      voice,
+    const sourceText = purpose === 'preview' ? getTtsPreviewText(cleanText) : cleanText;
+    if (!sourceText) {
+      setError('Add a sentence to preview or generate.');
+      return;
+    }
+    if (purpose === 'preview') clearPreviewResult();
+    else clearResult();
+
+    const job: GenerationJob = {
+      purpose,
+      request: {
+        type: 'generate',
+        language,
+        speed,
+        steps: QUALITY_PASSES,
+        text: sourceText,
+        voice,
+      },
     };
-    emitTtsAction('Generate browser text to speech MP3', 'tts_generate');
+    emitTtsAction(
+      purpose === 'preview' ? 'Generate voice preview' : 'Generate browser text to speech MP3',
+      purpose === 'preview' ? 'tts_preview_generate' : 'tts_generate',
+    );
     fallbackAttemptedRef.current = false;
     operationStartedAtRef.current = Date.now();
+    setOperationPurpose(purpose);
     setElapsedSeconds(0);
 
     if (
@@ -340,11 +454,11 @@ export default function TextToSpeechAudiobookGenerator() {
       && activeWorkerModelRef.current === modelId
       && ['ready', 'complete'].includes(runtimeState)
     ) {
-      postGeneration(request);
+      postGeneration(job);
       return;
     }
 
-    pendingRequestRef.current = request;
+    pendingJobRef.current = job;
     setBusy(true);
     setProgress(0);
     setRuntimeState('loading');
@@ -357,7 +471,7 @@ export default function TextToSpeechAudiobookGenerator() {
     if (nextModelId === modelId) return;
     const nextModel = getBrowserTtsModel(nextModelId);
     resetRuntime(`Ready to load ${nextModel.name}`);
-    clearResult();
+    clearAudioResults();
     setModelId(nextModelId);
     setLanguage(nextModel.defaultLanguage);
     setVoice(nextModel.defaultVoice);
@@ -369,14 +483,47 @@ export default function TextToSpeechAudiobookGenerator() {
     const nextVoices = getBrowserTtsVoices(modelId, nextLanguage);
     setLanguage(nextLanguage);
     if (!nextVoices.some((item) => item.value === voice)) setVoice(nextVoices[0]?.value ?? selectedModel.defaultVoice);
-    clearResult();
+    clearAudioResults();
+  }
+
+  function chooseVoice(nextVoice: string) {
+    setVoice(nextVoice);
+    setError('');
+    clearAudioResults();
+  }
+
+  async function importTxtFile(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.currentTarget;
+    const file = input.files?.[0];
+    input.value = '';
+    if (!file) return;
+    setError('');
+    setNotice('');
+    const metadataError = validateLocalTxtFile(file);
+    if (metadataError) {
+      setError(metadataError);
+      return;
+    }
+    try {
+      const prepared = prepareLocalTxtContent(await file.text());
+      if (prepared.error || prepared.text === undefined) {
+        setError(prepared.error ?? 'The TXT file could not be read.');
+        return;
+      }
+      setText(prepared.text);
+      clearAudioResults();
+      setNotice('TXT text loaded in this browser. The file was not uploaded.');
+      emitTtsAction('Open local TXT text', 'tts_txt_import');
+    } catch {
+      setError('The TXT file could not be read in this browser.');
+    }
   }
 
   function clearText() {
     setText('');
     setNotice('');
     setError('');
-    clearResult();
+    clearAudioResults();
   }
 
   function stopRuntime(reason: 'cancel' | 'unload') {
@@ -384,7 +531,7 @@ export default function TextToSpeechAudiobookGenerator() {
     setNotice(
       reason === 'cancel'
         ? 'Generation stopped and the in-memory model was unloaded.'
-        : 'The model was unloaded. A completed MP3 stays available until you replace it or leave the page.',
+        : 'The model was unloaded. Generated audio stays available until you replace it or leave the page.',
     );
     emitTtsAction(
       reason === 'cancel' ? 'Cancel browser text to speech MP3' : 'Unload browser TTS model',
@@ -396,10 +543,16 @@ export default function TextToSpeechAudiobookGenerator() {
     if (!result) return;
     const link = document.createElement('a');
     link.href = result.url;
-    link.download = `text-to-speech-${result.modelId}-${result.voice.toLowerCase()}.mp3`;
+    link.download = sanitizeMp3Filename(outputFilename, `text-to-speech-${result.modelId}-${result.voice.toLowerCase()}`);
     link.click();
     emitTtsAction('Download browser text to speech MP3', 'tts_download');
   }
+
+  const readinessMessage = browserReadiness === 'checking'
+    ? 'Checking whether this browser has a WebGPU adapter.'
+    : browserReadiness === 'webgpu'
+      ? 'WebGPU adapter detected. Kokoro full precision can be attempted, with compatibility fallback available.'
+      : 'No WebGPU adapter detected. Kokoro will use its smaller q8 compatibility path.';
 
   return (
     <section className="tts-audiobook" aria-labelledby="tts-audiobook-heading">
@@ -407,11 +560,11 @@ export default function TextToSpeechAudiobookGenerator() {
         <div>
           <p className="tts-audiobook__eyebrow">Runs on your device through this website</p>
           <h2 id="tts-audiobook-heading">Turn text into a downloadable MP3</h2>
-          <p>Paste your text, choose a browser model and voice, generate the audio, and download the MP3. Your text stays in this browser.</p>
+          <p>Paste text or open a local TXT file, choose a browser model and voice, then generate and download the MP3. Your text stays in this browser.</p>
         </div>
         <div className="tts-audiobook__limits" role="group" aria-label="Text to speech limits">
           <span><ShieldCheck aria-hidden="true" size={18} /> Text stays in this browser</span>
-          <span><FileText aria-hidden="true" size={18} /> Up to 10,000 characters</span>
+          <span><FileText aria-hidden="true" size={18} /> Text or TXT, up to 10,000 characters</span>
           <span><FileAudio aria-hidden="true" size={18} /> 128 kbps MP3 download</span>
         </div>
       </header>
@@ -420,7 +573,7 @@ export default function TextToSpeechAudiobookGenerator() {
         <strong>No paid server or upload queue</strong>
         <p>
           The first generation downloads {getBrowserTtsDownloadNote(modelId)} for {selectedModel.name} from Hugging Face.
-          {' '}{selectedModel.backendNote}. Only the selected model loads.
+          {' '}{selectedModel.backendNote}. Only the selected model and voice load.
         </p>
       </div>
 
@@ -429,9 +582,23 @@ export default function TextToSpeechAudiobookGenerator() {
           <div className="tts-audiobook__panel-heading">
             <span><FileText aria-hidden="true" size={20} /></span>
             <div>
-              <h3 id="tts-source-heading">1. Paste your text</h3>
+              <h3 id="tts-source-heading">1. Paste or open your text</h3>
               <p>Use text you wrote or have permission to convert</p>
             </div>
+          </div>
+          <div className="tts-audiobook__source-actions">
+            <label className="tts-audiobook__file-button" htmlFor="tts-source-file">
+              <FileUp aria-hidden="true" size={18} /> Open TXT file
+              <input
+                id="tts-source-file"
+                data-clarity-mask="true"
+                type="file"
+                accept=".txt,text/plain"
+                disabled={busy}
+                onChange={importTxtFile}
+              />
+            </label>
+            <span>Plain text only, 64 KB maximum. Nothing is uploaded.</span>
           </div>
           <label htmlFor="tts-source-text">Text to turn into speech</label>
           <textarea
@@ -440,16 +607,16 @@ export default function TextToSpeechAudiobookGenerator() {
             dir="auto"
             value={text}
             disabled={busy}
-            maxLength={MAX_TEXT_CHARACTERS}
+            maxLength={MAX_TTS_TEXT_CHARACTERS}
             placeholder="Paste the text you want to hear."
             onChange={(event) => {
               setText(event.target.value);
               setError('');
-              clearResult();
+              clearAudioResults();
             }}
           />
           <div className="tts-audiobook__source-meta">
-            <span>{formatCount(text.length)} / {formatCount(MAX_TEXT_CHARACTERS)} characters</span>
+            <span>{formatCount(text.length)} / {formatCount(MAX_TTS_TEXT_CHARACTERS)} characters</span>
             <button type="button" className="icon-button" data-aft-analytics-manual="true" disabled={busy || !text} aria-label="Clear text" title="Clear text" onClick={clearText}>
               <RotateCcw aria-hidden="true" size={18} />
             </button>
@@ -461,7 +628,7 @@ export default function TextToSpeechAudiobookGenerator() {
             <span><Volume2 aria-hidden="true" size={20} /></span>
             <div>
               <h3 id="tts-voice-heading">2. Choose model and voice</h3>
-              <p>Pick multilingual speed or higher-quality English speech</p>
+              <p>Pick multilingual coverage or higher-quality English speech</p>
             </div>
           </div>
 
@@ -485,6 +652,14 @@ export default function TextToSpeechAudiobookGenerator() {
             </div>
           </fieldset>
 
+          <div className={`tts-audiobook__readiness is-${browserReadiness}`} role="status">
+            <Cpu aria-hidden="true" size={19} />
+            <div>
+              <strong>Browser readiness</strong>
+              <span>{readinessMessage}</span>
+            </div>
+          </div>
+
           <label htmlFor="tts-language">Text language</label>
           <select id="tts-language" value={language} disabled={busy} onChange={(event) => chooseLanguage(event.target.value)}>
             {selectedModel.languages.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
@@ -495,26 +670,28 @@ export default function TextToSpeechAudiobookGenerator() {
               : 'The official Kokoro browser path currently supports US and UK English only.'}
           </p>
 
-          <fieldset className="tts-audiobook__voices" disabled={busy}>
-            <legend>Fixed voice</legend>
-            <div>
-              {availableVoices.map((item) => (
-                <label key={item.value} className={voice === item.value ? 'is-selected' : ''}>
-                  <input
-                    type="radio"
-                    name="tts-voice"
-                    value={item.value}
-                    checked={voice === item.value}
-                    onChange={() => {
-                      setVoice(item.value);
-                      clearResult();
-                    }}
-                  />
-                  <span>{item.label}</span>
-                </label>
+          <div className="tts-audiobook__voice-picker">
+            <label htmlFor="tts-voice">Fixed voice</label>
+            <select
+              id="tts-voice"
+              value={voice}
+              disabled={busy}
+              aria-describedby="tts-selected-voice"
+              onChange={(event) => chooseVoice(event.target.value)}
+            >
+              {voiceGroups.map((group) => (
+                <optgroup key={group.label} label={group.label}>
+                  {group.voices.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
+                </optgroup>
               ))}
-            </div>
-          </fieldset>
+            </select>
+            {selectedVoice && (
+              <div id="tts-selected-voice" className="tts-audiobook__voice-summary" aria-live="polite">
+                <strong>{selectedVoice.label}</strong>
+                <span>{selectedVoice.description}</span>
+              </div>
+            )}
+          </div>
 
           <label htmlFor="tts-speed">Reading speed: {speed.toFixed(2)}x</label>
           <input
@@ -527,9 +704,25 @@ export default function TextToSpeechAudiobookGenerator() {
             disabled={busy}
             onChange={(event) => {
               setSpeed(Number(event.target.value));
-              clearResult();
+              clearAudioResults();
             }}
           />
+
+          <div className="tts-audiobook__voice-preview" data-clarity-mask="true">
+            <button
+              type="button"
+              className="tts-audiobook__preview-button"
+              data-aft-analytics-manual="true"
+              disabled={busy || !text.trim()}
+              onClick={() => startGeneration('preview')}
+            >
+              <Play aria-hidden="true" size={17} /> Preview first sentence
+            </button>
+            <span>Uses the first complete sentence or up to {MAX_TTS_PREVIEW_CHARACTERS} characters. It never plays automatically.</span>
+            {previewResult && (
+              <audio controls preload="metadata" src={previewResult.url} aria-label="Selected voice MP3 preview" />
+            )}
+          </div>
         </section>
       </div>
 
@@ -545,18 +738,17 @@ export default function TextToSpeechAudiobookGenerator() {
         {busy && (
           <div className="tts-audiobook__loading-scene" aria-hidden="true">
             <div className="tts-audiobook__loading-art">
-              <img
-                src="/tool-art/text-to-speech-audiobook-generator-tool.webp"
-                alt=""
-                width="1200"
-                height="630"
-              />
+              <img src="/tool-art/text-to-speech-audiobook-generator-tool.webp" alt="" width="1200" height="630" />
             </div>
             <div className="tts-audiobook__loading-copy">
-              <div className="tts-audiobook__sound-wave">
-                <span /><span /><span /><span /><span />
-              </div>
-              <strong>{runtimeState === 'loading' ? 'Warming up the voice studio' : 'Turning your text into sound'}</strong>
+              <div className="tts-audiobook__sound-wave"><span /><span /><span /><span /><span /></div>
+              <strong>
+                {runtimeState === 'loading'
+                  ? 'Warming up the voice studio'
+                  : operationPurpose === 'preview'
+                    ? 'Preparing a short voice sample'
+                    : 'Turning your text into sound'}
+              </strong>
               <span>{elapsedSeconds} seconds elapsed. Keep this tab open while the browser works.</span>
             </div>
           </div>
@@ -595,7 +787,7 @@ export default function TextToSpeechAudiobookGenerator() {
         <div className="tts-audiobook__runtime-actions">
           {!['loading', 'generating'].includes(runtimeState) && (
             <>
-              <button type="button" className="tts-audiobook__generate" data-aft-analytics-manual="true" disabled={busy} onClick={generateMp3}>
+              <button type="button" className="tts-audiobook__generate" data-aft-analytics-manual="true" disabled={busy} onClick={() => startGeneration('full')}>
                 <Volume2 aria-hidden="true" size={19} /> {result ? 'Generate another MP3' : 'Generate MP3'}
               </button>
               {workerRef.current && (
@@ -621,7 +813,21 @@ export default function TextToSpeechAudiobookGenerator() {
               <span>{formatSeconds(result.durationSeconds)} audio</span>
               <span>{formatSeconds(result.generationSeconds)} generation</span>
               <span>{result.bitrateKbps} kbps MP3</span>
+              <span>{formatBytes(result.byteLength)}</span>
               <span>{result.sampleRate / 1_000} kHz source</span>
+            </div>
+            <div className="tts-audiobook__filename">
+              <label htmlFor="tts-output-filename">MP3 filename (optional)</label>
+              <input
+                id="tts-output-filename"
+                data-clarity-mask="true"
+                type="text"
+                value={outputFilename}
+                maxLength={90}
+                placeholder={`text-to-speech-${result.modelId}-${result.voice.toLowerCase()}.mp3`}
+                onChange={(event) => setOutputFilename(event.target.value)}
+              />
+              <span>Unsafe filename characters are replaced. The download always ends in .mp3.</span>
             </div>
             <button type="button" data-aft-analytics-manual="true" onClick={downloadResult}>
               <Download aria-hidden="true" size={18} /> Download MP3

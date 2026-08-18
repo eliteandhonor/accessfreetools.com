@@ -75,6 +75,10 @@ const sourceLinks = {
     href: 'https://github.com/supertone-inc/supertonic',
     label: 'Supertonic: official model repository, language list, and archive notice',
   },
+  supertonicVoices: {
+    href: 'https://supertone-inc.github.io/supertonic-py/voices/',
+    label: 'Supertonic: official built-in voice descriptions and use cases',
+  },
   supertonicLicense: {
     href: 'https://huggingface.co/Supertone/supertonic-3/blob/main/LICENSE',
     label: 'Supertonic 3 model weights: OpenRAIL-M license terms',
@@ -84,7 +88,7 @@ const sourceLinks = {
     label: 'Kokoro: official browser implementation and fixed English voices',
   },
   kokoroModel: {
-    href: 'https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX',
+    href: 'https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/tree/1939ad2a8e416c0acfeecc08a694d14ef25f2231/voices',
     label: 'Kokoro 82M: pinned ONNX model files and voice data',
   },
   kokoroLicense: {
@@ -325,24 +329,26 @@ const guideDetails: Record<string, AiGuideDetail> = {
     description:
       'Choose multilingual Supertonic or full-precision English Kokoro, generate permitted text in your browser, and download a 128 kbps MP3.',
     summary:
-      'Learn how to choose a browser speech model, turn permitted text into a downloadable MP3, and check the finished audio.',
+      'Learn how to open or paste permitted text, compare fixed browser voices, create a short preview, and check a downloadable MP3.',
     purpose:
       'The Text to Speech MP3 Generator runs either pinned Supertonic 3 or pinned Kokoro 82M with its MP3 encoder in a browser worker. It is for text you wrote, public-domain material, or text you have permission to convert.',
     enter: [
-      'Paste up to 10,000 characters of text you have permission to convert.',
+      'Paste up to 10,000 characters or open a plain TXT file no larger than 64 KB. The file is read locally and is not uploaded.',
       'Choose Supertonic for multilingual text or Kokoro 82M HQ for US and UK English.',
-      'Choose a supported language, one fixed voice preset, and a reading speed from 0.9x to 1.5x.',
-      'Confirm your rights and the model-use terms, then press Generate MP3.',
+      'Choose a supported language, one fixed voice preset, and a reading speed from 0.9x to 1.5x. Kokoro has 28 grouped US and UK English voices.',
+      'Confirm your rights and the model-use terms, then preview the first sentence or press Generate MP3.',
       'Allow the selected model to download on first use: about 398 MB for Supertonic, about 326 MB for full-precision Kokoro WebGPU, or about 92 MB for Kokoro compatibility mode.',
       'Preview the result and download the MP3 before closing or refreshing the tab.',
     ],
     read: [
+      'The voice preview uses the first complete sentence or at most 220 characters. It creates a separate temporary MP3 and never starts playing by itself.',
       'Model loading downloads the ONNX files from the pinned Hugging Face revision. It does not send your text to Hugging Face.',
       'Supertonic prefers WebGPU and falls back to WebAssembly. Kokoro prefers full-precision WebGPU and automatically retries with its q8 WebAssembly compatibility model when needed.',
       'A 90-second no-progress watchdog stops a stalled worker. Kokoro gets one automatic compatibility retry instead of leaving the Stop button running forever.',
       'Only one model worker stays loaded. Changing the model unloads the previous one before the new model can start.',
       'Long Kokoro input is divided into ordered sections before generation instead of being silently truncated at the model limit.',
       'Completed generation provides one 128 kbps mono MP3. The temporary audio URL belongs to the current browser tab.',
+      'An optional filename is cleaned for Windows and macOS before download and always ends in .mp3.',
       'Supertonic Language not specified is best-effort processing, not detection. Kokoro browser support is currently US and UK English only.',
       'Listen for names, dates, abbreviations, formulas, numbers, missing lines, repeated lines, and mixed-language pronunciation before sharing the audio.',
     ],
@@ -356,6 +362,7 @@ const guideDetails: Record<string, AiGuideDetail> = {
     ],
     sources: [
       sourceLinks.supertonic,
+      sourceLinks.supertonicVoices,
       sourceLinks.supertonicLicense,
       sourceLinks.kokoroBrowser,
       sourceLinks.kokoroModel,

@@ -465,18 +465,18 @@ export const aiTools: ToolDefinition[] = [
     name: 'Text to Speech MP3 Generator',
     summary: 'Turn permitted text into a downloadable MP3 directly in your browser.',
     description:
-      'Paste text, choose a browser model, language, and fixed voice, generate speech on your device, preview it, and download a 128 kbps MP3. No text is uploaded to Access Free Tools.',
+      'Paste text or open a local TXT file, choose a browser model, language, and fixed voice, preview the first sentence, then download a 128 kbps MP3. No text is uploaded to Access Free Tools.',
     aliases: ['Text to Speech Generator', 'Text to MP3 Converter', 'Multilingual Text to Speech'],
     seoTitle: 'Text to Speech MP3 Generator | Browser TTS',
     seoDescription:
       'Convert permitted text into a downloadable MP3 with multilingual Supertonic or full-precision English Kokoro browser speech. No text upload.',
     icon: 'tool-ai-voice',
     modelNote:
-      'Choose pinned Supertonic 3 for 31 named languages and 10 voices, or pinned Kokoro 82M for full-precision English speech with 10 curated voices. Kokoro uses WebGPU when available and automatically falls back to its compact q8 WebAssembly model. Only the selected model loads. Inference and MP3 creation stay on the visitor device.',
+      'Choose pinned Supertonic 3 for 31 named languages and 10 described voices, or pinned Kokoro 82M for full-precision English speech with 28 fixed US and UK voices. Kokoro can attempt WebGPU when an adapter is detected and automatically falls back to its compact q8 WebAssembly model. Only the selected model and voice load. Inference and MP3 creation stay on the visitor device.',
     inputMeaning:
-      'Paste up to 10,000 characters of text you wrote or have permission to convert. Choose a model, supported language, fixed voice, and reading speed before generating.',
+      'Paste or open a plain TXT file containing up to 10,000 characters of text you wrote or have permission to convert. Choose a model, supported language, fixed voice, and reading speed before generating.',
     resultMeaning:
-      'Preview and download a 128 kbps mono MP3. Listen to names, numbers, abbreviations, and technical terms before relying on the recording.',
+      'Create a short first-sentence voice preview without autoplay, then generate, name, preview, and download a 128 kbps mono MP3. Listen to names, numbers, abbreviations, and technical terms before relying on the recording.',
     doubleCheck:
       'Check pronunciation, language choice, missing or repeated lines, rights to the source text, and any prohibited use before sharing or publishing generated audio.',
     useCases: [
@@ -506,7 +506,7 @@ export const aiTools: ToolDefinition[] = [
       {
         question: 'How do I turn text into an MP3?',
         answer:
-          'Paste up to 10,000 characters, choose Supertonic or Kokoro, then choose a supported language, fixed voice, and reading speed. Accept the rights notice, press Generate MP3, preview the result, and use Download MP3 to save it.',
+          'Paste or open a local TXT file with up to 10,000 characters, choose Supertonic or Kokoro, then choose a supported language, fixed voice, and reading speed. Accept the rights notice, preview the first sentence if useful, press Generate MP3, and use Download MP3 to save it.',
       },
       {
         question: 'Does Access Free Tools upload my text?',
@@ -536,12 +536,12 @@ export const aiTools: ToolDefinition[] = [
       {
         question: 'Can I clone a voice or upload my own voice?',
         answer:
-          'No. The pilot offers 10 fixed Supertonic presets and 10 curated fixed Kokoro voices. It does not support voice uploads, cloning, reference audio, or custom voice data.',
+          'No. The pilot offers 10 fixed Supertonic presets and 28 fixed Kokoro voices for US and UK English. It does not support voice uploads, cloning, reference audio, or custom voice data.',
       },
       {
         question: 'How much text can I convert at once?',
         answer:
-          'You can paste up to 10,000 characters at a time. Shorter text is faster and easier to check, especially on devices with limited memory.',
+          'You can paste or open a plain TXT file with up to 10,000 characters at a time. TXT files are read locally and must be no larger than 64 KB. Longer files are rejected instead of silently truncated.',
       },
       {
         question: 'Can I use any book or article I find online?',

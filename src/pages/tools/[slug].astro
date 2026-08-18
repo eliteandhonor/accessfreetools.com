@@ -1752,10 +1752,10 @@ const jsonToCsvInstructions = isJsonToCsvConverter
   : undefined;
 const textToSpeechInstructions = isTextToSpeechAudiobookGenerator
   ? [
-      'Paste up to 10,000 characters of text you have permission to convert.',
-      'Choose multilingual Supertonic or full-precision English Kokoro, then choose a supported language, fixed voice, and reading speed.',
-      'Confirm the rights and selected model notice, then press Generate MP3. Only that model downloads into the browser.',
-      'Preview the result and download the MP3 before closing or refreshing the tab.',
+      'Paste up to 10,000 characters or open a plain TXT file no larger than 64 KB. The file stays in this browser.',
+      'Choose multilingual Supertonic or English Kokoro, then choose a supported language, grouped fixed voice, and reading speed.',
+      'Confirm the rights and selected model notice. Preview the first sentence if you want to compare a voice before the full generation.',
+      'Generate, name, preview, and download the 128 kbps MP3 before closing or refreshing the tab.',
     ]
   : undefined;
 const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? gameToolInstructions ?? statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
@@ -2506,9 +2506,9 @@ const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? ga
     {
       isTextToSpeechAudiobookGenerator && (
         <div class="advanced-tool-points ai-tool-points" role="group" aria-label={`${tool.name} highlights`}>
-          <span>Paste text only</span>
+          <span>Paste or local TXT</span>
           <span>Two browser models</span>
-          <span>31-language default</span>
+          <span>10 + 28 fixed voices</span>
           <span>128 kbps MP3 download</span>
         </div>
       )
@@ -4074,10 +4074,10 @@ const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? ga
         <aside class="trust-note trust-note-ai" aria-label={`${tool.name} browser processing and license limits`}>
           <strong>Browser speech model with no text upload</strong>
           <p>
-            Speech generation, preview, and MP3 creation happen in this browser tab. Your text is not uploaded to
-            Access Free Tools. Choose the approximately 398 MB multilingual Supertonic model or English Kokoro,
+            Pasted text, locally opened TXT content, speech generation, preview, and MP3 creation stay in this browser
+            tab. Access Free Tools does not receive the text or filename. Choose the approximately 398 MB multilingual Supertonic model or English Kokoro,
             which uses an approximately 326 MB full-precision WebGPU model with an approximately 92 MB q8
-            WebAssembly compatibility fallback. Only the selected model downloads during generation.
+            WebAssembly compatibility fallback. Only the selected model and fixed voice load during generation.
           </p>
           <p>
             Use only text you have permission to convert. Supertonic uses OpenRAIL-M terms and Kokoro uses

@@ -6,6 +6,7 @@ const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const outputDir = join(repoRoot, 'output', 'tts-audiobook-pilot');
 const packageJson = JSON.parse(readFileSync(join(repoRoot, 'package.json'), 'utf8'));
 const component = readFileSync(join(repoRoot, 'src', 'components', 'TextToSpeechAudiobookGenerator.tsx'), 'utf8');
+const inputHelpers = readFileSync(join(repoRoot, 'src', 'lib', 'browserTtsInput.ts'), 'utf8');
 const registry = readFileSync(join(repoRoot, 'src', 'lib', 'browserTtsModels.ts'), 'utf8');
 const mp3Encoder = readFileSync(join(repoRoot, 'src', 'lib', 'mp3Encoder.ts'), 'utf8');
 const kokoroText = readFileSync(join(repoRoot, 'src', 'lib', 'kokoroBrowserText.ts'), 'utf8');
@@ -13,6 +14,12 @@ const supertonicWorker = readFileSync(join(repoRoot, 'src', 'workers', 'superton
 const kokoroWorker = readFileSync(join(repoRoot, 'src', 'workers', 'kokoro.worker.ts'), 'utf8');
 const supertonicRevision = '3cadd1ee6394adea1bd021217a0e650ede09a323';
 const kokoroRevision = '1939ad2a8e416c0acfeecc08a694d14ef25f2231';
+const kokoroEnglishVoices = [
+  'af_heart', 'af_alloy', 'af_aoede', 'af_bella', 'af_jessica', 'af_kore', 'af_nicole', 'af_nova', 'af_river', 'af_sarah', 'af_sky',
+  'am_adam', 'am_echo', 'am_eric', 'am_fenrir', 'am_liam', 'am_michael', 'am_onyx', 'am_puck', 'am_santa',
+  'bf_alice', 'bf_emma', 'bf_isabella', 'bf_lily',
+  'bm_daniel', 'bm_fable', 'bm_george', 'bm_lewis',
+];
 const forbidden = [
   'tts.accessfreetools.com',
   'turnstile',
@@ -35,13 +42,26 @@ const checks = {
   usesModelSpecificWorkers:
     component.includes("new URL('../workers/supertonic.worker.ts'")
     && component.includes("new URL('../workers/kokoro.worker.ts'"),
-  loadsOnlySelectedModel: component.includes('Only the selected model loads') && component.includes('activeWorkerModelRef'),
+  loadsOnlySelectedModelAndVoice:
+    component.includes('Only the selected model and voice load')
+    && component.includes('activeWorkerModelRef')
+    && kokoroWorker.includes('if (loadedVoiceData && loadedVoice === voice)')
+    && kokoroWorker.includes('fetch(`${VOICE_BASE}/${voice}.bin`)'),
+  completeKokoroEnglishVoiceLibrary:
+    kokoroEnglishVoices.length === 28
+    && kokoroEnglishVoices.every((voice) => registry.includes(`value: '${voice}'`))
+    && registry.includes("defaultVoice: 'af_bella'"),
+  groupedAccessibleVoiceMenu:
+    component.includes('<optgroup key={group.label} label={group.label}>')
+    && component.includes('getBrowserTtsVoiceGroups')
+    && component.includes('tts-audiobook__voice-summary'),
   supertonicUsesWebGpuWithFallback:
     supertonicWorker.includes("['webgpu', 'wasm']") && supertonicWorker.includes("['wasm']"),
   kokoroUsesWebGpuWithCompatibilityFallback:
     registry.includes('selectKokoroRuntimePlan')
     && kokoroWorker.includes('selectKokoroRuntimePlan(webGpuAvailable, forceWasm)')
-    && kokoroWorker.includes('selectKokoroRuntimePlan(false)'),
+    && kokoroWorker.includes('selectKokoroRuntimePlan(false)')
+    && kokoroWorker.includes('await gpu?.requestAdapter()'),
   stalledWorkerHasBoundedRecovery:
     component.includes('WORKER_STALL_TIMEOUT_MS = 90_000')
     && component.includes('Retrying Kokoro compatibility mode')
@@ -62,7 +82,29 @@ const checks = {
     )),
   mp3SupportsBothSourceRates: mp3Encoder.includes('24_000') && mp3Encoder.includes('44_100'),
   mp3DownloadAvailable: component.includes('Download MP3') && component.includes('.mp3'),
-  pasteOnlyInput: !component.includes('Choose TXT or EPUB') && !component.includes('type="file"'),
+  localTxtInputIsBounded:
+    component.includes('accept=".txt,text/plain"')
+    && component.includes('await file.text()')
+    && inputHelpers.includes('MAX_TTS_TEXT_FILE_BYTES = 64 * 1024')
+    && inputHelpers.includes('MAX_TTS_TEXT_CHARACTERS = 10_000')
+    && !component.includes('FormData'),
+  voicePreviewIsBoundedAndManual:
+    component.includes('Preview first sentence')
+    && component.includes("startGeneration('preview')")
+    && inputHelpers.includes('MAX_TTS_PREVIEW_CHARACTERS = 220')
+    && !component.includes('autoPlay'),
+  portableMp3Filename:
+    component.includes('MP3 filename (optional)')
+    && component.includes('sanitizeMp3Filename')
+    && inputHelpers.includes('WINDOWS_RESERVED_NAME'),
+  browserReadinessIsAnExpectation:
+    component.includes('WebGPU adapter detected. Kokoro full precision can be attempted')
+    && component.includes('No WebGPU adapter detected. Kokoro will use its smaller q8 compatibility path.'),
+  textFreeDiagnostics:
+    ['tts_timeout', 'tts_model_download_failure', 'tts_unsupported_browser', 'tts_generation_failure']
+      .every((event) => component.includes(`'${event}'`)),
+  unsupportedFileFamiliesAbsent:
+    ['Choose TXT or EPUB', 'accept=".pdf', 'accept=".epub', 'accept=".docx'].every((term) => !component.includes(term)),
   noVoiceCloning: !component.toLowerCase().includes('clone a voice') && !component.includes('voice upload'),
 };
 
@@ -90,6 +132,8 @@ writeFileSync(
     `- Supertonic revision: \`${supertonicRevision}\``,
     `- Kokoro revision: \`${kokoroRevision}\``,
     '- Model loading: one model-specific worker at a time',
+    '- Voice loading: one selected fixed voice file at a time',
+    '- Kokoro library: 28 pinned English voices in four groups',
     '- Purchases, VPS, DNS, Docker, Redis, and server queue: not used',
     '',
     '## Checks',
