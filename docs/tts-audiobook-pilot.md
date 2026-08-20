@@ -177,6 +177,16 @@ Verified on August 18 and August 20, 2026 against the local Astro production pre
 - Live Ask, API, MCP, and production sitemap checks passed. The sitemap check reported 661 checked URLs, 661 OK, and zero hard failures.
 - Both the tool and guide still return `noindex,follow` with their correct canonicals and remain outside XML sitemaps. No Search Console or IndexNow submission was made for this beta release.
 
+### Per-chapter voice production deployment
+
+- Commit `ece996a6` added a fixed voice selector to every chapter, a default chapter voice, and an explicit apply-to-all control. Voice changes invalidate stale chapter audio without changing the chapter text or name.
+- Hostinger build `01a01d34-6baa-712e-a47d-4ecc233fb9c2` completed on August 20, 2026 with Node 24, `app.js`, and `dist`.
+- A live 390px production check assigned Bella to chapter 1 and Emma to chapter 2, confirmed 28 Kokoro choices in both chapter selectors, applied one voice to all chapters, and found zero horizontal overflow.
+- The only failed browser request was the external Microsoft Clarity script because `www.clarity.ms` did not resolve inside the headless test. No Access Free Tools page, script, style, image, or model asset failed.
+- The local release proof generated valid Bella and Emma chapter MP3 files through one loaded Kokoro model and downloaded both files in one ordered ZIP. The request trace loaded only the pinned model and the two selected voice files.
+- The release passed 541 tests across 64 files, both TypeScript lanes, the full repository check, accessibility and visual checks, zero-vulnerability audit, live Ask/API/MCP checks, and a 661-URL production sitemap crawl with zero hard failures.
+- Both TTS pages still return `noindex,follow` and remain outside XML sitemaps. The refreshed seven-day beta runs through August 27, 2026; the earliest indexability review is August 28 after fresh production, privacy, browser, and SEO research proof.
+
 ### Earlier two-model runtime evidence
 
 - Microsoft Edge loaded the full-precision Kokoro model on WebGPU, used the Bella voice, and generated an audible 8.808-second MP3 at 24 kHz, mono, exactly 128 kbps. The first uncached run completed in 70.4 seconds.
@@ -192,7 +202,7 @@ Verified on August 18 and August 20, 2026 against the local Astro production pre
 - The inspected generation requests contained model and runtime files only. The pasted test sentence did not appear in a request URL or body.
 - Browser generation produced no page errors. Transformers.js emitted one non-fatal architecture-mapping warning while loading Kokoro.
 
-The expanded release is deployed and live generation is verified. The pages remain `noindex,follow` and outside XML sitemaps for the seven-day beta recorded above.
+The per-chapter voice release is deployed and live controls are verified. The pages remain `noindex,follow` and outside XML sitemaps for the refreshed seven-day beta recorded above.
 
 ## Release Gates
 
