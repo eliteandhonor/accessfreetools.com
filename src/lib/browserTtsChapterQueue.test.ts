@@ -68,6 +68,35 @@ describe('BrowserTtsChapterQueue', () => {
     expect(snapshots.every((state) => state.progress >= 0 && state.progress <= 1)).toBe(true);
   });
 
+  it('passes each chapter voice to the sequential generator', async () => {
+    let index = 0;
+    const voicedChapters = createBrowserTtsChapters(
+      [
+        { name: 'Narrator', text: 'Welcome.', voice: 'F1' },
+        { name: 'Character', text: 'Hello.', voice: 'M5' },
+        { name: 'Closing', text: 'Goodbye.', voice: 'F3' },
+      ],
+      () => `voice-${index += 1}`,
+    );
+    const seenVoices: Array<string | undefined> = [];
+    let active = 0;
+    let peakActive = 0;
+    const queue = new BrowserTtsChapterQueue(voicedChapters, async (chapter) => {
+      active += 1;
+      peakActive = Math.max(peakActive, active);
+      seenVoices.push(chapter.voice);
+      await Promise.resolve();
+      active -= 1;
+      return chapter.voice;
+    });
+
+    const result = await queue.run();
+
+    expect(seenVoices).toEqual(['F1', 'M5', 'F3']);
+    expect(result.items.map((item) => item.result)).toEqual(['F1', 'M5', 'F3']);
+    expect(peakActive).toBe(1);
+  });
+
   it('stops on failure, retries only that chapter once, and preserves completed results', async () => {
     const calls: string[] = [];
     const attempts = new Map<string, number>();

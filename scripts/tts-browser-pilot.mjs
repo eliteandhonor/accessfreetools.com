@@ -145,6 +145,14 @@ const checks = {
     && chapterQueue.includes('await this.runOne(next.chapterId, signal)')
     && chapterQueue.includes('retry(chapterId: string')
     && chapterQueue.includes('AbortSignal'),
+  chapterSpecificVoicesStayWithinOneModel:
+    chapterHelpers.includes('setBrowserTtsChapterVoice')
+    && chapterHelpers.includes('setAllBrowserTtsChapterVoices')
+    && component.includes('Voice for this chapter')
+    && component.includes('Apply to all chapters')
+    && component.includes('chapterVoice.language ?? language')
+    && component.includes('voice: chapterVoice.value')
+    && component.includes('without loading another model'),
   chapterDownloadsAndZip:
     chapterHelpers.includes('createBrowserTtsChapterMp3Files')
     && archiveHelpers.includes('createBrowserTtsChapterZip')

@@ -17,6 +17,7 @@ describe('browser TTS bounded feature soak', () => {
       Array.from({ length: 100 }, (_, index) => ({
         name: `Chapter ${String(index + 1).padStart(3, '0')}`,
         text: String(index + 1).padStart(3, '0').repeat(33).padEnd(100, '.'),
+        voice: index % 2 === 0 ? 'F1' : 'M5',
       })),
       () => `soak-${++id}`,
     );
@@ -36,6 +37,7 @@ describe('browser TTS bounded feature soak', () => {
     expect(state.progress).toBe(1);
     expect(peakGenerators).toBe(1);
     expect(chapters.reduce((total, chapter) => total + chapter.text.length, 0)).toBe(10_000);
+    expect(new Set(chapters.map((chapter) => chapter.voice))).toEqual(new Set(['F1', 'M5']));
 
     const filenames = new Map(
       createBrowserTtsChapterMp3Files(chapters).map((file) => [file.chapterId, file.filename]),

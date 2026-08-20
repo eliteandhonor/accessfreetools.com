@@ -8,11 +8,13 @@ export interface BrowserTtsChapter {
   readonly id: string;
   readonly name: string;
   readonly text: string;
+  readonly voice?: string;
 }
 
 export interface BrowserTtsChapterDraft {
   name?: string;
   text: string;
+  voice?: string;
 }
 
 export interface BrowserTtsChapterLimits {
@@ -43,6 +45,7 @@ export type BrowserTtsChapterErrorCode =
   | 'invalid-limits'
   | 'invalid-name'
   | 'invalid-split'
+  | 'invalid-voice'
   | 'missing-chapter';
 
 export class BrowserTtsChapterError extends Error {
@@ -95,6 +98,14 @@ function normalizeName(value: string, fallback: string, maxCharacters: number) {
   return normalized;
 }
 
+function normalizeVoice(value: string) {
+  const normalized = value.trim();
+  if (!normalized || normalized.length > 128 || /[\u0000-\u001f\u007f]/.test(normalized)) {
+    throw new BrowserTtsChapterError('invalid-voice', 'Choose a valid fixed voice for the chapter.');
+  }
+  return normalized;
+}
+
 function findChapterIndex(chapters: readonly BrowserTtsChapter[], chapterId: string) {
   const index = chapters.findIndex((chapter) => chapter.id === chapterId);
   if (index < 0) throw new BrowserTtsChapterError('missing-chapter', `Chapter ${chapterId} was not found.`);
@@ -134,6 +145,7 @@ export function assertBrowserTtsChapterCollection(
       throw new TypeError('Chapter contentVersion must be a non-negative integer.');
     }
     normalizeName(chapter.name, 'Chapter', limits.maxNameCharacters);
+    if (chapter.voice !== undefined) normalizeVoice(chapter.voice);
     characterCount += chapter.text.length;
   }
 
@@ -168,6 +180,7 @@ export function createBrowserTtsChapter(
     id: resolveId(idSource),
     name: normalizeName(draft.name ?? '', `Chapter ${ordinal}`, limits.maxNameCharacters),
     text: draft.text,
+    ...(draft.voice === undefined ? {} : { voice: normalizeVoice(draft.voice) }),
   };
   assertBrowserTtsChapterCollection([chapter], limits);
   return chapter;
@@ -247,6 +260,7 @@ export function splitBrowserTtsChapter(
     id: resolveId(newIdSource),
     name: normalizeName(options.secondName ?? '', defaultSecondName, limits.maxNameCharacters),
     text: chapter.text.slice(splitAt),
+    ...(chapter.voice === undefined ? {} : { voice: chapter.voice }),
   };
 
   const next = [...chapters.slice(0, index), first, second, ...chapters.slice(index + 1)];
@@ -291,6 +305,44 @@ export function editBrowserTtsChapterText(
   });
   assertBrowserTtsChapterCollection(next, limits);
   return next;
+}
+
+export function setBrowserTtsChapterVoice(
+  chapters: readonly BrowserTtsChapter[],
+  chapterId: string,
+  voice: string,
+  limitOverrides: Partial<BrowserTtsChapterLimits> = {},
+) {
+  const limits = resolveLimits(limitOverrides);
+  assertBrowserTtsChapterCollection(chapters, limits);
+  const index = findChapterIndex(chapters, chapterId);
+  const chapter = chapters[index];
+  if (!chapter) throw new BrowserTtsChapterError('missing-chapter', `Chapter ${chapterId} was not found.`);
+  const normalizedVoice = normalizeVoice(voice);
+  if (chapter.voice === normalizedVoice) return chapters.slice();
+
+  return replaceAt(chapters, index, {
+    ...chapter,
+    contentVersion: chapter.contentVersion + 1,
+    voice: normalizedVoice,
+  });
+}
+
+export function setAllBrowserTtsChapterVoices(
+  chapters: readonly BrowserTtsChapter[],
+  voice: string,
+  limitOverrides: Partial<BrowserTtsChapterLimits> = {},
+) {
+  const limits = resolveLimits(limitOverrides);
+  assertBrowserTtsChapterCollection(chapters, limits);
+  const normalizedVoice = normalizeVoice(voice);
+  return chapters.map((chapter) => chapter.voice === normalizedVoice
+    ? chapter
+    : {
+        ...chapter,
+        contentVersion: chapter.contentVersion + 1,
+        voice: normalizedVoice,
+      });
 }
 
 export function deleteBrowserTtsChapter(

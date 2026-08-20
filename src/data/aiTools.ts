@@ -465,7 +465,7 @@ export const aiTools: ToolDefinition[] = [
     name: 'Text to Speech MP3 Generator',
     summary: 'Turn permitted text into a downloadable MP3 directly in your browser.',
     description:
-      'Listen to voice samples, paste text or open a local TXT, Markdown, or EPUB file, then download one MP3 or an ordered chapter ZIP. No text is uploaded to Access Free Tools.',
+      'Listen to voice samples, paste text or open a local TXT, Markdown, or EPUB file, assign voices by chapter, then download MP3s or an ordered ZIP. No text is uploaded to Access Free Tools.',
     aliases: ['Text to Speech Generator', 'Text to MP3 Converter', 'Multilingual Text to Speech'],
     seoTitle: 'Text to Speech MP3 Generator | Browser TTS',
     seoDescription:
@@ -474,15 +474,16 @@ export const aiTools: ToolDefinition[] = [
     modelNote:
       'Choose pinned Supertonic 3 for 31 named languages and 10 described voices, or pinned Kokoro 82M for full-precision English speech with 28 fixed US and UK voices. Kokoro can attempt WebGPU when an adapter is detected and automatically falls back to its compact q8 WebAssembly model. Only the selected model and voice load. Inference and MP3 creation stay on the visitor device.',
     inputMeaning:
-      'Paste text or open a local TXT, Markdown, or EPUB document containing up to 10,000 characters combined. Review imported chapters, then choose a model, language, fixed voice, and reading speed before generating.',
+      'Paste text or open a local TXT, Markdown, or EPUB document containing up to 10,000 characters combined. Review imported chapters, then choose one model, a language, a default voice, optional chapter-specific voices, and a reading speed.',
     resultMeaning:
-      'Compare a pre-recorded sample for every fixed voice without loading a model, save favourite voices locally, and check the estimated length and size. Generate one 128 kbps mono MP3 or separate chapter MP3s with an ordered ZIP.',
+      'Compare a pre-recorded sample for every fixed voice without loading a model, save favourite voices locally, and check the estimated length and size. Generate one 128 kbps mono MP3 or separate voice-labelled chapter MP3s with an ordered ZIP.',
     doubleCheck:
       'Check pronunciation, language choice, missing or repeated lines, rights to the source text, and any prohibited use before sharing or publishing generated audio.',
     useCases: [
       'Create private listening copies of your own notes, drafts, stories, or public-domain text.',
       'Download spoken instructions or study notes as a standard MP3 file.',
       'Turn permitted Markdown headings or an EPUB reading order into named, reorderable chapter MP3s.',
+      'Give narration, quoted sections, or dialogue chapters different fixed voices while keeping one model loaded.',
       'Use Supertonic for multilingual text or compare Kokoro fixed voices for US and UK English.',
       'Create accessibility or study audio without a server queue, account, or paid processing plan.',
     ],
@@ -496,6 +497,11 @@ export const aiTools: ToolDefinition[] = [
         label: 'Study notes',
         expression: 'Paste permitted notes, choose their language and a fixed voice, then press Generate MP3',
         result: 'Local audio playback and an MP3 download without uploading the notes',
+      },
+      {
+        label: 'Two-voice chapter set',
+        expression: 'Choose Chapter MP3s, assign Bella to narration and Emma to a quoted chapter, then generate',
+        result: 'Two labelled MP3 results and one ordered audio-only ZIP from the same loaded Kokoro model',
       },
       {
         label: 'Higher-quality English model',
@@ -533,6 +539,11 @@ export const aiTools: ToolDefinition[] = [
         question: 'Can I download the generated speech as an MP3?',
         answer:
           'Yes. The browser encodes each result as a 128 kbps mono MP3. Single mode provides one file. Chapter mode keeps separate ordered MP3s and can package completed chapters in a ZIP that contains no source text.',
+      },
+      {
+        question: 'Can each chapter use a different voice?',
+        answer:
+          'Yes. Choose one browser model for the chapter set, then assign any fixed voice from that model to each chapter. Kokoro can mix its US and UK English voices and uses the matching dialect for each chapter. The queue keeps one model loaded and changes only the small voice file when needed.',
       },
       {
         question: 'Does best effort detect the language?',

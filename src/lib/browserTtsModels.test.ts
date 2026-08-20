@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   browserTtsModels,
+  getAllBrowserTtsVoiceGroups,
   getBrowserTtsVoice,
   getBrowserTtsVoiceGroups,
   getBrowserTtsVoiceSampleUrl,
@@ -47,6 +48,12 @@ describe('browser TTS model registry', () => {
       ['United States, male', 9],
     ]);
     expect(getBrowserTtsVoiceGroups('kokoro-82m', 'en-gb').map((group) => [group.label, group.voices.length])).toEqual([
+      ['United Kingdom, female', 4],
+      ['United Kingdom, male', 4],
+    ]);
+    expect(getAllBrowserTtsVoiceGroups('kokoro-82m').map((group) => [group.label, group.voices.length])).toEqual([
+      ['United States, female', 11],
+      ['United States, male', 9],
       ['United Kingdom, female', 4],
       ['United Kingdom, male', 4],
     ]);

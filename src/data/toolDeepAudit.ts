@@ -7861,8 +7861,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'text-to-speech-audiobook-generator',
     status: 'deep-reviewed',
-    batch: 'browser-tts-audiobook-pilot-2026-08-18',
-    reviewedOn: '2026-08-18',
+    batch: 'browser-tts-chapter-voices-2026-08-20',
+    reviewedOn: '2026-08-20',
     scope: commonMathScope,
     sources: [
       {
@@ -7909,7 +7909,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'The tool supports Supertonic\'s documented 31 language choices and 10 described fixed voices plus all 28 pinned Kokoro English voices in US female, US male, UK female, and UK male groups. It avoids voice-cloning, language-detection, perfect-pronunciation, or unrestricted-rights claims.',
       'All 38 fixed voices have a short pre-recorded 1.0x MP3 sample. The shared player loads only the chosen sample, never autoplays, and does not start a model worker or use the visitor text. Full downloads support a portable optional filename.',
       'Voice favourites and recent choices store only validated voice IDs in the current browser. A local estimate shows a conservative duration and 128 kbps MP3 size range before permission confirmation or model download.',
-      'Chapter mode supports editable names, keyboard-accessible reordering, sequential generation through one loaded worker, per-chapter MP3 downloads, preserved completed results, one retry for a failed chapter, and an ordered ZIP containing audio only.',
+      'Chapter mode supports editable names, keyboard-accessible reordering, model-compatible voice selection on every chapter, sequential generation through one loaded worker, per-chapter MP3 downloads, preserved completed results, one retry for a failed chapter, and an ordered ZIP containing audio only.',
       'Markdown uses a structured mdast parser. EPUB uses bounded ZIP and XML parsers that reject traversal, absolute paths, ambiguous entries, DRM or encryption, nested archives, scripts, event handlers, remote resources, malformed structure, and suspicious compression.',
       'Kokoro long text is split in order, phonemized, checked against the 509-token model limit, generated section by section, and joined before 24 kHz PCM is encoded as MP3. Supertonic 44.1 kHz PCM uses the same encoder.',
       'Both URLs remain noindex and outside XML sitemaps until production-device generation and a seven-day browser beta pass.',
@@ -7918,6 +7918,7 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'Added model selection, one-model-at-a-time worker lifecycle, a full-precision English option with automatic compatibility fallback, model-specific languages and voices, 24 kHz and 44.1 kHz MP3 support, bounded Kokoro chunking, source attribution, and model-specific terms.',
       'Added a no-progress watchdog, one automatic Kokoro compatibility retry, elapsed-time feedback, and a reduced-motion mascot loading scene so a stalled browser cannot leave the Stop state running forever.',
       'Expanded Kokoro to all 28 pinned English voices, grouped the voice menu, added official-derived Supertonic voice summaries, 38 instant static samples, local TXT, Markdown, and EPUB import, local voice preferences, pre-download estimates, chapter MP3 and ZIP output, browser-readiness expectations, portable filenames, and text-free failure diagnostics.',
+      'Added a default chapter voice, apply-to-all control, individual grouped voice selectors, Kokoro dialect selection from each assigned voice, result voice labels, and stale-audio invalidation when model, language, voice assignment, or speed changes.',
       'Removed the rejected VPS, Docker, Redis, queue, DNS, Turnstile, and server-retention design so the pilot uses only the existing Hostinger site and visitor-side compute.',
     ],
     followUps: [

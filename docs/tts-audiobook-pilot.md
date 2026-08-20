@@ -10,10 +10,11 @@ The public beta remains noindex,follow and outside XML sitemaps until its browse
 
 1. Paste up to 10,000 characters, or open a local TXT or Markdown file up to 64 KB or EPUB up to 8 MB.
 2. Choose one MP3 or review, rename, and reorder imported chapters for separate MP3 output.
-3. Choose Supertonic 3 or Kokoro 82M, then compare pre-recorded samples before choosing a language, fixed voice, and speed.
-4. Optionally save voice IDs as local favourites and review the estimated audio duration and 128 kbps MP3 size before loading a model.
-5. Confirm permission to convert the text and accept the selected model terms.
-6. Generate, listen to, and download one MP3 or separate ordered chapter MP3s with an audio-only ZIP.
+3. Choose Supertonic 3 or Kokoro 82M, then compare pre-recorded samples before choosing a language, default voice, and speed.
+4. In chapter mode, keep the default voice, apply it to every chapter, or assign a different fixed voice to individual chapters.
+5. Optionally save voice IDs as local favourites and review the estimated audio duration and 128 kbps MP3 size before loading a model.
+6. Confirm permission to convert the text and accept the selected model terms.
+7. Generate, listen to, and download one MP3 or separate ordered chapter MP3s with an audio-only ZIP.
 
 Only the selected model worker loads. Changing models terminates the old worker and releases its in-memory runtime before the other model can start.
 
@@ -36,12 +37,13 @@ Supertonic stays the default because it offers the broadest language coverage. I
 6. Voice favourites and recents store validated voice IDs only. Text, language, filenames, and audio are not written to local storage.
 7. A text-only estimator reports a conservative duration and 128 kbps size range without creating a worker, requesting a model, or sending analytics.
 8. Supertonic generates 44.1 kHz PCM. Kokoro generates 24 kHz PCM. The same pinned encoder creates 128 kbps mono MP3 output.
-9. Chapter mode generates sequentially through the same loaded worker. Completed results survive a later failure or cancellation, and one failed chapter can be retried once.
-10. Generated audio uses temporary object URLs in the current tab. The optional ZIP contains separate ordered MP3 files only, never source text or the original document.
-11. Kokoro input is split in order, phonemized, checked against the 509-token model limit, generated section by section, and joined with short silence. Long text must not be silently truncated.
-12. Loading and generation use a 90-second no-progress watchdog. A stalled Kokoro job gets one automatic q8 WebAssembly retry; a second stall stops the worker and gives the user a clear recovery message.
-13. The status area shows elapsed time, actual backend and precision, an indeterminate state when byte progress is unavailable, and a reduced-motion-safe mascot scene.
-14. A readiness note reports whether Kokoro full precision can be attempted or whether the q8 compatibility path is expected. It is not a speed guarantee.
+9. Chapter mode can assign a different fixed voice to each chapter while keeping one selected model. Kokoro derives the US or UK English dialect from each assigned voice; Supertonic keeps the selected text language. New and imported chapters inherit the current default voice.
+10. Chapter mode generates sequentially through the same loaded worker. Completed results survive a later failure or cancellation, and one failed chapter can be retried once.
+11. Generated audio uses temporary object URLs in the current tab. The optional ZIP contains separate ordered MP3 files only, never source text or the original document.
+12. Kokoro input is split in order, phonemized, checked against the 509-token model limit, generated section by section, and joined with short silence. Long text must not be silently truncated.
+13. Loading and generation use a 90-second no-progress watchdog. A stalled Kokoro job gets one automatic q8 WebAssembly retry; a second stall stops the worker and gives the user a clear recovery message.
+14. The status area shows elapsed time, actual backend and precision, an indeterminate state when byte progress is unavailable, and a reduced-motion-safe mascot scene.
+15. A readiness note reports whether Kokoro full precision can be attempted or whether the q8 compatibility path is expected. It is not a speed guarantee.
 
 ## Model And Dependency Pins
 
@@ -96,7 +98,7 @@ Comparative context:
 - One pre-recorded 1.0x sample for each of the 38 fixed voices, loaded only when played and without autoplay or model startup.
 - At most 20 favourite and 8 recent validated voice IDs are stored locally; no user text is stored with them.
 - Pre-download duration and file-size estimates are ranges, not promises.
-- 128 kbps mono MP3 playback and download, with separate chapter MP3 files and an ordered audio-only ZIP.
+- 128 kbps mono MP3 playback and download, with per-chapter fixed voices, separate chapter MP3 files, and an ordered audio-only ZIP.
 - No M4B, merged book, account, sharing link, voice upload, or cloning.
 - Model download, inference speed, memory use, and compatibility depend on the visitor's browser and device.
 - Refreshing or closing the tab discards generated audio that has not been downloaded.
@@ -124,7 +126,17 @@ The browser check verifies both pinned model revisions, model-specific lazy work
 
 ## Current Browser Evidence
 
-Verified on August 18, 2026 against the local Astro production preview:
+Verified on August 18 and August 20, 2026 against the local Astro production preview:
+
+### Per-chapter voice release candidate
+
+- On August 20, 2026, the privacy-safe production report recorded two TTS page views and eight TTS tool actions. This is encouraging early activity, not enough data to claim broad demand or completion rates.
+- A local Kokoro full-precision WebGPU run generated chapter 1 with Bella and chapter 2 with Emma through one loaded model worker. Both results were labelled with the voice actually used and downloaded in one ordered ZIP.
+- The request trace loaded the pinned Kokoro model plus only `af_bella.bin` and `bf_emma.bin`. The two test sentences were absent from request URLs.
+- Switching from Supertonic to Kokoro remapped existing chapters to Bella. A chapter could then use any of the 28 Kokoro English voices, including a UK voice whose dialect was derived for that chapter only.
+- The apply-to-all control changed two assigned chapter voices back to one without changing chapter text or names.
+- Desktop at 1440px and mobile at 390px had no horizontal overflow. The chapter selectors, apply-to-all control, voice-labelled result rows, separate MP3 buttons, and ZIP control remained usable at both widths.
+- The 100-chapter, 10,000-character soak alternated F1 and M5 while retaining peak generation concurrency one and 100 ordered ZIP entries.
 
 ### Fixed voice sample library
 

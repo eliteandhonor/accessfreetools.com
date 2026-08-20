@@ -35,6 +35,8 @@ import {
   editBrowserTtsChapterText,
   getBrowserTtsChapterTotals,
   moveBrowserTtsChapter,
+  setAllBrowserTtsChapterVoices,
+  setBrowserTtsChapterVoice,
   type BrowserTtsChapter,
 } from '../lib/browserTtsChapters';
 import {
@@ -48,6 +50,7 @@ import {
 } from '../lib/browserTtsEstimate';
 import {
   browserTtsModels,
+  getAllBrowserTtsVoiceGroups,
   getBrowserTtsDownloadNote,
   getBrowserTtsModel,
   getBrowserTtsVoice,
@@ -231,6 +234,7 @@ export default function TextToSpeechAudiobookGenerator() {
   const availableVoices = getBrowserTtsVoices(modelId, language);
   const selectedVoice = getBrowserTtsVoice(modelId, voice) ?? availableVoices[0];
   const voiceGroups = getBrowserTtsVoiceGroups(modelId, language);
+  const chapterVoiceGroups = getAllBrowserTtsVoiceGroups(modelId);
   const voiceSampleUrl = selectedVoice ? getBrowserTtsVoiceSampleUrl(modelId, selectedVoice.value) : '';
   const selectedVoicePreferenceId = `${modelId}:${voice}`;
   const selectedVoiceIsFavorite = voicePreferences.favorites.includes(selectedVoicePreferenceId);
@@ -242,6 +246,7 @@ export default function TextToSpeechAudiobookGenerator() {
     .map((id) => voicePreferenceChoiceById.get(id))
     .filter((item): item is VoicePreferenceChoice => Boolean(item));
   const chapterSourceText = chapters.map((chapter) => chapter.text).join('\n');
+  const chapterVoiceCount = new Set(chapters.map((chapter) => chapter.voice ?? voice)).size;
   const activeSourceText = sourceMode === 'single' ? text : chapterSourceText;
   const audioEstimate = estimateBrowserTtsAudio(activeSourceText, speed);
   const chapterFileNames = new Map(
@@ -612,6 +617,12 @@ export default function TextToSpeechAudiobookGenerator() {
       };
       context.signal?.addEventListener('abort', handleAbort, { once: true });
 
+      const chapterVoice = getBrowserTtsVoice(modelId, chapter.voice ?? voice) ?? selectedVoice;
+      if (!chapterVoice) {
+        finish(() => reject(new Error('Choose a valid fixed voice for this chapter.')));
+        return;
+      }
+
       const job: GenerationJob = {
         chapterId: chapter.id,
         chapterName: chapter.name,
@@ -619,11 +630,11 @@ export default function TextToSpeechAudiobookGenerator() {
         reject: (jobError) => finish(() => reject(jobError)),
         request: {
           type: 'generate',
-          language,
+          language: chapterVoice.language ?? language,
           speed,
           steps: QUALITY_PASSES,
           text: chapter.text.trim(),
-          voice,
+          voice: chapterVoice.value,
         },
         resolve: (audioResult) => finish(() => resolve(audioResult)),
       };
@@ -771,11 +782,13 @@ export default function TextToSpeechAudiobookGenerator() {
     const nextModel = getBrowserTtsModel(nextModelId);
     resetRuntime(`Ready to load ${nextModel.name}`);
     clearResult();
+    clearChapterResults();
     setModelId(nextModelId);
     setLanguage(nextModel.defaultLanguage);
     setVoice(nextModel.defaultVoice);
+    if (chapters.length > 0) setChapters(setAllBrowserTtsChapterVoices(chapters, nextModel.defaultVoice));
     setError('');
-    setNotice(`Switched to ${nextModel.name}. No model has been downloaded yet.`);
+    setNotice(`Switched to ${nextModel.name}. Existing chapters now use its default voice.`);
   }
 
   function chooseLanguage(nextLanguage: string) {
@@ -783,6 +796,7 @@ export default function TextToSpeechAudiobookGenerator() {
     setLanguage(nextLanguage);
     if (!nextVoices.some((item) => item.value === voice)) setVoice(nextVoices[0]?.value ?? selectedModel.defaultVoice);
     clearResult();
+    clearChapterResults();
   }
 
   function chooseVoice(nextVoice: string) {
@@ -791,6 +805,9 @@ export default function TextToSpeechAudiobookGenerator() {
     if (nextPreferences) setVoicePreferences(nextPreferences);
     setError('');
     clearResult();
+    if (sourceMode === 'chapters') {
+      setNotice('Default voice changed. Existing chapter voice choices stay unchanged until you apply it to all.');
+    }
   }
 
   function chooseRememberedVoice(preferenceId: string) {
@@ -799,12 +816,16 @@ export default function TextToSpeechAudiobookGenerator() {
     if (choice.modelId !== modelId) {
       resetRuntime(`Ready to load ${choice.modelName}`);
       clearResult();
+      clearChapterResults();
       setModelId(choice.modelId);
+      if (chapters.length > 0) setChapters(setAllBrowserTtsChapterVoices(chapters, choice.voice));
     }
     setLanguage(choice.language);
     setVoice(choice.voice);
     setError('');
-    setNotice(`${choice.label} selected. No model has been downloaded yet.`);
+    setNotice(choice.modelId === modelId
+      ? `${choice.label} selected as the default voice.`
+      : `${choice.label} selected, and existing chapters now use that model-compatible voice.`);
     const nextPreferences = voicePreferenceStoreRef.current?.recordRecent(choice.id);
     if (nextPreferences) setVoicePreferences(nextPreferences);
   }
@@ -829,7 +850,7 @@ export default function TextToSpeechAudiobookGenerator() {
     if (nextMode === sourceMode || busy) return;
     if (nextMode === 'chapters' && chapters.length === 0) {
       const initialChapters = createBrowserTtsChapters(
-        [{ name: 'Chapter 1', text }],
+        [{ name: 'Chapter 1', text, voice }],
         nextChapterId,
       );
       setChapters(initialChapters);
@@ -844,7 +865,7 @@ export default function TextToSpeechAudiobookGenerator() {
   function addChapter() {
     try {
       replaceChapters(
-        appendBrowserTtsChapter(chapters, { name: `Chapter ${chapters.length + 1}`, text: '' }, nextChapterId),
+        appendBrowserTtsChapter(chapters, { name: `Chapter ${chapters.length + 1}`, text: '', voice }, nextChapterId),
         'Chapter added. The combined chapter text can contain up to 10,000 characters.',
       );
     } catch (chapterError) {
@@ -862,6 +883,33 @@ export default function TextToSpeechAudiobookGenerator() {
     } catch (chapterError) {
       setError(chapterError instanceof Error ? chapterError.message : 'The chapter text could not be changed.');
     }
+  }
+
+  function chooseChapterVoice(chapterId: string, nextVoice: string) {
+    if (!getBrowserTtsVoice(modelId, nextVoice)) {
+      setError('Choose a voice that belongs to the selected browser model.');
+      return;
+    }
+    try {
+      replaceChapters(
+        setBrowserTtsChapterVoice(chapters, chapterId, nextVoice),
+        'Chapter voice updated. Regenerate the chapter set to hear the change.',
+      );
+      const nextPreferences = voicePreferenceStoreRef.current?.recordRecent(`${modelId}:${nextVoice}`);
+      if (nextPreferences) setVoicePreferences(nextPreferences);
+    } catch (chapterError) {
+      setError(chapterError instanceof Error ? chapterError.message : 'The chapter voice could not be changed.');
+    }
+  }
+
+  function applyDefaultVoiceToAllChapters() {
+    if (chapters.length === 0 || !selectedVoice) return;
+    replaceChapters(
+      setAllBrowserTtsChapterVoices(chapters, selectedVoice.value),
+      `${selectedVoice.label} now applies to every chapter. You can still change individual chapters below.`,
+    );
+    const nextPreferences = voicePreferenceStoreRef.current?.recordRecent(selectedVoicePreferenceId);
+    if (nextPreferences) setVoicePreferences(nextPreferences);
   }
 
   function removeChapter(chapterId: string) {
@@ -903,7 +951,7 @@ export default function TextToSpeechAudiobookGenerator() {
         const prepared = prepareLocalTxtContent(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
         if (prepared.error || prepared.text === undefined) throw new Error(prepared.error ?? 'The TXT file could not be read.');
         if (sourceMode === 'chapters') {
-          replaceChapters(createBrowserTtsChapters([{ name: 'Chapter 1', text: prepared.text }], nextChapterId));
+          replaceChapters(createBrowserTtsChapters([{ name: 'Chapter 1', text: prepared.text, voice }], nextChapterId));
         } else {
           setText(prepared.text);
           clearResult();
@@ -914,7 +962,7 @@ export default function TextToSpeechAudiobookGenerator() {
         if (importOperationRef.current !== operationId) return;
         const imported = importBrowserTtsMarkdown(file, bytes);
         const nextChapters = createBrowserTtsChapters(
-          imported.chapters.map((chapter) => ({ name: chapter.title, text: chapter.text })),
+          imported.chapters.map((chapter) => ({ name: chapter.title, text: chapter.text, voice })),
           nextChapterId,
         );
         setSourceMode('chapters');
@@ -925,7 +973,7 @@ export default function TextToSpeechAudiobookGenerator() {
         const imported = await importBrowserTtsEpub(file, bytes);
         if (importOperationRef.current !== operationId) return;
         const nextChapters = createBrowserTtsChapters(
-          imported.chapters.map((chapter) => ({ name: chapter.title, text: chapter.text })),
+          imported.chapters.map((chapter) => ({ name: chapter.title, text: chapter.text, voice })),
           nextChapterId,
         );
         setSourceMode('chapters');
@@ -1120,13 +1168,16 @@ export default function TextToSpeechAudiobookGenerator() {
                 <div>
                   <strong>{chapters.length} chapter{chapters.length === 1 ? '' : 's'}</strong>
                   <span>{formatCount(chapters.reduce((total, chapter) => total + chapter.text.length, 0))} / {formatCount(MAX_TTS_TEXT_CHARACTERS)} characters combined</span>
+                  <span>{chapterVoiceCount} voice{chapterVoiceCount === 1 ? '' : 's'} assigned</span>
                 </div>
                 <button type="button" data-aft-analytics-manual="true" disabled={sourceLocked} onClick={addChapter}>
                   <Plus aria-hidden="true" size={17} /> Add chapter
                 </button>
               </div>
               <ol className="tts-audiobook__chapter-list">
-                {chapters.map((chapter, index) => (
+                {chapters.map((chapter, index) => {
+                  const assignedVoice = getBrowserTtsVoice(modelId, chapter.voice ?? voice) ?? selectedVoice;
+                  return (
                   <li key={chapter.id} className="tts-audiobook__chapter">
                     <div className="tts-audiobook__chapter-toolbar">
                       <strong>Chapter {index + 1}</strong>
@@ -1152,6 +1203,25 @@ export default function TextToSpeechAudiobookGenerator() {
                       disabled={sourceLocked}
                       onChange={(event) => renameChapter(chapter.id, event.target.value)}
                     />
+                    <div className="tts-audiobook__chapter-voice">
+                      <label htmlFor={`tts-chapter-voice-${chapter.id}`}>Voice for this chapter</label>
+                      <select
+                        id={`tts-chapter-voice-${chapter.id}`}
+                        value={assignedVoice?.value ?? voice}
+                        disabled={sourceLocked}
+                        onChange={(event) => chooseChapterVoice(chapter.id, event.target.value)}
+                      >
+                        {chapterVoiceGroups.map((group) => (
+                          <optgroup key={group.label} label={group.label}>
+                            {group.voices.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
+                          </optgroup>
+                        ))}
+                      </select>
+                      <span>
+                        {assignedVoice?.description ?? 'Fixed voice from the selected browser model.'}
+                        {assignedVoice?.language ? ` Its ${assignedVoice.language === 'en-gb' ? 'UK' : 'US'} English dialect is used for this chapter.` : ''}
+                      </span>
+                    </div>
                     <label htmlFor={`tts-chapter-text-${chapter.id}`}>Chapter text</label>
                     <textarea
                       id={`tts-chapter-text-${chapter.id}`}
@@ -1165,7 +1235,8 @@ export default function TextToSpeechAudiobookGenerator() {
                     />
                     <span>{formatCount(chapter.text.length)} characters</span>
                   </li>
-                ))}
+                  );
+                })}
               </ol>
             </div>
           )}
@@ -1220,7 +1291,7 @@ export default function TextToSpeechAudiobookGenerator() {
 
           <div className="tts-audiobook__voice-picker">
             <div className="tts-audiobook__voice-label-row">
-              <label htmlFor="tts-voice">Fixed voice</label>
+              <label htmlFor="tts-voice">{sourceMode === 'chapters' ? 'Default chapter voice' : 'Fixed voice'}</label>
               <button
                 type="button"
                 className="icon-button tts-audiobook__favorite-voice"
@@ -1249,9 +1320,26 @@ export default function TextToSpeechAudiobookGenerator() {
             </select>
             {selectedVoice && (
               <div id="tts-selected-voice" className="tts-audiobook__voice-summary" aria-live="polite">
-                <strong>{selectedVoice.label}</strong>
-                <span>{selectedVoice.description}</span>
+                <div>
+                  <strong>{selectedVoice.label}</strong>
+                  <span>{selectedVoice.description}</span>
+                </div>
+                {sourceMode === 'chapters' && chapters.length > 0 && (
+                  <button
+                    type="button"
+                    data-aft-analytics-manual="true"
+                    disabled={sourceLocked}
+                    onClick={applyDefaultVoiceToAllChapters}
+                  >
+                    Apply to all chapters
+                  </button>
+                )}
               </div>
+            )}
+            {sourceMode === 'chapters' && (
+              <p className="tts-audiobook__help">
+                This default is used for new chapters. Use the chapter selectors to cast different voices without loading another model.
+              </p>
             )}
             {(favoriteVoiceChoices.length > 0 || recentVoiceChoices.length > 0) && (
               <div className="tts-audiobook__remembered-voices">
@@ -1295,6 +1383,7 @@ export default function TextToSpeechAudiobookGenerator() {
             onChange={(event) => {
               setSpeed(Number(event.target.value));
               clearResult();
+              clearChapterResults();
             }}
           />
 
@@ -1362,6 +1451,7 @@ export default function TextToSpeechAudiobookGenerator() {
         )}
         <div className="tts-audiobook__job-stats" aria-live="polite">
           <span>{selectedModel.name}</span>
+          {sourceMode === 'chapters' && chapters.length > 0 && <span>{chapterVoiceCount} chapter voice{chapterVoiceCount === 1 ? '' : 's'}</span>}
           <span>{runtimeBackend ? `${runtimeBackend.toUpperCase()} backend` : selectedModel.backendNote}</span>
           {runtimeDtype && <span>{runtimeDtype === 'fp32' ? 'Full precision' : 'q8 compatibility'}</span>}
           {busy && <span>{elapsedSeconds}s elapsed</span>}
@@ -1463,7 +1553,7 @@ export default function TextToSpeechAudiobookGenerator() {
                         <strong>{chapter?.name ?? `Chapter ${index + 1}`}</strong>
                         <small>
                           {item.status === 'completed' && item.result
-                            ? `${formatSeconds(item.result.durationSeconds)} MP3, ${formatBytes(item.result.byteLength)}`
+                            ? `${getBrowserTtsVoice(item.result.modelId, item.result.voice)?.label ?? item.result.voice} voice, ${formatSeconds(item.result.durationSeconds)} MP3, ${formatBytes(item.result.byteLength)}`
                             : item.status === 'failed'
                               ? (item.error ?? 'Generation failed.')
                               : item.status === 'running'

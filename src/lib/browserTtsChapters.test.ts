@@ -10,6 +10,8 @@ import {
   getBrowserTtsChapterTotals,
   moveBrowserTtsChapter,
   renameBrowserTtsChapter,
+  setAllBrowserTtsChapterVoices,
+  setBrowserTtsChapterVoice,
   splitBrowserTtsChapter,
 } from './browserTtsChapters';
 
@@ -97,6 +99,44 @@ describe('browser TTS chapter model', () => {
     expect(moved.map((chapter) => chapter.id)).toEqual(['three', 'one', 'two']);
     expect(deleted.map((chapter) => chapter.id)).toEqual(['three', 'one']);
     expect(getBrowserTtsChapterTotals(deleted)).toMatchObject({ chapterCount: 2, characterCount: 4 });
+  });
+
+  it('assigns different fixed voices and versions only chapters whose audio changes', () => {
+    const original = createBrowserTtsChapters(
+      [
+        { name: 'Narrator', text: 'Opening.', voice: 'F1' },
+        { name: 'Guest', text: 'Hello.', voice: 'M1' },
+      ],
+      deterministicIds('narrator', 'guest'),
+    );
+    const changed = setBrowserTtsChapterVoice(original, 'guest', 'F2');
+    const unchanged = setBrowserTtsChapterVoice(changed, 'guest', 'F2');
+    const unified = setAllBrowserTtsChapterVoices(changed, 'M5');
+
+    expect(original.map((chapter) => chapter.voice)).toEqual(['F1', 'M1']);
+    expect(changed).toMatchObject([
+      { contentVersion: 0, id: 'narrator', voice: 'F1' },
+      { contentVersion: 1, id: 'guest', voice: 'F2' },
+    ]);
+    expect(unchanged[1]?.contentVersion).toBe(1);
+    expect(unified).toMatchObject([
+      { contentVersion: 1, id: 'narrator', voice: 'M5' },
+      { contentVersion: 2, id: 'guest', voice: 'M5' },
+    ]);
+    expect(() => setBrowserTtsChapterVoice(original, 'guest', '   ')).toThrowError(/valid fixed voice/i);
+  });
+
+  it('keeps a chapter voice when text is split or reordered', () => {
+    const original = createBrowserTtsChapters(
+      [{ name: 'Dialogue', text: 'First sentence. Second sentence.', voice: 'af_bella' }],
+      () => 'dialogue',
+    );
+    const splitAt = original[0]?.text.indexOf('Second') ?? 0;
+    const split = splitBrowserTtsChapter(original, 'dialogue', splitAt, () => 'dialogue-2');
+    const moved = moveBrowserTtsChapter(split, 'dialogue-2', 0);
+
+    expect(split.map((chapter) => chapter.voice)).toEqual(['af_bella', 'af_bella']);
+    expect(moved.map((chapter) => chapter.voice)).toEqual(['af_bella', 'af_bella']);
   });
 
   it('enforces aggregate character, chapter-count, ID, and name bounds without truncation', () => {

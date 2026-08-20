@@ -327,9 +327,9 @@ const guideDetails: Record<string, AiGuideDetail> = {
   'text-to-speech-audiobook-generator': {
     title: 'How to Turn Text into an MP3 in Your Browser',
     description:
-      'Choose multilingual Supertonic or English Kokoro, generate permitted text or local document chapters in your browser, and download 128 kbps MP3 files.',
+      'Choose multilingual Supertonic or English Kokoro, assign fixed voices by chapter, and download 128 kbps MP3 files generated in your browser.',
     summary:
-      'Learn how to paste text, import TXT, Markdown, or EPUB chapters locally, compare voice samples, and download one MP3 or an ordered chapter ZIP.',
+      'Learn how to paste text, import TXT, Markdown, or EPUB chapters locally, compare voice samples, cast chapter voices, and download MP3s or an ordered ZIP.',
     purpose:
       'The Text to Speech MP3 Generator runs either pinned Supertonic 3 or pinned Kokoro 82M with its MP3 encoder in a browser worker. It is for text you wrote, public-domain material, or text you have permission to convert.',
     enter: [
@@ -337,6 +337,7 @@ const guideDetails: Record<string, AiGuideDetail> = {
       'Choose Single MP3 or Chapter MP3s. Review chapter names, text, and order before generating anything.',
       'Choose Supertonic for multilingual text or Kokoro 82M HQ for US and UK English.',
       'Choose a supported language, one fixed voice preset, and a reading speed from 0.9x to 1.5x. Kokoro has 28 grouped US and UK English voices.',
+      'In chapter mode, use the default voice for new chapters, apply it to every chapter, or choose a different fixed voice on individual chapters.',
       'Play the pre-recorded samples to compare voices without loading a model, then confirm your rights and the model-use terms before pressing Generate MP3.',
       'Allow the selected model to download on first use: about 398 MB for Supertonic, about 326 MB for full-precision Kokoro WebGPU, or about 92 MB for Kokoro compatibility mode.',
       'Check the estimated duration and MP3 size before downloading the model. Then play and download the result before closing or refreshing the tab.',
@@ -350,6 +351,7 @@ const guideDetails: Record<string, AiGuideDetail> = {
       'Only one model worker stays loaded. Changing the model unloads the previous one before the new model can start.',
       'Long Kokoro input is divided into ordered sections before generation instead of being silently truncated at the model limit.',
       'Single mode provides one 128 kbps mono MP3. Chapter mode generates one chapter at a time through the same loaded worker, preserves completed files after a later failure, and allows one retry for the failed chapter.',
+      'Every chapter keeps its own voice assignment. Supertonic chapter voices use the selected text language. Kokoro chapter voices automatically use their matching US or UK English dialect.',
       'Optional MP3 and ZIP names are cleaned for Windows and macOS. The chapter ZIP contains separate audio files only, never the source text.',
       'Favourite and recent voice IDs stay in local browser storage. Text, document names, audio, language, and voice choices are not stored there.',
       'Markdown headings and the EPUB reading spine become editable chapters. Unsafe paths, scripts, remote resources, encrypted EPUBs, nested archives, and suspicious compression are rejected.',
@@ -363,6 +365,7 @@ const guideDetails: Record<string, AiGuideDetail> = {
       'Do not assume a successful job means every word was pronounced correctly.',
       'Do not close or refresh the tab before downloading the MP3 because the browser-only result is not stored by Access Free Tools.',
       'Do not skip the imported chapter review. Navigation pages, unusual markup, names, and abbreviations can still need a manual correction before speech generation.',
+      'Do not switch models to create character voices within one chapter set. Pick one model, then assign its fixed voices per chapter so the browser avoids large model swaps.',
       'Do not treat an open model as unrestricted. Supertonic uses OpenRAIL-M terms, while Kokoro and its browser code use Apache-2.0 components with separate attribution requirements.',
     ],
     sources: [

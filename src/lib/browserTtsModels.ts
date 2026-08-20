@@ -191,6 +191,16 @@ export function getBrowserTtsVoiceGroups(modelId: BrowserTtsModelId, language: s
   return [...groups].map(([label, voices]) => ({ label, voices }));
 }
 
+export function getAllBrowserTtsVoiceGroups(modelId: BrowserTtsModelId): BrowserTtsVoiceGroup[] {
+  const groups = new Map<string, BrowserTtsVoice[]>();
+  for (const voice of browserTtsModels[modelId].voices) {
+    const voices = groups.get(voice.group) ?? [];
+    voices.push(voice);
+    groups.set(voice.group, voices);
+  }
+  return [...groups].map(([label, voices]) => ({ label, voices }));
+}
+
 export function getBrowserTtsDownloadNote(modelId: BrowserTtsModelId) {
   const model = getBrowserTtsModel(modelId);
   if (!model.fallbackDownloadMegabytes) return `about ${model.downloadMegabytes} MB on first use`;

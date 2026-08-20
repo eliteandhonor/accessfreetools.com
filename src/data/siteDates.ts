@@ -113,7 +113,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'love-calculator': '2026-07-13',
   'four-in-a-row-game': '2026-07-13',
   'json-to-csv-converter': '2026-07-18',
-  'text-to-speech-audiobook-generator': '2026-08-18',
+  'text-to-speech-audiobook-generator': '2026-08-20',
   'roofing-calculator': '2026-05-26',
   'gas-mileage-calculator': '2026-07-03',
   'engine-horsepower-calculator': '2026-07-12',
@@ -536,7 +536,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-love-calculator': '2026-07-13',
   'how-to-use-four-in-a-row-game': '2026-07-13',
   'how-to-use-json-to-csv-converter': '2026-07-18',
-  'how-to-use-text-to-speech-audiobook-generator': '2026-08-18',
+  'how-to-use-text-to-speech-audiobook-generator': '2026-08-20',
   'how-to-use-mulch-calculator': '2026-06-02',
   'how-to-use-paver-calculator': '2026-06-02',
   'how-to-use-pool-volume-calculator': '2026-06-02',
@@ -554,7 +554,7 @@ const blogPublishedOverrides: Record<string, string> = {
   'how-to-check-github-project-before-installing': '2026-07-13',
   'how-to-use-four-in-a-row-game': '2026-07-13',
   'how-to-use-json-to-csv-converter': '2026-07-18',
-  'how-to-use-text-to-speech-audiobook-generator': '2026-08-18',
+  'how-to-use-text-to-speech-audiobook-generator': '2026-08-20',
 };
 
 const staticPageLastmod: Record<string, string> = {

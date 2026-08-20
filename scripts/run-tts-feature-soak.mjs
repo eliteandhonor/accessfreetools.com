@@ -23,7 +23,7 @@ const evidence = {
   durationMs: completedAt.getTime() - startedAt.getTime(),
   limits: { chapters: 100, combinedCharacters: 10_000, queueConcurrency: 1 },
   result: 'pass',
-  scope: 'Pure queue and audio-only ZIP soak with bounded mock MP3 bytes; model inference is verified separately.',
+  scope: 'Pure alternating-voice queue and audio-only ZIP soak with bounded mock MP3 bytes; model inference is verified separately.',
   testFile: 'src/lib/browserTtsFeatureSoak.test.ts',
 };
 const directory = resolve('output/tts-feature-campaign/chapter-soak');
@@ -31,7 +31,7 @@ await mkdir(directory, { recursive: true });
 await writeFile(resolve(directory, 'latest.json'), `${JSON.stringify(evidence, null, 2)}\n`, 'utf8');
 await writeFile(
   resolve(directory, 'latest.md'),
-  `# Browser TTS Feature Soak\n\n- Result: pass\n- Chapters: 100\n- Combined characters: 10,000\n- Peak queue concurrency: 1\n- ZIP entries: 100 ordered MP3 files\n- Duration: ${evidence.durationMs} ms\n- Scope: ${evidence.scope}\n`,
+  `# Browser TTS Feature Soak\n\n- Result: pass\n- Chapters: 100\n- Assigned voices: F1 and M5 alternating\n- Combined characters: 10,000\n- Peak queue concurrency: 1\n- ZIP entries: 100 ordered MP3 files\n- Duration: ${evidence.durationMs} ms\n- Scope: ${evidence.scope}\n`,
   'utf8',
 );
 console.log(`Saved soak evidence to ${directory}`);
