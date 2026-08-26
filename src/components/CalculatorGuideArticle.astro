@@ -323,6 +323,12 @@ const articleStructuredData = {
             {keepExploringIntro ?? 'If this guide is close but not exact, these links keep you near the same kind of problem.'}
           </p>
           <ul class="guide-link-list">
+            {tool?.slug === 'text-to-speech-audiobook-generator' && (
+              <li>
+                <a href="/blog/browser-text-to-speech-kokoro-vs-supertonic/">Kokoro versus Supertonic browser test</a>
+                <span>See measured model loads, Edge and Chrome results, MP3 output, and why the tool keeps both models.</span>
+              </li>
+            )}
             {tool && (
               <li>
                 <a href={`/categories/${tool.category}/`}>{category?.name ?? 'Related category'}</a>
