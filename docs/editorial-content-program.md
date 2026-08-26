@@ -46,6 +46,7 @@ This is the source of truth for first-person Brendan Chambers editorial articles
 - The browser TTS story was selected on 2026-08-26 after the owner rejected the internal testing topic as dull. Fresh reader research showed demand around no-sign-up access, MP3 export, local processing, and reliable voice switching. The article uses measured Kokoro, Supertonic, Edge fallback, MP3, and chapter-voice evidence from the live Access Free Tools implementation.
 - The browser TTS story was published from commit `c34caae1` on Astro 7 and Node 24. Its live canonical, metadata, BlogPosting schema, hero alt text, desktop layout, Ask/API/MCP runtime, and 662-URL production sitemap were verified. Search Console accepted the sitemap refresh, and IndexNow accepted the article and `/blog/` with HTTP 200.
 - Its owner-written Bluesky companion was published and publicly verified at `https://bsky.app/profile/accessfreetools.bsky.social/post/3mtxpy2qbzc2h`. The public post shows the approved 294-character copy, the exact article destination, the article card title, and the cleaned hero image.
+- Its Medium companion was published and publicly verified at `https://medium.com/@accessfreetools/why-i-nearly-bought-a-tts-server-before-testing-kokoro-vs-supertonic-31e4e9b8fcae`. The live story shows Brendan's first-person account, the approved hero and literal alt text, five focused topics, primary project sources, contextual site links, and a canonical pointing to the original Access Free Tools article.
 
 ## Remaining Briefs
 
