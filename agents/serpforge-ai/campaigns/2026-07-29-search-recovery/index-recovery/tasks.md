@@ -6,4 +6,4 @@
 - [x] Protect the converters gallery and schedule reinspection after the watch date.
 - [x] Record the three visibly confirmed August 17 deferred-guide requests without repeating July 29 URLs.
 - [x] Request indexing for only the JSON-to-CSV tool and guide, then save visible confirmation or the exact quota gate.
-- [ ] Reinspect the JSON-to-CSV pair and converters gallery on August 26 before considering edits.
+- [x] Reinspect the JSON-to-CSV pair and converters gallery on August 26 before considering edits.

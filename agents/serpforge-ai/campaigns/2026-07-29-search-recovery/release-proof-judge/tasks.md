@@ -9,4 +9,4 @@
 - [x] Judge EV-04 after the focused and full repository gates.
 - [x] Approve REL-02 only after commit, Node 24 deployment, live redirects, Ask/API/MCP, and production sitemap proof.
 - [x] Judge IDX-07, EV-05, CTR-02, and DEV-01 after focused and full gates.
-- [ ] Approve REL-03 only after scoped commit, Node 24 deployment, live Hex/Mileage/MCP visual and functional proof, production sitemap, and discovery evidence.
+- [x] Approve REL-03 only after scoped commit, Node 24 deployment, live Hex/Mileage/MCP visual and functional proof, production sitemap, and discovery evidence.
