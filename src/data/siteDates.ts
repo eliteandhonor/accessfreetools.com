@@ -277,6 +277,7 @@ const toolLastmodOverrides: Record<string, string> = {
 };
 
 const blogModifiedOverrides: Record<string, string> = {
+  'browser-text-to-speech-kokoro-vs-supertonic': '2026-08-26',
   'tesseract-js-browser-ocr-image-quality': '2026-08-17',
   'browser-ai-vs-local-ai-privacy': '2026-07-29',
   'free-ai-skills-open-source-tools-organic-growth': '2026-07-13',
@@ -547,6 +548,7 @@ const blogModifiedOverrides: Record<string, string> = {
 };
 
 const blogPublishedOverrides: Record<string, string> = {
+  'browser-text-to-speech-kokoro-vs-supertonic': '2026-08-26',
   'tesseract-js-browser-ocr-image-quality': '2026-08-17',
   'browser-ai-vs-local-ai-privacy': '2026-07-29',
   'free-ai-skills-open-source-tools-organic-growth': '2026-07-03',

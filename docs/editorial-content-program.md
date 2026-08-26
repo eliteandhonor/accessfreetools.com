@@ -1,6 +1,6 @@
 # Editorial Content Program
 
-Updated: 2026-08-08
+Updated: 2026-08-26
 
 This is the source of truth for first-person Brendan Chambers editorial articles. It is separate from the completed generated tool/blog SEO review queue.
 
@@ -21,9 +21,10 @@ This is the source of truth for first-person Brendan Chambers editorial articles
 | 1 | `open-source-projects-behind-access-free-tools` | 8 Open-Source Projects I Use to Build Access Free Tools | 2026-07-13 | published |
 | 2 | `how-to-check-github-project-before-installing` | How I Check a GitHub Project Before Installing It | 2026-07-13 | published |
 | 3 | `browser-ai-vs-local-ai-privacy` | Browser AI vs Local AI: What Actually Stays on Your Device? | 2026-07-20 | published |
-| 4 | `tesseract-js-browser-ocr-image-quality` | How I Improve Tesseract.js OCR Results in a Browser | 2026-08-26 | planned |
-| 5 | `test-free-tools-playwright-vitest` | How I Test Hundreds of Free Tools with Playwright and Vitest | 2026-09-09 | planned |
-| 6 | `remove-ai-writing-tells-before-publishing` | How I Remove AI Writing Tells Before Publishing | 2026-09-23 | planned |
+| 4 | `tesseract-js-browser-ocr-image-quality` | How I Improve Tesseract.js OCR Results in a Browser | 2026-08-17 | published |
+| 5 | `browser-text-to-speech-kokoro-vs-supertonic` | I Refused to Buy a Server for Text to Speech. The Browser Did the Job. | 2026-08-26 | release-ready |
+| 6 | `test-free-tools-playwright-vitest` | How I Test Hundreds of Free Tools with Playwright and Vitest | Deferred | deferred |
+| 7 | `remove-ai-writing-tells-before-publishing` | How I Remove AI Writing Tells Before Publishing | 2026-09-23 | planned |
 
 ## Active Distribution Policy
 
@@ -42,6 +43,7 @@ This is the source of truth for first-person Brendan Chambers editorial articles
 - IndexNow accepted the two new articles, the substantively updated AI-skills article, and `/blog/` with HTTP 200.
 - Browser AI vs Local AI was published on 2026-07-29 from commit `fe9b57cf` through Hostinger deployment `019fad6c-232f-72fb-bd64-53e6cdbe54f7` on Astro 7 and Node 24.
 - Its live page passed desktop and mobile visual checks, metadata and schema checks, a 660-URL production sitemap check with zero hard failures, Ask/API/MCP checks, Search Console discovery and exact URL indexing request, and an HTTP 200 IndexNow submission.
+- The browser TTS story was selected on 2026-08-26 after the owner rejected the internal testing topic as dull. Fresh reader research showed demand around no-sign-up access, MP3 export, local processing, and reliable voice switching. The article uses measured Kokoro, Supertonic, Edge fallback, MP3, and chapter-voice evidence from the live Access Free Tools implementation.
 
 ## Remaining Briefs
 

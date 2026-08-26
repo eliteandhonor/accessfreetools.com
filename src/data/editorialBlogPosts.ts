@@ -2,6 +2,13 @@ import type { BlogPostDefinition } from './blogPosts';
 
 export const editorialBlogPosts: BlogPostDefinition[] = [
   {
+    slug: 'browser-text-to-speech-kokoro-vs-supertonic',
+    title: 'I Refused to Buy a Server for Text to Speech',
+    label: 'Owner build story',
+    summary:
+      'Brendan Chambers compares Kokoro and Supertonic, fixes an Edge stall, and explains how browser speech became downloadable MP3s without another server.',
+  },
+  {
     slug: 'tesseract-js-browser-ocr-image-quality',
     title: 'How I Improve Tesseract.js OCR Results in a Browser',
     label: 'Owner experiment',
