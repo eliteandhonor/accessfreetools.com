@@ -222,6 +222,15 @@ const qualityRules = {
     trustHeading: 'What the cute design does not change',
     ctaHeading: 'Try the Kawaii Calculator',
   },
+  'browser-text-to-speech-kokoro-vs-supertonic': {
+    primaryPhrase: 'Kokoro vs Supertonic',
+    minNumbers: 8,
+    maxWords: 1300,
+    allowAiMentions: true,
+    requiredIdeas: ['browser text to speech', 'MP3', 'limits'],
+    trustHeading: 'What browser text to speech still cannot promise',
+    ctaHeading: 'Try the browser text to speech tool',
+  },
 };
 
 function parseArgs() {

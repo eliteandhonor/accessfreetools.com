@@ -100,6 +100,13 @@ const staticHeroes = [
     detailLines: ['Custom smoke-kawaii calculator testing scene; no generated text overlay.'],
     titleLines: ['Why the cute calculator still needs serious math checks'],
   },
+  {
+    slug: 'browser-text-to-speech-kokoro-vs-supertonic',
+    expectedWidth: 1200,
+    expectedHeight: 675,
+    detailLines: ['Custom smoke-kawaii browser TTS scene; no generated text overlay.'],
+    titleLines: ['Kokoro vs Supertonic in the browser'],
+  },
 ];
 
 const canvas = {

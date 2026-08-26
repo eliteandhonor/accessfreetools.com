@@ -18,6 +18,7 @@ const publicationOrder = [
   'markdown-table-cleanup',
   'github-stars-security-review',
   'kawaii-calculator-serious-math',
+  'browser-text-to-speech-kokoro-vs-supertonic',
 ];
 
 const posts = [
@@ -525,6 +526,72 @@ const posts = [
     heroCredit:
       'Image credit: Access Free Tools smoke-kawaii illustration, created with GPT Image and reviewed by Brendan Chambers.',
   },
+  {
+    slug: 'browser-text-to-speech-kokoro-vs-supertonic',
+    title: 'Why I Nearly Bought a TTS Server Before Testing Kokoro vs Supertonic',
+    subtitle:
+      'Edge gave me a Stop button for 70.4 seconds. The fix led to 38 voice samples, chapter voices, and downloadable MP3s without a speech server.',
+    seoTitle: 'Kokoro vs Supertonic for Browser Text to Speech',
+    seoDescription:
+      'I tested Kokoro and Supertonic in the browser, fixed an Edge stall, compared 38 voices, and made the result downloadable as MP3.',
+    sourceUrl: `${SITE_ORIGIN}/blog/browser-text-to-speech-kokoro-vs-supertonic/`,
+    canonicalUrl: `${SITE_ORIGIN}/blog/browser-text-to-speech-kokoro-vs-supertonic/`,
+    tags: ['Text To Speech', 'Web Development', 'Open Source', 'Browser AI', 'Build In Public'],
+    audience:
+      'People comparing local text-to-speech models, building browser tools, or trying to create downloadable speech without an account or paid API.',
+    disclosure:
+      'Disclosure: I am Brendan Chambers, the owner of Access Free Tools. Codex helped me organize test evidence and review the draft, but I made the product decisions, ran the browser checks, and approved the final wording.',
+    contextualLink:
+      'I kept the full timing notes, model links, privacy details, and browser limits in my [Kokoro vs Supertonic browser text-to-speech test](https://accessfreetools.com/blog/browser-text-to-speech-kokoro-vs-supertonic/).',
+    headings: {
+      quickAnswer: 'The browser was enough for this job',
+      whyItMatters: 'The request was simpler than the server plan',
+      bestUse: 'Why Kokoro and Supertonic both stayed',
+      limits: 'What browser text to speech still cannot promise',
+      cta: 'Try the browser text to speech tool',
+    },
+    sections: [
+      {
+        heading: 'Edge spent 70.4 seconds saying Stop',
+        paragraphs: [
+          'Kokoro loaded in Edge, generation started, and the main button changed to Stop. Then the page appeared to do nothing. There was no useful progress message and no sign that the browser was still working. I knew what the code was doing, and I still thought it looked broken.',
+          'The run finished, but the interface was not acceptable. You should not need developer tools to tell whether a button is stuck. I added a 90-second no-progress watchdog, a clearer loading scene, and a smaller q8 compatibility path when full precision is a poor fit for the browser.',
+        ],
+      },
+      {
+        heading: 'A voice preview was the wrong kind of waiting',
+        paragraphs: [
+          'My first idea was a Preview button that generated the first sentence. It sounded sensible until I used it. The preview had to load the same model as the real job, so choosing a voice could take almost as long as making the MP3. I was asking visitors to wait before the wait.',
+          'I replaced it with 38 fixed voice samples: 28 English Kokoro voices and 10 Supertonic voices. You can hear the choices before loading a model, pick one, and start the real generation once. The samples cannot predict every paragraph, but they remove an avoidable wait.',
+        ],
+      },
+      {
+        heading: 'Chapters needed their own voices',
+        paragraphs: [
+          'Longer text creates a different problem. A story may have narration, dialogue, quoted material, or sections that need a different pace. Locking every chapter to one voice made the tool feel smaller than the text people wanted to convert.',
+          'The current tool lets you split text into chapters, assign a different fixed voice to each chapter, and download the ordered results as MP3 files in a ZIP. It does not clone anyone. The voice list comes from the pinned model releases, and the browser generates every chapter locally.',
+        ],
+      },
+      {
+        heading: 'Browser-only still needs an honest network note',
+        paragraphs: [
+          'Access Free Tools does not send your text to a speech server because there is no speech server. The browser still downloads model, runtime, and selected voice files from the pinned model host. Calling that completely offline would hide an important detail.',
+          'After the browser caches the required files, later runs can need less network traffic. Your hardware still decides whether a model loads, how long generation takes, and whether the browser falls back to the smaller path. Browser text to speech gives you more local control, but it does not make memory, compatibility, or pronunciation problems disappear.',
+        ],
+      },
+    ],
+    callout:
+      'The free Text to Speech MP3 Generator lets you paste text, choose Kokoro or Supertonic, hear fixed voice samples, assign chapter voices, and download 128 kbps MP3 files without creating an account.',
+    finalLinks: [
+      '[Read the full Kokoro vs Supertonic browser test](https://accessfreetools.com/blog/browser-text-to-speech-kokoro-vs-supertonic/)',
+      '[Try the Text to Speech MP3 Generator](https://accessfreetools.com/tools/text-to-speech-audiobook-generator/)',
+      '[Read the step-by-step text-to-speech guide](https://accessfreetools.com/blog/how-to-use-text-to-speech-audiobook-generator/)',
+      '[Review the official Kokoro browser project](https://github.com/hexgrad/kokoro/tree/dfb907a02bba8152ca444717ca5d78747ccb4bec/kokoro.js)',
+      '[Review the official Supertonic project](https://github.com/supertone-inc/supertonic)',
+    ],
+    heroCredit:
+      'Image credit: Access Free Tools smoke-kawaii illustration, created with GPT Image and reviewed by Brendan Chambers.',
+  },
 ];
 
 const heroAltText = {
@@ -552,6 +619,8 @@ const heroAltText = {
     'Full-body smoke-kawaii girl inspecting a sealed software package beside a laptop, magnifying glass, shield, lock, and seven repository checks.',
   'kawaii-calculator-serious-math':
     'Full-body smoke-kawaii girl testing a pastel calculator beside a keyboard, history chart, checklist, and magnifying glass.',
+  'browser-text-to-speech-kokoro-vs-supertonic':
+    'Full-body smoke-kawaii girl beside a laptop showing voice choices, audio waveforms, headphones, and a downloadable MP3 result.',
 };
 
 const publishEnhancements = {
@@ -950,6 +1019,44 @@ const publishEnhancements = {
       'Use the Scientific Calculator when the task needs order of operations or named functions.',
       'Use the Fraction Calculator when an exact fraction matters more than a decimal.',
       'Treat finance, tax, health, construction, and electrical results as separate problems with their own assumptions and limits.',
+    ],
+  },
+  'browser-text-to-speech-kokoro-vs-supertonic': {
+    preview:
+      'I nearly bought a TTS server, then tested Kokoro and Supertonic in the browser, fixed an Edge stall, and made the result downloadable as MP3.',
+    seoReview:
+      'Derivative Brendan Chambers owner story. Keep Kokoro vs Supertonic and browser text to speech natural, link the official projects, and canonicalize Medium to the full Access Free Tools test.',
+    hook: [
+      'I had a Hostinger plan open in one browser tab and an unfinished text-to-speech tool in another. A server looked like the grown-up answer. It would run the model and send audio back.',
+      'The visitor did not ask for any of that. The job was smaller: paste text, choose a voice, press one button, and download an MP3. Before I bought more infrastructure, I put Kokoro and Supertonic in the browser to see whether the page could do the work itself.',
+      'My first serious Edge run made the Generate button say Stop for 70.4 seconds. No progress moved. The page looked frozen. It eventually produced an 8.808-second MP3, but a result that arrives after the interface loses your trust is still a product problem.',
+    ],
+    quickAnswer: [
+      'The browser handled the job well enough to keep the speech server out of the plan. Kokoro gave me the stronger English result. Supertonic covered 31 named languages and gave the tool a useful multilingual path. Both models produce audio locally after their files load.',
+      'The hard part was not proving that speech could play. I needed clear loading feedback, MP3 downloads, voice choices you could hear without loading the full model, chapter controls, and an honest explanation of what the browser still downloads.',
+    ],
+    whyItMatters: [
+      'A server would have added a monthly bill, a public audio endpoint, storage cleanup, abuse limits, and a queue before I knew whether visitors wanted the feature. It also would have moved their text away from the device for a task the device could handle.',
+      'Testing the browser first kept the experiment small. If your computer can run the model, you can make speech without an account or a paid speech API. If it cannot, the page should say so instead of hiding the failure behind a spinner.',
+    ],
+    bestUse: [
+      'Kokoro is my English choice when voice quality matters most. I expose 28 fixed English voices from the pinned browser release. [Kokoro.js](https://github.com/hexgrad/kokoro/tree/dfb907a02bba8152ca444717ca5d78747ccb4bec/kokoro.js) provides the browser path I tested.',
+      'Supertonic is the practical choice when language coverage matters. Its pinned model supports 31 named languages and 10 fixed voices. The [official Supertonic repository](https://github.com/supertone-inc/supertonic) documents the model and voice setup. I kept both because they solve different parts of the same job.',
+    ],
+    example: {
+      heading: 'One sentence, three browser results: a real example',
+      paragraphs: [
+        'I used the same short test sentence for the controlled runs. Edge with Kokoro full precision took 70.4 seconds on the first uncached run and produced an 8.808-second MP3. The Edge q8 compatibility path took 37.6 seconds and produced 7.368 seconds of audio. Chrome full precision took 67.1 seconds and produced a 6.3-second MP3.',
+        'I would not treat those numbers as a speed promise. Browser version, cache state, hardware, voice, and text all change the result. They showed me something more useful: the fallback finished, the MP3 files were valid, and the interface needed to explain the wait before a visitor assumed it had failed.',
+        'That means you should treat the first model load as setup time. Hear the fixed sample first, choose the voice you want, and generate the real text once. The tool now downloads 128 kbps mono MP3 files rather than leaving you with raw WAV audio or playback that disappears when the tab closes.',
+      ],
+    },
+    limits: [
+      'The public tool currently limits text to 10,000 characters so one browser tab does not take on an unbounded job.',
+      'It uses fixed official voices. It does not clone voices or accept voice uploads.',
+      'Pronunciation, pauses, names, and mixed-language passages still need a listening check before you publish the audio.',
+      'The model and runtime files download from their pinned host. Access Free Tools does not upload your text to a speech server.',
+      'I have tested current desktop Chrome and Edge. Physical iPhone, iPad, and Android coverage is still a compatibility limit, not a claim I am willing to guess.',
     ],
   },
 };
