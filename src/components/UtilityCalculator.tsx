@@ -1694,7 +1694,7 @@ const utilityConfigs: Record<UtilityToolVariant, UtilityConfig> = {
     ],
   },
   mileage: {
-    title: 'Mileage Calculator',
+    title: 'Mileage Reimbursement Calculator',
     buttonLabel: 'Calculate mileage amount',
     emptyHistory: 'Recent mileage totals will appear here.',
     privacyNote: 'Mileage estimates stay in this browser tab and use the rate you enter.',

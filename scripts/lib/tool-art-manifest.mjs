@@ -52,6 +52,22 @@ const categoryVisualCues = {
 };
 
 const toolArtMetadataOverrides = {
+  'hex-calculator': {
+    tool: {
+      alt: 'Illustration for Hex Calculator showing hexadecimal arithmetic, bitwise AND, OR, and XOR, plus decimal and binary conversions.',
+      caption:
+        'Hex Calculator artwork matches the live workflow: calculate base-16 arithmetic and bitwise operations, then check the result in hex, decimal, and binary.',
+      prompt:
+        'Show the full-body smoke-kawaii mascot comparing hexadecimal arithmetic and bitwise AND, OR, and XOR on a browser calculator. Include distinct base-16 number blocks, paired binary rows, and decimal conversion cards without readable text, logos, or brand marks',
+    },
+    guide: {
+      alt: 'Guide image for Hex Calculator showing hexadecimal arithmetic, bit masks, AND, OR, XOR, and base-conversion examples.',
+      caption:
+        'The Hex Calculator guide artwork supports arithmetic, bit masks, AND, OR, XOR, decimal and binary checks, worked examples, and signed-value limits.',
+      prompt:
+        'Show the full-body smoke-kawaii mascot teaching a three-stage hexadecimal guide: base-16 arithmetic, aligned binary bit masks, and checked hex, decimal, and binary results. Use no readable text, logos, or brand marks',
+    },
+  },
   'text-to-speech-audiobook-generator': {
     tool: {
       alt: 'Full-body smoke-kawaii mascot turning text cards into downloadable audio beside a laptop, headphones, fixed voice choices, and a privacy shield.',

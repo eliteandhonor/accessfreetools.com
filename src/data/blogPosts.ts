@@ -94,7 +94,7 @@ const blogPostCandidates: BlogPostDefinition[] = [
     title: 'How to use the Hex Calculator',
     label: 'Hex calculator guide',
     summary:
-      'Learn how to add, subtract, multiply, divide, and convert hex numbers with decimal, binary, color-code, remainder, and signed-value checks.',
+      'Learn hex arithmetic, bitwise AND, OR, and XOR, conversions, remainders, bit masks, and signed-value limits.',
   },
   {
     slug: 'how-to-use-kawaii-calculator',

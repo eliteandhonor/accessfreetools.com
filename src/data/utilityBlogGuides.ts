@@ -1934,11 +1934,12 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     sources: [],
   },
   'mileage-calculator': {
-    summary: 'Learn how to turn miles, a rate per mile, and trip extras into a mileage total with extras.',
+    title: 'Mileage Reimbursement Calculator Guide',
+    summary: 'Learn how to turn miles, an allowed rate per mile, and approved trip extras into a reimbursement total.',
     metaDescription:
-      'Use the Mileage Calculator with a 125-mile, $0.725-per-mile example. See mileage-only amount, extras, total, and 2026 IRS/GSA rate context.',
+      'Use the Mileage Reimbursement Calculator with a 125-mile example. Check rate per mile, extras, total, and 2026 IRS/GSA rate context.',
     purpose:
-      'The Mileage Calculator estimates a mileage amount from miles and a rate per mile. It can also add parking, tolls, or other trip costs when those extras belong in the same claim.',
+      'The Mileage Reimbursement Calculator estimates an amount from miles and an allowed rate per mile. It can also add parking, tolls, or other trip costs when those extras belong in the same claim.',
     intro:
       'Mileage math is easy once the rate is right. The risky part is not the multiplication; it is using a rate that does not match the trip, employer, contract, or tax rule.',
     inputMatch: 'the miles driven, the allowed rate per mile, and any extras that belong in the same trip total',
@@ -1949,7 +1950,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     mistakeIntro:
       'The main mistake is treating an example rate as official. For 2026, the IRS business rate and the GSA rate for an authorized privately owned car are both $0.725 per mile, but your own rule can still be different.',
     sidecarText:
-      'Open the Mileage Calculator beside this guide. Try 125 miles, 0.725 as the rate, and 12 dollars in extras first.',
+      'Open the Mileage Reimbursement Calculator beside this guide. Try 125 miles, 0.725 as the rate, and 12 dollars in extras first.',
     bestUsesIntro:
       'Use this guide for invoice drafts, delivery notes, business trip estimates, volunteer records, or checking a reimbursement before you submit it.',
     referenceIntro:

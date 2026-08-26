@@ -61,6 +61,7 @@ describe('aft CLI indexing gaps', () => {
     expect(result.status).toBe(0);
     expect(result.stdout).toContain('Exact URL inspection gaps: 1');
     expect(result.stdout).toContain('Exact URL inspection evidence: fresh');
+    expect(result.stdout).toContain('Gap record freshness: fresh 1, stale 0, undated 0');
     expect(result.stdout).toContain('Performance/deindex aggregate (stale');
   });
 
@@ -89,6 +90,45 @@ describe('aft CLI indexing gaps', () => {
 
     expect(result.status).toBe(0);
     expect(result.stdout).toContain('Exact URL inspection evidence: stale');
+    expect(result.stdout).toContain('Gap record freshness: fresh 0, stale 1, undated 0');
+  });
+
+  it('does not let one fresh merged source make older URL records look current', () => {
+    const root = makeRoot();
+    const freshDate = new Date().toISOString();
+
+    writeFixture(
+      root,
+      'output/search-console-url-inspection.json',
+      JSON.stringify({
+        generatedAt: freshDate,
+        latestSourceGeneratedAt: freshDate,
+        inspections: [
+          {
+            coverageState: 'Discovered - currently not indexed',
+            inspectionUrl: 'https://accessfreetools.com/tools/new-tool/',
+            sourceGeneratedAt: freshDate,
+            verdict: 'NEUTRAL',
+          },
+          {
+            coverageState: 'Crawled - currently not indexed',
+            inspectionUrl: 'https://accessfreetools.com/tools/old-tool/',
+            sourceGeneratedAt: '2026-01-01T00:00:00.000Z',
+            verdict: 'NEUTRAL',
+          },
+        ],
+      }),
+    );
+
+    const result = spawnSync(process.execPath, [aftCli, 'indexing-gaps'], {
+      cwd: root,
+      encoding: 'utf8',
+    });
+
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain('Exact URL inspection evidence: fresh');
+    expect(result.stdout).toContain('Gap record freshness: fresh 1, stale 1, undated 0');
+    expect(result.stdout).toContain('A fresh merged snapshot does not make every saved URL inspection current.');
   });
 
   it('keeps deferred exact gaps as a request-only batch instead of recommending rewrites', () => {

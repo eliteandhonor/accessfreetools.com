@@ -323,24 +323,52 @@ function formatEvidenceDetails(evidence) {
   return `${evidence?.label ?? 'undated'}; ${date}${age}; source ${evidence?.source ?? 'unknown'}`;
 }
 
+function summarizeRecordFreshness(items) {
+  return items.reduce(
+    (summary, item) => {
+      const label = item.sourceFreshness ?? 'undated';
+      summary[label] += 1;
+      return summary;
+    },
+    { fresh: 0, stale: 0, undated: 0 },
+  );
+}
+
 function getIndexingGapSnapshot() {
   const inspection = readJson(evidencePaths.searchConsole);
   const seoReport = readJson(evidencePaths.seoEvaluation);
+  const inspectionGeneratedAt = inspection?.generatedAt ?? '';
+  const seoGeneratedAt = seoReport?.generatedAt ?? '';
   const fromInspection = Array.isArray(inspection?.inspections)
-    ? inspection.inspections.map((item) => ({
-        url: item.inspectionUrl,
-        verdict: item.verdict ?? 'unknown',
-        state: item.coverageState ?? item.error ?? 'unknown',
-        lastCrawlTime: item.lastCrawlTime ?? '',
-      }))
+    ? inspection.inspections.map((item) => {
+        const sourceGeneratedAt = item.sourceGeneratedAt ?? inspectionGeneratedAt;
+        const freshness = evidenceFreshness(sourceGeneratedAt);
+
+        return {
+          url: item.inspectionUrl,
+          verdict: item.verdict ?? 'unknown',
+          state: item.coverageState ?? item.error ?? 'unknown',
+          lastCrawlTime: item.lastCrawlTime ?? '',
+          sourceGeneratedAt,
+          sourceFreshness: freshness.label,
+          sourceAgeDays: freshness.ageDays,
+        };
+      })
     : [];
   const fromSeo = Array.isArray(seoReport?.indexedSummary)
-    ? seoReport.indexedSummary.map((item) => ({
-        url: item.url,
-        verdict: item.verdict ?? 'unknown',
-        state: item.coverageState ?? 'unknown',
-        lastCrawlTime: item.lastCrawlTime ?? '',
-      }))
+    ? seoReport.indexedSummary.map((item) => {
+        const freshness = evidenceFreshness(seoGeneratedAt);
+
+        return {
+          url: item.url,
+          verdict: item.verdict ?? 'unknown',
+          state: item.coverageState ?? 'unknown',
+          lastCrawlTime: item.lastCrawlTime ?? '',
+          sourceGeneratedAt: seoGeneratedAt,
+          sourceFreshness: freshness.label,
+          sourceAgeDays: freshness.ageDays,
+        };
+      })
     : [];
   const items = fromInspection.length ? fromInspection : fromSeo;
   const gaps = items.filter((item) => {
@@ -358,6 +386,7 @@ function getIndexingGapSnapshot() {
       evidence: evidenceDetails(generatedAt, evidencePaths.searchConsole),
       evidenceKind: 'exact-url-inspection',
       items: gaps,
+      recordFreshness: summarizeRecordFreshness(gaps),
     };
   }
 
@@ -365,6 +394,7 @@ function getIndexingGapSnapshot() {
     evidence: evidenceDetails(seoReport?.generatedAt ?? '', evidencePaths.seoEvaluation),
     evidenceKind: 'aggregate-seo-summary',
     items: gaps,
+    recordFreshness: summarizeRecordFreshness(gaps),
   };
 }
 
@@ -1056,18 +1086,20 @@ function indexingGapsCommand(command) {
     inspectionEvidence: {
       ...indexingSnapshot.evidence,
       kind: indexingSnapshot.evidenceKind,
+      recordFreshness: indexingSnapshot.recordFreshness,
     },
     performanceExport,
   };
 
   emit(command, payload, [
-    `Exact URL inspection gaps: ${gaps.length}`,
+    `Exact URL inspection gaps: ${gaps.length} (${indexingSnapshot.recordFreshness.fresh} fresh, ${indexingSnapshot.recordFreshness.stale} stale, ${indexingSnapshot.recordFreshness.undated} undated record(s))`,
     `Exact URL inspection evidence: ${formatEvidenceDetails(indexingSnapshot.evidence)}; kind ${indexingSnapshot.evidenceKind}.`,
+    `Gap record freshness: fresh ${indexingSnapshot.recordFreshness.fresh}, stale ${indexingSnapshot.recordFreshness.stale}, undated ${indexingSnapshot.recordFreshness.undated}. A fresh merged snapshot does not make every saved URL inspection current.`,
     ...gapsWithRequestProof.slice(0, 10).map((gap, index) => {
       const requestedAt = gap.indexingRequest ? formatIndexingRequestTime(gap.indexingRequest) : '';
       return `${index + 1}. ${gap.url} - ${gap.state}${gap.lastCrawlTime ? ` (last crawl ${gap.lastCrawlTime})` : ''}${
         requestedAt ? `; request-indexing submitted ${requestedAt}` : ''
-      }${!gap.indexingRequest && gap.indexingDeferred ? `; request deferred: ${gap.indexingDeferred.reason}` : ''}`;
+      }${!gap.indexingRequest && gap.indexingDeferred ? `; request deferred: ${gap.indexingDeferred.reason}` : ''}; inspection ${gap.sourceFreshness}${gap.sourceGeneratedAt ? ` from ${gap.sourceGeneratedAt}` : ''}`;
     }),
     coverageExport
       ? `Coverage aggregate (${formatEvidenceDetails(coverageExport.evidence)}): latest data row ${coverageExport.latest?.date ?? 'unknown'} has ${coverageExport.totals?.latestIndexed ?? 'unknown'} indexed and ${coverageExport.totals?.latestNotIndexed ?? 'unknown'} not indexed; critical buckets total ${coverageExport.totals?.criticalPages ?? 'unknown'} pages.`

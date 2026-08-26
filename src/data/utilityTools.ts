@@ -1369,16 +1369,16 @@ export const utilityTools: ToolDefinition[] = [
   }),
   makeUtilityTool({
     slug: 'mileage-calculator',
-    name: 'Mileage Calculator',
+    name: 'Mileage Reimbursement Calculator',
     category: 'everyday-tools',
     summary: 'Estimate mileage reimbursement from miles, rate per mile, parking, tolls, and extras.',
     description:
       'Work out a mileage total from miles driven, a rate per mile, and optional parking, tolls, or trip extras.',
-    seoTitle: 'Mileage Calculator | Reimbursement And Trip Extras',
+    seoTitle: 'Mileage Reimbursement Calculator | Miles And Rate',
     seoDescription:
       'Calculate a mileage total from miles, rate per mile, parking, tolls, and extras. Includes 2026 IRS/GSA rate context and rate checks.',
     icon: 'calculator-mileage',
-    aliases: ['Mileage Reimbursement Calculator', 'Miles To Dollars Calculator', 'Rate Per Mile Calculator'],
+    aliases: ['Mileage Calculator', 'Miles To Dollars Calculator', 'Rate Per Mile Calculator'],
     formula:
       'Mileage amount = miles driven x rate per mile. Total = mileage amount + parking, tolls, or other entered extras.',
     limit:

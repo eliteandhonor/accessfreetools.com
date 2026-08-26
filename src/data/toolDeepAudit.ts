@@ -2962,8 +2962,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'hex-calculator',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-06-27',
-    reviewedOn: '2026-06-27',
+    batch: 'aug26-search-recovery-2026-08-26',
+    reviewedOn: '2026-08-26',
     scope: commonMathScope,
     sources: [nasaNumberSystems, rfc4648],
     findings: [
@@ -2971,12 +2971,13 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'Accepting optional 0x prefixes matches developer expectations.',
       'Showing hex, decimal, and binary results together helps users catch base-conversion mistakes.',
       'The current copy now makes byte-sized checks such as FF = 255 and four-bit hex-to-binary grouping explicit without pretending to be a full color picker or fixed-width two\'s complement tool.',
+      'Fresh Google evidence showed strong page-one impressions with no clicks for hex calculator terms, while live competitors commonly support bitwise work.',
     ],
     improvements: [
-      'Reviewed base-16 wording, decimal and binary conversions, division remainder behavior, examples, FAQ, related links, optional 0x prefixes, grouped readability separators, byte examples, color-code limits, simple signed-number behavior, and fixed-width overflow limits.',
+      'Added tested non-negative AND, OR, and XOR operations with binary steps, examples, page copy, guide coverage, and an explicit no-fixed-width limit.',
     ],
     followUps: [
-      'Add byte grouping and color-code examples later if developer-tool traffic grows.',
+      'Consider bit shifts only if search and usage evidence supports another mode with an explicit bit width.',
     ],
   },
   {
@@ -7506,8 +7507,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
   {
     slug: 'mileage-calculator',
     status: 'deep-reviewed',
-    batch: 'gsc-dataforseo-page-sprint-2026-05-31',
-    reviewedOn: '2026-05-31',
+    batch: 'aug26-search-recovery-2026-08-26',
+    reviewedOn: '2026-08-26',
     scope: commonMathScope,
     sources: [irsMileage2026, irsMileageUpdate2026, gsaPovMileage2026, googleHelpfulContent],
     findings: [
@@ -7515,9 +7516,10 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
       'IRS and GSA source refresh confirmed the 2026 business rate and authorized privately owned car rate context: 72.5 cents, or $0.725, per mile.',
       'Tests cover 125 miles at 0.725 plus $12 in extra costs, including the mileage-only subtotal and final total.',
       'The guide tells users to use their employer, client, contract, app, or tax authority rate instead of assuming the example rate applies.',
+      'Fresh query and competitor evidence showed reimbursement intent, while the previous generic Mileage Calculator name could also imply MPG or distance tracking.',
     ],
     improvements: [
-      'Refreshed mileage multiplication, extras handling, 2026 rate wording, source links, guide examples, FAQ detail, related links, SEO copy, image alt/caption text, and privacy behavior.',
+      'Renamed the visible tool and guide to Mileage Reimbursement Calculator while preserving the established URL, arithmetic, sources, and rate cautions.',
     ],
     followUps: [
       'Avoid hard-coding annual mileage rates unless there is a maintained update process and visible effective date.',

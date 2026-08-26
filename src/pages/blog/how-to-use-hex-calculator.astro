@@ -7,12 +7,12 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
   toolSlug="hex-calculator"
   label="Hex calculator guide"
   title="How to use the Hex Calculator"
-  description="Learn hex addition, subtraction, multiplication, division with remainders, decimal conversion, binary output, color-code checks, signed-value limits, and privacy."
+  description="Learn hex arithmetic, bitwise AND, OR, and XOR, decimal and binary conversion, remainders, bit masks, signed-value limits, and privacy."
   path="/blog/how-to-use-hex-calculator/"
-  intro="The Hex Calculator helps you add, subtract, multiply, divide, and convert base-16 whole numbers without losing track of the decimal and binary checks."
+  intro="The Hex Calculator handles base-16 arithmetic, bitwise AND, OR, and XOR, and conversions while keeping the decimal and binary checks visible."
   quickStart={[
     'Enter the first hex number using digits 0-9 and letters A-F.',
-    'Choose Add, Subtract, Multiply, or Divide.',
+    'Choose Add, Subtract, Multiply, Divide, AND, OR, or XOR.',
     'Enter the second hex number when the operation needs one.',
     'Press Calculate hex.',
     'Check the hex answer, decimal answer, binary answer, and written steps before copying.',
@@ -64,6 +64,14 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
       ],
     },
     {
+      title: 'Bitwise AND, OR, and XOR',
+      paragraphs: [
+        'Bitwise operations compare the binary digits behind two non-negative hex values. AND keeps a 1 only where both inputs have a 1. OR keeps a 1 where either input has a 1. XOR keeps a 1 where the bits differ.',
+        'For example, F0 AND CC returns C0. F0 is 1111 0000 and CC is 1100 1100, so the shared 1 bits are 1100 0000, or C0 in hex.',
+        'The calculator does not force an 8-bit, 16-bit, 32-bit, or 64-bit width. Use zero or positive inputs for AND, OR, and XOR, then apply any fixed-width storage rule required by your language or device.',
+      ],
+    },
+    {
       title: 'Converting hex, decimal, and binary',
       paragraphs: [
         'Hex to decimal changes a base-16 value into the everyday base-10 number. For example, 0xFF becomes 255.',
@@ -97,6 +105,7 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
         'Do not type G, H, or other non-hex letters. Hex digits stop at F.',
         'Do not treat 10 hex as ten decimal. 10 hex equals 16 decimal.',
         'Do not assume FF always means -1. It only means that under a fixed-width signed rule.',
+        'Do not enter a negative value for AND, OR, or XOR unless you have already chosen and applied a fixed-width representation elsewhere.',
         'Do not use a color-code pair as a full color preview. It is only one number check.',
         'Do not ignore the remainder when division is not even.',
       ],
@@ -104,8 +113,8 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
     {
       title: 'When not to use this alone',
       paragraphs: [
-        'Use the Hex Calculator to check arithmetic, conversions, binary grouping, byte-sized values, and simple signed math. It is not a debugger, color picker, compiler, or fixed-width integer simulator.',
-        'For programming, confirm the rule your language uses for overflow, signed values, unsigned values, bit shifts, and formatting. For CSS colors, preview the actual color in the browser.',
+        'Use the Hex Calculator to check arithmetic, AND, OR, XOR, conversions, binary grouping, byte-sized values, and simple signed math. It is not a debugger, color picker, compiler, or fixed-width integer simulator.',
+        'For programming, confirm the rule your language uses for overflow, signed values, unsigned values, bit shifts, and formatting. This tool does not include NOT or shift operations. For CSS colors, preview the actual color in the browser.',
         'For homework, use the calculator as a check and still show the base-16 place-value steps your teacher expects.',
       ],
     },
@@ -122,6 +131,10 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
         {
           href: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Colors/Color_values',
           label: 'MDN Web Docs: CSS color values and hexadecimal notation',
+        },
+        {
+          href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_operators#bitwise_operators',
+          label: 'MDN Web Docs: Bitwise operators',
         },
       ],
     },
@@ -151,6 +164,11 @@ import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astr
       question: 'Can I use it for CSS color codes?',
       answer:
         'You can use it to check pairs such as FF, AA, or 33, but it does not preview colors or validate a whole CSS color value like #FFAA33.',
+    },
+    {
+      question: 'Can I use AND, OR, and XOR for hex bit masks?',
+      answer:
+        'Yes for zero or positive whole numbers. The calculator shows the hex and binary result, but it does not add a fixed bit width, overflow rule, NOT operation, or bit shift.',
     },
     {
       question: 'Does it handle two\'s-complement overflow?',

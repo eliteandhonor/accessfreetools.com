@@ -1111,18 +1111,19 @@ const baseTools: ToolDefinition[] = [
     slug: 'hex-calculator',
     name: 'Hex Calculator',
     category: 'calculators',
-    summary: 'Add, subtract, multiply, divide, and convert hex numbers, then check decimal and binary output.',
+    summary: 'Calculate hex arithmetic, AND, OR, XOR, and base conversions with decimal and binary checks.',
     description:
-      'Use this free hex calculator for base-16 addition, subtraction, multiplication, division with remainders, hex-to-decimal conversion, decimal-to-hex conversion, hex-to-binary conversion, optional 0x prefixes, copy, and current-tab history.',
+      'Use this free hex calculator for base-16 addition, subtraction, multiplication, division with remainders, bitwise AND, OR, and XOR, plus hex, decimal, and binary conversions.',
     icon: 'calculator-hex',
-    seoTitle: 'Hex Calculator | Free Online Hexadecimal Calculator',
+    seoTitle: 'Hex Calculator | Arithmetic, Bitwise And Conversion',
     seoDescription:
-      'Use the free Access Free Tools hex calculator to add, subtract, multiply, divide, and convert hexadecimal numbers to decimal or binary with base-16 steps and remainders.',
+      'Add, subtract, multiply, divide, AND, OR, or XOR hexadecimal numbers. Check each answer in hex, decimal, and binary with clear base-16 steps.',
     useCases: [
       'Check hexadecimal addition, subtraction, multiplication, and division problems with decimal steps.',
       'Convert hex values such as 2A, FF, or 0xFF into decimal numbers.',
       'Convert whole decimal numbers into uppercase hexadecimal output.',
       'Compare hex, decimal, and binary answers while studying number systems or coding examples.',
+      'Check bit masks with non-negative hexadecimal AND, OR, and XOR operations.',
       'Read byte-sized values such as FF = 255 and see the matching binary bits.',
       'Check simple signed whole-number hex math without assuming fixed-width two\'s complement behavior.',
     ],
@@ -1148,6 +1149,16 @@ const baseTools: ToolDefinition[] = [
         result: '4 remainder 7, because 47 / 10 leaves 7',
       },
       {
+        label: 'Bitwise AND',
+        expression: 'F0 AND CC',
+        result: 'C0 hex, because only shared 1 bits remain',
+      },
+      {
+        label: 'Bitwise XOR',
+        expression: 'AA XOR FF',
+        result: '55 hex, because different input bits become 1',
+      },
+      {
         label: 'Hex to decimal',
         expression: '0xFF',
         result: '255 decimal',
@@ -1167,7 +1178,12 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'What can I use the Hex Calculator for?',
         answer:
-          'Use it to add, subtract, multiply, divide, and convert whole hexadecimal numbers. The calculator also shows decimal and binary versions of the answer so you can check the same value in three bases.',
+          'Use it to add, subtract, multiply, divide, run bitwise AND, OR, or XOR, and convert whole hexadecimal numbers. It also shows decimal and binary versions of the answer.',
+      },
+      {
+        question: 'How do hex AND, OR, and XOR work?',
+        answer:
+          'The calculator compares the binary bits behind each non-negative hex value. AND keeps shared 1 bits, OR keeps a 1 from either input, and XOR keeps a 1 where the two input bits differ.',
       },
       {
         question: 'How is A3 converted to decimal?',
@@ -1212,7 +1228,7 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'Does it handle negative hex numbers?',
         answer:
-          'Yes for simple signed whole-number math, such as -A + 2. It does not model fixed-width overflow or two\'s complement storage unless you manually interpret the result for a specific bit width.',
+          'Arithmetic accepts simple signed whole numbers, such as -A + 2. Bitwise operations require zero or positive inputs because the calculator does not assume an 8-bit, 16-bit, 32-bit, or 64-bit two\'s-complement width.',
       },
       {
         question: 'What should I double-check before trusting a hex result?',

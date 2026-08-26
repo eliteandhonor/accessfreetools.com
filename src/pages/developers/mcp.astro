@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import BaseLayout from '../../components/BaseLayout.astro';
+import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
 import { listApiTools } from '../../lib/apiToolRegistry';
 
 const toolCount = listApiTools().length;
@@ -9,65 +10,130 @@ const toolCount = listApiTools().length;
 
 <BaseLayout
   title="Access Free Tools API And MCP | Developer Alpha"
-  description="Connect apps and AI agents to Access Free Tools through REST API endpoints and a stateless Streamable HTTP MCP endpoint."
+  description={`Browse ${toolCount} deterministic Access Free Tools runners, inspect JSON schemas, call the REST API, or connect an MCP client through Streamable HTTP.`}
   path="/developers/mcp/"
+  socialImagePath="/social/developer-tools.png"
+  socialImageAlt="Access Free Tools developer workspace with API, JSON, and MCP connection symbols"
 >
+  <BreadcrumbStructuredData
+    items={[
+      { name: 'Home', path: '/' },
+      { name: 'Developers', path: '/developers/mcp/' },
+      { name: 'API and MCP', path: '/developers/mcp/' },
+    ]}
+  />
   <section class="page-intro developer-hero">
     <p class="breadcrumb"><a href="/">Home</a> / Developers / MCP</p>
     <p class="eyebrow">Developer alpha</p>
     <h1>Access Free Tools API and MCP</h1>
     <p>
-      Access Free Tools now has an alpha tool execution layer for apps, agents,
-      and LLM clients. It starts with {toolCount} deterministic tools and returns
-      answers with steps, assumptions, warnings, and links to the real website tools.
-      If you want the human-facing version first, try <a href="/ask/">Ask Access Free Tools</a>;
-      it uses the same deterministic runners behind the API and MCP endpoint.
+      Access Free Tools has an alpha execution layer for apps, agents, and LLM clients.
+      It currently exposes {toolCount} deterministic tools and returns answers with
+      steps, assumptions, warnings, and links to the matching website tools.
+      Try <a href="/ask/">Ask Access Free Tools</a> for the human-facing version.
+      It uses the same deterministic runners behind the API and MCP endpoint.
     </p>
+    <ul class="developer-proof-list" aria-label="Developer interface summary">
+      <li><strong>{toolCount}</strong><span>callable tools</span></li>
+      <li><strong>JSON Schema</strong><span>inputs you can inspect first</span></li>
+      <li><strong>Stateless MCP</strong><span>one request at a time</span></li>
+    </ul>
   </section>
 
-  <section class="section-band developer-grid" aria-label="Developer endpoints">
+  <section class="section-band developer-section" aria-labelledby="developer-start-heading">
+    <div class="section-heading">
+      <div>
+        <p class="section-kicker">REST quick start</p>
+        <h2 id="developer-start-heading">Inspect a schema before you run a tool</h2>
+      </div>
+      <p>The metadata routes show names, examples, risk labels, input schemas, and source-page links without running a calculation.</p>
+    </div>
+
+    <div class="developer-grid">
     <article class="developer-card">
-      <h2>REST API</h2>
-      <p>Use JSON endpoints when building apps, automations, browser extensions, or normal server integrations.</p>
-      <pre><code>{`GET /api/v1/tools
+      <h3>1. Discover tools</h3>
+      <p>List every callable runner, then open one schema before building the request body.</p>
+      <pre tabindex="0" aria-label="Tool discovery endpoints"><code>{`GET /api/v1/tools
 GET /api/v1/tools/percentage-calculator
-POST /api/v1/run/percentage-calculator
-POST /api/v1/ask
 GET /api/openapi.json`}</code></pre>
+      <p><a href="/api/v1/tools">Browse the live tool registry</a> or <a href="/api/openapi.json">open the OpenAPI document</a>.</p>
     </article>
 
     <article class="developer-card">
-      <h2>MCP endpoint</h2>
-      <p>Use the MCP endpoint when an LLM client supports remote Streamable HTTP MCP servers.</p>
-      <pre><code>{`https://accessfreetools.com/mcp`}</code></pre>
-      <p>The MCP server exposes <code>search_tools</code>, <code>get_tool_schema</code>, <code>run_tool</code>, and <code>fetch_tool_guide</code>.</p>
+      <h3>2. Run deterministic code</h3>
+      <p>Send inputs that match the selected tool schema. This browser example returns 43.2.</p>
+      <pre tabindex="0" aria-label="JavaScript percentage calculator request"><code>{`const response = await fetch(
+  "https://accessfreetools.com/api/v1/run/percentage-calculator",
+  {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      inputs: { mode: "percent-of", percent: 18, value: 240 }
+    })
+  }
+);
+
+const data = await response.json();`}</code></pre>
     </article>
 
     <article class="developer-card">
-      <h2>Run a tool</h2>
+      <h3>3. Check the response</h3>
       <p>
-        Every result cites the tool and guide URL so people can double-check the answer on the site.
-        For example, electrical questions can call the
-        <a href="/tools/watts-to-amps-calculator/">Watts to Amps Calculator</a>
-        instead of asking a model to guess the math.
+        A successful run returns the normalized inputs, answer, result object, steps,
+        assumptions, and warnings. It also links to the matching tool and guide.
       </p>
-      <pre><code>{`POST /api/v1/run/percentage-calculator
-{
-  "inputs": {
-    "mode": "percent-of",
-    "percent": 18,
-    "value": 240
+      <pre tabindex="0" aria-label="Example percentage calculator JSON response"><code>{`{
+  "ok": true,
+  "run": {
+    "answer": "18% of 240 is 43.2.",
+    "steps": [
+      "18 / 100 = 0.18",
+      "0.18 x 240 = 43.2"
+    ],
+    "warnings": [],
+    "tool_url": "https://accessfreetools.com/tools/percentage-calculator/"
   }
 }`}</code></pre>
     </article>
 
     <article class="developer-card">
-      <h2>Trust rules</h2>
+      <h3>4. Connect through MCP</h3>
+      <p>Choose a remote Streamable HTTP connection in a compatible MCP client and use this endpoint:</p>
+      <pre tabindex="0" aria-label="MCP Streamable HTTP endpoint"><code>{`https://accessfreetools.com/mcp`}</code></pre>
+      <p>The server exposes <code>search_tools</code>, <code>get_tool_schema</code>, <code>run_tool</code>, and <code>fetch_tool_guide</code>. It does not keep an MCP session between requests.</p>
+    </article>
+    </div>
+  </section>
+
+  <section class="section-band developer-section developer-notes" aria-labelledby="developer-limits-heading">
+    <div>
+      <p class="section-kicker">Alpha limits</p>
+      <h2 id="developer-limits-heading">Access, rate limits, and answer checks</h2>
+    </div>
+    <div class="developer-note-grid">
+      <section>
+        <h3>Access</h3>
+        <p>
+          Public metadata does not need an account. If an approved alpha client receives a 401 response,
+          it must send its private token in <code>x-aft-api-token</code> or an <code>Authorization: Bearer</code> header.
+          The API rejects tokens in query strings.
+        </p>
+      </section>
+      <section>
+        <h3>Request limits</h3>
+        <p>
+          REST execution and Ask routes currently allow 60 requests per minute for each client address.
+          A 429 response means the client should wait and try again. Alpha routes and schemas may still change.
+        </p>
+      </section>
+      <section>
+        <h3>Trust rules</h3>
       <p>
         Finance, health, construction, electrical, privacy, and sensitive tools return
-        warnings. Access Free Tools should be used for estimates and learning, not as
-        professional approval.
+          warnings. Access Free Tools code produces the exact calculator answer.
+          Check the visible assumptions and source-page limits before serious use.
       </p>
-    </article>
+      </section>
+    </div>
   </section>
 </BaseLayout>

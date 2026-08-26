@@ -8,18 +8,33 @@ import {
   parseDecimalInteger,
   parseHexInteger,
   type CalculatorOperator,
-  type IntegerOperationResult,
 } from '../lib/calculator';
+import {
+  calculateHexBitwiseOperation,
+  isHexBitwiseOperator,
+  type HexBitwiseOperator,
+} from '../lib/hexCalculator';
+
+type HexOperator = CalculatorOperator | HexBitwiseOperator;
+
+interface HexOperationResult {
+  left: bigint;
+  operator: HexOperator;
+  right: bigint;
+  result: bigint;
+  quotient?: bigint;
+  remainder?: bigint;
+}
 
 interface HexInputs {
   left: string;
-  operator: CalculatorOperator;
+  operator: HexOperator;
   right: string;
 }
 
 interface HexCalculation {
   expression: string;
-  result: IntegerOperationResult;
+  result: HexOperationResult;
   hexAnswer: string;
   decimalAnswer: string;
   binaryAnswer: string;
@@ -54,20 +69,34 @@ const examples: HexExample[] = [
     label: 'Divide with remainder',
     inputs: { left: '2F', operator: '/', right: 'A' },
   },
+  {
+    label: 'Bitwise AND',
+    inputs: { left: 'F0', operator: '&', right: 'CC' },
+  },
+  {
+    label: 'Bitwise XOR',
+    inputs: { left: 'AA', operator: '^', right: 'FF' },
+  },
 ];
 
-const operatorLabels: Record<CalculatorOperator, string> = {
+const operatorLabels: Record<HexOperator, string> = {
   '+': 'Add',
   '-': 'Subtract',
   '*': 'Multiply',
   '/': 'Divide',
+  '&': 'AND',
+  '|': 'OR',
+  '^': 'XOR',
 };
 
-const operatorSymbols: Record<CalculatorOperator, string> = {
+const operatorSymbols: Record<HexOperator, string> = {
   '+': '+',
   '-': '-',
   '*': 'x',
   '/': '/',
+  '&': '&',
+  '|': '|',
+  '^': '^',
 };
 
 function formatDecimalInteger(value: bigint) {
@@ -78,7 +107,7 @@ function formatHexForDisplay(value: bigint) {
   return formatHexInteger(value);
 }
 
-function formatOperationAnswer(result: IntegerOperationResult) {
+function formatOperationAnswer(result: HexOperationResult) {
   if (result.operator !== '/') {
     return {
       hexAnswer: formatHexForDisplay(result.result),
@@ -105,11 +134,26 @@ function formatOperationAnswer(result: IntegerOperationResult) {
   };
 }
 
-function getSteps(result: IntegerOperationResult, hexAnswer: string) {
+function getSteps(result: HexOperationResult, hexAnswer: string) {
   const leftHex = formatHexForDisplay(result.left);
   const rightHex = formatHexForDisplay(result.right);
   const leftDecimal = formatDecimalInteger(result.left);
   const rightDecimal = formatDecimalInteger(result.right);
+
+  if (isHexBitwiseOperator(result.operator)) {
+    const action = result.operator === '&'
+      ? 'AND keeps a 1 only where both inputs have a 1.'
+      : result.operator === '|'
+        ? 'OR keeps a 1 where either input has a 1.'
+        : 'XOR keeps a 1 where the input bits are different.';
+
+    return [
+      `${leftHex} is ${groupBinaryDigits(result.left)} in binary.`,
+      `${rightHex} is ${groupBinaryDigits(result.right)} in binary.`,
+      `${action} The binary result is ${groupBinaryDigits(result.result)}.`,
+      `Convert the result back to hex: ${hexAnswer}.`,
+    ];
+  }
 
   if (result.operator === '/') {
     const quotient = result.quotient ?? result.result;
@@ -142,7 +186,9 @@ function getSteps(result: IntegerOperationResult, hexAnswer: string) {
 function buildCalculation(inputs: HexInputs): HexCalculation {
   const left = parseHexInteger(inputs.left, 'Left hex number');
   const right = parseHexInteger(inputs.right, 'Right hex number');
-  const result = calculateHexIntegerOperation(left, inputs.operator, right);
+  const result = isHexBitwiseOperator(inputs.operator)
+    ? calculateHexBitwiseOperation(left, inputs.operator, right)
+    : calculateHexIntegerOperation(left, inputs.operator, right);
   const { hexAnswer, decimalAnswer, binaryAnswer } = formatOperationAnswer(result);
 
   return {
@@ -212,7 +258,7 @@ export default function HexCalculator() {
     }
   }, [hexConversionInput]);
 
-  const updateInput = (key: keyof HexInputs, value: string | CalculatorOperator) => {
+  const updateInput = (key: keyof HexInputs, value: string | HexOperator) => {
     setInputs((current) => ({ ...current, [key]: value }));
     setCopied(false);
   };
@@ -250,7 +296,7 @@ export default function HexCalculator() {
           <HexField label="First hex number" value={inputs.left} onChange={(value) => updateInput('left', value)} />
 
           <div className="binary-operator-grid" aria-label="Hex operation">
-            {(Object.keys(operatorLabels) as CalculatorOperator[]).map((operator) => (
+            {(Object.keys(operatorLabels) as HexOperator[]).map((operator) => (
               <button
                 aria-pressed={inputs.operator === operator}
                 key={operator}
@@ -374,6 +420,7 @@ export default function HexCalculator() {
           <h2>Input tips</h2>
           <p>Use 0-9 and A-F. Optional 0x prefixes, spaces, and underscores are accepted.</p>
           <p>Division shows a quotient and remainder when the hex values do not divide evenly.</p>
+          <p>AND, OR, and XOR accept zero or positive values. They do not apply a fixed 8-bit, 16-bit, or 32-bit width.</p>
         </section>
       </section>
     </section>
