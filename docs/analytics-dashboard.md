@@ -61,9 +61,15 @@ Optional but recommended:
 ```env
 AFT_ANALYTICS_EXCLUDE_IPS=your.home.ip.address,your.mobile.ip.address
 AFT_ANALYTICS_TIME_ZONE=Australia/Brisbane
+AFT_ANALYTICS_DIR=/home/u726893900/.local/accessfreetools-analytics
 ```
 
 The Astro Node analytics endpoint also accepts the same values from Hostinger environment variables. It still supports the older `public_html/.analytics/config.env` fallback path, but the home-level `.local` file is better because normal site deploys should not delete it. Never commit real token, salt, IP list, or hosting credentials to GitHub.
+
+When the home-level config file exists, the app defaults event storage to the sibling
+`/home/u726893900/.local/accessfreetools-analytics/` directory even if `AFT_ANALYTICS_DIR` is omitted.
+Set the variable explicitly when a different durable directory is required. Local development without the
+home-level config continues to use the ignored repo path `.local/analytics/`.
 
 For owner setup, keep the private local copy at:
 

@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
+import { resolve } from 'node:path';
 
-import { summarizeAnalyticsRange, summarizeSelectedToolAnalytics, type StoredAnalyticsEvent } from './siteAnalytics';
+import {
+  resolveAnalyticsDirectory,
+  summarizeAnalyticsRange,
+  summarizeSelectedToolAnalytics,
+  type StoredAnalyticsEvent,
+} from './siteAnalytics';
 
 function event(overrides: Partial<StoredAnalyticsEvent>): StoredAnalyticsEvent {
   return {
@@ -80,5 +86,32 @@ describe('analytics range summary', () => {
     });
     expect(JSON.stringify(summary)).not.toContain('visitorHash');
     expect(JSON.stringify(summary)).not.toContain('sessionHash');
+  });
+});
+
+describe('analytics storage directory', () => {
+  it('uses an explicit directory when one is configured', () => {
+    expect(resolveAnalyticsDirectory({
+      configuredDir: 'persistent/analytics',
+      cwd: 'C:/site',
+      homeConfigExists: true,
+      homeDir: 'C:/Users/owner',
+    })).toBe(resolve('C:/site', 'persistent/analytics'));
+  });
+
+  it('uses durable home storage when the home-level analytics config exists', () => {
+    expect(resolveAnalyticsDirectory({
+      cwd: 'C:/site',
+      homeConfigExists: true,
+      homeDir: 'C:/Users/owner',
+    })).toBe(resolve('C:/Users/owner', '.local/accessfreetools-analytics'));
+  });
+
+  it('preserves the repo-local path for local development without a home config', () => {
+    expect(resolveAnalyticsDirectory({
+      cwd: 'C:/site',
+      homeConfigExists: false,
+      homeDir: 'C:/Users/owner',
+    })).toBe(resolve('C:/site', '.local/analytics'));
   });
 });

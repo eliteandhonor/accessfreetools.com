@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { mkdir, open, readdir, rename, rm, stat, writeFile } from 'node:fs/promises';
+import { homedir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 
 export const ANALYTICS_OPT_OUT_KEY = 'access-free-tools-analytics-opt-out';
@@ -15,8 +16,6 @@ const ANALYTICS_RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const ANALYTICS_RATE_LIMIT_MAX_PER_IP = 120;
 const ANALYTICS_RATE_LIMIT_MAX_GLOBAL = 5000;
 const MAX_RATE_LIMIT_BUCKETS = 10000;
-const ANALYTICS_DIR = resolve(process.env.AFT_ANALYTICS_DIR ?? '.local/analytics');
-const ANALYTICS_EVENTS_PATH = join(ANALYTICS_DIR, 'events.ndjson');
 const analyticsRateLimitBuckets = new Map<string, { count: number; resetAt: number }>();
 let globalAnalyticsRateLimit = { count: 0, resetAt: 0 };
 let analyticsWriteQueue = Promise.resolve();
@@ -178,12 +177,13 @@ function getAnalyticsConfig() {
   if (cachedAnalyticsConfig) return cachedAnalyticsConfig;
 
   cachedAnalyticsConfig = {};
+  const homeDir = process.env.HOME?.trim() || homedir();
   const configPaths = [
     process.env.AFT_ANALYTICS_CONFIG,
     resolve('.analytics/config.env'),
     resolve('.local/analytics-dashboard.env'),
     resolve('.local/accessfreetools-analytics.env'),
-    process.env.HOME ? resolve(process.env.HOME, '.local/accessfreetools-analytics.env') : '',
+    homeDir ? resolve(homeDir, '.local/accessfreetools-analytics.env') : '',
   ].filter(Boolean) as string[];
 
   for (const path of configPaths) {
@@ -199,6 +199,29 @@ function analyticsEnv(name: string, fallback = '') {
   if (envValue) return envValue;
   return getAnalyticsConfig()[name] || fallback;
 }
+
+interface AnalyticsDirectoryOptions {
+  configuredDir?: string;
+  cwd?: string;
+  homeConfigExists?: boolean;
+  homeDir?: string;
+}
+
+export function resolveAnalyticsDirectory(options: AnalyticsDirectoryOptions = {}) {
+  const cwd = options.cwd ?? process.cwd();
+  const configuredDir = options.configuredDir?.trim();
+  if (configuredDir) return resolve(cwd, configuredDir);
+
+  const homeDir = options.homeDir ?? homedir();
+  const homeConfigPath = homeDir ? resolve(homeDir, '.local/accessfreetools-analytics.env') : '';
+  const homeConfigExists = options.homeConfigExists ?? Boolean(homeConfigPath && existsSync(homeConfigPath));
+
+  if (homeDir && homeConfigExists) return resolve(homeDir, '.local/accessfreetools-analytics');
+  return resolve(cwd, '.local/analytics');
+}
+
+const ANALYTICS_DIR = resolveAnalyticsDirectory({ configuredDir: analyticsEnv('AFT_ANALYTICS_DIR') });
+const ANALYTICS_EVENTS_PATH = join(ANALYTICS_DIR, 'events.ndjson');
 
 function dayKey(date: Date, timeZone = DEFAULT_TIME_ZONE) {
   return new Intl.DateTimeFormat('en-CA', {
