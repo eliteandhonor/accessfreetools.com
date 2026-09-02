@@ -1,0 +1,2 @@
+# Vendored browser runtimes and model metadata are deployment assets, not project source.
+public/ai-models/
