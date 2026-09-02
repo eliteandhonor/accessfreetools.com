@@ -24,7 +24,7 @@ This is the source of truth for first-person Brendan Chambers editorial articles
 | 4 | `tesseract-js-browser-ocr-image-quality` | How I Improve Tesseract.js OCR Results in a Browser | 2026-08-17 | published |
 | 5 | `browser-text-to-speech-kokoro-vs-supertonic` | I Refused to Buy a Server for Text to Speech. The Browser Did the Job. | 2026-08-26 | published |
 | 6 | `test-free-tools-playwright-vitest` | How I Test Hundreds of Free Tools with Playwright and Vitest | Deferred | deferred |
-| 7 | `remove-ai-writing-tells-before-publishing` | I Dropped a Useful Article Idea Because I Wouldn't Read It | 2026-09-02 | release-ready |
+| 7 | `remove-ai-writing-tells-before-publishing` | I Dropped a Useful Article Idea Because I Wouldn't Read It | 2026-09-02 | published |
 
 ## Active Distribution Policy
 
@@ -47,6 +47,7 @@ This is the source of truth for first-person Brendan Chambers editorial articles
 - The browser TTS story was published from commit `c34caae1` on Astro 7 and Node 24. Its live canonical, metadata, BlogPosting schema, hero alt text, desktop layout, Ask/API/MCP runtime, and 662-URL production sitemap were verified. Search Console accepted the sitemap refresh, and IndexNow accepted the article and `/blog/` with HTTP 200.
 - Its owner-written Bluesky companion was published and publicly verified at `https://bsky.app/profile/accessfreetools.bsky.social/post/3mtxpy2qbzc2h`. The public post shows the approved 294-character copy, the exact article destination, the article card title, and the cleaned hero image.
 - Its Medium companion was published and publicly verified at `https://medium.com/@accessfreetools/why-i-nearly-bought-a-tts-server-before-testing-kokoro-vs-supertonic-31e4e9b8fcae`. The live story shows Brendan's first-person account, the approved hero and literal alt text, five focused topics, primary project sources, contextual site links, and a canonical pointing to the original Access Free Tools article.
+- The AI-assisted writing article was published from commit `1c3a8ed3` through Hostinger deployment `01a06049-7699-7006-9126-f90701ae5b6f` on Astro 7 and Node 24. Its live H1, canonical URL, social image, Preferred Sources control, favicon, blog sitemap entry, and image sitemap entry were verified. The production sitemap check reported 663 OK URLs and zero hard failures; Ask, API, and MCP checks passed; Search Console accepted the sitemap refresh; and IndexNow accepted the article with HTTP 200.
 
 ## Remaining Briefs
 
