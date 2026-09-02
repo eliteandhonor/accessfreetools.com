@@ -82,6 +82,8 @@
     "pilot:new-tool-growth": "node scripts/new-tool-growth-pilot-report.mjs",
     "analytics:production": "node scripts/fetch-production-analytics.mjs",
     "analytics:production:game": "node scripts/fetch-production-analytics.mjs --days=90 --tool=four-in-a-row-game",
+    "monetization:readiness": "npm run build && node scripts/monetization-readiness.mjs",
+    "monetization:browser-check": "npm run build && node scripts/monetization-browser-check.mjs",
     "serpforge": "node scripts/serpforge-agent-tools.mjs",
     "marketing:orchestrate": "node scripts/marketing-orchestrator-report.mjs",
     "hostinger:status": "node scripts/hostinger-status.mjs",

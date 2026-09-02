@@ -76,8 +76,9 @@ After Hostinger deploys the latest GitHub commit:
 - Check browser console for errors.
 - Check page source for one canonical tag, one main heading, and expected structured data.
 - Confirm `/tool-search-index.json` returns the searchable tool list and is not blocking the initial `/tools/` page.
-- Confirm no fake ad boxes or affiliate links appear before accounts and disclosures are ready.
-- Confirm `/privacy-policy/`, `/terms/`, `/advertising-disclosure/`, and `/contact/` are live.
+- Run `npm run monetization:readiness` and confirm it reports no implementation issues.
+- Confirm Infolinks makes no request before consent and remains off in an owner-suppressed browser.
+- Confirm `/privacy-policy/`, `/terms/`, `/advertising-disclosure/`, `/support/`, and `/contact/` are live.
 - Confirm private analytics has a server-only token at `/home/u726893900/.local/accessfreetools-analytics.env`, Hostinger environment variables, or the fallback `public_html/.analytics/config.env`, then open `/admin/` or `/private-analytics/` and enter the token through the form. Do not put the token in the URL.
 - Confirm representative pages include a 1200x630 PNG `og:image` from `/social/` and that the image URL returns 200.
 - If production shows `403 Forbidden`, check the Hostinger deployment root. The build mirrors the public site into `dist`, keeps the Node server at `dist/server/entry.mjs`, and writes `dist/app.js` for output-directory starts.
@@ -133,9 +134,12 @@ These steps need the site owner account:
 
 ## Monetization Readiness
 
-Do not add ad or affiliate placements until these are ready:
+Before changing monetization, confirm these gates:
 
-- AdSense approval and site connection.
+- Infolinks is limited to InText with no more than two links per page in its Publisher Center.
+- Tool workspaces, Ask messages, contact forms, navigation, and the footer remain inside `INFOLINKS_OFF` boundaries.
+- AdSense approval and site connection before setting `PUBLIC_ADSENSE_ENABLED=true`.
+- A Google-certified CMP is working before setting `PUBLIC_ADSENSE_CMP_READY=true`.
 - Affiliate program approval.
 - Visible affiliate disclosure on pages that contain affiliate links.
 - Product popups tested for mobile usability and not blocking the tool.

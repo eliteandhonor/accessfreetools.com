@@ -33,6 +33,7 @@ const askChecks = [
 
   <section class="section-band ask-layout" aria-label="Ask Access Free Tools demo">
     <div>
+      <Fragment set:html="<!--INFOLINKS_OFF-->" />
       <AskToolChat client:load />
       <p class="ai-privacy-note">
         Ask may send the question you type to our hosted language-model provider so it can choose
@@ -40,6 +41,7 @@ const askChecks = [
         deterministic tool code. Do not enter passwords, financial account details, medical
         records, or other sensitive information.
       </p>
+      <Fragment set:html="<!--INFOLINKS_ON-->" />
     </div>
     <section aria-label="API-ready starter tools" class="ask-tool-panel">
       <h2>API-ready starter tools</h2>

@@ -31,6 +31,13 @@ const explicitPolicies: Record<string, Partial<IndexationPolicy>> = {
     priorityTier: 'noindex',
     reason: 'HTML sitemap is useful for users and crawlers, but it is not a search landing page.',
   },
+  '/support/': {
+    follow: true,
+    includeInXmlSitemap: false,
+    index: false,
+    priorityTier: 'noindex',
+    reason: 'The optional reader-support page is a utility destination, not a search landing page.',
+  },
   '/tools/text-to-speech-audiobook-generator/': {
     follow: true,
     includeInXmlSitemap: false,

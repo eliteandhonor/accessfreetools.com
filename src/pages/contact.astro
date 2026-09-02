@@ -51,6 +51,7 @@ const contactStructuredData = {
       be researched properly.
     </p>
 
+    <Fragment set:html="<!--INFOLINKS_OFF-->" />
     <form
       class="contact-form"
       action="/api/contact"
@@ -102,6 +103,7 @@ const contactStructuredData = {
         <p class="contact-status" data-contact-status role="status"></p>
       </div>
     </form>
+    <Fragment set:html="<!--INFOLINKS_ON-->" />
 
     <p>
       Email: <a href="mailto:contact@accessfreetools.com">contact@accessfreetools.com</a>

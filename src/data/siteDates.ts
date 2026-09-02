@@ -576,9 +576,10 @@ const staticPageLastmod: Record<string, string> = {
   '/about/': '2026-05-10',
   '/why-access-free-tools/': '2026-09-02',
   '/contact/': '2026-04-30',
-  '/advertising-disclosure/': '2026-04-30',
-  '/privacy-policy/': '2026-04-30',
-  '/terms/': '2026-04-30',
+  '/support/': '2026-09-02',
+  '/advertising-disclosure/': '2026-09-02',
+  '/privacy-policy/': '2026-09-02',
+  '/terms/': '2026-09-02',
 };
 
 const categoryLastmodOverrides: Record<string, string> = {

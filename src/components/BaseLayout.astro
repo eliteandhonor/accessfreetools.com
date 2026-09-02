@@ -1,7 +1,9 @@
 ---
 import SiteFooter from './SiteFooter.astro';
 import SiteHeader from './SiteHeader.astro';
+import AdvertisingControls from './AdvertisingControls.astro';
 import PreferredSourceCallout from './PreferredSourceCallout.astro';
+import { ADSENSE_VERIFICATION_ACCOUNT, isEligiblePublicAdPath } from '../lib/monetization';
 import { robotsContentForPath } from '../data/indexationPolicy';
 import { verifiedOrganizationSameAs } from '../data/siteEntity';
 import { getArticleDatesFromPath, toIsoDateTime } from '../data/siteDates';
@@ -46,6 +48,7 @@ const pinterestFeedUrl = new URL('/pinterest-feed.xml', site).toString();
 const resolvedOgType = ogType ?? (path.startsWith('/blog/') && path !== '/blog/' ? 'article' : 'website');
 const articleDates = getArticleDatesFromPath(path);
 const shouldRenderClarity = !path.startsWith('/admin/') && path !== '/private-analytics/';
+const shouldRenderAdvertising = isEligiblePublicAdPath(path);
 const shouldRenderPreferredSource =
   resolvedOgType === 'article' && !/\bnoindex\b/i.test(robotsContent ?? '');
 const siteStructuredData = {
@@ -78,6 +81,7 @@ const siteStructuredData = {
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
+    <meta name="google-adsense-account" content={ADSENSE_VERIFICATION_ACCOUNT} />
     {robotsContent && <meta name="robots" content={robotsContent} />}
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0d7c73" />
@@ -311,12 +315,17 @@ const siteStructuredData = {
     </script>
   </head>
   <body>
+    <Fragment set:html="<!--INFOLINKS_OFF-->" />
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <SiteHeader />
+    <Fragment set:html="<!--INFOLINKS_ON-->" />
     <main id="main-content" tabindex="-1">
       <slot />
       {shouldRenderPreferredSource && <PreferredSourceCallout />}
     </main>
-    <SiteFooter />
+    <Fragment set:html="<!--INFOLINKS_OFF-->" />
+    <SiteFooter showAdChoices={shouldRenderAdvertising} />
+    <AdvertisingControls path={path} />
+    <Fragment set:html="<!--INFOLINKS_ON-->" />
   </body>
 </html>

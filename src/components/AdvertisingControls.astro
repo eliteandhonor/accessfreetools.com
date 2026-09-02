@@ -1,0 +1,221 @@
+---
+import {
+  AD_CONSENT_STORAGE_KEY,
+  AD_OWNER_SUPPRESSION_KEY,
+  DEFAULT_INFOLINKS_PID,
+  DEFAULT_INFOLINKS_WSID,
+  INFOLINKS_SCRIPT_URL,
+  parsePublicFlag,
+  resolveAdMode,
+} from '../lib/monetization';
+
+interface Props {
+  path: string;
+}
+
+const { path } = Astro.props;
+const parseInteger = (value: string | undefined, fallback: number, minimum: number) => {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed >= minimum ? parsed : fallback;
+};
+const infolinksEnabled = parsePublicFlag(import.meta.env.PUBLIC_INFOLINKS_ENABLED, true);
+const infolinksPid = parseInteger(import.meta.env.PUBLIC_INFOLINKS_PID, DEFAULT_INFOLINKS_PID, 1);
+const infolinksWsid = parseInteger(import.meta.env.PUBLIC_INFOLINKS_WSID, DEFAULT_INFOLINKS_WSID, 0);
+const adsenseEnabled = parsePublicFlag(import.meta.env.PUBLIC_ADSENSE_ENABLED, false);
+const adsenseCmpReady = parsePublicFlag(import.meta.env.PUBLIC_ADSENSE_CMP_READY, false);
+const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT_ID?.trim() ?? '';
+const adsenseSlot = import.meta.env.PUBLIC_ADSENSE_CONTENT_SLOT_ID?.trim() ?? '';
+const adMode = resolveAdMode(path, {
+  adsenseClient,
+  adsenseCmpReady,
+  adsenseEnabled,
+  adsenseSlot,
+  infolinksEnabled,
+});
+const clientConfig = JSON.stringify({
+  adMode,
+  adsenseClient,
+  consentKey: AD_CONSENT_STORAGE_KEY,
+  infolinksPid,
+  infolinksScriptUrl: INFOLINKS_SCRIPT_URL,
+  infolinksWsid,
+  ownerSuppressionKey: AD_OWNER_SUPPRESSION_KEY,
+}).replace(/</g, '\\u003c');
+---
+
+{
+  adMode !== 'none' && (
+    <>
+      <p class="advertising-page-notice" data-advertising-page-notice hidden>
+        Advertising notice: some double-underlined words may open sponsored ads.
+        <a href="/advertising-disclosure/">How advertising works</a>.
+      </p>
+
+      <section
+        aria-labelledby="advertising-choice-title"
+        class="advertising-choice"
+        data-advertising-choice
+        hidden
+      >
+        <div>
+          <strong id="advertising-choice-title">Advertising choice</strong>
+          <p>
+            Infolinks can turn a small number of words in public page copy into sponsored links.
+            Allowing ads lets Infolinks and its partners use cookies and device data. Tool entries,
+            results, Ask messages, and contact forms stay outside ad scanning.
+          </p>
+          <p class="advertising-choice__links">
+            <a href="/privacy-policy/">Privacy policy</a>
+            <a href="/advertising-disclosure/">Advertising disclosure</a>
+          </p>
+        </div>
+        <div class="advertising-choice__actions">
+          <button class="button-primary" data-ad-consent="granted" type="button">Allow contextual ads</button>
+          <button class="button-secondary" data-ad-consent="denied" type="button">Keep ads off</button>
+        </div>
+      </section>
+
+      <script
+        is:inline
+        set:html={`(() => {
+          const config = ${clientConfig};
+          const allowedHosts = new Set(['accessfreetools.com', 'www.accessfreetools.com']);
+          const choicePanel = document.querySelector('[data-advertising-choice]');
+          const pageNotice = document.querySelector('[data-advertising-page-notice]');
+          let remoteScriptLoaded = false;
+
+          const readValue = (key) => {
+            try {
+              return window.localStorage.getItem(key);
+            } catch {
+              return null;
+            }
+          };
+
+          const writeValue = (key, value) => {
+            try {
+              if (value === null) window.localStorage.removeItem(key);
+              else window.localStorage.setItem(key, value);
+              return true;
+            } catch {
+              return false;
+            }
+          };
+
+          const ownerSuppressed = () => readValue(config.ownerSuppressionKey) === 'true';
+          const privacySignalBlocksAds = () =>
+            navigator.globalPrivacyControl === true || navigator.doNotTrack === '1' || window.doNotTrack === '1';
+          const canLoadRemoteAds = () =>
+            allowedHosts.has(location.hostname) && !ownerSuppressed() && !privacySignalBlocksAds();
+
+          const showChoicePanel = (moveFocus = false) => {
+            if (!(choicePanel instanceof HTMLElement) || ownerSuppressed()) return;
+            choicePanel.hidden = false;
+            if (moveFocus) choicePanel.querySelector('button')?.focus({ preventScroll: true });
+          };
+
+          const hideChoicePanel = () => {
+            if (choicePanel instanceof HTMLElement) choicePanel.hidden = true;
+          };
+
+          const dispatchAdReady = (mode) => {
+            document.dispatchEvent(new CustomEvent('aft:ads-ready', { detail: { mode } }));
+          };
+
+          const loadInfolinks = () => {
+            if (config.adMode !== 'infolinks' || document.getElementById('infolinks-script')) return;
+
+            Reflect.set(window, 'infolinks_pid', config.infolinksPid);
+            Reflect.set(window, 'infolinks_wsid', config.infolinksWsid);
+            const script = document.createElement('script');
+            script.async = true;
+            script.id = 'infolinks-script';
+            script.referrerPolicy = 'strict-origin-when-cross-origin';
+            script.src = config.infolinksScriptUrl;
+            script.addEventListener('load', () => {
+              remoteScriptLoaded = true;
+              if (pageNotice instanceof HTMLElement) pageNotice.hidden = false;
+              dispatchAdReady('infolinks');
+            }, { once: true });
+            document.body.append(script);
+          };
+
+          const loadAdSense = () => {
+            if (config.adMode !== 'adsense' || document.getElementById('adsense-script')) return;
+
+            const script = document.createElement('script');
+            script.async = true;
+            script.crossOrigin = 'anonymous';
+            script.id = 'adsense-script';
+            script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' +
+              encodeURIComponent(config.adsenseClient);
+            script.addEventListener('load', () => {
+              remoteScriptLoaded = true;
+              dispatchAdReady('adsense');
+            }, { once: true });
+            document.head.append(script);
+          };
+
+          const applyChoice = () => {
+            const choice = readValue(config.consentKey);
+            const mayLoad = choice === 'granted' && canLoadRemoteAds();
+
+            if (choice === null && !ownerSuppressed() && !privacySignalBlocksAds()) showChoicePanel();
+            else hideChoicePanel();
+
+            if (pageNotice instanceof HTMLElement && !mayLoad) pageNotice.hidden = true;
+            if (!mayLoad) return;
+            loadInfolinks();
+            loadAdSense();
+          };
+
+          document.querySelectorAll('[data-ad-consent]').forEach((button) => {
+            button.addEventListener('click', () => {
+              const choice = button.getAttribute('data-ad-consent');
+              if (choice !== 'granted' && choice !== 'denied') return;
+              if (!writeValue(config.consentKey, choice)) return;
+              hideChoicePanel();
+              const remoteScriptPresent =
+                remoteScriptLoaded ||
+                document.getElementById('infolinks-script') !== null ||
+                document.getElementById('adsense-script') !== null;
+              if (choice === 'denied' && remoteScriptPresent) location.reload();
+              else applyChoice();
+            });
+          });
+
+          document.addEventListener('click', (event) => {
+            const target = event.target instanceof Element ? event.target.closest('[data-ad-privacy-open]') : null;
+            if (!target) return;
+            event.preventDefault();
+            showChoicePanel(true);
+          });
+
+          document.addEventListener('click', (event) => {
+            const target = event.target instanceof Element ? event.target.closest('[data-ad-owner-choice]') : null;
+            if (!target) return;
+            const choice = target.getAttribute('data-ad-owner-choice');
+            if (choice === 'suppress') {
+              writeValue(config.ownerSuppressionKey, 'true');
+              writeValue(config.consentKey, 'denied');
+              location.reload();
+            } else if (choice === 'restore') {
+              writeValue(config.ownerSuppressionKey, null);
+              writeValue(config.consentKey, null);
+              location.reload();
+            }
+          });
+
+          const ownerStatus = document.querySelector('[data-ad-owner-status]');
+          if (ownerStatus instanceof HTMLElement) {
+            ownerStatus.textContent = ownerSuppressed()
+              ? 'This browser is excluded from all advertising scripts.'
+              : 'This browser follows the advertising choice saved above.';
+          }
+
+          applyChoice();
+        })();`}
+      />
+    </>
+  )
+}

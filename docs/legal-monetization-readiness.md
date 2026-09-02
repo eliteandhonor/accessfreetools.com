@@ -1,47 +1,85 @@
 # Legal and Monetization Readiness
 
-This is an implementation checklist for AdSense, affiliate links, and product callouts. It is not legal advice. Before applying for monetization or publishing affiliate campaigns, the site owner should confirm the live site, working contact email, consent setup, and applicable local laws.
+This is an implementation checklist, not legal advice. Recheck network terms and applicable law when the advertising setup changes.
 
-## Implemented Site Pages
+## Current Infolinks Pilot
 
-- `/privacy-policy/` explains browser-first tools, local storage, cookies, Google AdSense, personalized advertising opt-out choices, EEA/UK/Swiss consent expectations, affiliate links, third-party services, children's privacy, and contact options.
-- `/terms/` explains informational use, no professional advice, accuracy limits, random tool limits, ads, affiliate links, third-party products, intellectual property, feedback, privacy, changes, and contact.
-- `/advertising-disclosure/` explains ads, affiliate commissions, disclosure placement, tool independence, and third-party store responsibility.
-- `/contact/` now uses one contact address and a server-side form for general feedback, corrections, privacy questions, and disclosure questions.
+- Publisher ID: `3447500`.
+- Website ID: `0`.
+- Product: InText only.
+- Scope: eligible public HTML pages. Private admin, analytics, API, MCP endpoint, and error routes are excluded.
+- Protected areas: navigation, footer, calculator and tool workspaces, Ask messages, and contact-form fields use Infolinks' supported `INFOLINKS_OFF` boundaries.
+- Consent: the remote loader does not run until the visitor selects `Allow contextual ads`.
+- Owner and QA suppression: use `Exclude this browser from ads` on `/privacy-policy/`.
+- Emergency switch: set `PUBLIC_INFOLINKS_ENABLED=false` and rebuild.
+
+The publisher dashboard must be checked after deployment. Keep only InText enabled, set the maximum to two links per page, and turn off InFold, InTag, InFrame, and other formats.
+
+## Public Build Variables
+
+```text
+PUBLIC_INFOLINKS_ENABLED=true
+PUBLIC_INFOLINKS_PID=3447500
+PUBLIC_INFOLINKS_WSID=0
+PUBLIC_ADSENSE_ENABLED=false
+PUBLIC_ADSENSE_CMP_READY=false
+PUBLIC_ADSENSE_CLIENT_ID=
+PUBLIC_ADSENSE_CONTENT_SLOT_ID=
+PUBLIC_KOFI_URL=
+```
+
+The build includes Google's verification-only account meta tag for `ca-pub-4461993577253590`.
+It does not load ads. The AdSense site is still marked `Requires review`, so the client and slot
+variables remain inactive until approval and consent requirements are complete.
+
+The Infolinks identifiers are public integration values. Never put account passwords, payout details, tax information, or private API credentials in these variables.
 
 ## Google AdSense Checklist
 
-- Privacy policy clearly discloses Google and third-party advertising cookies.
-- Privacy policy links to Google's partner-sites data explanation.
-- Privacy policy links to Google Ads Settings and aboutads.info for personalized-ad choices.
-- Sitemap includes the legal/disclosure pages.
-- No fake ad boxes are shown before AdSense is approved and connected.
-- Before serving ads to users in the EEA, UK, or Switzerland, configure a Google-certified Consent Management Platform where required.
-- Do not pass personally identifiable information to Google ad code.
-- Keep ads visually separate from calculator controls and results.
+AdSense is disabled. The code supports one future manual responsive slot on Date, Gas Mileage, Mileage, Hex, and Percentage Calculator pages only. It cannot activate until all of these are true:
+
+- The account and site are approved.
+- `PUBLIC_ADSENSE_ENABLED=true`.
+- A valid `ca-pub-...` client ID and numeric slot ID are configured.
+- `PUBLIC_ADSENSE_CMP_READY=true` only after the required Google-certified consent setup is working.
+
+Do not enable Auto ads, anchors, vignettes, side rails, or ad intents during the pilot. When AdSense is active on an allowlisted calculator, Infolinks is suppressed on that page.
 
 ## Affiliate Checklist
 
-- Disclose affiliate commissions close to affiliate links and product previews.
-- Do not rely only on the global disclosure page.
-- Use clear wording, such as: "I may earn a commission if you buy through this link, at no extra cost to you."
-- Keep tool formulas and recommendations independent from affiliate revenue.
-- Link to third-party store policies when promoting products.
-- Avoid claims about product quality, shipping, pricing, or guarantees unless verified.
+- No affiliate campaign is active.
+- Disclose any future commission relationship beside the affected link.
+- Keep affiliate links out of calculator controls and results.
+- Verify the destination, terms, and disclosure before publication.
 
-## Owner Actions Before Launching Ads or Affiliate Links
+## Reader Support
 
-- Create or route `contact@accessfreetools.com` for all site, privacy, advertising, affiliate, and correction messages.
-- Store the Hostinger SMTP password only in Hostinger environment variables, never in GitHub.
-- Add AdSense publisher details only after the account is approved.
-- Configure the Google-certified CMP for regions where consent is required.
-- Confirm live `/privacy-policy/`, `/terms/`, `/advertising-disclosure/`, and `/contact/` pages after each Hostinger deployment.
-- Have a qualified professional review the policies if the site starts collecting more personal data, selling products directly, running accounts, or targeting specific regulated audiences.
+`/support/` is `noindex,follow`. It displays an external Ko-fi button only when `PUBLIC_KOFI_URL` is an exact verified HTTPS `ko-fi.com` URL supplied by Brendan. No payment script is embedded.
 
-## Reference Sources
+## Readiness And Proof
 
-- Google AdSense Required Content: https://support.google.com/adsense/answer/1348695
-- Google Publisher Policies privacy disclosures: https://support.google.com/adsense/answer/10502938
-- Google EU User Consent Policy guidance: https://support.google.com/adsense/answer/7670013
-- FTC Endorsement Guides: https://www.ftc.gov/business-guidance/resources/ftcs-endorsement-guides-what-people-are-asking
-- FTC Disclosures 101: https://www.ftc.gov/business-guidance/resources/disclosures-101-social-media-influencers
+Run:
+
+```bash
+npm run monetization:readiness
+```
+
+The report is written to ignored files under `output/monetization/`. It checks the built route scope, consent loader, private-area boundaries, legal wording, support-page index policy, analytics persistence fallback, and live Infolinks loader reachability.
+
+Before marking the pilot live, also verify:
+
+- The Infolinks Publisher Center lists `accessfreetools.com` as approved or active.
+- Only InText is enabled and the maximum is two links per page.
+- No ad request occurs before consent or from an owner-suppressed browser.
+- The live tool input and result areas contain no injected ad links.
+- `/privacy-policy/`, `/terms/`, `/advertising-disclosure/`, and `/support/` render correctly.
+- There is no `public/ads.txt` entry unless an approved network supplied the exact line.
+
+## References
+
+- Infolinks integration: https://sites0001.infolinks.com/support/integration/how-do-i-integrate-infolinks-into-my-website
+- Infolinks area controls: https://sites0001.infolinks.com/support/products/how-do-i-restrict-intext-ads-from-certain-areas
+- Infolinks privacy policy: https://sites0001.infolinks.com/privacy-policy
+- Infolinks service agreement: https://sites0001.infolinks.com/service-agreement
+- Google ad placement policy: https://support.google.com/adsense/answer/1346295
+- Google EU user consent policy: https://support.google.com/adsense/answer/7670013

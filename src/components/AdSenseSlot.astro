@@ -1,0 +1,47 @@
+---
+import { parsePublicFlag, resolveAdMode } from '../lib/monetization';
+
+interface Props {
+  path: string;
+}
+
+const { path } = Astro.props;
+const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT_ID?.trim() ?? '';
+const adsenseSlot = import.meta.env.PUBLIC_ADSENSE_CONTENT_SLOT_ID?.trim() ?? '';
+const adMode = resolveAdMode(path, {
+  adsenseClient,
+  adsenseCmpReady: parsePublicFlag(import.meta.env.PUBLIC_ADSENSE_CMP_READY, false),
+  adsenseEnabled: parsePublicFlag(import.meta.env.PUBLIC_ADSENSE_ENABLED, false),
+  adsenseSlot,
+  infolinksEnabled: parsePublicFlag(import.meta.env.PUBLIC_INFOLINKS_ENABLED, true),
+});
+---
+
+{
+  adMode === 'adsense' && (
+    <aside aria-label="Advertisement" class="adsense-placement" data-adsense-placement hidden>
+      <span>Advertisement</span>
+      <ins
+        class="adsbygoogle"
+        data-ad-client={adsenseClient}
+        data-ad-format="auto"
+        data-ad-slot={adsenseSlot}
+        data-full-width-responsive="true"
+        style="display:block"
+      />
+      <script is:inline>
+        (() => {
+          const placement = document.currentScript?.closest('[data-adsense-placement]');
+          if (!(placement instanceof HTMLElement)) return;
+
+          document.addEventListener('aft:ads-ready', (event) => {
+            if (!(event instanceof CustomEvent) || event.detail?.mode !== 'adsense') return;
+            placement.hidden = false;
+            const queue = Reflect.get(window, 'adsbygoogle');
+            if (Array.isArray(queue)) queue.push({});
+          }, { once: true });
+        })();
+      </script>
+    </aside>
+  )
+}

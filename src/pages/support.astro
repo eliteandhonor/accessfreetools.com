@@ -1,0 +1,62 @@
+---
+export const prerender = true;
+
+import BaseLayout from '../components/BaseLayout.astro';
+import { sanitizeKoFiUrl } from '../lib/monetization';
+
+const koFiUrl = sanitizeKoFiUrl(import.meta.env.PUBLIC_KOFI_URL);
+---
+
+<BaseLayout
+  title="Support Access Free Tools"
+  description="Help Access Free Tools stay free by sharing a useful page, reporting a problem, or using the verified support link when it is available."
+  path="/support/"
+  noindex={true}
+>
+  <section class="page-intro">
+    <p class="breadcrumb"><a href="/">Home</a> / Support</p>
+    <h1>Support Access Free Tools</h1>
+    <p>
+      The calculators, converters, browser tools, and guides are free to use. Sharing a page that
+      solved a real problem is the most useful way to help the site grow.
+    </p>
+  </section>
+
+  <section class="content-section content-section-narrow">
+    <h2>Ways to help</h2>
+    <ul class="instruction-list">
+      <li>Share the exact tool or guide that helped you.</li>
+      <li>Report a broken result, confusing label, or missing example.</li>
+      <li>Suggest a practical tool you would genuinely use.</li>
+    </ul>
+
+    {
+      koFiUrl ? (
+        <>
+          <h2>Leave a voluntary tip</h2>
+          <p>
+            Tips help cover hosting and testing. They do not unlock tools, change results, or buy
+            priority support.
+          </p>
+          <a class="button-primary" href={koFiUrl} rel="noopener noreferrer" target="_blank">
+            Open the Access Free Tools Ko-fi page
+          </a>
+        </>
+      ) : (
+        <>
+          <h2>Direct support link</h2>
+          <p>
+            A verified Ko-fi page has not been connected yet. No payment link is shown until Brendan
+            supplies and checks the exact account URL.
+          </p>
+        </>
+      )
+    }
+
+    <h2>Send useful feedback</h2>
+    <p>
+      Use the <a href="/contact/">contact page</a> for corrections and tool ideas. Please do not send
+      passwords, payment details, medical records, or other private information.
+    </p>
+  </section>
+</BaseLayout>

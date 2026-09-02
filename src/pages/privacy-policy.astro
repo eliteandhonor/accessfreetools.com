@@ -124,30 +124,47 @@ import BaseLayout from '../components/BaseLayout.astro';
       clipboard after you press the copy button.
     </p>
 
-    <h2>Advertising and Google AdSense</h2>
+    <h2>Advertising and Infolinks</h2>
     <p>
-      We may use Google AdSense or other advertising services to show ads on Access Free Tools.
-      Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits
-      to this website or other websites. Google's use of advertising cookies enables Google and its
-      partners to serve ads based on visits to this site and other sites on the Internet.
+      Access Free Tools uses Infolinks InText on public pages after you choose to allow contextual
+      ads. Infolinks can select words in public page copy, mark them with a double underline, and
+      show a sponsored ad when you interact with them. Infolinks and its advertising partners may
+      receive browser, device, network, approximate location, page, cookie, and ad-interaction data
+      under their own policies.
     </p>
     <p>
-      You can learn how Google uses data on partner sites at
-      <a href="https://policies.google.com/technologies/partner-sites" rel="noreferrer" target="_blank">
-        How Google uses data when you use our partners' sites or apps
-      </a>. You can opt out of personalized advertising through
-      <a href="https://adssettings.google.com/" rel="noreferrer" target="_blank">Google Ads Settings</a>
-      or learn about other industry opt-out choices at
-      <a href="https://www.aboutads.info/" rel="noreferrer" target="_blank">aboutads.info</a>.
+      We use Infolinks' supported page-boundary controls to keep its scanner out of private admin
+      pages, APIs, tool inputs and results, Ask messages, contact forms, navigation, and the footer.
+      Infolinks does not receive the private text protected inside those areas through this
+      integration.
+    </p>
+    <p>
+      Read the <a href="https://sites0001.infolinks.com/privacy-policy" rel="noreferrer" target="_blank">Infolinks
+      Privacy Policy</a>. You can also use the <a href="https://optout.networkadvertising.org/" rel="noreferrer"
+      target="_blank">Network Advertising Initiative opt-out</a> or, where relevant, <a
+      href="https://www.youronlinechoices.com/" rel="noreferrer" target="_blank">Your Online Choices</a>.
+    </p>
+
+    <h2>Google AdSense status</h2>
+    <p>
+      Google AdSense ads are not active. They will stay off until the account is approved, exact
+      publisher and slot identifiers are configured, and a Google-certified consent platform is
+      ready where required. If that changes, this policy will be updated before ads are enabled.
+    </p>
+    <p>
+      If AdSense is enabled later, the following applies. Third-party vendors, including Google, may
+      use cookies to serve ads based on earlier visits to this or other websites. You can learn about
+      Google's use of advertising cookies and review choices in <a href="https://adssettings.google.com/" rel="noreferrer"
+      target="_blank">Google Ads Settings</a>. Additional industry choices are available at <a
+      href="https://optout.aboutads.info/" rel="noreferrer" target="_blank">aboutads.info</a>.
     </p>
 
     <h2>EEA, UK, and Switzerland consent</h2>
     <p>
-      Before serving Google ads to users in the European Economic Area, the United Kingdom, or
-      Switzerland, we should use a Google-certified Consent Management Platform where required.
-      That consent flow should explain the relevant ad technology providers and ask for consent for
-      cookies, local storage, and personal data use where the law and Google's EU user consent policy
-      require it.
+      Infolinks is blocked until you make an advertising choice in this browser. Google advertising,
+      if enabled later, will require a Google-certified Consent Management Platform for users in the
+      European Economic Area, the United Kingdom, and Switzerland where required. Advertising stays
+      off when a supported Global Privacy Control or Do Not Track signal is present.
     </p>
 
     <h2>Affiliate links</h2>
@@ -184,9 +201,22 @@ import BaseLayout from '../components/BaseLayout.astro';
 
     <h2>Your choices</h2>
     <p>
-      You can clear local storage and cookies in your browser, use the advertising opt-out links
-      above, avoid clicking affiliate links, or contact us with privacy questions. If a future form
-      asks for personal information, submit only what is needed for that request.
+      Choose <strong>Ad choices</strong> in the footer to allow or refuse contextual ads. You can also
+      clear local storage and cookies, use the industry opt-out links above, avoid clicking ads or
+      affiliate links, or contact us with privacy questions. If a form asks for personal
+      information, submit only what is needed for that request.
+    </p>
+    <div class="analytics-opt-out-actions" aria-label="Access Free Tools advertising preference">
+      <button class="button-primary" type="button" data-ad-privacy-open>Review ad choices</button>
+      <button class="button-secondary" type="button" data-ad-owner-choice="suppress">
+        Exclude this browser from ads
+      </button>
+      <button class="button-secondary" type="button" data-ad-owner-choice="restore">
+        Reset ad choices
+      </button>
+    </div>
+    <p class="analytics-opt-out-status" data-ad-owner-status aria-live="polite">
+      Checking this browser's advertising preference...
     </p>
     <div class="analytics-opt-out-actions" aria-label="Access Free Tools analytics preference">
       <button class="button-primary" type="button" data-public-analytics-choice="out">
