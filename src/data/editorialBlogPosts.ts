@@ -2,6 +2,13 @@ import type { BlogPostDefinition } from './blogPosts';
 
 export const editorialBlogPosts: BlogPostDefinition[] = [
   {
+    slug: 'remove-ai-writing-tells-before-publishing',
+    title: "I Dropped a Useful Article Idea Because I Wouldn't Read It",
+    label: 'Owner editing notes',
+    summary:
+      'Brendan Chambers explains why a clean score cannot rescue a dull draft and shows the six editing passes he uses before publishing AI-assisted writing.',
+  },
+  {
     slug: 'browser-text-to-speech-kokoro-vs-supertonic',
     title: 'I Refused to Buy a Server for Text to Speech',
     label: 'Owner build story',

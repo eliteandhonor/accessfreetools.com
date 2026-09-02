@@ -86,6 +86,14 @@ const SITE_HEADER_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/SiteHeader.astro', import.meta.url)),
   'utf8',
 );
+const BASE_LAYOUT_SOURCE = readFileSync(
+  fileURLToPath(new URL('../components/BaseLayout.astro', import.meta.url)),
+  'utf8',
+);
+const PREFERRED_SOURCE_CALLOUT_SOURCE = readFileSync(
+  fileURLToPath(new URL('../components/PreferredSourceCallout.astro', import.meta.url)),
+  'utf8',
+);
 const TOOL_CARD_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/ToolCard.astro', import.meta.url)),
   'utf8',
@@ -1653,6 +1661,7 @@ describe('site content audit guardrails', () => {
       "serverRenderedPublicPaths = new Set(['/sitemap/', '/feed.xml', '/pinterest-feed.xml'])",
     );
     expect(PACKAGE_JSON.scripts['check:site']).toBe('node scripts/check-built-site.mjs');
+    expect(PACKAGE_JSON.scripts['check:preferred-sources']).toBe('node scripts/check-preferred-sources.mjs');
     expect(PACKAGE_JSON.scripts['check:article-visual']).toBe('node scripts/check-article-visual-layout.mjs');
     expect(PACKAGE_JSON.scripts['check:structured-data']).toBe('node scripts/check-structured-data.mjs');
     expect(PACKAGE_JSON.scripts['check:performance']).toBe('node scripts/check-performance-budget.mjs');
@@ -1685,7 +1694,15 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts['check:accessibility']).toBe('node scripts/check-accessibility.mjs');
     expect(PACKAGE_JSON.scripts['security:audit']).toBe('npm audit --audit-level=moderate');
     expect(PACKAGE_JSON.scripts.check).toBe(
-      'npm run typecheck && npm run typecheck:ts6 && npm test && npm run build && npm run check:links && npm run check:site && npm run check:article-visual && npm run check:editorial-quality && npm run check:key-visual && npm run check:accessibility && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run images:qa && npm run images:sitemap-check && npm run gallery:qa && npm run check:secrets && npm run security:audit',
+      'npm run typecheck && npm run typecheck:ts6 && npm test && npm run build && npm run check:links && npm run check:site && npm run check:preferred-sources && npm run check:article-visual && npm run check:editorial-quality && npm run check:key-visual && npm run check:accessibility && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run images:qa && npm run images:sitemap-check && npm run gallery:qa && npm run check:secrets && npm run security:audit',
+    );
+    expect(BASE_LAYOUT_SOURCE).toContain('https://news.google.com/swg/js/v1/publisher.js');
+    expect(BASE_LAYOUT_SOURCE).toContain('shouldRenderPreferredSource');
+    expect(BASE_LAYOUT_SOURCE).toContain('/favicon.png');
+    expect(PREFERRED_SOURCE_CALLOUT_SOURCE).toContain('google-add-preferred-source-btn');
+    expect(PREFERRED_SOURCE_CALLOUT_SOURCE).toContain('data-nosnippet');
+    expect(PREFERRED_SOURCE_CALLOUT_SOURCE).toContain(
+      'https://www.google.com/preferences/source?q=accessfreetools.com',
     );
     expect(README_SOURCE).toContain('npm run check');
     expect(DEPLOYMENT_CHECKLIST_SOURCE).toContain('/tools/');

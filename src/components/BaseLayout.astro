@@ -1,6 +1,7 @@
 ---
 import SiteFooter from './SiteFooter.astro';
 import SiteHeader from './SiteHeader.astro';
+import PreferredSourceCallout from './PreferredSourceCallout.astro';
 import { robotsContentForPath } from '../data/indexationPolicy';
 import { verifiedOrganizationSameAs } from '../data/siteEntity';
 import { getArticleDatesFromPath, toIsoDateTime } from '../data/siteDates';
@@ -45,6 +46,8 @@ const pinterestFeedUrl = new URL('/pinterest-feed.xml', site).toString();
 const resolvedOgType = ogType ?? (path.startsWith('/blog/') && path !== '/blog/' ? 'article' : 'website');
 const articleDates = getArticleDatesFromPath(path);
 const shouldRenderClarity = !path.startsWith('/admin/') && path !== '/private-analytics/';
+const shouldRenderPreferredSource =
+  resolvedOgType === 'article' && !/\bnoindex\b/i.test(robotsContent ?? '');
 const siteStructuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -53,7 +56,7 @@ const siteStructuredData = {
       '@id': `${new URL('/', site).toString()}#organization`,
       name: 'Access Free Tools',
       url: new URL('/', site).toString(),
-      logo: new URL('/favicon.svg', site).toString(),
+      logo: new URL('/favicon.png', site).toString(),
       sameAs: verifiedOrganizationSameAs,
     },
     {
@@ -99,7 +102,12 @@ const siteStructuredData = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
     <meta name="twitter:image:alt" content={resolvedSocialImageAlt} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="512x512" />
+    {
+      shouldRenderPreferredSource && (
+        <script is:inline async src="https://news.google.com/swg/js/v1/publisher.js"></script>
+      )
+    }
     <script type="application/ld+json" set:html={JSON.stringify(siteStructuredData)} />
     {
       shouldRenderClarity && (
@@ -307,6 +315,7 @@ const siteStructuredData = {
     <SiteHeader />
     <main id="main-content" tabindex="-1">
       <slot />
+      {shouldRenderPreferredSource && <PreferredSourceCallout />}
     </main>
     <SiteFooter />
   </body>

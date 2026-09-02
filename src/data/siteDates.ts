@@ -277,6 +277,7 @@ const toolLastmodOverrides: Record<string, string> = {
 };
 
 const blogModifiedOverrides: Record<string, string> = {
+  'remove-ai-writing-tells-before-publishing': '2026-09-02',
   'browser-text-to-speech-kokoro-vs-supertonic': '2026-08-26',
   'tesseract-js-browser-ocr-image-quality': '2026-08-17',
   'browser-ai-vs-local-ai-privacy': '2026-07-29',
@@ -548,6 +549,7 @@ const blogModifiedOverrides: Record<string, string> = {
 };
 
 const blogPublishedOverrides: Record<string, string> = {
+  'remove-ai-writing-tells-before-publishing': '2026-09-02',
   'browser-text-to-speech-kokoro-vs-supertonic': '2026-08-26',
   'tesseract-js-browser-ocr-image-quality': '2026-08-17',
   'browser-ai-vs-local-ai-privacy': '2026-07-29',

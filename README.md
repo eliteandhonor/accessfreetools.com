@@ -47,8 +47,9 @@ npm run check
 This runs TypeScript 7 CLI checks, the TypeScript 6 compatibility check, the site
 audit tests, and the Astro production build.
 It also checks built internal links, audits built page metadata and canonicals,
-validates built JSON-LD semantically, reports performance budgets, verifies AI
-model assets stay lazy-loaded away from non-AI pages, and runs a dependency audit.
+validates the article-only Google Preferred Sources integration, validates built
+JSON-LD semantically, reports performance budgets, verifies AI model assets stay
+lazy-loaded away from non-AI pages, and runs a dependency audit.
 For the focused site-content audit only, run:
 
 ```bash
@@ -59,6 +60,7 @@ Useful focused checks:
 
 ```bash
 npm run check:site
+npm run check:preferred-sources
 npm run check:structured-data
 npm run check:performance
 npm run check:ai-assets

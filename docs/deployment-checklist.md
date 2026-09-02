@@ -30,6 +30,7 @@ This must pass before release:
 - Astro production build.
 - Internal link validation across built HTML.
 - Built-site metadata, canonical, sitemap, social tag, image alt, and affiliate `rel` validation.
+- Preferred Sources markup on every indexable article, exclusion from noindex and non-article pages, and a supported PNG favicon.
 - Mobile-first SEO validation with no AMP tags, no m-dot/mobile alternates, viewport metadata, canonical URLs, and mobile/tablet Playwright proof.
 - Semantic JSON-LD validation across built HTML.
 - Performance budget and AI lazy-asset validation.
@@ -57,6 +58,7 @@ Open the local preview and check these pages:
 - `/tools/` shows the correct total, search works, and the "Show all" button appears only for the full unfiltered tool list.
 - `/tools/` loads the first tool batch quickly, then loads `/tool-search-index.json` only when users search, filter, or show all tools.
 - `/blog/` search works and real guides are visible.
+- An indexable blog article shows the Google Preferred Sources section without overlap, and the control returns the reader to the article after selection.
 - `/free-calculator-resources/` loads, links to the main hubs, and has no mobile overflow.
 - A high-value finance tool, health tool, project estimator, developer tool, and calculator render their inputs, examples, FAQs, related tools, and guide links.
 - `/sitemap.xml`, `/sitemap-pages.xml`, `/sitemap-tools.xml`, `/sitemap-blog.xml`, `/sitemap-categories.xml`, `/robots.txt`, `/feed.xml`, and `/pinterest-feed.xml` load.

@@ -1,0 +1,28 @@
+---
+const preferredSourceUrl = 'https://www.google.com/preferences/source?q=accessfreetools.com';
+---
+
+<section
+  class="preferred-source-callout"
+  aria-labelledby="preferred-source-heading"
+  data-preferred-source-callout
+  data-nosnippet
+>
+  <div class="preferred-source-callout-inner">
+    <div class="preferred-source-copy">
+      <p class="preferred-source-kicker">Google Preferred Sources</p>
+      <h2 id="preferred-source-heading">See more from Access Free Tools in Google</h2>
+      <p>
+        Add Access Free Tools as a preferred source. Our articles will be more likely to appear for
+        you in Top Stories and may be highlighted in AI Overviews and AI Mode.
+      </p>
+    </div>
+
+    <div class="preferred-source-action">
+      <div google-add-preferred-source-btn></div>
+      <a href={preferredSourceUrl} rel="noreferrer" target="_blank">
+        Open Preferred Sources settings
+      </a>
+    </div>
+  </div>
+</section>

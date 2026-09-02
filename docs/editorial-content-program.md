@@ -1,6 +1,6 @@
 # Editorial Content Program
 
-Updated: 2026-08-26
+Updated: 2026-09-02
 
 This is the source of truth for first-person Brendan Chambers editorial articles. It is separate from the completed generated tool/blog SEO review queue.
 
@@ -24,7 +24,7 @@ This is the source of truth for first-person Brendan Chambers editorial articles
 | 4 | `tesseract-js-browser-ocr-image-quality` | How I Improve Tesseract.js OCR Results in a Browser | 2026-08-17 | published |
 | 5 | `browser-text-to-speech-kokoro-vs-supertonic` | I Refused to Buy a Server for Text to Speech. The Browser Did the Job. | 2026-08-26 | published |
 | 6 | `test-free-tools-playwright-vitest` | How I Test Hundreds of Free Tools with Playwright and Vitest | Deferred | deferred |
-| 7 | `remove-ai-writing-tells-before-publishing` | How I Remove AI Writing Tells Before Publishing | 2026-09-23 | planned |
+| 7 | `remove-ai-writing-tells-before-publishing` | I Dropped a Useful Article Idea Because I Wouldn't Read It | 2026-09-02 | release-ready |
 
 ## Active Distribution Policy
 
@@ -74,9 +74,11 @@ This is the source of truth for first-person Brendan Chambers editorial articles
 ### Removing AI Writing Tells
 
 - Intent: `how to make AI-assisted writing sound human`.
+- Lead with the real decision to defer the Playwright and Vitest article because its planned version felt like internal documentation.
 - Show a short original before-and-after example, the Stop Slop five-part score, and the reader-first gate.
 - Link the Reading Level Checker, Keyword Extractor, earlier AI-skills article, and this program's published articles.
 - Make clear that editing improves clarity; it does not prove authorship, originality, or factual accuracy.
+- Targeted DataForSEO research on 2026-09-02 found low-volume informational evidence for `make AI writing sound human` and much larger adjacent detector and humanizer terms. Keep the article on honest editing rather than detector bypass.
 
 ## Measurement
 

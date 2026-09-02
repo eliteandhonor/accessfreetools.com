@@ -102,6 +102,7 @@ try {
       const page = await browser.newPage({ viewport: { width: viewport.width, height: viewport.height } });
       const pageErrors = [];
       page.on('pageerror', (error) => pageErrors.push(error.message));
+      await page.route('https://news.google.com/**', (route) => route.abort());
 
       await page.goto(`${baseURL}${article.route}`, { waitUntil: 'networkidle' });
 
@@ -164,6 +165,24 @@ try {
           const sidecarRect = sidecar.getBoundingClientRect();
           const boxesIntersect = bodyRect.left < sidecarRect.right && bodyRect.right > sidecarRect.left && bodyRect.top < sidecarRect.bottom && bodyRect.bottom > sidecarRect.top;
           if (boxesIntersect) failures.push('article body and related-links rail overlap');
+        }
+
+        const preferredSource = document.querySelector('[data-preferred-source-callout]');
+        if (!preferredSource) {
+          failures.push('preferred-source callout is missing');
+        } else {
+          const calloutRect = preferredSource.getBoundingClientRect();
+          if (calloutRect.width > html.clientWidth + overflowTolerance) {
+            failures.push('preferred-source callout exceeds the viewport width');
+          }
+          const calloutHeading = preferredSource.querySelector('h2');
+          if (!calloutHeading) {
+            failures.push('preferred-source heading is missing');
+          } else {
+            checkTextLineBoxes(calloutHeading, 'preferred-source heading');
+          }
+          const settingsLink = preferredSource.querySelector('a[href*="google.com/preferences/source"]');
+          if (!settingsLink) failures.push('preferred-source settings fallback is missing');
         }
 
         const sections = [...document.querySelectorAll('.editorial-article .article-flow-section')];

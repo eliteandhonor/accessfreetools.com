@@ -1,6 +1,6 @@
 # Google Search Central Notes
 
-Last reviewed: 2026-07-04
+Last reviewed: 2026-09-02
 
 These notes are the current SEO baseline for Access Free Tools. Use them before
 changing indexing, redirect, sitemap, content-quality, or promotion logic.
@@ -18,6 +18,16 @@ changing indexing, redirect, sitemap, content-quality, or promotion logic.
 - Mobile-first indexing best practices: https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing
 - Mobile indexing final update: https://developers.google.com/search/blog/2024/06/mobile-indexing-vlast-final-final.doc
 - Core Web Vitals: https://developers.google.com/search/docs/appearance/core-web-vitals
+- Preferred Sources: https://developers.google.com/search/docs/appearance/preferred-sources
+- AI features and your website: https://developers.google.com/search/docs/appearance/ai-features
+- Latest Search documentation updates: https://developers.google.com/search/updates
+- Favicon requirements: https://developers.google.com/search/docs/appearance/favicon-in-search
+- Image SEO and preferred-image metadata: https://developers.google.com/search/docs/appearance/google-images
+- Snippets and "Read more" deep links: https://developers.google.com/search/docs/appearance/snippet
+- Third-party SEO tools and advice: https://developers.google.com/search/docs/fundamentals/third-party-seo
+- Social and video platform properties: https://developers.google.com/search/docs/monitor-debug/analyze-social-video-content
+- Generative AI performance reports: https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports
+- February 2026 Discover core update: https://developers.google.com/search/blog/2026/02/discover-core-update
 
 ## Operating Rules
 
@@ -43,6 +53,61 @@ changing indexing, redirect, sitemap, content-quality, or promotion logic.
 9. When mobile or AMP comes up, run `npm run audit:mobile-seo` after `npm run
    build` and treat mobile Lighthouse as lab evidence. Search Console and CrUX
    remain the field evidence for real users.
+10. Do not add special AI schema, machine-readable AI files, or invented AEO/GEO
+    markup for Google. Google says indexed, snippet-eligible pages use the same
+    technical and people-first standards in AI Overviews and AI Mode.
+11. Keep `llms.txt` for non-Google systems that use it, but never describe it as
+    a Google ranking or visibility signal.
+12. Treat third-party SEO scores and forecasts as research evidence, not Google
+    data. Search Console remains the first-party source for Google performance.
+13. Keep visible FAQs when they help readers, but do not emit `FAQPage` JSON-LD.
+    Google removed the FAQ rich-result feature in 2026.
+
+## 2026-09-02 Preferred Sources And Current Standards
+
+Google Preferred Sources is available globally for Top Stories and may also
+highlight a selected source in AI Overviews and AI Mode. Selection is made by
+the individual Google user and applies at the domain or subdomain level. It is
+not a blanket ranking guarantee.
+
+Access Free Tools uses Google's recommended localized JavaScript control on
+indexable blog articles only:
+
+```html
+<script async src="https://news.google.com/swg/js/v1/publisher.js"></script>
+<div google-add-preferred-source-btn></div>
+```
+
+The article section also includes Google's documented direct settings link as a
+fallback. It is excluded from snippets with `data-nosnippet`, omitted from the
+blog hub, tools, categories, and noindex beta articles, and checked with:
+
+```bash
+npm run build
+npm run check:preferred-sources
+```
+
+The August 28 favicon clarification lists PNG but not SVG among supported
+Search favicon formats. The site now advertises a stable 512x512 PNG favicon;
+the same file is used as the Organization publisher logo.
+
+Other current findings:
+
+- No AMP rollout is justified. Responsive canonical pages remain the chosen path.
+- No new AI markup is needed. Internal links, indexability, useful visible text,
+  page experience, representative images, and truthful structured data remain
+  the useful work.
+- Article schema images and `og:image` should keep pointing to the same relevant,
+  high-resolution image. Generic logos or text-heavy hero images are not suitable.
+- Article sections are visible without tabs, and the site does not rewrite hash
+  fragments on load, which aligns with Google's "Read more" deep-link guidance.
+- Built article HTML is far below Google's 2 MB uncompressed fetch limit.
+- The Search Console social-platform property guide currently names TikTok,
+  Instagram, X, and YouTube. Do not invent properties for Medium, Bluesky, or
+  Pinterest unless Google adds support and the account can be verified.
+- If the Search Generative AI performance report appears for this property,
+  export it as a distinct evidence source. The initial report is an impressions
+  view and must not be presented as clicks or ranking proof.
 
 ## 2026-07-03 AMP And Mobile-First Decision
 

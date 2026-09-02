@@ -24,6 +24,7 @@
     "audit:site": "vitest run --configLoader runner src/data/siteContentAudit.test.ts",
     "check:links": "node scripts/check-internal-links.mjs",
     "check:site": "node scripts/check-built-site.mjs",
+    "check:preferred-sources": "node scripts/check-preferred-sources.mjs",
     "check:article-visual": "node scripts/check-article-visual-layout.mjs",
     "check:editorial-quality": "node scripts/check-editorial-article-quality.mjs",
     "writing:quality": "node scripts/writing-quality.mjs",
@@ -133,7 +134,7 @@
     "test:smoke": "npm run build && node scripts/run-playwright-smoke.mjs",
     "check:secrets": "node scripts/check-secret-redaction.mjs",
     "security:audit": "npm audit --audit-level=moderate",
-    "check": "npm run typecheck && npm run typecheck:ts6 && npm test && npm run build && npm run check:links && npm run check:site && npm run check:article-visual && npm run check:editorial-quality && npm run check:key-visual && npm run check:accessibility && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run images:qa && npm run images:sitemap-check && npm run gallery:qa && npm run check:secrets && npm run security:audit",
+    "check": "npm run typecheck && npm run typecheck:ts6 && npm test && npm run build && npm run check:links && npm run check:site && npm run check:preferred-sources && npm run check:article-visual && npm run check:editorial-quality && npm run check:key-visual && npm run check:accessibility && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run images:qa && npm run images:sitemap-check && npm run gallery:qa && npm run check:secrets && npm run security:audit",
     "check:production-sitemap": "node scripts/check-production-sitemap.mjs",
     "promotion:reddit:publish-profile": "node scripts/reddit-publish-profile-post.mjs --confirm-public-post",
     "automation:chrome-check": "node scripts/check-chrome-control-plugin.mjs"
