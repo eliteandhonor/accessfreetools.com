@@ -196,3 +196,13 @@
 - Fresh Playwright browser proof confirms the public internal-review wording and generic guide intro are absent, and the new examples, source links, related links, FAQ/schema, modified date, and smart-14 wording render.
 - Final page agent judges now report `ready-for-human-approval` with 0 gaps for both Sales Tax pages; page scores are 100/100 and 100/100, post-edit DataForSEO paid evidence passed, and `npm run check` passed.
 - Deployed main commit `307ca71` through Hostinger Node build `019e6308-16de-71d1-997c-c00674b45989`; live Ask, production sitemap retry, full GSC sitemap submission from the OAuth-enabled worktree, live DOM proof, live browser screenshots, and post-deploy DataForSEO page evidence all passed.
+
+## 2026-09-02 - GEO Second-Opinion Pilot Evaluated
+
+- Reviewed `geo-seo-claude` at pinned commit `5d068e9ca34f50789b68de2a5029ac04aad8cdaa` without running its installer or importing its code, prompts, dependencies, agents, CRM, proposals, PDF tools, web app, or updater.
+- Added an original, read-only Playwright diagnostic over 10 fixed Access Free Tools pages. It blocks third-party requests and stores metadata, headings, counts, hashes, and findings instead of complete page bodies.
+- The first run exposed two false-positive patterns in the new diagnostic. Page-type thresholds and natural source headings were corrected before accepting the pilot evidence.
+- The final run completed 10 pages with 0 technical observations, 0 actionable heuristic prompts, and 1 suppressed Kawaii Calculator prompt under protected-observation policy.
+- Existing hub, AI crawler, and page workbench lanes were used as the comparison authority. The pilot supplied no unique page edit and did not override their evidence gates.
+- Full verification passed: 69 test files, 574 tests, both TypeScript checks, Astro 7 build on Node 24, visual and accessibility checks, 1,984 JSON-LD blocks, image and gallery QA, secret scanning, and 0 dependency vulnerabilities.
+- Decision: keep the command optional and manual. Do not add it to normal checks, automation, deployment, publishing, or Search Console workflows.

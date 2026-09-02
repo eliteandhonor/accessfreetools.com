@@ -58,6 +58,11 @@ The CLI is for agent support only. It must not publish posts, edit live social c
 - `npm run aft -- ai-crawler`
   - Runs the local built-HTML AI crawler visibility audit for priority pages and confirms important content, links, trust wording, and AI privacy/model-limit notes are visible without client JavaScript.
 
+- `npm run audit:geo-second-opinion`
+  - Builds the site, renders ten representative pages in a clean Playwright Chromium context, and blocks all third-party requests.
+  - Writes metadata, headings, counts, content hashes, technical observations, and heuristic review prompts to `output/geo-second-opinion/latest.json` and `.md`. It never stores complete page bodies.
+  - This command is a report-only second opinion. It cannot approve changes, predict rankings or AI citations, or replace Search Console, Bing, OpenSEO, production analytics, and the per-page SEO workbench.
+
 - `npm run aft -- hub-strength`
   - Runs the hub audit for `/tools/`, `/categories/calculators/`, `/categories/ai-tools/`, finance, health, home-project, developer, converter, and text hubs. Use it after internal-link or hub-copy changes.
 

@@ -121,6 +121,7 @@
     "audit:local": "node scripts/deep-audit-local.mjs",
     "audit:indexing-protection": "node scripts/indexing-protection-audit.mjs",
     "audit:ai-crawler": "node scripts/ai-crawler-visibility-audit.mjs",
+    "audit:geo-second-opinion": "npm run build && node scripts/geo-second-opinion.mjs",
     "audit:hubs": "node scripts/hub-strength-audit.mjs",
     "audit:semantic-depth": "node scripts/semantic-depth-audit.mjs",
     "audit:mobile-seo": "node scripts/mobile-seo-audit.mjs",
