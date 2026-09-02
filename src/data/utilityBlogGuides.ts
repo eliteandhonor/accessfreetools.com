@@ -436,15 +436,15 @@ const sourceLinks = {
     label: 'U.S. EIA: Weekly gasoline and diesel fuel update',
   },
   irsMileage: {
-    href: 'https://www.irs.gov/newsroom/irs-sets-2026-business-standard-mileage-rate-at-725-cents-per-mile-up-25-cents',
-    label: 'IRS: 2026 standard mileage rates',
+    href: 'https://www.irs.gov/tax-professionals/standard-mileage-rates',
+    label: 'IRS: Current and historical standard mileage rates',
   },
   irsMileageUpdate2026: {
-    href: 'https://www.irs.gov/forms-pubs/the-standard-mileage-rates-and-maximum-automobile-fair-market-values-have-been-updated-for-2026',
-    label: 'IRS: 2026 mileage-rate update',
+    href: 'https://www.irs.gov/irb/2026-29_irb',
+    label: 'IRS: July 2026 mileage-rate adjustment',
   },
   gsaPovMileage: {
-    href: 'https://www.gsa.gov/travel/plan-a-trip/transportation-airfare-rates-pov-rates/privately-owned-vehicle-pov-mileage-reimbursement',
+    href: 'https://www.gsa.gov/travel/plan-a-trip/transportation-airfare-rates-pov-rates/pov-mileage-reimbursement',
     label: 'GSA: 2026 POV mileage reimbursement rates',
   },
   cdcSleep: {
@@ -1937,7 +1937,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     title: 'Mileage Reimbursement Calculator Guide',
     summary: 'Learn how to turn miles, an allowed rate per mile, and approved trip extras into a reimbursement total.',
     metaDescription:
-      'Use the Mileage Reimbursement Calculator with a 125-mile example. Check rate per mile, extras, total, and 2026 IRS/GSA rate context.',
+      'Use the Mileage Reimbursement Calculator with a 125-mile example. Check the July 2026 IRS/GSA rate change, extras, and total.',
     purpose:
       'The Mileage Reimbursement Calculator estimates an amount from miles and an allowed rate per mile. It can also add parking, tolls, or other trip costs when those extras belong in the same claim.',
     intro:
@@ -1948,21 +1948,21 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     readIntro:
       'Read mileage only as the miles-by-rate amount. Read total as mileage only plus extras, so it is the number you would copy into a draft invoice or reimbursement note.',
     mistakeIntro:
-      'The main mistake is treating an example rate as official. For 2026, the IRS business rate and the GSA rate for an authorized privately owned car are both $0.725 per mile, but your own rule can still be different.',
+      'The main mistake is treating one 2026 rate as valid for the whole year. The IRS business rate and GSA authorized-car rate changed from $0.725 to $0.76 per mile on July 1, and your own rule can still be different.',
     sidecarText:
-      'Open the Mileage Reimbursement Calculator beside this guide. Try 125 miles, 0.725 as the rate, and 12 dollars in extras first.',
+      'Open the Mileage Reimbursement Calculator beside this guide. Try 125 miles, 0.76 as the rate, and 12 dollars in extras first.',
     bestUsesIntro:
       'Use this guide for invoice drafts, delivery notes, business trip estimates, volunteer records, or checking a reimbursement before you submit it.',
     referenceIntro:
       'These references explain the 2026 IRS standard mileage rates and GSA privately owned vehicle reimbursement rates.',
     enter: [
       'Enter the miles driven for the trip or claim.',
-      'Enter the rate per mile as dollars, such as 0.725 for 72.5 cents.',
+      'Enter the rate per mile as dollars, such as 0.76 for 76 cents.',
       'Enter parking, tolls, or extras only if they should be added to the same total.',
     ],
     read: [
-      '125 miles at $0.725 per mile gives $90.63 before extras.',
-      'Adding $12 in parking or tolls gives $102.63 total.',
+      '125 miles at $0.76 per mile gives $95.00 before extras.',
+      'Adding $12 in parking or tolls gives $107.00 total.',
       'The rate is repeated so you can check the assumption before copying the answer.',
     ],
     mistakes: [
@@ -1973,17 +1973,17 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
     extraSections: [
       {
-        title: 'Example: 125 miles at the 2026 business rate',
+        title: 'Example: 125 miles at the July 2026 business rate',
         paragraphs: [
-          'Say a client visit is 125 miles and your allowed rate is $0.725 per mile. The mileage-only amount is 125 x 0.725, which is $90.625.',
-          'Money normally rounds to cents, so that becomes $90.63. If the trip also has $12 in approved extras, the total is $102.63.',
+          'Say a client visit is 125 miles and your allowed rate is $0.76 per mile. The mileage-only amount is 125 x 0.76, which is $95.00.',
+          'If the trip also has $12 in approved extras, the total is $107.00.',
         ],
       },
       {
         title: 'Why the rate matters more than the math',
         paragraphs: [
-          'The IRS 2026 business standard mileage rate is 72.5 cents per mile. GSA also lists $0.725 per mile for an authorized privately owned automobile in 2026.',
-          'That does not mean every claim should use $0.725. Some employers, delivery apps, contracts, charities, medical trips, and military moving claims can use different rates.',
+          'The IRS 2026 business standard mileage rate is 76 cents per mile from July 1 through December 31. It was 72.5 cents from January 1 through June 30. GSA made the same midyear change for an authorized privately owned automobile.',
+          'That does not mean every claim should use $0.76. The trip date matters, and some employers, delivery apps, contracts, charities, medical trips, and military moving claims use different rates.',
         ],
       },
       {

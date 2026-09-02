@@ -1376,13 +1376,13 @@ export const utilityTools: ToolDefinition[] = [
       'Work out a mileage total from miles driven, a rate per mile, and optional parking, tolls, or trip extras.',
     seoTitle: 'Mileage Reimbursement Calculator | Miles And Rate',
     seoDescription:
-      'Calculate a mileage total from miles, rate per mile, parking, tolls, and extras. Includes 2026 IRS/GSA rate context and rate checks.',
+      'Calculate mileage reimbursement from miles, rate per mile, parking, tolls, and extras. Includes the July 2026 IRS/GSA rate update.',
     icon: 'calculator-mileage',
     aliases: ['Mileage Calculator', 'Miles To Dollars Calculator', 'Rate Per Mile Calculator'],
     formula:
       'Mileage amount = miles driven x rate per mile. Total = mileage amount + parking, tolls, or other entered extras.',
     limit:
-      'The 2026 IRS business rate and the GSA rate for an authorized privately owned car are both $0.725 per mile, but your employer, client, contract, app, or tax situation may use a different rule.',
+      'The IRS business rate and GSA authorized-car rate are $0.76 per mile from July 1 through December 31, 2026. They were $0.725 from January 1 through June 30. Your employer, client, contract, app, or tax situation may use a different rule.',
     faqLanguage: {
       expectedInputs: 'the miles driven, the rate per mile, and any parking, tolls, or extras that should be added',
       inputFallback:
@@ -1400,14 +1400,14 @@ export const utilityTools: ToolDefinition[] = [
       'Copy a quick total for an invoice draft or personal note.',
     ],
     examples: [
-      { label: 'Client visit', expression: '125 miles x $0.725 + $12', result: '$102.63' },
-      { label: 'Local errand', expression: '18.4 miles x $0.725', result: '$13.34' },
+      { label: 'Client visit', expression: '125 miles x $0.76 + $12', result: '$107.00' },
+      { label: 'Local errand', expression: '18.4 miles x $0.76', result: '$13.98' },
       { label: 'Delivery day', expression: '92 miles x $0.55 + $8', result: '$58.60' },
     ],
     relatedSlugs: ['fuel-cost-calculator', 'gas-mileage-calculator', 'auto-loan-calculator'],
     inputExplanations: [
       { term: 'Miles', meaning: 'the trip distance you are claiming or checking.' },
-      { term: 'Rate per mile', meaning: 'the allowed dollar amount for each mile, such as 0.725 for 72.5 cents per mile.' },
+      { term: 'Rate per mile', meaning: 'the allowed dollar amount for each mile, such as 0.76 for 76 cents per mile.' },
       { term: 'Extras', meaning: 'parking, tolls, or other trip costs you are allowed to add separately.' },
       { term: 'Mileage only', meaning: 'miles multiplied by the rate, before extras.' },
       { term: 'Total', meaning: 'mileage only plus the extras you entered.' },
@@ -1416,12 +1416,12 @@ export const utilityTools: ToolDefinition[] = [
       {
         question: 'What is the 2026 IRS business mileage rate?',
         answer:
-          'The IRS announced 72.5 cents per mile for business use starting January 1, 2026. That is $0.725 in this calculator. It is optional for tax use, so check the rule that applies to your trip.',
+          'The IRS rate is 76 cents per mile for business use from July 1 through December 31, 2026. It was 72.5 cents per mile from January 1 through June 30. The standard rate is optional for tax use, so check the trip date and the rule that applies.',
       },
       {
-        question: 'Is the GSA 2026 privately owned car rate also 72.5 cents?',
+        question: 'What is the GSA privately owned car rate for 2026?',
         answer:
-          'Yes. GSA lists $0.725 per mile from January 1, 2026 when a privately owned automobile is authorized or no government-furnished automobile is available.',
+          'GSA lists $0.76 per mile from July 1 through December 31, 2026 when a privately owned automobile is authorized or no government-owned automobile is available. The equivalent rate was $0.725 from January 1 through June 30. A lower rate can apply when a government-owned automobile was available but you chose your own car.',
       },
       {
         question: 'Should parking and tolls go in extras?',

@@ -62,6 +62,14 @@ const FREE_CALCULATOR_RESOURCES_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/free-calculator-resources.astro', import.meta.url)),
   'utf8',
 );
+const CATEGORY_ROUTE_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/categories/[slug].astro', import.meta.url)),
+  'utf8',
+);
+const WHY_ACCESS_FREE_TOOLS_SOURCE = readFileSync(
+  fileURLToPath(new URL('../pages/why-access-free-tools.astro', import.meta.url)),
+  'utf8',
+);
 const HUB_ROUTE_SOURCE = readFileSync(
   fileURLToPath(new URL('../pages/hubs/[slug].astro', import.meta.url)),
   'utf8',
@@ -767,6 +775,64 @@ describe('site content audit guardrails', () => {
     expect(tool?.seoDescription?.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
     expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
     expect(guide?.description.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
+  });
+
+  it('protects the proven Kawaii Calculator search positioning', () => {
+    const tool = tools.find((item) => item.slug === 'kawaii-calculator');
+
+    expect(tool?.name).toBe('Kawaii Calculator');
+    expect(tool?.category).toBe('calculators');
+    expect(tool?.summary).toBe('A cute pastel calculator for quick everyday math.');
+    expect(tool?.seoTitle).toBe('Kawaii Calculator | Cute Free Online Calculator');
+    expect(tool?.seoDescription).toBe(
+      'Use the free Access Free Tools kawaii calculator for cute pastel everyday math, percentages, decimals, keyboard input, history, and quick result copying.',
+    );
+    expect(tool?.aliases).toEqual([
+      'Cute Calculator',
+      'Pastel Calculator',
+      'Aesthetic Calculator',
+      'Kawaii Online Calculator',
+    ]);
+    expect(tool?.relatedSlugs).toEqual([
+      'basic-calculator',
+      'percentage-calculator',
+      'fraction-calculator',
+      'scientific-calculator',
+    ]);
+  });
+
+  it('keeps the Mileage Calculator aligned with the July 2026 rate change', () => {
+    const tool = tools.find((item) => item.slug === 'mileage-calculator');
+    const guide = utilityBlogGuides.find((item) => item.toolSlug === 'mileage-calculator');
+    const faqText = tool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+    const guideText = guide?.sections
+      .flatMap((section) => [section.title, ...section.paragraphs, ...(section.bullets ?? [])])
+      .join(' ') ?? '';
+    const guideLinks = guide?.sections.flatMap((section) => section.links ?? []).map((link) => link.href) ?? [];
+
+    expect(tool?.seoDescription).toContain('July 2026 IRS/GSA rate update');
+    expect(tool?.examples).toContainEqual({
+      label: 'Client visit',
+      expression: '125 miles x $0.76 + $12',
+      result: '$107.00',
+    });
+    expect(faqText).toContain('72.5 cents per mile from January 1 through June 30');
+    expect(faqText).toContain('$0.76 per mile from July 1 through December 31, 2026');
+    expect(guideText).toContain('Example: 125 miles at the July 2026 business rate');
+    expect(guideText).toContain('125 x 0.76, which is $95.00');
+    expect(guideLinks).toContain('https://www.irs.gov/tax-professionals/standard-mileage-rates');
+    expect(guideLinks).toContain('https://www.irs.gov/irb/2026-29_irb');
+    expect(guideLinks).toContain(
+      'https://www.gsa.gov/travel/plan-a-trip/transportation-airfare-rates-pov-rates/pov-mileage-reimbursement',
+    );
+    expect(UTILITY_CALCULATOR_SOURCE).toContain("ratePerMile: '0.76'");
+  });
+
+  it('keeps two contextual discovery paths to the MCP developer page', () => {
+    expect(CATEGORY_ROUTE_SOURCE).toContain("href: '/developers/mcp/'");
+    expect(CATEGORY_ROUTE_SOURCE).toContain('I need an API or MCP endpoint');
+    expect(WHY_ACCESS_FREE_TOOLS_SOURCE).toContain('href="/developers/mcp/"');
+    expect(WHY_ACCESS_FREE_TOOLS_SOURCE).toContain('deterministic API and MCP connection');
   });
 
   it('keeps the Color Contrast Checker useful after an AA normal-text failure', () => {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-17T15:01:32+10:00",
+  "generatedAt": "2026-09-02T11:07:33+10:00",
   "source": "Search Console UI",
   "requests": [
     {
@@ -121,7 +121,56 @@
       "requestedAt": "2026-08-17T14:58:37+10:00",
       "result": "indexing-requested",
       "url": "https://accessfreetools.com/tools/json-to-csv-converter/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue. Proof: output/search-console/indexing-requests-2026-08-26/ai-tools-category-indexing-request.png.",
+      "requestedAt": "2026-08-26T18:48:11+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/categories/ai-tools/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue. Proof: output/search-console/indexing-requests-2026-08-26/break-even-calculator-indexing-request.png.",
+      "requestedAt": "2026-08-26T19:03:34+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/break-even-calculator/"
+    },
+    {
+      "evidence": "Search Console success dialog: Indexing requested / URL was added to a priority crawl queue. Proof: output/search-console/indexing-requests-2026-08-26/recipe-scaler-indexing-request.png.",
+      "requestedAt": "2026-08-26T19:03:34+10:00",
+      "result": "indexing-requested",
+      "url": "https://accessfreetools.com/tools/recipe-scaler/"
     }
   ],
-  "deferred": []
+  "deferred": [
+    {
+      "approvedAt": "2026-09-02T11:07:33+10:00",
+      "reason": "Fresh Search Console evidence shows the Browser TTS editorial URL is unknown to Google.",
+      "status": "approved",
+      "url": "https://accessfreetools.com/blog/browser-text-to-speech-kokoro-vs-supertonic/"
+    },
+    {
+      "approvedAt": "2026-09-02T11:07:33+10:00",
+      "reason": "Fresh Search Console evidence shows the JSON Formatter guide was crawled but is not indexed.",
+      "status": "approved",
+      "url": "https://accessfreetools.com/blog/how-to-use-json-formatter/"
+    },
+    {
+      "approvedAt": "2026-09-02T11:07:33+10:00",
+      "reason": "Fresh Search Console evidence shows the Query String Parser was crawled but is not indexed.",
+      "status": "approved",
+      "url": "https://accessfreetools.com/tools/query-string-parser/"
+    },
+    {
+      "approvedAt": "2026-09-02T11:07:33+10:00",
+      "reason": "Fresh Search Console evidence shows the Retaining Wall Calculator was crawled but is not indexed.",
+      "status": "approved",
+      "url": "https://accessfreetools.com/tools/retaining-wall-calculator/"
+    },
+    {
+      "approvedAt": "2026-09-02T11:07:33+10:00",
+      "reason": "Fresh Search Console and CrawlScout evidence identifies the Unix Timestamp Converter as crawled but not indexed.",
+      "status": "approved",
+      "url": "https://accessfreetools.com/tools/unix-timestamp-converter/"
+    }
+  ]
 }

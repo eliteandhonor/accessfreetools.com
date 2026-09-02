@@ -7513,8 +7513,8 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     sources: [irsMileage2026, irsMileageUpdate2026, gsaPovMileage2026, googleHelpfulContent],
     findings: [
       'The mileage helper multiplies miles by an entered rate per mile and adds optional parking, tolls, or extras.',
-      'IRS and GSA source refresh confirmed the 2026 business rate and authorized privately owned car rate context: 72.5 cents, or $0.725, per mile.',
-      'Tests cover 125 miles at 0.725 plus $12 in extra costs, including the mileage-only subtotal and final total.',
+      'IRS and GSA source refresh confirmed the 2026 midyear change: 72.5 cents per mile through June 30 and 76 cents per mile from July 1 through December 31.',
+      'Tests cover 125 miles at 0.76 plus $12 in extra costs, including the $95 mileage subtotal and $107 total.',
       'The guide tells users to use their employer, client, contract, app, or tax authority rate instead of assuming the example rate applies.',
       'Fresh query and competitor evidence showed reimbursement intent, while the previous generic Mileage Calculator name could also imply MPG or distance tracking.',
     ],
