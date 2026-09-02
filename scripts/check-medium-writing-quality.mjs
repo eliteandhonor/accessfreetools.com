@@ -231,6 +231,15 @@ const qualityRules = {
     trustHeading: 'What browser text to speech still cannot promise',
     ctaHeading: 'Try the browser text to speech tool',
   },
+  'ai-draft-passed-every-check': {
+    primaryPhrase: 'AI humanizer',
+    minNumbers: 4,
+    maxWords: 1300,
+    allowAiMentions: true,
+    requiredIdeas: ['AI-assisted draft', 'specific', 'limits'],
+    trustHeading: 'What my checks cannot prove',
+    ctaHeading: 'Try the deletion test on one paragraph',
+  },
 };
 
 function parseArgs() {

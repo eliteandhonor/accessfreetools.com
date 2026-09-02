@@ -19,6 +19,7 @@ const publicationOrder = [
   'github-stars-security-review',
   'kawaii-calculator-serious-math',
   'browser-text-to-speech-kokoro-vs-supertonic',
+  'ai-draft-passed-every-check',
 ];
 
 const posts = [
@@ -592,6 +593,78 @@ const posts = [
     heroCredit:
       'Image credit: Access Free Tools smoke-kawaii illustration, created with GPT Image and reviewed by Brendan Chambers.',
   },
+  {
+    slug: 'ai-draft-passed-every-check',
+    title: 'My AI Draft Passed Every Check. I Deleted It Anyway',
+    subtitle:
+      'The score was 50 out of 50. I still would not read the article, so I stopped polishing and found the real story.',
+    seoTitle: "Why I Don't Use an AI Humanizer on My Drafts",
+    seoDescription:
+      'My AI-assisted draft passed every writing check and still felt dead. Here is how I edit for facts, voice, rhythm, and a story worth reading.',
+    sourceUrl: `${SITE_ORIGIN}/blog/remove-ai-writing-tells-before-publishing/`,
+    canonicalUrl: `${SITE_ORIGIN}/blog/remove-ai-writing-tells-before-publishing/`,
+    tags: ['Writing', 'Artificial Intelligence', 'Editing', 'Blogging', 'Content Strategy'],
+    audience:
+      'Writers, bloggers, developers, and small-site owners who use AI during research or editing but still want the final work to sound like them.',
+    disclosure:
+      'Disclosure: I am Brendan Chambers, the owner of Access Free Tools. Codex helped me organize research and run quality checks. The example, publishing decision, source review, and final wording are mine.',
+    contextualLink:
+      'I wrote the longer version of this process in my [guide to editing AI-assisted writing before publishing](https://accessfreetools.com/blog/remove-ai-writing-tells-before-publishing/). This Medium story focuses on the draft I deleted and the test that changed what I published next.',
+    headings: {
+      quickAnswer: 'The check that mattered was whether I kept reading',
+      whyItMatters: 'A humanizer would have polished the wrong problem',
+      bestUse: 'The question I ask before editing a sentence',
+      limits: 'What my checks cannot prove',
+      cta: 'Try the deletion test on one paragraph',
+    },
+    sections: [
+      {
+        heading: 'The draft had a subject, but no story',
+        paragraphs: [
+          'The article explained unit tests, browser checks, mobile screenshots, accessibility, and sitemap validation. All of that work is real. I use it on Access Free Tools, and I can show the commands and results.',
+          'The draft still read like internal documentation wearing a clean shirt. It told you what I checked, but it never showed a decision that changed the product. I had mistaken a useful subject for a readable story.',
+        ],
+      },
+      {
+        heading: 'An AI humanizer cannot add the missing experience',
+        paragraphs: [
+          'I could have sent the draft through an AI humanizer and asked for more natural wording. That might have changed the rhythm or swapped a few phrases. It could not invent the moment when I changed my mind, because that moment was missing from the draft.',
+          'A recent [Tom\'s Guide test of AI humanizers](https://www.tomsguide.com/ai/i-tested-popular-ai-humanizers-and-they-made-my-writing-much-worse) reported stranger word choices, lost context, and altered facts. I did not repeat that product test. It did confirm the risk I wanted to avoid: another rewrite layer can make a weak draft harder to verify without giving it a reason to exist.',
+        ],
+      },
+      {
+        heading: 'I keep the AI job narrow',
+        paragraphs: [
+          'AI helps me group research, challenge an outline, spot repetition, and list claims that need evidence. I do not ask it to manufacture a mistake I never made or a result I never measured.',
+          'The [Stop Slop project](https://github.com/hardikpandya/stop-slop) gives me useful mechanical alarms for filler, repeated structures, fake drama, and vague claims. I keep those alarms. I also keep the right to ignore a clean score when the page feels empty.',
+        ],
+      },
+      {
+        heading: 'Reading aloud removes my helpful delivery',
+        paragraphs: [
+          'When I read my own sentence, I hear the emphasis I meant to write. A fixed browser voice does not rescue it for me. Crowded sentences sound crowded, repeated openings become obvious, and weak transitions have nowhere to hide.',
+          'I use the [Text to Speech MP3 Generator](https://accessfreetools.com/tools/text-to-speech-audiobook-generator/) for that listening pass. It is not judging the draft. It lets me hear the words without my own performance smoothing them over.',
+        ],
+      },
+      {
+        heading: 'Google does not need a flood of polished drafts',
+        paragraphs: [
+          '[Google\'s guidance on generative AI content](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content) says AI can help with research and structure, but generating many pages without adding value can violate its scaled-content policy. That matches the practical problem I had in front of me. More clean paragraphs would not make the article more useful.',
+          'I would rather publish one page with a checked example and clear limits than five pages built around the same tidy outline. The useful question is not whether AI touched the draft. It is whether I added something you could not get from a generic answer.',
+        ],
+      },
+    ],
+    callout:
+      'Take one paragraph from your draft and ask what fact, decision, or example disappears if you delete it. If the answer is nothing, remove it or replace it with the part you actually observed.',
+    finalLinks: [
+      '[Read my full six-pass editing process](https://accessfreetools.com/blog/remove-ai-writing-tells-before-publishing/)',
+      '[Listen to a draft with the browser Text to Speech MP3 Generator](https://accessfreetools.com/tools/text-to-speech-audiobook-generator/)',
+      '[Check sentence length with the Reading Level Checker](https://accessfreetools.com/tools/reading-level-checker/)',
+      '[Review Stop Slop on GitHub](https://github.com/hardikpandya/stop-slop)',
+    ],
+    heroCredit:
+      'Image credit: Access Free Tools smoke-kawaii illustration, created with GPT Image and reviewed by Brendan Chambers.',
+  },
 ];
 
 const heroAltText = {
@@ -621,6 +694,8 @@ const heroAltText = {
     'Full-body smoke-kawaii girl testing a pastel calculator beside a keyboard, history chart, checklist, and magnifying glass.',
   'browser-text-to-speech-kokoro-vs-supertonic':
     'Full-body smoke-kawaii girl beside a laptop showing voice choices, audio waveforms, headphones, and a downloadable MP3 result.',
+  'ai-draft-passed-every-check':
+    'Full-body smoke-kawaii girl rejecting bland checked draft cards and choosing a richer story beside a laptop, stopwatch, headphones, sources, and red pencil.',
 };
 
 const publishEnhancements = {
@@ -1057,6 +1132,44 @@ const publishEnhancements = {
       'Pronunciation, pauses, names, and mixed-language passages still need a listening check before you publish the audio.',
       'The model and runtime files download from their pinned host. Access Free Tools does not upload your text to a speech server.',
       'I have tested current desktop Chrome and Edge. Physical iPhone, iPad, and Android coverage is still a compatibility limit, not a claim I am willing to guess.',
+    ],
+  },
+  'ai-draft-passed-every-check': {
+    preview:
+      'My AI-assisted draft scored 50 out of 50 and still felt dead. The problem was not grammar. It had no decision, risk, or result worth following.',
+    seoReview:
+      'DataForSEO research on 2026-09-02 found informational demand for "AI humanizer," but the article must reject detector-bypass intent and answer the safer editing question. Keep the owner example, canonical source, and verified limits central.',
+    hook: [
+      'I had the AI-assisted draft open in one browser tab and its 50-out-of-50 quality report in another. I had checked the sources, links, headings, repeated phrases, and obvious filler. Then I tried to read it as somebody who had not spent months building Access Free Tools.',
+      'I skimmed the second paragraph. I jumped past a section. Before the end, I had opened a different browser tab.',
+      'The article was accurate, polished, and boring. I deleted it.',
+    ],
+    quickAnswer: [
+      'I do not send a weak draft through an AI humanizer and hope a new rhythm turns it into my voice. I find the decision I made, verify the facts, replace broad claims with something I observed, listen to the page, and cut paragraphs that could fit any website.',
+      'Mechanical checks still help me. They catch habits when I am too close to the words. They show you where to look so you can decide whether the story is worth your time.',
+    ],
+    whyItMatters: [
+      'The internet does not need another tidy list of sensible advice. A reader needs the part that changes a choice: the test that failed, the number that surprised me, the limit I found, or the reason I stopped one plan and built another.',
+      'An AI humanizer works on the surface. My failed draft had a deeper problem. No word swap could add experience I had left out.',
+    ],
+    bestUse: [
+      'Before I edit a sentence, I ask one question: what happened here that only I can report? The answer might be a browser stall, a wrong assumption, a result that contradicted my plan, or a feature I removed after using it.',
+      'If I cannot answer, I may have notes or documentation rather than an article. That material can still be useful. It does not need to pretend it is a story.',
+    ],
+    example: {
+      heading: 'The 70.4-second detail that earned its place',
+      paragraphs: [
+        'My flat sentence said: "Browser text to speech creates audio without a separate server. The tool supports several voices and downloadable MP3 files." It was accurate and forgettable.',
+        'The version I kept said: "My first uncached Edge run spent 70.4 seconds loading Kokoro. The button said Stop, the page looked frozen, and I nearly treated a working model as a failed product."',
+        'The second version has a browser, a measured wait, the mistake I nearly made, and the reason the interface changed. That is the difference I now look for. Specific writing does not need decorative adjectives. It needs evidence connected to a decision.',
+      ],
+    },
+    limits: [
+      'A clean style score does not prove that the facts are correct or the article is interesting.',
+      'An AI detector cannot prove who wrote a passage, and I do not edit toward a detector score.',
+      'An AI humanizer can change meaning, context, or factual details, so every change still needs a line-by-line check.',
+      'Reading-level scores flag places to inspect. They do not decide which technical words belong in the article.',
+      'AI assistance still needs an honest disclosure when that context matters to the reader.',
     ],
   },
 };

@@ -107,6 +107,13 @@ const staticHeroes = [
     detailLines: ['Custom smoke-kawaii browser TTS scene; no generated text overlay.'],
     titleLines: ['Kokoro vs Supertonic in the browser'],
   },
+  {
+    slug: 'ai-draft-passed-every-check',
+    expectedWidth: 1200,
+    expectedHeight: 675,
+    detailLines: ['Custom smoke-kawaii editing decision scene; no generated text overlay.'],
+    titleLines: ['My AI draft passed every check'],
+  },
 ];
 
 const canvas = {
