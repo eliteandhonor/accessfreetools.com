@@ -25,6 +25,29 @@ afterEach(() => {
   while (tempRoots.length) rmSync(tempRoots.pop(), { force: true, recursive: true });
 });
 
+describe('aft CLI promotion authorization', () => {
+  it('separates approval-required rows and excludes inactive or mixed channels', () => {
+    const root = makeRoot();
+    writeFixture(root, 'docs/promotion-queue.md', [
+      '| Priority | Page | Angle | Channel | Status | Next Action |',
+      '| --- | --- | --- | --- | --- | --- |',
+      '| High | /allowed/ | ready | Medium | approved | verify |',
+      '| High | /release-ready/ | ready | Pinterest organic | release-ready | verify |',
+      '| High | /pending/ | draft | Bluesky | needs approval | ask owner |',
+      '| High | /blocked/ | old | DEV Community | approved | never |',
+      '| High | /mixed/ | mixed | Medium, Quora | approved | never |',
+      '| High | /mixed-unicode/ | mixed | Medium, \u672a\u77e5 | approved | never |',
+      '| High | /mixed-punctuation/ | mixed | Medium / ??? | release-ready | never |',
+    ].join('\n'));
+    const result = spawnSync(process.execPath, [aftCli, 'promote-next', '--json'], { cwd: root, encoding: 'utf8' });
+    expect(result.status).toBe(0);
+    const report = JSON.parse(result.stdout);
+    expect(report.candidates.map((row) => row.page)).toEqual(['/allowed/', '/release-ready/']);
+    expect(report.approvalRequired.map((row) => row.page)).toEqual(['/pending/']);
+    expect(report.qualityReports.map((row) => row.label).join(' ')).not.toMatch(/DEV Community|Quora|Reddit/);
+  });
+});
+
 describe('aft CLI indexing gaps', () => {
   it('labels exact URL inspection freshness separately from aggregate evidence', () => {
     const root = makeRoot();
@@ -172,6 +195,7 @@ describe('aft CLI indexing gaps', () => {
       'output/search-console-url-inspection.json',
       JSON.stringify(
         {
+          generatedAt: new Date().toISOString(),
           inspections: [
             {
               coverageState: 'Crawled - currently not indexed',
@@ -223,6 +247,7 @@ describe('aft CLI indexing gaps', () => {
       'output/search-console-url-inspection.json',
       JSON.stringify(
         {
+          generatedAt: new Date().toISOString(),
           inspections: [
             {
               coverageState: 'Crawled - currently not indexed',

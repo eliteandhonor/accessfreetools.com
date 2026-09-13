@@ -10,6 +10,7 @@ import {
   resolveArchiveReference,
   validateBrowserTtsArchiveEntries,
   validateBrowserTtsImportFile,
+  validateBrowserTtsImportMetadata,
   type BrowserTtsArchiveEntryMetadata,
   type BrowserTtsImportErrorCode,
 } from './browserTtsImport';
@@ -38,6 +39,21 @@ function archiveEntry(overrides: Partial<BrowserTtsArchiveEntryMetadata> = {}): 
 }
 
 describe('browser TTS import contract', () => {
+  it('preflights the unchanged Markdown and EPUB ceilings without bytes', () => {
+    expect(BROWSER_TTS_IMPORT_LIMITS.markdownFileBytes).toBe(65_536);
+    expect(BROWSER_TTS_IMPORT_LIMITS.archiveFileBytes).toBe(8_388_608);
+    for (const [format, name, type, size] of [
+      ['markdown', 'book.md', 'text/markdown', 65_536],
+      ['markdown', 'book.MARKDOWN', '', 65_536],
+      ['epub', 'book.epub', 'application/epub+zip', 8_388_608],
+      ['epub', 'book.EPUB', 'application/octet-stream', 8_388_608],
+      ['epub', 'book.epub', 'application/zip', 8_388_608],
+    ] as const) {
+      expect(() => validateBrowserTtsImportMetadata({ name, type, size }, format)).not.toThrow();
+      expectImportError(() => validateBrowserTtsImportMetadata({ name, type, size: size + 1 }, format), 'archive-too-large');
+    }
+  });
+
   it('requires explicit matching file bytes, extensions, MIME types, and size limits', () => {
     const markdown = new TextEncoder().encode('# Local document');
     expect(() => validateBrowserTtsImportFile(

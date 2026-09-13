@@ -1,6 +1,10 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { hostingerRequest, listHostingerWebsites, summarizeCollection } from './lib/hostinger-api.mjs';
 import { resolveHostingerNodeVersion } from './lib/hostinger-deploy-config.mjs';
+import { summarizeHostingerNodeRuntime } from './lib/hostinger-build-status.mjs';
+import { captureReleaseSource, readReleaseReceipt, verifyReleaseReceipt, verifyRemoteReleaseSource,
+  fetchDeployedIdentity, verifyDeployedIdentity } from './lib/release-identity.mjs';
 
 const args = new Set(process.argv.slice(2));
 const dryRun = args.has('--dry-run') || process.env.npm_config_dry_run === 'true';
@@ -9,6 +13,26 @@ const pollDelayMs = Number(process.env.HOSTINGER_DEPLOY_POLL_MS || 10000);
 const settleDelayMs = Number(process.env.HOSTINGER_DEPLOY_SETTLE_MS || 20000);
 const maxPolls = Number(process.env.HOSTINGER_DEPLOY_MAX_POLLS || 36);
 const nodeVersion = resolveHostingerNodeVersion();
+const testedReceipt = readReleaseReceipt();
+const testedSource = captureReleaseSource();
+const testProof = verifyReleaseReceipt(testedReceipt, testedSource);
+
+function assertReleaseReady() {
+  const current = captureReleaseSource();
+  const local = verifyReleaseReceipt(testedReceipt, current);
+  if (!local.ok) throw new Error(`Deployment stopped before writing: ${local.message}.`);
+  let remote;
+  try {
+    remote = execFileSync('git', ['ls-remote', '--exit-code', 'origin', 'refs/heads/main'], {
+      encoding: 'utf8', timeout: 20000, stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true,
+      env: { ...process.env, GIT_TERMINAL_PROMPT: '0' },
+    });
+  } catch { throw new Error('Deployment stopped: current origin main could not be verified.'); }
+  const remoteProof = verifyRemoteReleaseSource(current.commit, remote);
+  if (!remoteProof.ok) throw new Error(`Deployment stopped: ${remoteProof.message}.`);
+}
+
+if (!dryRun) assertReleaseReady();
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -61,6 +85,8 @@ const report = {
   username: website.username,
   dryRun,
   buildOptions,
+  testProof,
+  testedCommit: testedSource.commit,
   requestedAt: new Date().toISOString(),
 };
 
@@ -80,6 +106,7 @@ if (dryRun) {
   }
 
   async function startBuild(reason) {
+    assertReleaseReady();
     const response = await hostingerRequest(endpoint, { method: 'POST', body: buildOptions });
     console.log(
       [
@@ -107,6 +134,9 @@ if (dryRun) {
   }
 
   const response = await startBuild('started');
+  report.requestedBuild = { uuid: response.data?.uuid ?? null, state: response.data?.state ?? null };
+  report.status = 'pending-verification';
+  writeFileSync('output/hostinger/node-deploy-request.json', `${JSON.stringify(report, null, 2)}\n`);
   const completedBuild = await waitForBuild(response.data?.uuid);
   const completedState = buildState(completedBuild);
 
@@ -117,33 +147,22 @@ if (dryRun) {
   await sleep(settleDelayMs);
   const latestBuilds = await listBuilds();
   const latest = latestBuilds[0];
-  const latestEntry = buildEntry(latest);
-
-  if (latest?.uuid !== completedBuild?.uuid || latestEntry !== 'app.js') {
-    console.log(
-      [
-        `Hostinger latest build after settle: ${buildLine(latest)}`,
-        'Starting one final app.js build so API, Ask, MCP, and admin report routes stay on the Node runtime.',
-      ].join('\n'),
-    );
-    const retryResponse = await startBuild('retry started');
-    const retryBuild = await waitForBuild(retryResponse.data?.uuid);
-    const retryState = buildState(retryBuild);
-
-    if (!isSuccessfulState(retryState) || buildEntry(retryBuild) !== 'app.js') {
-      throw new Error(`Hostinger retry build did not finish as app.js Node runtime: ${buildLine(retryBuild)}.`);
-    }
+  const runtimeProof = summarizeHostingerNodeRuntime(latestBuilds);
+  if (latest?.uuid !== completedBuild?.uuid || !runtimeProof.ok) {
+    throw new Error(`Deployment verification stopped: the latest build changed or has the wrong runtime (${buildLine(latest)}). No automatic redeploy was requested.`);
   }
+  assertReleaseReady();
+  const releaseProof = verifyDeployedIdentity(await fetchDeployedIdentity(domain), testedReceipt, captureReleaseSource());
+  if (!releaseProof.ok) throw new Error(`Deployment remains unverified: ${releaseProof.message}.`);
 
   writeFileSync(
     'output/hostinger/node-deploy-request.json',
     JSON.stringify(
       {
         ...report,
-        response: {
-          status: response.status,
-          data: response.data,
-        },
+        status: 'verified',
+        runtimeProof,
+        releaseProof,
       },
       null,
       2,

@@ -4,6 +4,7 @@ import { createServer } from 'node:http';
 import path from 'node:path';
 import { stat } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { classifyAccessibilityRequest, createAccessibilityCheck, createAccessibilityPlan, summarizeAccessibilityChecks } from './lib/accessibility-report.mjs';
 
 const ROOT = path.resolve('dist');
 const OUTPUT_DIR = path.resolve('output', 'accessibility');
@@ -25,6 +26,7 @@ const VIEWPORTS = [
   { name: 'mobile', width: 390, height: 844 },
   { name: 'mobile-320', width: 320, height: 568 },
 ];
+const PLAN = createAccessibilityPlan({ pages: PAGES, viewports: VIEWPORTS, themeMatrix: process.argv.includes('--theme-matrix') });
 
 const HYDRATION_TIMEOUT_MS = 5000;
 
@@ -87,15 +89,17 @@ const browser = await chromium.launch();
 
 const report = {
   generatedAt: new Date().toISOString(),
-  pages: PAGES,
-  viewports: VIEWPORTS,
+  ...PLAN,
+  conditions: {
+    browserVersion: browser.version(),
+    documentRoot: ROOT,
+    buildFreshness: 'not-attested-by-this-script; attach coordinator build evidence',
+    network: 'Same-origin public GET assets only; third-party, private/API, model/runtime and non-GET requests blocked.',
+    context: 'New isolated context per check; service workers blocked; DNT, analytics opt-out and owner ad suppression enabled.',
+    scope: 'Owned static pages with no submitted user payloads or screenshots; blocked embeds and models are not verified.',
+  },
   checks: [],
 };
-
-function isBlockingViolation(violation) {
-  if (violation.impact === 'critical' || violation.impact === 'serious') return true;
-  return violation.impact === 'moderate' && violation.id.startsWith('landmark');
-}
 
 async function waitForHydratedSelector(page, selector) {
   try {
@@ -228,53 +232,71 @@ async function inspectKeyboardAndStatusBehavior(page, pagePath) {
   return assertions;
 }
 
-async function inspectPage(pagePath, viewport) {
-  const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height } });
-  const page = await context.newPage();
-  const pageErrors = [];
-  page.on('pageerror', (error) => pageErrors.push(error.message));
-
-  await page.goto(`${baseURL}${pagePath}`, { waitUntil: 'networkidle' });
-
-  let axe = new AxeBuilder({ page });
-  if (pagePath === '/blog/free-ai-skills-open-source-tools-organic-growth/') {
-    axe = axe.exclude('iframe[src*="youtube"]');
+async function selectTheme(page, requestedTheme) {
+  const method = PLAN.mode === 'selected-theme-matrix' ? 'swatch-click' : 'isolated-default';
+  let selectionCompleted = method === 'isolated-default';
+  if (method === 'swatch-click' && await waitForHydratedSelector(page, '.theme-picker-trigger')) {
+    try {
+      await page.locator('.theme-picker-trigger').click();
+      await page.getByRole('button', { name: `Use ${requestedTheme.label} look`, exact: true }).click();
+      await page.waitForFunction((id) => document.documentElement.dataset.theme === id, requestedTheme.id,
+        { timeout: HYDRATION_TIMEOUT_MS });
+      selectionCompleted = true;
+    } catch {
+      selectionCompleted = false;
+    }
   }
-
-  const results = await axe.analyze();
-  const blockingViolations = results.violations.filter(isBlockingViolation);
-  const assertions = await inspectKeyboardAndStatusBehavior(page, pagePath);
-
-  await context.close();
-
-  report.checks.push({
-    pagePath,
-    viewport,
-    assertions,
-    pageErrors,
-    violationCount: results.violations.length,
-    blockingViolations: blockingViolations.map((violation) => ({
-      id: violation.id,
-      impact: violation.impact,
-      description: violation.description,
-      help: violation.help,
-      helpUrl: violation.helpUrl,
-      nodes: violation.nodes.map((node) => ({
-        target: node.target,
-        failureSummary: node.failureSummary,
-      })),
-    })),
-    pass:
-      pageErrors.length === 0 &&
-      blockingViolations.length === 0 &&
-      assertions.every((assertion) => assertion.pass),
+  const state = await page.evaluate(() => {
+    let storedId = null;
+    try { storedId = window.localStorage.getItem('access-tools-theme'); } catch { /* Preference storage can be unavailable. */ }
+    return { observedId: document.documentElement.dataset.theme ?? null, storedId };
   });
+  return { requestedId: requestedTheme.id, requestedLabel: requestedTheme.label, method, ...state,
+    applied: selectionCompleted && state.observedId === requestedTheme.id && (method === 'isolated-default' || state.storedId === requestedTheme.id) };
+}
+
+async function inspectPage(pagePath, viewport, requestedTheme) {
+  const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height },
+    serviceWorkers: 'block', acceptDownloads: false, extraHTTPHeaders: { DNT: '1' } });
+  const blockedRequestCounts = {};
+  await context.route('**/*', (route) => {
+    const decision = classifyAccessibilityRequest(route.request().url(), route.request().method(), baseURL);
+    if (decision === 'allowed') return route.continue();
+    blockedRequestCounts[decision] = (blockedRequestCounts[decision] ?? 0) + 1;
+    return route.abort();
+  });
+  await context.addInitScript(() => {
+    try {
+      window.localStorage.setItem('access-free-tools-analytics-opt-out', 'true');
+      window.localStorage.setItem('access-free-tools-owner-ads-disabled', 'true');
+    } catch { /* Sandboxed embeds may deny storage. */ }
+  });
+  try {
+    const page = await context.newPage();
+    const pageErrors = [];
+    page.on('pageerror', (error) => pageErrors.push(error.message));
+    await page.goto(`${baseURL}${pagePath}`, { waitUntil: 'networkidle' });
+    const assertions = await inspectKeyboardAndStatusBehavior(page, pagePath);
+    const theme = await selectTheme(page, requestedTheme);
+
+    let axe = new AxeBuilder({ page });
+    if (pagePath === '/blog/free-ai-skills-open-source-tools-organic-growth/') {
+      axe = axe.exclude('iframe[src*="youtube"]');
+    }
+    const results = await axe.analyze();
+    assertions.push({ id: 'requested-theme-applied', pass: theme.applied,
+      message: theme.applied ? `Theme ${theme.requestedId} verified by ${theme.method}.`
+        : `Requested ${theme.requestedId}; observed ${theme.observedId}; stored ${theme.storedId}; selection not proven.` });
+    report.checks.push(createAccessibilityCheck({ pagePath, viewport, results, assertions, pageErrors, theme, blockedRequestCounts }));
+  } finally {
+    await context.close();
+  }
 }
 
 try {
-  for (const viewport of VIEWPORTS) {
-    for (const pagePath of PAGES) {
-      await inspectPage(pagePath, viewport);
+  for (const viewport of PLAN.viewports) {
+    for (const pagePath of PLAN.pages) {
+      for (const theme of PLAN.themes) await inspectPage(pagePath, viewport, theme);
     }
   }
 } finally {
@@ -282,20 +304,21 @@ try {
   await new Promise((resolve) => server.close(resolve));
 }
 
-const reportPath = path.join(OUTPUT_DIR, 'latest.json');
+const reportPath = path.join(OUTPUT_DIR, PLAN.mode === 'selected-theme-matrix' ? 'theme-matrix.json' : 'latest.json');
+report.summary = summarizeAccessibilityChecks(report.checks);
 writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
 
 const failures = report.checks.flatMap((check) => [
-  ...check.pageErrors.map((error) => `${check.pagePath} ${check.viewport.name}: page error: ${error}`),
+  ...check.pageErrors.map((error) => `${check.pagePath} ${check.viewport.name} ${check.theme.requestedId}: page error: ${error}`),
   ...check.assertions
     .filter((assertion) => !assertion.pass)
     .map(
       (assertion) =>
-        `${check.pagePath} ${check.viewport.name}: ${assertion.id}: ${assertion.message}`,
+        `${check.pagePath} ${check.viewport.name} ${check.theme.requestedId}: ${assertion.id}: ${assertion.message}`,
     ),
   ...check.blockingViolations.map(
     (violation) =>
-      `${check.pagePath} ${check.viewport.name}: ${violation.id} (${violation.impact}) ${violation.help}`,
+      `${check.pagePath} ${check.viewport.name} ${check.theme.requestedId}: ${violation.id} (${violation.impact}) ${violation.help}`,
   ),
 ]);
 
@@ -307,4 +330,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`Accessibility check passed for ${report.checks.length} page/viewport pairs. Report: ${reportPath}`);
+console.log(`Automated accessibility gate passed for ${report.checks.length} checks. Manual review: ${report.summary.manualReview.status} (${report.summary.manualReview.unresolvedFindingCount} unresolved findings). Conformance not assessed. Report: ${reportPath}`);

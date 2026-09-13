@@ -1,6 +1,7 @@
 import pinterestAppProofData from './pinterestAppProof.json';
 import pinterestCategoryBoards from './pinterestCategoryBoards.json';
 import { getIndexationPolicy } from './indexationPolicy';
+import publicationHolds from './pinterestPublicationHolds.json';
 import { tools, type ToolDefinition } from './tools';
 
 export type PinterestFeedStatus = 'posted' | 'rss-ready';
@@ -884,7 +885,7 @@ function pinterestDescriptionForTool(tool: ToolDefinition) {
 const pinterestCatalogFeedItems: PinterestFeedItem[] = tools
   .filter((tool) => {
     const path = `/tools/${tool.slug}/`;
-    return !manualToolPaths.has(path) && getIndexationPolicy(path).index;
+    return !manualToolPaths.has(path) && getIndexationPolicy(path).index && !publicationHolds.includes(tool.slug);
   })
   .map((tool) => {
     const board = pinterestCategoryBoards[tool.category];

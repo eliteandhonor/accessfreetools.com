@@ -242,13 +242,15 @@ const imageStructuredData = {
         });
         if (reveal instanceof HTMLElement) reveal.hidden = false;
 
-        reveal?.addEventListener('click', () => {
+        reveal?.addEventListener('click', (event) => {
+          const firstNewItem = items.find((item) => item.hidden);
           items.forEach((item) => {
             item.hidden = false;
           });
           if (reveal instanceof HTMLElement) reveal.hidden = true;
           reveal.setAttribute('aria-expanded', 'true');
           if (status) status.textContent = `All ${items.length} images are now shown.`;
+          if (event.detail === 0) firstNewItem?.focus();
         });
       });
     })();

@@ -4654,8 +4654,10 @@ function calculatePaymentForMonthlyRate(principal: number, monthlyRate: number, 
     return principal / paymentCount;
   }
 
-  const growth = (1 + monthlyRate) ** paymentCount;
-  return (principal * monthlyRate * growth) / (growth - 1);
+  // Negative exponents avoid growth overflow; expm1/log1p retain tiny positive rates.
+  const discountedPayments = -Math.expm1(-paymentCount * Math.log1p(monthlyRate));
+  // Nonnegative interest cannot reduce the zero-rate payment, even by rounding.
+  return Math.max(principal / paymentCount, principal * (monthlyRate / discountedPayments));
 }
 
 export function calculateLoanPayment(principal: number, annualRatePercent: number, years: number) {
@@ -4710,7 +4712,7 @@ export function calculateLoanPrincipalFromPayment(
   const monthlyRate = annualRatePercent / 100 / 12;
   const principal = monthlyRate === 0
     ? monthlyPayment * paymentCount
-    : monthlyPayment * (1 - (1 + monthlyRate) ** -paymentCount) / monthlyRate;
+    : monthlyPayment * (-Math.expm1(-paymentCount * Math.log1p(monthlyRate)) / monthlyRate);
   const totalPaid = monthlyPayment * paymentCount;
 
   return {
@@ -5105,38 +5107,7 @@ export function calculateInterestRateFromPayment(
     throw new Error('Monthly payment is too low to repay the principal within this term');
   }
 
-  if (Math.abs(monthlyPayment - zeroInterestPayment) < 1e-10) {
-    return {
-      principal,
-      annualRatePercent: 0,
-      years,
-      paymentCount,
-      monthlyPayment,
-      totalPaid: monthlyPayment * paymentCount,
-      totalInterest: monthlyPayment * paymentCount - principal,
-      monthlyRatePercent: 0,
-    };
-  }
-
-  let low = 0;
-  let high = 1;
-
-  while (calculatePaymentForMonthlyRate(principal, high, paymentCount) < monthlyPayment && high < 10) {
-    high *= 2;
-  }
-
-  for (let index = 0; index < 100; index += 1) {
-    const mid = (low + high) / 2;
-    const payment = calculatePaymentForMonthlyRate(principal, mid, paymentCount);
-
-    if (payment > monthlyPayment) {
-      high = mid;
-    } else {
-      low = mid;
-    }
-  }
-
-  const monthlyRate = (low + high) / 2;
+  const monthlyRate = solveRateForPayment(principal, monthlyPayment, paymentCount);
   const annualRatePercent = monthlyRate * 12 * 100;
   const totalPaid = monthlyPayment * paymentCount;
 
@@ -6602,20 +6573,41 @@ function solveRateForPayment(presentValue: number, payment: number, periods: num
   assertPositiveNumber(payment, 'Payment');
   assertPositiveNumber(periods, 'Payment count');
 
-  if (payment * periods <= presentValue) {
+  // Every accepted rate must reconstruct the payment within this absolute/relative tolerance.
+  const paymentTolerance = Math.max(1e-9, payment * 1e-11);
+  const zeroRatePayment = presentValue / periods;
+  if (payment === zeroRatePayment) {
     return 0;
+  }
+
+  if (payment < zeroRatePayment) {
+    throw new Error('Payment is too low to repay the principal within this term');
   }
 
   let low = 0;
   let high = 1;
+  const maxMonthlyRate = 16;
+  let highPayment = calculatePaymentForMonthlyRate(presentValue, high, periods);
 
-  while (calculatePaymentForMonthlyRate(presentValue, high, periods) < payment && high < 10) {
+  while (highPayment < payment && high < maxMonthlyRate) {
     high *= 2;
+    highPayment = calculatePaymentForMonthlyRate(presentValue, high, periods);
+  }
+
+  if (!Number.isFinite(highPayment)) {
+    throw new Error('Rate calculation exceeds the supported numeric range. Try smaller inputs.');
+  }
+  if (highPayment < payment) {
+    throw new Error('Required rate exceeds the supported rate range of 0% to 19200% per year.');
   }
 
   for (let index = 0; index < 100; index += 1) {
     const mid = (low + high) / 2;
     const estimated = calculatePaymentForMonthlyRate(presentValue, mid, periods);
+
+    if (!Number.isFinite(estimated)) {
+      throw new Error('Rate calculation exceeds the supported numeric range. Try smaller inputs.');
+    }
 
     if (estimated > payment) {
       high = mid;
@@ -6624,7 +6616,12 @@ function solveRateForPayment(presentValue: number, payment: number, periods: num
     }
   }
 
-  return (low + high) / 2;
+  const rate = (low + high) / 2;
+  const reconstructedPayment = calculatePaymentForMonthlyRate(presentValue, rate, periods);
+  if (!Number.isFinite(reconstructedPayment) || Math.abs(reconstructedPayment - payment) > paymentTolerance) {
+    throw new Error('Rate calculation exceeds the supported numeric range. Try smaller inputs.');
+  }
+  return rate;
 }
 
 export function calculateMarriageTaxComparison(input: {
@@ -7370,8 +7367,7 @@ export function calculateCanadianMortgage(input: {
 
   const paymentsPerYear = input.paymentsPerYear ?? 12;
   const loanAmount = input.propertyPrice - input.downPayment;
-  const effectiveAnnualRate = (1 + input.annualRatePercent / 100 / 2) ** 2 - 1;
-  const periodicRate = (1 + effectiveAnnualRate) ** (1 / paymentsPerYear) - 1;
+  const periodicRate = Math.expm1(Math.log1p(input.annualRatePercent / 100 / 2) * 2 / paymentsPerYear);
   const paymentCount = Math.round(input.years * paymentsPerYear);
   const payment = calculatePaymentForMonthlyRate(loanAmount, periodicRate, paymentCount);
   const totalPaid = payment * paymentCount;
@@ -9167,6 +9163,24 @@ function addMonthsClamped(date: Date, monthDelta: number) {
   return new Date(Date.UTC(targetYear, normalizedMonthIndex, targetDay));
 }
 
+function decomposeCalendarInterval(earlier: Date, later: Date) {
+  // Clamp one combined year/month offset from the earlier date, then add UTC days.
+  let totalMonths = (later.getUTCFullYear() - earlier.getUTCFullYear()) * 12
+    + later.getUTCMonth() - earlier.getUTCMonth();
+  let anchor = addMonthsClamped(earlier, totalMonths);
+
+  if (anchor.getTime() > later.getTime()) {
+    totalMonths -= 1;
+    anchor = addMonthsClamped(earlier, totalMonths);
+  }
+
+  return {
+    years: Math.floor(totalMonths / 12),
+    months: totalMonths % 12,
+    days: Math.floor((later.getTime() - anchor.getTime()) / millisecondsPerDay),
+  };
+}
+
 function compareUtcDates(left: Date, right: Date) {
   return left.getTime() === right.getTime() ? 0 : left.getTime() < right.getTime() ? -1 : 1;
 }
@@ -9313,20 +9327,7 @@ export function calculateAge(birthDate: string, asOfDate: string): AgeCalculatio
     throw new Error('Birth date must be on or before the as of date');
   }
 
-  let years = asOf.year - birth.year;
-  let months = asOf.month - birth.month;
-  let days = asOf.day - birth.day;
-
-  if (days < 0) {
-    months -= 1;
-    const previousMonthDate = new Date(Date.UTC(asOf.year, asOf.month - 1, 0));
-    days += previousMonthDate.getUTCDate();
-  }
-
-  if (months < 0) {
-    years -= 1;
-    months += 12;
-  }
+  const { years, months, days } = decomposeCalendarInterval(birth.date, asOf.date);
 
   const totalDays = Math.floor((asOf.date.getTime() - birth.date.getTime()) / millisecondsPerDay);
   const totalMonths = years * 12 + months;
@@ -9364,19 +9365,8 @@ export function calculateDateDifference(startDate: string, endDate: string): Dat
   const earlier = direction === 'backward' ? end : start;
   const later = direction === 'backward' ? start : end;
   const days = Math.abs(Math.floor((end.date.getTime() - start.date.getTime()) / millisecondsPerDay));
-  let calendarYears = later.year - earlier.year;
-  let calendarMonths = later.month - earlier.month;
-  let calendarDays = later.day - earlier.day;
-
-  if (calendarDays < 0) {
-    calendarMonths -= 1;
-    calendarDays += new Date(Date.UTC(later.year, later.month - 1, 0)).getUTCDate();
-  }
-
-  if (calendarMonths < 0) {
-    calendarYears -= 1;
-    calendarMonths += 12;
-  }
+  const { years: calendarYears, months: calendarMonths, days: calendarDays } =
+    decomposeCalendarInterval(earlier.date, later.date);
 
   return {
     startDate,

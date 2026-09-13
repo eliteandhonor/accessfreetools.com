@@ -4,10 +4,33 @@ import { dirname, join, resolve } from 'node:path';
 const REPORT_NAME = /(?:search-console.*inspection|url-inspection).*\.json$/i;
 const MAX_FILES = 2_000;
 const MAX_DEPTH = 6;
+const DAY_MS = 24 * 60 * 60 * 1000;
+export const INSPECTION_EVIDENCE_FRESH_DAYS = 7;
 
 function timestamp(value) {
-  const parsed = new Date(value ?? 0).getTime();
-  return Number.isFinite(parsed) ? parsed : 0;
+  const parsed = typeof value === 'string' && value.trim() ? Date.parse(value) : NaN;
+  return Number.isFinite(parsed) ? parsed : -Infinity;
+}
+
+export function inspectionEvidenceFreshness(value, {
+  now = new Date(),
+  notBefore = '',
+  maxAgeDays = INSPECTION_EVIDENCE_FRESH_DAYS,
+} = {}) {
+  const observedTime = timestamp(value);
+  const currentTime = now.getTime();
+  if (!Number.isFinite(observedTime) || !Number.isFinite(currentTime)) {
+    return { status: 'undated', ageDays: null };
+  }
+  const ageDays = (currentTime - observedTime) / DAY_MS;
+  const status = observedTime > currentTime ? 'future'
+    : observedTime < timestamp(notBefore) ? 'prelaunch'
+      : ageDays > maxAgeDays ? 'stale' : 'fresh';
+  return { status, ageDays };
+}
+
+export function hasInspectionSourcePath(value) {
+  return typeof value === 'string' && Boolean(value.trim()) && !/[\u0000-\u001f\u007f]/.test(value);
 }
 
 function normalizeInspectionUrl(value) {
@@ -67,30 +90,48 @@ export function mergeInspectionReports(records = [], generatedAt = new Date().to
 
   for (const record of records) {
     const report = record?.report ?? record;
-    if (!Array.isArray(report?.inspections)) continue;
-    const sourcePath = record?.sourcePath ?? report?.sourcePath ?? '';
-    const reportGeneratedAt = report.generatedAt ?? '';
-    const reportTime = timestamp(reportGeneratedAt);
+    const isSummary = !Array.isArray(report?.inspections) && Array.isArray(report?.indexedSummary);
+    const reportInspections = isSummary
+      ? report.indexedSummary.map((item) => ({ ...item, inspectionUrl: item.url })) : report?.inspections;
+    if (!Array.isArray(reportInspections)) continue;
+    const sourcePath = Object.hasOwn(record, 'sourcePath') ? record.sourcePath
+      : Object.hasOwn(report, 'sourcePath') ? report.sourcePath
+        : Object.hasOwn(report, 'source') ? report.source : '';
+    const reportGeneratedAt = Object.hasOwn(report, 'generatedAt') ? report.generatedAt : '';
+    const isMerged = isSummary || report.kind === 'search-console-url-inspection-merged' ||
+      Array.isArray(report.sources) || Object.hasOwn(report, 'latestSourceGeneratedAt');
     sources.push({
       generatedAt: reportGeneratedAt,
-      inspectionCount: report.inspections.length,
+      inspectionCount: reportInspections.length,
       path: sourcePath,
     });
 
-    for (const inspection of report.inspections) {
+    for (const inspection of reportInspections) {
       const inspectionUrl = normalizeInspectionUrl(inspection?.inspectionUrl);
       if (!inspectionUrl) continue;
-      const sourceGeneratedAt = inspection.sourceGeneratedAt ?? reportGeneratedAt;
-      const sourceTime = timestamp(sourceGeneratedAt) || reportTime;
+      // Only a raw run can supply a missing observation date or origin path.
+      const sourceGeneratedAt = Object.hasOwn(inspection, 'sourceGeneratedAt')
+        ? inspection.sourceGeneratedAt : isMerged ? '' : reportGeneratedAt;
+      const originPath = Object.hasOwn(inspection, 'sourcePath')
+        ? inspection.sourcePath : isMerged ? '' : sourcePath;
+      const sourceTime = timestamp(sourceGeneratedAt);
       const current = selected.get(inspectionUrl);
       if (current && sourceTime < current.sourceTime) continue;
+      // Older weekly serializers dropped indexingState. Prefer the intact copy of the same observation.
+      const moreCompleteDuplicate = current && Number.isFinite(sourceTime) && sourceTime === current.sourceTime &&
+        hasInspectionSourcePath(originPath) && originPath === current.inspection.sourcePath &&
+        inspection.verdict === current.inspection.verdict && !inspection.error && !current.inspection.error &&
+        !(typeof current.inspection.indexingState === 'string' && current.inspection.indexingState.trim()) &&
+        typeof inspection.indexingState === 'string' && Boolean(inspection.indexingState.trim());
+      if (current && sourceTime === current.sourceTime && hasInspectionSourcePath(current.inspection.sourcePath) &&
+        (!hasInspectionSourcePath(originPath) || current.inspection.sourcePath <= originPath) && !moreCompleteDuplicate) continue;
 
       selected.set(inspectionUrl, {
         inspection: {
           ...inspection,
           inspectionUrl,
           sourceGeneratedAt,
-          sourcePath,
+          sourcePath: originPath,
         },
         sourceTime,
       });
@@ -100,9 +141,9 @@ export function mergeInspectionReports(records = [], generatedAt = new Date().to
   const inspections = [...selected.values()]
     .map((value) => value.inspection)
     .sort((left, right) => left.inspectionUrl.localeCompare(right.inspectionUrl));
-  const latestSourceGeneratedAt = sources
-    .map((source) => source.generatedAt)
-    .filter(Boolean)
+  const latestSourceGeneratedAt = inspections
+    .map((inspection) => inspection.sourceGeneratedAt)
+    .filter((value) => Number.isFinite(timestamp(value)))
     .sort((left, right) => timestamp(right) - timestamp(left))[0] ?? '';
 
   return {

@@ -1,6 +1,7 @@
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
 import type { APIRoute } from 'astro';
 import { createAccessFreeToolsMcpServer } from '../lib/aftMcpServer';
+import { checkApiAccess, checkRateLimit, jsonResponse } from '../lib/apiHttp';
 
 export const prerender = false;
 
@@ -35,7 +36,22 @@ function noStoreResponse(response: Response) {
   });
 }
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ clientAddress, request }) => {
+  const accessError = checkApiAccess(request);
+  if (accessError) return accessError;
+  const limitError = checkRateLimit(clientAddress || 'unknown');
+  if (limitError) return limitError;
+
+  let parsedBody: unknown;
+  try {
+    parsedBody = await request.json();
+  } catch {
+    return jsonResponse({ jsonrpc: '2.0', id: null, error: { code: -32700, message: 'Request body must be valid JSON.' } }, 400);
+  }
+  if (Array.isArray(parsedBody)) {
+    return jsonResponse({ jsonrpc: '2.0', id: null, error: { code: -32600, message: 'Send one MCP request at a time. Batches are not supported.' } }, 400);
+  }
+
   const server = createAccessFreeToolsMcpServer();
   const transport = new WebStandardStreamableHTTPServerTransport({
     enableJsonResponse: true,
@@ -44,7 +60,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     await server.connect(transport);
-    const response = await transport.handleRequest(request);
+    const response = await transport.handleRequest(request, { parsedBody });
     await transport.close();
     await server.close();
     return noStoreResponse(response);

@@ -45,8 +45,9 @@ export function loadPinterestAppCoverage(rootDir = resolve('.')) {
   const boardConfig = JSON.parse(readFileSync(boardConfigPath, 'utf8'));
   const proof = JSON.parse(readFileSync(proofPath, 'utf8'));
   const indexationPolicies = readExplicitIndexationPolicies(rootDir);
+  const publicationHolds = JSON.parse(readFileSync(resolve(rootDir, 'src/data/pinterestPublicationHolds.json'), 'utf8'));
   const tools = readCanonicalTools().filter(
-    (tool) => indexationPolicies.get(`/tools/${tool.slug}/`)?.index !== false,
+    (tool) => indexationPolicies.get(`/tools/${tool.slug}/`)?.index !== false && !publicationHolds.includes(tool.slug),
   );
   const manualItems = parseManualPinterestItems(feedSource);
   const manualToolItems = manualItems.filter((item) => toolSlugFromPath(item.path));

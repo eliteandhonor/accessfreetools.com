@@ -7930,6 +7930,60 @@ const manualDeepAuditRecords: ToolDeepAuditRecord[] = [
     ],
   },
   {
+    slug: 'audio-video-transcriber',
+    status: 'deep-reviewed',
+    batch: 'browser-only-audio-video-transcriber-pilot-2026-09-02',
+    reviewedOn: '2026-09-02',
+    scope: commonMathScope,
+    sources: [
+      {
+        href: 'https://github.com/openai/whisper/blob/main/model-card.md',
+        label: 'Whisper model card, limitations, and license source',
+      },
+      {
+        href: 'https://huggingface.co/onnx-community/whisper-tiny.en_timestamped/tree/aeaa13760958b03fac5062f457d317d3319c3168',
+        label: 'Pinned timestamped English Whisper Tiny model revision',
+      },
+      {
+        href: 'https://huggingface.co/onnx-community/whisper-tiny_timestamped/tree/517244293732ee2d58139af5814231b7e6830a0d',
+        label: 'Pinned timestamped multilingual Whisper Tiny model revision',
+      },
+      {
+        href: 'https://mediabunny.dev/guide/reading-media-files',
+        label: 'Mediabunny browser media reading guide',
+      },
+      {
+        href: 'https://github.com/huggingface/transformers.js/blob/main/packages/transformers/docs/source/guides/webgpu.md',
+        label: 'Transformers.js WebGPU browser guidance',
+      },
+      {
+        href: 'https://github.com/huggingface/transformers.js/issues/1739',
+        label: 'Transformers.js WebGPU memory-growth report',
+      },
+    ],
+    findings: [
+      'The dedicated React workbench accepts one local audio or video file up to 250 MB and 60 minutes, checks its container and audio tracks before model download, and gives a specific unsupported-codec message.',
+      'Mediabunny reads the local Blob in a worker, decodes only five-minute blocks, downmixes channels, resamples to 16 kHz, and transfers bounded audio buffers to the speech worker. No media, filename, transcript, or language choice is posted to Access Free Tools.',
+      'English and multilingual timestamped Whisper Tiny repositories and exact revisions are pinned. The worker forces metadata and model requests through the selected commit. The dependable path uses q8 WebAssembly, while detected WebGPU is labelled beta, retried through WebAssembly on failure, and recycled between five-minute blocks.',
+      'Completed timestamped sections appear immediately, survive later failure or cancellation, remain editable, seek the local player, and export as sanitized TXT, SRT, or WebVTT files.',
+      'The full interaction, filename, player, progress, and transcript surfaces are masked from Microsoft Clarity. Analytics contain only coarse start, completion, cancellation, failure, copy, and export actions.',
+      'Desktop and 390-pixel mobile browser checks found no horizontal overflow, no axe violations in the workbench, no console errors, 44-pixel working controls, and no model or non-GET request before the user starts transcription.',
+      'Whisper limitations, manual-review language, permission confirmation, MIT and MPL-2.0 attribution, ten practical FAQs, related tools, literal artwork metadata, and separate tool/guide content are visible.',
+      'The owner authorized public indexing on September 13 after current Chrome/Edge hour-length and bounded Firefox/WebKit, export, and privacy checks. Physical mobile compatibility and broad model accuracy remain unverified; the page requires human review and qualifies codec support.',
+    ],
+    improvements: [
+      'Added a browser-only audio and video transcriber with local playback, multi-track selection, language selection, progress, cancellation, partial recovery, editable timestamped segments, and three download formats.',
+      'Added deterministic audio preparation, block planning, boundary deduplication, monotonic timestamp, subtitle escaping, input-limit, filename, and cleanup tests plus a focused real-browser readiness judge.',
+      'Added unique approved smoke-kawaii tool and guide images, AI Tools registration, MultimediaApplication metadata, guide sources, related links, Clarity masking, lazy-asset checks, and explicit noindex beta policy.',
+      'Fixed the hidden file input label after the first focused axe run found a critical label violation.',
+    ],
+    followUps: [
+      'Run real Chrome and Edge 60-minute MP3 and MP4 fixtures, plus 10-to-15-minute Firefox and WebKit checks, without crashes, corrupt timestamps, or material memory growth.',
+      'Verify representative English, Spanish, French, German, Japanese, and mixed-language output against known fixture transcripts and document the limits rather than promising professional accuracy.',
+      'Keep the tool and guide noindex for at least seven stable beta days; change index policy only after privacy, full-hour, compatibility, live generation, and download proof all pass.',
+    ],
+  },
+  {
     slug: 'uuid-generator',
     status: 'deep-reviewed',
     batch: 'seo-gsc-refresh-2026-06-11',

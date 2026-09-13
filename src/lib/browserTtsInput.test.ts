@@ -2,12 +2,24 @@ import { describe, expect, it } from 'vitest';
 
 import {
   MAX_TTS_TEXT_FILE_BYTES,
+  MAX_TTS_TEXT_CHARACTERS,
   prepareLocalTxtContent,
   sanitizeMp3Filename,
   validateLocalTxtFile,
 } from './browserTtsInput';
 
 describe('browser TTS input helpers', () => {
+  it('keeps the exact TXT byte and character ceilings and accepts MIME parameters', () => {
+    expect(MAX_TTS_TEXT_FILE_BYTES).toBe(65_536);
+    expect(MAX_TTS_TEXT_CHARACTERS).toBe(10_000);
+    expect(validateLocalTxtFile({ name: 'NOTES.TXT', size: 65_536, type: 'text/plain; charset=UTF-8' })).toBe('');
+    expect(prepareLocalTxtContent('a'.repeat(10_000)).text).toHaveLength(10_000);
+  });
+
+  it.each([0, -1, 1.5, NaN, Infinity])('rejects malformed TXT size %s', size => {
+    expect(validateLocalTxtFile({ name: 'notes.txt', size, type: 'text/plain' })).not.toBe('');
+  });
+
   it('accepts only bounded plain TXT files', () => {
     expect(validateLocalTxtFile({ name: 'notes.txt', size: 120, type: 'text/plain' })).toBe('');
     expect(validateLocalTxtFile({ name: 'notes.txt', size: 120, type: '' })).toBe('');

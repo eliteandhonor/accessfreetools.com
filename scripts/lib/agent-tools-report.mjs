@@ -1,6 +1,9 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, relative, resolve } from 'node:path';
 import { fetchWithTransientRetry, isTransientHttpStatus } from './transient-http.mjs';
+import { createIndexingClassifier, hasBlockedIndexingState, needsIndexingAttention, newerPassForRecovery } from './indexing-classification.mjs';
+import { getAnalyticsCoverage } from './production-analytics-report.mjs';
+import { hasInspectionSourcePath, inspectionEvidenceFreshness, mergeInspectionReports } from './search-console-inspection-reports.mjs';
 
 export { fetchWithTransientRetry, isTransientHttpStatus } from './transient-http.mjs';
 
@@ -815,23 +818,42 @@ ${markdownList(issues)}
   return { ...report, paths };
 }
 
-function searchConsoleGaps() {
-  const report = readJson('output/search-console-url-inspection.json');
-  if (!report?.inspections) {
+function searchConsoleGaps(classify, now = new Date()) {
+  const merged = mergeInspectionReports([
+    { report: readJson('output/search-console-url-inspection.json'), sourcePath: rootPath('output/search-console-url-inspection.json') },
+    { report: readJson('output/seo-agent-self-evaluation.json'), sourcePath: rootPath('output/seo-agent-self-evaluation.json') },
+  ], now.toISOString());
+  if (!merged.inspections.length) {
     return {
       gaps: [],
+      excluded: [],
+      indexed: [],
+      nonRecoveryUrls: [],
       note: 'not enough data: Search Console inspection snapshot is missing. Run npm run search-console:inspect-key-urls when OAuth is available.',
     };
   }
 
+  const items = merged.inspections.map((item) => {
+    const freshness = inspectionEvidenceFreshness(item.sourceGeneratedAt, { now });
+    const usable = hasInspectionSourcePath(item.sourcePath) && !item.error &&
+      (Boolean(item.coverageState) || hasBlockedIndexingState(item));
+    const gap = {
+      ...item,
+      url: item.inspectionUrl,
+      coverageState: item.coverageState || item.indexingState || 'unknown',
+      lastCrawlTime: item.lastCrawlTime ?? '',
+      sourceFreshness: freshness.status,
+      sourceAgeDays: freshness.ageDays,
+      status: usable && freshness.status === 'fresh' ? 'observed'
+        : usable && freshness.status === 'stale' ? 'historical' : 'not enough data',
+    };
+    return { ...gap, classification: classify(gap) };
+  });
   return {
-    gaps: report.inspections
-      .filter((item) => !/submitted and indexed/i.test(`${item.coverageState ?? ''}`))
-      .map((item) => ({
-        coverageState: item.coverageState ?? 'unknown',
-        lastCrawlTime: item.lastCrawlTime ?? '',
-        url: item.inspectionUrl,
-      })),
+    gaps: items.filter((item) => needsIndexingAttention(item.classification)),
+    excluded: items.filter((item) => item.classification === 'excluded'),
+    indexed: items.filter((item) => item.classification === 'indexed'),
+    nonRecoveryUrls: items.filter((item) => !needsIndexingAttention(item.classification)).map((item) => item.url),
     note: '',
   };
 }
@@ -871,7 +893,7 @@ function formatIndexingRequestTime(request) {
   });
 }
 
-function crawlScoutSignals() {
+function crawlScoutSignals(classify) {
   const report = readJson('output/crawlscout/crawlscout-summary.json');
   if (!report) {
     return {
@@ -894,11 +916,11 @@ function crawlScoutSignals() {
   };
   const skipIfComplete = (item) => {
     if (!item?.path) return false;
-    if (isSearchPerformanceMonitorOnly(item.path)) {
+    if (classify({ path: item.path }) === 'excluded') {
       recordCompleted(
         item,
-        'monitor-only: HTML sitemap is noindex,follow and excluded from XML sitemaps.',
-        'src/data/indexationPolicy.ts + output/indexing-protection/latest report',
+        'monitor-only: source indexation policy intentionally excludes this route; do not activate it from dates or discovery states.',
+        'src/data/indexationPolicy.ts',
       );
       return true;
     }
@@ -1002,10 +1024,6 @@ function isSeoPageProofFreshForReport(path, report) {
   return reportTime <= judgeTime;
 }
 
-function isSearchPerformanceMonitorOnly(path) {
-  return normalizeHrefToPath(path) === '/sitemap/';
-}
-
 function searchConsoleCompletions() {
   const report = readJson('docs/seo-console-completions.json');
   return Array.isArray(report?.completed) ? report.completed : [];
@@ -1036,7 +1054,7 @@ function searchConsoleCompletionForPath(path, report) {
   });
 }
 
-function googlePerformanceExportSignals() {
+function googlePerformanceExportSignals(classify, indexed) {
   const report = readJson('output/search-console/performance-latest.json');
   if (!report) {
     return {
@@ -1054,11 +1072,11 @@ function googlePerformanceExportSignals() {
     completed.push(item);
   };
   const skipIfComplete = (item) => {
-    if (isSearchPerformanceMonitorOnly(item.path)) {
+    if (classify({ path: item.path }) === 'excluded') {
       recordCompleted({
         path: item.path,
-        evidence: 'src/data/indexationPolicy.ts + output/indexing-protection/latest report',
-        note: 'monitor-only: HTML sitemap is noindex,follow and excluded from XML sitemaps.',
+        evidence: 'src/data/indexationPolicy.ts',
+        note: 'monitor-only: source indexation policy intentionally excludes this route; do not activate it from dates or discovery states.',
       });
       return true;
     }
@@ -1086,6 +1104,13 @@ function googlePerformanceExportSignals() {
   };
   const tierA = (report.tierARecovery ?? [])
     .filter((item) => !skipIfComplete(item))
+    .filter((item) => {
+      const pass = newerPassForRecovery(item, report, indexed);
+      if (!pass) return true;
+      recordCompleted({ path: item.path, ...pass, evidence: pass.sourcePath,
+        note: `Newer exact PASS observed ${pass.sourceGeneratedAt} supersedes indexing recovery from ${pass.recoveryObservedAt}; CTR opportunities remain separate.` });
+      return false;
+    })
     .slice(0, 8)
     .map((item) => ({
       evidence: 'output/search-console/performance-latest.json',
@@ -1112,8 +1137,10 @@ function googlePerformanceExportSignals() {
 function analyticsSignals() {
   const reportPath = process.env.AFT_PRODUCTION_ANALYTICS_REPORT_PATH ?? 'output/analytics/production-latest.json';
   const report = readJson(reportPath);
+  const coverage = getAnalyticsCoverage(report?.summary);
   if (!report) {
     return {
+      coverage,
       generatedAt: '',
       note: `not enough data: production analytics aggregate is missing at ${unixPath(reportPath)}. Run npm run analytics:production.`,
       reportPath: unixPath(reportPath),
@@ -1128,6 +1155,7 @@ function analyticsSignals() {
   const maxAgeDays = 8;
   if (!Number.isFinite(generatedTime) || Date.now() - generatedTime > maxAgeDays * 24 * 60 * 60 * 1000) {
     return {
+      coverage,
       generatedAt,
       note: `not enough data: production analytics aggregate is stale or undated at ${unixPath(reportPath)}. Run npm run analytics:production.`,
       reportPath: unixPath(reportPath),
@@ -1147,8 +1175,10 @@ function analyticsSignals() {
     .slice(0, 10);
 
   return {
+    coverage,
     generatedAt,
-    note: '',
+    note: coverage.comparisonsAllowed === true ? ''
+      : `not enough data: production analytics coverage is ${coverage.status}; period comparisons are not supported. Counts describe retained observations only.`,
     reportPath: unixPath(reportPath),
     source: 'production-aggregate',
     topPages,
@@ -1302,11 +1332,12 @@ function saveBuiltInternalLinkEvidence(generatedAt, linkEvidence) {
 
 export function buildLinkHelperReport() {
   const generatedAt = new Date().toISOString();
+  const classify = createIndexingClassifier();
   const sitemap = readSitemapUrls();
-  const searchConsole = searchConsoleGaps();
+  const searchConsole = searchConsoleGaps(classify);
   const searchConsoleDiscovery = readJson('output/search-console-discovery.json');
   const indexingRequests = searchConsoleIndexingRequests();
-  const crawlScout = crawlScoutSignals();
+  const crawlScout = crawlScoutSignals(classify);
   const analytics = analyticsSignals();
   const warnings = [sitemap.note, searchConsole.note, crawlScout.note, analytics.note].filter(Boolean);
   const suggestions = [];
@@ -1331,6 +1362,16 @@ export function buildLinkHelperReport() {
   for (const gap of searchConsole.gaps.slice(0, 10)) {
     try {
       const url = new URL(gap.url);
+      if (gap.status !== 'observed') {
+        suggestions.push({ action: 'monitor', priority: 'medium', target: url.pathname,
+          reason: `Refresh exact URL Inspection evidence before recovery decisions; saved ${gap.coverageState}; evidence ${gap.status} (${gap.sourceFreshness}); observed ${gap.sourceGeneratedAt || 'undated'}; source ${gap.sourcePath || 'not enough data'}.` });
+        continue;
+      }
+      if (gap.classification === 'failure') {
+        suggestions.push({ action: 'review-indexability', priority: 'high', target: url.pathname,
+          reason: `Unexpected indexing failure on an indexable route: ${gap.coverageState}. Check page-level robots, fetch and canonical evidence before link changes or indexing requests.` });
+        continue;
+      }
       const target = normalizeHrefToPath(url.pathname);
       const inboundLinks = linkEvidence.byTarget[target] ?? [];
       const sourceCount = new Set(inboundLinks.map((item) => item.source)).size;
@@ -1378,14 +1419,15 @@ export function buildLinkHelperReport() {
 
   for (const [slug, count] of analytics.topTools.slice(0, 8)) {
     const target = `/tools/${slug}/`;
+    if (classify({ path: target }) === 'excluded') continue;
     const sourceCount = new Set((linkEvidence.byTarget[normalizeHrefToPath(target)] ?? []).map((item) => item.source)).size;
     suggestions.push({
       action: sourceCount >= 3 ? 'monitor' : 'add-link',
       anchorIdea: slug.replace(/-/g, ' '),
       priority: 'medium',
       reason: sourceCount
-        ? `Production analytics recorded ${count} tool actions; built link proof already shows ${sourceCount} source pages.`
-        : `Production analytics recorded ${count} tool actions.`,
+        ? `Production analytics recorded ${count} tool actions; retained observations only, not complete-period rankings. Built link proof already shows ${sourceCount} source pages.`
+        : `Production analytics recorded ${count} tool actions; retained observations only, not complete-period rankings.`,
       target,
     });
   }
@@ -1412,6 +1454,7 @@ export function buildLinkHelperReport() {
     sitemap: { note: sitemap.note, urlCount: sitemap.urls.length },
     sources: {
       analytics: {
+        coverage: analytics.coverage,
         generatedAt: analytics.generatedAt,
         note: analytics.note,
         reportPath: analytics.reportPath,
@@ -1445,13 +1488,14 @@ Status: ${report.status}
 
 - Sitemap URLs: ${sitemap.urls.length || 'not enough data'}
 - Suggestions: ${suggestions.length}
+- Intentional policy exclusions: ${searchConsole.excluded.length}; monitor-only, not recovery or pilot-release authorization.
 
 ## Suggestions
 
 ${markdownList(
   suggestions.slice(0, 20).map((item) =>
-    item.action === 'monitor'
-      ? `${item.priority}: monitor ${item.target}; ${item.reason}`
+    item.action !== 'add-link'
+      ? `${item.priority}: ${item.action} ${item.target}; ${item.reason}`
       : `${item.priority}: link to ${item.target} using "${item.anchorIdea}" because ${item.reason}`,
   ),
 )}
@@ -1480,13 +1524,14 @@ ${markdownList(warnings)}
 
 export function buildSeoConsoleReport() {
   const generatedAt = new Date().toISOString();
+  const classify = createIndexingClassifier();
   const marketing = readJson('output/marketing-orchestrator/daily-plan.json');
-  const searchConsole = searchConsoleGaps();
+  const searchConsole = searchConsoleGaps(classify);
   const searchConsoleDiscovery = readJson('output/search-console-discovery.json');
   const indexingRequests = searchConsoleIndexingRequests();
   const coverageExport = googleCoverageExportSignals();
-  const performanceExport = googlePerformanceExportSignals();
-  const crawlScout = crawlScoutSignals();
+  const performanceExport = googlePerformanceExportSignals(classify, searchConsole.indexed);
+  const crawlScout = crawlScoutSignals(classify);
   const sitemap = readSitemapUrls();
   const productionSitemap = readJson('output/production-sitemap-check.json');
   const indexNow = readJson('output/indexnow-submission.json');
@@ -1521,6 +1566,14 @@ export function buildSeoConsoleReport() {
     .slice(0, 3)
     .flatMap((item) => {
       const task = item.title ?? item.action ?? JSON.stringify(item).slice(0, 160);
+      if (/indexing|not.indexed|discovery|built.link proof/i.test(task)) {
+        const mentionedUrls = [item.url, item.target, item.path,
+          ...Array.from(`${task} ${item.reason ?? ''} ${item.action ?? ''}`
+            .matchAll(/(?:^|[\s([`"'])(https?:\/\/[^\s)\]"',;`]+|\/[^\s)\]"',;`]+)/g), (match) => match[1])].filter(Boolean);
+        const nonRecovery = mentionedUrls.some((url) => classify({ url }) === 'excluded' ||
+          searchConsole.nonRecoveryUrls.some((known) => normalizeHrefToPath(known) === normalizeHrefToPath(url)));
+        if (nonRecovery || (!mentionedUrls.length && !searchConsole.gaps.length && searchConsole.nonRecoveryUrls.length)) return [];
+      }
       const isRequestedIndexingRecheck = /recheck requested indexing after google crawls/i.test(task);
       if (isRequestedIndexingRecheck && allCurrentGapsHaveIndexingRequests) {
         return [
@@ -1545,6 +1598,14 @@ export function buildSeoConsoleReport() {
 
   const actions = [
     ...searchConsole.gaps.slice(0, 5).map((gap) => {
+      if (gap.status !== 'observed') return {
+        evidence: gap.sourcePath || 'not enough data', priority: 'monitor',
+        task: `Refresh exact URL Inspection evidence for ${gap.url} before recovery decisions; saved ${gap.coverageState}; evidence ${gap.status} (${gap.sourceFreshness}); observed ${gap.sourceGeneratedAt || 'undated'}.`,
+      };
+      if (gap.classification === 'failure') return {
+        evidence: gap.sourcePath, priority: 'high',
+        task: `Review unexpected indexing failure for ${gap.url}: ${gap.coverageState}. Check page-level robots, fetch and canonical evidence before link changes or indexing requests.`,
+      };
       const targetPath = (() => {
         try {
           return new URL(gap.url).pathname;
@@ -1619,6 +1680,7 @@ export function buildSeoConsoleReport() {
     actions,
     generatedAt,
     kind: 'seo-console',
+    indexing: searchConsole,
     sources: {
       crawlScout: crawlScout.note ? 'not enough data' : 'present',
       dataForSeo: dataForSeo ? 'present' : 'not enough data',
@@ -1647,6 +1709,8 @@ export function buildSeoConsoleReport() {
 Generated: ${generatedAt}
 
 Status: ${report.status}
+
+Intentional policy exclusions: ${searchConsole.excluded.length}; monitor-only, not recovery or pilot-release authorization.
 
 ## Next Actions
 
@@ -2144,6 +2208,7 @@ function toolAnalyticsStatus(slug) {
   const pageRow = signals.topPages.find((row) => row[0] === pagePath);
 
   return {
+    coverage: signals.coverage,
     note: signals.note,
     pagePath,
     pageViews: pageRow?.[1] ?? 0,
@@ -2154,7 +2219,7 @@ function toolAnalyticsStatus(slug) {
 
 function toolSearchConsoleStatus(slug) {
   const url = `${SITE_ORIGIN}/tools/${slug}/`;
-  const report = searchConsoleGaps();
+  const report = searchConsoleGaps(createIndexingClassifier());
   const gap = report.gaps.find((item) => item.url === url || item.url === url.replace(/\/$/, ''));
 
   return {

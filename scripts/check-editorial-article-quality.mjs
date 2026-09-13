@@ -1,11 +1,21 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { createHash } from 'node:crypto';
+import { parseFragment } from 'parse5';
+import { reviewEditorialSources } from './lib/editorial-source-review.mjs';
 import { analyzeWritingText, findSharedSlopHits } from './lib/writing-quality-rules.mjs';
 
 const root = process.cwd();
 const blogDir = resolve(root, 'dist', 'blog');
 const outputDir = resolve(root, 'output', 'editorial-quality');
 const minimumStopSlopScore = 40;
+const sourceReviewDir = resolve(root, 'docs', 'editorial-source-reviews');
+
+function readRecord(path) {
+  if (!existsSync(path)) return null;
+  try { return JSON.parse(readFileSync(path, 'utf8')); } catch { return { invalid: true }; }
+}
+const sourceBaseline = readRecord(join(sourceReviewDir, 'legacy-source-hashes.json'))?.articles ?? {};
 
 function stripHtml(html = '') {
   return String(html)
@@ -26,6 +36,19 @@ function wordCount(value) {
 
 function countMatches(value, pattern) {
   return [...String(value).matchAll(pattern)].length;
+}
+
+function externalSourceLinks(html) {
+  const links = [];
+  const visit = (node) => {
+    if (node.tagName === 'a') {
+      const href = node.attrs.find((attribute) => attribute.name === 'href')?.value;
+      if (href && /^https?:\/\//i.test(href)) links.push(href);
+    }
+    for (const child of node.childNodes ?? []) visit(child);
+  };
+  visit(parseFragment(html));
+  return links;
 }
 
 function articleFiles() {
@@ -54,7 +77,11 @@ function scoreArticle({ slug, path }) {
   const headings = [...articleHtml.matchAll(/<h[1-3]\b[^>]*>([\s\S]*?)<\/h[1-3]>/gi)].map((match) => stripHtml(match[1]));
   const internalLinks = [...articleHtml.matchAll(/<a\s+[^>]*href=["'](\/[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi)]
     .map((match) => ({ href: match[1], text: stripHtml(match[2]) }));
-  const externalLinks = [...articleHtml.matchAll(/<a\s+[^>]*href=["'](https?:\/\/[^"']*)["'][^>]*>/gi)].map((match) => match[1]);
+  const externalLinks = externalSourceLinks(articleHtml);
+  const sourcePath = resolve(root, 'src', 'pages', 'blog', `${slug}.astro`);
+  const articleSha256 = existsSync(sourcePath) ? createHash('sha256').update(readFileSync(sourcePath)).digest('hex') : null;
+  const sourceReview = reviewEditorialSources({ slug, articleSha256, baseline: sourceBaseline,
+    ledger: readRecord(join(sourceReviewDir, `${slug}.json`)), externalLinks });
   const sharedWritingReview = analyzeWritingText(visibleText, { mode: 'editorial', sourcePath: path });
   const sharedHardErrors = sharedWritingReview.findings.filter((finding) => finding.severity === 'error');
   const slopHits = findSharedSlopHits(visibleText);
@@ -88,7 +115,8 @@ function scoreArticle({ slug, path }) {
     realisticExample: numberHits >= 3 && /example|for Access Free Tools|in this repo|on this site/i.test(visibleText),
     commonMistakesOrRisks: /mistake|risk|warning|red flag|limit/i.test(visibleText),
     usefulInternalLinks: internalLinks.length >= 3,
-    primarySources: externalLinks.length >= 3,
+    sourceLinksPresent: externalLinks.length >= 3,
+    sourceReviewEvidence: sourceReview.gatePassed,
     ownerDisclosure: /I own Access Free Tools/i.test(visibleText),
     processDisclosure: /AI helped with research organization and draft checks/i.test(visibleText),
     noSlopFloorFailure: stopSlopScore >= minimumStopSlopScore,
@@ -101,6 +129,7 @@ function scoreArticle({ slug, path }) {
   return {
     slug,
     status,
+    sourceReview,
     file: path.replace(`${root}\\`, '').replaceAll('\\', '/'),
     metrics: {
       words: wordCount(visibleText),
@@ -141,6 +170,8 @@ for (const report of reports) {
     `Words: ${report.metrics.words}`,
     `Internal links: ${report.metrics.internalLinks}`,
     `External sources: ${report.metrics.externalLinks}`,
+    `Source evidence: ${report.sourceReview.status}; link counts and local scores are not fact-checking or publication approval.`,
+    ...report.sourceReview.issues.map((issue) => `- ${issue}`),
     '',
     '## Reader-first checks',
     '',
@@ -154,20 +185,23 @@ for (const report of reports) {
 
 const summary = {
   generatedAt: new Date().toISOString(),
-  status: reports.every((report) => report.status === 'pass') ? 'pass' : 'fail',
+  status: reports.length > 0 && reports.every((report) => report.status === 'pass') ? 'pass' : 'fail',
+  issues: reports.length ? [] : ['No built editorial articles were found. Run a complete site build before review.'],
   minimumStopSlopScore,
   articles: reports.map((report) => ({
     slug: report.slug,
     status: report.status,
     score: report.stopSlop.score,
     failures: report.failures,
+    sourceReview: report.sourceReview.status,
   })),
 };
 writeFileSync(join(outputDir, 'latest.json'), `${JSON.stringify(summary, null, 2)}\n`);
 
 console.log(`Editorial article quality: ${summary.status}`);
+for (const issue of summary.issues) console.error(issue);
 for (const report of reports) {
-  console.log(`- ${report.slug}: ${report.status}; Stop Slop ${report.stopSlop.score}/50; ${report.metrics.words} words`);
+  console.log(`- ${report.slug}: ${report.status}; Stop Slop ${report.stopSlop.score}/50; ${report.metrics.words} words; sources ${report.sourceReview.status}`);
 }
 console.log(`Saved reports to ${outputDir}`);
 

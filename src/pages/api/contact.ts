@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import nodemailer from 'nodemailer';
+import { createBoundedRateLimiter } from '../../lib/boundedRateLimiter';
 
 export const prerender = false;
 
@@ -14,7 +15,7 @@ const ALLOWED_TOPICS = new Set([
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX = 5;
-const rateLimitBuckets = new Map<string, { count: number; resetAt: number }>();
+const rateLimit = createBoundedRateLimiter(RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS);
 
 type ContactPayload = {
   company: string;
@@ -26,12 +27,13 @@ type ContactPayload = {
 
 class BadContactRequestError extends Error {}
 
-function jsonResponse(body: Record<string, unknown>, status = 200) {
+function jsonResponse(body: Record<string, unknown>, status = 200, headers: Record<string, string> = {}) {
   return new Response(JSON.stringify(body), {
     status,
     headers: {
       'cache-control': 'no-store',
       'content-type': 'application/json',
+      ...headers,
     },
   });
 }
@@ -95,23 +97,6 @@ function validatePayload(payload: ContactPayload) {
   return {};
 }
 
-function checkRateLimit(key: string) {
-  const now = Date.now();
-  const current = rateLimitBuckets.get(key);
-
-  if (!current || current.resetAt <= now) {
-    rateLimitBuckets.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return false;
-  }
-
-  current.count += 1;
-  if (current.count > RATE_LIMIT_MAX) {
-    return true;
-  }
-
-  return false;
-}
-
 function getSmtpConfig() {
   const host = process.env.SMTP_HOST ?? 'smtp.hostinger.com';
   const port = Number(process.env.SMTP_PORT ?? 465);
@@ -158,8 +143,10 @@ export const POST: APIRoute = async ({ clientAddress, request }) => {
     }
 
     const rateLimitKey = clientAddress || payload.email.toLowerCase();
-    if (checkRateLimit(rateLimitKey)) {
-      return jsonResponse({ ok: false, message: 'Too many messages. Try again later.' }, 429);
+    const retryAfter = rateLimit(rateLimitKey, Date.now());
+    if (retryAfter !== null) {
+      return jsonResponse({ ok: false, message: 'Too many messages. Try again later.' }, 429,
+        { 'retry-after': String(retryAfter) });
     }
 
     const smtpConfig = getSmtpConfig();

@@ -67,7 +67,7 @@ export default function ThemePicker() {
     };
   }, [isOpen]);
 
-  const chooseTheme = (theme: ThemeId) => {
+  const chooseTheme = (theme: ThemeId, restoreFocus: boolean) => {
     document.documentElement.dataset.theme = theme;
     try {
       window.localStorage.setItem('access-tools-theme', theme);
@@ -76,6 +76,7 @@ export default function ThemePicker() {
     }
     setActiveTheme(theme);
     setIsOpen(false);
+    if (restoreFocus) triggerRef.current?.focus();
   };
 
   return (
@@ -108,7 +109,7 @@ export default function ThemePicker() {
                 aria-pressed={activeTheme === theme.id}
                 className="theme-swatch"
                 key={theme.id}
-                onClick={() => chooseTheme(theme.id)}
+                onClick={(event) => chooseTheme(theme.id, event.detail === 0)}
                 title={theme.label}
                 type="button"
               >

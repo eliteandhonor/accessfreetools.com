@@ -27,6 +27,8 @@ Our article voice is original to Access Free Tools:
 
 ## Before Writing
 
+For new and changed owner editorials, follow [Article Evidence Records](editorial-source-reviews/README.md). Keep dated claim-to-primary-source findings and Brendan fact/approval references with the exact draft hash. Source links and automated writing scores alone are not fact-checking or publication approval. Apply the same review to Medium companions in their campaign evidence. Do not rewrite unchanged articles merely to create fresh-looking review dates.
+
 1. Pick one job for the article. Do not mix calculators, AI tools, and unrelated site features unless the article is a broad site overview.
 2. Open the actual Access Free Tools page and understand the tool, inputs, results, examples, FAQs, disclaimers, and related links.
 3. Run a small SEO check:

@@ -1,4 +1,9 @@
 export const MAX_JSON_TO_CSV_INPUT_BYTES = 5 * 1024 * 1024;
+export const MAX_JSON_TO_CSV_ROWS = 50_000;
+export const MAX_JSON_TO_CSV_COLUMNS = 256;
+export const MAX_JSON_TO_CSV_CELLS = 250_000;
+export const MAX_JSON_TO_CSV_OUTPUT_BYTES = 16 * 1024 * 1024;
+export const MAX_JSON_TO_CSV_DEPTH = 32;
 
 export type CsvDelimiter = ',' | ';' | '\t';
 
@@ -33,6 +38,7 @@ function assignFlattenedValue(
   target: Map<string, string>,
   path: string,
   value: string,
+  checkValue: (path: string, value: string) => void,
 ) {
   if (target.has(path)) {
     throw new Error(
@@ -40,12 +46,24 @@ function assignFlattenedValue(
     );
   }
 
+  checkValue(path, value);
   target.set(path, value);
+}
+
+function checkNestingDepth(value: unknown, depth = 0): void {
+  if (value === null || typeof value !== 'object') return;
+  if (depth >= MAX_JSON_TO_CSV_DEPTH) {
+    throw new Error('JSON nesting exceeds 32 levels. Use a shallower object before converting.');
+  }
+  for (const child of Array.isArray(value) ? value : Object.values(value)) {
+    checkNestingDepth(child, depth + 1);
+  }
 }
 
 function flattenRecord(
   record: JsonRecord,
   target: Map<string, string>,
+  checkValue: (path: string, value: string) => void,
   prefix = '',
 ) {
   for (const [key, value] of Object.entries(record)) {
@@ -53,15 +71,15 @@ function flattenRecord(
 
     if (isJsonRecord(value)) {
       if (Object.keys(value).length === 0) {
-        assignFlattenedValue(target, path, '{}');
+        assignFlattenedValue(target, path, '{}', checkValue);
       } else {
-        flattenRecord(value, target, path);
+        flattenRecord(value, target, checkValue, path);
       }
       continue;
     }
 
     if (Array.isArray(value)) {
-      assignFlattenedValue(target, path, JSON.stringify(value));
+      assignFlattenedValue(target, path, JSON.stringify(value), checkValue);
       continue;
     }
 
@@ -69,6 +87,7 @@ function flattenRecord(
       target,
       path,
       value === null || value === undefined ? '' : String(value),
+      checkValue,
     );
   }
 }
@@ -117,6 +136,9 @@ export function convertJsonToCsv(
   }
 
   const sourceType = Array.isArray(parsed) ? 'array' : 'object';
+  if (Array.isArray(parsed) && parsed.length > MAX_JSON_TO_CSV_ROWS) {
+    throw new Error('JSON contains more than 50,000 rows. Split it into smaller files.');
+  }
   const records: JsonRecord[] = Array.isArray(parsed)
     ? parsed.map((item, index) => {
         if (!isJsonRecord(item)) {
@@ -138,21 +160,36 @@ export function convertJsonToCsv(
     );
   }
 
+  const seenHeaders = new Set<string>();
+  let outputBytes = records.length * 2 + (options.includeBom ? 3 : 0);
+  const fieldBytes = (value: string) => getUtf8ByteLength(escapeCsvField(
+    options.escapeSpreadsheetFormulas ? protectSpreadsheetFormula(value) : value,
+    options.delimiter,
+  ));
+  // Count sparse fields, separators and escaped UTF-8 bytes before allocating the dense table.
+  const checkValue = (path: string, value: string) => {
+    if (!seenHeaders.has(path)) {
+      seenHeaders.add(path);
+      if (seenHeaders.size > MAX_JSON_TO_CSV_COLUMNS) {
+        throw new Error('JSON creates more than 256 columns. Remove unused fields or split the input.');
+      }
+      if ((records.length + 1) * seenHeaders.size > MAX_JSON_TO_CSV_CELLS) {
+        throw new Error('CSV would contain more than 250,000 cells. Use fewer rows or columns.');
+      }
+      outputBytes += fieldBytes(path) + (seenHeaders.size > 1 ? records.length + 1 : 0);
+    }
+    outputBytes += fieldBytes(value);
+    if (outputBytes > MAX_JSON_TO_CSV_OUTPUT_BYTES) {
+      throw new Error('CSV exceeds the 16 MB output limit. Shorten field names or split the input.');
+    }
+  };
   const flattenedRows = records.map((record) => {
+    checkNestingDepth(record);
     const row = new Map<string, string>();
-    flattenRecord(record, row);
+    flattenRecord(record, row, checkValue);
     return row;
   });
-
-  const headers: string[] = [];
-  const seenHeaders = new Set<string>();
-  for (const row of flattenedRows) {
-    for (const header of row.keys()) {
-      if (seenHeaders.has(header)) continue;
-      seenHeaders.add(header);
-      headers.push(header);
-    }
-  }
+  const headers = [...seenHeaders];
 
   if (headers.length === 0) {
     throw new Error('The JSON object has no fields to convert.');

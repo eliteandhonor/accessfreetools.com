@@ -34,7 +34,9 @@ const askChecks = [
   <section class="section-band ask-layout" aria-label="Ask Access Free Tools demo">
     <div>
       <Fragment set:html="<!--INFOLINKS_OFF-->" />
-      <AskToolChat client:load />
+      <div data-clarity-mask="true">
+        <AskToolChat client:load />
+      </div>
       <p class="ai-privacy-note">
         Ask may send the question you type to our hosted language-model provider so it can choose
         the right Access Free Tools utility. The calculation itself still runs through our

@@ -260,6 +260,22 @@
     "qaStatus": "approved"
   },
   {
+    "slug": "audio-video-transcriber",
+    "kind": "guide",
+    "imagePath": "/tool-art/audio-video-transcriber-guide.webp",
+    "thumbnailPath": "/tool-art/thumbs/audio-video-transcriber-guide.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
+    "slug": "audio-video-transcriber",
+    "kind": "tool",
+    "imagePath": "/tool-art/audio-video-transcriber-tool.webp",
+    "thumbnailPath": "/tool-art/thumbs/audio-video-transcriber-tool.webp",
+    "status": "approved",
+    "qaStatus": "approved"
+  },
+  {
     "slug": "auto-lease-calculator",
     "kind": "guide",
     "imagePath": "/tool-art/auto-lease-calculator-guide.webp",

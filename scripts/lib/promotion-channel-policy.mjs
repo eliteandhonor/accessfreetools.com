@@ -10,8 +10,8 @@ const definitions = [
     id: 'medium',
     label: 'Medium',
     status: 'active',
-    aliases: ['medium', 'medium.com'],
-    reviewScripts: ['promotion:medium:quality'],
+    aliases: ['medium', 'medium.com', 'medium companion'],
+    reviewScripts: ['promotion:medium:review'],
   },
   {
     id: 'bluesky',
@@ -24,9 +24,9 @@ const definitions = [
     id: 'pinterest',
     label: 'Pinterest',
     status: 'active',
-    aliases: ['pinterest'],
+    aliases: ['pinterest', 'pinterest organic', 'pinterest rss'],
     reviewScripts: [
-      'promotion:pinterest-assets',
+      'promotion:pinterest:asset-check',
       'promotion:pinterest:coverage',
       'promotion:pinterest:rss-report',
       'promotion:pinterest:proof-scan',
@@ -78,10 +78,7 @@ export const activePromotionChannels = Object.freeze(
 );
 
 function normalize(value) {
-  return String(value ?? '')
-    .toLowerCase()
-    .replace(/[^a-z0-9.]+/g, ' ')
-    .trim();
+  return typeof value === 'string' ? value.toLowerCase().replace(/\s+/g, ' ').trim() : '';
 }
 
 export function promotionChannelFor(value) {
@@ -91,13 +88,21 @@ export function promotionChannelFor(value) {
   return (
     promotionChannels.find((channel) => {
       if (normalized === normalize(channel.id) || normalized === normalize(channel.label)) return true;
-      return channel.aliases.some((alias) => normalized.includes(normalize(alias)));
+      return channel.aliases.some((alias) => normalized === normalize(alias));
     }) ?? null
   );
 }
 
 export function isActivePromotionChannel(value) {
   return promotionChannelFor(value)?.status === 'active';
+}
+
+export function assertPublicPromotionChannel(value) {
+  const channel = promotionChannelFor(value);
+  if (channel?.status !== 'active') {
+    throw new Error(`Public actions are disabled for ${channel?.label ?? 'unknown or mixed channels'} (${channel?.status ?? 'unrecognized'}).`);
+  }
+  return channel;
 }
 
 export function filterActivePromotionRows(rows) {

@@ -52,6 +52,22 @@ const categoryVisualCues = {
 };
 
 const toolArtMetadataOverrides = {
+  'audio-video-transcriber': {
+    tool: {
+      alt: 'Full-body smoke-kawaii mascot turning a local audio and video timeline into editable caption rows beside a privacy shield.',
+      caption:
+        'Audio and Video Transcriber artwork shows a local recording becoming timestamped text, with browser processing and caption downloads kept visible.',
+      prompt:
+        'Show the full-body smoke-kawaii girl using a laptop to turn one local audio and video timeline into several clean timestamped caption rows. Include a waveform, a film frame, a large privacy shield between the local file and the outside world, and three distinct download sheets for plain text and timed captions without readable text. Keep every strand of hair, both hands, all props, and the lower smoke tail inside the frame. Use teal, coral, lime, charcoal, and white. No microphones, clouds, servers, external logos, brand names, or readable words.',
+    },
+    guide: {
+      alt: 'Full-body smoke-kawaii mascot checking names, numbers, and caption timestamps against a local recording before export.',
+      caption:
+        'The browser transcription guide artwork shows the mascot listening back, correcting uncertain words, and checking timed captions before download.',
+      prompt:
+        'Show the full-body smoke-kawaii girl teaching a distinct review workflow beside a local media player: listen at a timestamp, inspect uncertain name and number symbol cards with a magnifying glass, correct a caption strip, then organize three download sheets. Add a small model chip and privacy shield, but no clouds, servers, microphones, readable text, external logos, or brand marks. Keep the complete character, hair, hands, props, and lower smoke tail inside a calm wide editorial composition using teal, coral, lime, charcoal, and white.',
+    },
+  },
   'hex-calculator': {
     tool: {
       alt: 'Illustration for Hex Calculator showing hexadecimal arithmetic, bitwise AND, OR, and XOR, plus decimal and binary conversions.',

@@ -34,7 +34,8 @@ export interface ToolDefinition {
     | 'UtilitiesApplication'
     | 'GameApplication'
     | 'DeveloperApplication'
-    | 'BusinessApplication';
+    | 'BusinessApplication'
+    | 'MultimediaApplication';
 }
 
 const baseTools: ToolDefinition[] = [

@@ -10,6 +10,8 @@ import {
   summarizeCollection,
 } from './lib/hostinger-api.mjs';
 import { summarizeHostingerNodeRuntime } from './lib/hostinger-build-status.mjs';
+import { captureReleaseSource, readReleaseReceipt, verifyReleaseReceipt,
+  fetchDeployedIdentity, verifyDeployedIdentity } from './lib/release-identity.mjs';
 
 const outputJsonPath = resolve('output/hostinger/status.json');
 const outputMarkdownPath = resolve('output/hostinger/status.md');
@@ -115,9 +117,13 @@ async function main() {
     capture('orders', listHostingerOrders),
     capture('domains', listHostingerDomains),
   ]);
-  const checks = Object.fromEntries([['websites', websitesCapture.summary], ...entries, runtimeEntry]);
+  const receipt = readReleaseReceipt();
+  const releaseEntry = await capture('deployedSource', async () => fetchDeployedIdentity(domain),
+    (identity) => verifyDeployedIdentity(identity, receipt, captureReleaseSource()));
+  const testedSource = verifyReleaseReceipt(receipt, captureReleaseSource());
+  const checks = Object.fromEntries([['websites', websitesCapture.summary], ...entries, runtimeEntry, ['testedSource', testedSource], releaseEntry]);
   const baseStatusOk = ['websites', 'orders', 'domains'].some((label) => checks[label]?.ok);
-  const status = baseStatusOk && checks.nodeRuntime?.ok ? 'ok' : 'attention';
+  const status = baseStatusOk && checks.nodeRuntime?.ok && checks.testedSource?.ok && checks.deployedSource?.ok ? 'ok' : 'attention';
   const report = {
     generatedAt: new Date().toISOString(),
     status,

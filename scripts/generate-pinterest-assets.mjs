@@ -1,6 +1,7 @@
-import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { chromium } from 'playwright';
+import sharp from 'sharp';
 
 const outputDir = resolve('output', 'promotion', 'pinterest');
 const publicDir = resolve('public', 'pinterest');
@@ -994,14 +995,23 @@ if (requestedFile && selectedPins.length === 0) {
   throw new Error(`Unknown Pinterest asset: ${requestedFile}`);
 }
 
-if (!requestedFile) {
-  for (const entry of readdirSync(publicDir, { withFileTypes: true })) {
-    if (entry.isFile() && entry.name.endsWith('.png') && entry.name !== 'access-free-tools-avatar.png') {
-      rmSync(resolve(publicDir, entry.name));
+if (process.argv.includes('--check')) {
+  const paths = selectedPins.map((pin) => ({ file: pin.file.replace(/\.png$/, '.jpg'), width, height }));
+  if (!requestedFile) paths.push({ file: 'access-free-tools-avatar.png', width: 1000, height: 1000 });
+  const checks = [];
+  for (const item of paths) {
+    try {
+      const metadata = await sharp(resolve(publicDir, item.file)).metadata();
+      checks.push({ file: item.file, passed: metadata.width === item.width && metadata.height === item.height });
+    } catch {
+      checks.push({ file: item.file, passed: false });
     }
   }
-}
-
+  writeFileSync(resolve(outputDir, 'asset-check.json'), JSON.stringify({ generatedAt: new Date().toISOString(),
+    scope: 'Existing asset readability and dimensions only; not visual approval.', checks }, null, 2));
+  console.log(`Pinterest existing assets: ${checks.filter((check) => check.passed).length}/${checks.length} passed.`);
+  if (checks.some((check) => !check.passed)) process.exitCode = 1;
+} else {
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 });
 
@@ -1039,3 +1049,4 @@ if (!requestedFile) {
 }
 
 await browser.close();
+}

@@ -10,6 +10,35 @@ Run the full local check:
 npm run check
 ```
 
+The Vitest configuration runs test files serially. Several suites launch browsers or Git subprocesses;
+unbounded file concurrency caused unrelated timeouts on the Windows review host.
+Keep test isolation, assertions and deadlines unchanged. Do not run another
+heavy check or browser inference experiment alongside the full check.
+The combined OCR, TTS, transcriber and admin browser suites exceeded the previous
+four-file limit on the review host; two files still timed out on Chromium teardown.
+The isolated TTS suite passed and closed Chromium in 187 ms. Keep all deadlines
+and assertions intact while avoiding simultaneous browser subprocess suites.
+
+`check` runs the unchanged gate sequence through `check:steps` and writes
+`output/release/full-check.json`. Development checks may pass in a dirty worktree,
+but that receipt is explicitly unverified for deployment. After committing the
+reviewed release, run `npm run check` again on that clean commit. Do not substitute
+an older successful log or a different worktree's receipt.
+The receipt must also contain the fresh clean build identity generated during
+that same check, with both mirrored identity files agreeing.
+
+The build writes a non-sensitive `/_build.json` containing its schema version,
+source commit, clean-source flag, build time and Node major version. If Git is
+unavailable or source changes during the build, its identity is unverified.
+These workflow receipts are not signed supply-chain attestations.
+
+`hostinger:deploy-node` requires the clean full-check receipt and checks the
+tested commit against current `origin/main`. After deployment, verify the latest
+build, Node 24, `app.js`, `dist`, and the live cache-busted identity. Do not launch
+a duplicate manual build when the Git deployment is already running.
+`hostinger:status` separates runtime health from tested/deployed source proof.
+Missing credentials or identity evidence is not a confirmed website outage.
+
 Run the browser smoke lane for larger UI, navigation, or accessibility-sensitive changes:
 
 ```bash

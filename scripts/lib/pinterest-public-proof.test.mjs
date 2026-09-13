@@ -105,6 +105,19 @@ describe('Pinterest public proof scanner', () => {
     expect(request.headers['x-pinterest-pws-handler']).toBe('www/[username]/[slug].js');
   });
 
+  it('does not infer completion from ambiguous or invalid initial feed entries', () => {
+    const end = { data: [pin({ id: '123', slug: 'interest-calculator' })], nextBookmark: '-end-' };
+    for (const resources of [
+      {}, { '[]': {} }, { '[]': { data: null, nextBookmark: '-end-' } },
+      { '[]': end, '[["other",true]]': end },
+    ]) {
+      const html = `<script id="__PWS_INITIAL_PROPS__">${JSON.stringify({ initialReduxState: { resources: { BoardFeedResource: resources } } })}</script>`;
+      const result = parsePinterestBoardHtml({ html, boardSlug: 'fixture', boardTitle: 'Fixture' });
+      expect(result.nextBookmark).toBeNull();
+      expect(result.paginationComplete).toBe(false);
+    }
+  });
+
   it('parses a paginated public board response with a stable feed offset', () => {
     const page = parsePinterestBoardFeedResponse({
       json: {

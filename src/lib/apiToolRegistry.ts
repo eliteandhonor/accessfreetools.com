@@ -1435,9 +1435,17 @@ export const apiTools = [
       const result = calculateDateDifference(input.startDate, input.endDate);
       return withUrls('date-calculator', {
         answer: `There are ${result.days} day(s) between ${result.startDate} and ${result.endDate}.`,
-        assumptions: ['Dates use YYYY-MM-DD format.', 'Calendar years, months, and days are shown separately from total days.'],
+        assumptions: [
+          'Dates use YYYY-MM-DD format.',
+          'Measure from the earlier date to the later date. Reversed inputs keep the same nonnegative difference.',
+          'Count total elapsed days separately using UTC dates.',
+        ],
         result,
-        steps: [`Parse both dates in YYYY-MM-DD format`, `Compare dates and count total days`, `Break the calendar difference into years, months, and days`],
+        steps: [
+          'Find the largest whole-month offset that does not pass the later date.',
+          "Apply the offset once from the earlier date. If its day is missing in the target month, use that month's last day.",
+          'Split the offset into years and months (years * 12 + months), then count the remaining days.',
+        ],
         warnings: [],
       });
     },
@@ -1470,6 +1478,16 @@ export function serializeApiTool(tool: ApiToolDefinition): PublicApiToolDefiniti
   };
 }
 
+function assertFiniteToolResult(value: unknown): void {
+  if (typeof value === 'number' && !Number.isFinite(value)) {
+    throw new Error('Tool result exceeds the supported numeric range. Try smaller inputs.');
+  }
+
+  if (value !== null && typeof value === 'object') {
+    Object.values(value).forEach(assertFiniteToolResult);
+  }
+}
+
 export function runApiTool(slug: string, input: unknown): ApiToolRunResult {
   const tool = getApiTool(slug);
 
@@ -1486,8 +1504,11 @@ export function runApiTool(slug: string, input: unknown): ApiToolRunResult {
     );
   }
 
+  const run = tool.run(parsed.data);
+  assertFiniteToolResult(run.result);
+
   return {
-    ...tool.run(parsed.data),
+    ...run,
     inputs: parsed.data,
   };
 }

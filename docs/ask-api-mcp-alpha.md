@@ -117,6 +117,34 @@ used the model.
 
 ## Safety Rules
 
+### Shared Execution Policy
+
+REST execution, Ask, and every MCP POST (including initialize and tools/list)
+use the same optional `AFT_API_BETA_TOKEN` header check. With no configured token,
+these interfaces are public. With a token, use `x-aft-api-token` or
+`Authorization: Bearer ...`; query credentials never authorize execution.
+HTTP tool catalogs, schemas, OpenAPI, and developer documentation stay public.
+
+Accepted REST, Ask, and MCP requests share one in-process fixed window of 60
+requests per 60 seconds using Astro's `clientAddress`. Rejected authentication
+does not use the quota. A limited response is HTTP 429 with `Retry-After` in
+seconds and `Cache-Control: no-store`. Missing addresses share the `unknown`
+bucket. This is not a distributed limiter or a verified production per-IP
+guarantee: Hostinger's proxy address forwarding still needs deployment proof.
+MCP clients must send the configured header from initialization onward.
+Send one RPC message per POST. JSON-RPC arrays are rejected with HTTP 400 so one
+admitted request cannot execute an uncounted batch of tools.
+
+Ambiguous Ask questions have a 30-second upstream deadline covering both the
+request and response body. A request abort is passed to the upstream fetch.
+The browser has a 35-second end-to-end deadline and aborts on component removal;
+late responses cannot replace a retry. Deterministic questions stay offline.
+Ask returns HTTP 504 / `ASK_TIMEOUT`, 408 / `ASK_CANCELLED`, or 503 /
+`ASK_UNAVAILABLE` for these operational failures, without returning a fake tool
+answer or exposing provider errors. Existing invalid-input failures remain 400.
+Actual disconnect propagation through the production proxy is a release check,
+not a guarantee derived from mocked unit tests.
+
 - Every answer should identify the tool used.
 - Finance, health, construction, electrical, privacy, and other high-trust tools
   must keep warning text visible in API and chatbot responses.

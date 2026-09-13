@@ -1,0 +1,1135 @@
+{
+  "schemaVersion": 1,
+  "campaignId": "2026-09-06-gpt6-project-review",
+  "objective": "Complete every GPT-6 review goal and task, independently review the resulting work, and finish unpublished work including the browser transcriber.",
+  "sourceRevision": "90d6dcab0580a91ca66382f2414d95e8817469e5",
+  "reviewDate": "2026-09-06",
+  "state": "in_progress",
+  "review": {
+    "status": "approved",
+    "approvedBy": "release-judge",
+    "date": "2026-09-06",
+    "evidencePath": "reports/release-judge.md",
+    "scope": "Review and task creation only; all implementation remains planned or blocked."
+  },
+  "scope": "Owner-authorized implementation from 2026-09-06; preserve live-action approval, browser compatibility, privacy, and beta gates.",
+  "allowedStatuses": [
+    "planned",
+    "in_progress",
+    "evidence_ready",
+    "approved",
+    "blocked"
+  ],
+  "approvalAuthority": "release-judge",
+  "agents": [
+    {
+      "id": "security",
+      "name": "Security And Privacy",
+      "goalId": "G1",
+      "goal": "Close known dependency and private-output boundaries without claiming a breach.",
+      "reference": [
+        "reports/privacy-security.md",
+        "docs/analytics-dashboard.md",
+        "docs/legal-monetization-readiness.md"
+      ],
+      "scope": "src/lib/monetization.ts; analytics masking; dependency overrides; privacy boundary tests.",
+      "directory": "agents/security",
+      "mayApprove": false
+    },
+    {
+      "id": "correctness",
+      "name": "Calculation And API Correctness",
+      "goalId": "G2",
+      "goal": "Return the answer to the complete supported question, or decline safely.",
+      "reference": [
+        "reports/correctness.md",
+        "reports/privacy-security.md",
+        "docs/ask-api-mcp-alpha.md"
+      ],
+      "scope": "Shared numeric/date helpers, Ask routing, API/MCP response and cancellation contracts.",
+      "directory": "agents/correctness",
+      "mayApprove": false
+    },
+    {
+      "id": "browser-runtime",
+      "name": "Browser Runtime And Resource Safety",
+      "goalId": "G3",
+      "goal": "Keep existing browser tools bounded, cancellable and recoverable.",
+      "reference": [
+        "reports/browser-products.md",
+        "docs/tts-browser-import-security.md"
+      ],
+      "scope": "JSON-to-CSV allocation, TTS imports/worker promises, OCR lifecycle; no server inference.",
+      "directory": "agents/browser-runtime",
+      "mayApprove": false
+    },
+    {
+      "id": "transcriber",
+      "name": "Transcriber DSP And Privacy QA",
+      "goalId": "G4",
+      "goal": "Finish the unpublished transcriber with faithful text, timing and browser-only proof.",
+      "reference": [
+        "reports/browser-products.md"
+      ],
+      "scope": "Only the existing browser-transcriber worktree and its campaign; preserve pinned models, noindex and no-purchase policy.",
+      "directory": "agents/transcriber",
+      "mayApprove": false
+    },
+    {
+      "id": "evidence",
+      "name": "Search And Analytics Evidence",
+      "goalId": "G5",
+      "goal": "Make every decision use the original observation date, correct coverage and valid production measurements.",
+      "reference": [
+        "reports/search-content-promotion.md",
+        "reports/privacy-security.md",
+        "reports/browser-products.md",
+        "docs/google-search-central-notes.md"
+      ],
+      "scope": "Reuse SERPForge and existing import/report helpers; no automatic content rewrite or indexing submission.",
+      "directory": "agents/evidence",
+      "mayApprove": false
+    },
+    {
+      "id": "frontend",
+      "name": "Frontend And Accessibility",
+      "goalId": "G6",
+      "goal": "Keep focus and useful results reachable at desktop, tablet and mobile sizes.",
+      "reference": [
+        "reports/frontend-quality.md",
+        "reports/browser-products.md",
+        "docs/smoke-kawaii-image-system.md"
+      ],
+      "scope": "Shared discovery/theme/reveal UI and QA scripts; preserve artwork and crawlable links.",
+      "directory": "agents/frontend",
+      "mayApprove": false
+    },
+    {
+      "id": "promotion",
+      "name": "Brendan Editorial And Four-Channel Promotion",
+      "goalId": "G7",
+      "goal": "Make active-channel work exact, useful and publicly proven without duplicate publishing.",
+      "reference": [
+        "reports/search-content-promotion.md",
+        "docs/brand-code.md",
+        "docs/article-writing-agent-standard.md",
+        "docs/promotion-account-registry.md"
+      ],
+      "scope": "Reuse Marketing Orchestrator and Brendan campaign; site blog, Medium, Bluesky and Pinterest only.",
+      "directory": "agents/promotion",
+      "mayApprove": false
+    },
+    {
+      "id": "operations",
+      "name": "Automation And Deployment Proof",
+      "goalId": "G8",
+      "goal": "Bind checks, schedules, artifacts and deployed builds to the right source revision.",
+      "reference": [
+        "reports/operations.md",
+        "docs/hostinger-api-agent-guide.md",
+        "docs/deployment-checklist.md"
+      ],
+      "scope": "CI/deploy evidence and existing automation configuration; no new scheduler duplication.",
+      "directory": "agents/operations",
+      "mayApprove": false
+    },
+    {
+      "id": "release-judge",
+      "name": "Release And Proof Judge",
+      "goalId": "G9",
+      "goal": "Independently validate the review, and later approve only changes with complete acceptance evidence.",
+      "reference": [
+        "reports/operations.md",
+        "AGENTS.md"
+      ],
+      "scope": "Read across tasks and source. May approve proof; cannot override owner approval for live actions.",
+      "directory": "agents/release-judge",
+      "mayApprove": true
+    }
+  ],
+  "goals": [
+    {
+      "id": "G1",
+      "title": "Security And Privacy",
+      "owner": "security",
+      "objective": "Close known dependency and private-output boundaries without claiming a breach.",
+      "status": "in_progress",
+      "taskIds": [
+        "SEC-01",
+        "SEC-02",
+        "SEC-03",
+        "SEC-04"
+      ]
+    },
+    {
+      "id": "G2",
+      "title": "Calculation And API Correctness",
+      "owner": "correctness",
+      "objective": "Return the answer to the complete supported question, or decline safely.",
+      "status": "in_progress",
+      "taskIds": [
+        "COR-01",
+        "COR-02",
+        "COR-03",
+        "COR-04",
+        "COR-05",
+        "COR-06"
+      ]
+    },
+    {
+      "id": "G3",
+      "title": "Browser Runtime And Resource Safety",
+      "owner": "browser-runtime",
+      "objective": "Keep existing browser tools bounded, cancellable and recoverable.",
+      "status": "in_progress",
+      "taskIds": [
+        "BR-01",
+        "BR-02",
+        "BR-03",
+        "BR-04"
+      ]
+    },
+    {
+      "id": "G4",
+      "title": "Transcriber DSP And Privacy QA",
+      "owner": "transcriber",
+      "objective": "Finish the unpublished transcriber with faithful text, timing and browser-only proof.",
+      "status": "in_progress",
+      "taskIds": [
+        "TR-01",
+        "TR-02",
+        "TR-03"
+      ]
+    },
+    {
+      "id": "G5",
+      "title": "Search And Analytics Evidence",
+      "owner": "evidence",
+      "objective": "Make every decision use the original observation date, correct coverage and valid production measurements.",
+      "status": "in_progress",
+      "taskIds": [
+        "EV-01",
+        "EV-02",
+        "EV-03",
+        "EV-04",
+        "EV-05"
+      ]
+    },
+    {
+      "id": "G6",
+      "title": "Frontend And Accessibility",
+      "owner": "frontend",
+      "objective": "Keep focus and useful results reachable at desktop, tablet and mobile sizes.",
+      "status": "in_progress",
+      "taskIds": [
+        "UX-01",
+        "UX-02",
+        "UX-03"
+      ]
+    },
+    {
+      "id": "G7",
+      "title": "Brendan Editorial And Four-Channel Promotion",
+      "owner": "promotion",
+      "objective": "Make active-channel work exact, useful and publicly proven without duplicate publishing.",
+      "status": "in_progress",
+      "taskIds": [
+        "PR-01",
+        "PR-02"
+      ]
+    },
+    {
+      "id": "G8",
+      "title": "Automation And Deployment Proof",
+      "owner": "operations",
+      "objective": "Bind checks, schedules, artifacts and deployed builds to the right source revision.",
+      "status": "in_progress",
+      "taskIds": [
+        "OP-01"
+      ]
+    },
+    {
+      "id": "G9",
+      "title": "Release And Proof Judge",
+      "owner": "release-judge",
+      "objective": "Independently validate the review, and later approve only changes with complete acceptance evidence.",
+      "status": "in_progress",
+      "taskIds": [
+        "RJ-01",
+        "RJ-02"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "SEC-04",
+      "goalId": "G1",
+      "owner": "security",
+      "priority": "P1",
+      "title": "Remediate September 13 dependency advisories",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": ["2026-09-13-audit-11-findings"],
+      "dependsOn": ["SEC-01"],
+      "evidencePaths": ["reports/security-sep13-remediation.md", "reports/security-sep13-exposure-judge.md", "reports/security-sep13-patch-judge.md"],
+      "evidenceOutput": "output/security-sep13/",
+      "evidenceCommand": "npm ci; npm audit --json --audit-level=moderate; npm run check",
+      "doneRule": "Test the narrow patched dependencies on Node24 in a fresh origin/main worktree. Require clean lifecycle-enabled installation, zero moderate/high/critical audit findings, archive/image regressions, full check and independent source-bound judgment. Preserve Astro7, ONNX/model pins and unrelated work. Deployment and live proof remain separate gates.",
+      "approvalGate": "release-judge",
+      "evaluator": "release-judge",
+      "blockedReason": null
+    },
+    {
+      "id": "SEC-01",
+      "goalId": "G1",
+      "owner": "security",
+      "priority": "P1",
+      "title": "Patch fast-uri and qs narrowly",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "PS-01",
+        "OPS-1"
+      ],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/privacy-security.md",
+        "reports/security-dependencies-task-acceptance.md",
+        "reports/clean-install-and-routing-followup.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/SEC-01/",
+      "evidenceCommand": "npm audit --json; npm run check",
+      "doneRule": "Resolve fast-uri >=4.1.3 and qs >=6.16.0 within tested compatible releases; clean Node24 npm ci and audit show zero moderate/high/critical findings; both typechecks, API/MCP regressions and full check pass. No broad audit fix or waiver.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "SEC-02",
+      "goalId": "G1",
+      "owner": "security",
+      "priority": "P1",
+      "title": "Mask private OCR, text and Ask outputs explicitly",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "PS-02"
+      ],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/privacy-security.md",
+        "reports/clarity-settings-verification.md",
+        "reports/clarity-real-recorder-proof.md",
+        "reports/clarity-recorder-judge.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/SEC-02/",
+      "evidenceCommand": "npm run check:accessibility; npm run check:ai-assets; npm test",
+      "doneRule": "Mask user-controlled input/output/history/errors under explicit Clarity ancestors. Synthetic alphabetic sentinels remain masked after hydration and rerenders; no marker reaches captured telemetry. Read-only Clarity configuration evidence before claiming live closure. Missing mask is conditional exposure, not a proven leak.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "SEC-03",
+      "goalId": "G1",
+      "owner": "security",
+      "priority": "P2",
+        "title": "Threat-model admin storage and proxy limits before broader ad exposure",
+        "lane": "design",
+        "status": "in_progress",
+      "findings": [
+        "PS-H2",
+        "PS-H3"
+      ],
+      "dependsOn": [
+        "SEC-02"
+      ],
+      "evidencePaths": [
+        "reports/privacy-security.md",
+        "reports/admin-proxy-threat-model.md",
+        "reports/owner-defaults-and-security-deployment.md",
+        "reports/admin-no-persistence-implementation.md",
+        "reports/admin-no-persistence-judge.md",
+        "reports/rate-bucket-bounds-implementation.md",
+        "reports/rate-bucket-bounds-judge.md",
+        "reports/admin-rate-resume-2026-09-08.md",
+        "reports/admin-rate-integration-judge-2026-09-08.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/SEC-03/",
+      "evidenceCommand": "npm test; npm run monetization:browser-check",
+      "doneRule": "Document same-origin session-token risk and trusted forwarding headers. Choose a bounded mitigation with owner approval; test authorization, logout/expiry, CSRF if cookies are chosen, and bounded rate buckets with synthetic identities. Do not claim theft, hostile traffic or a required architecture rewrite.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "COR-01",
+      "goalId": "G2",
+      "owner": "correctness",
+      "priority": "P1",
+      "title": "Preserve Ask units and explicit qualifiers",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "COR-01"
+      ],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/correctness.md",
+        "reports/ask-routing-task-acceptance.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/COR-01/",
+      "evidenceCommand": "npm test; npm run aft -- ask-audit",
+      "doneRule": "Three-phase/PF, metric concrete and per-1000 token questions preserve complete inputs or decline. Assert structured inputs plus results. Parser-first and fallback paths cannot silently reinterpret units; tests never call external models.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "COR-02",
+      "goalId": "G2",
+      "owner": "correctness",
+      "priority": "P1",
+      "title": "Reject partial numeric and date-question matches",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "COR-02"
+      ],
+      "dependsOn": [
+        "COR-01"
+      ],
+      "evidencePaths": [
+        "reports/correctness.md",
+        "reports/ask-routing-task-acceptance.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/COR-02/",
+      "evidenceCommand": "npm test; npm run aft -- ask-audit",
+      "doneRule": "18% of 1,000 returns180; chained arithmetic and ISO date questions route correctly or decline, never succeed on a prefix. Cover grouping, sign, decimals, scientific notation and leftover operators with no-network REST tests.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "COR-03",
+      "goalId": "G2",
+      "owner": "correctness",
+      "priority": "P2",
+      "title": "Fix month-end age and date decomposition",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "COR-03"
+      ],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/correctness.md",
+        "reports/correctness-numeric-task-rejudge.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/COR-03/",
+      "evidenceCommand": "npm test; npm run test:smoke",
+      "doneRule": "Jan29/30/31, leap/non-leap Feb and reversed intervals use one documented convention. Components never negative; reconstructed later date and total days agree; verify browser and REST/MCP output.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "COR-04",
+      "goalId": "G2",
+      "owner": "correctness",
+      "priority": "P2",
+      "title": "Return explicit errors for non-finite tool results",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "COR-04"
+      ],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/correctness.md",
+        "reports/correctness-numeric-task-rejudge.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/COR-04/",
+      "evidenceCommand": "npm test; npm run aft -- api-ready; npm run aft -- mcp-smoke",
+      "doneRule": "Overflow in basic, percentage and mortgage calls cannot serialize as ok:true with numeric null. REST returns existing error contract and MCP isError:true. Recursively check numerical results without rejecting intentional domain nulls.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "COR-05",
+      "goalId": "G2",
+      "owner": "correctness",
+      "priority": "P2",
+      "title": "Stabilize near-zero loan-rate mathematics",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "COR-05"
+      ],
+      "dependsOn": [
+        "COR-04"
+      ],
+      "evidencePaths": [
+        "reports/correctness.md",
+        "reports/correctness-numeric-task-rejudge.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/COR-05/",
+      "evidenceCommand": "npm test; npm run test:smoke",
+      "doneRule": "Small positive rates converge to zero-rate payment; total paid is at least principal within numerical tolerance. Independent reference covers ordinary/extreme supported rates and direct helper consumers; no negative interest from the reproduced cancellation error.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "COR-06",
+      "goalId": "G2",
+      "owner": "correctness",
+      "priority": "P2",
+      "title": "Align REST/MCP execution policy and bound Ask waits",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "PS-03",
+        "PS-06"
+      ],
+      "dependsOn": [
+        "COR-02",
+        "SEC-01"
+      ],
+      "evidencePaths": [
+        "reports/privacy-security.md",
+        "reports/ask-execution-policy-implementation.md",
+        "reports/ask-execution-policy-judge.md",
+        "reports/ask-execution-task-acceptance.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/COR-06/",
+      "evidenceCommand": "npm test; npm run check:live-ask",
+      "doneRule": "Document shared beta/public policy. Test configured/unset token, wrong/query credentials, discovery, 429 and MCP init/list/call. Mocked stalled request/body aborts by deadline; disconnect cancels upstream; UI recovers. No unsupported production per-IP guarantee.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "BR-01",
+      "goalId": "G3",
+      "owner": "browser-runtime",
+      "priority": "P1",
+      "title": "Bound JSON-to-CSV output before dense allocation",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "BP-01"
+      ],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/browser-products.md",
+        "reports/json-tts-task-acceptance.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/BR-01/",
+      "evidenceCommand": "npm test; npm run test:smoke",
+      "doneRule": "Preflight max columns, cells, nesting and estimated output bytes; sparse50000-key input rejects before dense allocation. Safe irregular rows/BOM/delimiters/formula escaping still work; browser remains responsive. Do not execute a2.5billion-cell allocation.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "BR-02",
+      "goalId": "G3",
+      "owner": "browser-runtime",
+      "priority": "P2",
+      "title": "Settle TTS failures and validate files before reading",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "BP-03",
+        "BP-07"
+      ],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/browser-products.md",
+        "reports/browser-runtime-tts-implementation.md",
+        "reports/tts-additional-lifecycle-proof.md",
+        "reports/implementation-batch-two-acceptance.md",
+        "reports/json-tts-task-acceptance.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/BR-02/",
+      "evidenceCommand": "npm test; npm run tts:browser-check; npm run tts:feature-soak",
+      "doneRule": "Pending chapter promise rejects exactly once on pre-ready worker error; retry preserves earlier MP3s. Oversized/unsupported files call arrayBuffer zero times; cancellation/replacement cannot publish stale imports. Test real UI lifecycle, not just parser source strings.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "BR-03",
+      "goalId": "G3",
+      "owner": "browser-runtime",
+      "priority": "P2",
+      "title": "Give OCR operation identity, cancellation and input bounds",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "BP-08"
+      ],
+      "dependsOn": [
+        "SEC-02"
+      ],
+      "evidencePaths": [
+        "reports/browser-products.md",
+        "reports/ocr-lifecycle-implementation.md",
+        "reports/runtime-evidence-followup-judge.md",
+        "reports/ocr-task-acceptance.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/BR-03/",
+      "evidenceCommand": "npm test; npm run test:smoke; npm run check:ai-assets",
+      "doneRule": "Delayed imageA result never appears under imageB/languageB. Cancel/unmount terminates worker; corrupt/oversized pixel and byte inputs fail before dangerous allocation; language fixtures and retry pass.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "BR-04",
+      "goalId": "G3",
+      "owner": "browser-runtime",
+      "priority": "P2",
+      "title": "Verify real TTS model and device readiness before beta exit",
+      "lane": "measurement",
+      "status": "blocked",
+      "findings": [
+        "TTS-readiness",
+        "BP-G5"
+      ],
+      "dependsOn": [
+        "BR-02",
+        "SEC-01",
+        "SEC-02"
+      ],
+      "evidencePaths": [
+        "reports/browser-products.md",
+        "reports/tts-real-chrome-smoke-judge.md",
+        "reports/tts-revision-boundary-judge.md",
+        "reports/tts-readiness-followup.md",
+        "reports/tts-cold-retry-2026-09-09.md",
+        "reports/tts-cold-retry-judge-2026-09-09.md",
+        "reports/tts-warm-chapters-judge-2026-09-09.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/BR-04/",
+      "evidenceCommand": "npm run tts:browser-check; npm run tts:voice-check; npm run tts:feature-soak; npm run check",
+      "doneRule": "Named real Chrome/Edge cold/warm Supertonic and Kokoro jobs cover 10000-character generation, chapter MP3/ZIP, repeated model switches, load failure, watchdog, cancel/retry, memory peak and recovery, and local-only network sentinels. Mock soak and source checks are not inference proof. Record Firefox/WebKit and actual Android/iOS/Safari as tested, fallback or unverified; do not infer devices from viewport emulation. Keep TTS noindex until its own compatibility plus seven stable beta-day gates and separate indexability judgment pass.",
+      "approvalGate": "release-judge",
+      "evaluator": "release-judge",
+      "blockedReason": "September 9 AEST: independent judges accept the corrected QA cold-short Chrome Kokoro result plus four follow-ups: Edge Kokoro cold-short/warm Bella-Adam chapter MP3/ZIP, Chrome Kokoro 10000 characters, Chrome Supertonic cold-short/warm F1-M1 chapter MP3/ZIP, and Edge Supertonic 10000 characters. Native outputs and archive hashes pass with unchanged product source. Historical harness-snapshot limits are documented. Complete browser/model matrix, repeated switching, failure/watchdog/cancel/retry, native memory, production privacy, physical devices and seven stable beta days remain unproven. See reports/tts-cold-retry-2026-09-09.md and reports/tts-warm-chapters-judge-2026-09-09.md. BR-04 and indexability remain unapproved."
+    },
+    {
+      "id": "TR-01",
+      "goalId": "G4",
+      "owner": "transcriber",
+      "priority": "P1",
+      "title": "Preserve repeated speech and source timing",
+      "lane": "unreleased-transcriber",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "BP-02",
+        "BP-04",
+        "missing-end-timestamps"
+      ],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/browser-products.md",
+        "reports/transcriber-core-task-acceptance.md",
+        "reports/transcriber-core-task-fixes.md",
+        "reports/transcriber-core-task-rejudge.md",
+        "reports/transcriber-alignment-decision.md",
+      "reports/transcriber-alignment-runtime-2026-09-08.md",
+      "reports/transcriber-alignment-outcome-2026-09-08.md",
+      "reports/transcriber-word-alignment-implementation-2026-09-08.md",
+      "reports/transcriber-alignment-source-judge-2026-09-08.md",
+      "reports/transcriber-alignment-source-rejudge-2026-09-08.md",
+      "reports/transcriber-current-browser-integration-2026-09-08.md",
+      "reports/transcriber-point-alignment-judge-2026-09-08.md",
+        "reports/transcriber-source-window-judge-2026-09-08.md",
+        "reports/transcriber-contextual-repair-2026-09-08.md",
+        "reports/transcriber-overlap-design-2026-09-08.md",
+        "reports/transcriber-boundary-followup-2026-09-08.md",
+        "reports/transcriber-cross-block-design-2026-09-08.md",
+        "reports/transcriber-local-acceptance-2026-09-08.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/TR-01/",
+      "evidenceCommand": "npm test; npm run transcriber:browser-check",
+      "doneRule": "Deduplicate only actual source overlap; preserve separated repeated words and CJK. Resampling maintains fractional phase/timestamp gaps and is packetization-invariant within1sample. Null end timestamps use a bounded defensible interval. Full-hour marker error separated from ASR alignment.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "TR-02",
+      "goalId": "G4",
+      "owner": "transcriber",
+      "priority": "P2",
+      "title": "Fix cancellation, subtitle round trips and stalled-job recovery",
+      "lane": "unreleased-transcriber",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "BP-05",
+        "BP-06",
+        "transcriber-watchdog"
+      ],
+      "dependsOn": [
+        "TR-01"
+      ],
+      "evidencePaths": [
+        "reports/browser-products.md",
+        "reports/transcriber-core-task-acceptance.md",
+        "reports/transcriber-core-task-fixes.md",
+        "reports/transcriber-core-task-rejudge.md",
+        "reports/transcriber-srt-line-investigation.md",
+        "reports/transcriber-srt-continuation-fix.md",
+        "reports/transcriber-srt-continuation-judge.md",
+        "reports/transcriber-model-loading-diagnosis.md",
+        "reports/transcriber-model-loading-judge.md",
+        "reports/task-acceptance-and-download-followup.md",
+      "reports/transcriber-compatibility-exports-2026-09-08.md",
+        "reports/transcriber-current-browser-integration-2026-09-08.md",
+        "reports/transcriber-source-window-judge-2026-09-08.md",
+        "reports/transcriber-contextual-repair-2026-09-08.md",
+        "reports/transcriber-boundary-followup-2026-09-08.md",
+        "reports/transcriber-local-acceptance-2026-09-08.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/TR-02/",
+      "evidenceCommand": "npm test; npm run transcriber:browser-check",
+      "doneRule": "Abort/stale operation never spawns fallback workers; Stop/Reset/replacement/unmount leave no workers or stale state. Real WebGPU failure retries once. Independent SRT/VTT import preserves literal text/blank lines/RTL; no-progress state has measured recovery and retains completed blocks.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "TR-03",
+      "goalId": "G4",
+      "owner": "transcriber",
+      "priority": "P1",
+      "title": "Complete privacy and real-browser beta gates",
+      "lane": "unreleased-transcriber",
+      "status": "blocked",
+      "findings": [
+        "BP-12",
+        "transcriber-readiness"
+      ],
+      "dependsOn": [
+        "TR-01",
+        "TR-02",
+        "SEC-01"
+      ],
+      "evidencePaths": [
+        "reports/browser-products.md",
+        "reports/transcriber-download-isolation.md",
+        "reports/transcriber-model-loading-diagnosis.md",
+        "reports/transcriber-privacy-mutations-2026-09-08.md",
+      "reports/transcriber-privacy-final-judge-2026-09-08.md",
+      "reports/transcriber-alignment-outcome-2026-09-08.md",
+      "reports/transcriber-word-alignment-implementation-2026-09-08.md",
+      "reports/transcriber-current-browser-integration-2026-09-08.md",
+        "reports/transcriber-compatibility-cache-judge-2026-09-08.md",
+        "reports/transcriber-contextual-repair-2026-09-08.md",
+        "reports/transcriber-boundary-followup-2026-09-08.md",
+        "reports/transcriber-quiet-cuts-2026-09-09.md",
+        "reports/transcriber-quiet-boundaries-judge-2026-09-09.md",
+        "reports/transcriber-checkpoint-ownership-2026-09-13.md",
+        "reports/transcriber-checkpoint-judge-2026-09-13.md",
+    "reports/transcriber-hour-matrix-2026-09-13.md",
+    "reports/transcriber-recorder-proof-2026-09-13.md",
+    "reports/transcriber-recorder-judge-2026-09-13.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/TR-03/",
+      "evidenceCommand": "npm run transcriber:browser-check; npm run check; node scripts/seo-agent-workbench.mjs all audio-video-transcriber tool; node scripts/seo-agent-workbench.mjs all audio-video-transcriber blog",
+      "doneRule": "Mutation tests detect synthetic GET/body/beacon/worker/telemetry leaks without saving sensitive strings. Named real Chrome/Edge finish60min MP3/MP4; Firefox/WebKit10-15min checked; languages, codecs, tracks, exports and memory measured. Noindex remains until all gates plus7stable beta days and separate authorized indexability release.",
+      "approvalGate": "release-judge",
+      "blockedReason": "September 13: T security refresh passes1181tests/audit0; four current Chrome/Edge hourMP3/MP4 cases pass240cues/120intervals/zerooverlaps. Firefox900sMP3 and WindowsWebKit900sPCM pass60cues/30intervals/zerooverlaps/cleanup with verified cached models. WindowsWebKitMP3 rejects before model download, notSafari/iOS proof. Three realSDK recorder cases are independently accepted: two masked and one detected broken-boundary control, 78sourcehashesunchanged. Multilingual/broadercodec/track, production tag/pre-hydration privacy, native memory, physical devices and seven stable beta days remain incomplete. No timing waiver, transcriber deployment or TR-03 approval. See current hour-matrix and recorder reports.",
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "EV-01",
+      "goalId": "G5",
+      "owner": "evidence",
+      "priority": "P2",
+      "title": "Unify observation provenance across SEO and pilot consumers",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "SCP-04",
+        "SCP-05",
+        "BP-11"
+      ],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/search-content-promotion.md",
+        "reports/evidence-judge-fixes.md",
+        "reports/rounding-and-ingestion-followup.md",
+        "reports/implementation-batch-two-acceptance.md",
+        "reports/evidence-pipeline-task-acceptance.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/EV-01/",
+      "evidenceCommand": "npm test; npm run aft -- indexing-gaps; npm run marketing:orchestrate",
+      "doneRule": "Newest per-URL actual observation wins across nested merges and worktrees; original source paths/dates remain stable. Prelaunch/future/stale/missing evidence cannot activate a pilot. OldPASS/newfailure and reverse fixtures preserve partial URL sets; wrappers cannot refresh source age.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "EV-02",
+      "goalId": "G5",
+      "owner": "evidence",
+      "priority": "P2",
+      "title": "Make provider status and independent refreshes truthful",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "SCP-02",
+        "SCP-03"
+      ],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/search-content-promotion.md",
+        "reports/provider-status-implementation.md",
+        "reports/runtime-evidence-followup-judge.md",
+        "reports/evidence-pipeline-task-acceptance.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/EV-02/",
+      "evidenceCommand": "npm test; npm run automation:env-check; npm run aft -- status",
+      "doneRule": "Disk-only account data is cached with age; current attempt state distinct. Mocked DataForSEO failure does not prevent GSC refresh or become a topup claim. No paid research/submissions added; fresh complete/partial outcomes exposed in JSON and CLI.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "EV-03",
+      "goalId": "G5",
+      "owner": "evidence",
+      "priority": "P2",
+      "title": "Respect successful and intentionally excluded indexing states",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "SCP-06"
+      ],
+      "dependsOn": [
+        "EV-01"
+      ],
+      "evidencePaths": [
+        "reports/search-content-promotion.md",
+        "reports/indexing-classification-implementation.md",
+        "reports/indexing-classification-judge.md",
+        "reports/indexing-classification-final-rejudge.md",
+        "reports/indexing-analytics-integration-2026-09-06.md",
+        "reports/evidence-pipeline-task-acceptance.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/EV-03/",
+      "evidenceCommand": "npm test; npm run aft -- indexing-gaps; npm run aft -- link-helper; npm run audit:indexing-protection; npm run aft -- site-sitemap",
+      "doneRule": "All PASS variants are non-recovery; intentional TTS/feeds/support noindex remains excluded/monitor. Unexpected noindex still fails. Link Helper/SEO Console/marketing use common policy; protect Kawaii and completed604unit queue.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "EV-04",
+      "goalId": "G5",
+      "owner": "evidence",
+      "priority": "P2",
+      "title": "Report analytics coverage and exclude private dashboard traffic",
+      "lane": "main",
+      "status": "in_progress",
+      "findings": [
+        "PS-04",
+        "PS-05",
+        "PS-H1"
+      ],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/privacy-security.md",
+        "reports/analytics-coverage-implementation.md",
+        "reports/analytics-coverage-judge.md",
+        "reports/analytics-coverage-final-rejudge.md",
+        "reports/indexing-analytics-integration-2026-09-06.md",
+        "reports/production-measurement-followup.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/EV-04/",
+      "evidenceCommand": "npm test; npm run analytics:production; npm run analytics:production:game",
+      "doneRule": "16/25MiB and120000event fixtures yield exact bounded totals or explicit partial coverage. Requested period never implies full coverage. Private/admin/API normalized paths excluded client/server. Document active-log retention and verify durable production interval before comparisons; no unbounded read or real-log deletion.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "EV-05",
+      "goalId": "G5",
+      "owner": "evidence",
+      "priority": "P2",
+      "title": "Make game lifecycle events and pilot decisions valid",
+      "lane": "main",
+      "status": "in_progress",
+      "findings": [
+        "BP-10",
+        "BP-11"
+      ],
+      "dependsOn": [
+        "EV-01",
+        "EV-04"
+      ],
+      "evidencePaths": [
+        "reports/browser-products.md",
+        "reports/game-evidence-implementation.md",
+        "reports/game-frontend-integration-2026-09-06.md",
+        "reports/production-measurement-followup.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/EV-05/",
+      "evidenceCommand": "npm test; npm run analytics:production:game; npm run pilot:four-in-a-row",
+      "doneRule": "Win/undo/re-win emits one completion; first-move undo/replay one start per in-memory round. Impossible rates block conclusions. Fresh dated production evidence, owner exclusion, Sep7date and100starts all required. No moves/identities recorded; no new game/category.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "UX-01",
+      "goalId": "G6",
+      "owner": "frontend",
+      "priority": "P2",
+      "title": "Preserve keyboard position in reveals, themes and game board",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "FQ-01",
+        "FQ-02",
+        "FQ-05",
+        "BP-09"
+      ],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/frontend-quality.md",
+        "reports/frontend-discovery-implementation.md",
+        "reports/game-frontend-integration-2026-09-06.md",
+        "reports/frontend-task-acceptance.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/UX-01/",
+      "evidenceCommand": "npm run test:smoke; npm run check:accessibility; npm run check:key-visual",
+      "doneRule": "Enter/Space reveal continues into new tool/blog/gallery items; keyboard theme choice restores trigger. Game roving tabindex skips full columns and remains re-enterable. Search focus visibly distinguishable; tests390/768/1365plus reset/undo/delayed load.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "UX-02",
+      "goalId": "G6",
+      "owner": "frontend",
+      "priority": "P2",
+      "title": "Shorten mobile/tablet path from tool search to results",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "FQ-03"
+      ],
+      "dependsOn": [
+        "UX-01"
+      ],
+      "evidencePaths": [
+        "reports/frontend-quality.md",
+        "reports/frontend-discovery-implementation.md",
+        "reports/game-frontend-integration-2026-09-06.md",
+        "reports/frontend-task-acceptance.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/UX-02/",
+      "evidenceCommand": "npm run check:key-visual; npm run check:accessibility; npm run check:site",
+      "doneRule": "Compact accessible category selector at<=980px preserves all crawlable category links and desktop rail. Tablet search and first result appear without full rail scroll; mobile selected/typed results reachable immediately. Screenshot320/390/768/980/1081/1365with no overlap.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "UX-03",
+      "goalId": "G6",
+      "owner": "frontend",
+      "priority": "P2",
+      "title": "Keep unresolved accessibility checks and measure route costs",
+      "lane": "measurement",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "FQ-04",
+        "FQ-06"
+      ],
+      "dependsOn": [
+        "UX-01"
+      ],
+      "evidencePaths": [
+        "reports/frontend-quality.md",
+        "reports/frontend-accessibility-evidence-implementation.md",
+        "reports/game-frontend-integration-2026-09-06.md",
+        "reports/frontend-task-acceptance.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/UX-03/",
+      "evidenceCommand": "npm run check:accessibility; node scripts/check-accessibility.mjs --theme-matrix; node scripts/measure-route-costs.mjs; npm run check:performance; npm run check:ai-assets",
+      "doneRule": "Persist axe incomplete/nonblocking rule IDs/nodes with manual-review status; automated pass is not conformance approval. Measure cold/warm route costs with conditions and real-device limitations; optimize CSS only from measured cost, preserve lazy models.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "PR-01",
+      "goalId": "G7",
+      "owner": "promotion",
+      "priority": "P1",
+      "title": "Enforce four-channel policy at every public-action boundary",
+      "lane": "main",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "SCP-01",
+        "SCP-08"
+      ],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/search-content-promotion.md",
+        "reports/promotion-pr01-pr02-rejudge.md",
+        "reports/promotion-pr02-correction-rejudge.md",
+        "reports/promotion-corrections-integration-2026-09-06.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/PR-01/",
+      "evidenceCommand": "npm test; npm run promotion:four-channel-review; npm run marketing:orchestrate",
+      "doneRule": "Inactive/unknown channels cause zero credential reads/networkwrites even with publish flags. Exactly one channel per actionable row; reconcile mixed status from dated public proof, not assumptions. needsapproval never executable; leave historical files protected.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "PR-02",
+      "goalId": "G7",
+      "owner": "promotion",
+      "priority": "P2",
+        "title": "Make four-channel health and source review evidence explicit",
+        "lane": "main",
+        "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [
+        "SCP-07",
+        "R1"
+      ],
+      "dependsOn": [
+        "PR-01"
+      ],
+      "evidencePaths": [
+        "reports/search-content-promotion.md",
+        "reports/promotion-security-integration-2026-09-06.md",
+        "reports/pinterest-live-sample-2026-09-06.md",
+        "reports/promotion-pr02-correction-rejudge.md",
+        "reports/promotion-corrections-integration-2026-09-06.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/PR-02/",
+      "evidenceCommand": "npm test; npm run promotion:four-channel-review; npm run check:editorial-quality; npm run marketing:orchestrate",
+      "doneRule": "All4channels report passed/failed/missing/stale separately. Pinterest/sitefailure cannot hide behind Medium+Blueskypass. Primary-source presence not verification; future articles have dated claim-to-source and Brendan fact/approval notes. Preserve disclosures; no mass rewrite or posting.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "OP-01",
+      "goalId": "G8",
+      "owner": "operations",
+      "priority": "P2",
+      "title": "Bind release proof and automation handoffs to current source",
+      "lane": "operations",
+      "status": "in_progress",
+      "findings": [
+        "OPS-2",
+        "OPS-3",
+        "R2"
+      ],
+      "dependsOn": [
+        "EV-01",
+        "PR-01"
+      ],
+      "evidencePaths": [
+        "reports/operations.md",
+        "reports/release-identity-implementation.md",
+        "reports/automation-reconciliation-2026-09-13.md",
+        "reports/review-release-scope-2026-09-13.md",
+        "reports/smoke-followup-judge-2026-09-13.md",
+        "reports/local-verification-closeout-2026-09-13.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/OP-01/",
+      "evidenceCommand": "git worktree list --porcelain; npm run hostinger:status; npm run aft -- proof-check",
+      "doneRule": "Record tested GitSHA and verify non-sensitive deployed build identity; stale mismatch fails. Reconcile existing tasks with currentmain/live routes and approved rows; update schedules only through automation tool, preserve pauses/notifications. Do not create duplicate campaign or delete dirty worktrees.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "release-judge"
+    },
+    {
+      "id": "RJ-01",
+      "goalId": "G9",
+      "owner": "release-judge",
+      "priority": "P1",
+      "title": "Judge review completeness and task traceability",
+      "lane": "review",
+      "status": "approved",
+      "approvedBy": "release-judge",
+      "findings": [],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/operations.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/RJ-01/",
+      "evidenceCommand": "node agents/project-review-2026-09-06/verify.mjs",
+      "doneRule": "Every substantive finding maps to a bounded task or explicitly deferred rationale. Verify source refs, status/owners/dependencies, evidence limits, no application changes and original dirty preservation. Approval covers review only, not implementation.",
+      "approvalGate": "release-judge",
+      "blockedReason": null,
+      "evaluator": "operations"
+    },
+    {
+      "id": "RJ-02",
+      "goalId": "G9",
+      "owner": "release-judge",
+      "priority": "P1",
+      "title": "Approve each future release only after its selected tasks pass",
+      "lane": "release",
+      "status": "blocked",
+      "findings": [],
+      "dependsOn": [],
+      "evidencePaths": [
+        "reports/operations.md",
+        "reports/owner-defaults-and-security-deployment.md",
+        "reports/security-live-release-judge.md",
+        "reports/security-sep13-remediation.md",
+        "reports/security-sep13-patch-judge.md",
+        "reports/review-release-scope-2026-09-13.md",
+        "reports/local-verification-closeout-2026-09-13.md"
+      ],
+      "evidenceOutput": "output/project-review-followup/RJ-02/",
+      "evidenceCommand": "npm run check; npm run hostinger:status; npm run check:live-ask; npm run check:production-sitemap",
+      "doneRule": "For each narrow proposed release, verify acceptance and relevant dependencies plus clean source/lock and fullcheck. Obtain live-action authority; then Node24Astro7 deployment, exact revision and public functional proof. Submit only actual changed eligible URLs. Never bundle every task into one release.",
+      "approvalGate": "release-judge",
+      "blockedReason": "September 13: authorized security18ebd554 is deployed on Node24 after Linux CI and independent review; live Ask/API/MCP,663sitemap URLs and three sampled client assets pass. Exact server-source attestation remains absent. Clean correctness candidate0c78956b passes902tests/132browser cases and independent local acceptance, but the requested bounded owner push/deploy approval remains unanswered. Its Linux CI/live identity gates are not done. R full2529tests/two136browser runs and T six duration/local recorder cases do not authorize bulk release or waive product/device/beta gates.",
+      "evaluator": "release-judge"
+    }
+  ],
+  "implementation": {
+    "authorizedAt": "2026-09-06",
+    "branch": "codex/gpt6-review-implementation",
+    "reviewCommit": "243d71d1d832b398cba86d5c7fcc70deefa25f25"
+  }
+}

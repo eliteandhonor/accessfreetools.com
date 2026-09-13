@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Search } from 'lucide-react';
 import type { BlogSearchItem } from '../data/blogSearchIndex';
 
@@ -16,6 +16,8 @@ export default function BlogSearch({ posts, searchIndexUrl, totalPostCount }: Pr
   const [searchIndexError, setSearchIndexError] = useState('');
   const [query, setQuery] = useState('');
   const [showAllGuides, setShowAllGuides] = useState(false);
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const revealFocus = useRef<{ hrefs: Set<string | null>; trigger: HTMLButtonElement } | null>(null);
 
   const isFullSearchIndexLoaded = searchPosts.length >= totalPostCount;
 
@@ -97,6 +99,21 @@ export default function BlogSearch({ posts, searchIndexUrl, totalPostCount }: Pr
   const filteredPostCount = isFullSearchIndexLoaded || query.trim().length > 0 ? filteredPosts.length : totalPostCount;
   const hiddenGuideCount = filteredPostCount - visiblePosts.length;
 
+  useEffect(() => {
+    const pending = revealFocus.current;
+    if (!pending) return;
+    if (document.activeElement !== pending.trigger && document.activeElement !== document.body) {
+      revealFocus.current = null;
+      return;
+    }
+    const firstNewLink = [...(resultsRef.current?.querySelectorAll<HTMLAnchorElement>('a') ?? [])]
+      .find((link) => !pending.hrefs.has(link.getAttribute('href')));
+    if (firstNewLink) {
+      revealFocus.current = null;
+      firstNewLink.focus();
+    }
+  }, [visiblePosts]);
+
   return (
     <section className="blog-search-panel" aria-label="Search blog guides">
       <div className="blog-search-heading">
@@ -124,7 +141,7 @@ export default function BlogSearch({ posts, searchIndexUrl, totalPostCount }: Pr
       </p>
       {searchIndexError && <p className="launchpad-status-note">{searchIndexError}</p>}
 
-      <div className="blog-list-grid">
+      <div className="blog-list-grid" ref={resultsRef}>
         {visiblePosts.map((post) => (
           <article className="blog-post-card" key={post.slug}>
             <span>{post.label}</span>
@@ -142,7 +159,11 @@ export default function BlogSearch({ posts, searchIndexUrl, totalPostCount }: Pr
       {hiddenGuideCount > 0 && (
         <button
           className="launchpad-show-more"
-          onClick={() => {
+          onClick={(event) => {
+            revealFocus.current = event.detail === 0 ? {
+              hrefs: new Set([...resultsRef.current!.querySelectorAll('a')].map((link) => link.getAttribute('href'))),
+              trigger: event.currentTarget,
+            } : null;
             setShowAllGuides(true);
             void loadFullSearchIndex();
           }}

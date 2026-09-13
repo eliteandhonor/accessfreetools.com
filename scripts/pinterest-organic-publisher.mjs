@@ -1,3 +1,4 @@
+import { assertPublicPromotionChannel } from './lib/promotion-channel-policy.mjs';
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { chromium } from '@playwright/test';
@@ -835,6 +836,7 @@ async function publishPin(page, pin, options = {}) {
 
 async function main() {
   const args = parseArgs();
+  if (args.publish) assertPublicPromotionChannel('pinterest');
   const selectedPins = pins
     .filter((pin) => args.all || args.slugs.includes(pin.slug))
     .slice(0, Number.isFinite(args.limit) ? args.limit : pins.length);

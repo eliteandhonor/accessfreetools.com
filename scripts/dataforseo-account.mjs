@@ -1,6 +1,7 @@
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { getDataForSeoUserData, summarizeDataForSeoUserData } from './lib/dataforseo.mjs';
+import { accountObservation, providerFailure, publicAccount } from './lib/provider-status.mjs';
 
 const args = process.argv.slice(2);
 
@@ -21,19 +22,17 @@ function writeJson(path, value) {
   writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`);
 }
 
-async function currentPublicIp() {
-  try {
-    const response = await fetch('https://api.ipify.org?format=json');
-    const json = await response.json();
-    return typeof json.ip === 'string' ? json.ip : '';
-  } catch {
-    return '';
-  }
-}
+let lastSuccess = null;
+try { lastSuccess = accountObservation(JSON.parse(readFileSync(reportPath, 'utf8')), reportPath); } catch { /* No usable saved observation. */ }
 
 try {
   const response = await getDataForSeoUserData();
-  const account = summarizeDataForSeoUserData(response);
+  const rawBalance = response?.tasks?.[0]?.result?.[0]?.money?.balance;
+  if (rawBalance === null || rawBalance === undefined || typeof rawBalance === 'string' && !rawBalance.trim() ||
+      !['number', 'string'].includes(typeof rawBalance) || !Number.isFinite(Number(rawBalance))) {
+    throw new Error('Invalid account response');
+  }
+  const account = publicAccount(summarizeDataForSeoUserData(response));
   const needsTopUp = account.balance <= minBalance;
   const shouldWarn = account.balance <= warnBalance;
   const report = {
@@ -42,12 +41,14 @@ try {
     minBalance,
     warnBalance,
     account,
+    needsTopUp,
   };
+  report.currentAttempt = { status: 'success', generatedAt: report.generatedAt };
+  report.lastSuccess = { generatedAt: report.generatedAt, source: reportPath, account };
 
   writeJson(reportPath, report);
 
   console.log('DataForSEO account check');
-  console.log(`Login: ${account.login}`);
   console.log(`Balance: ${account.balance.toFixed(2)} ${account.currency}`);
   console.log(`Warning threshold: ${warnBalance.toFixed(2)} ${account.currency}`);
   console.log(`Top-up threshold: ${minBalance.toFixed(2)} ${account.currency}`);
@@ -58,13 +59,14 @@ try {
     process.exitCode = 2;
   }
 } catch (error) {
-  const publicIp = await currentPublicIp();
+  const failure = providerFailure(error);
   const report = {
     generatedAt: new Date().toISOString(),
     status: 'error',
-    message: error instanceof Error ? error.message : String(error),
-    publicIp,
+    ...failure,
+    lastSuccess,
   };
+  report.currentAttempt = { status: 'failed', generatedAt: report.generatedAt, ...failure };
   writeJson(reportPath, report);
   console.error(report.message);
   process.exitCode = 1;

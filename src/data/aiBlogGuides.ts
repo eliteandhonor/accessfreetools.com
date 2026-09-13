@@ -43,6 +43,26 @@ const sourceLinks = {
     href: 'https://huggingface.co/docs/transformers.js/',
     label: 'Hugging Face: Transformers.js browser inference',
   },
+  transformersWebGpu: {
+    href: 'https://github.com/huggingface/transformers.js/blob/main/packages/transformers/docs/source/guides/webgpu.md',
+    label: 'Transformers.js: WebGPU browser guidance and limitations',
+  },
+  whisperModelCard: {
+    href: 'https://github.com/openai/whisper/blob/main/model-card.md',
+    label: 'OpenAI Whisper: model card, accuracy limits, and license',
+  },
+  whisperEnglishTimestamped: {
+    href: 'https://huggingface.co/onnx-community/whisper-tiny.en_timestamped',
+    label: 'ONNX Community: pinned timestamped Whisper Tiny English model',
+  },
+  whisperMultilingualTimestamped: {
+    href: 'https://huggingface.co/onnx-community/whisper-tiny_timestamped',
+    label: 'ONNX Community: pinned timestamped multilingual Whisper Tiny model',
+  },
+  mediabunny: {
+    href: 'https://mediabunny.dev/guide/reading-media-files',
+    label: 'Mediabunny: browser media reading and decoded audio samples',
+  },
   tesseractJs: {
     href: 'https://github.com/naptha/tesseract.js',
     label: 'Tesseract.js: browser OCR library',
@@ -324,6 +344,53 @@ const guideDetails: Record<string, AiGuideDetail> = {
       sourceLinks.googleHelpfulContent,
     ],
   },
+  'audio-video-transcriber': {
+    title: 'How to Transcribe Audio or Video in Your Browser',
+    description:
+      'Turn a local recording into editable timestamped text, then check and download TXT, SRT, or WebVTT without uploading the media.',
+    summary:
+      'Learn how to inspect a local media file, choose a decodable audio track, run a pinned Whisper Tiny model, and correct a partial or complete transcript.',
+    purpose:
+      'The Audio and Video Transcriber creates a draft transcript from one permitted recording. Mediabunny reads the local container in five-minute sections, while a pinned Whisper Tiny model turns 16 kHz audio into timestamped text inside a separate browser worker.',
+    enter: [
+      'Choose one permitted audio or video file up to 250 MB and 60 minutes. The file stays on your device.',
+      'Wait for the browser to identify the container, duration, audio tracks, and whether it can decode the selected codec.',
+      'Choose the dialogue audio track when the file has more than one. Unsupported tracks are labelled before any model download.',
+      'Choose English for the smaller English-only model, Auto for a model guess, or a named language for the multilingual model.',
+      'Keep WebAssembly selected for the broadest compatibility. Try WebGPU beta only on a detected adapter and be ready for the automatic fallback.',
+      'Confirm that you have permission to transcribe the recording, then press Transcribe recording and keep the tab open.',
+      'Review completed sections while the next block runs. Stop at any time and keep the partial transcript.',
+      'Click timestamps to listen again, edit mistakes, then copy the text or download TXT, SRT, or WebVTT.',
+    ],
+    read: [
+      'A timestamp marks the model segment, not a word-perfect edit point. Click it and listen around the boundary before moving captions in an editor.',
+      'TXT contains the transcript without caption syntax. SRT and WebVTT preserve start and end times for video players and editors.',
+      'The tool publishes each completed five-minute section immediately. A later failure does not erase earlier text.',
+      'A repeated five-second edge helps Whisper keep words near a block boundary. The browser removes matching repeated words and keeps timestamps moving forward.',
+      'English uses a pinned timestamped Whisper Tiny English model. Auto and other languages use the pinned multilingual model.',
+      'WebAssembly is the dependable q8 route. WebGPU can help on compatible Chromium devices, but long speech workloads can still use substantial browser memory.',
+      'No audio, video, transcript, filename, or language choice is sent to Access Free Tools. The selected model files are fetched from Hugging Face after you start.',
+      'Treat every transcript as a draft. Names, numbers, dates, accents, specialist words, crosstalk, music, and quiet speech need a listening check.',
+    ],
+    mistakes: [
+      'Do not transcribe a private meeting, call, class, interview, or copyrighted recording without permission.',
+      'Do not assume a smooth sentence was actually spoken. Whisper can create plausible text when audio is unclear or silent.',
+      'Do not trust names, prices, account numbers, measurements, dates, or quotations without listening again.',
+      'Do not label speakers from this output. Version one does not perform speaker diarization.',
+      'Do not close or refresh the tab before downloading work you want to keep. Access Free Tools does not store it.',
+      'Do not start with WebGPU just because it is available. Compatibility mode is the safer first choice for long recordings.',
+      'Do not rename a file extension and expect the codec to change. Convert unsupported audio to a real MP3 or WAV file.',
+      'Do not describe Auto as guaranteed language detection. It is the multilingual model making a best-effort language choice.',
+    ],
+    sources: [
+      sourceLinks.whisperModelCard,
+      sourceLinks.whisperEnglishTimestamped,
+      sourceLinks.whisperMultilingualTimestamped,
+      sourceLinks.transformersJs,
+      sourceLinks.transformersWebGpu,
+      sourceLinks.mediabunny,
+    ],
+  },
   'text-to-speech-audiobook-generator': {
     title: 'How to Turn Text into an MP3 in Your Browser',
     description:
@@ -399,6 +466,7 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
   const isOcrTool = tool.slug === 'image-to-text-ocr-tool';
   const isReadingLevelTool = tool.slug === 'reading-level-checker';
   const isBrowserTtsTool = tool.slug === 'text-to-speech-audiobook-generator';
+  const isBrowserTranscriber = tool.slug === 'audio-video-transcriber';
 
   return {
     slug: `how-to-use-${tool.slug}`,
@@ -417,6 +485,8 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
             ? 'What this readability tool does'
             : isBrowserTtsTool
               ? 'What this browser text-to-MP3 tool does'
+              : isBrowserTranscriber
+                ? 'What this browser transcriber does'
               : 'What this AI tool does',
         paragraphs: [
           detail.purpose,
@@ -426,6 +496,8 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
               ? 'Your text stays in the browser tab. The checker uses local English formulas and sentence counts, so it does not need a server model or text upload.'
               : isBrowserTtsTool
                 ? 'The pasted text stays inside the browser tab and is sent only to the dedicated local worker. There is no TTS upload or server queue.'
+                : isBrowserTranscriber
+                  ? 'The local recording is decoded in a browser worker and never uploaded to Access Free Tools. The selected pinned model files download only after you start transcription.'
                 : 'The important privacy idea is simple: your input runs in the browser tab. Access Free Tools does not need to receive the image or text for the tool to work.',
           isOcrTool
             ? 'The OCR worker, WebAssembly core, and language files are served from Access Free Tools after you press Read text. That first run can take longer than a normal calculator.'
@@ -433,6 +505,8 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
               ? 'The result uses word count, sentence count, and an English syllable estimate. Names, abbreviations, numbers, and mixed-language text can make that estimate less reliable.'
               : isBrowserTtsTool
                 ? 'The selected model downloads on first use: about 398 MB for multilingual Supertonic, about 326 MB for full-precision English Kokoro on WebGPU, or about 92 MB for Kokoro compatibility mode. Only that model runs in a dedicated browser worker, where inference and MP3 creation stay local.'
+                : isBrowserTranscriber
+                  ? 'Mediabunny checks the container and audio codec before the speech model downloads. Supported containers can still fail when the current browser cannot decode the audio track inside them.'
                 : 'For this first self-hosted pass, OCR files and the starter text classifier files are served from Access Free Tools after you click the tool button. Heavier experimental model tools may still download model files from a third-party model host until we self-host more models.',
         ],
       },
@@ -445,6 +519,8 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
               ? 'Start with the grade and reading-ease estimates, then use the sentence preview and counts to choose one edit. Recheck the same passage so the comparison uses the same sample.'
               : isBrowserTtsTool
                 ? 'Start with short, low-risk text. Download and listen to the MP3 before converting something longer.'
+                : isBrowserTranscriber
+                  ? 'Start with a short, clear recording. Click each timestamp around uncertain text, correct the words, and export only after checking important details.'
                 : 'Start with the main result, then read the supporting notes. Browser AI tools are useful helpers, but they can still be wrong, incomplete, or unsure.',
         ],
         bullets: detail.read,
@@ -461,6 +537,8 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
         paragraphs: [
           isBrowserTtsTool
             ? 'These primary sources define the browser runtime, pinned model capabilities, and OpenRAIL-M license boundary. Access Free Tools does not claim ownership of the model or preset voices.'
+            : isBrowserTranscriber
+              ? 'These primary sources define the media reader, pinned Whisper models, browser runtime, known accuracy limits, and experimental WebGPU boundary.'
             : 'These references shaped the tool behavior, browser-only model approach, privacy notes, and result limits.',
         ],
         links: detail.sources,

@@ -91,9 +91,8 @@ function maxFileBytes(format: BrowserTtsImportFormat) {
     : BROWSER_TTS_IMPORT_LIMITS.archiveFileBytes;
 }
 
-export function validateBrowserTtsImportFile(
+export function validateBrowserTtsImportMetadata(
   file: BrowserTtsImportFileMetadata,
-  bytes: Uint8Array,
   format: BrowserTtsImportFormat,
 ) {
   const expectedExtensions = format === 'markdown' ? ['.md', '.markdown'] : ['.epub'];
@@ -102,14 +101,14 @@ export function validateBrowserTtsImportFile(
     fail('invalid-file-type', format === 'markdown' ? 'Choose a Markdown .md or .markdown file.' : 'Choose an .epub file.');
   }
 
-  if (!Number.isSafeInteger(file.size) || file.size < 0 || file.size !== bytes.byteLength) {
-    fail('invalid-document', 'The selected file size does not match the bytes read by the browser.');
+  if (!Number.isSafeInteger(file.size) || file.size < 0) {
+    fail('invalid-document', 'The selected document size is not valid.');
   }
 
-  if (bytes.byteLength === 0) fail('empty-document', 'The selected document is empty.');
+  if (file.size === 0) fail('empty-document', 'The selected document is empty.');
 
   const limit = maxFileBytes(format);
-  if (bytes.byteLength > limit) {
+  if (file.size > limit) {
     const label = format === 'markdown' ? 'Markdown' : 'EPUB';
     fail('archive-too-large', `${label} files must be no larger than ${formatNumber(limit / 1024)} KB.`);
   }
@@ -120,6 +119,17 @@ export function validateBrowserTtsImportFile(
   }
   if (format === 'epub' && mimeType && !['application/epub+zip', 'application/octet-stream', 'application/zip'].includes(mimeType)) {
     fail('invalid-file-type', 'Choose an EPUB file, not another file type.');
+  }
+}
+
+export function validateBrowserTtsImportFile(
+  file: BrowserTtsImportFileMetadata,
+  bytes: Uint8Array,
+  format: BrowserTtsImportFormat,
+) {
+  validateBrowserTtsImportMetadata(file, format);
+  if (file.size !== bytes.byteLength) {
+    fail('invalid-document', 'The selected file size does not match the bytes read by the browser.');
   }
 }
 

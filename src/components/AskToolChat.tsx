@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { ASK_CLIENT_TIMEOUT_MS, withRequestDeadline } from '../lib/askRequest';
 
 interface AskResponse {
   answer?: string;
@@ -60,23 +61,43 @@ export default function AskToolChat() {
   const [message, setMessage] = useState(examples[0]);
   const [response, setResponse] = useState<AskResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const requestRef = useRef<AbortController | null>(null);
+
+  useEffect(() => () => {
+    requestRef.current?.abort();
+    requestRef.current = null;
+  }, []);
 
   async function submitQuestion(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (requestRef.current) return;
+    const controller = new AbortController();
+    requestRef.current = controller;
     setIsLoading(true);
     setResponse(null);
 
     try {
-      const result = await fetch('/api/v1/ask', {
-        body: JSON.stringify({ message }),
-        headers: { 'content-type': 'application/json' },
-        method: 'POST',
-      });
-      setResponse((await result.json()) as AskResponse);
-    } catch {
-      setResponse({ ok: false, message: 'Ask Access Free Tools could not connect. Try again in a moment.' });
+      const answer = await withRequestDeadline(async (signal) => {
+        const result = await fetch('/api/v1/ask', {
+          body: JSON.stringify({ message }),
+          headers: { 'content-type': 'application/json' },
+          method: 'POST', signal,
+        });
+        signal.throwIfAborted();
+        return (await result.json()) as AskResponse;
+      }, ASK_CLIENT_TIMEOUT_MS, controller.signal);
+      if (requestRef.current === controller) setResponse(answer);
+    } catch (error) {
+      if (requestRef.current === controller) {
+        setResponse({ ok: false, message: error instanceof DOMException && error.name === 'TimeoutError'
+          ? 'The request took too long. Try again in a moment.'
+          : 'Ask Access Free Tools could not connect. Try again in a moment.' });
+      }
     } finally {
-      setIsLoading(false);
+      if (requestRef.current === controller) {
+        requestRef.current = null;
+        setIsLoading(false);
+      }
     }
   }
 

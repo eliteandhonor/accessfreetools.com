@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { chromium } from '@playwright/test';
+import { assertPublicPromotionChannel } from './lib/promotion-channel-policy.mjs';
 
 const DEFAULT_PROFILE_DIR = resolve('.local', 'reddit-browser-profile');
 const DEFAULT_DRAFT = resolve('output', 'promotion', 'reddit', 'drafts', 'percentage-calculator-profile-post.md');
@@ -181,6 +182,7 @@ async function fillField(page, value, factories) {
 }
 
 async function run() {
+  assertPublicPromotionChannel('reddit');
   if (!confirmed) {
     throw new Error('Refusing to publish without --confirm-public-post.');
   }

@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 
 import { emitAftToolAction } from '../lib/aftToolAnalytics';
+import { validateBrowserTtsImportMetadata } from '../lib/browserTtsImport';
 import {
   MAX_TTS_TEXT_CHARACTERS,
   prepareLocalTxtContent,
@@ -229,6 +230,7 @@ export default function TextToSpeechAudiobookGenerator() {
   const chapterQueueRef = useRef<BrowserTtsChapterQueue<AudioResult> | null>(null);
   const chapterAbortRef = useRef<AbortController | null>(null);
   const importOperationRef = useRef(0);
+  const mountedRef = useRef(true);
   const voicePreferenceStoreRef = useRef<BrowserTtsVoicePreferencesStore | null>(null);
   const selectedModel = getBrowserTtsModel(modelId);
   const availableVoices = getBrowserTtsVoices(modelId, language);
@@ -298,18 +300,72 @@ export default function TextToSpeechAudiobookGenerator() {
     return () => window.clearInterval(interval);
   }, [busy]);
 
-  useEffect(() => () => {
-    clearWatchdog();
-    chapterAbortRef.current?.abort();
-    workerRef.current?.terminate();
-    if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);
-    for (const url of chapterResultUrlsRef.current) URL.revokeObjectURL(url);
-    chapterResultUrlsRef.current.clear();
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      importOperationRef.current += 1;
+      chapterAbortRef.current?.abort();
+      rejectGenerationJobs(Object.assign(new Error('Chapter generation was cancelled.'), { name: 'AbortError' }));
+      disposeWorker();
+      if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);
+      for (const url of chapterResultUrlsRef.current) URL.revokeObjectURL(url);
+      chapterResultUrlsRef.current.clear();
+    };
   }, []);
 
   function clearWatchdog() {
     if (watchdogRef.current !== null) window.clearTimeout(watchdogRef.current);
     watchdogRef.current = null;
+  }
+
+  function rejectGenerationJobs(jobError: Error) {
+    // Pending and active can name the same job while transitioning to a fallback.
+    for (const job of new Set([pendingJobRef.current, activeJobRef.current])) {
+      job?.reject?.(jobError);
+    }
+    pendingJobRef.current = null;
+    activeJobRef.current = null;
+  }
+
+  function disposeWorker() {
+    clearWatchdog();
+    const worker = workerRef.current;
+    workerRef.current = null;
+    workerLoadedRef.current = false;
+    activeWorkerModelRef.current = null;
+    if (worker) {
+      worker.onmessage = null;
+      worker.onerror = null;
+      worker.onmessageerror = null;
+      worker.terminate();
+    }
+  }
+
+  function failWorker(
+    jobError: Error,
+    statusMessage = 'Speech generation stopped',
+    failureKind?: 'response' | 'unsupported',
+  ) {
+    const wasGenerating = Boolean(activeJobRef.current);
+    const isChapterJob = Boolean(activeJobRef.current?.reject || pendingJobRef.current?.reject);
+    rejectGenerationJobs(jobError);
+    disposeWorker();
+    if (isChapterJob) return;
+    setRuntimeState('error');
+    setStatus(statusMessage);
+    setError(jobError.message);
+    setBusy(false);
+    if (failureKind === 'unsupported') {
+      emitTtsAction('Browser speech unsupported', 'tts_unsupported_browser');
+    } else if (failureKind === 'response') {
+      emitTtsAction('Browser speech response failure', 'tts_generation_failure');
+    } else {
+      emitTtsAction(
+        wasGenerating ? 'Browser speech generation failure' : 'Browser speech model download failure',
+        wasGenerating ? 'tts_generation_failure' : 'tts_model_download_failure',
+      );
+    }
   }
 
   function clearResult() {
@@ -334,11 +390,10 @@ export default function TextToSpeechAudiobookGenerator() {
   function handleWorkerStall() {
     const activeModelId = activeWorkerModelRef.current;
     const retryJob = pendingJobRef.current ?? activeJobRef.current;
-    workerRef.current?.terminate();
-    workerRef.current = null;
-    workerLoadedRef.current = false;
+    clearWatchdog();
 
     if (activeModelId === 'kokoro-82m' && retryJob && !fallbackAttemptedRef.current) {
+      disposeWorker();
       fallbackAttemptedRef.current = true;
       pendingJobRef.current = retryJob;
       activeJobRef.current = null;
@@ -350,16 +405,18 @@ export default function TextToSpeechAudiobookGenerator() {
       setNotice('The browser stopped reporting progress, so the smaller WebAssembly model is loading automatically.');
       operationStartedAtRef.current = Date.now();
       setElapsedSeconds(0);
-      const retryWorker = createWorker('kokoro-82m');
-      armWatchdog();
-      retryWorker.postMessage({ forceWasm: true, type: 'load' } satisfies BrowserTtsWorkerRequest);
+      try {
+        const retryWorker = createWorker('kokoro-82m');
+        armWatchdog();
+        retryWorker.postMessage({ forceWasm: true, type: 'load' } satisfies BrowserTtsWorkerRequest);
+      } catch {
+        failWorker(new Error('This browser could not start the speech worker.'));
+      }
       return;
     }
 
-    pendingJobRef.current = null;
-    activeJobRef.current = null;
-    activeWorkerModelRef.current = null;
-    retryJob?.reject?.(Object.assign(new Error('Browser generation timed out.'), { name: 'TimeoutError' }));
+    rejectGenerationJobs(Object.assign(new Error('Browser generation timed out.'), { name: 'TimeoutError' }));
+    disposeWorker();
     setRuntimeState('error');
     setStatus('Browser generation timed out');
     setError('The browser stopped reporting progress for 90 seconds. The model was unloaded. Try shorter text or generate again.');
@@ -373,13 +430,9 @@ export default function TextToSpeechAudiobookGenerator() {
   }
 
   function resetRuntime(message = 'Ready for text') {
-    clearWatchdog();
-    workerRef.current?.terminate();
-    workerRef.current = null;
-    workerLoadedRef.current = false;
-    activeWorkerModelRef.current = null;
-    pendingJobRef.current = null;
-    activeJobRef.current = null;
+    chapterAbortRef.current?.abort();
+    rejectGenerationJobs(Object.assign(new Error('Chapter generation was cancelled.'), { name: 'AbortError' }));
+    disposeWorker();
     setRuntimeState('idle');
     setRuntimeBackend('');
     setRuntimeDtype('');
@@ -391,19 +444,21 @@ export default function TextToSpeechAudiobookGenerator() {
   }
 
   function postGeneration(job: GenerationJob) {
+    activeJobRef.current = job;
     if (!workerRef.current) {
-      setError('The browser speech worker could not start. Reload the page and try again.');
-      setBusy(false);
-      emitTtsAction('Browser speech unsupported', 'tts_unsupported_browser');
+      failWorker(new Error('The browser speech worker could not start. Reload the page and try again.'), 'Browser worker could not start', 'unsupported');
       return;
     }
-    activeJobRef.current = job;
     setBusy(true);
     setProgress(0);
     setRuntimeState('generating');
     setStatus(job.chapterName ? `Generating ${job.chapterName}` : 'Generating MP3 in this browser');
     armWatchdog();
-    workerRef.current.postMessage(job.request);
+    try {
+      workerRef.current.postMessage(job.request);
+    } catch {
+      failWorker(new Error('This browser could not send the speech generation request.'));
+    }
   }
 
   function createAudioResult(data: BrowserTtsWorkerEvent, job: GenerationJob, activeModelId: BrowserTtsModelId, url: string): AudioResult {
@@ -441,6 +496,7 @@ export default function TextToSpeechAudiobookGenerator() {
       return;
     }
     if (data.type === 'ready') {
+      if (workerLoadedRef.current) return;
       workerLoadedRef.current = true;
       setRuntimeBackend(data.backend ?? 'wasm');
       setRuntimeDtype(data.dtype ?? '');
@@ -460,6 +516,7 @@ export default function TextToSpeechAudiobookGenerator() {
       return;
     }
     if (data.type === 'generation-progress') {
+      if (!activeJobRef.current) return;
       armWatchdog();
       const value = typeof data.step === 'number' && typeof data.total === 'number' && data.total > 0
         ? Math.round((data.step / data.total) * 100)
@@ -470,17 +527,9 @@ export default function TextToSpeechAudiobookGenerator() {
       return;
     }
     if (data.type === 'result' && data.audio) {
-      clearWatchdog();
       const job = activeJobRef.current;
-      activeJobRef.current = null;
-      if (!job) {
-        setRuntimeState('error');
-        setStatus('Speech result could not be matched');
-        setError('The browser returned audio for an expired request. Generate it again.');
-        setBusy(false);
-        emitTtsAction('Browser speech response failure', 'tts_generation_failure');
-        return;
-      }
+      if (!job) return;
+      clearWatchdog();
       const url = URL.createObjectURL(new Blob([data.audio], { type: 'audio/mpeg' }));
       const audioResult = createAudioResult(data, job, activeModelId, url);
       if (job.resolve) {
@@ -492,8 +541,10 @@ export default function TextToSpeechAudiobookGenerator() {
         setProgress(100);
         job.onProgress?.(1);
         job.resolve(audioResult);
+        activeJobRef.current = null;
         return;
       }
+      activeJobRef.current = null;
       clearResult();
       resultUrlRef.current = url;
       setResult(audioResult);
@@ -507,67 +558,24 @@ export default function TextToSpeechAudiobookGenerator() {
       return;
     }
     if (data.type === 'error') {
-      clearWatchdog();
-      const activeJob = activeJobRef.current;
-      const wasGenerating = Boolean(activeJob);
-      pendingJobRef.current = null;
-      activeJobRef.current = null;
-      workerRef.current?.terminate();
-      workerRef.current = null;
-      activeWorkerModelRef.current = null;
-      workerLoadedRef.current = false;
-      if (activeJob?.reject) {
-        activeJob.reject(new Error(data.message ?? 'Browser speech generation failed.'));
-        return;
-      }
-      setRuntimeState('error');
-      setStatus('Speech generation stopped');
-      setError(data.message ?? 'Browser speech generation failed.');
-      setBusy(false);
-      emitTtsAction(
-        wasGenerating ? 'Browser speech generation failure' : 'Browser speech model download failure',
-        wasGenerating ? 'tts_generation_failure' : 'tts_model_download_failure',
-      );
+      failWorker(new Error(data.message ?? 'Browser speech generation failed.'));
     }
   }
 
   function createWorker(modelToLoad: BrowserTtsModelId) {
-    workerRef.current?.terminate();
-    workerLoadedRef.current = false;
+    disposeWorker();
     const nextWorker = createModelWorker(modelToLoad);
     activeWorkerModelRef.current = modelToLoad;
-    nextWorker.onmessage = handleWorkerMessage;
+    nextWorker.onmessage = (event) => {
+      if (workerRef.current === nextWorker) handleWorkerMessage(event);
+    };
     nextWorker.onerror = () => {
-      clearWatchdog();
-      const activeJob = activeJobRef.current ?? pendingJobRef.current;
-      pendingJobRef.current = null;
-      activeJobRef.current = null;
-      workerLoadedRef.current = false;
-      if (activeJob?.reject) {
-        activeJob.reject(new Error('This browser could not start the speech worker.'));
-        return;
-      }
-      setRuntimeState('error');
-      setStatus('Browser worker could not start');
-      setError('This browser could not start the speech worker. Try a current desktop browser.');
-      setBusy(false);
-      emitTtsAction('Browser speech unsupported', 'tts_unsupported_browser');
+      if (workerRef.current !== nextWorker) return;
+      failWorker(new Error('This browser could not start the speech worker. Try a current desktop browser.'), 'Browser worker could not start', 'unsupported');
     };
     nextWorker.onmessageerror = () => {
-      clearWatchdog();
-      const activeJob = activeJobRef.current ?? pendingJobRef.current;
-      pendingJobRef.current = null;
-      activeJobRef.current = null;
-      workerLoadedRef.current = false;
-      if (activeJob?.reject) {
-        activeJob.reject(new Error('This browser could not read the speech worker response.'));
-        return;
-      }
-      setRuntimeState('error');
-      setStatus('Browser worker response failed');
-      setError('This browser could not read the speech worker response. Reload the page and try again.');
-      setBusy(false);
-      emitTtsAction('Browser speech response failure', 'tts_generation_failure');
+      if (workerRef.current !== nextWorker) return;
+      failWorker(new Error('This browser could not read the speech worker response. Reload the page and try again.'), 'Browser worker response failed', 'response');
     };
     workerRef.current = nextWorker;
     return nextWorker;
@@ -587,8 +595,13 @@ export default function TextToSpeechAudiobookGenerator() {
     setProgress(0);
     setRuntimeState('loading');
     setStatus(`Loading ${selectedModel.name}, ${getBrowserTtsDownloadNote(modelId)}`);
-    armWatchdog();
-    createWorker(modelId).postMessage({ type: 'load' } satisfies BrowserTtsWorkerRequest);
+    try {
+      const worker = createWorker(modelId);
+      armWatchdog();
+      worker.postMessage({ type: 'load' } satisfies BrowserTtsWorkerRequest);
+    } catch {
+      failWorker(new Error('This browser could not start the speech worker.'));
+    }
   }
 
   function generateChapterAudio(
@@ -601,19 +614,17 @@ export default function TextToSpeechAudiobookGenerator() {
         return;
       }
 
+      let settled = false;
       const finish = (callback: () => void) => {
+        if (settled) return;
+        settled = true;
         context.signal?.removeEventListener('abort', handleAbort);
         callback();
       };
       const handleAbort = () => {
-        clearWatchdog();
-        workerRef.current?.terminate();
-        workerRef.current = null;
-        workerLoadedRef.current = false;
-        activeWorkerModelRef.current = null;
-        if (activeJobRef.current?.chapterId === chapter.id) activeJobRef.current = null;
-        if (pendingJobRef.current?.chapterId === chapter.id) pendingJobRef.current = null;
-        finish(() => reject(Object.assign(new Error('Chapter generation was cancelled.'), { name: 'AbortError' })));
+        if (settled) return;
+        rejectGenerationJobs(Object.assign(new Error('Chapter generation was cancelled.'), { name: 'AbortError' }));
+        disposeWorker();
       };
       context.signal?.addEventListener('abort', handleAbort, { once: true });
 
@@ -643,6 +654,7 @@ export default function TextToSpeechAudiobookGenerator() {
   }
 
   function updateChapterQueueState(nextState: BrowserTtsChapterQueueState<AudioResult>) {
+    if (!mountedRef.current) return;
     setChapterQueueState(nextState);
     setProgress(Math.round(nextState.progress * 100));
     if (nextState.activeChapterId) {
@@ -654,6 +666,7 @@ export default function TextToSpeechAudiobookGenerator() {
   async function finishChapterQueueRun(operation: Promise<BrowserTtsChapterQueueState<AudioResult>>) {
     try {
       const finalState = await operation;
+      if (!mountedRef.current) return;
       setChapterQueueState(finalState);
       setProgress(Math.round(finalState.progress * 100));
       if (finalState.status === 'completed') {
@@ -671,14 +684,17 @@ export default function TextToSpeechAudiobookGenerator() {
         setNotice('Completed chapter MP3s remain available in this tab.');
       }
     } catch (queueError) {
+      if (!mountedRef.current) return;
       setRuntimeState('error');
       setStatus('Chapter generation could not continue');
       setError(queueError instanceof Error ? queueError.message : 'The chapter queue could not continue.');
     } finally {
       chapterAbortRef.current = null;
-      setBusy(false);
       operationStartedAtRef.current = 0;
-      setElapsedSeconds(0);
+      if (mountedRef.current) {
+        setBusy(false);
+        setElapsedSeconds(0);
+      }
     }
   }
 
@@ -942,11 +958,21 @@ export default function TextToSpeechAudiobookGenerator() {
     let bytes: Uint8Array | null = null;
     try {
       const lowerName = file.name.toLowerCase();
+      if (lowerName.endsWith('.txt')) {
+        const metadataError = validateLocalTxtFile(file);
+        if (metadataError) throw new Error(metadataError);
+      } else if (lowerName.endsWith('.md') || lowerName.endsWith('.markdown')) {
+        validateBrowserTtsImportMetadata(file, 'markdown');
+      } else if (lowerName.endsWith('.epub')) {
+        validateBrowserTtsImportMetadata(file, 'epub');
+      } else {
+        throw new Error('Choose a TXT, Markdown, or EPUB file.');
+      }
       bytes = new Uint8Array(await file.arrayBuffer());
       if (importOperationRef.current !== operationId) return;
 
       if (lowerName.endsWith('.txt')) {
-        const metadataError = validateLocalTxtFile(file);
+        const metadataError = validateLocalTxtFile(file, bytes);
         if (metadataError) throw new Error(metadataError);
         const prepared = prepareLocalTxtContent(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
         if (prepared.error || prepared.text === undefined) throw new Error(prepared.error ?? 'The TXT file could not be read.');

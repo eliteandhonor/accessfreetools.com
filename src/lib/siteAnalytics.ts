@@ -11,6 +11,7 @@ const MAX_EVENT_BYTES = 8192;
 const MAX_READ_LINES = 120000;
 const MAX_ANALYTICS_FILE_BYTES = 25 * 1024 * 1024;
 const MAX_ANALYTICS_TAIL_BYTES = 16 * 1024 * 1024;
+const MAX_READ_FILES = 32;
 const ANALYTICS_ARCHIVE_RETENTION_MS = 90 * 24 * 60 * 60 * 1000;
 const ANALYTICS_RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const ANALYTICS_RATE_LIMIT_MAX_PER_IP = 120;
@@ -65,8 +66,30 @@ export interface StoredAnalyticsEvent {
   visitorHash: string;
 }
 
+export interface AnalyticsCoverage {
+  status: 'partial' | 'unknown';
+  retainedRead: 'complete' | 'partial';
+  reasons: string[];
+  requestedStart: string;
+  requestedEnd: string;
+  observedStart: string | null;
+  observedEnd: string | null;
+  rangeObservedStart: string | null;
+  rangeObservedEnd: string | null;
+  deploymentContinuity: 'unknown';
+  comparisonsAllowed: false;
+  allTimeScope: 'retained-events-only';
+  visitorClassification: 'observed-history-only';
+  filesAvailable: number;
+  filesRead: number;
+  bytesRead: number;
+  limits: { tailBytesPerFile: number; events: number; files: number };
+}
+
 export interface AnalyticsSummary {
   activeVisitors: number;
+  coverage: AnalyticsCoverage;
+  // Compatibility key, not lifetime totals. See coverage.allTimeScope.
   allTime: {
     events: number;
     pageViews: number;
@@ -130,20 +153,23 @@ function cleanText(value: unknown, maxLength: number) {
 }
 
 export function sanitizeAnalyticsPath(value: unknown) {
-  const rawValue = cleanText(value, 500);
-  if (!rawValue || rawValue.startsWith('/api/') || rawValue.startsWith('/admin/')) return '';
-
+  const rawValue = typeof value === 'string' ? value.trim() : '';
+  if (!rawValue || rawValue.length > 500 || !/^(\/|https?:\/\/)/i.test(rawValue)) return '';
   try {
-    if (rawValue.startsWith('http://') || rawValue.startsWith('https://')) {
-      const url = new URL(rawValue);
-      return url.pathname.slice(0, 500);
-    }
+    const base = 'https://accessfreetools.com';
+    const normalizePath = (path: string) => {
+      for (let pass = 0; pass < 3 && path.includes('%'); pass += 1) path = decodeURIComponent(path);
+      if (path.includes('%')) throw new Error('Ambiguous encoded analytics path');
+      return new URL(`${base}${path.replace(/\\/g, '/').replace(/\/{2,}/g, '/')}`).pathname;
+    };
+    const paths = [normalizePath(new URL(rawValue, base).pathname)];
+    // A tracker pathname beginning // must not lose its private segment as a URL authority.
+    if (rawValue.startsWith('/')) paths.push(normalizePath(new URL(`${base}${rawValue}`).pathname));
+    if (paths.some((path) => /^\/(admin|api|mcp|private-analytics)(\/|$)/i.test(path))) return '';
+    return paths[0];
   } catch {
     return '';
   }
-
-  if (!rawValue.startsWith('/')) return '';
-  return rawValue.split(/[?#]/, 1)[0].slice(0, 500);
 }
 
 let cachedAnalyticsConfig: Record<string, string> | undefined;
@@ -317,37 +343,54 @@ async function appendAnalyticsEvent(event: StoredAnalyticsEvent) {
   await write;
 }
 
-async function readFileTail(path: string) {
-  const handle = await open(path, 'r');
+interface AnalyticsEventFile {
+  path: string;
+  mtimeMs: number;
+  size: number;
+  ino: number;
+}
+
+async function readFileTail(file: AnalyticsEventFile, reasons: Set<string>) {
+  const handle = await open(file.path, 'r');
   try {
     const details = await handle.stat();
+    if (details.ino !== file.ino || details.size !== file.size || details.mtimeMs !== file.mtimeMs) {
+      reasons.add('files-changed-during-read');
+    }
     const length = Math.min(details.size, MAX_ANALYTICS_TAIL_BYTES);
     const start = Math.max(0, details.size - length);
+    if (start > 0) reasons.add('file-tail-limit');
     const buffer = Buffer.alloc(length);
-    await handle.read(buffer, 0, length, start);
-    let text = buffer.toString('utf8');
-    if (start > 0) text = text.slice(Math.max(0, text.indexOf('\n') + 1));
-    return text;
+    const { bytesRead } = await handle.read(buffer, 0, length, start);
+    if (bytesRead !== length) reasons.add('short-read');
+    const after = await handle.stat();
+    if (after.size !== details.size || after.mtimeMs !== details.mtimeMs) reasons.add('files-changed-during-read');
+    let text = buffer.subarray(0, bytesRead).toString('utf8');
+    if (start > 0) text = text.includes('\n') ? text.slice(text.indexOf('\n') + 1) : '';
+    return { text, bytesRead };
   } finally {
     await handle.close();
   }
 }
 
-async function analyticsEventFiles() {
-  const entries = await readdir(ANALYTICS_DIR, { withFileTypes: true }).catch(() => []);
+async function analyticsEventFiles(reasons: Set<string>) {
+  const entries = await readdir(ANALYTICS_DIR, { withFileTypes: true }).catch((error: NodeJS.ErrnoException) => {
+    if (error.code !== 'ENOENT') reasons.add('directory-read-failed');
+    return [];
+  });
   const files = await Promise.all(
     entries
       .filter((entry) => entry.isFile() && /^events(?:-.*)?\.ndjson$/i.test(entry.name))
       .map(async (entry) => {
         const path = join(ANALYTICS_DIR, entry.name);
-        const details = await stat(path).catch(() => null);
-        return details ? { path, mtimeMs: details.mtimeMs } : null;
+        const details = await stat(path).catch(() => { reasons.add('file-stat-failed'); return null; });
+        return details ? { path, mtimeMs: details.mtimeMs, size: details.size, ino: details.ino } : null;
       }),
   );
 
   return files
-    .filter((file): file is { path: string; mtimeMs: number } => Boolean(file))
-    .sort((left, right) => right.mtimeMs - left.mtimeMs);
+    .filter((file): file is AnalyticsEventFile => Boolean(file))
+    .sort((left, right) => right.mtimeMs - left.mtimeMs || left.path.localeCompare(right.path));
 }
 
 function getExcludedIps() {
@@ -470,28 +513,49 @@ export async function recordAnalyticsEvent(payload: AnalyticsPayload, request: R
   return { ignored: false, eventId: event.eventId };
 }
 
-export async function readAnalyticsEvents() {
+async function readAnalyticsSnapshot() {
   const events: StoredAnalyticsEvent[] = [];
-  await pruneAnalyticsArchives();
+  const reasons = new Set<string>();
+  let filesRead = 0;
+  let bytesRead = 0;
+  await pruneAnalyticsArchives().catch(() => { reasons.add('archive-prune-failed'); });
+  const files = await analyticsEventFiles(reasons);
 
-  for (const file of await analyticsEventFiles()) {
-    const lines = (await readFileTail(file.path)).trim().split('\n').filter(Boolean).slice(-MAX_READ_LINES);
-
-    for (const line of lines) {
+  for (const file of files) {
+    if (events.length >= MAX_READ_LINES) { reasons.add('event-limit'); break; }
+    if (filesRead >= MAX_READ_FILES) { reasons.add('file-count-limit'); break; }
+    filesRead += 1;
+    const tail = await readFileTail(file, reasons).catch(() => { reasons.add('file-read-failed'); return null; });
+    if (!tail) continue;
+    bytesRead += tail.bytesRead;
+    // Walk backwards without allocating an array for every newline in a large tail.
+    let end = tail.text.length;
+    while (end > 0) {
+      const start = tail.text.lastIndexOf('\n', end - 1);
+      const line = tail.text.slice(start + 1, end).trim();
+      end = start < 0 ? 0 : start;
+      if (!line) continue;
+      if (events.length >= MAX_READ_LINES) { reasons.add('event-limit'); break; }
       try {
         const parsed = JSON.parse(line) as StoredAnalyticsEvent;
-        if (parsed.ts && parsed.type && parsed.pagePath && parsed.visitorHash) {
-          events.push(parsed);
+        if (!parsed || !Number.isFinite(Date.parse(parsed.ts)) || !isAllowedEventType(parsed.type) ||
+            typeof parsed.pagePath !== 'string' || typeof parsed.visitorHash !== 'string' || !parsed.visitorHash) {
+          reasons.add('invalid-event-records');
+          continue;
         }
+        const pagePath = sanitizeAnalyticsPath(parsed.pagePath);
+        if (pagePath) events.push({ ...parsed, pagePath, ts: new Date(parsed.ts).toISOString() });
       } catch {
-        // Skip damaged lines rather than losing the whole report.
+        reasons.add('invalid-event-records');
       }
     }
-
-    if (events.length >= MAX_READ_LINES) break;
   }
+  if (JSON.stringify(files) !== JSON.stringify(await analyticsEventFiles(reasons))) reasons.add('files-changed-during-read');
+  return { events: events.sort((left, right) => left.ts.localeCompare(right.ts)), reasons, filesRead, bytesRead, filesAvailable: files.length };
+}
 
-  return events.sort((left, right) => left.ts.localeCompare(right.ts)).slice(-MAX_READ_LINES);
+export async function readAnalyticsEvents() {
+  return (await readAnalyticsSnapshot()).events;
 }
 
 function incrementMap(map: Map<string, SummaryRow>, key: string, label = key, path?: string) {
@@ -569,7 +633,8 @@ export async function summarizeAnalytics(options: { days?: number; now?: Date; t
   const rangeStartTime = now.getTime() - days * 24 * 60 * 60 * 1000;
   const activeStartTime = now.getTime() - 10 * 60 * 1000;
   const todayKey = dayKey(now, timeZone);
-  const events = await readAnalyticsEvents();
+  const snapshot = await readAnalyticsSnapshot();
+  const events = snapshot.events.filter((event) => Date.parse(event.ts) <= now.getTime());
   const eventsInRange = events.filter((event) => new Date(event.ts).getTime() >= rangeStartTime);
   const eventsToday = events.filter((event) => event.day === todayKey);
   const firstSeen = new Map<string, string>();
@@ -613,9 +678,29 @@ export async function summarizeAnalytics(options: { days?: number; now?: Date; t
   const returningVisitorsToday = Math.max(0, todayVisitors.size - newVisitorsToday);
   const selectedTool = summarizeSelectedToolAnalytics(eventsInRange, options.toolSlug);
   const range = summarizeAnalyticsRange(eventsInRange, events);
+  const coverage: AnalyticsCoverage = {
+    status: snapshot.reasons.size ? 'partial' : 'unknown',
+    retainedRead: snapshot.reasons.size ? 'partial' : 'complete',
+    reasons: [...snapshot.reasons, 'deployment-continuity-unverified', 'archive-retention-limits-history'],
+    requestedStart: new Date(rangeStartTime).toISOString(),
+    requestedEnd: now.toISOString(),
+    observedStart: events[0]?.ts ?? null,
+    observedEnd: events.at(-1)?.ts ?? null,
+    rangeObservedStart: eventsInRange[0]?.ts ?? null,
+    rangeObservedEnd: eventsInRange.at(-1)?.ts ?? null,
+    deploymentContinuity: 'unknown',
+    comparisonsAllowed: false,
+    allTimeScope: 'retained-events-only',
+    visitorClassification: 'observed-history-only',
+    filesAvailable: snapshot.filesAvailable,
+    filesRead: snapshot.filesRead,
+    bytesRead: snapshot.bytesRead,
+    limits: { tailBytesPerFile: MAX_ANALYTICS_TAIL_BYTES, events: MAX_READ_LINES, files: MAX_READ_FILES },
+  };
 
   return {
     activeVisitors: activeVisitors.size,
+    coverage,
     allTime: {
       events: events.length,
       pageViews: events.filter((event) => event.type === 'page_view').length,

@@ -392,28 +392,33 @@ function writeReviewReport(parts, fileBase, report, markdown, write = true) {
   };
 }
 
-function searchConsolePriority(slug) {
-  const reports = [
+function readPriorityEvidence() {
+  const searchReports = [
     readJson('output/search-console-url-inspection.json'),
     readJson('output/search-console-coverage-export.json'),
     readJson('output/seo-agent-self-evaluation.json'),
   ].filter(Boolean);
-  const text = JSON.stringify(reports).toLowerCase();
+  const usageReports = [
+    readJson('output/agent-tools/usage-summary/latest.json'),
+    readJson('output/usage-data-asset-report.json'),
+  ].filter(Boolean);
+  return {
+    searchConsole: JSON.stringify(searchReports).toLowerCase(),
+    usage: JSON.stringify(usageReports).toLowerCase(),
+  };
+}
+
+function searchConsolePriority(slug, text) {
   if (!text.includes(slug.toLowerCase())) return { score: 0, reason: '' };
   return { score: 45, reason: 'Search Console/local SEO report mentions this slug' };
 }
 
-function usagePriority(slug) {
-  const reports = [
-    readJson('output/agent-tools/usage-summary/latest.json'),
-    readJson('output/usage-data-asset-report.json'),
-  ].filter(Boolean);
-  const text = JSON.stringify(reports).toLowerCase();
+function usagePriority(slug, text) {
   if (!text.includes(slug.toLowerCase())) return { score: 0, reason: '' };
   return { score: 25, reason: 'first-party usage/report evidence mentions this slug' };
 }
 
-function priorityForTool(tool) {
+function priorityForTool(tool, evidence) {
   const reasons = [];
   let score = 0;
 
@@ -422,13 +427,13 @@ function priorityForTool(tool) {
     reasons.push('current SEO task-board fallback priority');
   }
 
-  const searchConsole = searchConsolePriority(tool.slug);
+  const searchConsole = searchConsolePriority(tool.slug, evidence.searchConsole);
   if (searchConsole.score) {
     score += searchConsole.score;
     reasons.push(searchConsole.reason);
   }
 
-  const usage = usagePriority(tool.slug);
+  const usage = usagePriority(tool.slug, evidence.usage);
   if (usage.score) {
     score += usage.score;
     reasons.push(usage.reason);
@@ -504,10 +509,12 @@ export function buildSeoToolQueueReport(options = {}) {
   const approvalRows = parseApprovalRows(trackerText);
   const activeGate = activeApprovalGate(approvalRows);
   const approvalGate = activeGate.blocked ? activeGate : matchingPageApprovalGate(approvalRows);
+  // Snapshot once per report; the next invocation always rereads current evidence.
+  const priorityEvidence = readPriorityEvidence();
   const ranked = allTools
     .map((tool) => ({
       ...tool,
-      priority: priorityForTool(tool),
+      priority: priorityForTool(tool, priorityEvidence),
     }))
     .sort((a, b) => b.priority.score - a.priority.score || a.category.localeCompare(b.category) || a.slug.localeCompare(b.slug));
 

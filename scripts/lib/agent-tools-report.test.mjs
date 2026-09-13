@@ -454,7 +454,7 @@ describe('agent tools reports', () => {
       'output/search-console-url-inspection.json',
       JSON.stringify(
         {
-          generatedAt: '2026-07-02T15:15:00.000Z',
+          generatedAt: new Date().toISOString(),
           inspections: [
             {
               coverageState: 'Crawled - currently not indexed',
@@ -597,7 +597,7 @@ describe('agent tools reports', () => {
       'output/search-console-url-inspection.json',
       JSON.stringify(
         {
-          generatedAt: '2026-07-02T15:15:00.000Z',
+          generatedAt: new Date().toISOString(),
           inspections: [
             {
               coverageState: 'Crawled - currently not indexed',
@@ -737,10 +737,26 @@ describe('agent tools reports', () => {
     expect(suggestion?.reason).toMatch(/Production analytics recorded 5 tool actions/);
     expect(report.sources.analytics).toMatchObject({
       generatedAt: expect.any(String),
-      note: '',
+      note: expect.stringContaining('coverage is unknown'),
+      coverage: { status: 'unknown', comparisonsAllowed: false },
       reportPath: productionPath,
       source: 'production-aggregate',
     });
+    expect(suggestion?.reason).toContain('retained observations only');
+  });
+
+  it('preserves partial production coverage and observed dates in report consumers', () => {
+    const productionPath = 'output/agent-tools-test/production-partial.json';
+    preserveEnv('AFT_PRODUCTION_ANALYTICS_REPORT_PATH', productionPath);
+    const coverage = { status: 'partial', retainedRead: 'partial', reasons: ['file-byte-limit'],
+      observedStart: '2026-09-01T00:00:00Z', observedEnd: '2026-09-02T00:00:00Z',
+      requestedStart: '2026-08-07T00:00:00Z', deploymentContinuity: 'unknown', comparisonsAllowed: false };
+    preserveAndWrite(productionPath, JSON.stringify({ generatedAt: new Date().toISOString(), summary: { coverage,
+      topTools: [{ slug: 'percentage-calculator', count: 5 }] } }));
+    const report = buildLinkHelperReport();
+    expect(report.sources.analytics.coverage).toMatchObject(coverage);
+    expect(report.sources.analytics.note).toMatch(/coverage is partial.*comparisons are not supported/i);
+    expect(buildToolBriefReport('percentage-calculator').analytics.coverage).toMatchObject(coverage);
   });
 
   it('does not turn monitor-only or completed CrawlScout rows into link tasks', () => {

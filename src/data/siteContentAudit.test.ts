@@ -142,6 +142,26 @@ const TTS_MP3_ENCODER_SOURCE = readFileSync(
   fileURLToPath(new URL('../lib/mp3Encoder.ts', import.meta.url)),
   'utf8',
 );
+const AUDIO_VIDEO_TRANSCRIBER_SOURCE = readFileSync(
+  fileURLToPath(new URL('../components/AudioVideoTranscriber.tsx', import.meta.url)),
+  'utf8',
+);
+const AUDIO_VIDEO_TRANSCRIBER_LOGIC_SOURCE = readFileSync(
+  fileURLToPath(new URL('../lib/browserTranscriber.ts', import.meta.url)),
+  'utf8',
+);
+const AUDIO_VIDEO_TRANSCRIBER_MEDIA_WORKER_SOURCE = readFileSync(
+  fileURLToPath(new URL('../workers/transcriber-media.worker.ts', import.meta.url)),
+  'utf8',
+);
+const AUDIO_VIDEO_TRANSCRIBER_ASR_WORKER_SOURCE = readFileSync(
+  fileURLToPath(new URL('../workers/transcriber-asr.worker.ts', import.meta.url)),
+  'utf8',
+);
+const AUDIO_VIDEO_TRANSCRIBER_WINDOWS_SOURCE = readFileSync(
+  fileURLToPath(new URL('../lib/browserTranscriberWindows.ts', import.meta.url)),
+  'utf8',
+);
 const UTILITY_CALCULATOR_SOURCE = readFileSync(
   fileURLToPath(new URL('../components/UtilityCalculator.tsx', import.meta.url)),
   'utf8',
@@ -1371,10 +1391,27 @@ describe('site content audit guardrails', () => {
     const aiCategories = new Set(aiTools.map((tool) => tool.category));
     const issues: string[] = [];
 
-    expect(aiTools.length).toBe(9);
+    expect(aiTools.length).toBe(10);
     expect(aiCategories).toEqual(new Set(['ai-tools']));
     expect(AI_BROWSER_TOOL_SOURCE).toContain("await import('@huggingface/transformers')");
-    expect(AI_BROWSER_TOOL_SOURCE).toContain("await import('tesseract.js')");
+    const ocrWorkerSource = readFileSync(fileURLToPath(new URL('../lib/browserOcrWorker.ts', import.meta.url)), 'utf8');
+    const ocrInputSource = readFileSync(fileURLToPath(new URL('../lib/browserOcrInput.ts', import.meta.url)), 'utf8');
+    expect(AI_BROWSER_TOOL_SOURCE).toContain("const AI_ASSET_BASE = '/ai-models'");
+    expect(AI_BROWSER_TOOL_SOURCE).toContain('onClick={() => void runTool()}');
+    expect(AI_BROWSER_TOOL_SOURCE).toContain('await runOcr(file, language, operation!.signal');
+    expect(AI_BROWSER_TOOL_SOURCE).toMatch(/async function runOcr\([^]*?await prepareOcrImage\(file, signal\);\s*const data = await recognizeOcrImage\(image, language, TESSERACT_LOCAL_OPTIONS, signal, onProgress\)/);
+    expect(ocrWorkerSource).toContain('export function recognizeOcrImage(');
+    expect(ocrWorkerSource).toContain('worker = new Worker(paths.workerPath)');
+    expect(ocrWorkerSource.indexOf('new Worker(paths.workerPath)')).toBeGreaterThan(ocrWorkerSource.indexOf('export function recognizeOcrImage('));
+    expect(ocrWorkerSource).toContain('corePath: new URL(paths.corePath, location.href).href');
+    expect(ocrWorkerSource).toContain('langPath: new URL(paths.langPath, location.href).href');
+    expect(ocrWorkerSource).toContain('signal.addEventListener(\'abort\', abort');
+    expect(ocrWorkerSource).toContain('worker.terminate()');
+    for (const source of [ocrWorkerSource, ocrInputSource]) {
+      expect(source).not.toMatch(/\b(?:fetch|XMLHttpRequest|sendBeacon|FormData|WebSocket)\b/);
+      expect(source).not.toMatch(/https?:\/\//);
+      expect(source).not.toMatch(/^import .*tesseract\.js/m);
+    }
     expect(AI_BROWSER_TOOL_SOURCE).toContain("await import('franc-min')");
     expect(AI_BROWSER_TOOL_SOURCE).toContain("const LOCAL_TRANSFORMERS_MODEL_PATH = `${AI_ASSET_BASE}/transformers/`");
     expect(AI_BROWSER_TOOL_SOURCE).toContain("SELF_HOSTED_TEXT_MODEL = 'Xenova/mobilebert-uncased-mnli'");
@@ -1477,6 +1514,52 @@ describe('site content audit guardrails', () => {
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toContain('tts.accessfreetools.com');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toContain('turnstile');
     expect(TTS_AUDIOBOOK_TOOL_SOURCE).not.toContain('voice clone');
+  });
+
+  it('keeps browser transcription local, bounded, lazy, editable, and honest about accuracy', () => {
+    const tool = aiTools.find((item) => item.slug === 'audio-video-transcriber');
+    const registeredTool = tools.find((item) => item.slug === 'audio-video-transcriber');
+    const routePolicy = getIndexationPolicy('/tools/audio-video-transcriber/');
+    const guidePolicy = getIndexationPolicy('/blog/how-to-use-audio-video-transcriber/');
+    const registeredFaqText = registeredTool?.faq.flatMap((item) => [item.question, item.answer]).join(' ') ?? '';
+
+    expect(tool?.faq.length).toBeGreaterThanOrEqual(8);
+    expect(tool?.applicationCategory).toBe('MultimediaApplication');
+    expect(AUDIO_VIDEO_TRANSCRIBER_SOURCE).toContain('data-clarity-mask="true"');
+    expect(AUDIO_VIDEO_TRANSCRIBER_SOURCE).toContain('No media upload.');
+    expect(AUDIO_VIDEO_TRANSCRIBER_SOURCE).toContain('Review every name, number, and timestamp');
+    expect(AUDIO_VIDEO_TRANSCRIBER_SOURCE).toContain('Download partial transcript');
+    expect(AUDIO_VIDEO_TRANSCRIBER_SOURCE).toContain('Transcribe recording');
+    expect(AUDIO_VIDEO_TRANSCRIBER_SOURCE).toContain('Stop and keep partial text');
+    expect(AUDIO_VIDEO_TRANSCRIBER_SOURCE).not.toContain('FormData');
+    expect(AUDIO_VIDEO_TRANSCRIBER_LOGIC_SOURCE).toContain('250 * 1024 * 1024');
+    expect(AUDIO_VIDEO_TRANSCRIBER_LOGIC_SOURCE).toContain('MAX_TRANSCRIBER_DURATION_SECONDS = 60 * 60');
+    expect(AUDIO_VIDEO_TRANSCRIBER_MEDIA_WORKER_SOURCE).toContain('new BlobSource(file)');
+    expect(AUDIO_VIDEO_TRANSCRIBER_MEDIA_WORKER_SOURCE).toContain('AudioSampleSink');
+    expect(AUDIO_VIDEO_TRANSCRIBER_MEDIA_WORKER_SOURCE).not.toContain('fetch(');
+    expect(AUDIO_VIDEO_TRANSCRIBER_ASR_WORKER_SOURCE).toContain('aeaa13760958b03fac5062f457d317d3319c3168');
+    expect(AUDIO_VIDEO_TRANSCRIBER_ASR_WORKER_SOURCE).toContain('517244293732ee2d58139af5814231b7e6830a0d');
+    expect(AUDIO_VIDEO_TRANSCRIBER_ASR_WORKER_SOURCE).toContain("dtype: 'q8'");
+    expect(AUDIO_VIDEO_TRANSCRIBER_ASR_WORKER_SOURCE).toContain('env.remotePathTemplate');
+    expect(AUDIO_VIDEO_TRANSCRIBER_LOGIC_SOURCE).toContain("return_timestamps: 'word'");
+    expect(AUDIO_VIDEO_TRANSCRIBER_ASR_WORKER_SOURCE).toContain('installWhisperFrameBounds(transcriber.model, env.version)');
+    expect(AUDIO_VIDEO_TRANSCRIBER_ASR_WORKER_SOURCE).toContain('transcribeWhisperWindows(audio, source');
+    expect(AUDIO_VIDEO_TRANSCRIBER_ASR_WORKER_SOURCE).toContain('end: request.sourceEnd ?? request.block.end');
+    expect(AUDIO_VIDEO_TRANSCRIBER_SOURCE).toContain('Math.min(media.duration, block.end + WHISPER_CHUNK_SECONDS - WHISPER_STRIDE_SECONDS)');
+    expect(AUDIO_VIDEO_TRANSCRIBER_WINDOWS_SOURCE).toContain('block.end - ownedEnd > WHISPER_CHUNK_SECONDS - WHISPER_STRIDE_SECONDS');
+    expect(AUDIO_VIDEO_TRANSCRIBER_WINDOWS_SOURCE).toContain('buildWordAlignedSegments(chunks,');
+    expect(AUDIO_VIDEO_TRANSCRIBER_WINDOWS_SOURCE).toContain('mergeTranscriptSegments(segments, aligned)');
+    expect(registeredFaqText).toContain('What do the main Audio and Video Transcriber inputs mean?');
+    expect(registeredFaqText).toContain('How should I read the Audio and Video Transcriber result?');
+    expect(registeredFaqText).toContain('What should I double-check before trusting the Audio and Video Transcriber transcript?');
+    expect(registeredFaqText).not.toContain('text or image you want the browser AI helper');
+    expect(registeredFaqText).not.toContain('Look at labels, scores, notes, and warnings together');
+    expect(routePolicy.index).toBe(true);
+    expect(routePolicy.follow).toBe(true);
+    expect(routePolicy.includeInXmlSitemap).toBe(true);
+    expect(guidePolicy.index).toBe(true);
+    expect(guidePolicy.follow).toBe(true);
+    expect(guidePolicy.includeInXmlSitemap).toBe(true);
   });
 
   it('keeps self-hosted AI model assets present and within GitHub-friendly file sizes', () => {
@@ -1585,7 +1668,8 @@ describe('site content audit guardrails', () => {
         .filter((item) => item.status === 'posted' && !item.rssEligible)
         .every((item) => Boolean(item.publicPinUrl)),
     ).toBe(true);
-    const pinterestEligibleTools = tools.filter((tool) => getIndexationPolicy(`/tools/${tool.slug}/`).index);
+    const publicationHolds = ['text-to-speech-audiobook-generator', 'audio-video-transcriber'];
+    const pinterestEligibleTools = tools.filter((tool) => getIndexationPolicy(`/tools/${tool.slug}/`).index && !publicationHolds.includes(tool.slug));
     const canonicalToolPaths = new Set(pinterestEligibleTools.map((tool) => `/tools/${tool.slug}/`));
     const pinterestToolPaths = new Set(
       pinterestFeedItems
@@ -1595,6 +1679,7 @@ describe('site content audit guardrails', () => {
     expect(pinterestToolPaths.size).toBe(pinterestEligibleTools.length);
     expect(pinterestEligibleTools.every((tool) => pinterestToolPaths.has(`/tools/${tool.slug}/`))).toBe(true);
     expect(pinterestFeedItems.some((item) => item.path === '/tools/text-to-speech-audiobook-generator/')).toBe(false);
+    expect(pinterestFeedItems.some((item) => item.path === '/tools/audio-video-transcriber/')).toBe(false);
     expect(
       pinterestFeedItems
         .filter((item) => item.status === 'rss-ready')
@@ -1693,7 +1778,8 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts['check:key-visual']).toBe('node scripts/check-key-visual-layout.mjs');
     expect(PACKAGE_JSON.scripts['check:accessibility']).toBe('node scripts/check-accessibility.mjs');
     expect(PACKAGE_JSON.scripts['security:audit']).toBe('npm audit --audit-level=moderate');
-    expect(PACKAGE_JSON.scripts.check).toBe(
+    expect(PACKAGE_JSON.scripts.check).toBe('node scripts/run-verified-check.mjs');
+    expect(PACKAGE_JSON.scripts['check:steps']).toBe(
       'npm run typecheck && npm run typecheck:ts6 && npm test && npm run build && npm run check:links && npm run check:site && npm run check:preferred-sources && npm run check:article-visual && npm run check:editorial-quality && npm run check:key-visual && npm run check:accessibility && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run images:qa && npm run images:sitemap-check && npm run gallery:qa && npm run check:secrets && npm run security:audit',
     );
     expect(BASE_LAYOUT_SOURCE).toContain('https://news.google.com/swg/js/v1/publisher.js');

@@ -8,7 +8,7 @@ export const RSS_ITEM_LIMIT = 60;
 const DEFAULT_BLOG_PUBLISHED_DATE = '2026-04-30';
 
 const toolLastmodOverrides: Record<string, string> = {
-  'basic-calculator': '2026-06-02',
+  'basic-calculator': '2026-09-13',
   'big-number-calculator': '2026-07-10',
   'exponent-calculator': '2026-06-27',
   'hex-calculator': '2026-08-26',
@@ -36,12 +36,12 @@ const toolLastmodOverrides: Record<string, string> = {
   'statistics-calculator': '2026-07-01',
   'z-score-calculator': '2026-07-02',
   'btu-calculator': '2026-07-02',
-  'percentage-calculator': '2026-07-13',
+  'percentage-calculator': '2026-09-13',
   'average-calculator': '2026-06-26',
   'ratio-calculator': '2026-06-02',
   'percent-error-calculator': '2026-06-02',
   'right-triangle-calculator': '2026-06-29',
-  'age-calculator': '2026-07-04',
+  'age-calculator': '2026-09-13',
   'auto-loan-calculator': '2026-05-26',
   'business-loan-calculator': '2026-05-26',
   'canadian-mortgage-calculator': '2026-05-26',
@@ -52,7 +52,7 @@ const toolLastmodOverrides: Record<string, string> = {
   'income-tax-calculator': '2026-05-31',
   'investment-calculator': '2026-05-31',
   'marriage-tax-calculator': '2026-05-31',
-  'mortgage-calculator': '2026-05-31',
+  'mortgage-calculator': '2026-09-13',
   'mortgage-calculator-uk': '2026-07-03',
   'mortgage-payoff-calculator': '2026-05-31',
   '401k-calculator': '2026-05-31',
@@ -113,7 +113,8 @@ const toolLastmodOverrides: Record<string, string> = {
   'love-calculator': '2026-07-13',
   'four-in-a-row-game': '2026-07-13',
   'json-to-csv-converter': '2026-07-18',
-  'text-to-speech-audiobook-generator': '2026-08-20',
+  'text-to-speech-audiobook-generator': '2026-09-13',
+  'audio-video-transcriber': '2026-09-13',
   'roofing-calculator': '2026-05-26',
   'gas-mileage-calculator': '2026-07-03',
   'engine-horsepower-calculator': '2026-07-12',
@@ -539,6 +540,7 @@ const blogModifiedOverrides: Record<string, string> = {
   'how-to-use-four-in-a-row-game': '2026-07-13',
   'how-to-use-json-to-csv-converter': '2026-07-18',
   'how-to-use-text-to-speech-audiobook-generator': '2026-08-20',
+  'how-to-use-audio-video-transcriber': '2026-09-13',
   'how-to-use-mulch-calculator': '2026-06-02',
   'how-to-use-paver-calculator': '2026-06-02',
   'how-to-use-pool-volume-calculator': '2026-06-02',
@@ -559,6 +561,7 @@ const blogPublishedOverrides: Record<string, string> = {
   'how-to-use-four-in-a-row-game': '2026-07-13',
   'how-to-use-json-to-csv-converter': '2026-07-18',
   'how-to-use-text-to-speech-audiobook-generator': '2026-08-20',
+  'how-to-use-audio-video-transcriber': '2026-09-13',
 };
 
 const staticPageLastmod: Record<string, string> = {

@@ -1,5 +1,9 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import { hasInspectionSourcePath, inspectionEvidenceFreshness, mergeInspectionReports } from './lib/search-console-inspection-reports.mjs';
+import { createIndexingClassifier, hasBlockedIndexingState, needsIndexingAttention } from './lib/indexing-classification.mjs';
+import { formatSavedProviderStatus, savedProviderStatus } from './lib/provider-status.mjs';
+import { allPromotionChannelsPassed, summarizePromotionChannels } from './lib/promotion-channel-evidence.mjs';
 
 import {
   createIndexingRecommendation,
@@ -27,6 +31,7 @@ const evidencePaths = {
   linkHelper: 'output/agent-tools/link-helper/latest.json',
   dataForSeoAccount: 'output/dataforseo-account.json',
   dataForSeoStatus: 'output/dataforseo-status.json',
+  automationEnvironment: 'output/automation-environment.json',
   pinterestRss: 'output/promotion/pinterest-rss-report.json',
   mediumQuality: 'output/promotion/medium-quality-report.json',
   blueskyQuality: 'output/promotion/bluesky/bluesky-quality-report.json',
@@ -99,112 +104,57 @@ function parseQueueRows(markdown) {
     }));
 }
 
-function qualitySummary(report, label) {
-  if (!report) {
+function classifiedIndexingItems(seoEvaluation, inspectionReport, now = new Date()) {
+  const classify = createIndexingClassifier();
+  const combined = mergeInspectionReports([
+    { report: seoEvaluation, sourcePath: resolve(evidencePaths.seoEvaluation) },
+    { report: inspectionReport, sourcePath: resolve(evidencePaths.searchConsoleInspection) },
+  ]).inspections.map((item) => {
+    const freshness = inspectionEvidenceFreshness(item.sourceGeneratedAt, { now });
+    const usable = hasInspectionSourcePath(item.sourcePath) && !item.error &&
+      (Boolean(item.coverageState) || hasBlockedIndexingState(item));
     return {
-      label,
-      status: 'missing',
-      passed: 0,
-      total: 0,
-      failed: 0,
-      issues: ['Report not found. Run the platform quality command before public work.'],
+      ...item,
+      sourceFreshness: freshness.status,
+      sourceAgeDays: freshness.ageDays,
+      status: usable && freshness.status === 'fresh' ? 'observed'
+        : usable && freshness.status === 'stale' ? 'historical' : 'not enough data',
     };
-  }
-
-  if (report.parseError) {
-    return {
-      label,
-      status: 'parse-error',
-      passed: 0,
-      total: 0,
-      failed: 1,
-      issues: [report.parseError],
-    };
-  }
-
-  const totals = report.totals ?? {};
-  const total = Number(totals.drafts ?? totals.files ?? report.results?.length ?? 0);
-  const errors = Number(totals.errors ?? totals.failed ?? 0);
-  const warnings = Number(totals.warnings ?? 0);
-  const passed = Number(totals.passed ?? (errors === 0 ? total : Math.max(0, total - errors)));
-  const results = Array.isArray(report.results) ? report.results : [];
-  const issues = results
-    .flatMap((result) => [
-      ...(Array.isArray(result.errors) ? result.errors : []),
-      ...(Array.isArray(result.issues) ? result.issues : []),
-      ...(Array.isArray(result.warnings) ? result.warnings : []),
-    ])
-    .filter(Boolean)
-    .slice(0, 5);
-
-  return {
-    label,
-    generatedAt: report.generatedAt ?? '',
-    status: errors === 0 && warnings === 0 ? 'passed' : errors > 0 ? 'failed' : 'warnings',
-    passed,
-    total,
-    failed: errors,
-    warnings,
-    issues,
-  };
-}
-
-function hasFreshPassingPromotionReview(qualityReports, now = new Date()) {
-  const weekMs = 7 * 24 * 60 * 60 * 1000;
-  return (
-    qualityReports.length >= 2 &&
-    qualityReports.every((report) => {
-      const generatedAt = report.generatedAt ? new Date(report.generatedAt) : null;
-      return (
-        report.status === 'passed' &&
-        report.total > 0 &&
-        generatedAt instanceof Date &&
-        Number.isFinite(generatedAt.getTime()) &&
-        now.getTime() - generatedAt.getTime() <= weekMs
-      );
-    })
-  );
-}
-
-function neutralIndexingItems(seoEvaluation, inspectionReport) {
-  const fromSeo = Array.isArray(seoEvaluation?.indexedSummary) ? seoEvaluation.indexedSummary : [];
-  const fromInspection = Array.isArray(inspectionReport?.inspections)
-    ? inspectionReport.inspections.map((item) => ({
-        url: item.inspectionUrl,
-        verdict: item.verdict ?? 'unknown',
-        coverageState: item.coverageState ?? item.error ?? 'unknown',
-        lastCrawlTime: item.lastCrawlTime ?? '',
-      }))
-    : [];
-  const combined = fromSeo.length ? fromSeo : fromInspection;
+  });
 
   return combined
-    .filter((item) => String(item.verdict).toUpperCase() !== 'PASS')
-    .filter((item) => /unknown|not indexed|discovered|crawled/i.test(`${item.coverageState} ${item.verdict}`))
+    .map((item) => ({ ...item, classification: classify(item) }))
     .map((item) => ({
-      url: item.url,
-      state: item.coverageState,
+      classification: item.classification,
+      url: item.inspectionUrl,
+      state: item.status === 'not enough data' ? 'not enough data' : item.coverageState || item.indexingState,
+      coverageState: item.coverageState || item.indexingState || 'unknown',
+      indexingState: item.indexingState ?? '',
+      ...(item.error ? { error: item.error } : {}),
+      verdict: item.verdict ?? 'unknown',
       lastCrawlTime: item.lastCrawlTime ?? '',
+      sourceGeneratedAt: item.sourceGeneratedAt,
+      sourcePath: item.sourcePath,
+      sourceFreshness: item.sourceFreshness,
+      sourceAgeDays: item.sourceAgeDays,
+      status: item.status,
     }));
 }
 
-function dataForSeoBalance(accountReport, seoEvaluation) {
-  const account =
-    accountReport?.account ??
-    accountReport?.dataForSeo?.account ??
-    seoEvaluation?.dataForSeo?.account ??
-    null;
+function readProviderJson(path) {
+  const report = readJson(path);
+  return report?.parseError ? { parseError: 'Invalid JSON; provider evidence unavailable.' } : report;
+}
 
-  if (!account || typeof account.balance !== 'number') {
-    return null;
-  }
-
+function dataForSeoBalance(accountReport, seoEvaluation, serviceReport, environmentReport) {
   return {
-    balance: account.balance,
-    currency: account.currency ?? 'USD',
-    warning: account.balance <= 10,
-    stopBroadPaidResearch: account.balance <= 5,
-    topUp: account.balance <= 2,
+    ...savedProviderStatus([
+      { report: accountReport, source: evidencePaths.dataForSeoAccount },
+      { report: seoEvaluation, source: evidencePaths.seoEvaluation },
+      { report: serviceReport, source: evidencePaths.dataForSeoStatus },
+      { report: environmentReport, source: evidencePaths.automationEnvironment },
+    ]),
+    stopBroadPaidResearch: true,
   };
 }
 
@@ -227,15 +177,11 @@ function recommendation(priority, title, reason, action, evidence, gate, proofNe
 
 function qualityReportForChannel(channel, qualityReports) {
   const policy = promotionChannelFor(channel);
-  const label = policy?.id === 'medium' || policy?.id === 'bluesky' ? policy.label : '';
-
-  return label ? qualityReports.find((report) => report.label === label) ?? null : null;
+  return policy ? qualityReports.find((report) => report.channelId === policy.id) ?? null : null;
 }
 
 function qualityEvidencePath(label) {
-  if (label === 'Medium') return evidencePaths.mediumQuality;
-  if (label === 'Bluesky') return evidencePaths.blueskyQuality;
-  return null;
+  return activePromotionChannels.some((channel) => channel.label === label) ? evidencePaths.fourChannelReview : null;
 }
 
 function approvedPromotionGate(item, qualityReports) {
@@ -261,7 +207,7 @@ function chooseRecommendations({
   linkHelper,
 }) {
   const recommendations = [];
-  const failedQuality = qualityReports.find((report) => report.status === 'failed' || report.status === 'parse-error');
+  const failedQuality = qualityReports.find((report) => report.status !== 'passed');
   const approvedQueue = queueRows.filter((row) => row.status === 'approved');
   const rssConnected = queueRows.filter((row) => row.status === 'rss-connected');
   const unverified = queueRows.filter((row) => row.status === 'unverified');
@@ -284,10 +230,10 @@ function chooseRecommendations({
     recommendations.push(
       recommendation(
         'High',
-        `Fix ${failedQuality.label} quality blockers before promotion`,
-        `${failedQuality.label} has failing quality evidence, so public work should pause for that channel.`,
-        `Run the matching quality command and fix the first failing issue: ${failedQuality.issues[0] ?? 'see report'}.`,
-        [evidencePaths[`${failedQuality.label.toLowerCase()}Quality`] ?? 'output/promotion/'],
+        `Refresh ${failedQuality.label} quality evidence before promotion`,
+        `${failedQuality.label} evidence is ${failedQuality.status}; do not infer that the public account is broken.`,
+        `Run the four-channel review and inspect the first evidence gap: ${failedQuality.issues[0] ?? 'see report'}.`,
+        [evidencePaths.fourChannelReview],
         'Public posting blocked until the channel quality report passes.',
         'A passing quality report plus public URL/screenshot after posting.',
       ),
@@ -300,10 +246,10 @@ function chooseRecommendations({
         'High',
         'Fix recognition proof gaps before new promotion',
         `${recognitionTracker.totals.claimedWithoutProof} claimed promotion row(s) still lack public proof in the recognition tracker.`,
-        'Run `npm run aft -- recognition`, then update only rows with a visible public URL, public profile/feed proof, screenshot, or generated report.',
+        'Run `npm run aft -- recognition`, then update only rows with verified public URL or public profile/feed proof.',
         ['output/recognition-tracker/latest.json', 'docs/promotion-queue.md'],
         'Do not treat drafts, submit buttons, or memory as proof.',
-        'Public URL/profile proof, screenshot, or generated report evidence.',
+        'Verified public URL/profile proof; generated reports alone cannot establish publication.',
       ),
     );
   }
@@ -314,7 +260,29 @@ function chooseRecommendations({
 
   if (!failedQuality && indexingGaps.length) {
     const topGap = indexingGaps[0];
-    recommendations.push(createIndexingRecommendation(topGap, linkHelper));
+    if (topGap.status !== 'observed' || topGap.sourceFreshness !== 'fresh') {
+      recommendations.push(recommendation(
+        'High',
+        'Refresh Search Console inspection evidence',
+        `${topGap.url}: saved evidence ${topGap.status} (${topGap.sourceFreshness}); observed ${topGap.sourceGeneratedAt || 'undated'}; source ${hasInspectionSourcePath(topGap.sourcePath) ? topGap.sourcePath : 'not enough data'}. This does not establish a current indexing issue.`,
+        'Refresh exact URL Inspection evidence, preserve its original date and source path, then rerun the marketing orchestrator.',
+        [topGap.sourcePath, evidencePaths.searchConsoleInspection, evidencePaths.seoEvaluation].filter(hasInspectionSourcePath),
+        'Historical or unavailable observations cannot justify page changes or indexing submissions.',
+        'Fresh exact-URL inspection evidence with a usable original source path.',
+      ));
+    } else if (topGap.classification === 'failure') {
+      recommendations.push(recommendation(
+        'High',
+        'Review unexpected indexing failure',
+        `${topGap.url}: saved ${topGap.coverageState}; the source policy permits indexing.`,
+        'Check exact page-level robots, fetch and canonical evidence before link changes or indexing requests.',
+        [topGap.sourcePath, 'src/data/indexationPolicy.ts'],
+        'Do not remove intentional noindex or activate pilots to satisfy a report.',
+        'Fresh exact-URL evidence explaining the unexpected indexing failure.',
+      ));
+    } else {
+      recommendations.push(createIndexingRecommendation(topGap, linkHelper));
+    }
   }
 
   if (rssConnected.length) {
@@ -364,7 +332,7 @@ function chooseRecommendations({
     );
   }
 
-  if (!recommendations.length && hasFreshPassingPromotionReview(qualityReports)) {
+  if (!recommendations.length && allPromotionChannelsPassed(qualityReports)) {
     recommendations.push(
       recommendation(
         'Monitor',
@@ -420,12 +388,20 @@ function markdownReport(report) {
   const specialistLines = report.specialistRouting.map(
     (item) => `- ${item.workstream}: ${item.specialistLens}; proof lens: ${item.proofLens}; command: ${item.firstCommand}`,
   );
+  const indexingLines = report.indexingGaps.length ? report.indexingGaps.map((item) =>
+    `- ${item.url}: saved ${item.verdict} / ${item.coverageState}; evidence ${item.status} (${item.sourceFreshness}); observed ${item.sourceGeneratedAt || 'undated'}; source ${hasInspectionSourcePath(item.sourcePath) ? item.sourcePath : 'not enough data'}`,
+  ) : ['- No gaps in the available local inspection evidence.'];
 
   return [
     '# Marketing Orchestrator Daily Plan',
     '',
     `Generated: ${report.generatedAt}`,
     `Owner lane: ${report.ownerLane}`,
+    '',
+    '## Provider Evidence',
+    '',
+    `- ${formatSavedProviderStatus(report.balance)}`,
+    '- Cached account evidence does not authorize paid research; refresh provider checks before separately approved research.',
     '',
     '## Wins',
     '',
@@ -438,6 +414,11 @@ function markdownReport(report) {
     '## Recommended Next Actions',
     '',
     ...recommendationLines,
+    '',
+    '## Inspection Evidence',
+    '',
+    `- Intentional policy exclusions: ${report.indexingExcluded.length}; monitor-only, not recovery or pilot-release authorization.`,
+    ...indexingLines,
     '',
     '## Specialist Routing',
     '',
@@ -466,8 +447,9 @@ const seoEvaluation = readJson(evidencePaths.seoEvaluation);
 const searchConsoleInspection = readJson(evidencePaths.searchConsoleInspection);
 const searchConsoleDiscovery = readJson(evidencePaths.searchConsoleDiscovery);
 const linkHelper = readJson(evidencePaths.linkHelper);
-const dataForSeoAccount = readJson(evidencePaths.dataForSeoAccount);
-const dataForSeoStatus = readJson(evidencePaths.dataForSeoStatus);
+const dataForSeoAccount = readProviderJson(evidencePaths.dataForSeoAccount);
+const dataForSeoStatus = readProviderJson(evidencePaths.dataForSeoStatus);
+const automationEnvironment = readProviderJson(evidencePaths.automationEnvironment);
 const pinterestRss = readJson(evidencePaths.pinterestRss);
 const mediumQuality = readJson(evidencePaths.mediumQuality);
 const blueskyQuality = readJson(evidencePaths.blueskyQuality);
@@ -479,17 +461,15 @@ const activeAutomations = parseActiveAutomationRows(automationPlan);
 const parsedQueueRows = parseQueueRows(promotionQueue);
 const queueRows = filterActivePromotionRows(parsedQueueRows);
 const excludedQueueRows = parsedQueueRows.filter((row) => !queueRows.includes(row));
-const qualityReports = [
-  qualitySummary(mediumQuality, 'Medium'),
-  qualitySummary(blueskyQuality, 'Bluesky'),
-];
-const indexingGaps = neutralIndexingItems(seoEvaluation, searchConsoleInspection);
-const balance = dataForSeoBalance(dataForSeoAccount, seoEvaluation);
+const qualityReports = summarizePromotionChannels(fourChannelReview);
+const indexingItems = classifiedIndexingItems(seoEvaluation, searchConsoleInspection);
+const indexingGaps = indexingItems.filter((item) => needsIndexingAttention(item.classification));
+const balance = dataForSeoBalance(dataForSeoAccount, seoEvaluation, dataForSeoStatus, automationEnvironment);
 const duplicateBalanceOwnerActive = activeAutomations.some((row) =>
   /DataForSEO Balance Watch/i.test(row.automation),
 );
 const liveProofGapRows = liveProofGaps(queueRows);
-const qualityFailures = qualityReports.filter((item) => item.status === 'failed' || item.status === 'parse-error');
+const qualityFailures = qualityReports.filter((item) => item.status !== 'passed');
 const recommendations = chooseRecommendations({
   indexingGaps,
   queueRows,
@@ -511,6 +491,7 @@ const evidence = [
   asEvidence('linkHelper', evidencePaths.linkHelper, linkHelper),
   asEvidence('dataForSeoAccount', evidencePaths.dataForSeoAccount, dataForSeoAccount),
   asEvidence('dataForSeoStatus', evidencePaths.dataForSeoStatus, dataForSeoStatus),
+  asEvidence('automationEnvironment', evidencePaths.automationEnvironment, automationEnvironment),
   asEvidence('pinterestRss', evidencePaths.pinterestRss, pinterestRss),
   asEvidence('mediumQuality', evidencePaths.mediumQuality, mediumQuality),
   asEvidence('blueskyQuality', evidencePaths.blueskyQuality, blueskyQuality),
@@ -524,7 +505,7 @@ if (brandCode) wins.push('Brand code is present and can be loaded before public 
 if (recommendedAgents) wins.push('Recommended agency-agent routing is present for specialist lens selection.');
 if (!duplicateBalanceOwnerActive) wins.push('No active standalone DataForSEO balance-only automation was found.');
 if (activePromotionChannels.length === 4) wins.push('Owner-approved four-channel promotion policy is active.');
-if (qualityReports.every((item) => item.status === 'passed')) wins.push('All available platform quality reports pass.');
+if (allPromotionChannelsPassed(qualityReports)) wins.push('All four channels have fresh passing command evidence; public actions still need approval and live proof.');
 if (pinterestRss && !pinterestRss.parseError && !pinterestRss.issues?.length) wins.push('Pinterest RSS report has no issues.');
 if (recognitionTracker && !recognitionTracker.parseError) wins.push('Recognition tracker is available for public proof and blocked-channel checks.');
 
@@ -532,8 +513,7 @@ const blockers = [];
 if (!brandCode) blockers.push('Missing docs/brand-code.md.');
 if (!recommendedAgents) blockers.push('Missing docs/recommended-agency-agents.md.');
 if (duplicateBalanceOwnerActive) blockers.push('Duplicate active DataForSEO Balance Watch found.');
-if (qualityFailures.length) blockers.push(`${qualityFailures.map((item) => item.label).join(', ')} quality reports are failing.`);
-if (balance?.topUp) blockers.push(`DataForSEO balance is at or below top-up threshold: ${balance.balance.toFixed(2)} ${balance.currency}.`);
+if (qualityFailures.length) blockers.push(...qualityFailures.map((item) => `${item.label} quality evidence: ${item.status}. ${item.issues.join(' ')}`));
 if (dataForSeoStatus?.parseError) blockers.push(`DataForSEO status report could not be parsed: ${dataForSeoStatus.parseError}.`);
 if (recognitionTracker?.totals?.claimedWithoutProof > 0) blockers.push(`${recognitionTracker.totals.claimedWithoutProof} promotion claim(s) still need recognition proof.`);
 
@@ -582,12 +562,13 @@ const report = {
     },
   ],
   indexingGaps: indexingGaps.slice(0, 10),
+  indexingExcluded: indexingItems.filter((item) => item.classification === 'excluded'),
   qualityReports,
   wins,
   blockers,
   recommendations,
   proofPolicy:
-    'Do not mark promotion as posted, updated, done, or fixed without a public URL, public profile/feed proof, screenshot, or generated report evidence.',
+    'Generated reports are local review evidence only. Do not mark promotion as posted, updated, done, or fixed without a verified public URL or public profile/feed proof.',
   evidence,
 };
 
@@ -596,6 +577,7 @@ writeText(mdPath, markdownReport(report));
 
 console.log(`Saved marketing orchestrator JSON to ${jsonPath}`);
 console.log(`Saved marketing orchestrator plan to ${mdPath}`);
+console.log(formatSavedProviderStatus(balance));
 
 if (!brandCode || !recommendedAgents || duplicateBalanceOwnerActive || qualityFailures.length) {
   process.exitCode = 1;

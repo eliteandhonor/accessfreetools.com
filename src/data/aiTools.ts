@@ -18,6 +18,7 @@ interface AiToolSpec {
   examples: ToolExample[];
   faq?: ToolFaq[];
   relatedSlugs: string[];
+  applicationCategory?: ToolDefinition['applicationCategory'];
 }
 
 const aiCategory: CategorySlug = 'ai-tools';
@@ -75,6 +76,7 @@ function makeAiTool(spec: AiToolSpec): ToolDefinition {
     examples: spec.examples,
     faq: spec.faq ?? makeAiFaq(spec),
     relatedSlugs: spec.relatedSlugs,
+    applicationCategory: spec.applicationCategory,
   };
 }
 
@@ -459,6 +461,120 @@ export const aiTools: ToolDefinition[] = [
       },
     ],
     relatedSlugs: ['keyword-extractor', 'text-summarizer', 'word-counter'],
+  }),
+  makeAiTool({
+    slug: 'audio-video-transcriber',
+    name: 'Audio and Video Transcriber',
+    summary: 'Turn a local recording into an editable transcript and subtitle files without uploading the media.',
+    description:
+      'Transcribe one local audio or video file in your browser with pinned Whisper Tiny models. Review timestamped text, then download TXT, SRT, or WebVTT without uploading the recording to Access Free Tools.',
+    aliases: ['Audio Transcriber', 'Video Transcriber', 'Audio to Text Converter', 'Video to Text Converter'],
+    seoTitle: 'Audio and Video Transcriber | Browser Whisper Tool',
+    seoDescription:
+      'Transcribe local audio or video in your browser. Edit timestamped text and download TXT, SRT, or WebVTT without uploading your recording.',
+    icon: 'tool-ai-transcribe',
+    modelNote:
+      'English uses a pinned timestamped Whisper Tiny English model. Auto and other languages use a pinned multilingual Whisper Tiny model. The selected quantized model downloads only after transcription starts and runs in a dedicated browser worker.',
+    inputMeaning:
+      'Choose one permitted MP3, WAV, M4A, AAC, FLAC, OGG, Opus, MP4, MOV, WebM, or MKV file up to 250 MB and 60 minutes. The browser checks its audio tracks and codec before downloading a speech model.',
+    resultMeaning:
+      'The result is editable timestamped text. Click a timestamp to check the local recording, then copy the transcript or download TXT, SRT, or WebVTT captions.',
+    doubleCheck:
+      'Listen again for names, numbers, dates, specialist terms, accents, overlapping speakers, quiet speech, and sections with music or noise. Whisper output is a draft, not a certified transcript.',
+    applicationCategory: 'MultimediaApplication',
+    useCases: [
+      'Create a draft transcript from your own interview, lesson, meeting, voice note, or video recording.',
+      'Build editable SRT or WebVTT caption files for permitted media.',
+      'Recover completed transcript sections when a long browser job is cancelled or a later block fails.',
+      'Check several audio tracks in a video before choosing the dialogue track.',
+      'Transcribe English with the smaller English model or choose a named language for multilingual speech.',
+      'Keep private media on the device instead of sending it to a speech API or upload server.',
+    ],
+    examples: [
+      {
+        label: 'English voice note',
+        expression: 'Choose a 6-minute MP3, select English, confirm permission, and transcribe',
+        result: 'Editable timestamped text plus TXT, SRT, and WebVTT downloads',
+      },
+      {
+        label: 'Caption a local video',
+        expression: 'Choose a 20-minute MP4, select its dialogue track, and use WebAssembly mode',
+        result: 'Caption segments appear as each five-minute block finishes',
+      },
+      {
+        label: 'Spanish recording',
+        expression: 'Choose Spanish before starting a permitted M4A recording',
+        result: 'The multilingual Whisper Tiny model produces a timestamped draft for manual review',
+      },
+      {
+        label: 'Interrupted long recording',
+        expression: 'Stop after two completed sections of a longer recording',
+        result: 'The completed partial transcript remains editable and downloadable',
+      },
+    ],
+    faq: [
+      {
+        question: 'Does the transcriber upload my audio or video?',
+        answer:
+          'No. The selected file, decoded audio, transcript, filename, and language choice stay in this browser tab. They are not uploaded to Access Free Tools. The pinned model files download from Hugging Face only after you start transcription.',
+      },
+      {
+        question: 'Which audio and video files can I transcribe?',
+        answer:
+          'The tool can inspect MP3, WAV, M4A or AAC, FLAC, OGG or Opus, MP4, MOV, WebM, and MKV containers. The audio codec inside the file must also be decodable by your current browser. An unsupported codec is rejected before the model download.',
+      },
+      {
+        question: 'What do the main Audio and Video Transcriber inputs mean?',
+        answer:
+          'Choose the local recording, then select its dialogue audio track when several tracks are present. English uses the smaller English model; Auto or a named non-English language uses the multilingual model. WebAssembly is the compatibility choice, while WebGPU is an optional beta path on supported devices.',
+      },
+      {
+        question: 'What are the file and recording limits?',
+        answer:
+          'The beta accepts one file up to 250 MB and 60 minutes. Desktop is recommended above 15 minutes because decoding and speech recognition use device memory and processor time.',
+      },
+      {
+        question: 'Which model does the browser transcriber use?',
+        answer:
+          'English uses the pinned onnx-community Whisper Tiny English timestamped model. Auto and named non-English choices use the pinned multilingual timestamped model. Both use quantized browser files and run through Transformers.js.',
+      },
+      {
+        question: 'How should I read the Audio and Video Transcriber result?',
+        answer:
+          'Treat the timestamped text as an editable first draft, not a certified transcript. Click a timestamp to compare each important section with the local recording before copying or exporting it.',
+      },
+      {
+        question: 'What should I double-check before trusting the Audio and Video Transcriber transcript?',
+        answer:
+          'Check names, numbers, dates, accents, technical terms, overlapping voices, quiet speech, music, and noisy sections. Whisper can mishear speech or produce plausible words that were not spoken.',
+      },
+      {
+        question: 'Can I edit and download a partial transcript?',
+        answer:
+          'Yes. Each completed five-minute section appears immediately. If you stop the job or a later section fails, completed caption segments stay available for editing, copying, and TXT, SRT, or WebVTT download.',
+      },
+      {
+        question: 'What is the difference between SRT and WebVTT?',
+        answer:
+          'Both store timed captions. SRT is widely accepted by editors and video platforms. WebVTT is designed for web video and starts with a WEBVTT header. TXT contains the words without caption timing syntax.',
+      },
+      {
+        question: 'Why does the tool offer WebAssembly and WebGPU?',
+        answer:
+          'The q8 WebAssembly path is the dependable compatibility choice. WebGPU can be faster on a supported device but remains experimental for this workload, so the tool detects an adapter, labels the option as beta, and can fall back to WebAssembly.',
+      },
+      {
+        question: 'Can this tool identify different speakers?',
+        answer:
+          'No. Version one does not provide speaker identification or diarization. It also does not translate, record a microphone, import URLs, process batches, or render captions back into a video.',
+      },
+      {
+        question: 'What happens when I reset or close the page?',
+        answer:
+          'The browser revokes the local media URL and terminates its workers. The transcript is not stored by Access Free Tools, so download the files you want before resetting, refreshing, or closing the tab.',
+      },
+    ],
+    relatedSlugs: ['text-to-speech-audiobook-generator', 'image-to-text-ocr-tool', 'language-detector', 'text-summarizer'],
   }),
   makeAiTool({
     slug: 'text-to-speech-audiobook-generator',

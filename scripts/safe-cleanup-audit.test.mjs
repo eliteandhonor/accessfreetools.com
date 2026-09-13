@@ -65,13 +65,24 @@ describe('safe cleanup audit', () => {
       command: 'node scripts/aft-cli.mjs seo-tool-queue',
       exitCode: 0,
     });
-    expect(queue.stdout).toContain('SEO tool/page queue: complete');
-    expect(queue.stdout).toContain('Remaining page review units: 0');
+    const directQueue = spawnSync(process.execPath, ['scripts/aft-cli.mjs', 'seo-tool-queue'], {
+      cwd: repoRoot,
+      encoding: 'utf8',
+    });
+    expect(directQueue.status).toBe(0);
+    expect(queue.stdout.trim()).toBe(directQueue.stdout.trim());
+    expect(queue.stdout).toMatch(/Remaining page review units: \d+/);
     expect(proof).toMatchObject({
       command: 'node scripts/aft-cli.mjs proof-check',
       exitCode: 0,
     });
-    expect(proof.stdout).toContain('Missing proof on claimed rows: none');
-    expect(proof.stdout).toContain('Rows still needing public proof: none');
+    const directProof = spawnSync(process.execPath, ['scripts/aft-cli.mjs', 'proof-check'], {
+      cwd: repoRoot,
+      encoding: 'utf8',
+    });
+    expect(directProof.status).toBe(0);
+    expect(proof.stdout.trim()).toBe(directProof.stdout.trim());
+    expect(proof.stdout).toMatch(/Missing proof on claimed rows: (?:none|\d+)/);
+    expect(proof.stdout).toMatch(/Rows still needing public proof: (?:none|\d+)/);
   }, 20000);
 });

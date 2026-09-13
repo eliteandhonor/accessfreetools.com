@@ -1,10 +1,11 @@
 import { getApiBetaToken } from './privateEnv';
+import { createBoundedRateLimiter } from './boundedRateLimiter';
 
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const RATE_LIMIT_MAX = 60;
 const METADATA_CACHE_SECONDS = 300;
 const METADATA_STALE_WHILE_REVALIDATE_SECONDS = 600;
-const rateLimitBuckets = new Map<string, { count: number; resetAt: number }>();
+const rateLimit = createBoundedRateLimiter(RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS);
 
 export function jsonResponse(body: unknown, status = 200, headers: HeadersInit = {}) {
   return new Response(JSON.stringify(body), {
@@ -72,19 +73,8 @@ export function checkApiAccess(request: Request) {
 }
 
 export function checkRateLimit(key: string) {
-  const now = Date.now();
-  const current = rateLimitBuckets.get(key);
-
-  if (!current || current.resetAt <= now) {
-    rateLimitBuckets.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return null;
-  }
-
-  current.count += 1;
-
-  if (current.count <= RATE_LIMIT_MAX) {
-    return null;
-  }
+  const retryAfter = rateLimit(key, Date.now());
+  if (retryAfter === null) return null;
 
   return jsonResponse(
     {
@@ -92,5 +82,6 @@ export function checkRateLimit(key: string) {
       message: 'Too many API requests. Try again shortly.',
     },
     429,
+    { 'retry-after': String(retryAfter) },
   );
 }

@@ -118,11 +118,15 @@ const guidePrivacyCopyBySlug: Partial<Record<string, string>> = {
     'Use Copy CSV when you want to paste the complete converted table into a spreadsheet, text editor, or data-cleaning workflow. Check the delimiter, dot-notation headers, blank cells, and spreadsheet protection before reusing it.',
   'text-to-speech-audiobook-generator':
     'Download a short MP3 first. Listen for names, dates, abbreviations, numbers, missing lines, repeated lines, and mixed-language pronunciation before generating or sharing something longer.',
+  'audio-video-transcriber':
+    'Download a partial transcript when a long job matters. Check names, numbers, dates, quotations, specialist words, and unclear speech against the local recording before sharing captions or text.',
 };
 const privacyHeading = tool?.slug === 'four-in-a-row-game'
   ? 'Privacy and session scores'
   : tool?.slug === 'text-to-speech-audiobook-generator'
     ? 'Privacy and browser processing'
+    : tool?.slug === 'audio-video-transcriber'
+      ? 'Privacy and local transcription'
     : 'Privacy and copying results';
 const privacyBrowserCopy = tool?.slug === 'four-in-a-row-game'
   ? 'Moves, round results, and session scores stay only in the current browser tab. They are not sent to a game server.'
@@ -130,6 +134,8 @@ const privacyBrowserCopy = tool?.slug === 'four-in-a-row-game'
     ? 'Your JSON and converted CSV stay only in the current browser tab. They are not sent to a conversion service, and the input, preview, and output are masked from Microsoft Clarity.'
     : tool?.slug === 'text-to-speech-audiobook-generator'
       ? 'The browser runs only the selected pinned speech model and MP3 encoder in a worker. Pasted text and generated audio are not uploaded to Access Free Tools, and private surfaces are masked from Microsoft Clarity.'
+      : tool?.slug === 'audio-video-transcriber'
+        ? 'The browser reads the local media in bounded sections and runs only the selected pinned Whisper Tiny model. The file, decoded audio, transcript, filename, and language choice are not uploaded to Access Free Tools, and the complete workspace is masked from Microsoft Clarity.'
       : 'Recent answers stay visible only while you work in the current browser tab. They are not sent to a server.';
 const privacyCopy = {
   copy:

@@ -1,3 +1,5 @@
+import { hasInspectionSourcePath, inspectionEvidenceFreshness, mergeInspectionReports } from './search-console-inspection-reports.mjs';
+
 export const JSON_TO_CSV_LAUNCH_AT = '2026-07-18T17:53:34+10:00';
 export const JSON_TO_CSV_NEXT_RELEASE_AT = '2026-08-01T17:53:34+10:00';
 export const JSON_TO_CSV_DAY_28_REVIEW_AT = '2026-08-15T17:53:34+10:00';
@@ -36,30 +38,8 @@ export function selectLatestPilotInspections(
   inspectionReports = [],
   targetUrls = JSON_TO_CSV_PILOT_URLS,
 ) {
-  const selected = new Map();
-
-  for (const report of inspectionReports) {
-    const generatedAt = report?.generatedAt ?? '';
-    const reportTime = timestamp(generatedAt);
-
-    for (const inspection of report?.inspections ?? []) {
-      const url = inspection?.inspectionUrl;
-      if (!targetUrls.includes(url)) continue;
-
-      const current = selected.get(url);
-      if (!current || reportTime > timestamp(current.generatedAt)) {
-        selected.set(url, {
-          coverageState: inspection.coverageState ?? '',
-          generatedAt,
-          indexingState: inspection.indexingState ?? '',
-          inspectionUrl: url,
-          pageFetchState: inspection.pageFetchState ?? '',
-          source: report.source ?? '',
-          verdict: inspection.verdict ?? '',
-        });
-      }
-    }
-  }
+  const selected = new Map(mergeInspectionReports(inspectionReports).inspections
+    .map((inspection) => [inspection.inspectionUrl, inspection]));
 
   return targetUrls.map((url) => {
     const inspection = selected.get(url);
@@ -74,6 +54,8 @@ export function selectLatestPilotInspections(
 
     return {
       ...inspection,
+      generatedAt: inspection.sourceGeneratedAt,
+      source: inspection.sourcePath,
       discovered: inspectionIsDiscovered(inspection),
       indexed: inspectionIsIndexed(inspection),
       status: 'observed',
@@ -107,16 +89,29 @@ export function analyzeNewToolGrowthPilot({
   performance = null,
   productionSitemap = null,
 } = {}) {
-  const launchTime = timestamp(JSON_TO_CSV_LAUNCH_AT);
   const nextReleaseTime = timestamp(JSON_TO_CSV_NEXT_RELEASE_AT);
   const currentTime = now.getTime();
-  const inspections = selectLatestPilotInspections(inspectionReports);
+  const freshnessOptions = { now, notBefore: JSON_TO_CSV_LAUNCH_AT };
+  const inspections = selectLatestPilotInspections(inspectionReports).map((inspection) => {
+    const freshness = inspectionEvidenceFreshness(inspection.sourceGeneratedAt, freshnessOptions);
+    const available = freshness.status === 'fresh' && hasInspectionSourcePath(inspection.sourcePath) &&
+      !inspection.error && Boolean(inspection.coverageState);
+    return {
+      ...inspection,
+      discovered: available && inspection.discovered,
+      indexed: available && inspection.indexed,
+      sourceFreshness: freshness.status,
+      sourceAgeDays: freshness.ageDays,
+      status: available ? 'observed' : 'not enough data',
+    };
+  });
   const discoveredCount = inspections.filter((inspection) => inspection.discovered).length;
   const indexedCount = inspections.filter((inspection) => inspection.indexed).length;
   const discoveryGatePassed = discoveredCount > 0;
 
   const sitemapGeneratedAt = productionSitemap?.generatedAt ?? '';
-  const sitemapFresh = timestamp(sitemapGeneratedAt) >= launchTime;
+  const sitemapFreshness = inspectionEvidenceFreshness(sitemapGeneratedAt, freshnessOptions);
+  const sitemapFresh = sitemapFreshness.status === 'fresh';
   const sitemapHardFailures = finiteNumber(productionSitemap?.hardFailures, -1);
   const sitemapHealthy = Boolean(
     sitemapFresh &&
@@ -131,7 +126,8 @@ export function analyzeNewToolGrowthPilot({
       crawlScout?.overview?.rows,
     -1,
   );
-  const crawlScoutFresh = timestamp(crawlScoutGeneratedAt) >= launchTime;
+  const crawlScoutFreshness = inspectionEvidenceFreshness(crawlScoutGeneratedAt, freshnessOptions);
+  const crawlScoutFresh = crawlScoutFreshness.status === 'fresh';
   const crawlScoutRegression = Boolean(
     crawlScoutFresh && crawlScoutAffected > JSON_TO_CSV_CRAWLSCOUT_BASELINE,
   );
@@ -154,15 +150,15 @@ export function analyzeNewToolGrowthPilot({
     readinessIssues.push(`Wait until ${JSON_TO_CSV_NEXT_RELEASE_AT} before reviewing the next tool release.`);
   }
   if (!discoveryGatePassed) {
-    readinessIssues.push('Both JSON to CSV pages are still unknown to Google or lack fresh URL inspection evidence.');
+    readinessIssues.push('Discovery is not proven by fresh URL inspection evidence with original source paths. Refresh the exact pilot URLs before release review.');
   }
   if (!sitemapFresh) {
-    readinessIssues.push('A post-release production sitemap report is missing or stale.');
+    readinessIssues.push(`Current post-release production sitemap evidence is not proven (${sitemapFreshness.status}).`);
   } else if (!sitemapHealthy) {
     readinessIssues.push(`The latest production sitemap report has ${sitemapHardFailures} hard failure(s).`);
   }
   if (!crawlScoutFresh) {
-    readinessIssues.push('A post-release CrawlScout sample is missing or stale.');
+    readinessIssues.push(`Current post-release CrawlScout evidence is not proven (${crawlScoutFreshness.status}).`);
   } else if (crawlScoutRegression) {
     readinessIssues.push(
       `CrawlScout affected rows increased from ${JSON_TO_CSV_CRAWLSCOUT_BASELINE} to ${crawlScoutAffected}.`,
@@ -170,7 +166,7 @@ export function analyzeNewToolGrowthPilot({
   }
 
   const analyticsGeneratedAt = analytics?.generatedAt ?? analytics?.summary?.generatedAt ?? '';
-  const analyticsFresh = timestamp(analyticsGeneratedAt) >= launchTime;
+  const analyticsFresh = inspectionEvidenceFreshness(analyticsGeneratedAt, freshnessOptions).status === 'fresh';
 
   return {
     analytics: {
@@ -184,6 +180,7 @@ export function analyzeNewToolGrowthPilot({
       affected: crawlScoutAffected >= 0 ? crawlScoutAffected : null,
       baseline: JSON_TO_CSV_CRAWLSCOUT_BASELINE,
       fresh: crawlScoutFresh,
+      sourceFreshness: crawlScoutFreshness.status,
       gatePassed: crawlScoutGatePassed,
       generatedAt: crawlScoutGeneratedAt,
       regression: crawlScoutRegression,
@@ -206,6 +203,7 @@ export function analyzeNewToolGrowthPilot({
     sitemap: {
       checked: finiteNumber(productionSitemap?.checked),
       fresh: sitemapFresh,
+      sourceFreshness: sitemapFreshness.status,
       gatePassed: sitemapHealthy,
       generatedAt: sitemapGeneratedAt,
       hardFailures: sitemapHardFailures >= 0 ? sitemapHardFailures : null,
@@ -227,7 +225,7 @@ export function analyzeNewToolGrowthPilot({
 export function renderNewToolGrowthPilotReport(report) {
   const inspectionLines = report.inspections.map((inspection) => {
     const coverage = inspection.coverageState || inspection.status;
-    return `- ${inspection.inspectionUrl}: ${coverage}; discovered ${inspection.discovered ? 'yes' : 'no'}; indexed ${inspection.indexed ? 'yes' : 'no'}`;
+    return `- ${inspection.inspectionUrl}: ${coverage}; discovered ${inspection.discovered ? 'yes' : 'no'}; indexed ${inspection.indexed ? 'yes' : 'no'}; evidence ${inspection.status} (${inspection.sourceFreshness}); observed ${inspection.sourceGeneratedAt || 'undated'}; source ${hasInspectionSourcePath(inspection.sourcePath) ? inspection.sourcePath : 'not enough data'}`;
   });
   const issueLines = report.readinessIssues.length
     ? report.readinessIssues.map((issue) => `- ${issue}`)

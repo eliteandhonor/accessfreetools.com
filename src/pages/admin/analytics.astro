@@ -25,20 +25,32 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
   <section class="content-section content-section-narrow analytics-panel" data-analytics-login-panel>
     <h2>Private analytics login</h2>
     <p>
-      Hostinger is set up. This page still asks for your private analytics password so only you can
-      see the usage stats.
+      A private analytics token is required to view the usage stats.
     </p>
-    <form class="analytics-login-form" data-analytics-token-form>
+    <form class="analytics-login-form" method="post" autocomplete="off" data-analytics-token-form>
       <label>
         Analytics token
-        <input type="password" name="token" autocomplete="current-password" required />
+        <input type="password" autocomplete="off" required />
       </label>
       <button class="button-primary" type="submit">Open analytics</button>
     </form>
     <p class="analytics-opt-out-status" data-analytics-message>
-      Enter the token from your private local config file or use the admin hub shortcut.
+      Enter your private analytics token.
     </p>
-    <p><a href="/admin/">Use the easier private admin login page</a>.</p>
+    <p><a href="/admin/">Back to private tools</a>.</p>
+  </section>
+
+  <div class="content-section content-section-narrow">
+    <button class="button-secondary" type="button" hidden data-admin-logout>Log out</button>
+  </div>
+
+  <section class="section-band analytics-panel" hidden data-analytics-dashboard>
+    <div class="section-heading">
+      <h2>Reporting coverage</h2>
+      <p role="status" data-analytics-coverage>Unknown coverage. Comparisons are blocked until the production interval is verified.</p>
+      <p data-analytics-coverage-dates></p>
+      <p data-analytics-coverage-reasons></p>
+    </div>
   </section>
 
   <section class="section-band analytics-panel" hidden data-analytics-dashboard>
@@ -58,7 +70,7 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
       <article>
         <span>Visitors today</span>
         <strong data-metric="todayVisitors">0</strong>
-        <p><span data-metric="todayNewVisitors">0</span> new, <span data-metric="todayReturningVisitors">0</span> returning.</p>
+        <p><span data-metric="todayNewVisitors">0</span> first seen in this read, <span data-metric="todayReturningVisitors">0</span> seen on earlier days in this read.</p>
       </article>
       <article>
         <span>Tool uses today</span>
@@ -76,7 +88,7 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
   <section class="section-band section-band-soft analytics-panel" hidden data-analytics-dashboard>
     <div class="section-heading">
       <h2>Most used tools</h2>
-      <p>Top tool actions from the selected reporting window.</p>
+      <p>Observed tool actions within the requested window; coverage limits apply.</p>
     </div>
     <div class="analytics-table-wrap">
       <table class="analytics-table">
@@ -98,7 +110,7 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
     <div>
       <div class="section-heading">
         <h2>Top pages</h2>
-        <p>Page views from the selected reporting window.</p>
+        <p>Observed page views within the requested window; coverage limits apply.</p>
       </div>
       <ol class="analytics-ranked-list" data-top-pages>
         <li><span>No page views yet</span><span>0</span></li>
@@ -152,9 +164,10 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
 
   <script is:inline define:vars={{ optOutKey }}>
     (() => {
-      const tokenStorageKey = 'access-free-tools-analytics-token';
       const loginPanel = document.querySelector('[data-analytics-login-panel]');
       const tokenForm = document.querySelector('[data-analytics-token-form]');
+      const tokenInput = tokenForm?.querySelector('input[type="password"]');
+      const logoutButton = document.querySelector('[data-admin-logout]');
       const message = document.querySelector('[data-analytics-message]');
       const dashboards = document.querySelectorAll('[data-analytics-dashboard]');
       const numberFormat = new Intl.NumberFormat('en');
@@ -192,11 +205,42 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
         if (message) message.textContent = value;
       };
 
+      let pendingRequest;
+      const resetAccess = () => {
+        pendingRequest?.abort();
+        pendingRequest = undefined;
+        if (tokenInput) tokenInput.value = '';
+        if (logoutButton) logoutButton.hidden = true;
+        if (loginPanel) loginPanel.hidden = false;
+        dashboards.forEach((section) => { section.hidden = true; });
+        document.querySelectorAll('[data-metric]').forEach((element) => { element.textContent = '0'; });
+        for (const selector of ['[data-top-tools]', '[data-top-pages]', '[data-top-referrers]', '[data-recent-events]',
+          '[data-analytics-coverage]', '[data-analytics-coverage-dates]', '[data-analytics-coverage-reasons]', '[data-generated-at]']) {
+          text(selector, '');
+        }
+        for (const storage of ['localStorage', 'sessionStorage']) {
+          try { window[storage].removeItem('access-free-tools-analytics-token'); } catch {}
+        }
+        showMessage('Enter your private analytics token.');
+      };
+      resetAccess();
+      logoutButton?.addEventListener('click', resetAccess);
+      window.addEventListener('pagehide', resetAccess);
+      window.addEventListener('pageshow', (event) => { if (event.persisted) resetAccess(); });
+
       const renderSummary = (summary) => {
         dashboards.forEach((section) => {
           section.hidden = false;
         });
         if (loginPanel) loginPanel.hidden = true;
+
+        const coverage = summary.coverage;
+        text('[data-analytics-coverage]',
+          `${coverage?.status === 'partial' ? 'Partial coverage' : 'Unknown coverage'}. Counts reflect retained events read, not lifetime totals or a proven full interval. Comparisons are blocked until durable production continuity is verified. Visitor history may be incomplete.`);
+        text('[data-analytics-coverage-dates]',
+          `Requested (${summary.days ?? 'unknown'} days): ${coverage?.requestedStart ?? summary.rangeStart ?? 'unknown'} to ${coverage?.requestedEnd ?? summary.generatedAt ?? 'unknown'}. Observed retained event dates: ${coverage?.observedStart ?? 'unknown'} to ${coverage?.observedEnd ?? 'unknown'}. Observed within the request: ${coverage?.rangeObservedStart ?? 'unknown'} to ${coverage?.rangeObservedEnd ?? 'unknown'}. These dates do not rule out gaps.`);
+        text('[data-analytics-coverage-reasons]',
+          `Coverage reasons: ${(coverage?.reasons ?? ['coverage-metadata-missing', 'deployment-continuity-unverified']).join(', ')}.`);
 
         setMetric('activeVisitors', summary.activeVisitors);
         setMetric('todayVisitors', summary.today?.visitors);
@@ -259,44 +303,58 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
       };
 
       const loadSummary = async (token) => {
+        resetAccess();
         if (!token) return;
-
+        const controller = new AbortController();
+        pendingRequest = controller;
+        if (logoutButton) logoutButton.hidden = false;
         showMessage('Loading analytics...');
         try {
-          const response = await fetch('/api/analytics/events', {
+          const request = fetch('/api/analytics/events', {
+            cache: 'no-store',
+            credentials: 'omit',
+            redirect: 'error',
+            signal: controller.signal,
             headers: {
               'accept': 'application/json',
               'x-aft-analytics-token': token,
             },
           });
+          token = '';
+          const response = await request;
           const body = await response.json().catch(() => ({}));
+          if (controller.signal.aborted) return;
 
           if (!response.ok || !body.summary) {
-            showMessage(body.message || 'Analytics token was not accepted. Use the admin hub or enter the saved token.');
+            resetAccess();
+            showMessage('Analytics token was not accepted. Enter it again to retry.');
             return;
           }
 
-          window.sessionStorage.setItem(tokenStorageKey, token);
           renderSummary(body.summary);
         } catch {
-          showMessage('Analytics endpoint is not available yet. Check Hostinger PHP/Node deployment settings.');
+          if (controller.signal.aborted) return;
+          resetAccess();
+          showMessage('Analytics could not be loaded. Enter the token again to retry.');
+        } finally {
+          token = '';
         }
       };
-
-      const storedToken = window.sessionStorage.getItem(tokenStorageKey) || '';
-      loadSummary(storedToken);
 
       if (tokenForm) {
         tokenForm.addEventListener('submit', (event) => {
           event.preventDefault();
-          const data = new FormData(tokenForm);
-          loadSummary(String(data.get('token') || ''));
+          loadSummary(tokenInput?.value || '');
         });
       }
 
       const optOutStatus = document.querySelector('[data-analytics-opt-out-status]');
       const updateStatus = () => {
-        const isOptedOut = window.localStorage.getItem(optOutKey) === 'true';
+        let isOptedOut;
+        try { isOptedOut = window.localStorage.getItem(optOutKey) === 'true'; } catch {
+          if (optOutStatus) optOutStatus.textContent = 'Browser storage is unavailable. Analytics preference is unknown.';
+          return;
+        }
         if (optOutStatus) {
           optOutStatus.textContent = isOptedOut
             ? 'This browser is excluded from Access Free Tools analytics.'
@@ -306,10 +364,15 @@ const pagePath = Astro.props.path ?? '/admin/analytics/';
 
       document.querySelectorAll('[data-analytics-opt-out]').forEach((button) => {
         button.addEventListener('click', () => {
-          if (button.getAttribute('data-analytics-opt-out') === 'true') {
-            window.localStorage.setItem(optOutKey, 'true');
-          } else {
-            window.localStorage.removeItem(optOutKey);
+          try {
+            if (button.getAttribute('data-analytics-opt-out') === 'true') {
+              window.localStorage.setItem(optOutKey, 'true');
+            } else {
+              window.localStorage.removeItem(optOutKey);
+            }
+          } catch {
+            if (optOutStatus) optOutStatus.textContent = 'Browser storage is unavailable. The analytics preference was not saved.';
+            return;
           }
           updateStatus();
         });

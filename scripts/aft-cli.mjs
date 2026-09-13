@@ -2,6 +2,10 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { basename, dirname, join, relative, resolve } from 'node:path';
 import { Command } from 'commander';
+import { filterActivePromotionRows } from './lib/promotion-channel-policy.mjs';
+import { formatSavedProviderStatus, providerEvidenceAge, savedProviderStatus } from './lib/provider-status.mjs';
+import { hasInspectionSourcePath, inspectionEvidenceFreshness, mergeInspectionReports } from './lib/search-console-inspection-reports.mjs';
+import { createIndexingClassifier, hasBlockedIndexingState, needsIndexingAttention, newerPassForRecovery } from './lib/indexing-classification.mjs';
 import {
   buildApiReadyReport,
   buildAgentDoctorReport,
@@ -239,42 +243,14 @@ function qualitySummary(report, label) {
 function platformQualityReports() {
   return [
     qualitySummary(readJson(evidencePaths.mediumQuality), 'Medium'),
-    qualitySummary(readJson(evidencePaths.redditQuality), 'Reddit'),
     qualitySummary(readJson(evidencePaths.blueskyQuality), 'Bluesky'),
-    qualitySummary(readJson(evidencePaths.quoraQuality), 'Quora'),
-    qualitySummary(readJson(evidencePaths.devtoQuality), 'DEV Community'),
   ];
 }
 
 function getDataForSeoBalance() {
-  const latestAccountReport = newestReportByName('dataforseo-account.json');
-  const accountReport = latestAccountReport?.report ?? readJson(evidencePaths.dataForSeoAccount);
-  const seoReport = readJson(evidencePaths.seoEvaluation);
-  const liveAccount = accountReport?.account ?? accountReport?.dataForSeo?.account ?? null;
-  const cachedAccount = seoReport?.dataForSeo?.account ?? null;
-  const account = liveAccount ?? cachedAccount;
-
-  if (!account || typeof account.balance !== 'number') return null;
-
-  return {
-    status: liveAccount ? 'live' : 'cached',
-    source: liveAccount
-      ? latestAccountReport
-        ? relative(root, latestAccountReport.file)
-        : evidencePaths.dataForSeoAccount
-      : evidencePaths.seoEvaluation,
-    generatedAt: liveAccount ? accountReport?.generatedAt ?? '' : seoReport?.generatedAt ?? '',
-    liveError:
-      accountReport?.status === 'error'
-        ? accountReport.message ?? 'DataForSEO live account check failed.'
-        : accountReport?.parseError
-          ? `Could not read live DataForSEO account report: ${accountReport.parseError}`
-          : '',
-    balance: account.balance,
-    currency: account.currency ?? 'USD',
-    topUp: account.balance <= 2,
-    warning: account.balance <= 10,
-  };
+  const names = new Set(['dataforseo-account.json', 'dataforseo-status.json', 'automation-environment.json', 'seo-agent-self-evaluation.json']);
+  return savedProviderStatus(walk(resolve(root, 'output'), (file) => names.has(basename(file)))
+    .map((file) => ({ report: readJsonFile(file), source: relative(root, file).replace(/\\/g, '/') })));
 }
 
 function getHostingerStatus() {
@@ -330,70 +306,51 @@ function summarizeRecordFreshness(items) {
       summary[label] += 1;
       return summary;
     },
-    { fresh: 0, stale: 0, undated: 0 },
+    { fresh: 0, stale: 0, undated: 0, future: 0 },
   );
 }
 
-function getIndexingGapSnapshot() {
+function getIndexingGapSnapshot(now = new Date()) {
+  const classify = createIndexingClassifier();
   const inspection = readJson(evidencePaths.searchConsole);
   const seoReport = readJson(evidencePaths.seoEvaluation);
-  const inspectionGeneratedAt = inspection?.generatedAt ?? '';
-  const seoGeneratedAt = seoReport?.generatedAt ?? '';
-  const fromInspection = Array.isArray(inspection?.inspections)
-    ? inspection.inspections.map((item) => {
-        const sourceGeneratedAt = item.sourceGeneratedAt ?? inspectionGeneratedAt;
-        const freshness = evidenceFreshness(sourceGeneratedAt);
-
-        return {
-          url: item.inspectionUrl,
-          verdict: item.verdict ?? 'unknown',
-          state: item.coverageState ?? item.error ?? 'unknown',
-          lastCrawlTime: item.lastCrawlTime ?? '',
-          sourceGeneratedAt,
-          sourceFreshness: freshness.label,
-          sourceAgeDays: freshness.ageDays,
-        };
-      })
-    : [];
-  const fromSeo = Array.isArray(seoReport?.indexedSummary)
-    ? seoReport.indexedSummary.map((item) => {
-        const freshness = evidenceFreshness(seoGeneratedAt);
-
-        return {
-          url: item.url,
-          verdict: item.verdict ?? 'unknown',
-          state: item.coverageState ?? 'unknown',
-          lastCrawlTime: item.lastCrawlTime ?? '',
-          sourceGeneratedAt: seoGeneratedAt,
-          sourceFreshness: freshness.label,
-          sourceAgeDays: freshness.ageDays,
-        };
-      })
-    : [];
-  const items = fromInspection.length ? fromInspection : fromSeo;
-  const gaps = items.filter((item) => {
-    const joined = `${item.verdict} ${item.state}`;
-    return !/^PASS$/i.test(String(item.verdict)) && /unknown|not indexed|discovered|crawled/i.test(joined);
-  });
-
-  if (fromInspection.length) {
-    const newestItemDate = inspection.inspections
-      .map((item) => item.sourceGeneratedAt ?? '')
-      .filter(Boolean)
-      .sort((left, right) => Date.parse(right) - Date.parse(left))[0];
-    const generatedAt = inspection.latestSourceGeneratedAt ?? newestItemDate ?? inspection.generatedAt ?? '';
+  const merged = mergeInspectionReports([
+    { report: inspection, sourcePath: absolute(evidencePaths.searchConsole) },
+    { report: seoReport, sourcePath: absolute(evidencePaths.seoEvaluation) },
+  ], now.toISOString());
+  const items = merged.inspections.map((item) => {
+    const freshness = inspectionEvidenceFreshness(item.sourceGeneratedAt, { now });
+    const usable = hasInspectionSourcePath(item.sourcePath) && !item.error &&
+      (Boolean(item.coverageState) || hasBlockedIndexingState(item));
     return {
-      evidence: evidenceDetails(generatedAt, evidencePaths.searchConsole),
-      evidenceKind: 'exact-url-inspection',
-      items: gaps,
-      recordFreshness: summarizeRecordFreshness(gaps),
+      url: item.inspectionUrl,
+      verdict: item.verdict ?? 'unknown',
+      state: item.coverageState || item.indexingState || item.error || 'unknown',
+      indexingState: item.indexingState ?? '',
+      lastCrawlTime: item.lastCrawlTime ?? '',
+      ...(item.error ? { error: item.error } : {}),
+      sourceGeneratedAt: item.sourceGeneratedAt,
+      sourcePath: item.sourcePath,
+      sourceFreshness: freshness.status,
+      sourceAgeDays: freshness.ageDays,
+      status: usable && freshness.status === 'fresh' ? 'observed'
+        : usable && freshness.status === 'stale' ? 'historical' : 'not enough data',
     };
-  }
-
+  });
+  const classified = items.map((item) => ({ ...item, classification: classify(item) }));
+  const gaps = classified.filter((item) => needsIndexingAttention(item.classification));
+  const freshness = inspectionEvidenceFreshness(merged.latestSourceGeneratedAt, { now });
   return {
-    evidence: evidenceDetails(seoReport?.generatedAt ?? '', evidencePaths.seoEvaluation),
-    evidenceKind: 'aggregate-seo-summary',
+    evidence: {
+      generatedAt: merged.latestSourceGeneratedAt,
+      source: merged.sources.map((source) => source.path).join(', '),
+      label: freshness.status,
+      ageDays: freshness.ageDays,
+    },
+    evidenceKind: 'merged-url-inspection',
     items: gaps,
+    excluded: classified.filter((item) => item.classification === 'excluded'),
+    indexed: classified.filter((item) => item.classification === 'indexed'),
     recordFreshness: summarizeRecordFreshness(gaps),
   };
 }
@@ -443,7 +400,13 @@ function formatIndexingRequestTime(request) {
 
 function indexingGapRecommendation(gaps, requestReport) {
   if (!gaps.length) return 'No indexing gaps found in the current local snapshot.';
+  if (gaps.some((gap) => gap.status !== 'observed' || gap.sourceFreshness !== 'fresh')) {
+    return 'Recommended action: Refresh URL Inspection evidence before treating historical or unavailable observations as current gaps. Preserve original dates and source paths; do not request indexing or change pages from these records alone.';
+  }
 
+  if (gaps.some((gap) => gap.classification === 'failure')) {
+    return 'Recommended action: Review unexpected indexing failures on indexable routes. Check page-level robots, fetch and canonical evidence before link changes or indexing requests; preserve intentional noindex.';
+  }
   const requestedGaps = gaps.filter((gap) => searchConsoleIndexingRequestForUrl(gap.url, requestReport));
   const deferredGaps = gaps.filter(
     (gap) => !searchConsoleIndexingRequestForUrl(gap.url, requestReport) && searchConsoleIndexingDeferredForUrl(gap.url, requestReport),
@@ -527,16 +490,26 @@ function getCoverageDrilldownSummary() {
   };
 }
 
-function getPerformanceExportSummary() {
+function getPerformanceExportSummary(indexed = getIndexingGapSnapshot().indexed) {
   const report = readJson(evidencePaths.searchConsolePerformanceExport);
   if (!report || report.parseError) return null;
+  const classify = createIndexingClassifier();
+  const supersededRecovery = [];
+  const tierARecovery = (report.tierARecovery ?? []).filter((item) => {
+    if (classify(item) === 'excluded') return false;
+    const pass = newerPassForRecovery(item, report, indexed);
+    if (!pass) return true;
+    supersededRecovery.push({ path: item.path, ...pass });
+    return false;
+  });
 
   return {
     evidence: evidenceDetails(report.generatedAt ?? '', evidencePaths.searchConsolePerformanceExport),
     generatedAt: report.generatedAt ?? '',
     totals: report.totals ?? null,
-    tierARecovery: report.tierARecovery ?? [],
-    highImpressionZeroClickPages: report.opportunities?.highImpressionZeroClickPages ?? [],
+    tierARecovery,
+    supersededRecovery,
+    highImpressionZeroClickPages: (report.opportunities?.highImpressionZeroClickPages ?? []).filter((item) => classify(item) !== 'excluded'),
     queryQuickWins: report.opportunities?.queryQuickWins ?? [],
   };
 }
@@ -920,11 +893,16 @@ function sourceMentionsGuide(slug) {
 
 function statusCommand(command) {
   const packageJson = readJson('package.json');
-  const queueRows = parseQueueRows(readText(evidencePaths.promotionQueue));
+  const queueRows = filterActivePromotionRows(parseQueueRows(readText(evidencePaths.promotionQueue)));
   const qualityReports = platformQualityReports();
   const indexingGaps = getIndexingGaps();
   const performanceExport = getPerformanceExportSummary();
   const balance = getDataForSeoBalance();
+  const dailyReport = readJson('output/seo-daily-refresh.json');
+  const seoDailyRefresh = dailyReport && !dailyReport.parseError ? {
+    ...dailyReport, ...providerEvidenceAge(dailyReport.generatedAt),
+    evidence: 'cached', source: 'output/seo-daily-refresh.json', currentAttempt: { status: 'not-run' },
+  } : null;
   const hostinger = getHostingerStatus();
   const marketingPlan = readJson(evidencePaths.marketingPlan);
 
@@ -935,6 +913,7 @@ function statusCommand(command) {
     recommendedAgentsDocPresent: Boolean(readText(evidencePaths.recommendedAgents)),
     marketingPlanGeneratedAt: marketingPlan?.generatedAt ?? '',
     dataForSeoBalance: balance,
+    seoDailyRefresh,
     hostinger,
     promotionQueue: {
       rows: queueRows.length,
@@ -954,11 +933,8 @@ function statusCommand(command) {
     `- Agent CLI docs: ${payload.agentCliDocPresent ? 'present' : 'missing'}`,
     `- Recommended agent routing: ${payload.recommendedAgentsDocPresent ? 'present' : 'missing'}`,
     `- Marketing report: ${payload.marketingPlanGeneratedAt || 'not found'}`,
-    balance
-      ? `- DataForSEO: ${balance.status} ${balance.balance.toFixed(2)} ${balance.currency}${
-          balance.warning ? ' (watch)' : ''
-        }${balance.generatedAt ? ` from ${balance.generatedAt}` : ''}${balance.liveError ? `; live check note: ${balance.liveError}` : ''}`
-      : '- DataForSEO: not found',
+    `- ${formatSavedProviderStatus(balance)}`,
+    seoDailyRefresh ? `- Daily SEO refresh: ${seoDailyRefresh.status}; cached report ${seoDailyRefresh.generatedAt}; ${seoDailyRefresh.freshness}, ${seoDailyRefresh.ageDays ?? 'unknown'} days old; source ${seoDailyRefresh.source}` : '- Daily SEO refresh: not found',
     hostinger
       ? `- Hostinger: ${hostinger.status}${hostinger.generatedAt ? ` from ${hostinger.generatedAt}` : ''}`
       : '- Hostinger: not checked',
@@ -1016,17 +992,18 @@ function hostingerCommand(command) {
 }
 
 function promoteNextCommand(command) {
-  const queueRows = parseQueueRows(readText(evidencePaths.promotionQueue));
+  const queueRows = filterActivePromotionRows(parseQueueRows(readText(evidencePaths.promotionQueue)));
   const qualityReports = platformQualityReports();
   const candidates = queueRows
-    .filter((row) => row.status === 'approved' || row.status === 'needs approval')
+    .filter((row) => row.status === 'approved' || row.status === 'release-ready')
     .sort((left, right) => priorityWeight(left.priority) - priorityWeight(right.priority))
     .slice(0, 5);
   const proofFollowUps = queueRows
     .filter((row) => row.status === 'rss-connected' || row.status === 'unverified')
     .sort((left, right) => priorityWeight(left.priority) - priorityWeight(right.priority))
     .slice(0, 5);
-  const payload = { candidates, proofFollowUps, qualityReports };
+  const approvalRequired = queueRows.filter((row) => row.status === 'needs approval');
+  const payload = { candidates, approvalRequired, proofFollowUps, qualityReports };
 
   emit(command, payload, [
     'Next promotion candidates',
@@ -1034,6 +1011,8 @@ function promoteNextCommand(command) {
       (row, index) =>
         `${index + 1}. [${row.priority}] ${row.page} via ${row.channel} - ${row.angle}. Gate: run matching quality report and verify public proof after posting.`,
     ),
+    '',
+    `Awaiting owner approval: ${approvalRequired.length} row(s); these are not executable candidates.`,
     '',
     'Proof follow-ups',
     ...(proofFollowUps.length
@@ -1049,7 +1028,7 @@ function indexingGapsCommand(command) {
   const gaps = indexingSnapshot.items;
   const coverageExport = getCoverageExportSummary();
   const coverageDrilldown = getCoverageDrilldownSummary();
-  const performanceExport = getPerformanceExportSummary();
+  const performanceExport = getPerformanceExportSummary(indexingSnapshot.indexed);
   const indexingRequests = getSearchConsoleIndexingRequests();
   const gapsWithRequestProof = gaps.map((gap) => {
     const indexingRequest = searchConsoleIndexingRequestForUrl(gap.url, indexingRequests);
@@ -1076,6 +1055,7 @@ function indexingGapsCommand(command) {
     coverageDrilldown,
     coverageExport,
     gaps: gapsWithRequestProof.slice(0, 20),
+    excluded: indexingSnapshot.excluded,
     indexingRequests: {
       generatedAt: indexingRequests.generatedAt,
       deferredCurrentGaps: gapsWithRequestProof.filter((gap) => gap.indexingDeferred && !gap.indexingRequest).length,
@@ -1092,14 +1072,15 @@ function indexingGapsCommand(command) {
   };
 
   emit(command, payload, [
-    `Exact URL inspection gaps: ${gaps.length} (${indexingSnapshot.recordFreshness.fresh} fresh, ${indexingSnapshot.recordFreshness.stale} stale, ${indexingSnapshot.recordFreshness.undated} undated record(s))`,
+    `Exact URL inspection gaps: ${gaps.length} (${indexingSnapshot.recordFreshness.fresh} fresh, ${indexingSnapshot.recordFreshness.stale} stale, ${indexingSnapshot.recordFreshness.undated} undated, ${indexingSnapshot.recordFreshness.future} future record(s))`,
+    `Intentional policy exclusions: ${indexingSnapshot.excluded.length}; monitor-only, not recovery or pilot-release authorization.`,
     `Exact URL inspection evidence: ${formatEvidenceDetails(indexingSnapshot.evidence)}; kind ${indexingSnapshot.evidenceKind}.`,
-    `Gap record freshness: fresh ${indexingSnapshot.recordFreshness.fresh}, stale ${indexingSnapshot.recordFreshness.stale}, undated ${indexingSnapshot.recordFreshness.undated}. A fresh merged snapshot does not make every saved URL inspection current.`,
+    `Gap record freshness: fresh ${indexingSnapshot.recordFreshness.fresh}, stale ${indexingSnapshot.recordFreshness.stale}, undated ${indexingSnapshot.recordFreshness.undated}, future ${indexingSnapshot.recordFreshness.future}. A fresh merged snapshot does not make every saved URL inspection current.`,
     ...gapsWithRequestProof.slice(0, 10).map((gap, index) => {
       const requestedAt = gap.indexingRequest ? formatIndexingRequestTime(gap.indexingRequest) : '';
       return `${index + 1}. ${gap.url} - ${gap.state}${gap.lastCrawlTime ? ` (last crawl ${gap.lastCrawlTime})` : ''}${
         requestedAt ? `; request-indexing submitted ${requestedAt}` : ''
-      }${!gap.indexingRequest && gap.indexingDeferred ? `; request deferred: ${gap.indexingDeferred.reason}` : ''}; inspection ${gap.sourceFreshness}${gap.sourceGeneratedAt ? ` from ${gap.sourceGeneratedAt}` : ''}`;
+      }${!gap.indexingRequest && gap.indexingDeferred ? `; request deferred: ${gap.indexingDeferred.reason}` : ''}; inspection ${gap.sourceFreshness}; evidence ${gap.status}; observed ${gap.sourceGeneratedAt || 'undated'}; source ${hasInspectionSourcePath(gap.sourcePath) ? gap.sourcePath : 'not enough data'}`;
     }),
     coverageExport
       ? `Coverage aggregate (${formatEvidenceDetails(coverageExport.evidence)}): latest data row ${coverageExport.latest?.date ?? 'unknown'} has ${coverageExport.totals?.latestIndexed ?? 'unknown'} indexed and ${coverageExport.totals?.latestNotIndexed ?? 'unknown'} not indexed; critical buckets total ${coverageExport.totals?.criticalPages ?? 'unknown'} pages.`
@@ -1765,7 +1746,7 @@ function hasProof(row) {
 }
 
 function proofCheckCommand(command) {
-  const rows = parseQueueRows(readText(evidencePaths.promotionQueue));
+  const rows = filterActivePromotionRows(parseQueueRows(readText(evidencePaths.promotionQueue)));
   const claimedRows = rows.filter((row) => row.status === 'posted' || row.status === 'done');
   const missingProof = claimedRows.filter((row) => !hasProof(row));
   const needsProof = rows.filter((row) => row.status === 'rss-connected' || row.status === 'unverified');

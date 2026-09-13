@@ -16,6 +16,7 @@ import HalfLifeCalculator from '../../components/HalfLifeCalculator';
 import HealthFitnessCalculator, { type HealthToolVariant } from '../../components/HealthFitnessCalculator';
 import HexCalculator from '../../components/HexCalculator';
 import JsonToCsvConverter from '../../components/JsonToCsvConverter';
+import AudioVideoTranscriber from '../../components/AudioVideoTranscriber';
 import TextToSpeechAudiobookGenerator from '../../components/TextToSpeechAudiobookGenerator';
 import LogCalculator from '../../components/LogCalculator';
 import MatrixCalculator from '../../components/MatrixCalculator';
@@ -467,6 +468,7 @@ const isAiTool = Boolean(aiToolVariant);
 const isReadingLevelTool = tool.slug === 'reading-level-checker';
 const isFourInARowGame = tool.slug === 'four-in-a-row-game';
 const isJsonToCsvConverter = tool.slug === 'json-to-csv-converter';
+const isAudioVideoTranscriber = tool.slug === 'audio-video-transcriber';
 const isTextToSpeechAudiobookGenerator = tool.slug === 'text-to-speech-audiobook-generator';
 const hasInteractiveTool =
   isCalculatorTool ||
@@ -497,6 +499,7 @@ const hasInteractiveTool =
   Boolean(aiToolVariant) ||
   isFourInARowGame ||
   isJsonToCsvConverter ||
+  isAudioVideoTranscriber ||
   isTextToSpeechAudiobookGenerator;
 const statsToolInstructions: Record<string, string[]> = {
   'standard-deviation-calculator': [
@@ -1760,7 +1763,16 @@ const textToSpeechInstructions = isTextToSpeechAudiobookGenerator
       'Generate and download a 128 kbps MP3, or keep the separate chapter MP3s and download their audio-only ZIP before closing the tab.',
     ]
   : undefined;
-const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? gameToolInstructions ?? statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
+const audioVideoTranscriberInstructions = isAudioVideoTranscriber
+  ? [
+      'Choose one permitted audio or video file up to 250 MB and 60 minutes. The browser checks its container and audio tracks before downloading a model.',
+      'Choose the dialogue audio track when more than one is available, then select English, Auto, or a named language.',
+      'Use WebAssembly for the broadest compatibility, confirm permission, and press Transcribe recording. Desktop is recommended above 15 minutes.',
+      'Review each completed section, click timestamps to listen again, and correct names, numbers, dates, specialist words, or unclear speech.',
+      'Copy the checked transcript or download TXT, SRT, or WebVTT before resetting or closing the tab.',
+    ]
+  : undefined;
+const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstructions ?? jsonToCsvInstructions ?? gameToolInstructions ?? statsToolInstructions[tool.slug] ?? geometryToolInstructions[tool.slug] ?? financeToolInstructions ?? healthToolInstructions ?? utilityToolInstructions ?? aiToolInstructions ?? (isPercentageTool
   ? [
       'Choose the percentage question you want to answer.',
       'For Reverse percent, choose whether you know a part or a final value after an increase or decrease.',
@@ -2501,6 +2513,17 @@ const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? ga
               <span>Copy after checking</span>
             </>
           )}
+        </div>
+      )
+    }
+
+    {
+      isAudioVideoTranscriber && (
+        <div class="advanced-tool-points ai-tool-points" role="group" aria-label={`${tool.name} highlights`}>
+          <span>No media upload</span>
+          <span>English + multilingual</span>
+          <span>Editable timestamps</span>
+          <span>TXT, SRT, and WebVTT</span>
         </div>
       )
     }
@@ -4073,6 +4096,28 @@ const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? ga
     }
 
     {
+      isAudioVideoTranscriber && (
+        <aside class="trust-note trust-note-ai" aria-label={`${tool.name} browser processing and accuracy limits`}>
+          <strong>Local media, downloadable model, draft transcript</strong>
+          <p>
+            Your file, decoded audio, filename, language choice, and transcript stay in this browser tab. The page
+            downloads only the selected pinned Whisper Tiny model from Hugging Face after you start. Access Free Tools
+            does not receive or store the recording or transcript.
+          </p>
+          <p>
+            Whisper can mishear names, numbers, accents, specialist terms, overlapping voices, music, and quiet speech.
+            It can also produce plausible words that were not spoken. Click the timestamps and check important text
+            against the recording before you publish, quote, caption, or rely on it.
+          </p>
+          <p>
+            The Whisper code and model files are provided under the MIT license. Mediabunny, used to read local media
+            in the browser, is provided under the MPL-2.0 license. Source and license links are included in the guide.
+          </p>
+        </aside>
+      )
+    }
+
+    {
       isTextToSpeechAudiobookGenerator && (
         <aside class="trust-note trust-note-ai" aria-label={`${tool.name} browser processing and license limits`}>
           <strong>Browser speech model with no text upload</strong>
@@ -4103,6 +4148,7 @@ const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? ga
       <div
         class="tool-interaction-surface"
         data-aft-tool-usage-surface
+        data-clarity-mask="true"
         data-tool-category={tool.category}
         data-tool-name={tool.name}
         data-tool-slug={tool.slug}
@@ -4139,6 +4185,7 @@ const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? ga
         {aiToolVariant && <AiBrowserTool variant={aiToolVariant} client:load />}
         {isFourInARowGame && <FourInARowGame client:load />}
         {isJsonToCsvConverter && <JsonToCsvConverter client:load />}
+        {isAudioVideoTranscriber && <AudioVideoTranscriber client:load />}
         {isTextToSpeechAudiobookGenerator && <TextToSpeechAudiobookGenerator client:load />}
       </div>
     )}
@@ -4236,7 +4283,7 @@ const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? ga
       </ul>
     </section>
 
-    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section', isGeometryTool && 'advanced-faq-section', isHealthTool && 'advanced-faq-section', isFinanceTool && 'advanced-faq-section', isUtilityTool && 'advanced-faq-section', isAiTool && 'advanced-faq-section', isJsonToCsvConverter && 'advanced-faq-section', isTextToSpeechAudiobookGenerator && 'advanced-faq-section']}>
+    <section class:list={['content-section', isKawaiiTool && 'kawaii-faq-section', isScientificTool && 'scientific-faq-section', isPercentageTool && 'percentage-faq-section', isPercentErrorTool && 'percent-error-faq-section', isHalfLifeTool && 'half-life-faq-section', isExponentTool && 'exponent-faq-section', isLogTool && 'log-faq-section', isRatioTool && 'ratio-faq-section', isRootTool && 'root-faq-section', isQuadraticTool && 'quadratic-faq-section', isBinaryTool && 'binary-faq-section', isHexTool && 'hex-faq-section', isFractionTool && 'fraction-faq-section', isRandomTool && 'random-faq-section', isNumberTheoryTool && 'advanced-faq-section', isRoundingTool && 'advanced-faq-section', isMatrixTool && 'advanced-faq-section', isScientificNotationTool && 'advanced-faq-section', isBigNumberTool && 'advanced-faq-section', isStatsSuiteTool && 'advanced-faq-section', isGeometryTool && 'advanced-faq-section', isHealthTool && 'advanced-faq-section', isFinanceTool && 'advanced-faq-section', isUtilityTool && 'advanced-faq-section', isAiTool && 'advanced-faq-section', isJsonToCsvConverter && 'advanced-faq-section', isAudioVideoTranscriber && 'advanced-faq-section', isTextToSpeechAudiobookGenerator && 'advanced-faq-section']}>
       <div class="section-title-block">
         <h2>Frequently asked questions</h2>
         {isKawaiiTool && <p>Quick answers about the cute design, shortcuts, privacy, and copying results.</p>}
@@ -4272,6 +4319,7 @@ const toolInstructions = textToSpeechInstructions ?? jsonToCsvInstructions ?? ga
         )}
         {isUtilityTool && <p>Plain-language answers about when to use the tool, what it does with your inputs, what to double-check, and how privacy works.</p>}
         {isJsonToCsvConverter && <p>Plain-language answers about accepted JSON shapes, nested columns, CSV quoting, spreadsheet safety, file encoding, and browser privacy.</p>}
+        {isAudioVideoTranscriber && <p>Plain-language answers about supported media, browser decoding, model downloads, partial transcripts, caption exports, privacy, permission, and accuracy limits.</p>}
         {isTextToSpeechAudiobookGenerator && <p>Plain-language answers about text input, MP3 downloads, browser processing, model downloads, language and voice limits, rights, pronunciation checks, and device limits.</p>}
         {isAiTool && (
           isReadingLevelTool ? (

@@ -313,7 +313,8 @@ function renderSvg(hero) {
 }
 
 async function main() {
-  mkdirSync(OUTPUT_DIR, { recursive: true });
+  const checkOnly = process.argv.includes('--check');
+  if (!checkOnly) mkdirSync(OUTPUT_DIR, { recursive: true });
   const results = [];
   const layoutChecks = [];
 
@@ -321,6 +322,14 @@ async function main() {
     const outputPath = resolve(OUTPUT_DIR, `${hero.slug}.jpg`);
     const { heroLayout, svg } = renderSvg(hero);
     const layoutErrors = validateHeroLayout(hero, heroLayout);
+    if (checkOnly) {
+      try {
+        const metadata = await sharp(outputPath).metadata();
+        if (metadata.width !== 1200 || metadata.height !== 675) layoutErrors.push({ message: 'Existing image dimensions must be 1200x675.' });
+      } catch {
+        layoutErrors.push({ message: 'Existing image is missing or unreadable.' });
+      }
+    }
     layoutChecks.push({
       slug: hero.slug,
       status: layoutErrors.length > 0 ? 'failed' : 'passed',
@@ -333,7 +342,7 @@ async function main() {
       continue;
     }
 
-    await sharp(Buffer.from(svg)).jpeg({ quality: 86, mozjpeg: true }).toFile(outputPath);
+    if (!checkOnly) await sharp(Buffer.from(svg)).jpeg({ quality: 86, mozjpeg: true }).toFile(outputPath);
     results.push({
       slug: hero.slug,
       path: outputPath,
@@ -381,7 +390,7 @@ async function main() {
   mkdirSync(dirname(REPORT_PATH), { recursive: true });
   writeFileSync(
     REPORT_PATH,
-    `${JSON.stringify({ generatedAt: new Date().toISOString(), results, layoutChecks }, null, 2)}\n`,
+    `${JSON.stringify({ generatedAt: new Date().toISOString(), mode: checkOnly ? 'check' : 'generate', results, layoutChecks }, null, 2)}\n`,
   );
 
   const failedChecks = layoutChecks.filter((check) => check.status === 'failed');
@@ -394,7 +403,7 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`Generated ${results.length} Medium hero image(s).`);
+  console.log(`${checkOnly ? 'Checked existing' : 'Generated'} ${results.length} Medium hero image(s).`);
   console.log(`Medium hero layout checks passed: ${layoutChecks.length} image(s).`);
   console.log(`Saved report to ${REPORT_PATH}`);
 }

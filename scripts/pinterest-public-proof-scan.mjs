@@ -51,6 +51,7 @@ for (const board of boards) {
     const parsed = parsePinterestBoardHtml({ html, ...board });
     const pins = [...parsed.pins];
     let nextBookmark = parsed.nextBookmark;
+    let paginationComplete = parsed.paginationComplete;
     let pagesFetched = 1;
     const seenBookmarks = new Set();
 
@@ -87,6 +88,7 @@ for (const board of boards) {
       });
       pins.push(...page.pins);
       nextBookmark = page.nextBookmark;
+      paginationComplete = page.paginationComplete;
       pagesFetched += 1;
     }
 
@@ -98,6 +100,7 @@ for (const board of boards) {
       ...parsed,
       pins,
       nextBookmark,
+      paginationComplete,
       boardUrl,
       initialPinCount: parsed.pins.length,
       publicPinCount: pins.length,
@@ -118,8 +121,8 @@ const mergeResult = mergePinterestProof({
   published,
 });
 
-if (apply && hardIssues.length > 0) {
-  throw new Error(`Refusing Pinterest proof import:\n${hardIssues.join('\n')}`);
+if (apply && (hardIssues.length > 0 || boardResults.some((board) => !board.paginationComplete))) {
+  throw new Error(`Refusing Pinterest proof import: pagination must be explicitly complete and issue-free.\n${hardIssues.join('\n')}`);
 }
 
 if (apply && mergeResult.added.length > 0) {
@@ -130,7 +133,7 @@ const generatedAt = new Date().toISOString();
 const report = {
   generatedAt,
   mode: apply ? 'apply' : 'dry-run',
-  scanScope: 'Complete public Pinterest board feed using the live Edge pagination request.',
+  scanScope: 'Read-only public board feed fetched by the Node scanner; not a logged-in Chrome or Edge session.',
   published,
   boards: boardResults.map((board) => ({
     boardSlug: board.boardSlug,
@@ -140,6 +143,7 @@ const report = {
     publicPinCount: board.publicPinCount,
     pagesFetched: board.pagesFetched,
     nextBookmark: board.nextBookmark,
+    paginationComplete: board.paginationComplete,
   })),
   counts: {
     boardsExpected: boards.length,

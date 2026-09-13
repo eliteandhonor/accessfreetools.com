@@ -1,3 +1,5 @@
+import { getAnalyticsCoverage } from './production-analytics-report.mjs';
+
 const DEFAULT_MAX_REPORT_AGE_MS = 8 * 24 * 60 * 60 * 1000;
 
 function nonNegativeInteger(value) {
@@ -39,9 +41,13 @@ export function createUsageDataAssetReport({
     ? productionReport.summary
     : null;
   const range = summary?.range && typeof summary.range === 'object' ? summary.range : null;
+  const coverage = getAnalyticsCoverage(summary);
   const reportDays = Number(productionReport?.days);
   const generatedAtTimestamp = validGeneratedAt(productionReport?.generatedAt);
   const ownerExclusionConfigured = summary?.ownerExclusionConfigured === true;
+  if (coverage.status !== 'complete' || coverage.deploymentContinuity !== 'verified' || coverage.comparisonsAllowed !== true) {
+    readinessIssues.push(`not enough data: analytics interval coverage and durable deployment continuity are unverified (${(coverage.reasons ?? []).join(', ') || 'unknown coverage'}). Retained observations are not full-period totals.`);
+  }
 
   if (!productionReport) {
     readinessIssues.push('not enough data: production analytics aggregate is missing. Run npm run analytics:production.');
@@ -56,7 +62,7 @@ export function createUsageDataAssetReport({
     }
 
     if (!Number.isInteger(reportDays) || reportDays !== requestedDays) {
-      readinessIssues.push(`not enough data: production analytics aggregate must cover exactly ${requestedDays} days. Run npm run analytics:production -- --days=${requestedDays}.`);
+      readinessIssues.push(`not enough data: production analytics aggregate must request exactly ${requestedDays} days. Run npm run analytics:production -- --days=${requestedDays}; the request alone does not prove coverage.`);
     }
     if (!range) {
       readinessIssues.push('not enough data: production analytics aggregate lacks requested-range totals. Refresh it after the current analytics release is deployed.');
@@ -91,6 +97,7 @@ export function createUsageDataAssetReport({
   return {
     generatedAt: now.toISOString(),
     days: requestedDays,
+    coverage,
     analyticsReportPath: productionReportPath.replace(/\\/g, '/'),
     analyticsSource: typeof productionReport?.source === 'string' ? productionReport.source : null,
     productionReportGeneratedAt: typeof productionReport?.generatedAt === 'string' ? productionReport.generatedAt : null,
@@ -109,7 +116,9 @@ export function renderUsageDataAssetDraft(report) {
     '# Access Free Tools Usage Notes Draft',
     '',
     `Generated: ${report.generatedAt}`,
-    `Window: last ${report.days} days`,
+    `Requested window: last ${report.days} days (not proof of a fully observed interval)`,
+    `Observed event dates: ${report.coverage?.observedStart ?? 'unknown'} to ${report.coverage?.observedEnd ?? 'unknown'}; gaps between these dates are not ruled out.`,
+    `Coverage: ${report.coverage?.status ?? 'unknown'}; reasons: ${(report.coverage?.reasons ?? ['coverage-metadata-missing']).join(', ')}`,
     `Status: ${report.status}`,
     '',
     '## Privacy Guardrail',
@@ -120,7 +129,7 @@ export function renderUsageDataAssetDraft(report) {
     '',
     ...(report.readinessIssues.length ? report.readinessIssues.map((issue) => `- ${issue}`) : ['- Ready for a human-edited public usage notes article.']),
     '',
-    '## Snapshot',
+    '## Observed Snapshot',
     '',
     `- Visitors: ${report.totals.visitors}`,
     `- Returning visitors: ${report.totals.returningVisitors}`,
@@ -131,13 +140,13 @@ export function renderUsageDataAssetDraft(report) {
     '',
     ...(report.topTools.length
       ? report.topTools.map((item, index) => `${index + 1}. ${item.label} (${item.count} uses) - ${item.path}`)
-      : [`No verified production tool-use actions recorded in the last ${report.days} days.`]),
+      : ['No tool-use actions in the retained observations; this does not prove zero usage.']),
     '',
     '## Most Viewed Pages',
     '',
     ...(report.topPages.length
       ? report.topPages.map((item, index) => `${index + 1}. ${item.label} (${item.count} views) - ${item.path}`)
-      : [`No verified production page views recorded in the last ${report.days} days.`]),
+      : ['No page views in the retained observations; this does not prove zero visits.']),
     '',
     '## Editorial Angles',
     '',

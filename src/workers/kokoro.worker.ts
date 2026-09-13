@@ -2,6 +2,7 @@
 
 import {
   AutoTokenizer,
+  env,
   StyleTextToSpeech2Model,
   Tensor,
 } from '@huggingface/transformers';
@@ -29,6 +30,9 @@ const MODEL_SOURCE_REVISION = 'dfb907a02bba8152ca444717ca5d78747ccb4bec';
 const VOICE_BASE = `https://huggingface.co/${MODEL_REPOSITORY}/resolve/${KOKORO_MODEL_REVISION}/voices`;
 const SAMPLE_RATE = 24_000;
 const SILENCE_SECONDS = 0.2;
+
+// Transformers' tokenizer existence probe omits revision; this worker only uses Kokoro.
+env.remotePathTemplate = `{model}/resolve/${KOKORO_MODEL_REVISION}/`;
 
 type GenerateRequest = Extract<BrowserTtsWorkerRequest, { type: 'generate' }>;
 

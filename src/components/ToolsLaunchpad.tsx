@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowRight,
   BookOpen,
@@ -347,6 +347,8 @@ export default function ToolsLaunchpad({
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<CategoryFilter>('all');
   const [showAllTools, setShowAllTools] = useState(false);
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const revealFocus = useRef<{ hrefs: Set<string | null>; trigger: HTMLButtonElement } | null>(null);
 
   const isFullSearchIndexLoaded = searchTools.length >= totalToolCount;
 
@@ -465,6 +467,21 @@ export default function ToolsLaunchpad({
         : filteredTools.length;
   const hiddenToolCount = filteredToolCount - visibleTools.length;
 
+  useEffect(() => {
+    const pending = revealFocus.current;
+    if (!pending) return;
+    if (document.activeElement !== pending.trigger && document.activeElement !== document.body) {
+      revealFocus.current = null;
+      return;
+    }
+    const firstNewLink = [...(resultsRef.current?.querySelectorAll<HTMLAnchorElement>('a') ?? [])]
+      .find((link) => !pending.hrefs.has(link.getAttribute('href')));
+    if (firstNewLink) {
+      revealFocus.current = null;
+      firstNewLink.focus();
+    }
+  }, [visibleTools]);
+
   return (
     <section className="tools-launchpad">
       <div className="tools-hero">
@@ -526,6 +543,23 @@ export default function ToolsLaunchpad({
       </div>
 
       <div className="launchpad-grid">
+        <div className="launchpad-category-select">
+          <label htmlFor="tool-category">Tool category</label>
+          <select
+            id="tool-category"
+            value={category}
+            onChange={(event) => {
+              setCategory(event.target.value as CategoryFilter);
+              setShowAllTools(false);
+              void loadFullSearchIndex();
+            }}
+          >
+            <option value="all">All tools ({totalToolCount})</option>
+            {availableCategories.map((item) => (
+              <option key={item.slug} value={item.slug}>{item.name} ({categoryCounts[item.slug] ?? 0})</option>
+            ))}
+          </select>
+        </div>
         <aside className="category-rail" aria-label="Tool categories">
           <button
             aria-pressed={category === 'all'}
@@ -577,7 +611,7 @@ export default function ToolsLaunchpad({
           </div>
           {searchIndexError && <p className="launchpad-status-note">{searchIndexError}</p>}
 
-          <div className="launchpad-tool-grid">
+          <div className="launchpad-tool-grid" ref={resultsRef}>
             {visibleTools.map((tool) => {
               const href = `/tools/${tool.slug}/`;
 
@@ -600,7 +634,11 @@ export default function ToolsLaunchpad({
           {hiddenToolCount > 0 && (
             <button
               className="launchpad-show-more"
-              onClick={() => {
+              onClick={(event) => {
+                revealFocus.current = event.detail === 0 ? {
+                  hrefs: new Set([...resultsRef.current!.querySelectorAll('a')].map((link) => link.getAttribute('href'))),
+                  trigger: event.currentTarget,
+                } : null;
                 setShowAllTools(true);
                 void loadFullSearchIndex();
               }}

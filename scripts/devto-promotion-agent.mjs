@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
+import { assertPublicPromotionChannel } from './lib/promotion-channel-policy.mjs';
 
 const SITE = 'https://accessfreetools.com';
 const DEFAULT_OUTPUT_DIR = resolve('output', 'promotion', 'devto', 'drafts');
@@ -263,6 +264,7 @@ async function publishTarget(target) {
 
 async function main() {
   const options = parseArgs();
+  if (options.publish) assertPublicPromotionChannel('devto');
   if (options.publish && !options.confirmPublicPost) {
     throw new Error('Publishing requires --confirm-public-post so accidental public posts do not happen.');
   }

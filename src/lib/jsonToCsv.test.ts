@@ -134,4 +134,37 @@ describe('JSON to CSV conversion', () => {
       }),
     ).toThrow('browser limit');
   });
+
+  it('rejects a sparse column explosion before creating a dense table', () => {
+    const input = JSON.stringify(Array.from({ length: 500 }, (_, i) => ({ [`key${i}`]: i })));
+    expect(getUtf8ByteLength(input)).toBeLessThan(10_000);
+    expect(() => convertJsonToCsv(input, defaultOptions)).toThrow('256 columns');
+  });
+
+  it('bounds the dense cell count including the header row', () => {
+    const first = Object.fromEntries(Array.from({ length: 250 }, (_, i) => [`k${i}`, i]));
+    const input = JSON.stringify([first, ...Array.from({ length: 1_000 }, () => ({}))]);
+    expect(() => convertJsonToCsv(input, defaultOptions)).toThrow('250,000 cells');
+    const allowed = convertJsonToCsv(JSON.stringify([first, ...Array.from({ length: 998 }, () => ({}))]), defaultOptions);
+    expect(allowed.rowCount).toBe(999);
+    expect(allowed.columnCount).toBe(250);
+  });
+
+  it('bounds rows even when they do not contain fields', () => {
+    const input = JSON.stringify(Array.from({ length: 50_001 }, () => ({})));
+    expect(() => convertJsonToCsv(input, defaultOptions)).toThrow('50,000 rows');
+  });
+
+  it.each(['object', 'array'])('bounds nesting inside a %s before flattening or serialization', (shape) => {
+    let value: unknown = 'end';
+    for (let i = 0; i < 40; i += 1) value = shape === 'object' ? { next: value } : [value];
+    expect(() => convertJsonToCsv(JSON.stringify({ value }), defaultOptions)).toThrow('32 levels');
+  });
+
+  it('bounds repeated dot-notation header bytes before building output', () => {
+    const leaves = Object.fromEntries(Array.from({ length: 200 }, (_, i) => [`key${i}`, i]));
+    const input = JSON.stringify({ ['p'.repeat(90_000)]: leaves });
+    expect(getUtf8ByteLength(input)).toBeLessThan(100_000);
+    expect(() => convertJsonToCsv(input, defaultOptions)).toThrow('16 MB output limit');
+  });
 });

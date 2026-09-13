@@ -1,5 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Square } from 'lucide-react';
 
+import { prepareOcrImage } from '../lib/browserOcrInput';
+import { recognizeOcrImage } from '../lib/browserOcrWorker';
 import { analyzeEnglishReadability, buildPlainLanguageRevisionClues } from '../lib/readability';
 
 export type AiToolVariant =
@@ -606,58 +609,27 @@ async function runTone(text: string): Promise<AiResult> {
   }
 }
 
-async function runOcr(file: File | null, language: string, onProgress: (message: string) => void): Promise<AiResult> {
-  if (!file) {
-    throw new Error('Choose an image file before running OCR.');
-  }
+async function runOcr(file: File | null, language: string, signal: AbortSignal, onProgress: (message: string) => void): Promise<AiResult> {
+  const image = await prepareOcrImage(file, signal);
+  const data = await recognizeOcrImage(image, language, TESSERACT_LOCAL_OPTIONS, signal, onProgress);
+  const text = data.text.trim();
 
-  const tesseract = (await import('tesseract.js')) as {
-    createWorker: (
-      langs?: string,
-      oem?: unknown,
-      options?: {
-        logger?: (message: { status?: string; progress?: number }) => void;
-        workerPath?: string;
-        corePath?: string;
-        langPath?: string;
-      },
-    ) => Promise<{
-      recognize: (image: File) => Promise<{ data: { text: string; confidence?: number } }>;
-      terminate: () => Promise<unknown>;
-    }>;
+  return {
+    label: 'OCR text',
+    answer: text ? 'Text found' : 'No clear text found',
+    textOutput: text || 'No readable text was found. Try a sharper image with stronger contrast.',
+    metrics: [
+      { label: 'Language', value: language },
+      { label: 'Confidence', value: typeof data.confidence === 'number' ? `${Math.round(data.confidence)}%` : 'Not reported' },
+      { label: 'Characters', value: String(text.length) },
+    ],
+    steps: [
+      'The browser loaded OCR worker, core, and language files from Access Free Tools after you pressed the button.',
+      'OCR scanned the selected image for text shapes.',
+      'The extracted text is shown for manual checking and copying.',
+    ],
+    note: 'Check names, numbers, dates, and punctuation against the original image.',
   };
-  const worker = await tesseract.createWorker(language, undefined, {
-    ...TESSERACT_LOCAL_OPTIONS,
-    logger: (message) => {
-      if (message.status) {
-        onProgress(`${message.status}${message.progress ? ` ${Math.round(message.progress * 100)}%` : ''}`);
-      }
-    },
-  });
-
-  try {
-    const { data } = await worker.recognize(file);
-    const text = data.text.trim();
-
-    return {
-      label: 'OCR text',
-      answer: text ? 'Text found' : 'No clear text found',
-      textOutput: text || 'No readable text was found. Try a sharper image with stronger contrast.',
-      metrics: [
-        { label: 'Language', value: language },
-        { label: 'Confidence', value: typeof data.confidence === 'number' ? `${Math.round(data.confidence)}%` : 'Not reported' },
-        { label: 'Characters', value: String(text.length) },
-      ],
-      steps: [
-        'The browser loaded OCR worker, core, and language files from Access Free Tools after you pressed the button.',
-        'OCR scanned the selected image for text shapes.',
-        'The extracted text is shown for manual checking and copying.',
-      ],
-      note: 'Check names, numbers, dates, and punctuation against the original image.',
-    };
-  } finally {
-    await worker.terminate();
-  }
 }
 
 async function runImageClassifier(file: File | null): Promise<AiResult> {
@@ -707,11 +679,32 @@ export default function AiBrowserTool({ variant }: Props) {
   const [status, setStatus] = useState('');
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
+  const ocrOperation = useRef<AbortController | null>(null);
+
+  function invalidateOcr() {
+    const previous = ocrOperation.current;
+    ocrOperation.current = null;
+    previous?.abort();
+  }
+
+  useEffect(() => () => invalidateOcr(), [variant]);
+
+  function resetOcrSelection() {
+    invalidateOcr();
+    setLoading(false);
+    setStatus('');
+    setResult(null);
+    setError('');
+    setCopied(false);
+  }
 
   const canCopy = Boolean(result?.textOutput || result?.answer);
   const resultText = useMemo(() => result?.textOutput ?? result?.answer ?? '', [result]);
 
   async function runTool(nextText = text) {
+    const operation = variant === 'ocr' ? new AbortController() : null;
+    if (operation) { invalidateOcr(); ocrOperation.current = operation; }
+    const isCurrent = () => !operation || (ocrOperation.current === operation && !operation.signal.aborted);
     setLoading(true);
     setError('');
     setCopied(false);
@@ -721,7 +714,7 @@ export default function AiBrowserTool({ variant }: Props) {
       let nextResult: AiResult;
 
       if (variant === 'ocr') {
-        nextResult = await runOcr(file, language, setStatus);
+        nextResult = await runOcr(file, language, operation!.signal, message => { if (isCurrent()) setStatus(message); });
       } else if (variant === 'sentiment') {
         nextResult = await runSentiment(nextText);
       } else if (variant === 'language') {
@@ -738,14 +731,19 @@ export default function AiBrowserTool({ variant }: Props) {
         nextResult = runReadingLevel(nextText);
       }
 
+      if (!isCurrent()) return;
       setResult(nextResult);
       setHistory((items) => [nextResult, ...items].slice(0, 4));
       setStatus('Done');
     } catch (caughtError) {
+      if (!isCurrent()) return;
       setError(caughtError instanceof Error ? caughtError.message : 'The browser AI tool could not finish. Try a smaller input.');
       setStatus('');
     } finally {
-      setLoading(false);
+      if (isCurrent()) {
+        if (operation) ocrOperation.current = null;
+        setLoading(false);
+      }
     }
   }
 
@@ -780,8 +778,9 @@ export default function AiBrowserTool({ variant }: Props) {
             <label className="advanced-field">
               <span>{config.inputLabel}</span>
               <input
-                accept="image/*"
+                accept={variant === 'ocr' ? 'image/png,image/jpeg,image/webp' : 'image/*'}
                 onChange={(event) => {
+                  if (variant === 'ocr') resetOcrSelection();
                   setFile(event.target.files?.[0] ?? null);
                   setResult(null);
                   setError('');
@@ -794,7 +793,10 @@ export default function AiBrowserTool({ variant }: Props) {
             {variant === 'ocr' && (
               <label className="advanced-field">
                 <span>OCR language</span>
-                <select value={language} onChange={(event) => setLanguage(event.target.value)}>
+                <select value={language} onChange={(event) => {
+                  resetOcrSelection();
+                  setLanguage(event.target.value);
+                }}>
                   <option value="eng">English</option>
                   <option value="spa">Spanish</option>
                   <option value="fra">French</option>
@@ -829,6 +831,11 @@ export default function AiBrowserTool({ variant }: Props) {
           <button className="button-secondary" disabled={!canCopy || loading} onClick={copyResult} type="button">
             {copied ? 'Copied' : 'Copy result'}
           </button>
+          {variant === 'ocr' && loading && (
+            <button className="button-secondary" type="button" onClick={resetOcrSelection}>
+              <Square size={16} aria-hidden="true" /> Cancel OCR
+            </button>
+          )}
         </div>
 
         {status && <p className="ai-status" aria-live="polite">{status}</p>}

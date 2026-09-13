@@ -20,9 +20,11 @@ if (!existsSync(inputRoot)) {
   process.exit(1);
 }
 
-const files = discoverInspectionReportFiles(inputRoot).filter(
-  (file) => resolve(file).toLowerCase() !== outputPath.toLowerCase(),
-);
+const files = discoverInspectionReportFiles(inputRoot);
+// Keep previous per-URL evidence even when this input root contains only a partial refresh.
+if (existsSync(outputPath) && !files.some((file) => resolve(file).toLowerCase() === outputPath.toLowerCase())) {
+  files.push(outputPath);
+}
 const report = mergeInspectionReports(readInspectionReports(files));
 writeMergedInspectionReport(report, outputPath);
 

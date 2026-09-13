@@ -180,15 +180,34 @@ test.describe('site smoke coverage', () => {
     await expect(page.locator('[data-agent-dashboard]')).toHaveCount(3);
   });
 
-  test('private admin hub stores one token for analytics and agent tools', async ({ page }) => {
+  test('private admin hub clears legacy credentials and links to gated tools', async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('access-free-tools-analytics-token', 'synthetic-expired-token');
+      sessionStorage.setItem('access-free-tools-analytics-token', 'synthetic-expired-token');
+      localStorage.setItem('access-free-tools-analytics-opt-out', 'true');
+    });
     await page.goto('/admin/');
-    await expect(page.getByRole('heading', { name: 'Private Admin Login' })).toBeVisible();
-    await expect(page.getByLabel('Admin token')).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Open Analytics' })).toHaveAttribute('aria-disabled', 'true');
-    await expect(page.getByRole('link', { name: 'Open Agent Tools' })).toHaveAttribute('aria-disabled', 'true');
+    await expect(page.getByRole('heading', { name: 'Private Admin', exact: true })).toBeVisible();
+    await expect(page.getByLabel('Admin token')).toHaveCount(0);
+    await expect(page.getByRole('link', { name: 'Open Analytics' })).toHaveAttribute('href', '/admin/analytics/');
+    await expect(page.getByRole('link', { name: 'Open Agent Tools' })).toHaveAttribute('href', '/admin/agent-tools/');
+    expect(await page.evaluate(() => ({
+      localToken: localStorage.getItem('access-free-tools-analytics-token'),
+      sessionToken: sessionStorage.getItem('access-free-tools-analytics-token'),
+      optOut: localStorage.getItem('access-free-tools-analytics-opt-out'),
+    }))).toEqual({ localToken: null, sessionToken: null, optOut: 'true' });
 
     const robots = await page.locator('meta[name="robots"]').getAttribute('content');
     expect(robots).toContain('noindex');
+    for (const [path, label] of [
+      ['/admin/analytics/', 'Analytics token'],
+      ['/admin/agent-tools/', 'Admin token'],
+    ]) {
+      await page.goto(path);
+      await expect(page.getByLabel(label, { exact: true })).toBeVisible();
+      await expect(page.getByLabel(label, { exact: true })).toHaveValue('');
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+    }
   });
 });
 

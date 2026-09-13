@@ -6,6 +6,8 @@ const baseURL = `http://127.0.0.1:${PORT}`;
 export default defineConfig({
   testDir: './tests',
   testMatch: '**/*.spec.ts',
+  // Bound competing browser/axe work so in-page responsiveness checks stay meaningful.
+  workers: 4,
   timeout: 45_000,
   expect: {
     timeout: 8_000,

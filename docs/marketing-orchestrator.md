@@ -8,6 +8,12 @@ The Marketing Orchestrator is the coordinator above the SEO, content, internal-l
 
 The orchestrator is report-only in v1. It can read reports, rank next actions, and explain blockers. It must not publish posts, edit live pages, send outreach, run ads, store secrets, or mark work complete without proof.
 
+### Four-Channel Evidence
+
+The four-channel runner records each command's completion time and exit status. The orchestrator reports site blog, Medium, Bluesky, and Pinterest independently as `passed`, `failed`, `missing`, or `stale`. Each expected command must have one valid result no older than seven days. Dry runs, future dates, missing dates, contradictory results, and duplicate rows cannot create a pass. Regenerating a wrapper does not refresh old command observations.
+
+A missing report in an isolated worktree is missing local evidence, not a broken account. A failed Pinterest or site-blog check cannot be hidden by Medium and Bluesky passes. Even four passes do not authorize posting or prove a live post, a verified claim, or Brendan's personal experience. Use the source-review record and exact approved queue row, then capture public proof after an authorized change.
+
 ## Five Workstreams
 
 1. Intelligence

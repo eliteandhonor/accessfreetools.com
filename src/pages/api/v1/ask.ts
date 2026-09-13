@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { answerUtilityQuestion } from '../../../lib/askToolRouter';
+import { answerUtilityQuestion, AskUnavailableError } from '../../../lib/askToolRouter';
 import { checkApiAccess, checkRateLimit, jsonResponse, readJsonBody } from '../../../lib/apiHttp';
 
 export const prerender = false;
@@ -14,13 +14,22 @@ export const POST: APIRoute = async ({ clientAddress, request }) => {
   try {
     const body = (await readJsonBody(request)) as { message?: unknown };
     const message = typeof body.message === 'string' ? body.message : '';
-    const answer = await answerUtilityQuestion(message);
+    const answer = await answerUtilityQuestion(message, { signal: request.signal });
 
     return jsonResponse({
       ok: true,
       ...answer,
     });
   } catch (error) {
+    if (error instanceof DOMException && error.name === 'TimeoutError') {
+      return jsonResponse({ ok: false, code: 'ASK_TIMEOUT', message: 'The question router took too long. Try again shortly.' }, 504);
+    }
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      return jsonResponse({ ok: false, code: 'ASK_CANCELLED', message: 'The request was cancelled.' }, 408);
+    }
+    if (error instanceof AskUnavailableError) {
+      return jsonResponse({ ok: false, code: 'ASK_UNAVAILABLE', message: error.message }, 503);
+    }
     return jsonResponse(
       {
         ok: false,

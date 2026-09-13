@@ -1,3 +1,4 @@
+import { assertPublicPromotionChannel } from './lib/promotion-channel-policy.mjs';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -127,6 +128,7 @@ async function putProfileRecord(session, existingRecord, options, avatarBlob) {
 }
 
 async function main() {
+  assertPublicPromotionChannel('bluesky');
   const options = parseArgs();
   const session = await createSession();
   const existingRecord = await getProfileRecord(session);

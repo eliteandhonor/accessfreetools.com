@@ -1,5 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
+import { hasInspectionSourcePath, inspectionEvidenceFreshness, mergeInspectionReports } from './lib/search-console-inspection-reports.mjs';
+import { hasBlockedIndexingState } from './lib/indexing-classification.mjs';
 import {
   dataForSeoRequest,
   findDataForSeoService,
@@ -103,13 +105,29 @@ function findPageOneOpportunities(report) {
     .slice(0, 10);
 }
 
-function summarizeInspection(report) {
-  return (report?.inspections ?? []).map((item) => ({
-    url: item.inspectionUrl,
-    verdict: item.verdict ?? 'unknown',
-    coverageState: item.coverageState ?? item.error ?? 'unknown',
-    lastCrawlTime: item.lastCrawlTime ?? '',
-  }));
+function summarizeInspection(report, now = new Date(), previousReport = null) {
+  return mergeInspectionReports([{
+    report,
+    sourcePath: resolve('output/search-console-url-inspection.json'),
+  }, { report: previousReport }]).inspections.map((item) => {
+    const freshness = inspectionEvidenceFreshness(item.sourceGeneratedAt, { now });
+    const usable = hasInspectionSourcePath(item.sourcePath) && !item.error &&
+      (Boolean(item.coverageState) || hasBlockedIndexingState(item));
+    return {
+      url: item.inspectionUrl,
+      verdict: item.verdict ?? 'unknown',
+      coverageState: item.coverageState ?? item.error ?? 'unknown',
+      indexingState: item.indexingState ?? '',
+      lastCrawlTime: item.lastCrawlTime ?? '',
+      ...(item.error ? { error: item.error } : {}),
+      sourceGeneratedAt: item.sourceGeneratedAt,
+      sourcePath: item.sourcePath,
+      sourceFreshness: freshness.status,
+      sourceAgeDays: freshness.ageDays,
+      status: usable && freshness.status === 'fresh' ? 'observed'
+        : usable && freshness.status === 'stale' ? 'historical' : 'not enough data',
+    };
+  });
 }
 
 async function fetchDataForSeoSnapshot() {
@@ -321,7 +339,7 @@ try {
 }
 const ctrCandidates = findCtrCandidates(gsc);
 const pageOneOpportunities = findPageOneOpportunities(gsc);
-const indexedSummary = summarizeInspection(inspections);
+const indexedSummary = summarizeInspection(inspections, new Date(), readJsonIfExists(jsonPath));
 const organicMetric = domainMetric(dataForSeo);
 const rankedItems = rankedKeywordItems(dataForSeo);
 const competitors = competitorItems(dataForSeo);
@@ -398,7 +416,7 @@ lines.push('', '## SEO Health Reporter');
 
 if (indexedSummary.length) {
   for (const item of indexedSummary) {
-    lines.push(`- ${item.url}: ${item.verdict} / ${item.coverageState}${item.lastCrawlTime ? `, last crawl ${item.lastCrawlTime}` : ''}.`);
+    lines.push(`- ${item.url}: saved ${item.verdict} / ${item.coverageState}${item.indexingState ? ` / ${item.indexingState}` : ''}${item.lastCrawlTime ? `, last crawl ${item.lastCrawlTime}` : ''}; evidence ${item.status} (${item.sourceFreshness}); observed ${item.sourceGeneratedAt || 'undated'}; source ${hasInspectionSourcePath(item.sourcePath) ? item.sourcePath : 'not enough data'}.`);
   }
 } else {
   lines.push('- No URL inspection report found. Run `npm run search-console:inspect-key-urls` for indexing proof.');
@@ -487,7 +505,11 @@ if (relatedKeywordIdeas.length) {
 lines.push('', '## Recommended Next Actions');
 lines.push('- Keep legacy redirects verified for old ranking URLs such as `/calculators`, `/deep-research`, `/advanced-age-calculator`, and the old AdSense earnings article.');
 lines.push('- Submit the XML sitemap set through Search Console after major batches. Keep RSS live for readers, but do not submit `/feed.xml` as a Google sitemap.');
-lines.push('- For priority pages that are discovered, crawled, or unknown but not indexed yet, improve useful internal links and page clarity before creating new duplicate pages.');
+if (!indexedSummary.length || indexedSummary.some((item) => item.status !== 'observed')) {
+  lines.push('- Refresh exact URL Inspection evidence with original dates and source paths before treating saved observations as current issues or changing pages. Historical or unavailable evidence does not authorize indexing submissions.');
+} else {
+  lines.push('- For priority pages with fresh, source-backed not-indexed observations, verify current built-link proof and page clarity before changing pages. Do not create duplicate pages.');
+}
 lines.push('- Use DataForSEO for live SERP checks before changing important titles or creating new tool clusters.');
 lines.push('- Run `npm run dataforseo:status` before paid research; use Sandbox for new endpoint shapes.');
 lines.push('- Do not auto-publish affiliate or YMYL changes without manual review.');

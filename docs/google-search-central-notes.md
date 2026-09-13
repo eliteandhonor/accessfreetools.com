@@ -2,6 +2,15 @@
 
 Last reviewed: 2026-09-02
 
+## September 13 Audio Tool Release
+
+The owner requested removal of the temporary TTS/transcriber indexing hold after
+working-generation and export evidence. Both tool/guide pairs are now eligible
+for indexing and XML sitemaps. This supersedes their earlier timed-beta policy;
+it does not certify every browser, language, or physical device. Keep private
+pages and feeds excluded. Verify the deployed robots/canonical/sitemap state and
+submit the four URLs after release. Do not equate submission with actual indexing.
+
 These notes are the current SEO baseline for Access Free Tools. Use them before
 changing indexing, redirect, sitemap, content-quality, or promotion logic.
 

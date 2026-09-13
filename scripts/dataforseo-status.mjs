@@ -1,5 +1,6 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import { providerFailure } from './lib/provider-status.mjs';
 import {
   findDataForSeoService,
   getDataForSeoLabsStatus,
@@ -32,22 +33,13 @@ function writeJson(path, value) {
   writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`);
 }
 
-async function currentPublicIp() {
-  try {
-    const response = await fetch('https://api.ipify.org?format=json');
-    const json = await response.json();
-    return typeof json.ip === 'string' ? json.ip : '';
-  } catch {
-    return '';
-  }
-}
-
 function serviceLine(service) {
   return `${service?.api ?? 'unknown'}: ${service?.status ?? 'unknown'}`;
 }
 
+let serviceStatus;
+let labsStatus;
 try {
-  let serviceStatus;
   let serviceStatusWarning = '';
 
   try {
@@ -57,10 +49,7 @@ try {
       throw error;
     }
 
-    serviceStatusWarning =
-      error instanceof Error
-        ? `Sandbox service status was not available: ${error.message}`
-        : `Sandbox service status was not available: ${String(error)}`;
+    serviceStatusWarning = `Sandbox service status was not available: ${providerFailure(error).message}`;
     serviceStatus = {
       generatedAt: new Date().toISOString(),
       statusCode: null,
@@ -71,7 +60,6 @@ try {
     };
   }
 
-  let labsStatus;
   let labsStatusWarning = '';
 
   try {
@@ -81,10 +69,7 @@ try {
       throw error;
     }
 
-    labsStatusWarning =
-      error instanceof Error
-        ? `Sandbox Labs status was not available: ${error.message}`
-        : `Sandbox Labs status was not available: ${String(error)}`;
+    labsStatusWarning = `Sandbox Labs status was not available: ${providerFailure(error).message}`;
     labsStatus = {
       generatedAt: new Date().toISOString(),
       statusCode: null,
@@ -112,6 +97,7 @@ try {
     serviceStatus,
     labsStatus,
   };
+  report.currentAttempt = { status: report.status === 'ok' ? 'success' : 'partial', generatedAt: report.generatedAt };
 
   writeJson(reportPath, report);
 
@@ -141,15 +127,16 @@ try {
     process.exitCode = 2;
   }
 } catch (error) {
-  const publicIp = await currentPublicIp();
+  const failure = providerFailure(error);
   const report = {
     generatedAt: new Date().toISOString(),
     mode: sandbox ? 'sandbox' : 'production',
-    status: 'error',
-    message: error instanceof Error ? error.message : String(error),
-    publicIp,
-    details: error?.details ?? null,
+    status: serviceStatus || labsStatus ? 'partial' : 'error',
+    ...failure,
+    serviceStatus: serviceStatus ?? null,
+    labsStatus: labsStatus ?? null,
   };
+  report.currentAttempt = { status: report.status === 'partial' ? 'partial' : 'failed', generatedAt: report.generatedAt, ...failure };
   writeJson(reportPath, report);
   console.error(report.message);
   process.exitCode = 1;

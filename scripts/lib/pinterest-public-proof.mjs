@@ -5,6 +5,11 @@ const ALLOWED_DESTINATION_HOSTS = new Set(['accessfreetools.com', 'www.accessfre
 const PINTEREST_USER_AGENT =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36 Edg/150.0.0.0';
 
+function observedBookmark(value) {
+  return typeof value === 'string' && value.length > 0 && value.trim() === value && !/[\x00-\x1f\x7f]/.test(value)
+    ? value : null;
+}
+
 function normalizeBoardPath(pathname) {
   const normalized = pathname.startsWith('/') ? pathname : `/${pathname}`;
   return normalized.endsWith('/') ? normalized : `${normalized}/`;
@@ -79,12 +84,13 @@ export function parsePinterestBoardHtml({ html, boardSlug, boardTitle, accountNa
   const resourceKey = Object.keys(resources)[0];
   const resourceOptions = resourceKey ? Object.fromEntries(JSON.parse(resourceKey)) : null;
   const pins = [];
-  let nextBookmark = '-end-';
+  // Multiple feeds have no single proven continuation. Keep their coverage unknown.
+  const nextBookmark = entries.length === 1 && Array.isArray(entries[0]?.data)
+    ? observedBookmark(entries[0].nextBookmark) : null;
   let feedIndex = 0;
 
   for (const entry of entries) {
     if (!entry || !Array.isArray(entry.data)) continue;
-    nextBookmark = entry.nextBookmark || nextBookmark;
 
     for (const pin of entry.data) {
       if (pin?.type !== 'pin') continue;
@@ -102,6 +108,7 @@ export function parsePinterestBoardHtml({ html, boardSlug, boardTitle, accountNa
     boardTitle,
     expectedBoardPath,
     nextBookmark,
+    paginationComplete: nextBookmark === '-end-',
     pins,
     resourceOptions,
     appVersion: html.match(/"appVersion":"([^"]+)"/)?.[1] ?? '',
@@ -155,11 +162,14 @@ export function parsePinterestBoardFeedResponse({
 
   const expectedBoardPath = `/${accountName}/${boardSlug}/`;
 
+  const nextBookmark = observedBookmark(response.bookmark);
+
   return {
     boardSlug,
     boardTitle,
     expectedBoardPath,
-    nextBookmark: response.bookmark || '-end-',
+    nextBookmark,
+    paginationComplete: nextBookmark === '-end-',
     pins: response.data
       .filter((pin) => pin?.type === 'pin')
       .map((pin, index) => parsePin(pin, startIndex + index, {

@@ -45,16 +45,20 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
   <section class="content-section content-section-narrow agent-tools-login" data-agent-login-panel>
     <h2>Private agent login</h2>
     <p>Use the same private analytics token. Reports stay read-only and no public action runs from this page.</p>
-    <form class="agent-tools-token-form" data-agent-token-form>
+    <form class="agent-tools-token-form" method="post" autocomplete="off" data-agent-token-form>
       <label>
         Admin token
-        <input type="password" name="token" autocomplete="current-password" required />
+        <input type="password" autocomplete="off" required />
       </label>
       <button class="button-primary" type="submit">Open agent tools</button>
     </form>
     <p data-agent-message>Enter the private token to load the latest report evidence.</p>
-    <p><a href="/admin/">Use the easier private admin login page</a>.</p>
+    <p><a href="/admin/">Back to private tools</a>.</p>
   </section>
+
+  <div class="content-section content-section-narrow">
+    <button class="button-secondary" type="button" hidden data-admin-logout>Log out</button>
+  </div>
 
   <section class="section-band agent-tools-panel" hidden data-agent-dashboard>
     <div class="section-heading">
@@ -363,9 +367,10 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
 
   <script is:inline>
     (() => {
-      const tokenStorageKey = 'access-free-tools-analytics-token';
       const loginPanel = document.querySelector('[data-agent-login-panel]');
       const tokenForm = document.querySelector('[data-agent-token-form]');
+      const tokenInput = tokenForm?.querySelector('input[type="password"]');
+      const logoutButton = document.querySelector('[data-admin-logout]');
       const message = document.querySelector('[data-agent-message]');
       const dashboards = document.querySelectorAll('[data-agent-dashboard]');
       const reportGrid = document.querySelector('[data-agent-report-grid]');
@@ -410,6 +415,33 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
       const setHelperMessage = (value) => {
         if (helperMessage) helperMessage.textContent = value;
       };
+
+      // This credential belongs only to this page's workflow, never a shared browser session.
+      let activeToken = '';
+      let workflow;
+      const resetAccess = () => {
+        activeToken = '';
+        workflow?.abort();
+        workflow = undefined;
+        if (tokenInput) tokenInput.value = '';
+        if (logoutButton) logoutButton.hidden = true;
+        if (loginPanel) loginPanel.hidden = false;
+        dashboards.forEach((section) => { section.hidden = true; });
+        if (reportGrid) reportGrid.textContent = '';
+        if (mcpOutput) mcpOutput.textContent = '';
+        helperForm?.reset();
+        mcpForm?.reset();
+        setRefreshMessage('Safe refresh is ready after login.');
+        setHelperMessage('Enter the private token to run a helper.');
+        setMessage('Enter the private token to load the latest report evidence.');
+        for (const storage of ['localStorage', 'sessionStorage']) {
+          try { window[storage].removeItem('access-free-tools-analytics-token'); } catch {}
+        }
+      };
+      resetAccess();
+      logoutButton?.addEventListener('click', resetAccess);
+      window.addEventListener('pagehide', resetAccess);
+      window.addEventListener('pageshow', (event) => { if (event.persisted) resetAccess(); });
 
       const showDashboard = () => {
         dashboards.forEach((section) => {
@@ -608,47 +640,72 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
       };
 
       const loadReports = async (token) => {
+        resetAccess();
         if (!token) return;
+        const controller = new AbortController();
+        workflow = controller;
+        activeToken = token;
+        token = '';
+        if (logoutButton) logoutButton.hidden = false;
         setMessage('Loading agent reports...');
 
         try {
           const response = await fetch('/api/admin/agent-tools', {
+            cache: 'no-store',
+            credentials: 'omit',
+            redirect: 'error',
+            signal: controller.signal,
             headers: {
               accept: 'application/json',
-              'x-aft-analytics-token': token,
+              'x-aft-analytics-token': activeToken,
             },
           });
           const body = await response.json().catch(() => ({}));
+          if (controller.signal.aborted) return;
 
           if (!response.ok || !body.ok) {
-            setMessage(body.message || 'Admin token was not accepted.');
+            resetAccess();
+            setMessage('Admin token was not accepted. Enter it again to retry.');
             return;
           }
 
-          window.sessionStorage.setItem(tokenStorageKey, token);
           showDashboard();
           renderReports(body.reports || []);
           setRefreshMessage('Safe refresh is ready.');
+          setHelperMessage('Helpers are ready.');
         } catch {
-          setMessage('Agent report endpoint is not available yet. Check the Node deployment.');
+          if (controller.signal.aborted) return;
+          resetAccess();
+          setMessage('Agent reports could not be loaded. Enter the token again to retry.');
         }
       };
 
-      const refreshReports = async (token, kind) => {
-        if (!token) return;
+      const refreshReports = async (kind) => {
+        const controller = workflow;
+        if (!activeToken || !controller || controller.signal.aborted) return;
         setRefreshMessage('Refreshing safe reports...');
 
         try {
           const response = await fetch('/api/admin/agent-tools', {
+            cache: 'no-store',
+            credentials: 'omit',
+            redirect: 'error',
+            signal: controller.signal,
             body: JSON.stringify({ kind }),
             headers: {
               accept: 'application/json',
               'content-type': 'application/json',
-              'x-aft-analytics-token': token,
+              'x-aft-analytics-token': activeToken,
             },
             method: 'POST',
           });
           const body = await response.json().catch(() => ({}));
+          if (controller.signal.aborted) return;
+          if (response.status === 401 || response.status === 403) {
+            resetAccess();
+            setMessage('Admin token was not accepted. Enter it again to retry.');
+            return;
+          }
 
           if (!response.ok || !body.ok) {
             setRefreshMessage(body.message || 'Refresh was not accepted.');
@@ -658,25 +715,37 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
           renderReports(body.reports || []);
           setRefreshMessage(`Refreshed ${Array.isArray(body.refreshed) ? body.refreshed.length : 0} report(s).`);
         } catch {
+          if (controller.signal.aborted) return;
           setRefreshMessage('Refresh endpoint is not available yet. Check the Node deployment.');
         }
       };
 
-      const runHelper = async (token, payload) => {
-        if (!token) return;
+      const runHelper = async (payload) => {
+        const controller = workflow;
+        if (!activeToken || !controller || controller.signal.aborted) return;
         setHelperMessage('Running helper...');
 
         try {
           const response = await fetch('/api/admin/agent-tools', {
+            cache: 'no-store',
+            credentials: 'omit',
+            redirect: 'error',
+            signal: controller.signal,
             body: JSON.stringify(payload),
             headers: {
               accept: 'application/json',
               'content-type': 'application/json',
-              'x-aft-analytics-token': token,
+              'x-aft-analytics-token': activeToken,
             },
             method: 'POST',
           });
           const body = await response.json().catch(() => ({}));
+          if (controller.signal.aborted) return;
+          if (response.status === 401 || response.status === 403) {
+            resetAccess();
+            setMessage('Admin token was not accepted. Enter it again to retry.');
+            return;
+          }
 
           if (!response.ok || !body.ok) {
             setHelperMessage(body.message || 'Helper run was not accepted.');
@@ -686,35 +755,31 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
           renderReports(body.reports || []);
           setHelperMessage(`Updated ${Array.isArray(body.refreshed) ? body.refreshed.length : 0} helper report(s).`);
         } catch {
+          if (controller.signal.aborted) return;
           setHelperMessage('Helper endpoint is not available yet. Check the Node deployment.');
         }
       };
 
-      loadReports(window.sessionStorage.getItem(tokenStorageKey) || '');
-
       if (tokenForm) {
         tokenForm.addEventListener('submit', (event) => {
           event.preventDefault();
-          const data = new FormData(tokenForm);
-          loadReports(String(data.get('token') || ''));
+          loadReports(tokenInput?.value || '');
         });
       }
 
       if (refreshForm) {
         refreshForm.addEventListener('submit', (event) => {
           event.preventDefault();
-          const token = window.sessionStorage.getItem(tokenStorageKey) || '';
           const data = new FormData(refreshForm);
-          refreshReports(token, String(data.get('kind') || 'all'));
+          refreshReports(String(data.get('kind') || 'all'));
         });
       }
 
       if (helperForm) {
         helperForm.addEventListener('submit', (event) => {
           event.preventDefault();
-          const token = window.sessionStorage.getItem(tokenStorageKey) || '';
           const data = new FormData(helperForm);
-          runHelper(token, {
+          runHelper({
             claim: String(data.get('claim') || ''),
             kind: String(data.get('kind') || 'route'),
             lane: String(data.get('lane') || ''),
@@ -728,13 +793,18 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
       if (mcpForm) {
         mcpForm.addEventListener('submit', async (event) => {
           event.preventDefault();
-          if (!mcpOutput) return;
+          const controller = workflow;
+          if (!mcpOutput || !activeToken || !controller || controller.signal.aborted) return;
 
           try {
             const data = new FormData(mcpForm);
             const payload = JSON.parse(String(data.get('payload') || '{}'));
             mcpOutput.textContent = 'Running...';
             const response = await fetch('/mcp', {
+              cache: 'no-store',
+              credentials: 'omit',
+              redirect: 'error',
+              signal: controller.signal,
               body: JSON.stringify(payload),
               headers: {
                 accept: 'application/json, text/event-stream',
@@ -743,8 +813,10 @@ const waitingExample = JSON.stringify({ status: 'waiting' }, null, 2);
               method: 'POST',
             });
             const body = await response.json().catch(async () => ({ raw: await response.text() }));
+            if (controller.signal.aborted) return;
             mcpOutput.textContent = JSON.stringify(body, null, 2);
           } catch (error) {
+            if (controller.signal.aborted) return;
             mcpOutput.textContent = JSON.stringify(
               { error: error instanceof Error ? error.message : 'MCP request failed' },
               null,

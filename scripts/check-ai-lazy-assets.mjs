@@ -17,6 +17,7 @@ const aiToolPaths = new Set([
   'tools/tone-checker/index.html',
   'tools/reading-level-checker/index.html',
   'tools/text-to-speech-audiobook-generator/index.html',
+  'tools/audio-video-transcriber/index.html',
 ]);
 const disallowedStaticModelPatterns = [
   /\/ai-models\//i,
@@ -27,9 +28,12 @@ const disallowedStaticModelPatterns = [
   /transformers\.web/i,
   /kokoro\.worker/i,
   /supertonic\.worker/i,
+  /transcriber-(?:asr|media)\.worker/i,
 ];
 const disallowedRuntimeRequestPatterns = [
   ...disallowedStaticModelPatterns,
+  /whisper-tiny/i,
+  /mediabunny/i,
   /phonemizer/i,
   /kokoro-82m/i,
   /supertonic-3/i,

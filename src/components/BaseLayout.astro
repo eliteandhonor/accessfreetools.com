@@ -196,7 +196,17 @@ const siteStructuredData = {
           }
 
           if (navigator.doNotTrack === '1' || window.doNotTrack === '1') return false;
-          if (location.pathname.startsWith('/admin/') || location.pathname.startsWith('/api/')) return false;
+          try {
+            let path = location.pathname;
+            for (let pass = 0; pass < 3 && path.includes('%'); pass += 1) {
+              path = decodeURIComponent(path);
+            }
+            if (path.includes('%')) return false;
+            path = new URL(`https://accessfreetools.com${path.replace(/\\/g, '/').replace(/\/{2,}/g, '/')}`).pathname;
+            if (/^\/(admin|api|mcp|private-analytics)(\/|$)/i.test(path)) return false;
+          } catch {
+            return false;
+          }
           return true;
         };
 

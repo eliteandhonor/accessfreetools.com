@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
   Bot,
   CircleArrowDown,
@@ -30,9 +30,9 @@ const emptyScore: SessionScore = { one: 0, two: 0, draws: 0 };
 
 function emitGameMilestone(action: string, clarityEvent: string) {
   emitAftToolAction({
-    action,
+    action: `${action} (round-v2)`,
     category: 'everyday-tools',
-    clarityEvent,
+    clarityEvent: `${clarityEvent}_v2`,
     toolName: 'Four in a Row Game',
     toolSlug: 'four-in-a-row-game',
   });
@@ -46,13 +46,38 @@ export default function FourInARowGame() {
   const [isThinking, setIsThinking] = useState(false);
   const [focusedColumn, setFocusedColumn] = useState(3);
   const columnButtons = useRef<Array<HTMLButtonElement | null>>([]);
+  const milestones = useRef({ started: false, completed: false });
+  const restoreBoardFocus = useRef(false);
   const state = useMemo(() => replayFourInARowMoves(moves), [moves]);
+  const activeColumn = state.playableColumns.includes(focusedColumn) ? focusedColumn
+    : state.playableColumns.find((column) => column > focusedColumn) ?? state.playableColumns[0] ?? 3;
+  const boardDisabled = state.isComplete || isThinking || (mode === 'computer' && state.currentPlayer === 'two');
+
+  useEffect(() => {
+    const movedAway = (event: FocusEvent) => {
+      if (!columnButtons.current.includes(event.target as HTMLButtonElement)) restoreBoardFocus.current = false;
+    };
+    document.addEventListener('focusin', movedAway);
+    return () => document.removeEventListener('focusin', movedAway);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (boardDisabled || !restoreBoardFocus.current) return;
+    // Disabling a filled column or the computer's turn can move native focus to body.
+    if (document.activeElement === document.body || columnButtons.current.includes(document.activeElement as HTMLButtonElement)) {
+      columnButtons.current[activeColumn]?.focus();
+    }
+    restoreBoardFocus.current = false;
+  }, [boardDisabled, activeColumn, moves]);
 
   function recordRound(nextState: FourInARowState) {
     const outcome: RecordedOutcome = nextState.isDraw ? 'draw' : nextState.winner;
     if (!outcome) return;
 
-    emitGameMilestone('Complete round', 'four_in_a_row_complete');
+    if (!milestones.current.completed) {
+      milestones.current.completed = true;
+      emitGameMilestone('Complete round', 'four_in_a_row_complete');
+    }
     setRecordedOutcome(outcome);
     setScore((current) => ({
       one: current.one + (outcome === 'one' ? 1 : 0),
@@ -71,7 +96,9 @@ export default function FourInARowGame() {
       return;
     }
 
-    if (moves.length === 0) {
+    restoreBoardFocus.current = document.activeElement === columnButtons.current[column];
+    if (!milestones.current.started) {
+      milestones.current.started = true;
       emitGameMilestone(`Start round: ${mode}`, `four_in_a_row_start_${mode}`);
     }
 
@@ -113,10 +140,13 @@ export default function FourInARowGame() {
   }, [mode, moves, state]);
 
   function startRound(trackReplay = false) {
-    if (trackReplay) {
+    if (trackReplay && milestones.current.completed) {
       emitGameMilestone('Replay round', 'four_in_a_row_replay');
     }
 
+    milestones.current = { started: false, completed: false };
+    restoreBoardFocus.current = false;
+    setFocusedColumn(3);
     setMoves([]);
     setRecordedOutcome(null);
     setIsThinking(false);
@@ -148,12 +178,14 @@ export default function FourInARowGame() {
   }
 
   function moveColumnFocus(key: string) {
-    let nextColumn = focusedColumn;
-    if (key === 'ArrowLeft') nextColumn = (focusedColumn + 6) % 7;
-    if (key === 'ArrowRight') nextColumn = (focusedColumn + 1) % 7;
-    if (key === 'Home') nextColumn = 0;
-    if (key === 'End') nextColumn = 6;
-    if (nextColumn === focusedColumn) return;
+    if (boardDisabled || !state.playableColumns.length) return;
+    const columns = state.playableColumns;
+    const index = columns.indexOf(activeColumn);
+    let nextColumn = activeColumn;
+    if (key === 'ArrowLeft') nextColumn = columns[(index + columns.length - 1) % columns.length];
+    if (key === 'ArrowRight') nextColumn = columns[(index + 1) % columns.length];
+    if (key === 'Home') nextColumn = columns[0];
+    if (key === 'End') nextColumn = columns.at(-1)!;
 
     setFocusedColumn(nextColumn);
     columnButtons.current[nextColumn]?.focus();
@@ -178,11 +210,6 @@ export default function FourInARowGame() {
   const winningKeys = new Set(
     state.winningCells.map((cell) => `${cell.row}-${cell.column}`),
   );
-  const boardDisabled =
-    state.isComplete ||
-    isThinking ||
-    (mode === 'computer' && state.currentPlayer === 'two');
-
   return (
     <section className="four-row-game" aria-labelledby="four-row-heading">
       <div className="four-row-game__topline">
@@ -240,7 +267,7 @@ export default function FourInARowGame() {
               ref={(button) => {
                 columnButtons.current[column] = button;
               }}
-              tabIndex={column === focusedColumn ? 0 : -1}
+              tabIndex={column === activeColumn ? 0 : -1}
               disabled={boardDisabled || isFull}
               aria-label={isFull ? `Column ${column + 1} is full` : `Drop in column ${column + 1}`}
               title={isFull ? `Column ${column + 1} is full` : `Drop in column ${column + 1}`}

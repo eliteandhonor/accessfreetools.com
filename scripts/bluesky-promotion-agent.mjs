@@ -1,3 +1,4 @@
+import { assertPublicPromotionChannel } from './lib/promotion-channel-policy.mjs';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 
@@ -309,6 +310,7 @@ async function publishTarget(session, target) {
 
 async function main() {
   const options = parseArgs();
+  if (options.publish) assertPublicPromotionChannel('bluesky');
   if (options.publish && !options.confirmPublicPost) {
     throw new Error('Publishing requires --confirm-public-post so accidental public posts do not happen.');
   }

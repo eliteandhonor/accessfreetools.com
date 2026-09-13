@@ -5,9 +5,9 @@ Source reviewed: Calculator.net sitemap on 2026-04-29. This is a competitor inve
 ## Current Coverage Snapshot
 
 - Sitemap utility-style entries reviewed: 203.
-- Local canonical tool definitions after the noindex TTS audiobook pilot: 304.
-- Local guide definitions after the noindex TTS audiobook pilot: 304.
-- Public tool routes represented in search and launchpad surfaces after launch: 308, made from 304 canonical tools plus 4 intentional alias URLs. The TTS pair remains noindex before launch.
+- Canonical tool definitions including browser TTS and transcription: 305.
+- Matching guide definitions: 305.
+- Public tool routes represented in search and launchpad surfaces: 309, made from 305 canonical tools plus 4 intentional aliases. The owner authorized both audio tool/guide pairs for indexing on September 13; known browser and accuracy limits remain documented.
 - Remaining competitor-inspired roadmap items from the current comparison: 0 direct action items. The final sensitive/proprietary topics were covered with safer Access Free Tools alternatives instead of one-to-one copies.
 - Aliases already covered: IP Subnet -> Subnet, Common Factor -> Greatest Common Factor, Mortgage Amortization -> Amortization, Time Duration -> Time.
 
@@ -221,9 +221,9 @@ Completed post-roadmap batches:
 
 Current local coverage after this batch:
 
-- Canonical tool pages: 304
-- Matching guide pages: 304
-- Public tool URLs: 308
+- Canonical tool pages: 305
+- Matching guide pages: 305
+- Public tool URLs: 309
 - Aliases already covered: 4
 
 ## Post-roadmap Competitor Batch: Kitchen, Recipe, And Shopping Utilities

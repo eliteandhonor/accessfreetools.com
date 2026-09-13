@@ -46,6 +46,12 @@ export default defineConfig({
   security: {
     allowedDomains: [{ hostname: 'accessfreetools.com' }, { hostname: 'www.accessfreetools.com' }],
   },
+  vite: {
+    resolve: {
+      // Keep Transformers.js on the same stable browser runtime as the working TTS path.
+      dedupe: ['onnxruntime-web'],
+    },
+  },
   env: {
     validateSecrets: false,
     schema: {

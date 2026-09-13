@@ -12,10 +12,14 @@ export interface PreparedTextImport {
   text?: string;
 }
 
-export function validateLocalTxtFile(file: TextFileMetadata) {
+export function validateLocalTxtFile(file: TextFileMetadata, bytes?: Uint8Array) {
   if (!file.name.toLowerCase().endsWith('.txt')) return 'Choose a plain .txt file.';
-  if (file.type && !file.type.toLowerCase().startsWith('text/plain')) return 'Choose a plain text file, not another file type.';
+  const mimeType = file.type.toLowerCase().split(';', 1)[0]?.trim();
+  if (mimeType && mimeType !== 'text/plain') return 'Choose a plain text file, not another file type.';
+  if (!Number.isSafeInteger(file.size) || file.size < 0) return 'The selected TXT file size is not valid.';
+  if (file.size === 0) return 'The TXT file is empty.';
   if (file.size > MAX_TTS_TEXT_FILE_BYTES) return 'Choose a TXT file no larger than 64 KB.';
+  if (bytes && file.size !== bytes.byteLength) return 'The selected file size does not match the bytes read by the browser.';
   return '';
 }
 

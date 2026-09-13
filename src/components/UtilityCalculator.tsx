@@ -5139,9 +5139,11 @@ function calculateUtility(
           { label: 'Days until next birthday', value: formatCalculatorNumber(result.daysUntilNextBirthday) },
         ],
         steps: [
-          'Compare the birth date with the selected as-of date.',
-          'Subtract full years first, then remaining full months, then remaining days.',
-          'Count total days separately using UTC calendar dates.',
+          'Start at the birth date and measure to the as-of date.',
+          'Find the largest whole-month offset that does not pass the later date.',
+          "Apply the offset once from the earlier date. If its day is missing in the target month, use that month's last day.",
+          'Split the offset into years and months (years * 12 + months), then count the remaining days.',
+          'Count total elapsed days separately using UTC dates.',
         ],
       };
     }
@@ -5166,7 +5168,8 @@ function calculateUtility(
           ],
           steps: [
             'Start with the selected calendar date.',
-            'Apply years and months first, clamping month-end dates when needed.',
+            'Combine years * 12 + months into one offset.',
+            "Apply the offset once from the start date. If its day is missing in the target month, use that month's last day.",
             'Apply weeks and days after the month shift.',
           ],
         };
@@ -5183,9 +5186,11 @@ function calculateUtility(
           { label: 'Direction', value: result.direction },
         ],
         steps: [
-          'Convert both dates to UTC calendar dates.',
-          'Subtract the timestamps to count full days between dates.',
-          'Also compare calendar year, month, and day parts for a human-readable difference.',
+          'Measure from the earlier date to the later date. Reversed inputs keep the same nonnegative difference.',
+          'Find the largest whole-month offset that does not pass the later date.',
+          "Apply the offset once from the earlier date. If its day is missing in the target month, use that month's last day.",
+          'Split the offset into years and months (years * 12 + months), then count the remaining days.',
+          'Count total elapsed days separately using UTC dates.',
         ],
       };
     }

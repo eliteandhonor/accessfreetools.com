@@ -7,40 +7,20 @@ const pagePath = '/admin/';
 ---
 
 <BaseLayout
-  title="Private Admin Login | Access Free Tools"
+  title="Private Admin | Access Free Tools"
   description="Private Access Free Tools admin entry page for analytics and agent tools."
   path={pagePath}
   noindex
 >
   <section class="page-intro admin-login-hero">
     <p class="breadcrumb"><a href="/">Home</a> / Admin</p>
-    <h1>Private Admin Login</h1>
-    <p>
-      Enter the private admin token for this browser tab. Analytics and Agent Tools then open
-      without retyping the token until the tab session closes.
-    </p>
-  </section>
-
-  <section class="content-section content-section-narrow admin-login-card">
-    <h2>Open admin access for this tab</h2>
-    <p>
-      The token is stored only in this tab's session storage. It is not added to Git, reports, or
-      public pages, and closing the tab ends the stored session.
-    </p>
-    <form class="admin-token-form" data-admin-token-form>
-      <label>
-        Admin token
-        <input type="password" name="token" autocomplete="current-password" required />
-      </label>
-      <button class="button-primary" type="submit">Save and unlock</button>
-    </form>
-    <p class="admin-token-message" data-admin-message>Checking this tab for an active token...</p>
+    <h1>Private Admin</h1>
+    <p>Private analytics and agent reports.</p>
   </section>
 
   <section class="section-band admin-destination-panel" data-admin-destinations>
     <div class="section-heading">
       <h2>Open private tools</h2>
-      <p>Use these after the token status says access is ready.</p>
     </div>
     <div class="admin-destination-grid">
       <article>
@@ -58,11 +38,11 @@ const pagePath = '/admin/';
       <article>
         <span>Privacy</span>
         <h3>Owner Browser</h3>
-        <p>Exclude this browser from analytics or clear the saved admin token when needed.</p>
+        <p>Exclude this browser from analytics.</p>
         <div class="admin-action-stack">
           <button class="button-secondary" type="button" data-admin-opt-out>Exclude this browser</button>
-          <button class="button-secondary" type="button" data-admin-clear-token>Clear saved token</button>
         </div>
+        <p role="status" data-admin-message></p>
       </article>
     </div>
   </section>
@@ -72,34 +52,9 @@ const pagePath = '/admin/';
       max-width: 960px;
     }
 
-    .admin-login-card,
     .admin-destination-panel {
       border: 1px solid var(--border);
       box-shadow: var(--soft-shadow);
-    }
-
-    .admin-token-form {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .admin-token-form label {
-      display: grid;
-      gap: 0.45rem;
-      font-weight: 800;
-    }
-
-    .admin-token-form input {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      font: inherit;
-      padding: 0.85rem 1rem;
-    }
-
-    .admin-token-message {
-      font-weight: 800;
-      margin-bottom: 0;
     }
 
     .admin-destination-grid {
@@ -133,11 +88,6 @@ const pagePath = '/admin/';
       gap: 0.7rem;
     }
 
-    [data-admin-link][aria-disabled="true"] {
-      opacity: 0.55;
-      pointer-events: none;
-    }
-
     @media (max-width: 860px) {
       .admin-destination-grid {
         grid-template-columns: 1fr;
@@ -147,80 +97,30 @@ const pagePath = '/admin/';
 
   <script is:inline>
     (() => {
-      const tokenStorageKey = 'access-free-tools-analytics-token';
       const optOutKey = 'access-free-tools-analytics-opt-out';
-      const form = document.querySelector('[data-admin-token-form]');
       const message = document.querySelector('[data-admin-message]');
-      const links = document.querySelectorAll('[data-admin-link]');
-      const clearButton = document.querySelector('[data-admin-clear-token]');
       const optOutButton = document.querySelector('[data-admin-opt-out]');
 
       const setMessage = (value) => {
         if (message) message.textContent = value;
       };
 
-      const setUnlocked = (unlocked) => {
-        links.forEach((link) => {
-          link.setAttribute('aria-disabled', unlocked ? 'false' : 'true');
-        });
-      };
-
-      const validateToken = async (token, { save = false } = {}) => {
-        if (!token) {
-          setUnlocked(false);
-          setMessage('Enter the private admin token to unlock Analytics and Agent Tools.');
-          return;
-        }
-
-        setMessage('Checking token...');
-        try {
-          const response = await fetch('/api/analytics/events', {
-            headers: {
-              accept: 'application/json',
-              'x-aft-analytics-token': token,
-            },
-          });
-          const body = await response.json().catch(() => ({}));
-
-          if (!response.ok || !body.summary) {
-            setUnlocked(false);
-            setMessage(body.message || 'Token was not accepted. Check the private admin token and try again.');
-            return;
-          }
-
-          if (save) window.sessionStorage.setItem(tokenStorageKey, token);
-          setUnlocked(true);
-          setMessage('Access is ready for this tab. Open Analytics or Agent Tools below.');
-        } catch {
-          setUnlocked(false);
-          setMessage('Admin API is not available yet. Check the Node deployment and try again.');
+      const removeLegacyToken = () => {
+        for (const storage of ['localStorage', 'sessionStorage']) {
+          try { window[storage].removeItem('access-free-tools-analytics-token'); } catch {}
         }
       };
-
-      setUnlocked(false);
-      const storedToken = window.sessionStorage.getItem(tokenStorageKey) || '';
-      validateToken(storedToken);
-
-      if (form) {
-        form.addEventListener('submit', (event) => {
-          event.preventDefault();
-          const data = new FormData(form);
-          validateToken(String(data.get('token') || ''), { save: true });
-        });
-      }
-
-      if (clearButton) {
-        clearButton.addEventListener('click', () => {
-          window.sessionStorage.removeItem(tokenStorageKey);
-          setUnlocked(false);
-          setMessage('Saved token cleared for this tab.');
-        });
-      }
+      removeLegacyToken();
+      window.addEventListener('pageshow', removeLegacyToken);
 
       if (optOutButton) {
         optOutButton.addEventListener('click', () => {
-          window.localStorage.setItem(optOutKey, 'true');
-          setMessage('This browser is now excluded from Access Free Tools analytics.');
+          try {
+            window.localStorage.setItem(optOutKey, 'true');
+            setMessage('This browser is now excluded from Access Free Tools analytics.');
+          } catch {
+            setMessage('Browser storage is unavailable. The analytics preference was not saved.');
+          }
         });
       }
     })();
