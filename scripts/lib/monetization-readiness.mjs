@@ -1,5 +1,6 @@
 const INFOLINKS_URL = 'https://resources.infolinks.com/js/infolinks_main.js';
 const ADSENSE_VERIFICATION_ACCOUNT = 'ca-pub-4461993577253590';
+const ADS_TXT_LINE = 'google.com, pub-4461993577253590, DIRECT, f08c47fec0942fa0';
 
 function count(value, pattern) {
   return [...value.matchAll(pattern)].length;
@@ -23,22 +24,24 @@ export function inspectRenderedMonetizationPage(html) {
     infolinksOffMarkers: count(html, /<!--INFOLINKS_OFF-->/g),
     infolinksOnMarkers: count(html, /<!--INFOLINKS_ON-->/g),
     directInfolinksScriptCount: directInfolinksScripts.length,
+    directAdSenseScriptCount: count(html, /<script\b[^>]*\bsrc=["']https:\/\/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js[^"']*["'][^>]*>/gi),
   };
 }
 
-export function assessMonetizationReadiness({ pages, legalSources, analyticsSource, adsTxtExists }) {
+export function assessMonetizationReadiness({ pages, legalSources, analyticsSource, adsTxt, builtAdsTxt }) {
   const issues = [];
   const warnings = [];
   const publicNames = ['home', 'blog', 'tool', 'ask', 'contact', 'support'];
 
   for (const name of publicNames) {
     const page = pages[name];
-    if (!page?.hasAdChoice || !page.hasDynamicInfolinksLoader || page.adMode !== 'infolinks') {
-      issues.push(`${name} does not contain the consent-gated Infolinks integration.`);
+    if (!page || page.hasAdChoice || page.hasDynamicInfolinksLoader || !['none', 'missing'].includes(page.adMode)) {
+      issues.push(`${name} contains an advertising integration while publisher approval is missing.`);
     }
     if (page?.directInfolinksScriptCount !== 0) {
       issues.push(`${name} contains an unconditional Infolinks script tag.`);
     }
+    if (page?.directAdSenseScriptCount !== 0) issues.push(`${name} contains an AdSense ad script before approval.`);
     if ((page?.infolinksOffMarkers ?? 0) < 1 || (page?.infolinksOnMarkers ?? 0) < 1) {
       issues.push(`${name} is missing Infolinks page-boundary markers.`);
     }
@@ -61,7 +64,7 @@ export function assessMonetizationReadiness({ pages, legalSources, analyticsSour
   }
 
   const legalText = Object.values(legalSources).join('\n');
-  for (const expected of ['Infolinks', 'double underline', 'Network Advertising Initiative', 'AdSense ads are not active']) {
+  for (const expected of ['Infolinks advertising is not active', 'double underline', 'Network Advertising Initiative', 'AdSense ads are not active']) {
     if (!legalText.includes(expected)) issues.push(`legal copy is missing: ${expected}.`);
   }
 
@@ -69,14 +72,20 @@ export function assessMonetizationReadiness({ pages, legalSources, analyticsSour
     issues.push('analytics does not include its durable home-directory fallback.');
   }
 
-  if (adsTxtExists) warnings.push('public/ads.txt exists and requires exact dashboard-line verification.');
-  warnings.push('Verify InText-only mode and a two-link maximum in the Infolinks Publisher Center.');
+  for (const [name, value] of Object.entries({ 'public/ads.txt': adsTxt, 'built ads.txt': builtAdsTxt })) {
+    if (typeof value !== 'string' || value.replace(/\r\n/g, '\n') !== `${ADS_TXT_LINE}\n`) {
+      issues.push(`${name} must contain only the exact September 13 AdSense dashboard line.`);
+    }
+  }
+  warnings.push('AdSense reported Low value content on September 12; ads.txt does not resolve that separate review issue.');
+  warnings.push('Infolinks remains disabled because the owner reports publisher approval was not granted.');
   warnings.push('AdSense remains disabled until its account, identifiers, slot, and certified CMP are ready.');
   warnings.push('Ko-fi remains hidden until PUBLIC_KOFI_URL contains Brendan\'s verified profile URL.');
 
   return {
     issues,
-    status: issues.length === 0 ? 'ready_with_manual_dashboard_checks' : 'blocked',
+    technicalStatus: issues.length === 0 ? 'passed' : 'failed',
+    status: issues.length === 0 ? 'awaiting_content_review' : 'blocked',
     warnings,
   };
 }

@@ -2,6 +2,9 @@ export const DEFAULT_INFOLINKS_PID = 3447500;
 export const DEFAULT_INFOLINKS_WSID = 0;
 export const INFOLINKS_SCRIPT_URL = 'https://resources.infolinks.com/js/infolinks_main.js';
 export const ADSENSE_VERIFICATION_ACCOUNT = 'ca-pub-4461993577253590';
+// September 13: neither publisher account is approved. Recheck before changing.
+export const INFOLINKS_ACCOUNT_APPROVED = false;
+export const ADSENSE_ACCOUNT_APPROVED = false;
 export const AD_CONSENT_STORAGE_KEY = 'access-free-tools-ad-consent';
 export const AD_OWNER_SUPPRESSION_KEY = 'access-free-tools-owner-ads-disabled';
 
@@ -59,6 +62,7 @@ export function parsePublicFlag(value: string | undefined, fallback = false) {
 
 export function hasValidAdSenseConfiguration(options: AdModeOptions) {
   return (
+    ADSENSE_ACCOUNT_APPROVED &&
     options.adsenseEnabled &&
     options.adsenseCmpReady &&
     /^ca-pub-\d{16}$/.test(options.adsenseClient.trim()) &&
@@ -77,7 +81,7 @@ export function resolveAdMode(path: string, options: AdModeOptions): AdMode {
     return 'adsense';
   }
 
-  return options.infolinksEnabled ? 'infolinks' : 'none';
+  return INFOLINKS_ACCOUNT_APPROVED && options.infolinksEnabled ? 'infolinks' : 'none';
 }
 
 export function sanitizeKoFiUrl(value: string | undefined) {

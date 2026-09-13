@@ -17,7 +17,7 @@ import BaseLayout from '../components/BaseLayout.astro';
   </section>
 
   <section class="content-section content-section-narrow legal-copy">
-    <p><strong>Last updated:</strong> September 2, 2026</p>
+    <p><strong>Last updated:</strong> September 13, 2026</p>
 
     <h2>Overview</h2>
     <p>
@@ -124,11 +124,12 @@ import BaseLayout from '../components/BaseLayout.astro';
       clipboard after you press the copy button.
     </p>
 
-    <h2>Advertising and Infolinks</h2>
+    <h2 id="advertising">Advertising and Infolinks</h2>
     <p>
-      Access Free Tools uses Infolinks InText on public pages after you choose to allow contextual
-      ads. Infolinks can select words in public page copy, mark them with a double underline, and
-      show a sponsored ad when you interact with them. Infolinks and its advertising partners may
+      Infolinks advertising is not active because our publisher application was not approved.
+      Its script does not load, including for visitors who previously allowed ads. If approved and
+      enabled later with the required consent, InText could mark selected words with a double underline
+      and show a sponsored ad. Infolinks and its advertising partners could then
       receive browser, device, network, approximate location, page, cookie, and ad-interaction data
       under their own policies.
     </p>
@@ -161,7 +162,7 @@ import BaseLayout from '../components/BaseLayout.astro';
 
     <h2>EEA, UK, and Switzerland consent</h2>
     <p>
-      Infolinks is blocked until you make an advertising choice in this browser. Google advertising,
+      Infolinks is currently disabled for all visitors. Google advertising,
       if enabled later, will require a Google-certified Consent Management Platform for users in the
       European Economic Area, the United Kingdom, and Switzerland where required. Advertising stays
       off when a supported Global Privacy Control or Do Not Track signal is present.
@@ -201,22 +202,11 @@ import BaseLayout from '../components/BaseLayout.astro';
 
     <h2>Your choices</h2>
     <p>
-      Choose <strong>Ad choices</strong> in the footer to allow or refuse contextual ads. You can also
+      Advertising is currently disabled, regardless of any advertising preference saved earlier.
+      Choose <strong>Ad choices</strong> in the footer to read the current status. You can also
       clear local storage and cookies, use the industry opt-out links above, avoid clicking ads or
       affiliate links, or contact us with privacy questions. If a form asks for personal
       information, submit only what is needed for that request.
-    </p>
-    <div class="analytics-opt-out-actions" aria-label="Access Free Tools advertising preference">
-      <button class="button-primary" type="button" data-ad-privacy-open>Review ad choices</button>
-      <button class="button-secondary" type="button" data-ad-owner-choice="suppress">
-        Exclude this browser from ads
-      </button>
-      <button class="button-secondary" type="button" data-ad-owner-choice="restore">
-        Reset ad choices
-      </button>
-    </div>
-    <p class="analytics-opt-out-status" data-ad-owner-status aria-live="polite">
-      Checking this browser's advertising preference...
     </p>
     <div class="analytics-opt-out-actions" aria-label="Access Free Tools analytics preference">
       <button class="button-primary" type="button" data-public-analytics-choice="out">

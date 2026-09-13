@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
+import { once } from 'node:events';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:net';
 import { join } from 'node:path';
@@ -33,10 +34,6 @@ async function waitForPreview(url, child) {
   throw new Error('Timed out waiting for Astro preview.');
 }
 
-function countMarker(html, marker) {
-  return html.split(marker).length - 1;
-}
-
 async function configurePage(page, requestCounter) {
   await page.addInitScript(() => {
     Object.defineProperty(Navigator.prototype, 'doNotTrack', { configurable: true, get: () => null });
@@ -46,6 +43,10 @@ async function configurePage(page, requestCounter) {
     requestCounter.count += 1;
     await route.fulfill({ body: 'window.__aftInfolinksTestLoaded = true;', contentType: 'application/javascript', status: 200 });
   });
+  await page.route('https://pagead2.googlesyndication.com/**', async (route) => {
+    requestCounter.count += 1;
+    await route.abort();
+  });
   await page.route('https://www.clarity.ms/**', (route) => route.abort());
   await page.route('https://news.google.com/**', (route) => route.abort());
 }
@@ -54,9 +55,10 @@ const port = await freePort();
 const localUrl = `http://127.0.0.1:${port}`;
 const publicUrl = `http://accessfreetools.com:${port}`;
 const outputDirectory = join(process.cwd(), 'output', 'monetization', 'browser');
-const preview = spawn(process.execPath, [join(process.cwd(), 'node_modules', 'astro', 'bin', 'astro.mjs'), 'preview', '--host', '0.0.0.0', '--port', String(port)], {
+// Own the foreground production entry point, not Astro's detached preview CLI.
+const preview = spawn(process.execPath, [join(process.cwd(), 'app.js')], {
   cwd: process.cwd(),
-  env: { ...process.env, HOST: '0.0.0.0', PORT: String(port) },
+  env: { ...process.env, HOST: '127.0.0.1', PORT: String(port) },
   stdio: ['ignore', 'pipe', 'pipe'],
 });
 let previewLog = '';
@@ -73,66 +75,41 @@ try {
     args: [`--host-resolver-rules=MAP accessfreetools.com 127.0.0.1`],
   });
 
-  const deniedContext = await browser.newContext({ viewport: { height: 844, width: 390 } });
-  const deniedPage = await deniedContext.newPage();
-  const deniedRequests = { count: 0 };
-  await configurePage(deniedPage, deniedRequests);
-  await deniedPage.goto(`${publicUrl}/blog/remove-ai-writing-tells-before-publishing/`, { waitUntil: 'domcontentloaded' });
-  const choice = deniedPage.locator('[data-advertising-choice]');
-  await choice.waitFor({ state: 'visible' });
-  assert.equal(deniedRequests.count, 0, 'Infolinks requested data before consent.');
-  assert.equal(await deniedPage.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1), true);
-  mkdirSync(outputDirectory, { recursive: true });
-  await deniedPage.screenshot({ fullPage: false, path: join(outputDirectory, 'mobile-consent.png') });
-  await deniedPage.getByRole('button', { name: 'Keep ads off' }).click();
-  await choice.waitFor({ state: 'hidden' });
-  assert.equal(deniedRequests.count, 0, 'Infolinks requested data after consent was denied.');
-  assert.equal(await deniedPage.evaluate(() => localStorage.getItem('access-free-tools-ad-consent')), 'denied');
-  proof.checks.push('No Infolinks request before consent or after refusal.');
-  await deniedContext.close();
-
-  const allowedContext = await browser.newContext({ viewport: { height: 900, width: 1440 } });
-  const allowedPage = await allowedContext.newPage();
-  const allowedRequests = { count: 0 };
-  await configurePage(allowedPage, allowedRequests);
-  await allowedPage.goto(`${publicUrl}/tools/percentage-calculator/`, { waitUntil: 'domcontentloaded' });
-  await allowedPage.getByRole('button', { name: 'Allow contextual ads' }).click();
-  await allowedPage.waitForFunction(() => Reflect.get(window, '__aftInfolinksTestLoaded') === true);
-  assert.equal(allowedRequests.count, 1, 'Infolinks loader should be requested once after consent.');
-  assert.equal(await allowedPage.evaluate(() => Reflect.get(window, 'infolinks_pid')), 3447500);
-  assert.equal(await allowedPage.evaluate(() => Reflect.get(window, 'infolinks_wsid')), 0);
-  assert.equal(await allowedPage.locator('[data-advertising-page-notice]').isVisible(), true);
-  const toolHtml = await allowedPage.content();
-  assert.ok(countMarker(toolHtml, '<!--INFOLINKS_OFF-->') >= 2, 'Tool page is missing its private boundary.');
-  assert.ok(countMarker(toolHtml, '<!--INFOLINKS_ON-->') >= 2, 'Tool page is missing its boundary reset.');
-  await allowedPage.screenshot({ fullPage: true, path: join(outputDirectory, 'desktop-tool-after-consent.png') });
-  proof.checks.push('Consent loads the pinned Infolinks account once and preserves the tool boundary.');
-  await allowedContext.close();
-
-  const suppressedContext = await browser.newContext();
-  await suppressedContext.addInitScript(() => {
-    localStorage.setItem('access-free-tools-ad-consent', 'granted');
-    localStorage.setItem('access-free-tools-owner-ads-disabled', 'true');
-  });
-  const suppressedPage = await suppressedContext.newPage();
-  const suppressedRequests = { count: 0 };
-  await configurePage(suppressedPage, suppressedRequests);
-  await suppressedPage.goto(`${publicUrl}/`, { waitUntil: 'domcontentloaded' });
-  assert.equal(suppressedRequests.count, 0, 'Owner-suppressed browser loaded Infolinks.');
-  assert.equal(await suppressedPage.locator('[data-advertising-choice]').isHidden(), true);
-  proof.checks.push('Owner suppression prevents all advertising requests.');
-  await suppressedContext.close();
-
-  const privateContext = await browser.newContext();
-  const privatePage = await privateContext.newPage();
-  const privateRequests = { count: 0 };
-  await configurePage(privatePage, privateRequests);
-  await privatePage.goto(`${publicUrl}/admin/`, { waitUntil: 'domcontentloaded' });
-  assert.equal(await privatePage.locator('[data-advertising-choice]').count(), 0);
-  assert.equal(privateRequests.count, 0);
-  assert.equal((await privatePage.content()).includes('infolinks_main.js'), false);
-  proof.checks.push('Admin pages contain no advertising loader or consent surface.');
-  await privateContext.close();
+  const landing = await (await fetch(localUrl)).text();
+  const disabled = !/"adMode":"(?:infolinks|adsense)"/.test(landing);
+  assert.equal(disabled, true, 'An unapproved advertising account is enabled in the build.');
+    for (const width of [390, 1440]) {
+      const context = await browser.newContext({ viewport: { width, height: 900 } });
+      await context.addInitScript(() => {
+        localStorage.setItem('access-free-tools-ad-consent', 'granted');
+        localStorage.setItem('access-free-tools-analytics-opt-out', 'true');
+      });
+      const page = await context.newPage();
+      const requests = { count: 0 };
+      await configurePage(page, requests);
+      for (const path of ['/', '/tools/percentage-calculator/', '/blog/remove-ai-writing-tells-before-publishing/', '/privacy-policy/', '/admin/']) {
+        const response = await page.goto(`${publicUrl}${path}`, { waitUntil: 'networkidle' });
+        assert.equal(response.status(), 200);
+        assert.equal(await page.locator('h1').count(), 1);
+        assert.equal(await page.locator('[data-advertising-choice]').count(), 0);
+        assert.equal((await page.content()).includes('infolinks_main.js'), false);
+        assert.equal((await page.content()).includes('adsbygoogle.js'), false);
+        assert.equal(requests.count, 0, 'An unapproved network received an advertising request.');
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1), true);
+      }
+      await page.goto(`${publicUrl}/privacy-policy/`, { waitUntil: 'domcontentloaded' });
+      await page.locator('footer [data-ad-privacy-open]').click();
+      assert.equal(new URL(page.url()).hash, '#advertising');
+      mkdirSync(outputDirectory, { recursive: true });
+      await page.screenshot({ path: join(outputDirectory, `disabled-${width}.png`) });
+      proof.checks.push(`At ${width}px, disabled networks send no requests despite old granted consent; privacy link works.`);
+      await context.close();
+    }
+    const response = await fetch(`${localUrl}/ads.txt`);
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get('content-type'), /^text\/plain/i);
+    assert.equal((await response.text()).replace(/\r\n/g, '\n'), 'google.com, pub-4461993577253590, DIRECT, f08c47fec0942fa0\n');
+    proof.checks.push('ads.txt is HTTP 200 plain text with the exact account-supplied seller line.');
 
   writeFileSync(join(outputDirectory, 'latest.json'), `${JSON.stringify(proof, null, 2)}\n`);
   console.log(`Monetization browser check passed (${proof.checks.length} checks).`);
@@ -142,5 +119,9 @@ try {
   throw error;
 } finally {
   if (browser) await browser.close();
-  preview.kill();
+  if (preview.exitCode === null && preview.signalCode === null) {
+    const stopped = once(preview, 'exit');
+    preview.kill();
+    await stopped;
+  }
 }

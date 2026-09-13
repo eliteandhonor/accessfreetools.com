@@ -18,7 +18,7 @@ const parseInteger = (value: string | undefined, fallback: number, minimum: numb
   const parsed = Number(value);
   return Number.isInteger(parsed) && parsed >= minimum ? parsed : fallback;
 };
-const infolinksEnabled = parsePublicFlag(import.meta.env.PUBLIC_INFOLINKS_ENABLED, true);
+const infolinksEnabled = parsePublicFlag(import.meta.env.PUBLIC_INFOLINKS_ENABLED, false);
 const infolinksPid = parseInteger(import.meta.env.PUBLIC_INFOLINKS_PID, DEFAULT_INFOLINKS_PID, 1);
 const infolinksWsid = parseInteger(import.meta.env.PUBLIC_INFOLINKS_WSID, DEFAULT_INFOLINKS_WSID, 0);
 const adsenseEnabled = parsePublicFlag(import.meta.env.PUBLIC_ADSENSE_ENABLED, false);

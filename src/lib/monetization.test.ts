@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 import {
@@ -38,7 +39,7 @@ describe('public advertising route policy', () => {
 });
 
 describe('monetization configuration', () => {
-  it('uses the approved Infolinks integration identifiers and HTTPS loader', () => {
+  it('keeps supplied identifiers separate from publisher approval', () => {
     expect(DEFAULT_INFOLINKS_PID).toBe(3447500);
     expect(DEFAULT_INFOLINKS_WSID).toBe(0);
     expect(INFOLINKS_SCRIPT_URL).toBe('https://resources.infolinks.com/js/infolinks_main.js');
@@ -53,14 +54,14 @@ describe('monetization configuration', () => {
     expect(parsePublicFlag('maybe', false)).toBe(false);
   });
 
-  it('uses Infolinks across eligible pages until a complete AdSense route is enabled', () => {
+  it('blocks the unapproved Infolinks account even with an old enabled flag', () => {
     expect(resolveAdMode('/tools/date-calculator/', {
       adsenseClient: '',
       adsenseCmpReady: false,
       adsenseEnabled: false,
       adsenseSlot: '',
       infolinksEnabled: true,
-    })).toBe('infolinks');
+    })).toBe('none');
 
     expect(resolveAdMode('/tools/date-calculator/', {
       adsenseClient: 'ca-pub-1234567890123456',
@@ -68,7 +69,7 @@ describe('monetization configuration', () => {
       adsenseEnabled: true,
       adsenseSlot: '1234567890',
       infolinksEnabled: true,
-    })).toBe('adsense');
+    })).toBe('none');
 
     expect(resolveAdMode('/blog/', {
       adsenseClient: 'ca-pub-1234567890123456',
@@ -76,7 +77,13 @@ describe('monetization configuration', () => {
       adsenseEnabled: true,
       adsenseSlot: '1234567890',
       infolinksEnabled: true,
-    })).toBe('infolinks');
+    })).toBe('none');
+  });
+
+  it('publishes only the exact AdSense dashboard-supplied seller line', () => {
+    const text = readFileSync(new URL('../../public/ads.txt', import.meta.url), 'utf8');
+    expect(text.replace(/\r\n/g, '\n')).toBe('google.com, pub-4461993577253590, DIRECT, f08c47fec0942fa0\n');
+    expect(text).not.toContain('3447500');
   });
 
   it('requires a complete approved AdSense configuration', () => {

@@ -580,9 +580,9 @@ const staticPageLastmod: Record<string, string> = {
   '/why-access-free-tools/': '2026-09-02',
   '/contact/': '2026-04-30',
   '/support/': '2026-09-02',
-  '/advertising-disclosure/': '2026-09-02',
-  '/privacy-policy/': '2026-09-02',
-  '/terms/': '2026-09-02',
+  '/advertising-disclosure/': '2026-09-13',
+  '/privacy-policy/': '2026-09-13',
+  '/terms/': '2026-09-13',
 };
 
 const categoryLastmodOverrides: Record<string, string> = {

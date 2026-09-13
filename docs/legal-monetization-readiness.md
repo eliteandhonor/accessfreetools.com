@@ -2,23 +2,29 @@
 
 This is an implementation checklist, not legal advice. Recheck network terms and applicable law when the advertising setup changes.
 
-## Current Infolinks Pilot
+## Inactive Infolinks Configuration
+
+September 13 correction: the owner confirms Infolinks publisher approval was not
+granted. Both advertising account gates in `src/lib/monetization.ts` are false.
+Even old enabled environment flags or saved visitor consent cannot activate them.
+Keep the integration dormant; do not treat supplied publisher IDs as approval.
 
 - Publisher ID: `3447500`.
 - Website ID: `0`.
 - Product: InText only.
 - Scope: eligible public HTML pages. Private admin, analytics, API, MCP endpoint, and error routes are excluded.
 - Protected areas: navigation, footer, calculator and tool workspaces, Ask messages, and contact-form fields use Infolinks' supported `INFOLINKS_OFF` boundaries.
-- Consent: the remote loader does not run until the visitor selects `Allow contextual ads`.
-- Owner and QA suppression: use `Exclude this browser from ads` on `/privacy-policy/`.
+- Consent: the dormant loader retains its consent checks for any separately approved future activation.
+- Owner and QA suppression: previously saved opt-outs remain stored; no advertising loads for any visitor now.
 - Emergency switch: set `PUBLIC_INFOLINKS_ENABLED=false` and rebuild.
 
-The publisher dashboard must be checked after deployment. Keep only InText enabled, set the maximum to two links per page, and turn off InFold, InTag, InFrame, and other formats.
+Before any future activation, verify publisher approval, keep only InText enabled,
+set the maximum to two links per page, and turn off all other formats.
 
 ## Public Build Variables
 
 ```text
-PUBLIC_INFOLINKS_ENABLED=true
+PUBLIC_INFOLINKS_ENABLED=false
 PUBLIC_INFOLINKS_PID=3447500
 PUBLIC_INFOLINKS_WSID=0
 PUBLIC_ADSENSE_ENABLED=false
@@ -29,8 +35,25 @@ PUBLIC_KOFI_URL=
 ```
 
 The build includes Google's verification-only account meta tag for `ca-pub-4461993577253590`.
-It does not load ads. The AdSense site is still marked `Requires review`, so the client and slot
-variables remain inactive until approval and consent requirements are complete.
+It does not load ads. The live AdSense dashboard checked September 13 shows
+`Needs attention / Low value content`, last updated September 12 at 6:31 PM AEST.
+Client and slot variables remain inactive until approval and consent requirements
+are complete. Do not confirm content issues fixed or request review from an
+ads.txt repair alone.
+
+## Verified Ads.txt Entry
+
+The account's `Verify site ownership > Ads.txt snippet` supplied this exact line:
+
+```text
+google.com, pub-4461993577253590, DIRECT, f08c47fec0942fa0
+```
+
+`public/ads.txt` publishes it at `/ads.txt` through the normal Astro static build.
+This account-supplied verification line may be installed before site approval.
+Do not add guessed Infolinks/reseller entries. Check HTTP 200, plain-text content,
+the exact publisher line, and crawler access after deployment. Dashboard status
+can lag crawling; file publication does not resolve the content-quality finding.
 
 The Infolinks identifiers are public integration values. Never put account passwords, payout details, tax information, or private API credentials in these variables.
 
@@ -73,9 +96,17 @@ Before marking the pilot live, also verify:
 - No ad request occurs before consent or from an owner-suppressed browser.
 - The live tool input and result areas contain no injected ad links.
 - `/privacy-policy/`, `/terms/`, `/advertising-disclosure/`, and `/support/` render correctly.
-- There is no `public/ads.txt` entry unless an approved network supplied the exact line.
+- `public/ads.txt` contains only exact lines supplied by the corresponding network dashboard.
+
+The readiness command now checks the disabled account state, exact source/built
+ads.txt, verification meta tag and retained private boundaries. Technical PASS
+still reports `awaiting_content_review`, never publisher approval.
 
 ## References
+
+- Google ads.txt setup: https://support.google.com/adsense/answer/7532444
+- Google crawler access: https://support.google.com/adsense/answer/7679060
+- Google site readiness/content requirements: https://support.google.com/adsense/answer/12176698
 
 - Infolinks integration: https://sites0001.infolinks.com/support/integration/how-do-i-integrate-infolinks-into-my-website
 - Infolinks area controls: https://sites0001.infolinks.com/support/products/how-do-i-restrict-intext-ads-from-certain-areas
