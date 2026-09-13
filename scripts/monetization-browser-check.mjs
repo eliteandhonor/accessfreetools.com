@@ -99,7 +99,9 @@ try {
       }
       await page.goto(`${publicUrl}/privacy-policy/`, { waitUntil: 'domcontentloaded' });
       await page.locator('footer [data-ad-privacy-open]').click();
-      assert.equal(new URL(page.url()).hash, '#advertising');
+      assert.equal(new URL(page.url()).hash, '#publisher-privacy');
+      await page.addStyleTag({ content: '#advertising { display: none !important; }' });
+      assert.equal(await page.getByRole('heading', { name: 'Advertising and Infolinks' }).isVisible(), true);
       mkdirSync(outputDirectory, { recursive: true });
       await page.screenshot({ path: join(outputDirectory, `disabled-${width}.png`) });
       proof.checks.push(`At ${width}px, disabled networks send no requests despite old granted consent; privacy link works.`);
