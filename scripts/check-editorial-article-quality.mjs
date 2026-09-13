@@ -1,8 +1,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { createHash } from 'node:crypto';
 import { parseFragment } from 'parse5';
-import { reviewEditorialSources } from './lib/editorial-source-review.mjs';
+import { hashEditorialSource, reviewEditorialSources } from './lib/editorial-source-review.mjs';
 import { analyzeWritingText, findSharedSlopHits } from './lib/writing-quality-rules.mjs';
 
 const root = process.cwd();
@@ -79,7 +78,7 @@ function scoreArticle({ slug, path }) {
     .map((match) => ({ href: match[1], text: stripHtml(match[2]) }));
   const externalLinks = externalSourceLinks(articleHtml);
   const sourcePath = resolve(root, 'src', 'pages', 'blog', `${slug}.astro`);
-  const articleSha256 = existsSync(sourcePath) ? createHash('sha256').update(readFileSync(sourcePath)).digest('hex') : null;
+  const articleSha256 = existsSync(sourcePath) ? hashEditorialSource(readFileSync(sourcePath, 'utf8')) : null;
   const sourceReview = reviewEditorialSources({ slug, articleSha256, baseline: sourceBaseline,
     ledger: readRecord(join(sourceReviewDir, `${slug}.json`)), externalLinks });
   const sharedWritingReview = analyzeWritingText(visibleText, { mode: 'editorial', sourcePath: path });

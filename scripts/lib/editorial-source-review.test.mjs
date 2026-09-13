@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { reviewEditorialSources } from './editorial-source-review.mjs';
+import { hashEditorialSource, reviewEditorialSources } from './editorial-source-review.mjs';
 
 const hash = 'a'.repeat(64);
 const reviewedAt = '2026-09-06T00:00:00.000Z';
@@ -22,6 +22,23 @@ function review(ledger, extras = {}) {
 }
 
 describe('claim-to-source and owner evidence records', () => {
+  it('normalizes Git checkout line endings without ignoring substantive edits', () => {
+    const source = '<p>Original article.</p>\n<p>Second paragraph.</p>\n';
+    expect(hashEditorialSource(source.replaceAll('\n', '\r\n'))).toBe(hashEditorialSource(source));
+    for (const edited of [source.replace('Original', 'Changed'), source.replace('Second', ' Second'), source.replaceAll('\n', '\r')]) {
+      expect(hashEditorialSource(edited)).not.toBe(hashEditorialSource(source));
+    }
+  });
+
+  it('recognizes the same legacy draft across platforms but still rejects changed copy', () => {
+    const source = '<p>Original article.</p>\n<p>Second paragraph.</p>\n';
+    const baseline = { fixture: hashEditorialSource(source) };
+    for (const text of [source, source.replaceAll('\n', '\r\n')]) {
+      expect(review(null, { baseline, articleSha256: hashEditorialSource(text) })).toMatchObject({ status: 'legacy-unreviewed', gatePassed: true });
+    }
+    expect(review(null, { baseline, articleSha256: hashEditorialSource(source.replace('Original', 'Changed')) })).toMatchObject({ status: 'missing', gatePassed: false });
+  });
+
   it('preserves unchanged legacy articles without pretending to have verified them', () => {
     expect(review(null, { baseline: { fixture: hash } })).toMatchObject({ status: 'legacy-unreviewed', gatePassed: true, publicationApproved: false });
     expect(review(null, { baseline: { fixture: 'b'.repeat(64) } })).toMatchObject({ status: 'missing', gatePassed: false });

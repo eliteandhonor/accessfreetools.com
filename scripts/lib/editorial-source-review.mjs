@@ -1,3 +1,9 @@
+import { createHash } from 'node:crypto';
+
+export function hashEditorialSource(source) {
+  return createHash('sha256').update(String(source).replace(/\r\n/g, '\n')).digest('hex');
+}
+
 function nonempty(value) {
   return typeof value === 'string' && value.trim().length > 0;
 }

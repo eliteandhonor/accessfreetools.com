@@ -6,7 +6,7 @@ For each new or changed site editorial, add `<slug>.json` here after reviewing t
 
 Each record uses schema version 1 and contains:
 
-- `slug`, `articleSha256`: exact slug and SHA-256 of `src/pages/blog/<slug>.astro`. Recheck evidence when the draft changes.
+- `slug`, `articleSha256`: exact slug and SHA-256 of `src/pages/blog/<slug>.astro`, decoded as UTF-8 with CRLF normalized to LF by `hashEditorialSource`. No other whitespace or content is normalized. Recheck evidence when the draft changes.
 - `reviewedAt`, `reviewer`: ISO timestamp and the person or agent who opened and checked the primary sources.
 - `claims`: each has `claim`, `sourceUrl` (HTTPS and linked in the article), `primarySource: true`, `checkedAt`, and `finding`. Record what the source actually supports and any limits. Use a concise paraphrase, not copied article passages. Cover every consequential external claim; counting entries cannot prove coverage.
 - `brendanFacts`: each has `fact`, `checkedAt`, and `evidenceRef`. Link to the actual owner statement or first-party project proof. Do not invent an anecdote or infer personal experience from a dependency list.

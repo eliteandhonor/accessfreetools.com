@@ -1,13 +1,15 @@
 {
   "recordedOn": "2026-09-06",
+  "hashFormat": "sha256-utf8-lf",
+  "normalizationNote": "September 13: migrated CRLF hashes to LF after proving all seven Git article blobs differ from the recorded Windows sources only in line endings. No article content or review status changed.",
   "purpose": "Unchanged existing articles remain explicitly legacy-unreviewed. These hashes are not approval or verification. Do not refresh hashes to bypass review of edits.",
   "articles": {
-    "remove-ai-writing-tells-before-publishing": "194113d7cd89e16ab9c820c9dd630b54137276aa3d812f6b49f528995cbebe4e",
-    "browser-text-to-speech-kokoro-vs-supertonic": "908f36351ccb375d3bb53a54db47a79de4bf3bc005450a28354eb5cd7439e52e",
-    "tesseract-js-browser-ocr-image-quality": "d5b3adcfea76b1232396a9372369bd5c71daf67aa4299838613bce93aaa60c39",
-    "open-source-projects-behind-access-free-tools": "03fcf94e9a9ec58e17950f079b8df73b5ced947cf9690a9acea9095ac938b24a",
-    "how-to-check-github-project-before-installing": "275895ec3b430c6c209a221e5bc768eba0f59e72523edd7b9fea4356aaad7040",
-    "browser-ai-vs-local-ai-privacy": "37c06b1e5d3c6559969693a6a993512e7f4f5308823431b57d60a712b7fe0b84",
-    "free-ai-skills-open-source-tools-organic-growth": "76b13f1f9c5de3192d780375aa334365704c153782bc7c65f003af26e11fa652"
+    "remove-ai-writing-tells-before-publishing": "1d03446576bcfa48752eae37578e890fb27af686007117b217e56bc7ded992a1",
+    "browser-text-to-speech-kokoro-vs-supertonic": "665f0693fa17b922ced5088660f527b4b5684d7d0fc1d393e7f0413acd1f961a",
+    "tesseract-js-browser-ocr-image-quality": "47cef6bc451e00c44cb0adf554ab3c985e53cb7f859304494ec8e2e04fffcf52",
+    "open-source-projects-behind-access-free-tools": "d3032fb4cafe117d1d8961f2b278b97977a0075bdb8b254aa9b755ce17def5d2",
+    "how-to-check-github-project-before-installing": "78bc33e506bd26269c9f9ce85d5ba2c0846e2882a79472b0a3ea00c38aeb6c45",
+    "browser-ai-vs-local-ai-privacy": "7496b5f3767de0c55d00366b9c6f497a7f348b1c75be660ce6f00b9effaafe4a",
+    "free-ai-skills-open-source-tools-organic-growth": "f8c337a3cbb513512431341372fb4eee5da48f9011cac51a6fc594219af084f4"
   }
 }
