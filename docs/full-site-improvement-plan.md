@@ -1,6 +1,6 @@
 # Full-Site Improvement Plan
 
-This is the Access Free Tools improvement plan. It applies to every page, not just the top 25 tools. It covers tools, guides, categories, aliases, legal pages, monetization, and deployment. The current library has 305 canonical tools and 4 aliases, for 309 tool routes. The owner authorized the TTS and transcriber pairs for indexing on September 13; this does not certify every browser or language.
+This is the Access Free Tools improvement plan. It applies to every Access Free Tools page, not just the top 25 tools. It covers tools, guides, categories, aliases, legal pages, monetization, and deployment. The current library has 305 canonical tools and 4 alias URLs, for 309 tool routes. The owner authorized the TTS and transcriber pairs for indexing on September 13; this does not certify every browser or language.
 
 Current library scope:
 
