@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "slug": "open-source-projects-behind-access-free-tools",
-  "articleSha256": "07d8f258633cee65a9f198faef14a353c8afdb021b90a41f82a04221900792f3",
+  "articleSha256": "939b881c16483c2fb4c5d2397db8d1c186b20dddf4fff80d83162867a613ef0d",
   "reviewer": "Codex source-review agent: edit_stack_privacy_articles",
-  "reviewedAt": "2026-10-05T04:06:23.631Z",
+  "reviewedAt": "2026-10-05T04:18:26.535Z",
   "claims": [
     {
       "claim": "Astro7 renders HTML and supports server routes.",
