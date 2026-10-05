@@ -12,9 +12,10 @@ function readJson(path) {
 
 describe('security dependency overrides', () => {
   it.each([
-    ['fast-uri', '4.1.3'],
+    ['fast-uri', '4.1.5'],
     ['qs', '6.16.0'],
-    ['hono', '4.13.5'],
+    ['hono', '4.13.11'],
+    ['ip-address', '10.7.1'],
     ['js-yaml', '4.3.2'],
     ['sharp', '0.35.4'],
     ['svgo', '4.1.0'],
@@ -40,7 +41,8 @@ describe('security dependency overrides', () => {
 
   it.each([
     ['dependencies', 'astro', '7.2.8'],
-    ['dependencies', 'nodemailer', '9.1.1'],
+    ['dependencies', '@astrojs/node', '11.1.3'],
+    ['dependencies', 'nodemailer', '10.0.14'],
     ['devDependencies', 'vitest', '4.1.11'],
   ])('pins the reviewed %s %s release', (section, name, version) => {
     expect(readJson('package.json')[section][name]).toBe(version);
@@ -49,6 +51,22 @@ describe('security dependency overrides', () => {
 
   it('updates the Vitest mocker with its owning test runner', () => {
     expect(readJson('package-lock.json').packages['node_modules/@vitest/mocker'].version).toBe('4.1.11');
+  });
+
+  it.each([
+    ['devalue', '5.9.4'],
+    ['http-cache-semantics', '4.3.0'],
+  ])('locks the compatible reviewed %s transitive release', (name, version) => {
+    const installs = Object.entries(readJson('package-lock.json').packages).filter(([path]) =>
+      path.endsWith(`node_modules/${name}`),
+    );
+    expect(installs.length).toBeGreaterThan(0);
+    for (const [, installed] of installs) expect(installed.version).toBe(version);
+  });
+
+  it('uses Nodemailer bundled types without the legacy declaration package', () => {
+    expect(readJson('package.json').devDependencies).not.toHaveProperty('@types/nodemailer');
+    expect(readJson('package-lock.json').packages).not.toHaveProperty('node_modules/@types/nodemailer');
   });
 
   it('extracts normal files but refuses a destination directory link', () => {
