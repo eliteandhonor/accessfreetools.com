@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "slug": "remove-ai-writing-tells-before-publishing",
+  "articleSha256": "43bbb15b1d65be88168a8793d73158441790c91594e6143618487526417dead9",
+  "reviewer": "Codex agent /root/edit_writing_article",
+  "reviewedAt": "2026-10-05T03:53:52.626Z",
+  "claims": [
+    {
+      "claim": "Stop Slop defines five subjective writing ratings from 1 to 10, rather than a factual or authorship verification method.",
+      "sourceUrl": "https://github.com/hardikpandya/stop-slop/blob/main/SKILL.md",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:53:52.626Z",
+      "finding": "Opened the maintainer's SKILL.md and its raw content. The scoring section lists directness, rhythm, trust, authenticity, and density. Authenticity asks whether prose sounds human; these judgments do not establish its author, accuracy, or originality. Removed the claim that 50/50 means no known patterns were found. The separate site checker is an automated heuristic, inspected in scripts/check-editorial-article-quality.mjs."
+    },
+    {
+      "claim": "A 2023 study found detector bias against the tested non-native English writing samples; this does not establish the performance of every current detector.",
+      "sourceUrl": "https://arxiv.org/abs/2304.02819",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:53:52.626Z",
+      "finding": "Opened the authors' abstract and submission history. The paper evaluates several GPT detectors on native and non-native English writing and reports misclassification of the latter. Article explicitly limits the finding to the study's samples, detectors, and 2023 date. It makes no measured claim about present-day products."
+    },
+    {
+      "claim": "Descriptive headings, meaningful links, clear content, and semantic HTML heading structure help readers and assistive technology navigate a page.",
+      "sourceUrl": "https://www.w3.org/WAI/tips/writing/",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:53:52.626Z",
+      "finding": "Opened W3C WAI writing tips. It explains that visual heading styling alone supplies no structural cue to assistive technology, and that semantically tagged headings enable navigation. It also recommends meaningful link text and concise content. Article names h2/h3 and logical hierarchy without claiming these changes alone certify accessibility."
+    },
+    {
+      "claim": "Google distinguishes useful AI-assisted research and structure from generating many pages without added value, and calls for fact-checking generated content and its metadata.",
+      "sourceUrl": "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:53:52.626Z",
+      "finding": "Opened Google's guidance, shown as updated October 1, 2026. It supports AI use for research and structure while warning about scaled low-value pages. Its review guidance includes titles, descriptions, structured data, and image alternative text. It discusses accurate creation context and image metadata; removed the earlier suggestion to strip provenance metadata. No ranking or AdSense approval promise remains."
+    },
+    {
+      "claim": "Google's people-first guidance favors useful original information and accurate authorship and AI-creation context, rather than a preferred word count or a fresh-looking date.",
+      "sourceUrl": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:53:52.626Z",
+      "finding": "Opened Google's content and quality questions and Who/How/Why sections. These support a reader task, evidence, truthful bylines, and useful AI-assistance disclosures. Removed unrecorded autobiographical scenes instead of using them to imply firsthand expertise."
+    }
+  ],
+  "brendanFacts": [
+    {
+      "fact": "Brendan owns Access Free Tools.",
+      "checkedAt": "2026-10-05T03:53:52.626Z",
+      "evidenceRef": "Authorized owner context in delegated thread 01a1098f-7b41-7433-b2a4-ac86ee09c028."
+    }
+  ],
+  "localChecks": [
+    {
+      "claim": "The example's original instruction has 26 words and one sentence over 20 words; its revision has 22 words across two 11-word sentences and no sentence over 20 words.",
+      "checkedAt": "2026-10-05T03:53:52.626Z",
+      "evidenceRef": "Executed analyzeEnglishReadability from src/lib/readability.ts with Node 24 in the isolated editorial worktree; exact example inputs are printed in the article.",
+      "finding": "Actual function outputs confirmed the stated counts. This is a narrow new example check, not a historical experiment or claim of Brendan's personal testing."
+    },
+    {
+      "claim": "The keyword tool removes common words and counts repeated filtered tokens and pairs, which can join words that were not adjacent in the original draft.",
+      "checkedAt": "2026-10-05T03:53:52.626Z",
+      "evidenceRef": "Inspected tokenize, topCounts, and runKeywords in src/components/AiBrowserTool.tsx, plus the keyword-extractor record in src/data/aiTools.ts.",
+      "finding": "The implementation lowercases and filters tokens before assembling pairs. Counts provide repetition clues and contain no search-volume or ranking data."
+    },
+    {
+      "claim": "The speech page lets readers enter text, choose a voice, generate audio, and download MP3 output; model loading is a separate first-run step.",
+      "checkedAt": "2026-10-05T03:53:52.626Z",
+      "evidenceRef": "Inspected src/components/TextToSpeechAudiobookGenerator.tsx and its generation, voice-selection, and loading-state code.",
+      "finding": "Kept these concrete controls without a listening preference, browser timing, offline promise, or claimed personal testing."
+    }
+  ],
+  "removedUnsupportedClaims": [
+    "Brendan personally rejected a testing article for boredom and replaced it after considering a speech server.",
+    "Brendan's first uncached Edge run took exactly 70.4 seconds and caused a particular product decision.",
+    "A local 50/50 style score proves absence of every known AI writing pattern.",
+    "Removing image provenance metadata is a normal writing-cleanup step."
+  ],
+  "ownerApproval": {
+    "status": "pending",
+    "by": "Brendan Chambers"
+  }
+}

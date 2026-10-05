@@ -34,7 +34,7 @@ const {
   title,
   seoTitle,
   description,
-  label = 'Owner notes',
+  label = 'Project notes',
   breadcrumbLabel,
   imagePath,
   socialImagePath,
@@ -60,8 +60,8 @@ const articleStructuredData = {
   dateModified: dates.modified,
   inLanguage: 'en',
   author: {
-    '@type': 'Person',
-    name: 'Brendan Chambers',
+    '@type': 'Organization',
+    name: 'Access Free Tools',
     url: 'https://accessfreetools.com/about/',
   },
   publisher: {
@@ -101,7 +101,7 @@ const articleStructuredData = {
       <span>{label}</span>
       <h1>{title}</h1>
       <p class="article-meta-line">
-        By <a href="/about/">Brendan Chambers</a>. {publishedLabel}.
+        By <a href="/about/">Access Free Tools</a>. {publishedLabel}.
       </p>
       <slot name="intro" />
     </header>
@@ -127,10 +127,10 @@ const articleStructuredData = {
         <slot />
 
         <section class="content-section article-flow-section editorial-sources" aria-labelledby={`${slug}-sources`}>
-          <h2 id={`${slug}-sources`}>Sources I checked</h2>
+          <h2 id={`${slug}-sources`}>Sources</h2>
           <p>
-            I used primary project pages and official documentation for technical facts. The links
-            below let you check the same sources.
+            These primary project pages and official documentation support the technical
+            explanations in this article.
           </p>
           <ul class="source-link-list">
             {sources.map((source) => (
@@ -142,9 +142,9 @@ const articleStructuredData = {
         <section class="editorial-disclosure" aria-label="Editorial disclosure">
           <strong>How this article was made</strong>
           <p>
-            I own Access Free Tools. AI helped with research organization and draft checks. I
-            checked the project links, examples, and claims before publishing, and I kept the final
-            judgment and wording my own.
+            Access Free Tools is owned by Brendan Chambers. This article was revised with
+            AI-assisted research and editing. Technical explanations were checked against linked
+            primary sources and the current project code where applicable.
           </p>
         </section>
       </div>

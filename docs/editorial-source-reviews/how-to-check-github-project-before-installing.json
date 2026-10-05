@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "slug": "how-to-check-github-project-before-installing",
+  "articleSha256": "63b64b14f94bb41c257e598b6cdafc9015d8c88a09a40a44c8c14d2bb2ee5dfc",
+  "reviewedAt": "2026-10-05T03:52:36.808Z",
+  "reviewer": "Codex agent /root/edit_install_article",
+  "claims": [
+    {
+      "claim": "A README and license communicate a project's purpose and terms; their presence is an inspection starting point rather than a security endorsement.",
+      "sourceUrl": "https://docs.github.com/en/repositories/creating-and-managing-repositories/best-practices-for-repositories",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:48:18.000Z",
+      "finding": "Opened GitHub's repository best practices. It recommends a README, license and security features, including dependency alerts, secret scanning and code scanning. The draft uses these as review signals and does not claim they certify safe execution."
+    },
+    {
+      "claim": "Review manifests and lockfiles for direct and indirect dependency changes and known vulnerabilities.",
+      "sourceUrl": "https://docs.github.com/en/code-security/concepts/supply-chain-security/dependency-review",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:48:18.000Z",
+      "finding": "Opened GitHub's dependency review documentation. It covers changed manifests and lockfiles, indirect dependencies, release information and known vulnerability data. The draft recommends inspecting this evidence without treating a clean scan as proof that every execution path is safe."
+    },
+    {
+      "claim": "Check the exact release or commit and its release notes rather than relying on floating latest instructions.",
+      "sourceUrl": "https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:48:18.000Z",
+      "finding": "Opened GitHub's release documentation. Releases package software and notes around a tag, which identifies a point in repository history. The checklist's exact-version record is a reproducibility recommendation, not a claim that a tag, checksum or signature makes code harmless."
+    },
+    {
+      "claim": "A license supplies reuse terms rather than security assurance; public source without a license does not automatically grant permission to reuse it.",
+      "sourceUrl": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:48:18.000Z",
+      "finding": "Opened GitHub's licensing guide. It explains that licenses govern source-code use and that default copyright applies without a license, while GitHub's platform terms permit viewing and forking. The draft avoids treating visibility as unrestricted reuse permission and recommends checking separate asset terms."
+    },
+    {
+      "claim": "OpenSSF Scorecard checks security heuristics with possible false positives and negatives; aggregate scores are not a definitive security verdict.",
+      "sourceUrl": "https://github.com/ossf/scorecard",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:50:44.000Z",
+      "finding": "Opened the official Scorecard README, project non-goals and checks list. It explicitly describes heuristic limits and aggregate-score limits. Maintained, Pinned-Dependencies, Dangerous-Workflow, Security-Policy and Vulnerabilities are listed checks. The draft keeps these caveats and recommends reading individual dated findings."
+    },
+    {
+      "claim": "npm installation can execute lifecycle scripts, including in global mode, and dependencies can introduce setup work.",
+      "sourceUrl": "https://docs.npmjs.com/cli/v11/using-npm/scripts/",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:48:18.000Z",
+      "finding": "Opened npm v11 scripts documentation, including installation order, prepare behavior and dependency scripts. It lists preinstall, install, postinstall and preparation stages, and states installation lifecycle scripts also run for npm install -g. The draft's helper-download example is explicitly hypothetical; no package was installed or executed during this review."
+    },
+    {
+      "claim": "Node's --permission model restricts resources for trusted code and does not protect against malicious code; it cannot replace operating-system isolation for unknown programs.",
+      "sourceUrl": "https://nodejs.org/api/permissions.html",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:48:18.000Z",
+      "finding": "Opened official Node permissions documentation. It expressly says the permission model addresses accidental access by trusted code and gives no security guarantee against malicious code, which can bypass it. The draft does not offer --permission, --help, dry-run, a temporary folder, or a user-global directory as containment. Disposable-environment and no-secrets advice is scoped practical guidance, with shared-folder and credential limitations stated."
+    }
+  ],
+  "brendanFacts": [
+    {
+      "fact": "Brendan Chambers owns Access Free Tools.",
+      "checkedAt": "2026-10-05T03:51:03.045Z",
+      "evidenceRef": "Authorized owner context in delegated thread 01a1098f-7b41-7433-b2a4-ac86ee09c028"
+    }
+  ],
+  "ownerApproval": {
+    "status": "pending",
+    "by": "Brendan Chambers"
+  },
+  "experienceReview": {
+    "scope": "Searched permitted project docs and agents records for the original Agentic SEO Skill installation narrative. No supporting personal run record was found there.",
+    "action": "Removed the unsupported first-person installation and testing story. Replaced it with a clearly marked illustrative CLI inspection example. Retained the useful seven-check structure, repository signals, script checks, license distinction and secret-handling advice.",
+    "limitation": "This records the agent's source review of the exact draft. It does not assert Brendan performed these checks, reviewed every source, or approved publication."
+  }
+}

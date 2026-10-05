@@ -3,9 +3,9 @@ export const prerender = true;
 import EditorialArticleLayout from '../../components/EditorialArticleLayout.astro';
 
 const slug = 'how-to-check-github-project-before-installing';
-const title = 'How I Check a GitHub Project Before Installing It';
+const title = 'How to Check a GitHub Project Before Installing It';
 const description =
-  'Brendan Chambers shares the practical repository, license, script, dependency, and sandbox checks he uses before installing a GitHub project.';
+  'Seven practical checks for a GitHub project: source, license, maintenance, install scripts, dependencies, permissions, and a restricted test environment.';
 const imagePath = '/social/how-to-check-github-project-before-installing.webp';
 const socialImagePath = '/social/how-to-check-github-project-before-installing.png';
 const imageAlt =
@@ -17,21 +17,18 @@ const sources = [
   { href: 'https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases', label: 'GitHub Docs: About releases' },
   { href: 'https://github.com/ossf/scorecard', label: 'OpenSSF Scorecard' },
   { href: 'https://docs.npmjs.com/cli/v11/using-npm/scripts/', label: 'npm documentation: Scripts' },
-  { href: 'https://github.com/Bhanunamikaze/Agentic-SEO-Skill', label: 'Agentic SEO Skill on GitHub' },
-  { href: 'https://github.com/safishamsi/graphify', label: 'Graphify on GitHub' },
-  { href: 'https://github.com/Egonex-AI/Understand-Anything', label: 'Understand Anything on GitHub' },
-  { href: 'https://github.com/garrytan/gstack', label: 'GStack on GitHub' },
+  { href: 'https://nodejs.org/api/permissions.html', label: 'Node.js documentation: Permission Model and its limits' },
 ];
 const relatedLinks = [
   {
     href: '/blog/open-source-projects-behind-access-free-tools/',
     label: 'The open-source projects behind this site',
-    description: 'See which projects made it through this sort of review and what job each one has.',
+    description: 'See the projects used by Access Free Tools and what job each one has.',
   },
   {
     href: '/blog/free-ai-skills-open-source-tools-organic-growth/',
-    label: 'My free AI skills testing list',
-    description: 'The earlier skill review that led to this safer installation workflow.',
+    label: 'AI skills and open-source tools to evaluate',
+    description: 'Compare useful tasks, setup requirements, licenses, and possible costs.',
   },
   {
     href: '/categories/developer-tools/',
@@ -40,7 +37,7 @@ const relatedLinks = [
   },
   {
     href: '/why-access-free-tools/',
-    label: 'How I make site decisions',
+    label: 'How Access Free Tools makes site decisions',
     description: 'Read the practical rules behind Access Free Tools.',
   },
 ];
@@ -49,7 +46,7 @@ const relatedLinks = [
 <EditorialArticleLayout
   slug={slug}
   title={title}
-  seoTitle="How I Check a GitHub Project Before Installing It"
+  seoTitle="How to Check a GitHub Project Before Installing It"
   description={description}
   breadcrumbLabel="Checking a GitHub project before installation"
   imagePath={imagePath}
@@ -61,41 +58,42 @@ const relatedLinks = [
 >
   <Fragment slot="intro">
     <p>
-      When I started testing coding-agent skills for Access Free Tools, several repositories offered
-      a one-line install command. I did not run those commands first. I opened the repository,
-      traced what the installer would write, and decided whether it belonged in a temporary folder,
-      my user-level skill directory, or nowhere near the project.
+      A GitHub README offers a one-line install command. Before you paste it into a terminal,
+      find out what it downloads, what it runs, and what it can reach on your computer. These
+      seven checks help you decide whether to inspect further, test with restricted access,
+      or skip the project.
     </p>
   </Fragment>
 
   <section class="content-section article-flow-section">
     <h2>Quick answer</h2>
     <p>
-      I cannot prove that a GitHub project is safe by looking at its star count or a green badge. I
-      can reduce the risk by checking who maintains it, whether the source and license are clear,
-      what its install scripts run, which dependencies it adds, where it writes files, and whether
-      I can test it without exposing secrets or changing the real project.
+      Stars and green badges do not prove that code is safe. Check the maintainer, source,
+      license, install scripts, dependencies, write locations, and requested access before
+      running anything. Read files in GitHub first. A project executable can run code even
+      when you only ask for <code>--help</code> or a dry run.
     </p>
     <p>
-      My first run is usually <code>--help</code>, a dry run, or a read-only inventory in a temporary
-      directory. Installation comes after the boring checks, not before them.
+      A temporary folder or user-global install keeps files organized. Neither prevents the
+      program from accessing other files available to your account. If testing unknown code is
+      necessary, use a disposable environment with restricted access and no real secrets.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>The seven checks I use</h2>
+    <h2>Seven checks before installation</h2>
     <p class="article-source-note">
       Starting points: <a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/best-practices-for-repositories" rel="noopener noreferrer" target="_blank">GitHub repository practices</a>
       and <a href="https://github.com/ossf/scorecard" rel="noopener noreferrer" target="_blank">OpenSSF Scorecard</a>
     </p>
     <ol class="editorial-checklist">
-      <li><strong>Confirm the real source.</strong> I follow redirects and make sure the repository belongs to the project or maintainer I expected.</li>
-      <li><strong>Read the README and license.</strong> I check what the project says it does, its supported platforms, and whether the license allows the use I have in mind.</li>
-      <li><strong>Check maintenance signals.</strong> I look at recent releases, open issues, archived status, and whether installation instructions still match the files.</li>
-      <li><strong>Read every install path.</strong> I inspect shell scripts, PowerShell scripts, package scripts, setup files, and commands that download or execute more code.</li>
-      <li><strong>Inspect dependencies.</strong> I check the manifest and lockfile, then look for unexpected packages, native binaries, broad post-install steps, or known advisories.</li>
-      <li><strong>Map writes and secrets.</strong> I list the folders the tool creates and the environment variables, browser access, tokens, or credentials it expects.</li>
-      <li><strong>Start isolated.</strong> I run the smallest read-only command in a temporary clone or user-level directory and confirm the main repository stayed unchanged.</li>
+      <li><strong>Confirm the source.</strong> Follow repository redirects and compare the owner with links from the project's official website. Record the version or commit you intend to use.</li>
+      <li><strong>Read the README and license.</strong> Check the stated purpose, supported platforms, and permission for your intended use.</li>
+      <li><strong>Check maintenance signals.</strong> Look at releases, open issues, archived status, and whether the installation instructions match the files.</li>
+      <li><strong>Trace the installer.</strong> Read shell scripts, PowerShell scripts, package scripts, setup files, and anything they download or execute.</li>
+      <li><strong>Inspect dependencies.</strong> Read the manifest and lockfile. Look for unexpected packages, native binaries, setup scripts, and known advisories.</li>
+      <li><strong>Map writes and access.</strong> List the folders, network destinations, environment variables, browser access, and credentials the program expects.</li>
+      <li><strong>Restrict any test.</strong> Use a disposable environment without your account credentials or production files. Allow only the files and network access needed for the test. Review changes before bringing anything back.</li>
     </ol>
   </section>
 
@@ -106,33 +104,36 @@ const relatedLinks = [
     </p>
     <p>
       A popular repository can still have a compromised release, a risky dependency, or an install
-      script that is too broad for my use. A new repository can be careful and useful even if very
-      few people have starred it. I treat popularity as context, not permission.
+      script that asks for more access than the job needs. A new repository can be useful even
+      with few stars. Treat popularity as context, then inspect the actual version you plan to run.
     </p>
     <p>
       OpenSSF Scorecard checks useful security signals such as maintained status, pinned
       dependencies, dangerous workflow patterns, a security policy, and known vulnerabilities. Its
       own documentation says the checks are heuristics with possible false positives and false
-      negatives. I read the individual checks instead of treating one total score as a verdict.
+      negatives. Read the individual findings and their dates rather than treating one total
+      score as a verdict.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>I read package scripts before running npm install</h2>
+    <h2>Read package scripts before running npm install</h2>
     <p class="article-source-note">
       Source: <a href="https://docs.npmjs.com/cli/v11/using-npm/scripts/" rel="noopener noreferrer" target="_blank">npm scripts documentation</a>
     </p>
     <p>
       A package can run lifecycle scripts during installation. That may be normal, such as compiling
       a native helper, but it means <code>npm install</code> is an action rather than a harmless file
-      download. I inspect <code>package.json</code> and search for preinstall, install, postinstall,
-      prepare, and shell commands first.
+      download. Inspect <code>package.json</code> and scripts named <code>preinstall</code>,
+      <code>install</code>, <code>postinstall</code>, and <code>prepare</code>. Dependencies may
+      also have setup scripts. A global install can run lifecycle scripts too.
     </p>
     <p>
-      I also check whether the repository pins versions with a lockfile. A command that pulls
+      Check whether the repository pins versions with a lockfile. A command that pulls
       whatever "latest" means today is harder to reproduce than a reviewed version. If the project
-      downloads another executable during setup, I want to know its source and whether a checksum or
-      signed release is available.
+      downloads another executable during setup, inspect its source and any available checksum
+      or signature. A checksum can identify the downloaded file. It does not establish that
+      the file is harmless.
     </p>
   </section>
 
@@ -142,38 +143,34 @@ const relatedLinks = [
       Source: <a href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository" rel="noopener noreferrer" target="_blank">GitHub's repository licensing guide</a>
     </p>
     <p>
-      A clear license tells me what I am allowed to copy, modify, or redistribute. It does not prove
-      the code is secure. A security scan does not grant permission to use the code. I need both
-      questions answered before a dependency becomes part of a public website.
+      A license sets the terms for copying, modifying, or redistributing code. It does not prove
+      the code is secure, and a security scan does not grant permission to use it. Public source
+      without a license does not automatically give you permission to reuse it.
     </p>
     <p>
-      I also avoid copying a competitor's wording, artwork, or branded interface just because its
-      code is visible. Open source has terms. A public webpage is not automatically open source.
+      Check separate terms for bundled models, fonts, images, and other assets. The repository's
+      code license may not cover them. This matters when choosing a dependency for a public
+      website such as <a href="/blog/open-source-projects-behind-access-free-tools/">Access Free Tools</a>.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
     <h2>The write locations matter as much as the code</h2>
-    <p class="article-source-note">
-      Real examples: <a href="https://github.com/safishamsi/graphify" rel="noopener noreferrer" target="_blank">Graphify</a>,
-      <a href="https://github.com/Egonex-AI/Understand-Anything" rel="noopener noreferrer" target="_blank">Understand Anything</a>, and
-      <a href="https://github.com/garrytan/gstack" rel="noopener noreferrer" target="_blank">GStack</a>
+    <p>
+      A coding assistant can create project-memory files, change configuration, or install
+      commands outside the project. Trace the destination for each write. Does setup create
+      <code>.claude/</code>, replace <code>AGENTS.md</code>, or alter a shell startup file?
+      Decide whether those changes belong in your project before accepting them.
     </p>
     <p>
-      During my skill review, I found projects that could create knowledge graphs, project-memory
-      folders, or Claude-specific setup files. Those features can be useful, but I did not want a
-      test to create <code>.claude/</code>, replace <code>AGENTS.md</code>, or add a large graph file
-      to Access Free Tools.
-    </p>
-    <p>
-      I kept those projects in evaluation mode and used help or inventory commands only. For normal
-      skills, I preferred a user-global install under my Codex skills folder. That gave the skill a
-      clear home without mutating the website repository.
+      A user-global directory is a destination, not a security boundary. Installing there can
+      affect every project that loads that tool. An unchanged project folder also does not show
+      whether a program read private files or sent data over the network.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>My simple green flags and stop signs</h2>
+    <h2>Useful signals and reasons to inspect further</h2>
     <div class="editorial-table-shell" role="region" aria-label="Repository review signals" tabindex="0">
       <table class="editorial-comparison-table">
         <thead><tr><th>Useful signal</th><th>Reason to stop and inspect</th></tr></thead>
@@ -181,7 +178,7 @@ const relatedLinks = [
           <tr><td>Clear owner, README, license, and release history</td><td>Copied instructions, unclear ownership, or an archived repository</td></tr>
           <tr><td>Small, readable installer with exact destinations</td><td>Obfuscated commands, remote piping, or broad writes outside the expected folder</td></tr>
           <tr><td>Pinned dependencies and a reviewed lockfile</td><td>Unexpected native binaries, floating versions, or unexplained post-install work</td></tr>
-          <tr><td>Help, dry-run, or read-only mode</td><td>The first command demands admin access, secrets, browser control, or a production token</td></tr>
+          <tr><td>Documented permissions and a restricted test setup</td><td>The first command demands admin access, secrets, browser control, or a production token</td></tr>
         </tbody>
       </table>
     </div>
@@ -192,46 +189,58 @@ const relatedLinks = [
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>A real example from Access Free Tools</h2>
+    <h2>Example: a CLI that also downloads a helper</h2>
     <p>
-      I reviewed the <a href="https://github.com/Bhanunamikaze/Agentic-SEO-Skill" rel="noopener noreferrer" target="_blank">Agentic SEO Skill</a>
-      because I wanted a stronger second opinion on sitemap, page, schema, and content checks. The
-      safe path had 3 boundaries: inspect the installer in a temporary clone, install only to the
-      user-level Codex skills directory, and refuse project-local setup that could change this repo.
+      Imagine a package with <code>postinstall</code> set to <code>node setup.js</code>.
+      Reading <code>setup.js</code> reveals 3 actions: download a helper executable, write it to
+      a user-global folder, and update shell configuration. This is an illustrative example,
+      not a test result for a particular project.
     </p>
     <p>
-      After installation, I ran lightweight help and inventory checks. I did not start a broad paid
-      crawl or let the skill mark pages complete from a script score alone. The site's own SEO
-      workbench, source rules, and final judge still control what gets published.
+      Before installing, check the helper's source and version, the exact write paths, and
+      whether the shell change is necessary. If those answers are missing, stop. If you continue,
+      use a disposable test environment with fake inputs and no shared home folder, saved
+      browser login, production checkout, or real tokens. Restrict networking to what the test needs.
+    </p>
+    <p class="article-source-note">
+      Source: <a href="https://nodejs.org/api/permissions.html" rel="noopener noreferrer" target="_blank">Node.js Permission Model</a>
+    </p>
+    <p>
+      Node's <code>--permission</code> flag can limit resource access for trusted code. Its
+      documentation explicitly says it does not protect against malicious code. It is not a
+      replacement for operating-system isolation when testing an unknown program. A disposable
+      virtual machine still needs careful configuration. Shared folders and credentials can
+      defeat the intended boundary.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>What I would never put in a repository review report</h2>
+    <h2>Keep secrets out of the review report</h2>
     <p>
-      I do not paste passwords, API keys, browser cookies, login codes, or private environment
-      values into a report. If a tool needs a secret, I note the variable name and the access it
-      grants. The value stays in the approved local secret store.
+      Do not paste passwords, API keys, browser cookies, login codes, or private environment
+      values into a report. If a tool needs a secret, record the variable name and the access
+      it grants. Use fake credentials for inspection and testing whenever possible.
     </p>
     <p>
-      I also do not call a project safe after one clean scan. The honest conclusion is narrower:
-      what I checked, what I did not check, which version I reviewed, and which permissions I was
-      willing to grant.
+      Record the exact version, checked files, test environment, observed writes and network
+      requests, and anything not checked. A clean scan reports what that scan found. It cannot
+      establish that every dependency and execution path is safe.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
     <h2>Use this checklist before the one-line command</h2>
     <p>
-      Open the repository. Confirm the owner. Read the license. Inspect the installer and package
-      scripts. Check dependencies and releases. List every write location and permission. Then run
-      the smallest command in an isolated place.
+      Open the repository, confirm the owner, and read the license. Inspect the installer and
+      package scripts, then check dependencies and releases. List write locations and permissions. Only then
+      consider a test with restricted access. Treat <code>--help</code>, a dry run, and installation
+      as code execution when they invoke the project's program.
     </p>
     <p>
-      That takes longer than copying a command from a README, but it is much faster than cleaning up
-      a project after an installer changed files you did not expect. My
-      <a href="/blog/open-source-projects-behind-access-free-tools/">open-source stack article</a>
-      shows the projects that earned a defined job in Access Free Tools after this kind of review.
+      For the dependencies already used on this site, the
+      <a href="/blog/open-source-projects-behind-access-free-tools/">Access Free Tools stack guide</a>
+      explains their jobs and limits. Use the same questions when evaluating a new project,
+      rather than treating an existing site's dependency choice as a security endorsement.
     </p>
   </section>
 </EditorialArticleLayout>

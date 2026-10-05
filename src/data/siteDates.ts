@@ -283,13 +283,13 @@ const toolLastmodOverrides: Record<string, string> = {
 };
 
 const blogModifiedOverrides: Record<string, string> = {
-  'remove-ai-writing-tells-before-publishing': '2026-09-02',
-  'browser-text-to-speech-kokoro-vs-supertonic': '2026-08-26',
-  'tesseract-js-browser-ocr-image-quality': '2026-08-17',
-  'browser-ai-vs-local-ai-privacy': '2026-07-29',
-  'free-ai-skills-open-source-tools-organic-growth': '2026-07-13',
-  'open-source-projects-behind-access-free-tools': '2026-07-13',
-  'how-to-check-github-project-before-installing': '2026-07-13',
+  'remove-ai-writing-tells-before-publishing': '2026-10-05',
+  'browser-text-to-speech-kokoro-vs-supertonic': '2026-10-05',
+  'tesseract-js-browser-ocr-image-quality': '2026-10-05',
+  'browser-ai-vs-local-ai-privacy': '2026-10-05',
+  'free-ai-skills-open-source-tools-organic-growth': '2026-10-05',
+  'open-source-projects-behind-access-free-tools': '2026-10-05',
+  'how-to-check-github-project-before-installing': '2026-10-05',
   'how-to-use-basic-calculator': '2026-06-02',
   'how-to-use-big-number-calculator': '2026-10-05',
   'how-to-use-binary-calculator': '2026-06-27',

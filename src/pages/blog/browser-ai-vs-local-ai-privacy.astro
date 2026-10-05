@@ -5,45 +5,47 @@ import EditorialArticleLayout from '../../components/EditorialArticleLayout.astr
 const slug = 'browser-ai-vs-local-ai-privacy';
 const title = 'Browser AI vs Local AI: What Stays on Your Device?';
 const description =
-  'Brendan Chambers explains how browser AI, local AI, cloud model calls, downloads, and analytics affect privacy, using real Access Free Tools examples.';
+  'Compare browser inference, model downloads, cloud question routing, and analytics using the current Access Free Tools implementation and its limits.';
 const imagePath = '/social/browser-ai-vs-local-ai-privacy.webp';
 const socialImagePath = '/social/browser-ai-vs-local-ai-privacy.png';
 const imageAlt =
   'Full-body smoke-kawaii girl comparing a browser window on one side with a small local computer and shield on the other, joined by visible network lights.';
 const sources = [
   { href: 'https://github.com/naptha/tesseract.js', label: 'Tesseract.js official repository' },
-  { href: 'https://github.com/naptha/tesseract.js/blob/master/docs/api.md', label: 'Tesseract.js worker API' },
-  { href: 'https://huggingface.co/docs/transformers.js/main/index', label: 'Hugging Face: Transformers.js' },
-  { href: 'https://huggingface.co/docs/transformers.js/main/en/custom_usage', label: 'Hugging Face: custom model locations' },
+  { href: 'https://github.com/naptha/tesseract.js/blob/master/docs/api.md', label: 'Tesseract.js worker API and cache options' },
+  { href: 'https://tesseract-ocr.github.io/tessdoc/ImproveQuality.html', label: 'Tesseract: image quality limits' },
+  { href: 'https://huggingface.co/docs/transformers.js/index', label: 'Hugging Face: Transformers.js' },
+  { href: 'https://huggingface.co/docs/transformers.js/custom_usage', label: 'Hugging Face: model and runtime locations' },
   { href: 'https://docs.ollama.com/api/introduction', label: 'Ollama API introduction' },
-  { href: 'https://docs.ollama.com/cloud', label: 'Ollama cloud and local-only modes' },
+  { href: 'https://docs.ollama.com/cloud', label: 'Ollama cloud modes' },
   { href: 'https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API', label: 'MDN: Fetch API' },
+  { href: 'https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-masking', label: 'Microsoft: Clarity content masking' },
 ];
 const relatedLinks = [
   {
     href: '/categories/ai-tools/',
     label: 'Browser AI tools',
-    description: 'See the AI helpers that explain model downloads, uncertainty, and privacy limits.',
+    description: 'Find AI helpers with model, download, and accuracy limits.',
   },
   {
     href: '/tools/image-to-text-ocr-tool/',
     label: 'Image to Text OCR Tool',
-    description: 'Try the browser OCR example used in this article.',
+    description: 'Try printed-text recognition with a selected image.',
   },
   {
     href: '/blog/browser-text-to-speech-kokoro-vs-supertonic/',
-    label: 'Kokoro versus Supertonic browser test',
-    description: 'See measured browser-model downloads, fallback behavior, and local MP3 generation.',
+    label: 'Kokoro and Supertonic browser speech',
+    description: 'Compare model downloads, runtime choices, licenses, and maintenance limits.',
   },
   {
     href: '/ask/',
     label: 'Ask Access Free Tools',
-    description: 'See the question router that keeps calculator answers deterministic.',
+    description: 'See how the server routes questions to deterministic tools.',
   },
   {
     href: '/privacy-policy/',
     label: 'Privacy policy',
-    description: 'Check the current analytics, advertising, form, and AI-routing details.',
+    description: 'Check the current analytics, forms, and AI-routing details.',
   },
 ];
 ---
@@ -57,172 +59,197 @@ const relatedLinks = [
   imagePath={imagePath}
   socialImagePath={socialImagePath}
   imageAlt={imageAlt}
-  imageCaption="The smoke-kawaii mascot checks where the work happens, which files download, and whether a question crosses the network."
+  imageCaption="The smoke-kawaii mascot checks where processing happens, which files download, and whether content crosses the network."
   sources={sources}
   relatedLinks={relatedLinks}
 >
   <Fragment slot="intro">
     <p>
-      I can drag a receipt into the Image to Text OCR Tool and watch my browser turn it into text.
-      That feels private because the recognition happens on my computer. The page can still download
-      code, record a tool action, or send another kind of request across the network, so I check the
-      whole path before I describe an AI tool as private.
+      A browser can turn a receipt into text without uploading the image for recognition.
+      That same page can still download code, record a tool action, or call a cloud service for a
+      different task. To understand privacy, follow the input and the requests separately.
+      Access Free Tools provides examples of all these routes.
     </p>
   </Fragment>
 
   <section class="content-section article-flow-section">
     <h2>Quick answer</h2>
     <p>
-      Browser AI runs the model or recognition engine inside the browser tab. Local AI usually runs
-      through software and model files installed on your own computer. Either setup can keep the
-      input on your device, but the label alone proves nothing about downloads, analytics, cloud
-      fallbacks, extensions, or the code wrapped around the model.
+      Browser AI runs inference or recognition inside a browser tab. Local AI often runs through
+      installed software on your computer. Either can process input on the device, but neither
+      label proves the entire workflow is offline. Model downloads, cloud fallbacks, analytics,
+      and the surrounding application can make separate requests.
     </p>
     <p>
-      I check four things: where the input goes, where inference runs, which files arrive over the
-      network, and what other requests the page makes. A browser's Network panel gives a better
-      answer than a privacy badge.
+      Check four things: where the input goes, where processing runs, which support files download,
+      and what other traffic the page sends. The examples below describe the Access Free Tools
+      implementation reviewed on October 5, 2026. They are not a guarantee for every browser,
+      setting, extension, or future version.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Browser-side describes the work, not the whole connection</h2>
+    <h2>Browser processing does not mean zero network traffic</h2>
     <p class="article-source-note">
       Source: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" rel="noopener noreferrer" target="_blank">MDN's Fetch API guide</a>
     </p>
     <p>
-      A web page arrives from a server before it can run on your device. It may fetch JavaScript,
-      WebAssembly, language data, model weights, fonts, and images. Those downloads reveal an IP
-      address and request details to the server that supplies them, even when your photo or pasted
-      text stays inside the tab.
+      A web page can download JavaScript, WebAssembly, language data, model weights, and images
+      before it can work. Those downloads connect to the servers supplying the files. Browser
+      code can also send data through fetch requests, forms, beacons, or third-party scripts.
     </p>
     <p>
-      Browser code can also send data with <code>fetch</code>, forms, beacons, or third-party scripts.
-      I therefore avoid the shortcut that says browser-side means offline. The useful claim names
-      the input, the processing step, and any separate traffic.
+      A model download is different from sending a receipt or pasted text to a server for
+      inference. Both are network activity. A useful privacy statement names the content,
+      processing step, destination, and any separate telemetry.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>My OCR tool keeps the selected image in the browser</h2>
+    <h2>OCR passes the selected image to a browser worker</h2>
     <p class="article-source-note">
       Sources: <a href="https://github.com/naptha/tesseract.js" rel="noopener noreferrer" target="_blank">Tesseract.js</a>
       and its <a href="https://github.com/naptha/tesseract.js/blob/master/docs/api.md" rel="noopener noreferrer" target="_blank">worker API</a>
     </p>
     <p>
-      The <a href="/tools/image-to-text-ocr-tool/">Access Free Tools Image to Text OCR Tool</a>
-      passes the chosen image file to a Tesseract.js web worker. The site serves the worker,
-      WebAssembly core, and six language files from its own model asset directory. The code
-      does not upload the selected image to the Access Free Tools server for recognition.
+      The <a href="/tools/image-to-text-ocr-tool/">Image to Text OCR Tool</a> reads the selected file
+      into image bytes and passes them to a Tesseract.js web worker. Its recognition code does not
+      upload the image to Access Free Tools. The worker, WebAssembly core, and selected language
+      data load from the site's own model directory after Read text is pressed.
     </p>
     <p>
-      The first OCR run can download several support files. Tesseract.js can cache trained language
-      data in the browser, and a later run may need less network traffic. OCR accuracy still depends
-      on the image. I check names, dates, totals, and account numbers against the original rather
-      than trusting the extracted text.
+      Six language files are supplied: English, Spanish, French, German, Italian, and Portuguese.
+      Language data can be cached in the browser, so a later run may make fewer requests. A clear
+      English <a href="/samples/ocr-synthetic-english.png" download="ocr-synthetic-english.png">synthetic sample</a>
+      has been recognized and copied in a local Chromium test with external requests blocked.
+      That proves that tested English path can work with locally served assets. It does not prove
+      every language, image, browser, or live-site session stays offline.
+    </p>
+    <p>
+      <a href="https://tesseract-ocr.github.io/tessdoc/ImproveQuality.html" rel="noopener noreferrer" target="_blank">Image quality affects recognition.</a>
+      OCR can still misread names, dates, totals, and account numbers. Compare the output
+      with the original before using it. The <a href="/blog/how-to-use-image-to-text-ocr-tool/">OCR guide</a>
+      shows the sample workflow and file limits.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Browser model files can come from different places</h2>
+    <h2>Model locations and runtime locations are separate settings</h2>
     <p class="article-source-note">
-      Sources: <a href="https://huggingface.co/docs/transformers.js/main/index" rel="noopener noreferrer" target="_blank">Transformers.js</a>
-      and <a href="https://huggingface.co/docs/transformers.js/main/en/custom_usage" rel="noopener noreferrer" target="_blank">custom model settings</a>
+      Sources: <a href="https://huggingface.co/docs/transformers.js/index" rel="noopener noreferrer" target="_blank">Transformers.js</a>
+      and its <a href="https://huggingface.co/docs/transformers.js/custom_usage" rel="noopener noreferrer" target="_blank">custom model and runtime settings</a>
     </p>
     <p>
-      The sentiment and tone classifiers on this site load Transformers.js after someone runs a
-      matching tool. Those classifier calls request a self-hosted MobileBERT model with local-only
-      loading enabled. The browser receives the model from Access Free Tools, then performs
-      inference in the tab.
+      This site's sentiment and tone classifiers request self-hosted MobileBERT model files with
+      <code>local_files_only: true</code>. Here, local means the site's model directory. The browser
+      still downloads those files before running inference. It does not mean the files were
+      already installed on the visitor's device.
     </p>
     <p>
-      That setting does not cover every Transformers.js tool on the site. The summarizer and image
-      classifier may fetch model files from a remote model host before browser inference. A model
-      download is different from sending the user's input away for server-side inference, but it is
-      still a network request. Private browsing, a cleared cache, or another device can trigger the
-      download again.
+      That model-loading option does not configure WebAssembly runtime downloads. Transformers.js
+      documents separate model and WASM locations; disabling remote models does not disable every
+      runtime request. This site's shared classifier loader leaves the WASM location unset, so
+      local model loading alone is not evidence of a completely self-hosted or offline runtime.
+    </p>
+    <p>
+      The summarizer and image classifier can request models from a remote host. The browser speech
+      and transcription workers also request their selected pinned model files from Hugging Face.
+      Their current processing code passes text or decoded media to browser workers or pipelines,
+      rather than uploading that content for server inference. Downloads can recur after a cache
+      is cleared or a model changes. Check the actual request payloads before using sensitive input.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Local AI and cloud AI can share one product name</h2>
+    <h2>A localhost API can still route a prompt to the cloud</h2>
     <p class="article-source-note">
       Sources: <a href="https://docs.ollama.com/api/introduction" rel="noopener noreferrer" target="_blank">Ollama API</a>
       and <a href="https://docs.ollama.com/cloud" rel="noopener noreferrer" target="_blank">Ollama cloud modes</a>
     </p>
     <p>
-      Ollama can expose an API on <code>localhost</code>, where a local model runs on your computer.
-      Ollama also offers cloud models and a remote API at <code>ollama.com</code>. A developer can use
-      a similar chat interface for both, so the word Ollama does not tell you where a prompt went.
+      Ollama supports a local API at <code>http://localhost:11434/api</code> and a hosted API at
+      <code>https://ollama.com/api</code>. A local Ollama server can also use cloud models.
+      Seeing localhost in an application's settings proves the first connection is local,
+      not that inference happens on your computer. Check the selected model and cloud settings.
     </p>
     <p>
-      Access Free Tools currently uses the hosted Ollama API as an optional router for supported Ask
-      questions. A question routed that way leaves the visitor's device and reaches the Access Free
-      Tools server, then Ollama. I describe that route as cloud AI. Calling it local AI would hide a
-      network step that readers deserve to know about.
+      <a href="/ask/">Ask Access Free Tools</a> first sends every submitted question to the
+      Access Free Tools server. The server tries its supported parser. If no route is found and
+      cloud routing is configured, it can send the question to Ollama's hosted chat API.
+      A parser answer avoids that provider call, but the question still reached the site's server.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>A calculator example shows why I separate routing from answers</h2>
+    <h2>A correct answer does not prove a private route</h2>
     <p>
-      Suppose I ask, “What is 15% of 80?” The exact result is 12. Ask Access Free Tools may use a
-      parser or Ollama to identify the percentage calculator and its inputs, but the language model
-      does not supply the final arithmetic. The site runs the same deterministic calculator code
-      used by the tool page, REST API, and MCP endpoint.
+      For example, "What is 15% of 80?" has the exact answer 12. The Ask parser can select the
+      percentage calculator and its inputs, then the deterministic runner supplies the answer.
+      Ollama can help route other supported requests, but it does not supply the final arithmetic.
     </p>
     <p>
-      That split limits the model's job. It can interpret a supported request, while code produces a
-      repeatable number. The privacy question remains separate: a correct answer does not prove the
-      question stayed on the device.
-    </p>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>Analytics can leave the device even when the AI input does not</h2>
-    <p>
-      Access Free Tools records first-party page views and tool actions as separate analytics events.
-      The event can say that someone ran OCR without containing the selected image or extracted text.
-      Microsoft Clarity may also load on the production site. The
-      <a href="/privacy-policy/">privacy policy</a> explains both systems and includes a browser
-      opt-out that disables them on the next page load.
-    </p>
-    <p>
-      I keep this distinction visible because “your image is not uploaded for OCR” does not mean
-      “the page makes no requests.” Readers should know which content stays put and which usage
-      signals travel.
+      The tool page, REST API, and MCP endpoint use the same calculation logic. That makes the
+      result repeatable. It says nothing by itself about where a question was sent. Verify the
+      processing route and the result as two separate checks.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>The checks I use before trusting a privacy claim</h2>
+    <h2>Analytics and session replay have their own boundaries</h2>
+    <p class="article-source-note">
+      Source: <a href="https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-masking" rel="noopener noreferrer" target="_blank">Microsoft's Clarity masking documentation</a>
+    </p>
+    <p>
+      Access Free Tools sends first-party page-view and tool-action events separately from model
+      processing. Those events include page and tool details, browser-generated visitor and
+      session identifiers, language, and screen size. The server hashes identifiers and the
+      network address. Hashing does not justify a promise that all usage data is anonymous.
+    </p>
+    <p>
+      Microsoft Clarity can also load on public production pages. The tool and Ask interaction
+      areas are explicitly marked for masking, including inputs and generated results. Masking
+      protects content in Clarity recordings; it does not stop every network request or make the
+      entire page invisible to analytics.
+    </p>
+    <p>
+      The <a href="/privacy-policy/">privacy policy</a> provides an Exclude this browser button.
+      After choosing it, reload the page: the site's opt-out prevents first-party analytics and
+      Clarity from loading or sending events on the next page load. The code also honors Do Not
+      Track and excludes private admin pages. Local browser tests check these boundaries without
+      sending telemetry to production services; they are not a live production traffic audit.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>A practical checklist for checking a privacy claim</h2>
     <ul class="editorial-checklist">
-      <li><strong>Read the exact page.</strong> I look for specific input, model, analytics, and fallback wording.</li>
-      <li><strong>Open the Network panel.</strong> I clear it, run one task, and inspect each new request and payload.</li>
-      <li><strong>Test the first and second run.</strong> Model downloads can appear once, then disappear behind a cache.</li>
-      <li><strong>Check the route in code.</strong> A button can call a worker, localhost, the site's server, or a remote API.</li>
-      <li><strong>Switch off the network.</strong> An offline success shows that one tested path can run without a fresh request.</li>
-      <li><strong>Repeat after changing settings.</strong> Language choices, cloud toggles, extensions, and analytics consent can change the traffic.</li>
+      <li><strong>Read the exact page.</strong> Look for input, model, analytics, and fallback details.</li>
+      <li><strong>Inspect the Network panel.</strong> Clear it, use a non-sensitive sample, run one task, and inspect new requests and payloads.</li>
+      <li><strong>Compare first and later runs.</strong> A warm cache can hide downloads that a new visitor will receive.</li>
+      <li><strong>Check the processing route.</strong> A button can call a worker, localhost, the site's server, or a remote provider. Localhost can forward requests.</li>
+      <li><strong>Try a disconnected run.</strong> Success proves only that the tested path worked with the files already available. A missing asset may still prevent another task.</li>
+      <li><strong>Repeat after changing settings.</strong> A language, model, cloud toggle, or analytics preference can change traffic.</li>
     </ul>
     <p>
-      These checks describe one version and one path. They cannot prove how every browser extension,
-      operating system service, or later release handles data.
+      Browser requests are one part of the picture. Extensions, operating-system services, and
+      local applications can have separate traffic. A single successful test cannot establish
+      how every part of a device handles data.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Use the narrowest privacy claim you can verify</h2>
+    <h2>Use a privacy claim that names the actual task</h2>
     <p>
-      I prefer “this image is processed in your browser and is not uploaded to Access Free Tools for
-      OCR” over “this AI tool is private.” The first sentence names the content, processor, and
-      destination. The broad version leaves too many questions unanswered.
+      "This image is processed in the browser and is not uploaded to Access Free Tools for OCR"
+      describes a specific recognition path. "This AI tool is private" leaves the downloads,
+      analytics, and any other routes unexplained. Prefer a claim you can check against the task
+      you are about to run.
     </p>
     <p>
-      You can compare the live browser tools in the <a href="/categories/ai-tools/">AI tools hub</a>
-      and test question routing in <a href="/ask/">Ask Access Free Tools</a>. My
-      <a href="/blog/open-source-projects-behind-access-free-tools/">open-source stack article</a>
-      explains how the site's components fit together. Keep sensitive material out of any tool
-      until its exact route and privacy terms fit your risk.
+      Compare the <a href="/categories/ai-tools/">AI tools hub</a>, the
+      <a href="/privacy-policy/">privacy policy</a>, and each tool's limits before choosing where
+      to put sensitive material. The <a href="/blog/open-source-projects-behind-access-free-tools/">open-source stack article</a>
+      explains how the site's components fit together.
     </p>
   </section>
 </EditorialArticleLayout>

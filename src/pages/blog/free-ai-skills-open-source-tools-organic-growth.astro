@@ -9,9 +9,9 @@ const articleDates = getBlogDates('free-ai-skills-open-source-tools-organic-grow
 const imagePath = '/social/free-ai-skills-open-source-tools-organic-growth.webp';
 const socialImagePath = '/social/free-ai-skills-open-source-tools-organic-growth.png';
 const imageUrl = `https://accessfreetools.com${imagePath}`;
-const title = "9 free AI skills I'm testing to grow Access Free Tools without spam";
+const title = '9 AI skills and tools to evaluate for a utility website';
 const description =
-  'Brendan Chambers explains how free AI skills and open-source agent tools can help Access Free Tools research, write, review, and grow without spam.';
+  'Compare nine AI skills and tools for writing, research, code review, design, and tutorial media, with cost limits and practical Access Free Tools examples.';
 const articleStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
@@ -22,9 +22,9 @@ const articleStructuredData = {
   datePublished: articleDates.published,
   dateModified: articleDates.modified,
   author: {
-    '@type': 'Person',
-    name: 'Brendan Chambers',
-    url: 'https://accessfreetools.com/about/',
+    '@type': 'Organization',
+    name: 'Access Free Tools',
+    url: 'https://accessfreetools.com/',
   },
   publisher: {
     '@type': 'Organization',
@@ -36,41 +36,42 @@ const articleStructuredData = {
     },
   },
   citation: [
-    'https://www.youtube.com/watch?v=STH929HARLo',
     'https://github.com/garrytan/gstack',
     'https://github.com/hardikpandya/stop-slop',
-    'https://github.com/safishamsi/graphify',
+    'https://github.com/Graphify-Labs/graphify',
     'https://github.com/Egonex-AI/Understand-Anything',
     'https://github.com/mvanhorn/last30days-skill',
-    'https://www.skills.sh/anthropics/skills/frontend-design',
+    'https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md',
     'https://github.com/Leonxlnx/taste-skill',
     'https://github.com/remotion-dev/remotion',
+    'https://www.remotion.dev/docs/license/pricing',
     'https://github.com/heygen-com/hyperframes',
-    'https://www.continue.dev/',
+    'https://continue.dev/',
     'https://accessfreetools.com/blog/open-source-projects-behind-access-free-tools/',
   ],
 };
 const sourceLinks = [
-  { href: 'https://www.youtube.com/watch?v=STH929HARLo', label: 'Matt Wolfe video: 9 Free AI Skills That Feel Like Cheat Codes' },
   { href: 'https://github.com/garrytan/gstack', label: 'GStack' },
   { href: 'https://github.com/hardikpandya/stop-slop', label: 'Stop Slop' },
-  { href: 'https://github.com/safishamsi/graphify', label: 'Graphify' },
+  { href: 'https://github.com/Graphify-Labs/graphify', label: 'Graphify, canonical project repository' },
   { href: 'https://github.com/Egonex-AI/Understand-Anything', label: 'Understand Anything' },
   { href: 'https://github.com/mvanhorn/last30days-skill', label: 'Last 30 Days' },
-  { href: 'https://www.skills.sh/anthropics/skills/frontend-design', label: 'Anthropic Front End Design skill' },
+  { href: 'https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md', label: 'Anthropic Frontend Design skill, official source' },
   { href: 'https://github.com/Leonxlnx/taste-skill', label: 'Taste Skill' },
   { href: 'https://github.com/remotion-dev/remotion', label: 'Remotion' },
+  { href: 'https://www.remotion.dev/docs/license/pricing', label: 'Remotion license and pricing' },
   { href: 'https://github.com/heygen-com/hyperframes', label: 'HyperFrames' },
-  { href: 'https://www.continue.dev/', label: 'Continue project status' },
+  { href: 'https://continue.dev/', label: 'Continue project status' },
 ];
 const articleImageAlt =
-  'Smoke-kawaii mascot reviewing nine open-source AI skill cards around a laptop showing a free tools page, with search, writing, code, design, video, chart, and link icons.';
+  'Smoke-kawaii mascot reviewing nine AI skill and tool cards around a laptop showing a free tools page, with search, writing, code, design, video, chart, and link icons.';
 ---
 
 <BaseLayout
-  title="9 Free AI Skills I'm Testing | Access Free Tools"
+  title="9 AI Skills and Tools to Evaluate | Access Free Tools"
   description={description}
   path={path}
+  ogType="article"
   socialImagePath={socialImagePath}
   socialImageAlt={articleImageAlt}
 >
@@ -79,21 +80,27 @@ const articleImageAlt =
     items={[
       { name: 'Home', path: '/' },
       { name: 'Blog', path: '/blog/' },
-      { name: 'Free AI skills for organic growth', path },
+      { name: 'AI skills and tools for a utility website', path },
     ]}
   />
 
   <article class="blog-article editorial-article" data-editorial-slug="free-ai-skills-open-source-tools-organic-growth">
-    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Owner notes</p>
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Project guide</p>
 
     <header class="blog-article-header editorial-article-header">
-      <span>Owner notes</span>
+      <span>Project guide</span>
       <h1>{title}</h1>
-      <p class="article-meta-line">By Brendan Chambers. Updated {formatDisplayDate(articleDates.modified)}.</p>
+      <p class="article-meta-line">By Access Free Tools. Updated {formatDisplayDate(articleDates.modified)}.</p>
       <p>
-        I watched Matt Wolfe's video on free AI skills while I was planning the next round of
-        Access Free Tools work. The video gave me a useful question for this site: which free
-        skills help me build better pages without adding filler to the web?
+        A utility website needs clear inputs, working examples, and readable answers. An AI skill
+        can help with one of those jobs, but a long list of skills can also add cost and complexity.
+        This guide compares nine candidates using their project documentation and examples from
+        Access Free Tools.
+      </p>
+      <p>
+        Access Free Tools was rejected for AdSense with the stated reason "Low value content".
+        These candidates offer ways to improve specific pages, but using skills or tools cannot
+        guarantee AdSense approval.
       </p>
       <a class="button-primary" href="/categories/ai-tools/">Explore the browser AI tools</a>
     </header>
@@ -108,7 +115,7 @@ const articleImageAlt =
         width="1200"
       />
       <figcaption>
-        <span>The smoke-kawaii mascot sorts free AI skill cards for research, writing cleanup, site memory, design review, video demos, and organic growth planning.</span>
+        <span>The smoke-kawaii mascot sorts skill and tool cards for research, writing cleanup, code mapping, design review, and tutorial media.</span>
         <a href="/gallery/">See the gallery</a>
       </figcaption>
     </figure>
@@ -118,29 +125,31 @@ const articleImageAlt =
         <section class="content-section">
           <h2>Quick answer</h2>
           <p>
-            Free AI skills can help organic traffic when they improve the page a reader lands on.
-            A useful skill can catch vague copy, find recent questions, map a codebase, review a
-            layout, or help turn a guide into a short demo. It cannot replace source checks, user
-            intent, or the boring work of opening the page and reading it.
+            Match the tool to a specific page problem. Stop Slop offers writing rules. Last 30 Days
+            gathers recent research. Graphify and Understand Anything map code. GStack organizes
+            agent workflows. Frontend Design and Taste Skill guide design choices. Remotion and
+            HyperFrames create video.
           </p>
           <p>
-            That is the standard I am using for Access Free Tools. If a skill helps me make a
-            calculator, converter, or guide clearer, it belongs on my testing list. If it helps me
-            publish more words without making the page better, I skip it.
+            These are candidates to evaluate, with capabilities described by their maintainers.
+            The examples below are proposed tasks for this site, rather than reports of completed
+            trials. Downloading a skill does not establish that its output is correct or that it
+            increases search traffic.
           </p>
         </section>
 
         <section class="content-section article-flow-section">
-          <h2>The job I care about</h2>
+          <h2>Choose a page problem first</h2>
           <p>
-            Access Free Tools grows when a page solves one small problem well. A mortgage page
-            should explain the payment. An OCR page should warn you about blur and glare. A
-            Markdown table page should help you fix pasted rows before you put them in a README.
+            For the <a href="/tools/image-to-text-ocr-tool/">OCR tool</a>, the problem might be
+            explaining blur and glare before someone selects an image. For the
+            <a href="/tools/markdown-table-generator/">Markdown Table Generator</a>, it might be
+            showing how an empty cell differs from a missing cell in pasted rows.
           </p>
           <p>
-            That makes AI skills useful when they support the page craft: research, structure,
-            examples, design, proof, and cleanup. I want fewer rough drafts and more pages that a
-            normal person can trust.
+            Write down the desired change before choosing a skill. A clearer error message, one
+            reproducible example, or a readable mobile result is a useful target. Producing more
+            pages is a poor substitute for checking whether someone can finish the task.
           </p>
         </section>
 
@@ -150,19 +159,14 @@ const articleImageAlt =
             Source: <a href="https://github.com/hardikpandya/stop-slop" rel="noopener noreferrer" target="_blank">Stop Slop on GitHub</a>
           </p>
           <p>
-            This is the first one I would run on public copy. It is built to remove common AI
-            writing tells, such as fake drama, vague business language, and sentences that sound
-            polished while saying little.
+            Stop Slop is a set of prose-editing instructions by Hardik Pandya. Its rules target
+            stock phrases, repetitive structures, and vague writing. Its five rating dimensions
+            are subjective editing prompts, rather than measurements of accuracy or authorship.
           </p>
           <p>
-            That helps a free tools site because thin writing creates mistrust fast. If a guide
-            praises a calculator without explaining the input, the reader learns nothing. If the
-            guide says which input changes the answer and which mistake breaks it, the reader can
-            use the page.
-          </p>
-          <p>
-            I would use it on blog drafts, Medium drafts, tool explanations, and promotion copy
-            before anything goes public.
+            A useful evaluation would compare an OCR paragraph before and after editing. Keep the
+            image-quality limits and instructions. Remove praise that adds no information, then
+            check that the shorter wording still explains what the tool does.
           </p>
         </section>
 
@@ -172,39 +176,44 @@ const articleImageAlt =
             Source: <a href="https://github.com/mvanhorn/last30days-skill" rel="noopener noreferrer" target="_blank">Last 30 Days on GitHub</a>
           </p>
           <p>
-            This is useful when I need recent context before I write. Search data tells me what
-            people type. Recent discussions can show the wording, complaints, and examples people
-            use right now.
+            Last 30 Days searches recent material across supported web and discussion sources and
+            synthesizes a research brief. Its repository is MIT-licensed, but the available sources
+            and costs depend on setup. Some sources work without keys; others use provider keys,
+            paid API credits, or authenticated browser sessions.
           </p>
           <p>
-            I would use it for article ideas around browser AI tools, Markdown helpers, SEO cleanup,
-            and coding-agent workflows. I would still treat it as research notes, not a source of
-            final facts. The final page needs primary sources and a clear reason to exist.
+            For an OCR guide, recent complaints could suggest questions to investigate, such as
+            handling phone photos or missing line breaks. Follow each relevant result to its
+            original source. Popularity and an AI summary do not verify a technical claim.
+            Review the repository's <a href="https://github.com/mvanhorn/last30days-skill#bring-your-own-keys" rel="noopener noreferrer" target="_blank">provider and cost table</a>
+            before enabling a source.
           </p>
         </section>
 
         <section class="content-section article-flow-section">
-          <h2>Site memory: Graphify and Understand Anything</h2>
+          <h2>Code maps: Graphify and Understand Anything</h2>
           <p class="article-source-note">
             Sources:{' '}
-            <a href="https://github.com/safishamsi/graphify" rel="noopener noreferrer" target="_blank">Graphify on GitHub</a>
+            <a href="https://github.com/Graphify-Labs/graphify" rel="noopener noreferrer" target="_blank">Graphify on GitHub</a>
             {' '}and{' '}
             <a href="https://github.com/Egonex-AI/Understand-Anything" rel="noopener noreferrer" target="_blank">Understand Anything on GitHub</a>
           </p>
           <p>
-            These both point at a pain I know well. Access Free Tools has calculators, guides,
-            sitemap rules, image rules, analytics notes, and promotion docs. A coding agent can
-            lose the thread when the repo gets large.
+            Graphify's canonical repository is now Graphify-Labs/graphify. Its documented code
+            mapping uses local syntax parsing without an LLM. Its semantic processing of documents
+            and media can use an assistant model or configured API. The separate hosted platform
+            has its own offering; local code parsing does not make every workflow free or local.
           </p>
           <p>
-            A knowledge graph can help an agent see connections before it edits. For this site, that
-            could mean fewer missed internal links, fewer stale assumptions, and a better sense of
-            which docs control which workflow.
+            Understand Anything describes an agent pipeline that builds an interactive graph of
+            files, functions, classes, and dependencies. Both are candidates for exploring how a
+            calculator, its guide, and shared data relate. A generated graph still needs to be
+            checked against the files before making an edit.
           </p>
           <p>
-            I would test these in a sandbox first. Tools that build graph files can create large
-            artifacts, so I would keep outputs ignored, review them, and avoid letting generated
-            memory overwrite project rules.
+            Start with a disposable copy of a small, non-sensitive project. Review what the tool
+            reads, writes, and sends to a model. Keep generated maps separate from the project's
+            maintained instructions.
           </p>
         </section>
 
@@ -214,39 +223,43 @@ const articleImageAlt =
             Source: <a href="https://github.com/garrytan/gstack" rel="noopener noreferrer" target="_blank">GStack on GitHub</a>
           </p>
           <p>
-            This caught my attention because it treats an AI coding setup like a small team with
-            roles. That is close to how this project already works. One pass might check content.
-            Another pass might check schema, performance, or release risk.
+            GStack provides role-based commands for planning, code review, browser QA, and releases.
+            The repository describes an MIT-licensed toolkit, but using an agent host or model can
+            have separate requirements and costs. The documented setup also includes commands
+            that can change project files or publish work.
           </p>
           <p>
-            I would not copy a full system into Access Free Tools without review. The useful idea is
-            the role split: ask the right specialist to check the right thing, then require proof
-            before marking work done.
+            A bounded evaluation could ask one review role to inspect a Markdown parser change,
+            then compare its findings with parser tests and browser behavior. Review installation
+            scripts and the requested permissions first. A role name is a task division, not proof
+            that the resulting review is complete.
           </p>
         </section>
 
         <section class="content-section article-flow-section">
-          <h2>Design judgment: Front End Design and Taste Skill</h2>
+          <h2>Design guidance: Frontend Design and Taste Skill</h2>
           <p class="article-source-note">
             Sources:{' '}
-            <a href="https://www.skills.sh/anthropics/skills/frontend-design" rel="noopener noreferrer" target="_blank">Front End Design skill page</a>
+            <a href="https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md" rel="noopener noreferrer" target="_blank">Anthropic's Frontend Design skill</a>
             {' '}and{' '}
             <a href="https://github.com/Leonxlnx/taste-skill" rel="noopener noreferrer" target="_blank">Taste Skill on GitHub</a>
           </p>
           <p>
-            These both aim at a problem I see in AI-built pages: the page can be correct and still
-            feel generic. For Access Free Tools, the answer is not louder design. A calculator page
-            should stay calm, readable, and fast.
+            Frontend Design is maintained in Anthropic's skills repository and gives instructions
+            for deliberate visual choices. Taste Skill offers design guidance for layout,
+            typography, spacing, and related design tasks. These sources provide design direction;
+            they do not certify usability or accessibility.
           </p>
           <p>
-            I would use these skills as a critique layer. Does the page hierarchy make sense on a
-            phone? Does the answer block stand out? Are buttons and examples easy to scan? Does the
-            layout fit a utility site instead of a marketing page?
+            For a utility page, evaluate the input order, the result block, and the error message
+            on a phone. Can someone find the answer without scrolling through decoration? Can they
+            use the controls with a keyboard? Keep changes that help the task and check the actual
+            rendered page.
           </p>
         </section>
 
         <section class="content-section article-flow-section">
-          <h2>Future tutorial media: Remotion and HyperFrames</h2>
+          <h2>Tutorial media: Remotion and HyperFrames</h2>
           <p class="article-source-note">
             Sources:{' '}
             <a href="https://github.com/remotion-dev/remotion" rel="noopener noreferrer" target="_blank">Remotion on GitHub</a>
@@ -254,52 +267,61 @@ const articleImageAlt =
             <a href="https://github.com/heygen-com/hyperframes" rel="noopener noreferrer" target="_blank">HyperFrames on GitHub</a>
           </p>
           <p>
-            These are on my watch list for short tutorial media. A 20-second visual walkthrough can
-            explain a calculator input faster than a long paragraph, for steps such as OCR image
-            quality or Markdown table cleanup.
+            Remotion creates video from React-based compositions. HyperFrames uses HTML-based
+            compositions and documents an Apache 2.0 license without per-render license fees.
+            Rendering infrastructure, model use, and third-party media can still have costs.
           </p>
           <p>
-            I would start small: one short demo for a tool that already earns search impressions but
-            needs a clearer first screen. Video should support the page. It should not become another
-            channel that creates work with no reader payoff.
+            Remotion has a separate license. Its published free license covers individuals and
+            companies of up to three people; companies of four or more and qualifying collaborations
+            require a company license. Check the <a href="https://www.remotion.dev/docs/license/pricing" rel="noopener noreferrer" target="_blank">current license terms</a>
+            for the intended project instead of assuming that a public repository means unrestricted use.
+          </p>
+          <p>
+            A small proposed demo would show the Markdown generator's headers, pasted rows, and
+            copied table. It should also show a useful error, such as a row with too many cells.
+            Keep the written guide available so a reader can follow the steps without watching video.
           </p>
         </section>
 
         <section class="content-section article-flow-section">
-          <h2>My testing rule</h2>
+          <h2>Define the evaluation before running it</h2>
           <p>
-            I do not want AI to make Access Free Tools sound bigger than it is. I want it to help me
-            notice missing examples, weak explanations, stale source notes, confusing layouts, and
-            pages that need a better next link.
+            Choose one page and one expected improvement. Save the original, review the proposed
+            change, and check the same task afterward. For the Markdown generator, try headers
+            <code>Item,Count</code> and a row <code>Notebooks,3</code>, then check that copying preserves
+            two columns and the value <code>3</code>.
           </p>
           <p>
-            The best version of this workflow is boring in a good way: choose one page, improve the
-            page, check it, then submit clean discovery signals. That beats a pile of generic posts
-            and weak backlinks.
+            Read the <a href="/blog/how-to-use-markdown-table-generator/">Markdown generator guide</a>
+            for the supported input formats. Include a blank cell and an extra cell in the
+            evaluation. A polished screenshot cannot show whether the parser silently lost data.
+            The same rule applies to writing and design: judge the task and the evidence, not the
+            amount of output.
           </p>
         </section>
 
         <section class="content-section article-flow-section">
-          <h2>What changed since I wrote this list</h2>
+          <h2>Check maintenance status before choosing a tool</h2>
           <p class="article-source-note">
-            Current source: <a href="https://www.continue.dev/" rel="noopener noreferrer" target="_blank">Continue's project status page</a>
+            Current source: <a href="https://continue.dev/" rel="noopener noreferrer" target="_blank">Continue's project status page</a>
           </p>
           <p>
-            Open-source projects change quickly. Continue's official site now says the project was
-            acquired by Cursor. That does not erase the open-source work, but it changes the current
-            maintenance and recommendation context, so I would check the latest project status
-            before choosing it today.
+            Continue is a useful example of why status checks matter. Its official site states that
+            it was acquired by Cursor and that the open-source codebase remains available.
+            Availability alone does not establish future maintenance or support. Check the current
+            release and support information for any tool before building a workflow around it.
           </p>
           <p>
-            I have also published a closer look at the
-            <a href="/blog/open-source-projects-behind-access-free-tools/">open-source projects I actually use behind Access Free Tools</a>.
+            For a separate view of this site's stack, read about the
+            <a href="/blog/open-source-projects-behind-access-free-tools/">open-source projects behind Access Free Tools</a>.
             That article separates production dependencies, test tools, browser AI libraries, and
-            projects that are only on my watch list.
+            projects being considered for future use.
           </p>
         </section>
 
         <section class="content-section">
-          <h2>Access Free Tools pages I would test this on</h2>
+          <h2>Pages for a focused evaluation</h2>
           <ul class="guide-link-list">
             <li>
               <a href="/tools/image-to-text-ocr-tool/">Image to Text OCR Tool</a>
@@ -319,35 +341,17 @@ const articleImageAlt =
             </li>
             <li>
               <a href="/why-access-free-tools/">Why Access Free Tools exists</a>
-              <span>Good for checking whether the mission page still sounds like a person built it.</span>
+              <span>Useful for checking whether the site's purpose is clear and specific.</span>
             </li>
           </ul>
-        </section>
-
-        <section class="content-section">
-          <h2>The video that started my testing list</h2>
-          <p>
-            I found this topic through Matt Wolfe's video on nine free skills and plugins for AI
-            coding agents. I am not copying his workflow. I am using the video as a starting point
-            for a smaller Access Free Tools question: which tools help me publish better pages?
-          </p>
-          <div class="video-embed-shell">
-            <iframe
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-              loading="lazy"
-              referrerpolicy="strict-origin-when-cross-origin"
-              src="https://www.youtube-nocookie.com/embed/STH929HARLo"
-              title="Matt Wolfe video about free AI skills and plugins"
-            ></iframe>
-          </div>
         </section>
 
         <section class="content-section article-flow-section editorial-sources">
           <h2>Sources</h2>
           <p>
-            These are the source pages I checked while making my testing list. They are useful if
-            you want to inspect the tools before adding them to your own agent setup.
+            These primary project sources support the capability and cost notes above. The review
+            covers documentation, not independent benchmarks or completed installations of all nine
+            tools. Recheck terms and setup requirements before using them.
           </p>
           <ul class="source-link-list">
             {sourceLinks.map((source) => (
@@ -361,9 +365,10 @@ const articleImageAlt =
         <section class="editorial-disclosure" aria-label="Editorial disclosure">
           <strong>How this article was made</strong>
           <p>
-            I own Access Free Tools. AI helped with research organization and draft checks. I
-            checked the project links, examples, and claims before publishing, and I kept the final
-            judgment and wording my own.
+            Brendan Chambers owns Access Free Tools. This article was revised with AI-assisted
+            research and editing. Its capability and cost notes were checked against the linked
+            primary sources. The page examples suggest future evaluations rather than document
+            personal trials or traffic results.
           </p>
         </section>
       </div>
@@ -371,7 +376,7 @@ const articleImageAlt =
       <section aria-label="Related Access Free Tools links" class="article-sidecar editorial-sidecar">
         <h2>Try the related tools</h2>
         <p>
-          I own Access Free Tools. The links below point to free pages on this site that match the
+          Brendan Chambers owns Access Free Tools. The links below point to free pages on this site that match the
           workflow in this article.
         </p>
         <a class="button-primary" href="/categories/ai-tools/">Browser AI tools</a>

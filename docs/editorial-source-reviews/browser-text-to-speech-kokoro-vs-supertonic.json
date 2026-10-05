@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "slug": "browser-text-to-speech-kokoro-vs-supertonic",
+  "articleSha256": "ce2f3406c69622d67f5660a452e9b8436ab8e00b0ce178c06f5cfe8b1c694607",
+  "reviewedAt": "2026-10-05T04:01:32.0587819Z",
+  "reviewer": "Codex speech/OCR editorial source reviewer",
+  "claims": [
+    {
+      "claim": "Supertonic was archived September 9, 2026; development/support/security updates ended. New archive instructions use a separate archive namespace; sample code is MIT, with separate weights terms.",
+      "sourceUrl": "https://github.com/supertone-oss-archive/supertonic",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Opened repository banner, archive maintenance notice, archive locations and license section on October 5. These support the dated status and license distinction. The archive is not evidence that the app's older pinned downloads are broken; no broken-runtime claim or model replacement was made."
+    },
+    {
+      "claim": "Supertonic exposes 31 named languages; a best-effort option is distinct from automatic detection.",
+      "sourceUrl": "https://github.com/supertone-oss-archive/supertonic",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "The official list has 31 language codes and a separate na option. Current browserTtsModels.ts has the same named set plus na; the UI explicitly states that best effort is not detection. No accuracy or quality guarantee is inferred."
+    },
+    {
+      "claim": "The app's pinned Supertonic ONNX directory is approximately 398 MB.",
+      "sourceUrl": "https://huggingface.co/Supertone/supertonic-3/tree/3cadd1ee6394adea1bd021217a0e650ede09a323/onnx",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Opened exact pinned file directory. It reports 398 MB and lists duration predictor, text encoder, vector estimator, vocoder and JSON support files. This is an asset-directory size, excludes runtime/voice requests, and is not a measured first-load transfer."
+    },
+    {
+      "claim": "Supertonic has ten pinned F1-F5/M1-M5 styles of about 292 kB each.",
+      "sourceUrl": "https://huggingface.co/Supertone/supertonic-3/tree/3cadd1ee6394adea1bd021217a0e650ede09a323/voice_styles",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Opened exact style directory, containing ten JSON files of about 290-292 kB. Current model definition exposes all ten and worker loads only the chosen style. No voice-cloning or subjective preference is asserted."
+    },
+    {
+      "claim": "Pinned Supertonic weights use BigScience Open RAIL-M with use restrictions and generated-content requirements.",
+      "sourceUrl": "https://huggingface.co/Supertone/supertonic-3/blob/3cadd1ee6394adea1bd021217a0e650ede09a323/LICENSE",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Opened the exact revision license; checked title, Section III paragraph 5 and Attachment A. Terms restrict listed uses and require users' compliance; generated-content presentation is among the restrictions. This is a scoped description, not legal advice or unrestricted-use approval."
+    },
+    {
+      "claim": "Kokoro has 82 million parameters; its official browser example shows fp32/WebGPU and q8/WASM.",
+      "sourceUrl": "https://github.com/hexgrad/kokoro/tree/dfb907a02bba8152ca444717ca5d78747ccb4bec/kokoro.js",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Opened pinned README through raw official repository URL. It states 82M parameters, lists dtype and device options, and recommends fp32 for WebGPU. Current worker uses those two runtime plans. Listening preference and cross-model quality rankings are not supported by this source and were removed."
+    },
+    {
+      "claim": "Pinned Kokoro fp32 is approximately 326 MB, quantized q8 92.4 MB, and model repository is labelled Apache-2.0.",
+      "sourceUrl": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/tree/1939ad2a8e416c0acfeecc08a694d14ef25f2231/onnx",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Opened exact ONNX listing and license label: model.onnx 326 MB, model_quantized.onnx 92.4 MB, Apache-2.0. These model-file sizes exclude tokenizer/runtime/voice additions and do not promise total transfer or startup time."
+    },
+    {
+      "claim": "A Web Worker performs work separately from the main UI thread, while using the local device.",
+      "sourceUrl": "https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Opened Web Workers API documentation. It supports background execution separate from UI; it does not establish no network traffic, blanket privacy, or arbitrary browser/device compatibility."
+    }
+  ],
+  "brendanFacts": [
+    {
+      "fact": "Brendan Chambers owns Access Free Tools.",
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "evidenceRef": "Authorized owner instruction in parent thread 01a1098f-7b41-7433-b2a4-ac86ee09c028; ownership fact only, not an attestation of personal listening, experiments, or approval of this draft."
+    }
+  ],
+  "ownerApproval": {
+    "status": "pending",
+    "by": "Brendan Chambers"
+  },
+  "projectEvidence": [
+    {
+      "paths": [
+        "src/lib/browserTtsModels.ts",
+        "src/workers/kokoro.worker.ts",
+        "src/workers/supertonic.worker.ts",
+        "src/lib/supertonicWebHelper.js"
+      ],
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Reviewed pinned Kokoro revision 1939ad2a8e416c0acfeecc08a694d14ef25f2231 and Supertonic 3cadd1ee6394adea1bd021217a0e650ede09a323, fixed asset URLs, backend plans, selected-voice fetching, worker-local text processing, US/UK-only exposed Kokoro voices, and 31 named Supertonic languages plus na. A code review is not a new full speech generation experiment."
+    },
+    {
+      "paths": [
+        "src/components/TextToSpeechAudiobookGenerator.tsx",
+        "src/lib/browserTtsChapterQueue.ts",
+        "src/lib/browserTtsInput.ts",
+        "src/lib/mp3Encoder.ts",
+        "public/audio/tts-voice-samples/kokoro-82m",
+        "public/audio/tts-voice-samples/supertonic-3"
+      ],
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Confirmed 28+10 static MP3 sample files and sample-only playback, 90-second no-progress watchdog/one Kokoro forced-WASM retry, worker disposal/error restoration, chapter controls and retention/retry, 10,000-character cap, imported supported documents, per-model sample rates and 128 kbps mono encoding. Article instructions do not claim physical mobile testing or listening judgments."
+    },
+    {
+      "paths": [
+        "docs/tts-audiobook-pilot.md",
+        "output/tts-audiobook-pilot/browser-check.json"
+      ],
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Pilot prose log repeats historical Edge timings and generation findings. Raw browser-check.json was absent at authorized exact paths in original, readiness and second worktrees. Numerical benchmark and autobiographical listening/build-story claims were omitted; useful mechanics remain supported by current code."
+    }
+  ],
+  "reviewScope": "Primary sources were opened and compared with current implementation. No historical experiment was rerun, model upgraded, runtime feature removed, or human review attributed. This record does not approve publication."
+}

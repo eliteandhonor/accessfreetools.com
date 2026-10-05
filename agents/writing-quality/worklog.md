@@ -40,3 +40,24 @@ This file is append-only. Record commands, outcomes, and follow-up boundaries.
 - Created the attributed global skill at
   `C:\Users\chamb\.codex\skills\clear-technical-writing\SKILL.md`.
 - Updated WQ-005 and WQ-006 from stale deferred labels to complete.
+
+## 2026-10-05 - Seven Editorial Drafts Reviewed, Publisher Approval Pending
+
+- Revised seven existing editorials against dated primary-source findings and
+  scoped project-code or local-test evidence. Removed unsupported personal
+  scenes and historical benchmark claims instead of inventing replacement tests.
+- Used Access Free Tools organization authorship, supported Brendan ownership,
+  and a scoped AI-assisted research/editing disclosure. Kept the verified
+  AdSense rejection fact and its stated Low value content reason.
+- Replaced pronoun-based authenticity scoring with neutral opening and
+  ownership/process-disclosure structure checks. Scores explicitly do not
+  verify facts, originality, authorship, sources, or publication approval.
+- Focused helper/source-gate regression suites: 43 tests passed. Pending owner
+  approval still blocks an otherwise complete synthetic draft. The strict
+  source-review validator and immutable legacy hashes were not changed.
+- Ran `npm run writing:quality -- --mode=editorial` for each of the seven final
+  article files. All passed with zero hard errors; diagnostic warnings remain.
+- All seven exact-hash source records have publisher approval pending. No
+  approval, personal review, listening judgment, deployment, or AdSense result
+  is asserted by these checks. Exact clean-commit release checks follow this
+  local source checkpoint, with their results stored in ignored output.

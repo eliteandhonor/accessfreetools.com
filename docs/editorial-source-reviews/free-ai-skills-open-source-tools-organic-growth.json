@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "slug": "free-ai-skills-open-source-tools-organic-growth",
+  "articleSha256": "abea3450feb4170bb8f5597168b767f0321baa48a21dbf657e2b4a30cc91efa5",
+  "reviewedAt": "2026-10-05T04:01:13.253Z",
+  "reviewer": "Codex AI agent /root/edit_skills_article",
+  "claims": [
+    {
+      "claim": "Stop Slop provides prose-editing instructions and five subjective rating dimensions, rather than verified accuracy or authorship measurements.",
+      "sourceUrl": "https://github.com/hardikpandya/stop-slop",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:52:16.000Z",
+      "finding": "Opened the official README. It identifies Hardik Pandya, lists phrase and structure rules, and asks for 1–10 ratings on directness, rhythm, trust, authenticity, and density. These prompts do not supply independent factual or authorship verification."
+    },
+    {
+      "claim": "Last 30 Days searches recent material and synthesizes briefs; its MIT-licensed code does not make all providers or model use free.",
+      "sourceUrl": "https://github.com/mvanhorn/last30days-skill",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:52:16.000Z",
+      "finding": "Opened the current official README. It describes cross-source searches and synthesis and identifies MIT licensing. The provider table distinguishes keyless sources, authenticated sessions, paid API credits, and pay-as-you-go services. Capabilities depend on configuration; no installation or research run was performed."
+    },
+    {
+      "claim": "Last 30 Days provider costs and access requirements vary by enabled source.",
+      "sourceUrl": "https://github.com/mvanhorn/last30days-skill#bring-your-own-keys",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:52:16.000Z",
+      "finding": "Checked the official provider table. It lists free sources alongside X API credits, provider-specific keys, and paid Perplexity/OpenRouter paths. Article gives no fixed third-party price or promise that every source works without credentials."
+    },
+    {
+      "claim": "Graphify's canonical repository is Graphify-Labs/graphify; code parsing and document/media processing have different model and cost boundaries.",
+      "sourceUrl": "https://github.com/Graphify-Labs/graphify",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:52:16.000Z",
+      "finding": "Opened the current canonical repository. Its README documents deterministic local syntax parsing for code, semantic document/media processing through an assistant or configured backend, and a distinct hosted offering. These are maintainer-described capabilities, not independently certified privacy or performance results."
+    },
+    {
+      "claim": "Understand Anything builds an interactive knowledge graph of project structure through an agent pipeline.",
+      "sourceUrl": "https://github.com/Egonex-AI/Understand-Anything",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:52:16.000Z",
+      "finding": "Opened the official README. It describes a multi-agent analysis pipeline, graph nodes for files/functions/classes/dependencies, and an interactive dashboard. No local installation, accuracy benchmark, or tool-generated map is claimed."
+    },
+    {
+      "claim": "GStack offers role-based planning, review, QA, and release commands; the MIT-licensed toolkit has separate host requirements and write-capable workflows.",
+      "sourceUrl": "https://github.com/garrytan/gstack",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:52:16.000Z",
+      "finding": "Opened the official README. It lists planning/review/browser QA/release roles, MIT licensing, host requirements, setup changes, and ship/deploy commands. Article does not claim a free model subscription, complete review, or completed Access Free Tools trial."
+    },
+    {
+      "claim": "Frontend Design is provided through Anthropic's skills repository and gives visual-design guidance.",
+      "sourceUrl": "https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:52:16.000Z",
+      "finding": "Opened the official skill file in anthropics/skills. It gives guidance on intentional visual direction, typography, and layout. The article links the maintainer source rather than a catalog mirror and does not claim accessibility certification."
+    },
+    {
+      "claim": "Taste Skill provides layout, typography, spacing, and related design guidance for coding assistants.",
+      "sourceUrl": "https://github.com/Leonxlnx/taste-skill",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:52:16.000Z",
+      "finding": "Opened the official repository README. Its description and skill list cover frontend design and redesign guidance. Article does not repeat sponsor model claims or imply independent usability validation."
+    },
+    {
+      "claim": "Remotion creates video from React-based compositions.",
+      "sourceUrl": "https://github.com/remotion-dev/remotion",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:52:16.000Z",
+      "finding": "Opened the official repository and README. It describes programmatic video creation with React as source and explicitly warns that company licensing may be required. No generated tutorial, timing, or user outcome is asserted."
+    },
+    {
+      "claim": "Remotion's free license is conditional on organization/collaboration eligibility, with a company license required in other cases.",
+      "sourceUrl": "https://www.remotion.dev/docs/license/pricing",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:52:16.000Z",
+      "finding": "Opened Remotion's official pricing page. It lists individuals and companies up to three people under the free license and a company license for collaborations and companies of four or more. Article points readers to terms and avoids presenting Remotion as unrestricted open-source software."
+    },
+    {
+      "claim": "HyperFrames renders HTML-based video compositions and documents Apache 2.0 licensing without per-render license fees.",
+      "sourceUrl": "https://github.com/heygen-com/hyperframes",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:52:16.000Z",
+      "finding": "Opened the official repository and LICENSE. The README documents HTML compositions, rendering, and Apache 2.0 without commercial-use thresholds or per-render fees. Article separates software licensing from infrastructure, models, and media costs."
+    },
+    {
+      "claim": "Continue's official site states it was acquired by Cursor while the open-source codebase remains available.",
+      "sourceUrl": "https://continue.dev/",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:52:16.000Z",
+      "finding": "Opened the official project status page on the review date. It states the acquisition and continued availability of the open-source codebase. Neither availability nor this notice proves future maintenance or support; the article preserves that limit."
+    }
+  ],
+  "brendanFacts": [
+    {
+      "fact": "Brendan Chambers owns Access Free Tools.",
+      "checkedAt": "2026-10-05T03:52:16.000Z",
+      "evidenceRef": "Authorized project thread 01a1098f-7b41-7433-b2a4-ac86ee09c028: owner/project delegation."
+    },
+    {
+      "fact": "Access Free Tools was rejected for AdSense with the stated reason \"Low value content\".",
+      "checkedAt": "2026-10-05T04:01:13.253Z",
+      "evidenceRef": "Authorized project thread 01a1098f-7b41-7433-b2a4-ac86ee09c028: verified owner-confirmed AdSense rejection and stated reason, relayed in the authorized parent editorial task."
+    }
+  ],
+  "ownerApproval": {
+    "status": "pending",
+    "by": "Brendan Chambers"
+  },
+  "reviewScope": "Primary-source documentation review and neutral rewriting of this exact draft. Suggested page tasks are evaluation proposals, not completed nine-tool installations, historical tests, personal video viewing, or measured traffic improvements.",
+  "limitations": [
+    "No independent benchmark or installation of these nine candidates was performed in this editorial review.",
+    "Publisher approval of this exact reviewed draft remains pending."
+  ]
+}

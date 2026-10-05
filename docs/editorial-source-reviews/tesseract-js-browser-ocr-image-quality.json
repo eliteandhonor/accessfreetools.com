@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "slug": "tesseract-js-browser-ocr-image-quality",
+  "articleSha256": "2c7974f2a39f2adf1b53e81383f30a15f7669d96d9b4da1c4271eae50e74088a",
+  "reviewedAt": "2026-10-05T04:01:32.0792798Z",
+  "reviewer": "Codex speech/OCR editorial source reviewer",
+  "claims": [
+    {
+      "claim": "Tesseract.js wraps browser/server OCR, and does not directly support PDFs.",
+      "sourceUrl": "https://github.com/naptha/tesseract.js",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Opened official repository and Project Scope section. It describes WebAssembly wrapping of Tesseract for browser/Node use and no PDF support. The current site's tool is further restricted to one still PNG/JPEG/WebP; no general handwriting or layout accuracy promise is made."
+    },
+    {
+      "claim": "Sufficient resolution matters, and upscaling can improve some recognition results.",
+      "sourceUrl": "https://github.com/naptha/tesseract.js/blob/master/docs/api.md",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Opened API recognition guidance, including its sufficiently high-resolution input note. It supports trying a larger input; article explains that resizing cannot restore missing detail and does not guarantee improvement."
+    },
+    {
+      "claim": "Tesseract image preparation guidance covers rotation, reasonable borders, noise, uneven backgrounds, and scan resolution.",
+      "sourceUrl": "https://tesseract-ocr.github.io/tessdoc/ImproveQuality.html",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Opened the quality guide's rescaling, binarisation, noise, rotation and border sections. It recommends horizontal lines, reasonable borders and at least 300 dpi scan input. Article scopes DPI as documentation guidance, not a browser admission/accuracy threshold. It gives no measured accuracy or glare/Spanish benchmark."
+    },
+    {
+      "claim": "Tesseract.js can use explicit worker, core, and language-file paths rather than default external support-file downloads.",
+      "sourceUrl": "https://github.com/naptha/tesseract.js/blob/master/docs/local-installation.md",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Opened local installation guide and compared with current AiBrowserTool.tsx/browserOcrWorker.ts. These set self-hosted same-origin worker/core/language paths. Documentation examples contain older versions; actual app versions and native-worker behavior are evidenced separately below. Local paths do not establish page-wide offline behavior or anonymity."
+    }
+  ],
+  "brendanFacts": [
+    {
+      "fact": "Brendan Chambers owns Access Free Tools.",
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "evidenceRef": "Authorized owner instruction in parent thread 01a1098f-7b41-7433-b2a4-ac86ee09c028; ownership fact only, not an attestation of personal listening, experiments, or approval of this draft."
+    }
+  ],
+  "ownerApproval": {
+    "status": "pending",
+    "by": "Brendan Chambers"
+  },
+  "projectEvidence": [
+    {
+      "paths": [
+        "src/components/AiBrowserTool.tsx",
+        "src/lib/browserOcrInput.ts",
+        "src/lib/browserOcrWorker.ts"
+      ],
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Reviewed one-image still PNG/JPEG/WebP controls, six selectable languages, absence of editing/automatic detection/PDF controls, 10 MiB/8-million-pixel/8192-side limits, local image preparation and worker packets, self-hosted support files requested only on Read text. Image recognition itself has no server-upload path; analytics/session-replay claims remain separately scoped."
+    },
+    {
+      "paths": [
+        "public/samples/ocr-synthetic-english.png",
+        "src/components/ocrEnglishQaFixture.ts",
+        "src/components/BrowserOcrOffline.test.ts",
+        "docs/ocr-english-qa-2026-10-05.md",
+        "../accessfreetools-second-repair/output/ocr-english-qa/latest.json"
+      ],
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Read committed QA definition/document and existing run artifact verifiedAt 2026-10-05T03:37:25.668Z: Node24.21.0, Chromium151.0.7922.34, Tesseract.js7.0.0. Exact fixture SHA256 a62b60a70b2763cc4c93c8f86acb62121a2f3e145c13303e8f35629517b53be8, recognition and native clipboard both ACCESS FREE TOOLS 12345, no unexpected app requests/errors. Synthetic recipe predates second batch; downloadable file was added there. This is one English workflow, not the historical six-image accuracy experiment or a privacy test of deployed analytics."
+    },
+    {
+      "paths": [
+        "scripts/editorial-ocr-experiment.mjs",
+        "docs/ocr-english-qa-2026-10-05.md",
+        "output/editorial-ocr-experiment/latest.json",
+        "output/editorial-ocr-experiment/latest.md"
+      ],
+      "checkedAt": "2026-10-05T03:58:00Z",
+      "finding": "Read historical fixture-generating script and QA recovery notes. Raw six-condition experiment reports were not found at authorized exact paths in isolated, original or readiness worktrees. This article removes old confidence/edit-count tables and alleged blur/glare/Spanish observations. No replacement historical data, personal tester, listening judgment, or dates were invented."
+    }
+  ],
+  "reviewScope": "Rewritten as a practical OCR guide with one already-verified, reproducible English sample. No new six-condition experiment, multilingual accuracy claim, personal test attestation, or publication approval."
+}

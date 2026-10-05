@@ -3,9 +3,9 @@ export const prerender = true;
 import EditorialArticleLayout from '../../components/EditorialArticleLayout.astro';
 
 const slug = 'remove-ai-writing-tells-before-publishing';
-const title = "I Dropped a Useful Article Idea Because I Wouldn't Read It";
+const title = 'How to Edit an AI-Assisted Draft Before Publishing';
 const description =
-  'I rejected a tidy article that felt dead. This is how I edit AI-assisted drafts for clear facts, real examples, useful links, and a voice I will own.';
+  'Check an AI-assisted draft for accurate facts, useful examples, clear sentences, accessible headings, and honest authorship. Includes six practical editing passes.';
 const imagePath = '/social/remove-ai-writing-tells-before-publishing.webp';
 const socialImagePath = '/social/remove-ai-writing-tells-before-publishing.png';
 const imageAlt =
@@ -20,16 +20,12 @@ const sources = [
     label: 'Google: using generative AI content on a website',
   },
   {
-    href: 'https://github.com/hardikpandya/stop-slop',
-    label: 'Stop Slop official repository',
+    href: 'https://github.com/hardikpandya/stop-slop/blob/main/SKILL.md',
+    label: 'Stop Slop: writing rules and five subjective ratings',
   },
   {
-    href: 'https://github.com/woosal1337/blog/tree/b912d5fa59f368253683af2ebfac64ad6d08312d/videos/ep01-the-cure-for-ai-slop',
-    label: 'The Cure for AI Slop source project at the reviewed commit',
-  },
-  {
-    href: 'https://doi.org/10.1016/j.patter.2023.100779',
-    label: 'Patterns study: GPT detectors and non-native English writers',
+    href: 'https://arxiv.org/abs/2304.02819',
+    label: '2023 study: GPT detectors and non-native English writers',
   },
   {
     href: 'https://www.w3.org/WAI/tips/writing/',
@@ -40,22 +36,22 @@ const relatedLinks = [
   {
     href: '/tools/text-to-speech-audiobook-generator/',
     label: 'Text to Speech MP3 Generator',
-    description: 'Listen to a draft with a fixed browser voice and download the result as an MP3.',
+    description: 'Listen to a draft with a browser voice and download an MP3 for an editing pass.',
   },
   {
     href: '/tools/reading-level-checker/',
     label: 'Reading Level Checker',
-    description: 'Check sentence length, word difficulty, and reading scores without treating one number as a verdict.',
+    description: 'Find long English sentences and reading estimates, then decide what needs editing.',
   },
   {
     href: '/tools/keyword-extractor/',
     label: 'Keyword Extractor',
-    description: 'See which words a finished draft actually emphasizes after the writing is complete.',
+    description: 'See repeated words and filtered phrases without treating their counts as search demand.',
   },
   {
     href: '/blog/free-ai-skills-open-source-tools-organic-growth/',
-    label: 'Free AI skills I am testing',
-    description: 'See where writing, research, code memory, design, and video tools fit in my broader workflow.',
+    label: 'AI skills and open-source tools for practical work',
+    description: 'Compare research, writing, design, and code tools with their costs and limits.',
   },
 ];
 ---
@@ -63,173 +59,145 @@ const relatedLinks = [
 <EditorialArticleLayout
   slug={slug}
   title={title}
-  seoTitle="How I Edit AI-Assisted Writing Before Publishing"
+  seoTitle="How to Edit an AI-Assisted Draft Before Publishing"
   description={description}
-  label="Owner editing notes"
+  label="Practical editing guide"
   breadcrumbLabel="Editing AI-assisted writing before publishing"
   imagePath={imagePath}
   socialImagePath={socialImagePath}
   imageAlt={imageAlt}
-  imageCaption="The smoke-kawaii mascot turns repetitive draft cards into a sourced article, listens to the result, and checks the finished browser page."
+  imageCaption="The smoke-kawaii mascot checks a draft against sources, listens to the result, and reviews the finished browser page."
   sources={sources}
   relatedLinks={relatedLinks}
 >
   <Fragment slot="intro">
     <p>
-      I had a useful article on my schedule: how I test hundreds of free tools with Playwright and
-      Vitest. The topic was true, and a few developers would have found it useful. I dropped it
-      before publication because the version I was shaping felt like internal documentation.
+      An AI-assisted draft can sound finished while leaving a reader unsure what to do. A tool
+      description might promise clear results without showing the input, the answer, or the limit
+      that changes how someone should use it.
     </p>
     <p>
-      I would not have finished reading it. That mattered more than a tidy outline or a clean style
-      score. I replaced it with a story about nearly buying a text-to-speech server, getting stuck
-      in Microsoft Edge, and making the browser do the expensive job. The technical facts stayed,
-      but the second article finally had a decision, a failure, and a result I could defend.
+      Edit those gaps before polishing the tone. This guide uses Access Free Tools examples to
+      show how to check claims, shorten an instruction, listen for awkward sentences, and review
+      the page a reader will actually see.
     </p>
   </Fragment>
 
   <section class="content-section article-flow-section">
     <h2>Short answer</h2>
     <p>
-      I use AI to sort research, challenge an outline, and catch repeated writing habits. I do not
-      ask it to invent my experience. Before I publish, I find the decision I actually made and
-      check every claim against a source or a test. I add numbers where they clarify the story,
-      read the draft aloud, and cut paragraphs that could belong on anybody's website.
+      Start with the reader's task. Check factual claims against primary sources or a reproducible
+      test, label opinions and illustrations, and remove experience you cannot support. Then edit
+      sentences, headings, links, and examples. A smooth voice or a high style score cannot prove
+      that the article is accurate, original, or written by a particular person.
     </p>
     <p>
-      That is how I try to make AI-assisted writing sound human. I am not trying to fool a detector.
-      I am trying to publish something useful enough to keep my name on it.
+      Keep accurate authorship and AI-assistance disclosures with the finished page. Making a
+      draft useful does not require a claim that it can pass an AI detector.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>The check that mattered was boredom</h2>
-    <p>
-      The testing article had all the usual signs of a sensible plan. I could explain unit tests,
-      browser tests, mobile screenshots, accessibility checks, and how I validate sitemaps. The problem
-      was the centre of the story. I had a topic, but I did not have a decision that changed
-      anything for the reader.
-    </p>
-    <p>
-      The replacement came from work I had just completed. I had planned a server-backed speech
-      system, stopped when the infrastructure became larger than the problem, and tested two models
-      in the browser. One uncached Edge run took 70.4 seconds and made a working model look broken.
-      That led to visible progress, a smaller fallback model, and a recovery rule.
-    </p>
-    <p>
-      Those details gave the article a reason to exist. The finished
-      <a href="/blog/browser-text-to-speech-kokoro-vs-supertonic/">browser text-to-speech story</a>
-      could still explain models and MP3 files, but the reader also saw why I changed the product.
-    </p>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>A clean score can still hide flat writing</h2>
-    <p class="article-source-note">
-      Source: <a href="https://github.com/hardikpandya/stop-slop" rel="noopener noreferrer" target="_blank">Stop Slop on GitHub</a>
-    </p>
-    <p>
-      My local article gate uses Stop Slop rules to flag filler, repeated structures, vague claims,
-      fake drama, and a metronomic sentence rhythm. A strong draft can score 50 out of 50. That
-      score means the checker found none of its known patterns. It does not mean the opening has a
-      reason to keep reading, the example is true, or the judgment belongs to me.
-    </p>
-    <p>
-      I keep the score because mechanical checks catch mistakes when I am too close to the page.
-      I refuse to let the score become the editor. A checklist can spot a familiar phrase. It
-      cannot feel bored, question a weak example, or notice that a paragraph has no cost if I
-      delete it.
-    </p>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>The same fact can sound empty or earned</h2>
-    <p>I wrote this deliberately flat version to show the problem:</p>
-    <p>
-      <strong>Flat version:</strong> Browser text to speech provides a practical way to create audio
-      without a separate server. The tool supports several voices and downloadable MP3 files.
-    </p>
-    <p>Then I replaced the category summary with the part I had observed:</p>
-    <p>
-      <strong>Version I would publish:</strong> My first uncached Edge run spent 70.4 seconds loading
-      Kokoro. The button said Stop, the page looked frozen, and I nearly treated a working model as
-      a failed product.
-    </p>
-    <p>
-      Both versions are accurate. The second gives you a test condition, a number, the mistake I
-      almost made, and the reason the interface changed. Specific writing is not a pile of extra
-      adjectives. Specific writing ties evidence to a decision.
-    </p>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>I do not edit toward an AI detector</h2>
-    <p class="article-source-note">
-      Source: the <a href="https://doi.org/10.1016/j.patter.2023.100779" rel="noopener noreferrer" target="_blank">Patterns study on detector bias</a>
-    </p>
-    <p>
-      Search research around this topic quickly drifts into AI detectors and one-click humanizers.
-      I understand the attraction. A percentage looks like a clear finish line. Research has also
-      shown that detectors can misclassify human writing and can treat non-native English writers
-      unfairly. That makes a detector score a poor test of authorship or quality.
-    </p>
-    <p>
-      I do not add mistakes to look more human, swap words until a detector gives up, or promise
-      that a rewrite is undetectable. I check whether the article is accurate, clear, specific, and
-      honest about how I made it. Those tests improve the page even when no search engine or
-      detector ever sees it.
-    </p>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>My six editing passes</h2>
+    <h2>Six editing passes</h2>
     <ol class="editorial-checklist">
-      <li><strong>Find the decision:</strong> I name what I chose, rejected, fixed, or learned. A topic by itself is not a story.</li>
-      <li><strong>Check the facts:</strong> I open the primary source again and separate measured results from my opinion.</li>
-      <li><strong>Add the observed detail:</strong> I use a real input, timing, failure, limit, or result instead of a broad benefit.</li>
-      <li><strong>Read it aloud:</strong> I listen for repeated sentence shapes, missing words, and sections that take too long to reach the point.</li>
-      <li><strong>Run the mechanical checks:</strong> I use Stop Slop, clarity warnings, reading scores, links, schema, and visual tests as alarms rather than grades.</li>
-      <li><strong>Cut the transferable paragraph:</strong> If a paragraph could move to another tool site unchanged, I rewrite it around the actual page or remove it.</li>
+      <li><strong>Name the task:</strong> State what the reader will calculate, compare, fix, or decide. Cut an opening that delays that task.</li>
+      <li><strong>Check the facts:</strong> Open the primary source, record the check date, and note what it supports or leaves uncertain.</li>
+      <li><strong>Show a usable example:</strong> Include the input and result. Label an invented illustration and keep test conditions with a measured result.</li>
+      <li><strong>Read or listen aloud:</strong> Look for repeated openings, missing words, and sentences that crowd several instructions together.</li>
+      <li><strong>Use mechanical checks:</strong> Review style warnings, reading estimates, broken links, and page layout. Investigate a warning before accepting a suggested rewrite.</li>
+      <li><strong>Remove empty paragraphs:</strong> Keep the detail that helps someone use this page. Delete a paragraph if it adds no fact, example, limit, or next step.</li>
     </ol>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Reading aloud catches a different class of problem</h2>
-    <p>
-      A paragraph can look clean on a screen and sound exhausting through headphones. I use the
-      <a href="/tools/text-to-speech-audiobook-generator/">Text to Speech MP3 Generator</a> for a
-      listening pass when a draft is long. The browser voice is not judging the writing. It simply
-      removes my own delivery, which makes repeated openings and crowded sentences easier to hear.
+    <h2>A style score cannot check the evidence</h2>
+    <p class="article-source-note">
+      Source: <a href="https://github.com/hardikpandya/stop-slop/blob/main/SKILL.md" rel="noopener noreferrer" target="_blank">Stop Slop's rules and scoring guide</a>
     </p>
     <p>
-      I also check the draft with the <a href="/tools/reading-level-checker/">Reading Level Checker</a>.
-      I do not chase the lowest possible score. Technical names sometimes belong in the article.
-      The score tells me where to look, and I decide whether the sentence needs a clearer word or a
-      better explanation.
+      Stop Slop asks a reviewer to rate directness, rhythm, trust, authenticity, and density from
+      1 to 10. Its total is a subjective writing assessment out of 50. The authenticity category
+      asks how the prose sounds. It does not identify who wrote it.
+    </p>
+    <p>
+      Access Free Tools also has automated wording and structure checks. Those checks can flag
+      known phrases or long sentences, but they do not perform the same judgment as a person
+      reading the article. Neither kind of score verifies a source, an experiment, or an original
+      observation. Check those separately, even if the draft receives 50 out of 50.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>Replace a broad benefit with an instruction</h2>
+    <p>
+      Consider this illustrative tool description: “Browser text to speech provides a practical
+      way to create audio.” It names a category but leaves the reader without a step to try.
+    </p>
+    <p>
+      A more useful instruction is: “Paste your draft into the text box and choose a voice.
+      Generate the audio, then listen for repeated openings and crowded sentences.” You can follow
+      that sequence in the <a href="/tools/text-to-speech-audiobook-generator/">Text to Speech MP3 Generator</a>.
+      Allow time for the model download on a first run. Loading speed depends on the device,
+      connection, model, and cache.
+    </p>
+    <p>
+      Use an exact loading time only when you have the run record and its conditions. A precise
+      number without those details adds confidence the evidence has not earned. If no record is
+      available, describe the limitation without inventing a test or a personal scene.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>Check a long sentence with the actual tool</h2>
+    <p>
+      Paste this example into the <a href="/tools/reading-level-checker/">Reading Level Checker</a>:
+      “Paste your draft into the text box and choose a voice before you generate the audio so you
+      can listen for repeated openings and crowded sentences.”
+    </p>
+    <p>
+      The checker counts 26 words in that sentence and flags 1 sentence over 20 words. The revised
+      instruction in the previous section has 22 words across 2 sentences, with 11 words in each.
+      It produces no sentence-over-20 flag and separates setup from listening.
+    </p>
+    <p>
+      That is a clue to review the instruction, rather than proof that the shorter version is
+      right for every reader. The tool estimates English syllables for its reading scores. Names,
+      abbreviations, numbers, and mixed-language passages can distort those estimates. Keep a
+      needed technical term and explain it instead of chasing the lowest grade.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>Listen, then check the page structure</h2>
+    <p>
+      A speech voice can make repeated sentence openings or a missing word easier to notice.
+      It cannot judge whether the facts are true. Listen to the awkward passage, edit it, and
+      compare the meaning with the original before accepting the change.
     </p>
     <p class="article-source-note">
       Source: <a href="https://www.w3.org/WAI/tips/writing/" rel="noopener noreferrer" target="_blank">W3C writing guidance</a>
     </p>
     <p>
-      W3C recommends informative headings, meaningful links, and short, clear sentences and
-      paragraphs. Those choices help people scan the page and help screen-reader users navigate it.
-      Clear writing is part of accessibility, not a trick for making prose look less automated.
+      W3C recommends descriptive headings, meaningful link text, and clear, concise content.
+      Use actual heading elements, such as <code>h2</code> and <code>h3</code>, in a logical
+      hierarchy. Making text large or bold alone does not give assistive technology a heading it
+      can use for navigation. Check the published page's structure as well as the words in the editor.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>I check the subject after I finish writing</h2>
+    <h2>Use repeated words to review the subject</h2>
     <p>
-      The <a href="/tools/keyword-extractor/">Keyword Extractor</a> gives me a blunt summary of the
-      words I repeated. If the article claims to be about editing but product names dominate the
-      result, I probably wrote a catalogue. If a supporting phrase never appears, I decide
-      whether the idea is missing or the phrase never belonged there.
+      The <a href="/tools/keyword-extractor/">Keyword Extractor</a> counts repeated words and
+      short phrases after removing common words. Use the list to spot accidental repetition or
+      a product name that dominates a draft about something else. Filtering can join words that
+      were not adjacent in the original, so check a phrase against the draft before quoting it.
     </p>
     <p>
-      I do this late. Writing every paragraph around a keyword list is one of the fastest ways to
-      drain the voice from it. Google says generative AI can help with research and structure, while
-      publishing many pages without added value can violate its scaled-content policy. The useful
-      question is still why the page exists for a reader.
+      These counts do not measure search demand or predict a ranking. Write for the task first.
+      Google's guidance allows useful AI-assisted research and structure, while warning that
+      generating many pages without added value may violate its scaled-content spam policy.
+      It also calls for factual review of generated text, titles, descriptions, and structured data.
     </p>
     <p class="article-source-note">
       Sources: Google's <a href="https://developers.google.com/search/docs/fundamentals/using-gen-ai-content" rel="noopener noreferrer" target="_blank">generative AI content guidance</a>
@@ -238,39 +206,44 @@ const relatedLinks = [
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Marks cleanup is housekeeping, not proof</h2>
-    <p>
-      I also inspect public files that I own for suspicious invisible characters and unnecessary
-      provenance metadata. Cleaning a hidden code point or an image metadata field can prevent odd
-      copy-and-paste behaviour and keep a file tidy. It cannot prove that a person wrote the words.
+    <h2>Do not use a detector score as authorship proof</h2>
+    <p class="article-source-note">
+      Source: <a href="https://arxiv.org/abs/2304.02819" rel="noopener noreferrer" target="_blank">the 2023 study of GPT-detector bias</a>
     </p>
     <p>
-      I keep required authorship and AI-assistance disclosures. I also keep the source links. A
-      clean file does not replace either one, and a detector result does not overrule them.
+      The researchers tested several detectors on native and non-native English writing samples
+      in 2023. They found that the tested detectors often misclassified non-native English writing
+      as AI-generated. That finding applies to the study's samples and detectors. It does not
+      establish how every current detector performs.
+    </p>
+    <p>
+      A detector percentage cannot replace evidence of authorship. Keep draft history, sources,
+      and relevant test records. Avoid adding deliberate mistakes or promising an “undetectable”
+      rewrite. Those promises do not tell a reader whether the article is useful or true.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>The checklist I use before my name goes on a page</h2>
+    <h2>Review the final copy and its disclosures</h2>
     <ul class="editorial-checklist">
-      <li>Can I point to a decision, test, mistake, or observation that belongs to this article?</li>
-      <li>Did I verify every technical claim against a primary source or the working page?</li>
-      <li>Did I separate my opinion from a measured result?</li>
-      <li>Does the opening give the reader a reason to continue within the first few sentences?</li>
-      <li>Would the example still make sense if the reader never clicked a link?</li>
-      <li>Did I listen to the awkward section instead of reading it in my own voice again?</li>
-      <li>Did I disclose ownership and AI assistance without turning the disclosure into a defence?</li>
+      <li>Can the reader follow the example without opening another page?</li>
+      <li>Do measured results include their inputs and test conditions?</li>
+      <li>Does each important claim have a source that supports that wording?</li>
+      <li>Are opinions, illustrations, and uncertainty clear?</li>
+      <li>Do the title, summary, and structured data match the visible article?</li>
+      <li>Do links describe their destinations and headings convey the page structure?</li>
+      <li>Does the page accurately explain authorship, ownership, and AI assistance?</li>
     </ul>
     <p>
-      I still use AI skills. My earlier article on
-      <a href="/blog/free-ai-skills-open-source-tools-organic-growth/">free AI skills and open-source tools</a>
-      explains where they help with research, writing, code memory, and design. The final edit stays
-      mine because the judgment has to stay mine.
+      If pasted text contains an unexpected invisible character, inspect the affected text and
+      its meaning before removing it. That is a text-formatting check. It gives no reason to
+      strip image provenance, copyright information, attribution, or AI disclosures.
     </p>
     <p>
-      If you are editing your own draft, start with the paragraph you feel most tempted to keep. Ask
-      what fact, decision, or example would disappear if you deleted it. If the answer is nothing,
-      the paragraph has already made the decision for you.
+      Start with one paragraph and keep its meaning intact while editing it. Use the
+      <a href="/tools/reading-level-checker/">Reading Level Checker</a> and its
+      <a href="/blog/how-to-use-reading-level-checker/">reading-level guide</a> to find a sentence
+      worth reviewing, then decide whether the change helps the reader finish the task.
     </p>
   </section>
 </EditorialArticleLayout>

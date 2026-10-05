@@ -2,12 +2,14 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 
 import { join, resolve } from 'node:path';
 import { parseFragment } from 'parse5';
 import { hashEditorialSource, reviewEditorialSources } from './lib/editorial-source-review.mjs';
+import { inspectEditorialWritingStructure } from './lib/editorial-writing-structure.mjs';
 import { analyzeWritingText, findSharedSlopHits } from './lib/writing-quality-rules.mjs';
 
 const root = process.cwd();
 const blogDir = resolve(root, 'dist', 'blog');
 const outputDir = resolve(root, 'output', 'editorial-quality');
 const minimumStopSlopScore = 40;
+const scoreLimitation = 'Heuristic structure and wording diagnostics only; this score does not verify facts, originality, authorship, source evidence, or publication approval.';
 const sourceReviewDir = resolve(root, 'docs', 'editorial-source-reviews');
 
 function readRecord(path) {
@@ -84,11 +86,10 @@ function scoreArticle({ slug, path }) {
   const sharedWritingReview = analyzeWritingText(visibleText, { mode: 'editorial', sourcePath: path });
   const sharedHardErrors = sharedWritingReview.findings.filter((finding) => finding.severity === 'error');
   const slopHits = findSharedSlopHits(visibleText);
-  const emDashHits = countMatches(visibleText, /—/g);
-  const firstPersonHits = countMatches(visibleText, /\b(?:I|my|me)\b/g);
-  const accessFreeToolsHits = countMatches(visibleText, /Access Free Tools/g);
+  const emDashHits = countMatches(visibleText, /\u2014|&mdash;|&#8212;|&#x2014;/gi);
   const numberHits = countMatches(visibleText, /\b\d+(?:\.\d+)?\b/g);
   const opening = paragraphs.slice(0, 3).join(' ');
+  const writingStructure = inspectEditorialWritingStructure({ opening, paragraphs });
 
   const directness = Math.max(0, 10 - Math.min(8, slopHits.length * 2) - Math.min(2, emDashHits));
   const longSentenceRatio = sentences.length ? longSentences.length / sentences.length : 1;
@@ -97,27 +98,24 @@ function scoreArticle({ slug, path }) {
     (externalLinks.length >= 3 ? 4 : externalLinks.length) +
     (/How this article was made/i.test(visibleText) ? 3 : 0) +
     (/limit|cannot|does not|risk|check/i.test(visibleText) ? 3 : 0));
-  const authenticity = Math.min(10,
-    (firstPersonHits >= 6 ? 4 : Math.min(4, firstPersonHits)) +
-    (accessFreeToolsHits >= 3 ? 3 : accessFreeToolsHits) +
-    (/Brendan Chambers/i.test(visibleText) ? 3 : 0));
+  const contextAndDisclosure = writingStructure.contextAndDisclosure;
   const density = Math.min(10,
     (wordCount(visibleText) >= 900 ? 4 : wordCount(visibleText) >= 700 ? 3 : 1) +
     (headings.length >= 6 ? 3 : Math.min(3, Math.floor(headings.length / 2))) +
     (numberHits >= 3 ? 2 : Math.min(2, numberHits)) +
     (internalLinks.length >= 3 ? 1 : 0));
-  const stopSlopScore = directness + rhythm + trust + authenticity + density;
+  const stopSlopScore = directness + rhythm + trust + contextAndDisclosure + density;
 
   const checks = {
-    concreteOpening: /\bI\b/.test(opening) && /Access Free Tools|browser|repository|tool|page|site/i.test(opening),
-    quickAnswer: headings.some((heading) => /quick answer|short answer|what I check first/i.test(heading)),
+    concreteOpening: writingStructure.concreteOpening,
+    quickAnswer: headings.some((heading) => /quick answer|short answer|what (?:I|to) check first/i.test(heading)),
     realisticExample: numberHits >= 3 && /example|for Access Free Tools|in this repo|on this site/i.test(visibleText),
     commonMistakesOrRisks: /mistake|risk|warning|red flag|limit/i.test(visibleText),
     usefulInternalLinks: internalLinks.length >= 3,
     sourceLinksPresent: externalLinks.length >= 3,
     sourceReviewEvidence: sourceReview.gatePassed,
-    ownerDisclosure: /I own Access Free Tools/i.test(visibleText),
-    processDisclosure: /AI helped with research organization and draft checks/i.test(visibleText),
+    ownerDisclosure: writingStructure.ownerDisclosure,
+    processDisclosure: writingStructure.processDisclosure,
     noSlopFloorFailure: stopSlopScore >= minimumStopSlopScore,
     noEmDashes: emDashHits === 0,
     noSharedWritingHardErrors: sharedHardErrors.length === 0,
@@ -148,8 +146,9 @@ function scoreArticle({ slug, path }) {
       directness,
       rhythm,
       trust,
-      authenticity,
+      contextAndDisclosure,
       density,
+      limitation: scoreLimitation,
     },
     readerFirst: checks,
     failures,
@@ -165,7 +164,8 @@ for (const report of reports) {
     `# Editorial quality: ${report.slug}`,
     '',
     `Status: ${report.status}`,
-    `Stop Slop: ${report.stopSlop.score}/50 (minimum ${report.stopSlop.minimum})`,
+    `Stop Slop structural writing score: ${report.stopSlop.score}/50 (minimum ${report.stopSlop.minimum})`,
+    scoreLimitation,
     `Words: ${report.metrics.words}`,
     `Internal links: ${report.metrics.internalLinks}`,
     `External sources: ${report.metrics.externalLinks}`,
@@ -187,6 +187,7 @@ const summary = {
   status: reports.length > 0 && reports.every((report) => report.status === 'pass') ? 'pass' : 'fail',
   issues: reports.length ? [] : ['No built editorial articles were found. Run a complete site build before review.'],
   minimumStopSlopScore,
+  scoreLimitation,
   articles: reports.map((report) => ({
     slug: report.slug,
     status: report.status,
@@ -198,6 +199,7 @@ const summary = {
 writeFileSync(join(outputDir, 'latest.json'), `${JSON.stringify(summary, null, 2)}\n`);
 
 console.log(`Editorial article quality: ${summary.status}`);
+console.log(scoreLimitation);
 for (const issue of summary.issues) console.error(issue);
 for (const report of reports) {
   console.log(`- ${report.slug}: ${report.status}; Stop Slop ${report.stopSlop.score}/50; ${report.metrics.words} words; sources ${report.sourceReview.status}`);

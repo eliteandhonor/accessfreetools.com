@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "slug": "browser-ai-vs-local-ai-privacy",
+  "articleSha256": "f857c1ab4394e83d7a660bae16077f27794f7e3967ddcb8705818f46dd2c0b36",
+  "reviewer": "Codex source-review agent: edit_stack_privacy_articles",
+  "reviewedAt": "2026-10-05T04:05:09.077Z",
+  "claims": [
+    {
+      "claim": "Browser applications send and receive data with Fetch.",
+      "sourceUrl": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API",
+      "finding": "MDN documents requests/responses. Network traffic is separate from where recognition or inference runs.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Tesseract.js supports browser recognition workers.",
+      "sourceUrl": "https://github.com/naptha/tesseract.js",
+      "finding": "Official project supports browser OCR; local source establishes this particular application route.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Tesseract worker/core/language paths and language caching can be configured.",
+      "sourceUrl": "https://github.com/naptha/tesseract.js/blob/master/docs/api.md",
+      "finding": "Official API documents workerPath/corePath/langPath and IndexedDB caching. Current adapter follows pinned7 worker packets rather than directly calling createWorker; local code and native proof establish this.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "OCR image quality affects output.",
+      "sourceUrl": "https://tesseract-ocr.github.io/tessdoc/ImproveQuality.html",
+      "finding": "Official quality guide explains preprocessing factors. No historical accuracy table is asserted; current English QA supports one fixture.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Transformers.js supports browser text, vision, and speech pipelines.",
+      "sourceUrl": "https://huggingface.co/docs/transformers.js/index",
+      "finding": "Official docs cover browser ONNX inference, not privacy of every surrounding application request.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Model-local settings and WASM locations are separate.",
+      "sourceUrl": "https://huggingface.co/docs/transformers.js/custom_usage",
+      "finding": "Official custom-usage example separates localModelPath/allowRemoteModels from wasmPaths. Installed4.2 source independently confirms default jsDelivr runtime locations.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "A localhost Ollama endpoint can forward to cloud models.",
+      "sourceUrl": "https://docs.ollama.com/api/introduction",
+      "finding": "Official API docs give local and hosted base URLs and explicitly allow cloud models through a signed-in local server. Localhost alone does not prove local inference.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Ollama has direct hosted cloud processing.",
+      "sourceUrl": "https://docs.ollama.com/cloud",
+      "finding": "Official docs describe cloud model requests. No live provider health, account configuration, or service privacy audit is claimed.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Clarity masking applies to a marked DOM node and its children.",
+      "sourceUrl": "https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-masking",
+      "finding": "Microsoft documents data-clarity-mask scope. Masking recording content is not equivalent to stopping all requests or analytics.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    }
+  ],
+  "brendanFacts": [
+    {
+      "fact": "Brendan Chambers owns Access Free Tools. This neutral revision does not assert his personal testing or listening experience.",
+      "checkedAt": "2026-10-05T04:05:09.077Z",
+      "evidenceRef": "Authorized project owner statement and editorial-repair delegation in source thread 01a1098f-7b41-7433-b2a4-ac86ee09c028, October 5, 2026."
+    }
+  ],
+  "ownerApproval": {
+    "status": "pending",
+    "by": "Brendan Chambers"
+  },
+  "localEvidence": {
+    "scope": "Read-only current source inspection at base8ceafc7b17fc35fdc8feda7538ea0b04f956476a; source hashes bind implementation evidence. Final commit and shared-layout binding are recorded by the release reviewer. No live packet capture, private-provider call, or personal testing is claimed.",
+    "checkedAt": "2026-10-05T04:05:09.077Z",
+    "files": [
+      {
+        "path": "src/components/AiBrowserTool.tsx",
+        "sha256": "2ffce7c76af5147140ee76fe956c301889c00306419c7f0118298714b2cb3552",
+        "finding": "Image bytes and text/blobURL consumed by local worker/pipelines. Sentiment/tone request self-hosted MobileBERT with local_files_only:true; shared global allowRemoteModels is true for other tasks; WASM path unset. Six OCR language choices."
+      },
+      {
+        "path": "src/lib/browserOcrInput.ts",
+        "sha256": "2474540d99db4fe29c161a1cd2dad181aa20ec9e640c48c9a697620cf471a9d5",
+        "finding": "Selected local image validated/prepared as bytes."
+      },
+      {
+        "path": "src/lib/browserOcrWorker.ts",
+        "sha256": "8479ef7b08c78ddcd07fafc2cdcb5b5335a8b07cf395c22fca3da197259713b6",
+        "finding": "Owned worker receives bytes; configured same-site asset paths, timeout/cancel, local recognition result."
+      },
+      {
+        "path": "src/workers/transcriber-asr.worker.ts",
+        "sha256": "575f6c278edaef9bfb27252d45b794381473d2356084cf572763150d34cab08d",
+        "finding": "Browser Whisper inference receives decoded buffers; remote pinned Hugging Face assets."
+      },
+      {
+        "path": "src/workers/kokoro.worker.ts",
+        "sha256": "2902a1a112a747539f0a7695be177e92f65704e7a7ffc44557bff6622a5c2dd3",
+        "finding": "Pinned remote model/tokenizer/voice files; worker inference and MP3 encoder."
+      },
+      {
+        "path": "src/workers/supertonic.worker.ts",
+        "sha256": "c973079562db796b2726e16745ab335c9748e40d1898b3e5c295bb601d8f3da8",
+        "finding": "Pinned remote model/style files; worker inference and MP3 encoder."
+      },
+      {
+        "path": "src/components/AskToolChat.tsx",
+        "sha256": "9f90d4d864ccd890670e0c5d68f3c4832d23277e387ce8bced5aa20b25a96d17",
+        "finding": "Every submitted message posts to /api/v1/ask."
+      },
+      {
+        "path": "src/lib/askToolRouter.ts",
+        "sha256": "d387779846bb3184cbb5fe60db8c4ec230a46e1f5c65df87f8d1d31e704c60b3",
+        "finding": "Parser first; configured unmatched route calls hosted https://ollama.com/api/chat; deterministic answers."
+      },
+      {
+        "path": "src/components/BaseLayout.astro",
+        "sha256": "0bf7efc1fad172093bab9dc0caea100dd9b891607017266c9858b842ca92d79e",
+        "finding": "Production-host, DNT, opt-out and private-page exclusions; bounded tool-action fields plus page/visitor/session/browser metadata. No raw OCR image field."
+      },
+      {
+        "path": "src/lib/siteAnalytics.ts",
+        "sha256": "d464a64b095197ad7336b8292e28d3244ba65d8f40e7d6c6077a82e30b3d5797",
+        "finding": "Stored event fields include hashed visitor/session IDs and network address; hashing does not establish anonymity."
+      },
+      {
+        "path": "src/pages/tools/[slug].astro",
+        "sha256": "1df0f911593e50bfcb8f8831796382037387d1de0406e4c5230f05ae8db35ea2",
+        "finding": "All interactive tool islands sit within explicit Clarity mask."
+      },
+      {
+        "path": "src/pages/ask.astro",
+        "sha256": "8ccb25b8b703d4b543ff525a6e57f9ac7182c5f114eeed8a569fd82fbffcfa9d",
+        "finding": "Ask interaction explicitly masked."
+      },
+      {
+        "path": "src/pages/privacy-policy.astro",
+        "sha256": "88fb2ef17f5663c00bf565b41b53e8f44205124a30a101a2053f94797802fd9e",
+        "finding": "Visible opt-out button sets browser preference and describes reload behavior."
+      },
+      {
+        "path": "tests/clarity-boundaries.spec.ts",
+        "sha256": "b50b03bb41cd858f237923cf3d6ea26e38e07f9bf7f88788627e9ecef4756e4a",
+        "finding": "Local build under virtual production origin; all external requests intercepted; hydrated masks/opt-out reload verified without production telemetry."
+      },
+      {
+        "path": "scripts/lib/clarity-masking.test.mjs",
+        "sha256": "7921aece9aa9f13729f2d93ae7e2796c1bd7f833fca9adcad1298333373dd282",
+        "finding": "Source-level scope checks: every tool island, Ask, public prose and no unmask override."
+      },
+      {
+        "path": "src/components/BrowserOcrOffline.test.ts",
+        "sha256": "7b6f138b836aef6ed4d90bb1f9c9bb0339679a8faabbadaf625225456c506ec4",
+        "finding": "Native Chromium real cached OCR worker, downloadable English fixture, recognition/clipboard; request whitelist."
+      }
+    ],
+    "dependencyEvidence": [
+      {
+        "path": "node_modules/@huggingface/transformers/src/utils/hub.js",
+        "sha256": "ce04bf48d1dba0ae87d70128a9e18aae6c1cbdf51ed9f0602798c5b7d53d67e4",
+        "finding": "Installed4.2 local_files_only rejects remote model files, separately from runtime. Ignored dependency file, not publication artifact."
+      },
+      {
+        "path": "node_modules/@huggingface/transformers/src/backends/onnx.js",
+        "sha256": "0a69153a59e760bab73d9b64d8e287082fdf0a8882b5f2e2afe75eec55f65b4c",
+        "finding": "Installed4.2 selects jsDelivr WASM/mjs paths when unset. Ignored dependency file, not publication artifact."
+      }
+    ],
+    "priorRuntimeEvidence": [
+      {
+        "evidenceRef": "Second-repair/output/ocr-english-qa/latest.json, verified2026-10-05T03:37:25.668Z",
+        "finding": "Chromium151.0.7922.34/Tesseract7.0.0 downloaded, recognized and copied exact ACCESS FREE TOOLS 12345. Fixture sha a62b60a70b2763cc4c93c8f86acb62121a2f3e145c13303e8f35629517b53be8. Local sample/OCR assets only; unrelated machine AdGuard attempt blocked; no unexpected application/model external attempt. One English fixture, not global offline validation."
+      },
+      {
+        "evidenceRef": "Task artifact accessfreetools-second-repair-report.md and second-repair/output/playwright/second-final-results.json",
+        "finding": "Recorded100 passed local desktop/mobile cases include masking/opt-out checks. Existing scoped harness evidence, not a new live session inspection."
+      }
+    ],
+    "deferredChecks": [
+      "Final exact-commit full checks and responsive rendered article proof are owned by the release reviewer. Publisher approval is pending."
+    ]
+  }
+}

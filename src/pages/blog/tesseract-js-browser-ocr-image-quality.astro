@@ -3,282 +3,176 @@ export const prerender = true;
 import EditorialArticleLayout from '../../components/EditorialArticleLayout.astro';
 
 const slug = 'tesseract-js-browser-ocr-image-quality';
-const title = 'How I Improve Tesseract.js OCR Results in a Browser';
+const title = 'How to Improve Tesseract.js OCR Results in a Browser';
 const description =
-  'Brendan Chambers tests blur, contrast, cropping, tiny text, glare, and language choice to show what improved Tesseract.js OCR results in a browser.';
+  'Prepare clearer images for Tesseract.js OCR, choose the matching language, check important characters, and try the verified English sample workflow.';
 const imagePath = '/social/tesseract-js-browser-ocr-image-quality.webp';
 const socialImagePath = '/social/tesseract-js-browser-ocr-image-quality.png';
 const imageAlt =
-  'Full-body smoke-kawaii girl comparing six browser OCR image-quality tests beside a laptop, magnifying glass, glare panel, crop marks, and privacy shield.';
+  'Full-body smoke-kawaii girl checking document image quality beside a laptop, magnifying glass, glare panel, and crop marks.';
 const sources = [
   { href: 'https://github.com/naptha/tesseract.js', label: 'Tesseract.js official repository' },
-  { href: 'https://github.com/naptha/tesseract.js/blob/master/docs/api.md', label: 'Tesseract.js worker API' },
-  { href: 'https://github.com/naptha/tesseract.js/blob/master/docs/local-installation.md', label: 'Tesseract.js local installation guide' },
+  { href: 'https://github.com/naptha/tesseract.js/blob/master/docs/api.md', label: 'Tesseract.js worker API and image-resolution guidance' },
+  { href: 'https://github.com/naptha/tesseract.js/blob/master/docs/local-installation.md', label: 'Tesseract.js worker, core, and language-file paths' },
   { href: 'https://tesseract-ocr.github.io/tessdoc/ImproveQuality.html', label: 'Tesseract OCR image-quality guide' },
 ];
 const relatedLinks = [
-  {
-    href: '/tools/image-to-text-ocr-tool/',
-    label: 'Image to Text OCR Tool',
-    description: 'Run browser-side OCR with the same six language choices used in my test harness.',
-  },
-  {
-    href: '/blog/how-to-use-image-to-text-ocr-tool/',
-    label: 'Image to Text OCR guide',
-    description: 'Follow the practical tool steps and learn which results need a manual check.',
-  },
-  {
-    href: '/blog/browser-ai-vs-local-ai-privacy/',
-    label: 'Browser AI vs local AI',
-    description: 'See what browser-side processing does and does not prove about privacy.',
-  },
-  {
-    href: '/categories/ai-tools/',
-    label: 'Browser AI tools',
-    description: 'Explore AI helpers with clear model, privacy, and accuracy limits.',
-  },
+  { href: '/tools/image-to-text-ocr-tool/', label: 'Image to Text OCR Tool', description: 'Choose one supported image and a language, then check and copy the recognized text.' },
+  { href: '/blog/how-to-use-image-to-text-ocr-tool/', label: 'Image to Text OCR guide', description: 'Download the sample and follow the actual tool controls and limits.' },
+  { href: '/blog/browser-ai-vs-local-ai-privacy/', label: 'Browser AI vs local AI', description: 'See what browser processing does and does not establish about privacy.' },
+  { href: '/categories/ai-tools/', label: 'Browser AI tools', description: 'Explore other browser helpers with stated model and accuracy limits.' },
 ];
 ---
 
 <EditorialArticleLayout
   slug={slug}
   title={title}
-  seoTitle="Improve Tesseract.js OCR Results in a Browser: 6 Tests"
+  seoTitle="Improve Tesseract.js OCR Results in a Browser"
   description={description}
+  label="Browser OCR guide"
   breadcrumbLabel="Improve Tesseract.js browser OCR"
   imagePath={imagePath}
   socialImagePath={socialImagePath}
   imageAlt={imageAlt}
-  imageCaption="The smoke-kawaii mascot compares the six image conditions I tested: blur, low contrast, cropping, tiny text, glare, and language choice."
+  imageCaption="The mascot checks lighting, text size, cropping, and language choice before copying recognized text."
   sources={sources}
   relatedLinks={relatedLinks}
 >
   <Fragment slot="intro">
     <p>
-      I built six fake receipts and document snippets to find out which image problems made browser
-      OCR stumble. Glare caused ten character edits. Cropping lost two letters. The matching Spanish
-      model restored two accents that the English run missed.
+      A copied receipt total can look plausible while a decimal point or digit is wrong. OCR gives
+      you a text draft to check against the image. This guide explains how to prepare that image,
+      use the browser tool, and check the result before trusting it.
     </p>
   </Fragment>
 
   <section class="content-section article-flow-section">
     <h2>Quick answer</h2>
     <p>
-      Give OCR complete characters, even lighting, enough resolution, and the right language model.
-      Crop away empty surroundings, but do not clip the first or last letter. Check totals, names,
-      dates, decimal points, and accented words against the original image before using the text.
+      Keep complete characters, readable text size, even lighting, and straight text lines. Choose
+      the main language in the image. Compare names, totals, dates, codes, and punctuation with the
+      original before copying them into another document. A confidence percentage does not verify
+      each character.
     </p>
     <p>
-      My fixed six-image test did not show every expected failure. The blurred, low-contrast, and
-      tiny-text samples were still readable. That result matters because image advice should come
-      from the exact file in front of you, not from a rule that promises every edit will help.
+      The <a href="/tools/image-to-text-ocr-tool/">Image to Text OCR Tool</a> accepts one still PNG,
+      JPEG, or WebP at a time. It has no crop, rotate, contrast, or sharpening controls. Prepare a
+      copy in your image editor, or retake the photograph, before selecting it here.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>I made six controlled images instead of using private documents</h2>
+    <h2>Fix the source image before applying filters</h2>
     <p>
-      I generated six synthetic PNG files with known text. Each image changed one condition: blur,
-      contrast, crop, text size, glare, or language. The English cases used invoice, order, product,
-      and receipt lines with fixed numbers. The language case used Spanish words with two accents.
+      If a bright reflection covers a price or account code, move the camera, document, or light and
+      take another image. Sharpening cannot recover characters that the photo never captured. Keep
+      the original so you can compare it with any edited copy.
     </p>
     <p>
-      I ran Tesseract.js 7.0.0 with the same self-hosted English and Spanish language files used by
-      Access Free Tools. I compared the recognized text with the expected text after normalizing
-      letter case and repeated spaces. Accents still counted as real characters. The edit count
-      therefore shows how many character insertions, removals, or substitutions a person would need.
+      For tiny text, use a larger original or a closer, focused photo. Enlarging an existing image
+      may help recognition, but it cannot restore missing detail. Change one condition at a time,
+      then compare the same line of output. That makes it easier to see whether the edit helped.
     </p>
     <p class="article-source-note">
-      Tesseract.js runs recognition through a worker. Its API also notes that a higher-resolution
-      image can improve results. See the <a href="https://github.com/naptha/tesseract.js/blob/master/docs/api.md" rel="noopener noreferrer" target="_blank">official worker API</a>.
+      Tesseract.js's <a href="https://github.com/naptha/tesseract.js/blob/master/docs/api.md" rel="noopener noreferrer" target="_blank">worker API</a>
+      recommends sufficiently high-resolution input and notes that upscaling can improve results.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>The six OCR results</h2>
-    <div class="editorial-table-shell" tabindex="0" role="region" aria-label="Tesseract.js OCR experiment results">
-      <table class="editorial-comparison-table ocr-results-table">
-        <caption>Character edits and Tesseract confidence from my fixed synthetic test</caption>
-        <thead>
-          <tr>
-            <th scope="col">Image condition</th>
-            <th scope="col">Manual edits</th>
-            <th scope="col">Confidence</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Blurred screenshot</th>
-            <td>0</td>
-            <td>96%</td>
-          </tr>
-          <tr>
-            <th scope="row">Low contrast</th>
-            <td>0</td>
-            <td>95%</td>
-          </tr>
-          <tr>
-            <th scope="row">Cropped first characters</th>
-            <td>2</td>
-            <td>92%</td>
-          </tr>
-          <tr>
-            <th scope="row">Tiny text</th>
-            <td>0</td>
-            <td>94%</td>
-          </tr>
-          <tr>
-            <th scope="row">Glare across the total</th>
-            <td>10</td>
-            <td>88%</td>
-          </tr>
-          <tr>
-            <th scope="row">Spanish with English model</th>
-            <td>2</td>
-            <td>93%</td>
-          </tr>
-          <tr>
-            <th scope="row">Spanish with Spanish model</th>
-            <td>0</td>
-            <td>96%</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <h2>Keep a border, and straighten the lines</h2>
     <p>
-      Confidence is Tesseract's own estimate. It did not replace the text comparison. An 88% result
-      still preserved the receipt number and amount, yet it dropped part of the surrounding line.
-    </p>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>Glare did the most damage</h2>
-    <p>
-      My glare image expected <code>RECEIPT 6201 TOTAL $57.80 CARD APPROVED</code>. Tesseract returned{' '}
-      <code>RECEIPT 6201 TOTA $57.80 CARD</code>. The amount survived, but one letter and the final
-      word disappeared. The result needed ten character edits.
+      Crop unnecessary surroundings without cutting through letters. Leave a small margin around
+      the text. Rotate a tilted image until its lines are horizontal. Check the first and last
+      character after saving: a neat crop can still remove part of a reference number.
     </p>
     <p>
-      A sharper camera does not fix light that covers the characters. I would move the document away
-      from a lamp or window, tilt the phone, and take another photo. If that is impossible, I would
-      inspect every word that crosses the bright patch instead of trusting the confidence score.
-    </p>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>Cropping helps only while the characters stay inside</h2>
-    <p>
-      Cropping can remove a table edge, desk, or empty background so the recognizer sees the useful
-      region. My crop test went too far. <code>REFERENCE</code> became <code>EFERENCE</code>, and{' '}
-      <code>STATUS</code> became <code>TATUS</code> because the first pixels were gone.
-    </p>
-    <p>
-      OCR cannot reconstruct a letter outside the image. I leave a small border around the text and
-      zoom in before running recognition. That one check prevents a clean-looking crop from silently
-      changing a reference number, name, or status.
-    </p>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>Blur, low contrast, and tiny text still passed this test</h2>
-    <p>
-      I expected all three cases to need corrections. They did not. The blurred invoice scored 96%,
-      the low-contrast order scored 95%, and the tiny product line scored 94%. Each recognized line
-      matched the expected text after normalization.
-    </p>
-    <p>
-      These files were synthetic, straight, and uncluttered. A real receipt can add folds, textured
-      paper, shadows, stains, mixed fonts, and compression. I would still retake a badly blurred
-      photo and enlarge very small text, but I would not report a failure that this test did not show.
+      Tesseract's quality guide covers uneven backgrounds, noise, rotation, borders, and resolution.
+      Its 300 dpi recommendation is scan guidance, not a pass threshold for this browser tool. The
+      tool checks image dimensions and byte size; it does not judge whether your text is readable.
+      A heavy filter can erase punctuation, so compare edited and original images closely.
     </p>
     <p class="article-source-note">
-      The main Tesseract documentation covers resolution, borders, deskewing, binarization, and other
-      preprocessing choices in its <a href="https://tesseract-ocr.github.io/tessdoc/ImproveQuality.html" rel="noopener noreferrer" target="_blank">image-quality guide</a>.
+      Background: <a href="https://tesseract-ocr.github.io/tessdoc/ImproveQuality.html" rel="noopener noreferrer" target="_blank">Tesseract's image-quality guide</a>.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>The matching language model restored the accents</h2>
+    <h2>Choose the language, then check the words</h2>
     <p>
-      The Spanish line contained <code>NÚMERO</code> and <code>DESCRIPCIÓN</code>. The English model
-      returned both words without the first accent, producing two edits at 93% confidence. The
-      Spanish model returned the exact line with zero edits and 96% confidence.
+      This tool offers English, Spanish, French, German, Italian, and Portuguese. Select the main
+      language yourself; it does not automatically detect it. For a Spanish document, choose Spanish
+      and check accented words, names, and any foreign-language text in the result. A matching
+      language file is not a guarantee that every accent or proper noun will be right.
     </p>
     <p>
-      That three-point confidence gain mattered less than the corrected characters. Choose the main
-      language in the image, then check names and borrowed words that may follow another language.
-      A language model can guide recognition, but it cannot guarantee every accent or proper noun.
+      Keep a short checklist of fields that matter. On a receipt, compare the currency sign, decimal
+      separator, total, date, and reference number. On a form, compare names and identifiers. Keep
+      leading zeros in codes. If the output and image disagree, correct the text from the image;
+      do not use a high confidence percentage to settle the disagreement.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>My browser OCR checklist</h2>
+    <h2>Try one checked English example</h2>
+    <p>
+      Download the <a href="/samples/ocr-synthetic-english.png" download="ocr-synthetic-english.png">synthetic English sample</a>.
+      It is a 1,200 by 220 pixel PNG with black 64px Arial text on a white background. Its reference
+      line is <code>ACCESS FREE TOOLS 12345</code>. This simple image helps you check the image selection,
+      recognition, and copy controls without using a private document.
+    </p>
     <ol class="editorial-checklist">
-      <li><strong>Keep the whole text line.</strong> Leave a small border so cropping does not remove character edges.</li>
-      <li><strong>Remove glare at the source.</strong> Move the page, light, or camera before trying a filter.</li>
-      <li><strong>Use enough pixels.</strong> Move closer or upscale a small image before recognition.</li>
-      <li><strong>Choose the main language.</strong> Match the language file to the document when accents or scripts differ.</li>
-      <li><strong>Check important fields.</strong> Compare names, dates, totals, decimal points, codes, and account numbers with the image.</li>
-      <li><strong>Keep the original.</strong> OCR text is a working copy, not proof that the source said exactly the same thing.</li>
+      <li>Open the <a href="/tools/image-to-text-ocr-tool/">OCR tool</a> and select the downloaded PNG.</li>
+      <li>Choose English, then press <strong>Read text</strong>.</li>
+      <li>Compare the result with <code>ACCESS FREE TOOLS 12345</code>.</li>
+      <li>Press <strong>Copy result</strong> and paste it into a text editor to check the copied line.</li>
     </ol>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>How the Access Free Tools OCR page handles the work</h2>
     <p>
-      The <a href="/tools/image-to-text-ocr-tool/">Image to Text OCR Tool</a> loads Tesseract.js in
-      the browser after you choose a supported image. Access Free Tools serves the worker, WebAssembly
-      core, and language files from its own model directory. The tool does not upload the selected
-      image to the Access Free Tools server for recognition.
+      An automated Chromium check on October 5, 2026 used the real tool component and its local
+      Tesseract.js 7.0.0 assets. It recognized that exact line and copied the same line to the browser
+      clipboard. The check blocked external requests. It establishes this one simple English
+      workflow, not a measured accuracy result for blur, glare, receipts, Spanish, or other devices.
     </p>
     <p>
-      Browser-side processing does not mean the page makes no network requests. The support files
-      still need to load, and the production site can record an anonymous tool action without storing
-      the selected image or extracted text. My <a href="/blog/browser-ai-vs-local-ai-privacy/">browser AI privacy article</a>{' '}
-      explains that distinction in more detail.
+      For your own document, keep the source image and compare the text before and after an edit.
+      Record the selected language and any changes to the image. A few successful lines are useful
+      checks; they do not establish a general OCR accuracy rate.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>What this experiment cannot prove</h2>
+    <h2>What the browser downloads and processes</h2>
     <p>
-      Six synthetic images do not form a general OCR benchmark. Another camera, font, language,
-      compression level, browser, device, or Tesseract version can change the result. Tesseract's
-      confidence is useful diagnostic evidence, not a promise that every character is correct.
+      The current OCR component prepares the selected image and sends it to a worker inside the
+      browser for recognition. Access Free Tools serves the worker, WebAssembly core, and selected
+      language files from its own model directory after you press <strong>Read text</strong>. The
+      recognition path does not upload the image to the site server.
     </p>
     <p>
-      Use the <a href="/blog/how-to-use-image-to-text-ocr-tool/">Image to Text OCR guide</a> for the
-      full tool workflow. Keep sensitive documents out of any browser tool until its privacy terms
-      fit your risk, and verify high-stakes text against the original document.
+      Tesseract.js supports explicit worker, core, and language-file paths. This tool uses those local
+      paths rather than the default external downloads. The page still makes support-file requests,
+      and the site has separate analytics and session replay. A tool-usage event is not the image or
+      extracted text, but local recognition alone does not establish anonymity for the whole page.
+      Read the <a href="/privacy-policy/">Privacy Policy</a> before handling sensitive documents.
+    </p>
+    <p class="article-source-note">
+      Background: <a href="https://github.com/naptha/tesseract.js/blob/master/docs/local-installation.md" rel="noopener noreferrer" target="_blank">Tesseract.js's local installation guide</a>.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>When the result needs another check</h2>
+    <p>
+      The current input limit is 10 MiB, with at most eight million pixels and neither side above
+      8,192 pixels. Resize a copy if needed. This is a one-image text extractor, not a multipage PDF
+      reader, layout-preserving converter, or verified handwriting service.
+    </p>
+    <p>
+      A different font, camera, language, browser, or Tesseract version can change recognition.
+      Verify important financial, medical, legal, or identity text directly against its source.
+      The <a href="/blog/how-to-use-image-to-text-ocr-tool/">full OCR guide</a> explains the supported
+      inputs and controls. Use the <a href="/tools/image-to-text-ocr-tool/">OCR tool</a> to save
+      typing, then check the draft before it becomes a record you rely on.
     </p>
   </section>
 </EditorialArticleLayout>
-
-<style>
-  .ocr-results-table {
-    min-width: 0;
-    table-layout: fixed;
-  }
-
-  .ocr-results-table th:first-child {
-    width: 50%;
-  }
-
-  .ocr-results-table th:nth-child(2),
-  .ocr-results-table th:nth-child(3) {
-    width: 25%;
-  }
-
-  .ocr-results-table th,
-  .ocr-results-table td {
-    overflow-wrap: anywhere;
-  }
-
-  @media (max-width: 640px) {
-    .ocr-results-table th,
-    .ocr-results-table td {
-      font-size: 0.8rem;
-      padding: 10px 8px;
-    }
-  }
-</style>

@@ -3,23 +3,26 @@ export const prerender = true;
 import EditorialArticleLayout from '../../components/EditorialArticleLayout.astro';
 
 const slug = 'open-source-projects-behind-access-free-tools';
-const title = '8 Open-Source Projects I Use to Build Access Free Tools';
+const title = '8 Open-Source Projects Behind Access Free Tools';
 const description =
-  'Brendan Chambers shares the open-source web, testing, OCR, and AI projects used behind Access Free Tools, with practical examples and honest limits.';
+  'See which projects build Access Free Tools, test its results, and power browser OCR and AI, plus the limits of its optional cloud question router.';
 const imagePath = '/social/open-source-projects-behind-access-free-tools.webp';
 const socialImagePath = '/social/open-source-projects-behind-access-free-tools.png';
 const imageAlt =
   'Full-body smoke-kawaii girl at a workbench arranging eight colorful open-source building blocks beside a laptop showing a utility webpage.';
 const sources = [
-  { href: 'https://www.howtogeek.com/coolest-open-source-projects-discovered-2026/', label: 'How-To Geek: The coolest open-source projects discovered in 2026' },
-  { href: 'https://github.com/withastro/astro', label: 'Astro on GitHub' },
+  { href: 'https://astro.build/blog/astro-7/', label: 'Astro 7 release' },
+  { href: 'https://docs.astro.build/en/guides/integrations-guide/node/', label: 'Astro Node adapter' },
   { href: 'https://react.dev/', label: 'React documentation' },
   { href: 'https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/', label: 'Microsoft: Announcing TypeScript 7.0' },
   { href: 'https://playwright.dev/', label: 'Playwright documentation' },
+  { href: 'https://playwright.dev/docs/accessibility-testing', label: 'Playwright: accessibility testing limits' },
   { href: 'https://vitest.dev/', label: 'Vitest documentation' },
   { href: 'https://github.com/naptha/tesseract.js', label: 'Tesseract.js on GitHub' },
+  { href: 'https://tesseract-ocr.github.io/tessdoc/ImproveQuality.html', label: 'Tesseract: image quality limits' },
   { href: 'https://huggingface.co/docs/transformers.js/index', label: 'Transformers.js documentation' },
   { href: 'https://github.com/ollama/ollama', label: 'Ollama on GitHub' },
+  { href: 'https://docs.ollama.com/api/introduction', label: 'Ollama local and cloud API routes' },
   { href: 'https://ladybird.org/', label: 'Ladybird browser project' },
   { href: 'https://lightpanda.io/', label: 'Lightpanda browser project' },
   { href: 'https://github.com/open-webui/open-webui', label: 'Open WebUI on GitHub' },
@@ -28,13 +31,13 @@ const sources = [
 const relatedLinks = [
   {
     href: '/blog/free-ai-skills-open-source-tools-organic-growth/',
-    label: 'My earlier AI skills notes',
-    description: 'The agent skills I tested before looking closely at the software underneath the site.',
+    label: 'AI skills and their limits',
+    description: 'Compare agent instructions, software projects, licenses, and possible provider costs.',
   },
   {
     href: '/categories/ai-tools/',
     label: 'Browser AI tools',
-    description: 'See the OCR, text, keyword, language, and image tools that use browser-side libraries.',
+    description: 'Find OCR, text, keyword, language, and image helpers.',
   },
   {
     href: '/tools/image-to-text-ocr-tool/',
@@ -43,7 +46,7 @@ const relatedLinks = [
   },
   {
     href: '/why-access-free-tools/',
-    label: 'Why I build Access Free Tools',
+    label: 'Why Access Free Tools exists',
     description: 'The practical rules behind this growing free utility library.',
   },
 ];
@@ -52,44 +55,48 @@ const relatedLinks = [
 <EditorialArticleLayout
   slug={slug}
   title={title}
-  seoTitle="8 Open-Source Tools I Use to Build a Website"
+  seoTitle="8 Open-Source Projects Behind Access Free Tools"
   description={description}
   breadcrumbLabel="Open-source projects behind the site"
   imagePath={imagePath}
   socialImagePath={socialImagePath}
   imageAlt={imageAlt}
-  imageCaption="The smoke-kawaii mascot sorts eight open-source building blocks for the website, testing, browser OCR, and optional local AI."
+  imageCaption="The smoke-kawaii mascot sorts eight projects used for the website, tests, browser OCR and AI, and optional cloud question routing."
   sources={sources}
   relatedLinks={relatedLinks}
 >
   <Fragment slot="intro">
     <p>
-      I read a How-To Geek article about five interesting open-source projects, then opened the
-      Access Free Tools codebase. The list I cared about was already sitting in my own
-      <code>package.json</code>: the projects that help me build, test, and run this site every day.
+      A list of software names does not explain what a website does with them. On Access Free
+      Tools, one project builds a calculator page, another checks the answer, and another reads
+      text from an image. Here is what the eight projects do, which parts run in the browser,
+      and where a cloud service enters the picture.
     </p>
   </Fragment>
 
   <section class="content-section article-flow-section">
     <h2>Quick answer</h2>
     <p>
-      The most useful open-source tools are not always the newest ones. They are the ones that do a
-      clear job and let me check the result. Astro builds the pages. React runs the interactive
-      calculators. TypeScript catches mistakes. Playwright and Vitest judge the work. Tesseract.js
-      and Transformers.js power specific browser tools. Ollama is an optional route for questions
-      that need a language model.
+      Astro builds the pages. React runs interactive interfaces. TypeScript checks code types.
+      Playwright and Vitest test selected browser flows and logic. Tesseract.js and Transformers.js
+      power specific OCR and AI tools. The Ask route can call Ollama's hosted API when its parser
+      cannot identify a supported request.
     </p>
     <p>
-      None of them replaces the part where I open the page and ask whether a normal person can use
-      it. They make that check faster and more repeatable.
+      These are different jobs. A passing type check does not prove a formula is correct, and a
+      successful browser test does not prove that every visitor can use a page. The stack gives
+      the project repeatable checks, with limits that still need human judgment.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
     <h2>What is actually used, and where</h2>
     <p>
-      I separate the stack into three jobs. That matters because saying a project is "used by the
-      site" can hide a lot of detail.
+      The dependency lockfile reviewed on October 5, 2026 contains Astro 7.2.8, React 19.2.8,
+      TypeScript 7.0.2 and 6.0.2, Playwright 1.62.0, Vitest 4.1.11, Tesseract.js 7.0.0, and
+      Transformers.js 4.2.0. Ollama is a separate hosted API connection, not a model bundled into
+      the website. These version numbers describe this project snapshot, not the latest release
+      of every upstream project.
     </p>
     <div class="editorial-table-shell" role="region" aria-label="Open-source project roles" tabindex="0">
       <table class="editorial-comparison-table">
@@ -97,30 +104,30 @@ const relatedLinks = [
           <tr><th>Job</th><th>Projects</th><th>What they do here</th></tr>
         </thead>
         <tbody>
-          <tr><td>Build and interface</td><td>Astro, React, TypeScript</td><td>Render pages, run interactive tools, and check code.</td></tr>
-          <tr><td>Quality checks</td><td>Playwright, Vitest</td><td>Test browser layouts, accessibility, and calculation logic.</td></tr>
-          <tr><td>AI and OCR</td><td>Tesseract.js, Transformers.js, Ollama</td><td>Read images, run selected browser models, and optionally route supported questions.</td></tr>
+          <tr><td>Build and interface</td><td>Astro, React, TypeScript</td><td>Render pages, run interactive tools, and check code types.</td></tr>
+          <tr><td>Quality checks</td><td>Playwright, Vitest</td><td>Check selected layouts, accessibility rules, interactions, and calculation logic.</td></tr>
+          <tr><td>AI and OCR</td><td>Tesseract.js, Transformers.js, Ollama</td><td>Recognize images and run browser models; optionally send Ask questions through a cloud router.</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Astro 7 keeps a large utility site understandable</h2>
+    <h2>Astro 7 builds content and server routes</h2>
     <p class="article-source-note">
-      Source: <a href="https://github.com/withastro/astro" rel="noopener noreferrer" target="_blank">Astro on GitHub</a>
+      Sources: <a href="https://astro.build/blog/astro-7/" rel="noopener noreferrer" target="_blank">Astro 7</a>
+      and the <a href="https://docs.astro.build/en/guides/integrations-guide/node/" rel="noopener noreferrer" target="_blank">Node adapter</a>
     </p>
     <p>
       Access Free Tools has hundreds of calculator, converter, guide, category, gallery, sitemap,
-      and API routes. Astro gives me normal HTML for the content while still supporting server
-      routes where the site needs them. The production build runs with the Astro Node adapter on
-      Node 24.
+      and API routes. Astro renders the content as HTML and supports server routes for functions
+      such as Ask. This project uses the Node adapter in standalone mode and requires Node 24.
+      The October 5 published build marker also reported Node 24.
     </p>
     <p>
-      The useful part for search is simple: the title, explanation, links, and examples exist in
-      rendered HTML. A crawler does not need to press a button before it can understand what the
-      page is about. I still have to keep sitemap and canonical rules clean. Astro does not make
-      those decisions for me.
+      The title, explanation, links, and examples exist in rendered HTML. A crawler does not need
+      to press a button to read those parts. Sitemap and canonical rules still need separate
+      checks. Rendering HTML does not promise search visibility or approval by an advertising network.
     </p>
   </section>
 
@@ -131,133 +138,114 @@ const relatedLinks = [
     </p>
     <p>
       The page around a calculator can stay plain HTML, while React handles the inputs, modes,
-      results, undo buttons, and live status inside the tool. That split is useful. Someone can read
-      the formula and example before JavaScript finishes loading, then use the interactive part when
-      it is ready.
+      results, undo buttons, and live status inside the tool. Someone can read the formula and
+      example before JavaScript finishes loading, then use the interactive part when it is ready.
     </p>
     <p>
-      React also makes it easy to build too much. I watch the JavaScript budget and keep special
-      libraries away from unrelated pages. A mortgage calculator should not download an OCR model,
-      and a text counter should not carry game code.
+      The project checks JavaScript budgets and loads larger OCR and model assets only for the
+      matching tool action. That keeps the work associated with the feature that needs it. A
+      mortgage calculation does not need a speech model to produce its answer.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>TypeScript 7 catches mistakes before a visitor does</h2>
+    <h2>TypeScript 7 checks types; examples check the math</h2>
     <p class="article-source-note">
       Source: <a href="https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/" rel="noopener noreferrer" target="_blank">Microsoft's TypeScript 7 announcement</a>
     </p>
     <p>
       A calculator result can look believable even when one field is wired to the wrong unit.
-      TypeScript helps catch mismatched values and missing cases before the code reaches the browser.
-      This project uses the fast TypeScript 7 command-line checker and keeps TypeScript 6 available
-      for code that still needs the older compiler API.
+      TypeScript can catch mismatched types and missing cases before code reaches the browser.
+      The project uses TypeScript 7's native command-line checker and keeps the TypeScript 6
+      compatibility package. Microsoft documents this dual-package setup; the project's scripts
+      offer both <code>tsc</code> and <code>tsc6</code> checks.
     </p>
     <p>
-      Types are a fence, not a proof. A perfectly typed interest formula can still use the wrong
-      assumption. I pair type checks with examples and result tests because the number matters more
-      than the neatness of the code.
+      Types cannot prove an interest formula uses the right assumption. Result tests must also
+      check known inputs and outputs. For example, 15% of 80 must give 12 whether the request comes
+      from the percentage calculator or its deterministic API runner.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Playwright and Vitest act as two different judges</h2>
+    <h2>Playwright checks browser flows; Vitest checks logic</h2>
     <p class="article-source-note">
       Sources: <a href="https://playwright.dev/" rel="noopener noreferrer" target="_blank">Playwright</a>
       and <a href="https://vitest.dev/" rel="noopener noreferrer" target="_blank">Vitest</a>
     </p>
     <p>
-      Vitest checks the small logic: a legal Four in a Row move, a routing decision, an indexation
-      rule, or a cleanup denylist. Playwright opens real pages. It can catch a heading that collides
-      with its source note at 390 pixels wide even though the source code looks fine.
+      Vitest checks small units of logic, such as a legal Four in a Row move, a routing decision,
+      or an indexation rule. Playwright opens pages and exercises interactions. It can detect
+      layout problems that a calculation test would never see.
     </p>
     <p>
-      I now test editorial articles at four widths: 1440, 1024, 768, and 390 pixels. That does not
-      prove every phone will be perfect, but it catches the sort of overlap that readers notice in
-      one second.
+      Layout checks at different widths can catch overlaps, clipped tables, and horizontal
+      overflow. They cover the browser and states tested, rather than every phone or assistive
+      technology. Playwright's <a href="https://playwright.dev/docs/accessibility-testing" rel="noopener noreferrer" target="_blank">accessibility guidance</a>
+      recommends manual assessment and inclusive user testing alongside automated checks.
+      An axe scan cannot replace those steps.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Tesseract.js and Transformers.js stay on the pages that need them</h2>
+    <h2>Tesseract.js and Transformers.js serve specific tools</h2>
     <p class="article-source-note">
       Sources: <a href="https://github.com/naptha/tesseract.js" rel="noopener noreferrer" target="_blank">Tesseract.js</a>
       and <a href="https://huggingface.co/docs/transformers.js/index" rel="noopener noreferrer" target="_blank">Transformers.js</a>
     </p>
     <p>
-      The <a href="/tools/image-to-text-ocr-tool/">Image to Text OCR Tool</a> loads Tesseract.js when
-      someone starts an OCR job. Other browser AI tools can load Transformers.js for a matching
-      model. Both libraries are imported dynamically, so ordinary calculator pages do not request
-      those larger assets.
+      The <a href="/tools/image-to-text-ocr-tool/">Image to Text OCR Tool</a> starts a self-hosted
+      Tesseract.js worker, core, and selected language data when someone presses Read text.
+      Transformers.js is imported when a matching browser model is requested. Downloading a model
+      is separate from uploading a user's input for inference.
     </p>
     <p>
-      The limit is important. OCR still struggles with blur, glare, tiny text, odd crops, and the
-      wrong language choice. A model can also misread context. I tell readers to check names,
-      totals, dates, and anything important against the original image.
+      Tesseract's <a href="https://tesseract-ocr.github.io/tessdoc/ImproveQuality.html" rel="noopener noreferrer" target="_blank">image-quality guide</a>
+      explains why resolution, contrast, skew, and borders affect recognition. Check names, totals,
+      dates, and anything important against the original. The <a href="/blog/browser-ai-vs-local-ai-privacy/">browser AI privacy guide</a>
+      explains the separate model-download, input-processing, and analytics routes.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Ollama is optional, while calculator answers stay deterministic</h2>
+    <h2>Ollama provides optional cloud routing, not calculator math</h2>
     <p class="article-source-note">
-      Source: <a href="https://github.com/ollama/ollama" rel="noopener noreferrer" target="_blank">Ollama on GitHub</a>
+      Sources: <a href="https://github.com/ollama/ollama" rel="noopener noreferrer" target="_blank">Ollama on GitHub</a>
+      and its <a href="https://docs.ollama.com/api/introduction" rel="noopener noreferrer" target="_blank">API routes</a>
     </p>
     <p>
-      Access Free Tools can use Ollama as an optional language-model route for supported questions.
-      I do not ask a model to invent calculator math. Exact tool answers come from the same
-      deterministic code used by the calculator, API, and MCP routes.
+      <a href="/ask/">Ask Access Free Tools</a> sends a visitor's question to the site's server.
+      Its parser tries to identify a supported tool first. If that fails and cloud routing is
+      configured, the server can send the question to <code>https://ollama.com/api/chat</code>.
+      This is cloud AI, not a model running on the visitor's computer.
     </p>
     <p>
-      That boundary is one of the most useful design decisions in the project. A model can help
-      understand a request, but the calculation still has a repeatable input and output. If Ollama
-      is unavailable, the supported parser route can still handle exact tool questions.
+      Ollama's job is to select a tool and its inputs. The final arithmetic and answer come from
+      the deterministic runner. A recognized parser question does not need the Ollama call;
+      an unrecognized question may fail if that service is unavailable. Using an open-source
+      project through a hosted service does not make the service local or automatically free.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Three projects I am watching, not claiming to use</h2>
+    <h2>Other projects are not production dependencies</h2>
     <p class="article-source-note">
       Sources: <a href="https://ladybird.org/" rel="noopener noreferrer" target="_blank">Ladybird</a>,
       <a href="https://lightpanda.io/" rel="noopener noreferrer" target="_blank">Lightpanda</a>, and
       <a href="https://github.com/open-webui/open-webui" rel="noopener noreferrer" target="_blank">Open WebUI</a>
     </p>
     <p>
-      Ladybird is building an independent browser engine. Lightpanda is aimed at browser automation
-      and headless work. Open WebUI provides a self-hosted interface for model workflows. Those are
-      interesting directions, but none is a production dependency of Access Free Tools today.
+      Ladybird is building an independent browser engine. Lightpanda targets headless automation.
+      Open WebUI provides a self-hosted interface for local and cloud model workflows. They offer
+      useful comparisons, but none appears as a production dependency in this site's reviewed
+      package files. Their presence in a roundup does not show that they power this website.
     </p>
     <p>
-      The How-To Geek list also included Continue. Its official site now says the project was
-      acquired by Cursor. That is a good reminder to recheck a project before repeating an old
-      recommendation. Open source moves quickly, including the ownership and maintenance story.
-    </p>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>What changed since my AI skills article</h2>
-    <p>
-      My earlier article covered <a href="/blog/free-ai-skills-open-source-tools-organic-growth/">free AI skills I was testing for research, writing, design, and site memory</a>.
-      This article looks one layer lower. These are the projects that build the pages, run the
-      interactive pieces, check the output, or support a specific AI feature.
-    </p>
-    <p>
-      My rule is still the same in practice: inspect the source, give the project one clear job,
-      keep its limits visible, and test the page a reader actually receives. A long dependency list
-      is not progress by itself.
-    </p>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>The practical takeaway</h2>
-    <p>
-      If you are building a small website, start with the problem you need to solve. Choose a
-      framework because it fits the pages. Add browser automation because visual mistakes escape
-      code review. Add an AI library only when a page has a real AI job.
-    </p>
-    <p>
-      Then check the project before installing it. That is the next part of this series: the
-      repository, license, scripts, dependencies, write locations, and stop signs I review before I
-      let an installer near this codebase.
+      Continue's <a href="https://www.continue.dev/" rel="noopener noreferrer" target="_blank">official site</a>
+      says it was acquired by Cursor, as checked on October 5, 2026. Ownership, maintenance,
+      licensing, and hosting can change. Before adding any project, check its current source and
+      the exact job it would do. The <a href="/blog/how-to-check-github-project-before-installing/">GitHub project checklist</a>
+      covers that next step.
     </p>
   </section>
 </EditorialArticleLayout>

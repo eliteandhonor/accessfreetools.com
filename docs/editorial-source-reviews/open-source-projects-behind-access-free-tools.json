@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "slug": "open-source-projects-behind-access-free-tools",
+  "articleSha256": "07d8f258633cee65a9f198faef14a353c8afdb021b90a41f82a04221900792f3",
+  "reviewer": "Codex source-review agent: edit_stack_privacy_articles",
+  "reviewedAt": "2026-10-05T04:06:23.631Z",
+  "claims": [
+    {
+      "claim": "Astro7 renders HTML and supports server routes.",
+      "sourceUrl": "https://astro.build/blog/astro-7/",
+      "finding": "Official June22,2026 release describes prerendered HTML and server-routing features. It does not establish this site’s source cleanliness.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "The Astro Node adapter supports standalone mode.",
+      "sourceUrl": "https://docs.astro.build/en/guides/integrations-guide/node/",
+      "finding": "Official adapter docs explain a standalone server serving page, API, and asset routes. Local configuration selects this mode.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "React provides interactive components within existing HTML.",
+      "sourceUrl": "https://react.dev/",
+      "finding": "Official documentation covers component-based interfaces, state updates, and adding React to an existing page. The local lockfile determines the installed version.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "TypeScript7 has a native checker and TypeScript6 compatibility setup.",
+      "sourceUrl": "https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/",
+      "finding": "Microsoft shows @typescript/native aliased to TypeScript7 and typescript aliased to @typescript/typescript6, exposing tsc/tsc6. This matches the package files. Type correctness does not prove arithmetic.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Playwright automates browser checks.",
+      "sourceUrl": "https://playwright.dev/",
+      "finding": "Official documentation describes page interactions and browser testing. The article claims selected coverage rather than universal usability.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:06:23.631Z"
+    },
+    {
+      "claim": "Automated accessibility checks do not replace manual assessment or inclusive user testing.",
+      "sourceUrl": "https://playwright.dev/docs/accessibility-testing",
+      "finding": "Official guidance recommends these complementary checks and states automated tests detect only some issues.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Vitest runs logic tests.",
+      "sourceUrl": "https://vitest.dev/",
+      "finding": "Official project describes a Vite-native test runner with backend support. Local tests and lockfile establish this project’s usage/version.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Tesseract.js performs browser OCR.",
+      "sourceUrl": "https://github.com/naptha/tesseract.js",
+      "finding": "Official repository demonstrates image recognition using a browser worker. The current site’s paths and trigger are checked in local code.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Resolution, contrast, skew, and borders affect OCR.",
+      "sourceUrl": "https://tesseract-ocr.github.io/tessdoc/ImproveQuality.html",
+      "finding": "Official guidance covers scaling, binarization, deskewing, and borders. No benchmark accuracy is claimed.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Transformers.js can run models in the browser.",
+      "sourceUrl": "https://huggingface.co/docs/transformers.js/index",
+      "finding": "Official docs cover browser ONNX pipelines and text/image tasks. Browser inference does not establish traffic-free operation.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Ollama is an open-source project with separate hosted service use.",
+      "sourceUrl": "https://github.com/ollama/ollama",
+      "finding": "Official repository identifies MIT-licensed project code. Hosted service use is not claimed to be a locally installed model or automatically free.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Ollama exposes local and hosted cloud API routes.",
+      "sourceUrl": "https://docs.ollama.com/api/introduction",
+      "finding": "Official docs distinguish localhost11434 and ollama.com endpoints. The site’s selected route is checked in source below.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Ladybird develops an independent browser engine.",
+      "sourceUrl": "https://ladybird.org/",
+      "finding": "Official project describes an independently developed engine. No release schedule or site adoption is claimed.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Lightpanda targets headless automation.",
+      "sourceUrl": "https://lightpanda.io/",
+      "finding": "Official project describes JavaScript automation without graphical rendering. Vendor speed/safety claims are not repeated.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Open WebUI offers self-hosted interfaces for local and cloud models.",
+      "sourceUrl": "https://github.com/open-webui/open-webui",
+      "finding": "Official repository supports Ollama/OpenAI-compatible providers for both routes. No deployment or unconditional license claim is made.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    },
+    {
+      "claim": "Continue reports acquisition by Cursor.",
+      "sourceUrl": "https://www.continue.dev/",
+      "finding": "Official site redirects to continue.dev and states the acquisition. Checked October5,2026; no acquisition date is inferred.",
+      "primarySource": true,
+      "checkedAt": "2026-10-05T04:05:09.077Z"
+    }
+  ],
+  "brendanFacts": [
+    {
+      "fact": "Brendan Chambers owns Access Free Tools. This neutral revision does not assert his personal testing or listening experience.",
+      "checkedAt": "2026-10-05T04:05:09.077Z",
+      "evidenceRef": "Authorized project owner statement and editorial-repair delegation in source thread 01a1098f-7b41-7433-b2a4-ac86ee09c028, October 5, 2026."
+    }
+  ],
+  "ownerApproval": {
+    "status": "pending",
+    "by": "Brendan Chambers"
+  },
+  "localEvidence": {
+    "scope": "Read-only current source inspection at base8ceafc7b17fc35fdc8feda7538ea0b04f956476a; source hashes bind implementation evidence. Final commit and shared-layout binding are recorded by the release reviewer. No live packet capture, private-provider call, or personal testing is claimed.",
+    "checkedAt": "2026-10-05T04:05:09.077Z",
+    "files": [
+      {
+        "path": "package.json",
+        "sha256": "ead111070bb12055233ee92598983993a0dd1d533ae3825c2712cd2cd3e93b69",
+        "finding": "Node engine>=24<25; tsc/tsc6 scripts and native/compiler aliases."
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "ee516bd8c9627b67139d8231bf534e2e45ec0b3fb18af72832aa63ad37c8e731",
+        "finding": "Resolved Astro7.2.8,React19.2.8,TS7.0.2/6.0.2,Playwright1.62.0,Vitest4.1.11,Tesseract7.0.0,Transformers4.2.0. No production package entries for Ladybird, Lightpanda, or Open WebUI."
+      },
+      {
+        "path": "astro.config.mjs",
+        "sha256": "b0b841e370d0db40bd57d54eca59c064125618edb0e99bca5c4be6d0138266dc",
+        "finding": "Server output, React integration, standalone Node adapter."
+      },
+      {
+        "path": "src/pages/tools/[slug].astro",
+        "sha256": "1df0f911593e50bfcb8f8831796382037387d1de0406e4c5230f05ae8db35ea2",
+        "finding": "Rendered tool explanations surround client-loaded interfaces."
+      },
+      {
+        "path": "src/components/AiBrowserTool.tsx",
+        "sha256": "2ffce7c76af5147140ee76fe956c301889c00306419c7f0118298714b2cb3552",
+        "finding": "OCR starts configured assets after Read text; Transformers is dynamically imported for a requested pipeline."
+      },
+      {
+        "path": "src/lib/browserOcrWorker.ts",
+        "sha256": "8479ef7b08c78ddcd07fafc2cdcb5b5335a8b07cf395c22fca3da197259713b6",
+        "finding": "Worker postMessage carries image bytes locally; no recognition upload route."
+      },
+      {
+        "path": "src/components/AskToolChat.tsx",
+        "sha256": "9f90d4d864ccd890670e0c5d68f3c4832d23277e387ce8bced5aa20b25a96d17",
+        "finding": "Every submitted question posts to /api/v1/ask."
+      },
+      {
+        "path": "src/lib/askToolRouter.ts",
+        "sha256": "d387779846bb3184cbb5fe60db8c4ec230a46e1f5c65df87f8d1d31e704c60b3",
+        "finding": "Parser first; optional hosted /api/chat after parser miss; final answers from deterministic runner. No provider call executed."
+      },
+      {
+        "path": "src/lib/apiToolRegistry.ts",
+        "sha256": "935c5b98b2789decb84287270325edf49e96a1bb9801fc69c2ea81679a4daa0d",
+        "finding": "Supported tools map to shared deterministic calculator functions."
+      },
+      {
+        "path": "scripts/check-performance-budget.mjs",
+        "sha256": "921d0782b81ca04a024ac5cc8f536fe5bfe5f09560a6593bb283cb79e87c8283",
+        "finding": "Checks budgets for generated JavaScript and other assets."
+      },
+      {
+        "path": "scripts/check-ai-lazy-assets.mjs",
+        "sha256": "0d85ac1cb4282d2065e6e8ce0becca8ec7c9befc3f18b3da56705c76dafb8af7",
+        "finding": "Checks prohibited eager model/runtime asset requests on generated pages."
+      }
+    ],
+    "priorRuntimeEvidence": [
+      {
+        "evidenceRef": "Task artifacts accessfreetools-publish-report.md and accessfreetools-published-live-proof.json",
+        "finding": "Previously observed October5 public c23ac9f3 build marker reported Node24. clean:false remains unresolved; article uses only observed Node24, not full clean-source certification."
+      },
+      {
+        "evidenceRef": "Task artifact accessfreetools-second-repair-report.md",
+        "finding": "Clean local candidate8ceafc7b was fully checked; new article revision remains unpublished and requires current checks."
+      }
+    ],
+    "deferredChecks": [
+      "Final exact-commit full checks and responsive rendered article proof are owned by the release reviewer. Publisher approval is pending."
+    ]
+  }
+}

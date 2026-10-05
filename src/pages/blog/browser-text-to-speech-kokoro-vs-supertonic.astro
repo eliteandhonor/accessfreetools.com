@@ -3,69 +3,27 @@ export const prerender = true;
 import EditorialArticleLayout from '../../components/EditorialArticleLayout.astro';
 
 const slug = 'browser-text-to-speech-kokoro-vs-supertonic';
-const title = 'I Refused to Buy a Server for Text to Speech. The Browser Did the Job.';
+const title = 'Kokoro vs Supertonic for Browser Text to Speech';
 const description =
-  'I tested Kokoro and Supertonic in a browser, fixed an Edge stall, compared 38 voices, and made local text-to-speech downloads work as MP3s.';
+  'Compare the current Kokoro and Supertonic browser paths, voice choices, model downloads, MP3 workflow, privacy limits, and Supertonic archive status.';
 const imagePath = '/social/browser-text-to-speech-kokoro-vs-supertonic.webp';
 const socialImagePath = '/social/browser-text-to-speech-kokoro-vs-supertonic.png';
 const imageAlt =
-  'Full-body smoke-kawaii girl comparing two browser voice models, fixing a stalled loading process, and sending the finished audio to headphones and an MP3 file.';
+  'Full-body smoke-kawaii girl comparing two browser voice models beside a loading display, headphones, and an MP3 file.';
 const sources = [
-  { href: 'https://github.com/supertone-inc/supertonic', label: 'Supertonic official repository' },
-  {
-    href: 'https://huggingface.co/Supertone/supertonic-3/tree/3cadd1ee6394adea1bd021217a0e650ede09a323',
-    label: 'Pinned Supertonic 3 model files',
-  },
-  {
-    href: 'https://huggingface.co/Supertone/supertonic-3/blob/main/LICENSE',
-    label: 'Supertonic 3 model license',
-  },
-  {
-    href: 'https://github.com/hexgrad/kokoro/tree/dfb907a02bba8152ca444717ca5d78747ccb4bec/kokoro.js',
-    label: 'Kokoro official browser implementation',
-  },
-  {
-    href: 'https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/tree/1939ad2a8e416c0acfeecc08a694d14ef25f2231',
-    label: 'Pinned Kokoro ONNX model and voice files',
-  },
-  {
-    href: 'https://huggingface.co/hexgrad/Kokoro-82M/blob/main/LICENSE',
-    label: 'Kokoro model license',
-  },
-  {
-    href: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API',
-    label: 'MDN: Web Workers API',
-  },
-  {
-    href: 'https://www.reddit.com/r/TextToSpeech/comments/1txdyxq/i_built_a_texttospeech_utility_that_runs/',
-    label: 'Reader discussion about local browser TTS and usage limits',
-  },
-  {
-    href: 'https://www.reddit.com/r/TextToSpeech/comments/1pkg00g/free_chrome_extension_to_run_kokoro_tts_locally/',
-    label: 'Reader discussion about MP3 export and voice switching',
-  },
+  { href: 'https://github.com/supertone-oss-archive/supertonic', label: 'Supertonic official archive and maintenance notice' },
+  { href: 'https://huggingface.co/Supertone/supertonic-3/tree/3cadd1ee6394adea1bd021217a0e650ede09a323/onnx', label: 'Pinned Supertonic 3 model files' },
+  { href: 'https://huggingface.co/Supertone/supertonic-3/tree/3cadd1ee6394adea1bd021217a0e650ede09a323/voice_styles', label: 'Pinned Supertonic 3 preset styles' },
+  { href: 'https://huggingface.co/Supertone/supertonic-3/blob/3cadd1ee6394adea1bd021217a0e650ede09a323/LICENSE', label: 'Pinned Supertonic 3 model license' },
+  { href: 'https://github.com/hexgrad/kokoro/tree/dfb907a02bba8152ca444717ca5d78747ccb4bec/kokoro.js', label: 'Kokoro official browser implementation' },
+  { href: 'https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/tree/1939ad2a8e416c0acfeecc08a694d14ef25f2231/onnx', label: 'Pinned Kokoro ONNX models and license label' },
+  { href: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API', label: 'MDN: Web Workers API' },
 ];
 const relatedLinks = [
-  {
-    href: '/tools/text-to-speech-audiobook-generator/',
-    label: 'Text to Speech MP3 Generator',
-    description: 'Compare all 38 fixed voice samples, then generate one MP3 or a chapter set in your browser.',
-  },
-  {
-    href: '/blog/how-to-use-text-to-speech-audiobook-generator/',
-    label: 'Text to Speech MP3 guide',
-    description: 'See the input limits, browser requirements, privacy details, and download workflow.',
-  },
-  {
-    href: '/blog/browser-ai-vs-local-ai-privacy/',
-    label: 'Browser AI vs local AI privacy',
-    description: 'Check what local processing does and does not prove about network traffic and privacy.',
-  },
-  {
-    href: '/categories/ai-tools/',
-    label: 'Browser AI tools',
-    description: 'Explore the other AI helpers that run partly or entirely in the browser.',
-  },
+  { href: '/tools/text-to-speech-audiobook-generator/', label: 'Text to Speech MP3 Generator', description: 'Hear the 38 fixed voice samples before generating one MP3 or a chapter set.' },
+  { href: '/blog/how-to-use-text-to-speech-audiobook-generator/', label: 'Text to Speech MP3 guide', description: 'Follow the import, chapter, permission, and download controls.' },
+  { href: '/blog/browser-ai-vs-local-ai-privacy/', label: 'Browser AI vs local AI privacy', description: 'Check the difference between local inference and a page with no network traffic.' },
+  { href: '/categories/ai-tools/', label: 'Browser AI tools', description: 'Explore other browser helpers with stated model and accuracy limits.' },
 ];
 ---
 
@@ -74,256 +32,164 @@ const relatedLinks = [
   title={title}
   seoTitle="Kokoro vs Supertonic for Browser Text to Speech"
   description={description}
-  label="Owner build story"
+  label="Browser speech guide"
   breadcrumbLabel="Kokoro versus Supertonic in a browser"
   imagePath={imagePath}
   socialImagePath={socialImagePath}
   imageAlt={imageAlt}
-  imageCaption="The smoke-kawaii mascot compares an English-focused voice path with a multilingual one, fixes a stalled browser process, and sends the result to headphones and an MP3 file."
+  imageCaption="The mascot compares an English voice path with a multilingual one, alongside browser progress and MP3 controls."
   sources={sources}
   relatedLinks={relatedLinks}
 >
   <Fragment slot="intro">
     <p>
-      I nearly solved a free text-to-speech problem by buying another server. That would have been
-      backwards. I already had a website. What I wanted was simple: someone pastes text, chooses a
-      voice, and downloads an MP3. No account, no paid speech API, and no upload of the writing.
-    </p>
-    <p>
-      The first plan grew into a VPS, a job queue, temporary storage, cleanup rules, and a monthly
-      bill. I stopped it. Then I put Kokoro and Supertonic inside the browser instead. Kokoro sounded
-      better to me in English. Supertonic spoke far more languages. Microsoft Edge found the part
-      of the design that still felt broken.
+      A voice sample can sound promising while the first model download makes a browser feel stuck.
+      Before converting a long document, check the language, download size, and recovery controls.
+      This comparison explains the two paths in the Access Free Tools generator, rather than ranking
+      their sound for every listener.
     </p>
   </Fragment>
 
   <section class="content-section article-flow-section">
-    <h2>Short answer</h2>
+    <h2>Quick answer</h2>
     <p>
-      Kokoro is the model I would choose first for natural US or UK English. Supertonic is the one I
-      would choose when language range matters. The browser can turn either result into a real MP3
-      without sending the text to my server.
+      Kokoro is the tool's US and UK English option. Supertonic offers 31 named languages and remains
+      the default model. Hear the small, pre-recorded voice samples in the
+      <a href="/tools/text-to-speech-audiobook-generator/">Text to Speech MP3 Generator</a> before
+      loading either model. Start with a short paragraph and listen for pronunciation errors.
     </p>
     <p>
-      The tradeoff is the first download and the visitor's hardware. These are large models, so a
-      fast voice on one laptop can feel stuck on another. Samples, visible progress, a compatibility
-      fallback, and a working Cancel button matter almost as much as the voice itself.
+      Supertonic also has a maintenance limit: its upstream repository was archived on September 9,
+      2026. The archive says development and support have ended, including security patches. Existing
+      downloadable files and an archived project are different facts; neither establishes future
+      availability or support.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>The brief was becoming larger than the problem</h2>
-    <p>
-      Recent text-to-speech discussions keep circling the same frustrations. A free tool turns into
-      a subscription. A useful voice sits behind an account. The character allowance runs out, or
-      the tool will not let someone download an MP3. People also want to know where their text goes.
-      Those are product questions, not model leaderboard questions.
-    </p>
-    <p class="article-source-note">
-      Reader context: recent <a href="https://www.reddit.com/r/TextToSpeech/comments/1txdyxq/i_built_a_texttospeech_utility_that_runs/" rel="noopener noreferrer" target="_blank">browser TTS</a>
-      and <a href="https://www.reddit.com/r/TextToSpeech/comments/1pkg00g/free_chrome_extension_to_run_kokoro_tts_locally/" rel="noopener noreferrer" target="_blank">Kokoro voice</a> discussions.
-    </p>
-    <p>
-      My own requirements became a useful filter. The tool had to run on the hosting I already use,
-      but the host should not perform the speech generation. It needed real MP3 downloads, not a WAV
-      file that a visitor would have to convert elsewhere. It also had to recover when a browser or
-      graphics backend stalled.
-    </p>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>The browser took the expensive job</h2>
-    <p class="article-source-note">
-      Source: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API" rel="noopener noreferrer" target="_blank">MDN's Web Workers guide</a>
-    </p>
-    <p>
-      Both speech models run in a Web Worker. That keeps the heavy inference work away from the main
-      page controls. The visitor's device supplies the processor and memory, while my existing Astro
-      site supplies the interface and small fixed voice samples.
-    </p>
-    <p>
-      This does not mean the first run is offline. The browser still downloads pinned model,
-      tokenizer, runtime, and selected voice files. Hugging Face receives those ordinary file
-      requests. Those requests do not include the pasted text, imported document contents, chapter
-      names, generated audio, or MP3 filenames. The audio remains in the tab until the visitor
-      downloads it or closes the page.
-    </p>
-    <p>
-      That distinction matters. “Runs in your browser” describes where the browser generates speech. It does
-      not mean “makes no network requests.” I would rather explain the boundary than hide it behind
-      a broad privacy badge.
-    </p>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>Kokoro and Supertonic answered different questions</h2>
-    <p>
-      I kept both models because neither one was the honest winner for every job. This table compares
-      the way Access Free Tools currently uses them. It does not describe every app that carries the
-      same model names.
-    </p>
+    <h2>What the current tool offers</h2>
     <div class="editorial-table-shell" role="region" aria-label="Kokoro and Supertonic browser comparison" tabindex="0">
       <table class="editorial-comparison-table">
-        <thead>
-          <tr>
-            <th scope="col">Question</th>
-            <th scope="col">Kokoro 82M</th>
-            <th scope="col">Supertonic 3</th>
-          </tr>
-        </thead>
+        <thead><tr><th scope="col">Choice</th><th scope="col">Kokoro 82M</th><th scope="col">Supertonic 3</th></tr></thead>
         <tbody>
-          <tr>
-            <th scope="row">Where it fits best</th>
-            <td>Natural-sounding US and UK English</td>
-            <td>Multilingual speech from one model</td>
-          </tr>
-          <tr>
-            <th scope="row">Fixed choices in the tool</th>
-            <td>28 English voices</td>
-            <td>10 voice styles</td>
-          </tr>
-          <tr>
-            <th scope="row">Language choices</th>
-            <td>US and UK English</td>
-            <td>31 named languages plus best effort</td>
-          </tr>
-          <tr>
-            <th scope="row">First model download</th>
-            <td>About 326 MB, or about 92 MB for the q8 fallback</td>
-            <td>About 398 MB plus one small voice style</td>
-          </tr>
-          <tr>
-            <th scope="row">Browser fallback</th>
-            <td>Full precision on WebGPU, q8 on WebAssembly</td>
-            <td>WebGPU with WebAssembly fallback</td>
-          </tr>
+          <tr><th scope="row">Languages exposed here</th><td>US and UK English</td><td>31 named languages plus best effort</td></tr>
+          <tr><th scope="row">Fixed voices exposed here</th><td>28 English voices</td><td>10 preset styles</td></tr>
+          <tr><th scope="row">Model files</th><td>About 326 MB for full precision, or 92.4 MB for q8</td><td>About 398 MB, plus about 292 kB for a selected style</td></tr>
+          <tr><th scope="row">Browser path</th><td>Full precision on WebGPU, q8 on WebAssembly</td><td>WebGPU with WebAssembly fallback</td></tr>
+          <tr><th scope="row">Model terms</th><td>Apache-2.0</td><td>BigScience Open RAIL-M with use restrictions</td></tr>
         </tbody>
       </table>
     </div>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>Kokoro sounded better to me in English</h2>
+    <p>
+      These sizes describe the pinned model assets, not the whole first download. Runtime, tokenizer,
+      configuration, and selected voice files can add requests and bytes. Cached files can reduce
+      later downloads, but browser storage and network conditions vary.
+    </p>
     <p class="article-source-note">
-      Sources: <a href="https://github.com/hexgrad/kokoro/tree/dfb907a02bba8152ca444717ca5d78747ccb4bec/kokoro.js" rel="noopener noreferrer" target="_blank">Kokoro's browser code</a>
-      and the <a href="https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/tree/1939ad2a8e416c0acfeecc08a694d14ef25f2231" rel="noopener noreferrer" target="_blank">pinned ONNX release</a>
-    </p>
-    <p>
-      I added Kokoro after the first model worked because the English result was not yet where I
-      wanted it. With the Bella voice, Kokoro gave me the clearer, more natural English reading. That
-      is a personal listening judgment, not a laboratory score. Names, abbreviations, unusual
-      punctuation, and mixed-language sentences can still sound wrong.
-    </p>
-    <p>
-      Waiting for a full model download just to compare voices made no sense, so I generated one
-      short local sample for each fixed voice. There are 28 Kokoro samples. Pressing play fetches
-      only that small MP3. It does not start the worker, download the model, read the visitor's text,
-      or autoplay anything.
+      File sizes: the <a href="https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/tree/1939ad2a8e416c0acfeecc08a694d14ef25f2231/onnx" rel="noopener noreferrer" target="_blank">pinned Kokoro models</a>,
+      <a href="https://huggingface.co/Supertone/supertonic-3/tree/3cadd1ee6394adea1bd021217a0e650ede09a323/onnx" rel="noopener noreferrer" target="_blank">Supertonic models</a>, and
+      <a href="https://huggingface.co/Supertone/supertonic-3/tree/3cadd1ee6394adea1bd021217a0e650ede09a323/voice_styles" rel="noopener noreferrer" target="_blank">Supertonic styles</a>.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Supertonic earned its place with language range</h2>
+    <h2>Choose a voice before downloading a model</h2>
+    <p>
+      Kokoro has 82 million parameters. Its official browser example recommends full precision for
+      WebGPU and also shows a q8 WebAssembly path. Access Free Tools uses those two paths with a
+      fixed English voice list. Bella is the default Kokoro choice; Emma is another available UK
+      English voice. A default is not a listening score.
+    </p>
+    <p>
+      The sample player fetches one small MP3 from this site. It does not load the speech worker or
+      generate speech from your text. All 28 Kokoro voices and ten Supertonic styles have a sample.
+      Compare a few, then generate your own short sentence. Names, abbreviations, punctuation, and
+      mixed-language text can expose problems that a fixed sample does not.
+    </p>
     <p class="article-source-note">
-      Sources: <a href="https://github.com/supertone-inc/supertonic" rel="noopener noreferrer" target="_blank">Supertonic's official repository</a>
-      and the <a href="https://huggingface.co/Supertone/supertonic-3/tree/3cadd1ee6394adea1bd021217a0e650ede09a323" rel="noopener noreferrer" target="_blank">pinned Supertonic 3 model</a>
-    </p>
-    <p>
-      Supertonic 3 covers 31 named languages with the same model. That is the reason it remains the
-      default choice in the tool. Someone preparing French, Hindi, Japanese, Ukrainian, Vietnamese,
-      or another supported language should not have to use an English model merely because I
-      preferred that model for my own English test sentence.
-    </p>
-    <p>
-      The interface exposes ten fixed Supertonic styles, five labelled female and five labelled male.
-      I kept custom voice files and cloning out. They would add a different set of consent, safety,
-      storage, and identity problems to a tool whose job is simply to turn permitted text into audio.
+      Background: <a href="https://github.com/hexgrad/kokoro/tree/dfb907a02bba8152ca444717ca5d78747ccb4bec/kokoro.js" rel="noopener noreferrer" target="_blank">Kokoro's browser implementation</a>.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Edge looked frozen, and that mattered more than a model ranking</h2>
+    <h2>Supertonic's language range comes with archive limits</h2>
     <p>
-      My first uncached Edge run took 70.4 seconds to load full-precision Kokoro and create 8.808
-      seconds of audio. The button said Stop. For too long, nothing else on the page gave a useful
-      sign that work was moving. The model was not the only problem. The experience made a working
-      tool look broken.
+      The interface offers Supertonic's named languages, including French, Hindi, Japanese,
+      Ukrainian, and Vietnamese. Choose the language when you know it. The best-effort option is
+      not a language detector and does not guarantee the right pronunciation. The ten fixed styles
+      are labelled F1–F5 and M1–M5; this tool does not accept recordings or custom voice styles.
     </p>
     <p>
-      I added elapsed time, the active backend, clearer loading stages, a reduced-motion-safe mascot
-      scene, and a 90-second no-progress watchdog. If Kokoro stalls in high-quality mode, the worker
-      gets one automatic retry with the smaller q8 WebAssembly model. In a controlled Edge test, that
-      fallback produced 7.368 seconds of audible MP3 in 37.6 seconds. A second stall now ends cleanly,
-      unloads the worker, and restores the Generate button.
+      As checked on October 5, 2026, the <a href="https://github.com/supertone-oss-archive/supertonic" rel="noopener noreferrer" target="_blank">official archive</a>
+      points new setup instructions at an archive model namespace. This tool still pins the earlier
+      <code>Supertone/supertonic-3</code> revision <code>3cadd1ee</code>. Pinning identifies the
+      requested files; it does not keep upstream downloads online or provide ongoing maintenance.
     </p>
     <p>
-      Those numbers belong to one machine and one test. I do not offer them as speed promises. The useful part
-      is the failure rule: a visitor should see what the browser is attempting and regain control if
-      it stops making progress.
-    </p>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>MP3 made the experiment useful</h2>
-    <p>
-      Both models naturally produce audio data at different sample rates. On Access Free Tools,
-      Kokoro produces 24 kHz audio and Supertonic produces 44.1 kHz audio. The browser passes either
-      result through the same pinned encoder and creates a 128 kbps mono MP3.
-    </p>
-    <p>
-      I chose MP3 because it is the file people kept asking to save. A WAV-only result would make the
-      visitor find another converter before the first tool had finished its job. The page also fixes
-      unsafe filename characters and adds the <code>.mp3</code> extension instead of trusting whatever
-      a visitor typed into the filename box.
+      The repository's sample code is MIT-licensed. The weights have separate
+      <a href="https://huggingface.co/Supertone/supertonic-3/blob/3cadd1ee6394adea1bd021217a0e650ede09a323/LICENSE" rel="noopener noreferrer" target="_blank">BigScience Open RAIL-M terms</a>,
+      including restrictions on harmful uses and requirements for how generated content is
+      presented. Free downloads do not mean unrestricted use. Read the selected model terms and
+      confirm your permission to convert the source text before generating audio.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Different chapter voices changed the tool again</h2>
+    <h2>What runs locally, and what still downloads</h2>
     <p>
-      Once one MP3 worked, a longer piece exposed another flat spot. An audiobook or dialogue can
-      need more than one voice. Chapter mode now lets a visitor name and reorder sections, choose a
-      separate fixed voice for each one, generate them through one loaded model, and download the
-      ordered MP3 files in a ZIP.
+      Both models perform speech inference in a Web Worker. A worker keeps that work separate from
+      the main page controls; it still uses your device's memory and processor. The current model
+      loaders request fixed Hugging Face asset paths. They send the text to the worker inside the
+      browser rather than to a hosted speech-generation API.
     </p>
     <p>
-      I tested one Kokoro chapter with Bella and another with Emma. The browser loaded the pinned
-      model once, fetched only those two selected voice files, and produced two separate MP3s. A
-      later failed chapter does not erase earlier results, and retrying one chapter does not force
-      the whole set to run again.
+      First use needs model and runtime downloads. Running inference locally does not make the
+      whole site offline or establish a blanket privacy guarantee. The page has separate analytics
+      and session-replay behavior, described in the <a href="/privacy-policy/">Privacy Policy</a>.
+      The generated audio stays in the current tab's result controls until you download it or clear
+      the result. Save files before closing the tab.
     </p>
-  </section>
-
-  <section class="content-section article-flow-section">
-    <h2>What I deliberately left out</h2>
-    <ul class="editorial-checklist">
-      <li><strong>No voice cloning:</strong> the tool uses fixed model voices and does not accept voice recordings or custom styles.</li>
-      <li><strong>No server upload:</strong> pasted text and imported TXT, Markdown, or EPUB content stay in the current tab.</li>
-      <li><strong>No endless document promise:</strong> the current limit is 10,000 characters across one result or a chapter set.</li>
-      <li><strong>No mobile claim without devices:</strong> Chrome, Edge, Firefox, and a Windows WebKit path passed, but physical iOS, Safari, and Android generation still need testing.</li>
-      <li><strong>No automatic rights assumption:</strong> a visitor must confirm permission to convert the text and accept the selected model terms.</li>
-    </ul>
-    <p>
-      At publication time I am still treating the generator as a browser beta. The page works, but a
-      successful desktop run is not proof that every phone can hold a large speech model in memory.
+    <p class="article-source-note">
+      Background: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API" rel="noopener noreferrer" target="_blank">MDN's Web Workers guide</a>.
     </p>
   </section>
 
   <section class="content-section article-flow-section">
-    <h2>Which model should you try first?</h2>
+    <h2>A stalled browser should return control</h2>
     <p>
-      For US or UK English, I would start with Kokoro and listen to Bella, Emma, and a few other
-      samples before loading the model. For another supported language, I would start with
-      Supertonic. On a browser without a usable WebGPU adapter, expect the smaller compatibility
-      path rather than the full-precision Kokoro model.
+      The tool displays elapsed time, loading progress, and the active backend. Its watchdog watches
+      for 90 seconds without a progress message, rather than imposing a 90-second total generation
+      limit. If Kokoro stalls, it attempts one automatic retry with the q8 WebAssembly path. Another
+      stall ends the job, unloads the worker, and restores the generation controls.
     </p>
     <p>
-      The <a href="/tools/text-to-speech-audiobook-generator/">Text to Speech MP3 Generator</a>
-      lets you hear all 38 fixed samples before making that choice. The
-      <a href="/blog/how-to-use-text-to-speech-audiobook-generator/">step-by-step guide</a>
-      explains the limits, model downloads, document import, chapter controls, and privacy boundary.
-      Start with a short paragraph. Download the MP3 before closing the tab. Most importantly, listen
-      to the result rather than trusting the model name.
+      These controls do not promise a completion time. Memory, browser backend, text length, and
+      download speed all matter. Try a short passage first. Use Stop or Unload model when you need
+      to end the current work; a mobile-width page is not proof that a phone can hold the model.
+    </p>
+  </section>
+
+  <section class="content-section article-flow-section">
+    <h2>Save one MP3 or an ordered chapter set</h2>
+    <p>
+      The browser converts Kokoro's 24 kHz audio or Supertonic's 44.1 kHz audio into a 128 kbps mono
+      MP3. The filename control replaces unsafe filename characters and adds the MP3 extension.
+      Download and listen to the file before using it in a lesson, video, or narration.
+    </p>
+    <p>
+      For an English dialogue example, you can put the first passage in one chapter with Bella and the
+      second in another with Emma. Chapter mode lets you name and reorder passages, assign a fixed
+      voice to each, and download the completed MP3 files in an ordered ZIP. It uses one selected
+      model for the chapter set. A failed later chapter does not require discarding earlier completed
+      audio; you can retry that chapter.
+    </p>
+    <p>
+      The current limit is 10,000 characters across one result or the chapter set. TXT, Markdown,
+      and EPUB import do not turn this into an unlimited audiobook service. The
+      <a href="/blog/how-to-use-text-to-speech-audiobook-generator/">step-by-step guide</a> explains
+      those controls and limits. Use the
+      <a href="/tools/text-to-speech-audiobook-generator/">generator</a> with permitted text, a short
+      initial passage, and a voice you have actually heard.
     </p>
   </section>
 </EditorialArticleLayout>
