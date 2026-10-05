@@ -307,7 +307,8 @@ const guideDetails: Record<string, GuideDetail> = {
     purpose:
       'The BMI Calculator turns height and weight into one adult screening number. It is useful for a quick reference, but it does not see muscle, pregnancy, age-related body composition, or a clinician view of health.',
     enter: [
-      'Enter height and weight in the same unit system you normally use.',
+      'Enter height in centimeters (cm) and weight in kilograms (kg). This calculator uses metric inputs only.',
+      'For feet and inches, multiply feet by 12 and add the remaining inches. Multiply that total by 2.54 for centimeters. Multiply pounds by 0.45359237 for kilograms.',
       'Use a recent weight if you are checking today, or use the same measurement conditions if you are tracking a trend.',
       'Use this adult tool for adults, not for child or teen BMI percentiles.',
     ],
@@ -321,7 +322,7 @@ const guideDetails: Record<string, GuideDetail> = {
     ],
     mistakes: [
       'Do not use BMI alone to judge fitness, body fat, or medical risk.',
-      'Do not mix pounds with centimeters or kilograms with feet unless the tool mode expects it.',
+      'Do not enter feet or inches in the centimeter field, or pounds in the kilogram field. Convert those measurements first.',
       'Do not use adult BMI categories for children, teens, or pregnancy weight questions.',
     ],
     next: [
@@ -1382,7 +1383,9 @@ export const healthBlogGuides: HealthGuideDefinition[] = healthTools.map((tool) 
       {
         title: 'What to enter',
         paragraphs: [
-          'Good answers start with clean inputs. Before calculating, check the labels, units, and dates so the tool is solving the same problem you actually have.',
+          tool.slug === 'bmi-calculator'
+            ? 'Check that height is in centimeters and weight is in kilograms before calculating. This page has no feet, inches, or pounds input mode.'
+            : 'Good answers start with clean inputs. Before calculating, check the labels, units, and dates so the tool is solving the same problem you actually have.',
         ],
         bullets: detail.enter,
       },

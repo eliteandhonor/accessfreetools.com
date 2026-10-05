@@ -152,6 +152,11 @@ export const aiTools: ToolDefinition[] = [
           'Use it when a clear screenshot, label, receipt, or typed note has text you do not want to retype. It is best for simple printed text, not messy handwriting or official transcripts.',
       },
       {
+        question: 'What do the main Image to Text OCR Tool inputs mean?',
+        answer:
+          'Choose one still PNG, JPEG, or WebP image in Image file. Select the OCR language that matches the printed text: English, Spanish, French, German, Italian, or Portuguese. Crop or clean up the image before choosing it, then press Read text.',
+      },
+      {
         question: 'Does the OCR image upload to Access Free Tools?',
         answer:
           'No. The image is read in your browser tab. The OCR worker, core, and language files load from Access Free Tools after you press Read text, but the selected image is not uploaded to our server.',

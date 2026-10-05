@@ -3732,6 +3732,8 @@ export const financeTools: ToolDefinition[] = [
       'This tool does not fetch live exchange rates, guarantee bank/card/transfer-service pricing, or include spread, fixed fees, cash pickup fees, taxes, weekend markups, ATM charges, or rounding rules unless you enter them as part of the rate or fee. Use the current rate from your provider or a trusted source before relying on the conversion.',
     formulaCheck:
       'If the result seems too high or too low, first check whether the rate is written as target currency per 1 source currency or needs to be inverted.',
+    resultReading:
+      'Converted amount shows the target-currency amount after the percentage exchange fee. Before fee shows the source amount multiplied by the manual exchange rate. Fee amount shows the deduction in target currency. Rate used repeats the target currency per 1 source currency you entered. The result follows your inputs. It is not a live rate or a provider quote.',
     doubleCheck:
       'Double-check the rate direction, rate timestamp, provider fee, fixed fee, card fee, transfer fee, and whether the provider uses a worse buy/sell rate than the public mid-market rate.',
     limitFollowup:
