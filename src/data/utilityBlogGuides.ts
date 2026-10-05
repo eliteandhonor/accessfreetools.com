@@ -1,13 +1,16 @@
 import type { BlogPostDefinition } from './blogPosts';
 import { utilityTools } from './utilityTools';
+import { markdownTableExtraFaq, markdownTableGuideEnter, markdownTableGuideLogicNote, markdownTableGuideMistakes, markdownTableGuideRead, markdownTableGuideSections } from './markdownTableContentRepairs';
 
 interface GuideSection {
   title: string;
   paragraphs: string[];
   bullets?: string[];
+  codeBlocks?: Array<{ label: string; code: string }>;
   links?: Array<{
     href: string;
     label: string;
+    download?: string;
   }>;
 }
 
@@ -4358,28 +4361,31 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
   },
   'wallpaper-calculator': {
-    summary: 'Learn how wall area, openings, roll coverage, pattern repeat, waste percent, and optional roll price turn into rolls and rough cost.',
+    summary: 'Estimate rolls for a rectangular room using fixed opening allowances, usable roll coverage, waste percent, and optional roll price.',
     purpose:
-      'The Wallpaper Calculator estimates whole rolls for room walls before you buy. It starts with room perimeter and wall height, subtracts standard doors and windows, adds a waste percent, then divides by roll coverage. If you enter a price per roll, it also shows a rough material cost. The important part is that wallpaper is bought in strips and rolls, not perfect square-foot blocks, so the calculator keeps waste, rounding, and cost assumptions visible.',
+      'The Wallpaper Calculator estimates whole rolls for a rectangular room before you buy. It starts with room perimeter and wall height, subtracts 20 square feet per door and 15 per window, adds a waste percent, then divides by usable roll coverage. If you enter a price per roll, it also shows a rough material cost. This is an area estimate; it does not plan individual strips or calculate pattern-repeat losses. Choose coverage and additional waste from the product or installer guidance.',
     enter: [
-      'Enter room length and width in feet. If your tape measure is in inches, divide by 12 before typing the number.',
-      'Enter wall height, plus the number of standard doors and windows.',
-      'Enter roll coverage from the wallpaper product page or label, then choose a waste percent that fits the pattern, repeat, and room difficulty.',
+      'The initial answer uses a prefilled sample room. Replace the sample values with your own measurements; it is not an estimate of your room yet.',
+      'Enter rectangular-room length, width, and common wall height in feet. If your tape measure is in inches, divide by 12 before typing the number.',
+      'Enter whole door and window counts. Each door subtracts 20 square feet and each window 15; enter 0 when your supplier recommends keeping openings in the estimate.',
+      'Enter usable square feet for the roll or bolt you are buying. Check whether the product coverage already allows for pattern repeat or trimming.',
+      'Choose an additional waste percent without counting the same losses twice. There is no pattern-repeat input or automatic strip-yield calculation.',
       'Add price per roll only if you want the calculator to show a rough material cost before tax, shipping, paste, tools, or labor.',
+      'Press Estimate wallpaper after changing the values to update the answer.',
     ],
     read: [
       'Rolls needed is rounded up because wallpaper is bought in whole rolls.',
-      'Wallpaper area is the wall estimate after subtracting openings.',
+      'Wallpaper area is the room wall estimate after fixed opening deductions, with a minimum of zero.',
       'Area with waste shows the roll-coverage demand before rounding.',
       'Estimated cost multiplies rolls needed by price per roll when you enter a price.',
     ],
     mistakes: [
       'Do not type inches into the feet fields. Convert first, or the roll count will be far too high.',
       'Do not treat waste percent like a fee. It is extra material for cuts, pattern matching, trimming, and mistakes.',
-      'Do not ignore pattern repeat or usable yield. A roll may print 56 square feet, but the usable wall coverage can be lower when the pattern has to line up.',
+      'Do not assume listed coverage already allows for pattern repeat. Check usable yield, then avoid counting the same matching or trimming loss again in waste percent.',
       'Do not treat the cost result as a full project quote. It is roll price only, not supplies, delivery, returns, or labor.',
       'Do not mix rolls from different dye lots when appearance matters, because the same pattern can still have a slightly different color.',
-      'Measure accent walls separately when you are not covering the whole room.',
+      'Do not enter whole-room dimensions for a single accent wall. There is no single-wall input; use the manual area example below.',
     ],
     extraSections: [
       {
@@ -4387,6 +4393,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
         paragraphs: [
           'Waste percent is the extra wallpaper the calculator adds before it figures out how many rolls to buy. If the wall area after openings is 300 square feet and you enter 10% waste, the calculator treats the job like 330 square feet. Then it divides by roll coverage and rounds up to whole rolls.',
           'This extra amount is normal. Wallpaper is not used like paint where every square foot in the can can spread somewhere. You cut strips, trim the top and bottom, work around corners, and sometimes throw away a piece because the pattern needs to start in a different place.',
+          'The percentages below are starting points, not automatic pattern calculations. Follow the product or installer allowance, and check which losses are already included in usable roll coverage.',
         ],
         bullets: [
           'Use around 10% for plain, random-match, or simple peel-and-stick wallpaper.',
@@ -4397,8 +4404,8 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       {
         title: 'What roll coverage means',
         paragraphs: [
-          'Roll coverage means the square feet one roll can cover in real use. It is tempting to multiply roll width by roll length yourself, but the product page or label is usually safer because it may already account for how that product is sold.',
-          'Some wallpaper is priced as a single roll but shipped as a double roll or bolt. That is why the coverage number matters more than the name. If the product says one roll covers 56 square feet, put 56 in the calculator. If the label says a different usable coverage, use that number instead.',
+          'Roll coverage means the usable square feet one purchased roll or bolt can cover. Check whether the product page gives raw area or coverage after repeat and trimming losses. The calculator accepts the number you enter; it does not work out those losses.',
+          'Some wallpaper is priced as a single roll but shipped as a double roll or bolt. Use coverage and price for the same purchased unit. If that unit has 56 square feet of usable coverage, put 56 in the calculator. Do not also add waste for losses already included in that number.',
         ],
       },
       {
@@ -4412,7 +4419,7 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       {
         title: 'If you only have roll width and roll length',
         paragraphs: [
-          'Sometimes a product page gives width and length but does not clearly state coverage. In that case, multiply the width by the length to get a rough square-foot number, then be more careful with waste percent because pattern repeat, damaged strips, and trimming can reduce usable coverage.',
+          'Sometimes a product page gives width and length but does not clearly state coverage. Multiply them in the same units to get raw area, then convert to square feet if needed. This is only a rough fallback: it does not account for strip cuts, repeat matching, damaged strips, or trimming.',
           'If the seller gives a usable coverage number anywhere on the label, use that number first. It is usually closer to how the roll is actually sold and installed than raw roll dimensions.',
         ],
       },
@@ -4426,8 +4433,8 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       {
         title: 'How to measure for wallpaper first',
         paragraphs: [
-          'Measure the room before you start guessing rolls. For a simple rectangle, the calculator uses room length, room width, and wall height to estimate the wall area. If the room is odd-shaped, measure each wall section and keep the numbers handy so you can split the job into smaller estimates.',
-          'Count large openings too. A standard door and a couple of windows can remove about 50 square feet from the estimate. If you are only covering one accent wall, measure that wall as its own job instead of entering the whole room.',
+          'Measure the room before you start guessing rolls. The supported layout is a rectangular room with one common wall height. Wall area is 2 x (length + width) x height. Odd shapes or different wall heights need separate measured areas and a manual estimate; this page has no known-area input.',
+          'The opening counts use fixed allowances, not your measured opening sizes. One door and two windows subtract 20 + 15 + 15 = 50 square feet. If your supplier recommends leaving openings in the estimate, enter 0 for the counts.',
         ],
         links: [
           { href: '/tools/wallpaper-calculator/', label: 'Use the Wallpaper Calculator after measuring' },
@@ -4435,24 +4442,33 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
         ],
       },
       {
+        title: 'Manual example for one accent wall',
+        paragraphs: [
+          'The Wallpaper Calculator has no single-wall mode. Measure that wall separately, using the Square Footage Calculator if useful, and subtract measured openings only if the product guidance recommends it. Do not invent room dimensions to fit one wall into the room formula.',
+          'For a net wall area of 96 square feet and 15% additional waste, the manual calculation is 96 x 1.15 = 110.4 square feet. Divide by 56 usable square feet per roll: 110.4 / 56 is about 1.97, so round up to 2 rolls. At $42 per roll, that is $84 in roll cost. This area example does not calculate individual strips or pattern matching.',
+        ],
+        links: [{ href: '/tools/square-footage-calculator/', label: 'Measure a single wall with the Square Footage Calculator' }],
+      },
+      {
         title: 'Why pattern repeat matters',
         paragraphs: [
           'Pattern repeat is the distance before the design starts over. A random texture can be cut almost anywhere. A big floral, mural-style, or geometric pattern has to line up from strip to strip, so you may cut away more paper to make the next strip start in the correct place.',
-          'Straight matches line up across neighboring strips. Drop matches shift the pattern, usually by half a repeat, so they can need even more careful cutting. That is why two wallpapers with the same roll coverage can need different waste percentages.',
+          'Straight matches line up across neighboring strips. Drop matches shift the pattern, usually by half a repeat, so they can need even more careful cutting. If listed coverage does not already include these matching losses, follow the supplier\'s advice on usable coverage and additional waste.',
+          'There is no repeat-length or match-type control on this page. The calculator does not determine cuts per roll or exact strip yield. Ask the product supplier or installer for usable coverage and an additional waste allowance that fit the wall height and pattern.',
         ],
       },
       {
-        title: 'A quick example',
+        title: 'The prefilled bedroom example',
         paragraphs: [
-          'Say a room has about 352 square feet of wall area. One standard door and two windows subtract about 50 square feet, so the wallpaper area is about 302 square feet. With 10% waste, the calculator plans for about 332 square feet.',
-          'If each roll covers 56 square feet, 332 divided by 56 is about 5.93. Since you cannot buy 0.93 of a roll for a normal order, the calculator rounds up to 6 rolls. If the roll price is $42, the rough material cost is 6 x $42, or $252. That last part matters: rounding is why a tiny input change can sometimes push the answer up by a whole roll.',
+          'The page starts with a 12 x 10 foot room and 8-foot walls: 2 x (12 + 10) x 8 = 352 square feet. The fixed allowances for one door and two windows subtract 50 square feet, leaving 302. With 10% waste, the sample needs 332.2 square feet.',
+          'At 56 usable square feet per roll, 332.2 divided by 56 is about 5.93. Since you buy whole rolls, the calculator rounds up to 6. At $42 per roll, the rough material cost is 6 x $42, or $252. Replace the sample values and press Estimate wallpaper for your own room. Rounding is why a small input change can sometimes add a whole roll.',
         ],
       },
       {
         title: 'Example: how much wallpaper for a 12x12 room',
         paragraphs: [
-          'For a 12 x 12 room with 8-foot walls, the starting wall area is about 384 square feet. One standard door and two standard windows bring that down to about 334 square feet before waste.',
-          'With 10% waste, the calculator plans for about 367 square feet. If each roll covers 56 square feet, 367 divided by 56 is about 6.55, so the answer rounds up to 7 rolls. At $42 per roll, the rough roll cost would be 7 x $42, or $294 before supplies, tax, delivery, or labor.',
+          'For a 12 x 12 foot room with 8-foot walls, the starting wall area is 384 square feet. The fixed allowances for one door and two windows subtract 50 square feet, leaving 334 before waste.',
+          'With 10% waste, the calculator plans for 367.4 square feet. At 56 usable square feet per roll, 367.4 divided by 56 is about 6.56, so the answer rounds up to 7 rolls. At $42 per roll, the rough roll cost is 7 x $42, or $294 before supplies, tax, delivery, or labor.',
         ],
         links: [{ href: '/tools/wallpaper-calculator/', label: 'Try the 12x12 room in the Wallpaper Calculator' }],
       },
@@ -9276,24 +9292,22 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
   },
   'markdown-table-generator': {
     summary: 'Learn how to build a GitHub-flavored Markdown table from simple headers and rows.',
+    metaDescription: 'Create a Markdown table from headers and rows. Try quoted CSV and literal-pipe examples, choose alignment, and check row errors before copying.',
     purpose:
       'The Markdown Table Generator creates the header row, delimiter row, and body rows needed for a GitHub-flavored Markdown table. It is helpful when you need a quick comparison table for docs, blog drafts, project notes, or README files.',
-    enter: [
-      'Enter headers separated by commas or pipe characters.',
-      'Enter one row per line using the same column order.',
-      'Choose left, center, or right alignment before generating the table.',
-    ],
-    read: [
-      'The output is copy-ready Markdown table text.',
-      'Columns and rows confirm the table shape.',
-      'Alignment tells you which delimiter style was used.',
-    ],
-    mistakes: [
-      'Do not assume every Markdown editor supports tables the same way.',
-      'Preview the result where you will publish it.',
-      'Keep tables short enough to read on mobile screens.',
-      'Clean up quoted commas, escaped quotes, or spreadsheet CSV exports before pasting; this helper is for simple comma-separated or pipe-separated cells.',
-    ],
+    intro: 'Start with the Tool table preset to see the format. Replace its headers and rows with your own, then generate again. The examples below show how to keep a comma in a name and a pipe in a command without changing the table shape.',
+    inputMatch: 'your column names, the separator selected by Headers, and the cells in each data row',
+    logicNote: markdownTableGuideLogicNote,
+    enter: markdownTableGuideEnter,
+    readIntro: 'The result is source text ready to paste into a Markdown editor. Check its shape before copying: the first line contains headers, the second sets alignment, and the rest contains data.',
+    read: markdownTableGuideRead,
+    mistakeIntro: 'The usual input mistake is treating a comma or pipe inside a cell as a column separator. Match the separator chosen by Headers and use the quoting or escaping shown below.',
+    mistakes: markdownTableGuideMistakes,
+    extraSections: markdownTableGuideSections,
+    faqItems: markdownTableExtraFaq,
+    faqDisplayCount: markdownTableExtraFaq.length,
+    sidecarText: 'Try the Tool table preset, then replace the headers and rows. Use the worked examples to check quoted commas, literal pipes, and the exact output before copying.',
+    referenceIntro: 'The GitHub-flavored Markdown specification defines table separators, alignment, and pipe escaping, including pipes inside inline code.',
     sources: [sourceLinks.githubGfmTables],
   },
 };

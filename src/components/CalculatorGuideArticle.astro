@@ -12,9 +12,11 @@ interface GuideSection {
   title: string;
   paragraphs: string[];
   bullets?: string[];
+  codeBlocks?: Array<{ label: string; code: string }>;
   links?: Array<{
     href: string;
     label: string;
+    download?: string;
   }>;
 }
 
@@ -82,6 +84,8 @@ const resourcesText = isCalculatorGuide
   ? 'Start here when you are not sure which calculator page fits.'
   : 'Start here when you are not sure which tool page fits.';
 const guidePrivacyCopyBySlug: Partial<Record<string, string>> = {
+  'big-number-calculator':
+    'Copy formatted includes the expression and grouped answer. Copy raw result removes commas. Non-even division copies text such as 11 remainder 1; use quotient and remainder separately when code or a numeric field expects an integer.',
   'business-loan-calculator':
     'Use Copy answer when you want to save the monthly payment, total interest, origination fee, cash received, and total cost with fee. Check the written lender offer before treating the estimate as approval or an exact cost.',
   'auto-loan-calculator':
@@ -132,6 +136,8 @@ const privacyBrowserCopy = tool?.slug === 'four-in-a-row-game'
   ? 'Moves, round results, and session scores stay only in the current browser tab. They are not sent to a game server.'
   : tool?.slug === 'json-to-csv-converter'
     ? 'Your JSON and converted CSV stay only in the current browser tab. They are not sent to a conversion service, and the input, preview, and output are masked from Microsoft Clarity.'
+    : tool?.slug === 'big-number-calculator'
+      ? 'Calculation history is held in the current browser tab. This describes calculator processing; the Privacy Policy explains separate site analytics and session-replay handling.'
     : tool?.slug === 'text-to-speech-audiobook-generator'
       ? 'The browser runs only the selected pinned speech model and MP3 encoder in a worker. Pasted text and generated audio are not uploaded to Access Free Tools, and private surfaces are masked from Microsoft Clarity.'
       : tool?.slug === 'audio-video-transcriber'
@@ -238,6 +244,12 @@ const articleStructuredData = {
           <section class="content-section">
             <h2>{section.title}</h2>
             {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+            {section.codeBlocks?.map((block) => (
+              <div class="guide-code-example">
+                <h3>{block.label}</h3>
+                <pre class="guide-code-block" tabindex="0" role="region" aria-label={block.label}><code>{block.code}</code></pre>
+              </div>
+            ))}
             {section.bullets && section.bullets.length > 0 && (
               <ul class="guide-bullet-list">
                 {section.bullets.map((bullet) => <li>{bullet}</li>)}
@@ -253,7 +265,7 @@ const articleStructuredData = {
                       {isExternal ? (
                         <a href={link.href} rel="noreferrer" target="_blank">{link.label}</a>
                       ) : (
-                        <a href={link.href}>{link.label}</a>
+                        <a href={link.href} download={link.download}>{link.label}</a>
                       )}
                     </li>
                   );

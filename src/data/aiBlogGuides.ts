@@ -9,7 +9,9 @@ interface GuideSection {
   links?: Array<{
     href: string;
     label: string;
+    download?: string;
   }>;
+  codeBlocks?: Array<{ label: string; code: string }>;
 }
 
 export interface AiGuideDefinition {
@@ -138,6 +140,8 @@ const guideDetails: Record<string, AiGuideDetail> = {
       'Learn how to copy text from screenshots and image files, improve image quality for OCR, and catch common copy mistakes.',
     purpose:
       'The Image to Text OCR Tool turns a clear image of typed or printed words into editable text in your browser. Image quality changes the result, so use it for sharp screenshots, labels, receipts, and simple document photos when you want a draft copy without uploading the image to Access Free Tools.',
+    intro:
+      'Need to copy a receipt total or a code from a screenshot? Choose a clear image, select its language, and press Read text. Compare the result with the image before copying it. The synthetic English sample below lets you try the steps without using a private document.',
     enter: [
       'Choose a sharp screenshot or photo with typed or printed text.',
       'Pick the language shown in the image.',
@@ -155,6 +159,34 @@ const guideDetails: Record<string, AiGuideDetail> = {
       'Do not use a random image-to-text tool for sensitive files just because it is fast.',
       'Do not expect handwriting, cursive, decorative fonts, or low-light photos to work as cleanly as typed text.',
       'Do not ignore 0/O, 1/l/I, 5/S, and 8/B mistakes. Those are small errors that can break a form or code.',
+    ],
+    extraSections: [
+      {
+        title: 'Try the synthetic English sample',
+        paragraphs: [
+          'This sample contains one printed line: ACCESS FREE TOOLS 12345. It is a synthetic QA image from the existing English browser check, with black 64px Arial text on a white 1,200 by 220 pixel PNG.',
+          'Choose the saved PNG in Image file, select English, and press Read text. Compare the extracted line with ACCESS FREE TOOLS 12345, including all five digits. The reference text helps you check the workflow without using a receipt or private screenshot.',
+          'After checking the line, press Copy result and paste it into a text editor. If the browser blocks copying, select the output text and copy it yourself.',
+          'This simple sample checks one English image. It does not establish accuracy for other languages, handwriting, crowded documents, or photos from your device.',
+        ],
+        links: [
+          {
+            href: '/samples/ocr-synthetic-english.png',
+            label: 'Download the synthetic English OCR sample (PNG)',
+            download: 'ocr-synthetic-english.png',
+          },
+          { href: '/tools/image-to-text-ocr-tool/', label: 'Open the Image to Text OCR Tool' },
+        ],
+        codeBlocks: [{ label: 'Reference text in the synthetic sample', code: 'ACCESS FREE TOOLS 12345' }],
+      },
+      {
+        title: 'Prepare the image before choosing it',
+        paragraphs: [
+          'The OCR tool accepts one still PNG, JPEG, or WebP image at a time. It does not accept PDF documents, SVG files, GIF files, or animated images. Export the page or frame you need as a supported still image first.',
+          'Keep the file within 10 MiB, with no more than 8 million pixels and no side longer than 8,192 pixels. MiB measures bytes: 10 MiB is 10,485,760 bytes. Pixel limits apply to the image dimensions, even when its compressed file is small.',
+          'Crop empty borders, straighten the text, or reduce glare before selecting the file. This page does not offer crop, rotation, brightness, or contrast controls. Leave complete letters and numbers inside the image.',
+        ],
+      },
     ],
     sources: [sourceLinks.tesseractJs, sourceLinks.tesseractDocs],
   },

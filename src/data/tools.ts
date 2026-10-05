@@ -2194,7 +2194,7 @@ const baseTools: ToolDefinition[] = [
     summary:
       'Add, subtract, multiply, and divide very large whole numbers exactly, then copy grouped or raw results and verify division remainders.',
     description:
-      'Use this free big number calculator for exact whole-number arithmetic beyond normal safe integer limits, with quotient, remainder, digit counts, and code-ready raw copying.',
+      'Use this free big number calculator for exact whole-number arithmetic beyond normal safe integer limits, with quotient, remainder, digit counts, and ungrouped raw copying.',
     icon: 'calculator-big-number',
     aliases: [
       'Large Integer Calculator',
@@ -2258,6 +2258,16 @@ const baseTools: ToolDefinition[] = [
           'Enter whole integers only. Commas, spaces, and underscores are accepted for readability, so 1,000, 1 000, and 1_000 all read as the same integer.',
       },
       {
+        question: 'What do the main Big Number Calculator inputs mean?',
+        answer:
+          'Left number and Right number are the two whole integers to combine. Choose addition, subtraction, multiplication, or division. Use the original digits and a minus sign for negative values; decimals, fractions, and scientific notation are not accepted.',
+      },
+      {
+        question: 'How should I read the Big Number Calculator answer?',
+        answer:
+          'Addition, subtraction, and multiplication return one exact integer. Division returns the quotient truncated toward zero and any remainder, whose sign follows the left number. Result digits counts the quotient or integer result without separators or a minus sign.',
+      },
+      {
         question: 'When should I use this instead of the Basic Calculator?',
         answer:
           'Use the Basic Calculator for everyday decimals, percentages, and quick totals. Use the Big Number Calculator when you need exact whole-number arithmetic with very large integers.',
@@ -2285,7 +2295,7 @@ const baseTools: ToolDefinition[] = [
       {
         question: 'Can I copy the result without commas?',
         answer:
-          'Yes. Copy formatted includes the readable expression and grouped answer. Copy raw result removes digit separators so you can paste the exact result into code, a test case, or a plain data field.',
+          'Copy formatted includes the expression and grouped answer. Copy raw result removes digit separators. For non-even division it copies text such as 11 remainder 1, not a single integer value; use the quotient and remainder separately when code or a numeric field requires them.',
       },
       {
         question: 'How large can the numbers be?',
@@ -2293,14 +2303,14 @@ const baseTools: ToolDefinition[] = [
           'Very large whole numbers are supported, but browser memory and page responsiveness still matter. Extremely huge pasted inputs can become slow or hard to copy cleanly.',
       },
       {
-        question: 'What mistake changes a big number result?',
+        question: 'What should I double-check before copying a big number result?',
         answer:
-          'The easiest mistake is pasting a rounded value from another calculator. Check the original digits, signs, operation, and remainder before trusting or copying the answer.',
+          'Check the original digits, negative signs, selected operation and result digit count. A value already rounded by another calculator cannot be repaired here. For division, verify left = right x quotient + remainder, including the remainder sign.',
       },
       {
         question: 'Is my big number history private?',
         answer:
-          'Yes. Recent big number answers stay only in the current browser tab while you use the page. They are not sent to a server.',
+          'Calculation history is held in this browser tab while you use the page. This describes calculator processing; the Privacy Policy explains separate site analytics and session-replay handling. Avoid entering private keys or other secrets.',
       },
     ],
     relatedSlugs: ['basic-calculator', 'scientific-notation-calculator', 'binary-calculator', 'hex-calculator'],

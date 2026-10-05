@@ -40,6 +40,7 @@ import { toolAliases, type ToolAlias } from '../../data/toolAliases';
 import { getToolArt } from '../../data/toolArt';
 import { aiInstructionRepairs } from '../../data/aiInstructionRepairs';
 import { utilityInstructionRepairs, utilityTrustRepairs } from '../../data/utilityInstructionRepairs';
+import { markdownTableInstructions } from '../../data/markdownTableContentRepairs';
 import { topicalHubs } from '../../data/hubs';
 import { getCategoryName, getRelatedTools, tools, type ToolDefinition } from '../../data/tools';
 
@@ -112,6 +113,10 @@ const utilityTrustTextBySlug: Partial<Record<string, string>> = {
     'This page turns two names, or two names and birthdays, into a repeatable browser-game score. It does not use astrology or measure attraction, consent, trust, effort, timing, or whether two people should be together.',
   'roofing-calculator':
     'This page is a rough material planner, not a roof takeoff, safety plan, permit check, or product installation guide. Check the real roof, shingle wrapper, manufacturer instructions, local code, and safe access before ordering.',
+  'wallpaper-calculator':
+    'This estimate uses rectangular room walls and fixed opening allowances. It does not calculate strips or pattern repeat, and it has no single-wall or known-area input. Check the product coverage, matching instructions, and purchased roll or bolt unit before ordering.',
+  'markdown-table-generator':
+    'The Headers field selects comma or pipe mode for every row. Blank cells are preserved, short rows are padded, and extra cells cause an error. The output uses GitHub-flavored Markdown; preview it in your publishing editor.',
 };
 const utilityTrustHeadingBySlug: Partial<Record<string, string>> = {
   'subnet-calculator': 'IPv4 planning, not live network validation',
@@ -1214,12 +1219,7 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Press Calculate runtime to see the estimate, supporting capacity or energy, and hours or days.',
     'For a device that sleeps and wakes, calculate a duty-cycle average first and check peak-current support separately.',
   ],
-  'markdown-table-generator': [
-    'Enter headers separated by commas or pipe characters.',
-    'Enter one row per line using the same column order.',
-    'Choose left, center, or right alignment and press Generate table.',
-    'Preview the table in the markdown editor where you plan to use it.',
-  ],
+  'markdown-table-generator': markdownTableInstructions,
   'gas-mileage-calculator': [
     'Enter miles driven and gallons used from the same tank, receipt, or trip.',
     'Press Calculate gas mileage to see MPG, gallons per 100 miles, and L/100 km.',
@@ -1468,11 +1468,11 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
     'Layout, pattern direction, closets, stairs, cuts, and matching dye lots can change the real order.',
   ],
   'wallpaper-calculator': [
-    'Enter room length, width, wall height, doors, windows, roll coverage, waste percent, and optional price per roll.',
+    'Enter the length, width, and wall height of a rectangular room in feet. Divide inches by 12 first.',
+    'Enter whole door and window counts. The tool subtracts a fixed 20 square feet per door and 15 per window; use 0 if the product or installer recommends keeping openings.',
+    'Enter usable coverage for the roll or bolt you are buying, additional waste percent, and optional price for that same unit. Avoid adding losses twice when usable coverage already allows for them.',
     'Press Estimate wallpaper to see wallpaper area, adjusted area, rolls needed, and rough cost when price is entered.',
-    'If you measured in inches, divide by 12 before entering the room dimensions in feet.',
-    'Use the actual roll coverage from the wallpaper product page.',
-    'Pattern repeat, usable roll yield, trimming, and dye lots can change the real order.',
+    'The prefilled 6-roll, $252 result is a sample. Pattern repeat and strip layout need a separate product check; the guide explains a manual single-wall example.',
   ],
   'fence-calculator': [
     'Enter fence perimeter, panel width, post spacing, gate count, and gate width.',
@@ -1947,7 +1947,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
       'Choose add, subtract, multiply, or divide.',
       'Press Calculate big number to get an exact integer answer.',
       'For division, check left = right x quotient + remainder, including the sign on negative remainders.',
-      'Copy the formatted expression for notes or the raw ungrouped result for code and data fields.',
+      'Copy formatted for the readable expression. Copy raw result removes digit separators; non-even division copies quotient-and-remainder text, so use those values separately in numeric fields.',
     ]
   : isFractionTool
   ? [

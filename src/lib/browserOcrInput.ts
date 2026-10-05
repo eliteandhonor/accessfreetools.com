@@ -5,7 +5,7 @@ const damaged = () => new Error('This image is damaged or unsupported. Try expor
 
 function checkBytes(size: number) {
   if (!Number.isSafeInteger(size) || size <= 0) throw damaged();
-  if (size > OCR_IMAGE_LIMITS.maxBytes) throw new Error('Choose an image of 10 MB or less.');
+  if (size > OCR_IMAGE_LIMITS.maxBytes) throw new Error('Choose an image of 10 MiB or less.');
 }
 
 function dimensions(width: number, height: number, mime: string): ImageHeader {

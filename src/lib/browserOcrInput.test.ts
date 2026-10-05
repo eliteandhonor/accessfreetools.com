@@ -96,7 +96,7 @@ describe('OCR byte preflight', () => {
 
   it('checks actual byte length and does not trust file metadata alone', async () => {
     const file = { size: 10, type: 'image/png', arrayBuffer: vi.fn(async () => new ArrayBuffer(OCR_IMAGE_LIMITS.maxBytes + 1)) } as unknown as File;
-    await expect(prepareOcrImage(file, new AbortController().signal)).rejects.toThrow(/10 MB/);
+    await expect(prepareOcrImage(file, new AbortController().signal)).rejects.toThrow(/10 MiB/);
   });
 
   it('does not read an already cancelled input', async () => {

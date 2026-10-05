@@ -485,13 +485,18 @@ const fieldHelpByVariant: Partial<Record<UtilityToolVariant, Partial<Record<stri
   wallpaper: {
     roomLengthFeet: 'Length of one pair of opposite walls. If you measured inches, divide by 12 first.',
     roomWidthFeet: 'Width of the other pair of opposite walls. If you measured inches, divide by 12 first.',
-    wallHeightFeet: 'Average wall height from baseboard or floor to ceiling or trim.',
-    doors: 'Number of standard doors. The estimate subtracts about 20 square feet per door.',
-    windows: 'Number of standard windows. The estimate subtracts about 15 square feet per window.',
+    wallHeightFeet: 'Common wall height from baseboard or floor to ceiling or trim.',
+    doors: 'Whole door count. Each subtracts a fixed 20 square feet. Use 0 if your supplier recommends keeping openings in the estimate.',
+    windows: 'Whole window count. Each subtracts a fixed 15 square feet. Use 0 if your supplier recommends keeping openings in the estimate.',
     rollCoverageSquareFeet:
-      'Usable square feet one roll covers. Use the product label because pattern repeat can reduce usable coverage.',
-    wastePercent: 'Extra wallpaper for trimming, pattern matching, damaged strips, and mistakes.',
-    pricePerRoll: 'Optional price for one roll so the tool can estimate rough material cost.',
+      'Usable square feet for the roll or bolt you buy. Match this unit to the price and check whether repeat or trimming losses are already included.',
+    wastePercent: 'Additional wallpaper for trimming, matching, damaged strips, and mistakes. Do not add losses already included in usable coverage twice.',
+    pricePerRoll: 'Optional price for the same roll or bolt as your coverage. Excludes tax, shipping, paste, tools, and labor.',
+  },
+  'markdown-table-generator': {
+    headers: 'At least two named columns. An unescaped pipe outside quotes or matched inline code chooses pipe separators; otherwise use commas.',
+    rows: 'One row per line, using the separator chosen by Headers. Quote comma fields with double quotes and double any quotes inside. In pipe input use \\| for a literal pipe; paired inline code is preserved. Blank lines are ignored; extra cells cause an error.',
+    alignment: 'Applies the same left, center, or right alignment to every column.',
   },
   fence: {
     perimeterFeet: 'Total fence path length before subtracting gates.',
@@ -8570,9 +8575,9 @@ function calculateUtility(
           { label: 'Alignment', value: unitLabel(result.alignment) },
         ],
         steps: [
-          'Split headers and rows by commas or pipe characters.',
+          'Use the separator selected by Headers for every row; preserve quoted comma fields, blank cells, and matched inline code.',
           'Build the GitHub-flavored Markdown header and delimiter rows.',
-          'Pad short rows so every table row has the same column count.',
+          'Pad short rows with empty cells. Reject extra cells instead of discarding them.',
         ],
         note: 'Markdown table support depends on the editor. GitHub-flavored Markdown supports this table style.',
         textOutput: true,
@@ -8667,6 +8672,9 @@ export default function UtilityCalculator({ variant }: Props) {
       data-clarity-mask={variant === 'love' ? 'true' : undefined}
     >
       <div className="advanced-panel">
+        {variant === 'wallpaper' && (
+          <p className="advanced-note">The prefilled values are a sample: a 12 x 10 foot room with 8-foot walls, one door, two windows, 56 square feet per roll, 10% waste, and $42 per roll gives 6 rolls and $252. Replace them with your room and product details, then press Estimate wallpaper.</p>
+        )}
         {config.modes.length > 1 && (
           <div className="advanced-mode-grid" aria-label="Calculator modes">
             {config.modes.map((mode) => (

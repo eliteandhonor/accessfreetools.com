@@ -1,5 +1,6 @@
 import type { CategorySlug } from './categories';
 import type { ToolDefinition, ToolExample, ToolFaq } from './tools';
+import { markdownTableExamples, markdownTableExtraFaq, markdownTableFaqLanguage, markdownTableInputExplanations } from './markdownTableContentRepairs';
 
 interface UtilityToolSpec {
   slug: string;
@@ -4061,25 +4062,30 @@ export const utilityTools: ToolDefinition[] = [
     category: 'home-projects',
     summary: 'Figure out how many wallpaper rolls to buy, plus rough material cost when you add a roll price.',
     description:
-      'Estimate how many wallpaper rolls to buy from room size, doors, windows, roll coverage, pattern repeat, waste percent, and optional roll price.',
-    seoTitle: 'Wallpaper Calculator: Rolls, Pattern Repeat, and Cost',
+      'Estimate whole wallpaper rolls for a rectangular room from length, width, wall height, door and window counts, usable roll coverage, waste percent, and optional roll price.',
+    seoTitle: 'Wallpaper Calculator: Room Rolls and Rough Cost',
     seoDescription:
-      'Estimate wallpaper rolls from room size, roll coverage, pattern repeat, waste percent, one-wall projects, and optional roll price.',
+      'Estimate whole wallpaper rolls for a rectangular room using fixed opening allowances, usable roll coverage, waste percent, and optional roll price.',
     icon: 'calculator-wallpaper',
     aliases: ['Wallpaper Roll Calculator', 'Wall Covering Calculator'],
     formula:
-      'The calculator finds wall area from room perimeter and height, subtracts estimated doors and windows, adds waste, divides by roll coverage, rounds up, and multiplies by roll price when entered.',
+      'Wall area is 2 x (room length + room width) x wall height. Subtract 20 square feet per door and 15 per window, with a minimum remaining area of zero. Add waste percent, divide by usable roll coverage, round up to whole rolls, and multiply by roll price when entered.',
     limit:
-      'Wallpaper needs can change with pattern repeat, usable roll yield, accent walls, odd wall shapes, trimming, damaged strips, product returns, and dye lots.',
+      'This is a rectangular-room area estimate, not a strip layout or pattern-repeat calculation. There is no single-wall or known-area input. Check usable roll yield, trimming, damaged strips, product returns, and dye lots before ordering.',
     inputExplanations: [
-      { term: 'Room length and width', meaning: 'the two pairs of walls used to estimate total wall area from room perimeter.' },
-      { term: 'Wall height', meaning: 'the average height from the floor or baseboard to the ceiling, trim, or stopping point.' },
-      { term: 'Doors and windows', meaning: 'standard openings subtracted from wall area before waste is added.' },
-      { term: 'Roll coverage', meaning: 'usable square feet one roll covers; use the product label before trying to calculate it from roll width and roll length.' },
-      { term: 'Waste percent', meaning: 'extra wallpaper for trimming, matching patterns, damaged strips, corners, and mistakes.' },
+      { term: 'Room length and width', meaning: 'the two pairs of walls in a rectangular room, measured in feet.' },
+      { term: 'Wall height', meaning: 'the common wall height in feet from the floor or baseboard to the ceiling, trim, or stopping point.' },
+      { term: 'Doors and windows', meaning: 'whole counts that subtract a fixed 20 square feet per door and 15 per window, not measured opening sizes.' },
+      { term: 'Roll coverage', meaning: 'usable square feet for the roll or bolt you are buying; check whether the product label already allows for repeat or trimming losses.' },
+      { term: 'Waste percent', meaning: 'additional material for trimming, matching patterns, damaged strips, corners, and mistakes; do not count losses already allowed for in usable coverage twice.' },
       { term: 'Price per roll', meaning: 'optional roll price used only for a rough material cost before tax, shipping, paste, tools, or labor.' },
     ],
     extraFaq: [
+      {
+        question: 'Why is an answer shown before I enter my room?',
+        answer:
+          'The page starts with a sample: a 12 x 10 foot room, 8-foot walls, one door, two windows, 56 square feet per roll, 10% waste, and $42 per roll. That example gives 6 rolls and $252. Replace the sample values with your room and product details, then press Estimate wallpaper. The initial answer is not a measurement of your room.',
+      },
       {
         question: 'What is waste percent in the Wallpaper Calculator?',
         answer:
@@ -4088,22 +4094,22 @@ export const utilityTools: ToolDefinition[] = [
       {
         question: 'How much waste percent should I use for wallpaper?',
         answer:
-          'Use 10% as a simple starting point for plain, random-match, or easy peel-and-stick wallpaper. Use about 15% when there is a normal pattern repeat or several corners and openings. Use 20% or more for large pattern repeats, drop matches, older uneven walls, or if you want spare paper for repairs. The product label and installer advice should win when they give a specific number.',
+          'Use 10% as a simple starting point for plain, random-match, or easy peel-and-stick wallpaper. Use about 15% when there is a normal pattern repeat or several corners and openings. Use 20% or more for large pattern repeats, drop matches, older uneven walls, or if you want spare paper for repairs. The product label and installer advice should win when they give a specific number. These are additional allowances; do not add them for losses already included in usable coverage.',
       },
       {
         question: 'What does roll coverage mean?',
         answer:
-          'Roll coverage is the usable square feet from one roll or bolt. Do not guess this from the roll size if the product page already gives coverage, because pattern repeat can lower the amount that actually lands on the wall. Some products are priced as single rolls but shipped as double rolls, so check whether the coverage number belongs to the roll you are buying.',
+          'Roll coverage is the usable square feet from one roll or bolt. Pattern repeat can lower the amount that actually lands on the wall, so check whether the listed coverage includes those losses. Some products are priced as single rolls but shipped as double rolls; use coverage and price for the same purchased unit. Do not count the same loss in both usable coverage and waste percent.',
       },
       {
         question: 'Why can pattern repeat change the roll count?',
         answer:
-          'A repeating pattern has to line up from strip to strip. That means a strip may need to be cut longer than the wall height so the design starts in the right place. The extra cut-off part is not a mistake; it is the cost of making the pattern match instead of looking shifted.',
+          'A repeating pattern has to line up from strip to strip. That means a strip may need to be cut longer than the wall height so the design starts in the right place. The extra cut-off part is not a mistake; it is the cost of making the pattern match instead of looking shifted. This calculator has no pattern-repeat input and does not calculate strip yield. Use the product or installer guidance to choose usable coverage and any additional waste.',
       },
       {
         question: 'What if I only know the roll width and roll length?',
         answer:
-          'Multiply roll width by roll length only as a fallback. The better input is the usable coverage printed on the wallpaper label or product page, because sellers may list single rolls, double rolls, bolts, or coverage after pattern repeat. If the label says one roll covers 56 square feet, use 56 even if the raw width times length looks different.',
+          'Multiply roll width by roll length only as a rough fallback; it does not account for strip cuts or pattern matching. The better input is usable coverage for the roll or bolt you are buying. If the label gives 56 square feet of usable coverage, use 56, and check which losses are already included before adding waste percent.',
       },
       {
         question: 'Can I use inches in the Wallpaper Calculator?',
@@ -4113,17 +4119,17 @@ export const utilityTools: ToolDefinition[] = [
       {
         question: 'How much wallpaper do I need for a 12 x 12 room?',
         answer:
-          'A 12 x 12 room with 8-foot walls has about 384 square feet of wall area before openings. One standard door and two standard windows bring that to about 334 square feet. With 10% waste, the calculator plans for about 367 square feet. If each roll covers 56 square feet, that rounds up to 7 rolls.',
+          'A 12 x 12 foot room with 8-foot walls has 384 square feet of wall area before openings. The fixed allowances for one door and two windows subtract 50 square feet, leaving 334. With 10% waste, the calculator plans for 367.4 square feet. At 56 usable square feet per roll, that rounds up to 7 rolls. At $42 per roll, the rough roll cost is $294.',
       },
       {
         question: 'How should I handle an accent wall?',
         answer:
-          'For one accent wall, do not enter the whole room unless all walls are being covered. Estimate that wall area separately, subtract major openings if needed, then use the roll coverage and waste percent from the wallpaper you plan to buy. If the accent wall has a large pattern, keep the waste percent higher than a plain texture.',
+          'The calculator has no single-wall or known-area mode. For an accent wall, measure the wall separately and do the area calculation manually: net wall area x (1 + waste percent / 100), divided by usable roll coverage, then rounded up. A 96 square foot wall with 15% waste needs 110.4 square feet; at 56 square feet per roll, that rounds up to 2 rolls. This is a manual area example, not a supported input on this page or a strip layout.',
       },
       {
         question: 'Should I subtract doors and windows?',
         answer:
-          'For a rough estimate, subtracting standard doors and windows keeps the roll count from getting too high. For peel-and-stick or patterned wallpaper, some stores advise not subtracting openings because you still cut around them and may need full-height strips. If you are close to the next roll, it is usually safer to round up.',
+          'The calculator subtracts a fixed 20 square feet per door and 15 per window. It cannot use the actual opening sizes. If your supplier recommends keeping openings in the estimate because you still need full-height strips, enter 0 for those counts. Check the product guidance when the estimate is close to the next roll.',
       },
       {
         question: 'Why should wallpaper rolls come from the same lot or batch?',
@@ -4138,15 +4144,15 @@ export const utilityTools: ToolDefinition[] = [
     ],
     useCases: [
       'Estimate rolls for a bedroom, office, or powder room.',
-      'Subtract common doors and windows from wall area.',
+      'Apply fixed door and window allowances to rectangular-room wall area.',
       'Compare roll coverage from different wallpaper products.',
       'Check rough material cost when you know the roll price.',
       'Add waste for pattern matching before buying.',
     ],
     examples: [
-      { label: 'Bedroom', expression: '12 x 10 x 8 ft, 1 door, 2 windows, 56 ft2/roll, $42/roll', result: '6 rolls, about $252' },
+      { label: 'Bedroom sample', expression: '12 x 10 x 8 ft, 1 door, 2 windows, 56 ft2/roll, 10% waste, $42/roll', result: '6 rolls, about $252' },
       { label: 'Small office', expression: '10 x 9 x 8 ft, 1 door, 1 window, 48 ft2/roll, 12% waste', result: '7 rolls, about 301 ft2 with waste' },
-      { label: 'Accent wall plan', expression: '96 ft2 wall, 56 ft2/roll, 15% waste', result: '2 rolls' },
+      { label: 'Manual accent-wall example', expression: '96 ft2 x 1.15 / 56 ft2 per roll = about 1.97 rolls; not a room-mode input', result: 'Round up manually to 2 rolls' },
     ],
     relatedSlugs: ['paint-calculator', 'drywall-calculator', 'flooring-calculator', 'square-footage-calculator'],
   }),
@@ -10571,37 +10577,19 @@ export const utilityTools: ToolDefinition[] = [
     icon: 'tool-markdown-table',
     aliases: ['Markdown Table Maker', 'GFM Table Generator', 'Markdown Table Builder'],
     formula:
-      'The generator splits headers and rows into cells, creates a GitHub-flavored Markdown delimiter row, pads short rows, and outputs table text.',
+      'The headers choose comma or pipe separators for all rows. The generator parses single-line quoted comma cells or pipe cells, preserves empty body cells, pads short rows, and creates the Markdown header, alignment delimiter, and body rows. Empty headers and extra cells show an error.',
     limit:
-      'Markdown table rendering depends on the publishing platform. Preview the result in the editor or site where the table will be used.',
+      'Cells retain inline Markdown syntax and outer spaces are trimmed. Multiline CSV fields, merged cells, and per-column alignment are not supported. Preview the result in the editor or site where the table will be used.',
+    faqLanguage: markdownTableFaqLanguage,
+    inputExplanations: markdownTableInputExplanations,
     useCases: [
       'Create quick comparison tables for blog posts, docs, and project notes.',
       'Turn a small list of rows into GitHub-flavored Markdown syntax.',
       'Choose left, center, or right alignment without memorizing delimiter marks.',
       'Build compact feature, comparison, or checklist tables for content planning.',
     ],
-    examples: [
-      { label: 'Tool table', expression: 'Tool, Use, Status plus two rows', result: 'GitHub-flavored Markdown table' },
-      { label: 'Feature matrix', expression: 'Feature | Free | Notes', result: 'Pipe-style markdown table' },
-      { label: 'Simple report', expression: 'Metric, Value with two rows', result: 'Right-aligned markdown table' },
-    ],
-    extraFaq: [
-      {
-        question: 'Can Markdown tables have merged cells or line breaks?',
-        answer:
-          'Plain GitHub-flavored Markdown tables do not support merged cells, and multi-line cells can render differently by platform. For simple docs, keep one idea per cell. If you need a complex layout, test HTML table markup, line breaks, or a real spreadsheet/table editor where you plan to publish.',
-      },
-      {
-        question: 'How do I include a pipe character inside a cell?',
-        answer:
-          'The generator escapes pipe characters inside cells so Markdown does not treat them as new columns. Still preview the table in your target editor, especially when a cell contains code, commands, or URLs with vertical bars.',
-      },
-      {
-        question: 'Can I paste CSV with quoted commas?',
-        answer:
-          'Use simple comma-separated or pipe-separated cells. This is a small Markdown table helper, not a full CSV parser, so quoted commas, escaped quotes, or spreadsheet exports may need cleanup before pasting. For a real CSV file, clean the columns in a spreadsheet first.',
-      },
-    ],
+    examples: markdownTableExamples,
+    extraFaq: markdownTableExtraFaq,
     relatedSlugs: ['word-counter', 'character-counter', 'css-clamp-calculator'],
   }),
 ];

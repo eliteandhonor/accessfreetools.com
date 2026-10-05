@@ -13799,12 +13799,109 @@ export function calculateCssClamp(
   };
 }
 
-function splitMarkdownCells(line: string) {
-  return line.includes('|') ? line.split('|').map((cell) => cell.trim()) : line.split(',').map((cell) => cell.trim());
+function isMarkdownCharacterEscaped(line: string, index: number) {
+  let backslashes = 0;
+  for (let previous = index - 1; previous >= 0 && line[previous] === '\\'; previous -= 1) backslashes += 1;
+  return backslashes % 2 === 1;
+}
+
+function markdownCodeSpanEnd(line: string, start: number): number | null {
+  let openingEnd = start;
+  while (line[openingEnd] === '`') openingEnd += 1;
+  const openingLength = openingEnd - start;
+  let next = line.indexOf('`', openingEnd);
+  while (next !== -1) {
+    let closingEnd = next;
+    while (line[closingEnd] === '`') closingEnd += 1;
+    if (closingEnd - next === openingLength) return closingEnd;
+    next = line.indexOf('`', closingEnd);
+  }
+  return null;
+}
+
+function markdownTableSeparator(headers: string): ',' | '|' {
+  let quoted = false;
+  for (let index = 0; index < headers.length; index += 1) {
+    const character = headers[index];
+    if (character === '"') {
+      if (quoted && headers[index + 1] === '"') index += 1;
+      else quoted = !quoted;
+    } else if (!quoted && character === '`' && !isMarkdownCharacterEscaped(headers, index)) {
+      const codeEnd = markdownCodeSpanEnd(headers, index);
+      if (codeEnd !== null) index = codeEnd - 1;
+      else while (headers[index + 1] === '`') index += 1;
+    } else if (!quoted && character === '|' && !isMarkdownCharacterEscaped(headers, index)) {
+      return '|';
+    }
+  }
+  return ',';
+}
+
+function splitMarkdownCsvCells(line: string, label: string) {
+  const cells: string[] = [];
+  let cell = '';
+  let quoted = false;
+  let closedQuote = false;
+  for (let index = 0; index < line.length; index += 1) {
+    const character = line[index];
+    if (quoted) {
+      if (character === '"' && line[index + 1] === '"') {
+        cell += '"';
+        index += 1;
+      } else if (character === '"') {
+        quoted = false;
+        closedQuote = true;
+      } else cell += character;
+    } else if (character === ',') {
+      cells.push(cell.trim());
+      cell = '';
+      closedQuote = false;
+    } else if (closedQuote) {
+      if (character.trim()) throw new Error(`${label}: put a comma after the closing CSV quote`);
+    } else if (character === '"') {
+      if (cell.trim()) throw new Error(`${label}: quote the whole CSV cell and double any quotes inside it`);
+      cell = '';
+      quoted = true;
+    } else cell += character;
+  }
+  if (quoted) throw new Error(`${label}: close the quoted CSV cell on the same line`);
+  cells.push(cell.trim());
+  return cells;
+}
+
+function splitMarkdownPipeCells(input: string) {
+  let line = input.trim();
+  if (line.length > 1 && line.startsWith('|') && line.endsWith('|') && !isMarkdownCharacterEscaped(line, line.length - 1)) {
+    line = line.slice(1, -1);
+  }
+  const cells: string[] = [];
+  let cell = '';
+  for (let index = 0; index < line.length; index += 1) {
+    if (line[index] === '`' && !isMarkdownCharacterEscaped(line, index)) {
+      const codeEnd = markdownCodeSpanEnd(line, index);
+      if (codeEnd !== null) {
+        cell += line.slice(index, codeEnd);
+        index = codeEnd - 1;
+        continue;
+      }
+      while (line[index + 1] === '`') {
+        cell += line[index];
+        index += 1;
+      }
+    }
+    if (line[index] === '|' && !isMarkdownCharacterEscaped(line, index)) {
+      cells.push(cell.trim());
+      cell = '';
+    } else cell += line[index];
+  }
+  cells.push(cell.trim());
+  return cells;
 }
 
 function cleanMarkdownCell(input: string) {
-  return input.replace(/\r?\n/g, ' ').replace(/\|/g, '\\|').trim();
+  // GFM requires escaped pipes even inside code spans. Preserve an existing
+  // odd escape run, and add one backslash only when the run is even.
+  return input.replace(/(\\*)\|/g, (_, backslashes: string) => `${backslashes}${backslashes.length % 2 ? '' : '\\'}|`).trim();
 }
 
 export function generateMarkdownTable(
@@ -13812,17 +13909,39 @@ export function generateMarkdownTable(
   rowsInput: string,
   alignment: MarkdownTableAlignment,
 ): MarkdownTableResult {
-  const headers = splitMarkdownCells(headersInput).map(cleanMarkdownCell).filter(Boolean);
+  if (!['left', 'center', 'right'].includes(alignment)) {
+    throw new Error('Choose left, center, or right column alignment');
+  }
+  if (/[\r\n]/.test(headersInput)) throw new Error('Enter headers on one line');
+  const separator = markdownTableSeparator(headersInput);
+  const splitCells = (line: string, label: string) => separator === '|'
+    ? splitMarkdownPipeCells(line)
+    : splitMarkdownCsvCells(line, label);
+  const headers = splitCells(headersInput, 'Headers').map(cleanMarkdownCell);
 
   if (headers.length < 2) {
     throw new Error('Enter at least two table headers');
   }
+  headers.forEach((header, index) => {
+    if (!header) throw new Error(`Header ${index + 1} is empty. Give each column a name`);
+  });
 
-  const rows = rowsInput
-    .split(/\r\n|\r|\n/)
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => splitMarkdownCells(line).map(cleanMarkdownCell));
+  const rows: string[][] = [];
+  rowsInput.split(/\r\n|\r|\n/).forEach((line, index) => {
+    if (!line.trim()) return;
+    if (/^(?:`{3,}[^`]*|~{3,}[^~]*)$/.test(line.trim())) {
+      throw new Error(`Row ${index + 1}: enter data rows without Markdown code fences`);
+    }
+    const pipeCells = splitMarkdownPipeCells(line);
+    if (pipeCells.length > 1 && pipeCells.every((cell) => /^:?-+:?$/.test(cell))) {
+      throw new Error(`Row ${index + 1} looks like a Markdown separator row. Enter data rows only`);
+    }
+    const row = splitCells(line, `Row ${index + 1}`).map(cleanMarkdownCell);
+    if (row.length > headers.length) {
+      throw new Error(`Row ${index + 1} has ${row.length} cells but the headers define ${headers.length} columns`);
+    }
+    rows.push(row);
+  });
 
   if (rows.length === 0) {
     throw new Error('Enter at least one table row');

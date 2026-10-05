@@ -6838,6 +6838,23 @@ main {
   color: var(--brand);
 }
 
+.guide-code-example {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.guide-code-block {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface-solid);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  white-space: pre;
+}
+
 .source-link-list {
   display: grid;
   gap: 8px;
