@@ -11,7 +11,7 @@ const roots = [];
 const start = '2026-09-06T10:00:00.000Z';
 const finish = '2026-09-06T10:01:00.000Z';
 const productionFiles = [
-  'scripts/lib/release-identity.mjs', 'scripts/build-site.mjs', 'scripts/run-verified-check.mjs',
+  'scripts/lib/release-identity.mjs', 'scripts/lib/build-source-diagnostics.mjs', 'scripts/build-site.mjs', 'scripts/run-verified-check.mjs',
   'scripts/mirror-static-output.mjs', 'scripts/hostinger-status.mjs', 'scripts/hostinger-node-deploy.mjs',
   'scripts/lib/hostinger-build-status.mjs', 'scripts/lib/hostinger-deploy-config.mjs',
   'scripts/lib/hostinger-server.mjs', 'scripts/lib/hostinger-request-redirects.mjs',
@@ -203,6 +203,13 @@ describe('OP-01 judge: real build and check wrappers', () => {
     const identity = json(root, 'dist/_build.json');
     expect(identity).toEqual(json(root, 'dist/client/_build.json'));
     expect(identity).toMatchObject({ clean: true, commit: source(root).commit, nodeMajor: 24 });
+    const diagnostic = json(root, 'dist/server/.build-evidence/source-status.json');
+    expect(diagnostic.identity).toEqual(identity);
+    expect(diagnostic.before).toMatchObject({ commit: identity.commit, clean: true, reason: 'clean' });
+    expect(diagnostic.after).toMatchObject({ commit: identity.commit, clean: true, reason: 'clean' });
+    expect(existsSync(join(root, 'dist/client/server/.build-evidence/source-status.json'))).toBe(false);
+    expect(existsSync(join(root, 'dist/client/.build-evidence/source-status.json'))).toBe(false);
+    expect(existsSync(join(root, 'dist/.build-evidence/source-status.json'))).toBe(false);
     expect(verifyReleaseReceipt(json(root, 'output/release/full-check.json'), source(root)).ok).toBe(true);
   });
 
@@ -213,6 +220,10 @@ describe('OP-01 judge: real build and check wrappers', () => {
     expect(built.clean).toBe(false);
     expect(readFileSync(join(root, 'dist/client/artifact.txt'), 'utf8')).toBe('uncommitted-source');
     expect(source(root).clean).toBe(true);
+    const diagnostic = json(root, 'dist/server/.build-evidence/source-status.json');
+    expect(diagnostic.identity).toEqual(built);
+    expect(diagnostic.before).toMatchObject({ clean: false, reason: 'tracked_changes', unstagedCount: 1 });
+    expect(diagnostic.after).toMatchObject({ clean: false, reason: 'tracked_changes', unstagedCount: 1 });
     expect(json(root, 'output/release/full-check.json').verified, result.stdout).toBe(false);
   });
 
@@ -255,9 +266,11 @@ describe('OP-01 judge: real build and check wrappers', () => {
 
   it('keeps a build failure nonzero and does not create a new identity', () => {
     const root = fixture();
+    write(root, 'dist/server/.build-evidence/source-status.json', { stale: true });
     const result = run(root, process.execPath, ['scripts/build-site.mjs'], { JUDGE_ASTRO: 'fail' });
     expect(result.status).toBe(2);
     expect(existsSync(join(root, 'dist/_build.json'))).toBe(false);
+    expect(existsSync(join(root, 'dist/server/.build-evidence/source-status.json'))).toBe(false);
   });
 });
 

@@ -9,29 +9,81 @@ const nodeMajor = (version) => Number(String(version).split('.')[0]);
 const sameCleanSource = (before, after) => validCommit(before?.commit) && before?.clean === true
   && after?.clean === true && before.commit === after.commit;
 
-export function captureReleaseSource(cwd = process.cwd()) {
+export function captureReleaseSourceSnapshot(cwd = process.cwd()) {
+  const diagnostics = {
+    observedAt: new Date().toISOString(), complete: false, stage: 'redirect', reason: 'git_redirect_present',
+    stagedCount: null, unstagedCount: null, untrackedCount: null,
+    assumeUnchangedCount: null, skipWorktreeCount: null,
+  };
+  const unavailable = () => ({ source: { commit: null, clean: false }, diagnostics });
   try {
     const redirectKeys = new Set(['GIT_DIR', 'GIT_WORK_TREE', 'GIT_INDEX_FILE', 'GIT_COMMON_DIR']);
     if (Object.entries(process.env).some(([key, value]) => redirectKeys.has(key.toUpperCase()) && value)) {
-      return { commit: null, clean: false };
+      return unavailable();
     }
     const git = (...args) => execFileSync('git', args, {
       cwd, encoding: 'utf8', timeout: 15000, maxBuffer: 4 * 1024 * 1024,
       stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true,
     });
+    diagnostics.stage = 'head';
     const commit = git('rev-parse', '--verify', 'HEAD').trim();
     const normalizePath = (path) => {
       const resolved = realpathSync(path);
       return process.platform === 'win32' ? resolved.toLowerCase() : resolved;
     };
-    if (normalizePath(git('rev-parse', '--show-toplevel').trim()) !== normalizePath(cwd)) return { commit: null, clean: false };
+    diagnostics.stage = 'root';
+    if (normalizePath(git('rev-parse', '--show-toplevel').trim()) !== normalizePath(cwd)) {
+      diagnostics.reason = 'root_mismatch';
+      return unavailable();
+    }
+    diagnostics.stage = 'status';
     const status = git('status', '--porcelain=v1', '--untracked-files=normal');
     // Git status deliberately ignores changes hidden by these index flags.
-    const hidden = git('ls-files', '-v', '-z').split('\0').some((row) => /^[a-zS]/.test(row));
-    return { commit: validCommit(commit) ? commit : null, clean: validCommit(commit) && status.trim() === '' && !hidden };
-  } catch {
-    return { commit: null, clean: false };
+    diagnostics.stage = 'index';
+    const indexRows = git('ls-files', '-v', '-z').split('\0');
+    const hidden = indexRows.some((row) => /^[a-zS]/.test(row));
+    let stagedCount = 0;
+    let unstagedCount = 0;
+    let untrackedCount = 0;
+    // Count porcelain records, not filenames: normal untracked output can group a directory.
+    // Git quotes embedded newlines; rename records remain one line with two status columns.
+    for (const row of status.split(/\r?\n/)) {
+      if (!row.trim()) continue;
+      if (row.startsWith('??')) untrackedCount += 1;
+      else {
+        if (row[0] !== ' ') stagedCount += 1;
+        if (row[1] !== ' ') unstagedCount += 1;
+      }
+    }
+    Object.assign(diagnostics, {
+      complete: true, stage: 'complete', stagedCount, unstagedCount, untrackedCount,
+      assumeUnchangedCount: indexRows.filter((row) => /^[a-z]/.test(row)).length,
+      skipWorktreeCount: indexRows.filter((row) => /^[sS]/.test(row)).length,
+    });
+    diagnostics.reason = !validCommit(commit) ? 'invalid_commit'
+      : stagedCount || unstagedCount ? 'tracked_changes'
+        : untrackedCount ? 'untracked_changes'
+          : hidden ? 'hidden_index_flags' : 'clean';
+    return { source: { commit: validCommit(commit) ? commit : null,
+      clean: validCommit(commit) && status.trim() === '' && !hidden }, diagnostics };
+  } catch (error) {
+    diagnostics.reason = error?.code === 'ETIMEDOUT' ? 'git_timeout'
+      : error?.code === 'ENOENT' && typeof error?.syscall === 'string' && error.syscall.startsWith('spawnSync')
+        ? 'git_unavailable' : 'git_command_failed';
+    if (diagnostics.reason === 'git_command_failed') {
+      const stderr = typeof error?.stderr === 'string' ? error.stderr
+        : Buffer.isBuffer(error?.stderr) ? error.stderr.toString('utf8') : '';
+      // Match only standard Git failure signatures. Never retain the line, path, or raw error.
+      if (/^fatal: not a git repository(?:[ (:]|$)/m.test(stderr)) diagnostics.reason = 'git_not_repository';
+      else if (/^fatal: detected dubious ownership in repository at(?:\s|$)/m.test(stderr)) diagnostics.reason = 'git_dubious_ownership';
+      else if (/^(?:fatal|error):[^\r\n]+: Permission denied\r?$/m.test(stderr)) diagnostics.reason = 'git_permission_denied';
+    }
+    return unavailable();
   }
+}
+
+export function captureReleaseSource(cwd = process.cwd()) {
+  return captureReleaseSourceSnapshot(cwd).source;
 }
 
 export function createBuildIdentity(before, after, { builtAt = new Date().toISOString(), nodeVersion = process.versions.node } = {}) {
