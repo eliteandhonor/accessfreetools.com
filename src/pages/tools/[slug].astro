@@ -640,6 +640,12 @@ const geometryToolInstructions: Record<string, string[]> = {
   ],
 };
 const healthToolInstructionsBySlug: Partial<Record<string, string[]>> = {
+  'bmi-calculator': [
+    'Enter adult height in centimeters (cm) and weight in kilograms (kg).',
+    'For feet and inches, multiply feet by 12 and add the remaining inches. Multiply that total by 2.54 for centimeters. Multiply pounds by 0.45359237 for kilograms.',
+    'Press Calculate BMI to see BMI, the adult category, and the reference weight range.',
+    'Read BMI as an adult screening estimate, not a diagnosis or a complete picture of health.',
+  ],
   'underweight-bmi-calculator': [
     'Enter adult height in centimeters and weight in kilograms.',
     'Check the BMI result, category, distance to BMI 18.5, and healthy-range reference.',

@@ -46,7 +46,7 @@ function makeFaq(spec: HealthToolSpec): ToolFaq[] {
   const isPeriodCalculator = spec.slug === 'period-calculator';
   const isPregnancyWeightGainCalculator = spec.slug === 'pregnancy-weight-gain-calculator';
   const inputAnswer = isBmiCalculator
-    ? 'Enter adult height and weight in the units shown. BMI uses weight compared with height squared, so a small unit mistake can move the category. This page is for adult BMI screening only; children and teens use age-and-sex percentiles instead.'
+    ? 'Enter adult height in centimeters (cm) and weight in kilograms (kg). For feet and inches, multiply feet by 12 and add the remaining inches. Multiply that total by 2.54 for centimeters. Multiply pounds by 0.45359237 for kilograms. This page is for adult BMI screening only. Children and teens use age-and-sex percentiles instead.'
     : isUnderweightBmiCalculator
       ? 'Enter adult height in centimeters and weight in kilograms. The calculator uses those two numbers only, so a pounds-versus-kilograms or inches-versus-centimeters mix-up can change the BMI category and the distance to the 18.5 threshold.'
     : isBodyFatCalculator
