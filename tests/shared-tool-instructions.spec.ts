@@ -81,7 +81,7 @@ async function containsAll(locator: Locator, expected: Array<string | RegExp>) {
 // They deliberately do not import the repair data as their expected output.
 const utilityCases = [
   { slug: 'time-calculator', field: 'First hours', action: 'Calculate time', instructions: ['durations rather than clock times', 'Add or Subtract', '4h 6m 15s'], limit: 'daylight-saving' },
-  { slug: 'hours-calculator', field: 'Start time', action: 'Calculate hours', instructions: ['ends the next day', 'Break minutes', '7.75 hours'], limit: 'equal times as zero duration' },
+  { slug: 'hours-calculator', field: 'Start time', action: 'Calculate hours', instructions: ['ends the next day', 'Break minutes', '7.75 hours'], limit: 'Equal times return zero hours with no break' },
   { slug: 'gpa-calculator', field: 'Course 1 credits', action: 'Calculate GPA', instructions: ['letter grade', '4.0', '3.75 GPA'], limit: 'A+ at 4.0' },
   { slug: 'grade-calculator', field: 'Current grade (%)', action: 'Calculate needed grade', instructions: ['before the final exam', 'Final weight (%)', '100% on the final'], limit: 'outside one remaining final exam' },
   { slug: 'concrete-calculator', field: 'Length (ft)', action: 'Estimate concrete', instructions: ['Depth (in)', 'Extra waste (%)', '44 cubic feet'], limit: 'does not establish a structural design' },
