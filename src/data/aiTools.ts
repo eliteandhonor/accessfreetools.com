@@ -1,5 +1,6 @@
 import type { CategorySlug } from './categories';
 import type { ToolDefinition, ToolExample, ToolFaq } from './tools';
+import { aiInstructionRepairs } from './aiInstructionRepairs';
 
 interface AiToolSpec {
   slug: string;
@@ -62,6 +63,23 @@ function makeAiFaq(spec: AiToolSpec): ToolFaq[] {
 }
 
 function makeAiTool(spec: AiToolSpec): ToolDefinition {
+  const repair = aiInstructionRepairs[spec.slug];
+  const faqAnswers = repair?.faqAnswers ?? (spec.slug === 'language-detector' ? {
+    privacy: 'Language detection compares your pasted text with franc-min language profiles in this browser tab. It does not upload the text to a language-detection service. See the Privacy Policy for separate site analytics and session-replay handling.',
+    firstRun: 'The browser loads the small franc-min package when you press Detect language. This detector does not download an AI model or OCR files. Use at least 20 characters after trimming outer spaces, and try a longer sample in one language if a guess looks wrong.',
+  } : undefined);
+  const faq = (spec.faq ?? makeAiFaq(spec)).map((entry) => {
+    if (!faqAnswers) return entry;
+    if (entry.question === 'Does this AI tool upload my input to Access Free Tools?' ||
+        entry.question === 'Does the OCR image upload to Access Free Tools?') {
+      return { ...entry, answer: faqAnswers.privacy };
+    }
+    if (entry.question === 'Why can the first run take longer than normal?' ||
+        entry.question === 'Why can the first OCR run take longer?') {
+      return { ...entry, answer: faqAnswers.firstRun };
+    }
+    return entry;
+  });
   return {
     slug: spec.slug,
     name: spec.name,
@@ -74,7 +92,7 @@ function makeAiTool(spec: AiToolSpec): ToolDefinition {
     seoDescription: spec.seoDescription ?? spec.description,
     useCases: spec.useCases,
     examples: spec.examples,
-    faq: spec.faq ?? makeAiFaq(spec),
+    faq,
     relatedSlugs: spec.relatedSlugs,
     applicationCategory: spec.applicationCategory,
   };
@@ -269,7 +287,7 @@ export const aiTools: ToolDefinition[] = [
     inputMeaning:
       'Paste 80 to 1,500 words when possible: a draft section, study notes, product copy, meeting notes, or a support reply. The tool lowercases the text, removes common filler words, counts repeated terms, and highlights short phrases that appear more than once.',
     resultMeaning:
-      'Read the list as a map of what the text talks about. A phrase like "refund policy" appearing 5 times means the draft repeats that phrase; it does not mean people search for it or that it should be stuffed into a title.',
+      'Read the list as a map of repeated topics. A "refund policy" count of 5 means that pair occurs five times after filtering. Removed words and punctuation can join tokens, so check the original draft before treating a pair as a verbatim phrase. Counts do not measure search demand.',
     doubleCheck:
       'Check intent, reader language, brand names, duplicate variants, and missing terms before using a keyword list in a title, blog, or product page. Merge close forms such as cost and costs manually.',
     useCases: [

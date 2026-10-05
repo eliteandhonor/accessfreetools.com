@@ -3768,7 +3768,7 @@ export const financeTools: ToolDefinition[] = [
       {
         question: 'Where should I enter a fixed transfer fee?',
         answer:
-          'This tool has a percentage fee field, not a fixed-fee field. For a fixed fee, subtract it manually from the final target amount or compare it outside the calculator.',
+          'This tool has no fixed-fee field. If a fixed fee is deducted in target currency, subtract it from the final target amount. If it is deducted from your source amount before conversion, reduce Amount to convert first. A fee charged separately belongs in your total-cost comparison. Check the fee\'s currency and your provider\'s terms.',
       },
       {
         question: 'Why is my bank or card result different?',

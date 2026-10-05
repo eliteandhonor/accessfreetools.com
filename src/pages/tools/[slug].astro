@@ -38,6 +38,8 @@ import UtilityCalculator, { type UtilityToolVariant } from '../../components/Uti
 import { getBlogGuidePathForTool, getBlogGuideToolSlugForTool } from '../../data/blogGuideCanonicals';
 import { toolAliases, type ToolAlias } from '../../data/toolAliases';
 import { getToolArt } from '../../data/toolArt';
+import { aiInstructionRepairs } from '../../data/aiInstructionRepairs';
+import { utilityInstructionRepairs, utilityTrustRepairs } from '../../data/utilityInstructionRepairs';
 import { topicalHubs } from '../../data/hubs';
 import { getCategoryName, getRelatedTools, tools, type ToolDefinition } from '../../data/tools';
 
@@ -94,6 +96,8 @@ const toolPageNoun = isNamedCalculator
       ? 'generator'
       : 'tool';
 const utilityTrustTextBySlug: Partial<Record<string, string>> = {
+  'subnet-calculator':
+    'Your IPv4 address and prefix are calculated in this browser tab. This tool does not scan a network, change router settings, or check which addresses are already in use. Check device and provider rules before applying the result.',
   'age-calculator':
     'This page is for date-only age checks. If a legal, school, sports, insurance, or age-restricted rule has its own cutoff date, use that rule before trusting the quick result.',
   'date-calculator':
@@ -110,11 +114,13 @@ const utilityTrustTextBySlug: Partial<Record<string, string>> = {
     'This page is a rough material planner, not a roof takeoff, safety plan, permit check, or product installation guide. Check the real roof, shingle wrapper, manufacturer instructions, local code, and safe access before ordering.',
 };
 const utilityTrustHeadingBySlug: Partial<Record<string, string>> = {
+  'subnet-calculator': 'IPv4 planning, not live network validation',
   'love-calculator': 'Game score, not relationship proof',
   'roofing-calculator': 'Planning estimate, not a roof takeoff',
 };
 const utilityTrustHeading = utilityTrustHeadingBySlug[tool.slug] ?? 'Check the assumptions before relying on the result';
 const utilityTrustText =
+  utilityTrustRepairs[tool.slug] ??
   utilityTrustTextBySlug[tool.slug] ??
   (tool.category === 'text-tools'
     ? 'This is a fast browser tool for text checks, formatting, and learning. If a school, app, client, API, or form has an official limit, use that rule before trusting a quick count.'
@@ -659,7 +665,15 @@ const healthToolInstructions = healthToolVariant
     ]
   : undefined;
 const financeToolInstructions = financeToolVariant
-  ? tool.slug === 'auto-loan-calculator'
+  ? tool.slug === 'currency-calculator'
+    ? [
+        'Enter the source-currency amount in Amount to convert.',
+        'Enter Exchange rate as target currency per 1 source currency. If 1 source unit buys 1.25 target units, enter 1.25.',
+        'Enter Exchange fee (%) as a percentage, such as 2.5 for 2.5%. Enter 0 if there is no percentage fee.',
+        'Press Convert currency. Converted amount, Before fee, and Fee amount are all in target-currency units.',
+        'Check the rate direction and your provider\'s current quote. The exchange rate is a ratio, not a percentage, and the tool does not fetch live rates.',
+      ]
+    : tool.slug === 'auto-loan-calculator'
     ? [
         'Enter the vehicle price after negotiation, before down payment, trade-in, tax, and fees.',
         'Add down payment, trade-in value, estimated fees, sales tax rate, loan rate, and term.',
@@ -1038,6 +1052,12 @@ const financeToolInstructions = financeToolVariant
     ]
   : undefined;
 const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
+  'subnet-calculator': [
+    'Enter a dotted IPv4 address, such as 10.0.5.17, in IP address.',
+    'Enter a whole number from 0 to 32 in Prefix length. For /28, type 28 in this separate field.',
+    'Press Calculate subnet to see the network, subnet mask, wildcard mask, broadcast, usable range, and usable address count.',
+    'Compare the usable range with your device or provider rules. The /31 and /32 cases use different host-count rules from a normal LAN subnet.',
+  ],
   'dice-roller': [
     'Enter how many dice to roll, how many sides each die has, and any positive or negative modifier.',
     'Press Roll dice to see each die, the subtotal, and the final total.',
@@ -1715,7 +1735,7 @@ const utilityToolInstructionsBySlug: Partial<Record<string, string[]>> = {
 };
 const utilityToolInstructions = utilityToolVariant
   ? [
-      ...(utilityToolInstructionsBySlug[tool.slug] ?? [
+      ...(utilityInstructionRepairs[tool.slug] ?? utilityToolInstructionsBySlug[tool.slug] ?? [
         'Enter the requested dates, times, grades, dimensions, network values, password options, or units.',
         'Check the assumptions shown on the page, especially school scales, payroll rules, concrete waste, subnet type, or security handling.',
         'Press the calculate button to see the answer, supporting metrics, and formula steps.',
@@ -1724,7 +1744,14 @@ const utilityToolInstructions = utilityToolVariant
     ]
   : undefined;
 const aiToolInstructions = aiToolVariant
-  ? isReadingLevelTool
+  ? aiInstructionRepairs[tool.slug]?.instructions ?? (tool.slug === 'language-detector'
+    ? [
+        'Paste a complete sentence or paragraph into Text to detect, with at least 20 characters after spaces at the ends are removed.',
+        'Press Detect language to compare the text with the local language profiles.',
+        'Read the language name, three-letter language code, and up to three ranked guesses in Alternatives.',
+        'Try a longer passage in one language if the guess looks wrong. The rounded distance values are relative match scores, not confidence percentages.',
+      ]
+    : isReadingLevelTool
     ? [
         'Paste at least 40 characters of English prose from the page, note, or message you want to review.',
         'Press Check reading level to calculate grade, reading ease, sentence length, and long-word signals.',
@@ -1736,7 +1763,7 @@ const aiToolInstructions = aiToolVariant
         'Press the main action button so the browser can load any needed model or language files.',
         'Read the label, score, notes, and limits before copying anything important.',
         'Check the original text or image yourself because browser AI output can still be wrong.',
-      ]
+      ])
   : undefined;
 const gameToolInstructions = isFourInARowGame
   ? [
@@ -1993,7 +2020,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
       )
     }
 
-    {toolArt && <ToolArtFigure entry={toolArt} eager={true} />}
+    {toolArt && !isPercentageTool && <ToolArtFigure entry={toolArt} eager={true} />}
 
     {
       isKawaiiTool && (
@@ -2496,9 +2523,16 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
     }
 
     {
-      isAiTool && !isTextToSpeechAudiobookGenerator && (
+      isAiTool && !isTextToSpeechAudiobookGenerator && !isAudioVideoTranscriber && (
         <div class="advanced-tool-points ai-tool-points" aria-label={`${tool.name} highlights`}>
-          {isReadingLevelTool ? (
+          {aiInstructionRepairs[tool.slug] ? (
+            <>
+              <span>Browser processing</span>
+              <span>Input limits explained</span>
+              <span>Result checks</span>
+              <span>Copy after checking</span>
+            </>
+          ) : isReadingLevelTool ? (
             <>
               <span>English formula checks</span>
               <span>No text upload</span>
@@ -2507,9 +2541,9 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
             </>
           ) : (
             <>
-              <span>Browser-only input</span>
-              <span>No upload to Access Free Tools</span>
-              <span>Lazy model loading</span>
+              <span>Local text checks</span>
+              <span>No analysis upload</span>
+              <span>Language profile matching</span>
               <span>Copy after checking</span>
             </>
           )}
@@ -4069,15 +4103,30 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
       isAiTool && (
         <aside
           class="trust-note trust-note-ai"
-          aria-label={`${tool.name} privacy and ${isReadingLevelTool ? 'formula' : 'model'} limits`}
+          aria-label={`${tool.name} privacy and ${isReadingLevelTool ? 'formula' : tool.slug === 'language-detector' ? 'detection' : tool.slug === 'keyword-extractor' ? 'counting' : 'model'} limits`}
         >
-          {isReadingLevelTool ? (
+          {aiInstructionRepairs[tool.slug] ? (
+            <>
+              <strong>Browser processing and result limits</strong>
+              {aiInstructionRepairs[tool.slug]?.trustNotes.map((note) => <p>{note}</p>)}
+            </>
+          ) : isReadingLevelTool ? (
             <>
               <strong>Browser-side readability formulas</strong>
               <p>
                 Your English text stays in this browser tab. The checker uses word, sentence, and estimated syllable
                 counts, so it needs no server model or model download. Treat grade and reading ease as editing signals,
                 not proof that every reader will understand the passage.
+              </p>
+            </>
+          ) : tool.slug === 'language-detector' ? (
+            <>
+              <strong>Local text language detection</strong>
+              <p>
+                Your pasted text is checked in this browser tab using the franc-min package. The detector compares
+                character patterns with its supported language profiles and needs no server model. Short,
+                mixed-language, or romanized samples can give misleading guesses. Results do not prove identity,
+                location, or fluency.
               </p>
             </>
           ) : (
@@ -4190,6 +4239,12 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
       </div>
     )}
     {hasInteractiveTool && <Fragment set:html="<!--INFOLINKS_ON-->" />}
+
+    {isPercentageTool && toolArt && (
+      <div class="percentage-tool-art">
+        <ToolArtFigure entry={toolArt} />
+      </div>
+    )}
 
     <section class="content-section">
       <h2>How to use the {tool.name}</h2>
@@ -4324,6 +4379,10 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
         {isAiTool && (
           isReadingLevelTool ? (
             <p>Plain-language answers about English formulas, sample size, sentence checks, privacy, and what the scores cannot prove.</p>
+          ) : tool.slug === 'language-detector' ? (
+            <p>Answers about text length, supported languages, local detection, ranked alternatives, privacy, and guesses to double-check.</p>
+          ) : aiInstructionRepairs[tool.slug] ? (
+            <p>Answers about this tool's inputs, browser processing, files loaded on first use, result limits, and privacy.</p>
           ) : (
             <p>Plain-language answers about browser-only models, privacy, confidence limits, common mistakes, and when to double-check AI output.</p>
           )

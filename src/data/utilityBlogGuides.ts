@@ -1372,10 +1372,19 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     summary: 'Learn how IPv4 CIDR subnet math finds network, mask, broadcast, and usable range.',
     purpose:
       'The Subnet Calculator helps developers, students, and network learners check IPv4 CIDR blocks without doing every binary step by hand.',
+    intro:
+      'Have an address such as 10.0.5.17/28 but need the whole subnet? Enter the address and prefix separately to find its boundaries and usable range.',
+    inputMatch: 'the dotted IPv4 address and the separate whole-number prefix, not a combined address/prefix string',
+    logicAnswer:
+      'The prefix counts the network bits in a 32-bit IPv4 address. The remaining bits give 2^(32 - prefix) total addresses. The subnet mask selects the network bits, and the wildcard mask selects the host bits.',
+    logicNote:
+      'For an ordinary /28 subnet, four host bits give 16 total addresses. Reserving the network and broadcast addresses leaves 14 usable addresses. The /31 and /32 cases use the exceptions explained below.',
+    readIntro: 'Start with the network address, then compare the usable range and address count with the subnet you need.',
+    mistakeIntro: 'An IP address and its subnet address are often different. Keep the entered host address separate from the network boundary.',
     enter: [
-      'Enter an IPv4 address such as 192.168.1.10.',
-      'Enter a CIDR prefix length from 0 to 32.',
-      'Calculate to see mask, wildcard, network, broadcast, and usable range.',
+      'In IP address, enter four decimal octets from 0 to 255, such as 10.0.5.17.',
+      'In Prefix length, enter a whole number from 0 to 32. Type 28 for /28, without the slash.',
+      'Press Calculate subnet to see the network, subnet mask, wildcard mask, broadcast, usable range, and usable address count.',
     ],
     read: [
       'Network address is the first address in the CIDR block.',
@@ -1384,10 +1393,42 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
     ],
     mistakes: [
       'Do not use this for IPv6 subnetting.',
+      'Do not paste 10.0.5.17/28 into the IP address field. Enter the prefix separately.',
       'Do not assume the calculator changes any live network setting.',
+      'The usable count is CIDR arithmetic. A cloud provider may reserve extra addresses, and a device may already use an address in the range.',
       'Check your router, cloud provider, or firewall rules before applying subnet plans.',
     ],
-    sources: [sourceLinks.rfc4632],
+    extraSections: [
+      {
+        title: 'Worked example: 10.0.5.17 with prefix 28',
+        paragraphs: [
+          'Open the Subnet Calculator and choose Small subnet /28, or enter 10.0.5.17 and prefix 28. The result is network 10.0.5.16/28.',
+          'The subnet mask is 255.255.255.240 and the wildcard mask is 0.0.0.15. The broadcast is 10.0.5.31, and the usable range is 10.0.5.17 to 10.0.5.30: 14 usable addresses.',
+          'The entered address is inside the subnet, but it is not the network address. Use the network boundary when describing the block. Check address assignments separately before giving a device an address.',
+        ],
+        links: [{ href: '/tools/subnet-calculator/', label: 'Try the Small subnet /28 example in the Subnet Calculator' }],
+      },
+      {
+        title: 'Why /31 and /32 need different interpretation',
+        paragraphs: [
+          'For 172.16.0.8/31, this tool returns two usable addresses: 172.16.0.8 and 172.16.0.9. This follows the point-to-point /31 convention; check that both devices support that use.',
+          'A /32 represents one exact address, so 172.16.0.8/32 has one usable address. It does not describe a normal multi-device LAN.',
+          'The Broadcast field still shows the highest address in the arithmetic block. For /31 point-to-point use and /32 host routes, do not treat that label as a normal LAN broadcast destination.',
+        ],
+      },
+    ],
+    faqItems: [
+      { question: 'Do I enter the slash with the prefix?', answer: 'No. Enter 10.0.5.17 in IP address and 28 in Prefix length. The prefix must be a whole number from 0 to 32.' },
+      { question: 'Why is the network different from my IP address?', answer: 'The network is the first address in the block. For 10.0.5.17/28 it is 10.0.5.16; your entered address is one of the addresses inside that block.' },
+      { question: 'How many addresses does a /28 contain?', answer: 'It contains 16 total addresses. A normal IPv4 LAN reserves the network and broadcast addresses, leaving 14 usable addresses.' },
+      { question: 'Why does /31 show two usable addresses?', answer: 'A /31 can use both addresses for a point-to-point link. Check the devices and link design before applying that convention.' },
+      { question: 'Does the usable range show free addresses?', answer: 'No. The tool does not scan a network or check DHCP leases. Existing devices, reservations, and cloud-provider rules can reduce what you can assign.' },
+      { question: 'Does the tool support IPv6 or change my router?', answer: 'No. It calculates IPv4 CIDR boundaries in your browser. It does not configure equipment or validate a live network.' },
+    ],
+    sources: [
+      sourceLinks.rfc4632,
+      { href: 'https://www.rfc-editor.org/rfc/rfc3021.html', label: 'RFC 3021: /31 prefixes on IPv4 point-to-point links' },
+    ],
   },
   'password-generator': {
     summary: 'Learn how to generate strong unique passwords safely in the browser.',

@@ -1,5 +1,6 @@
 import type { BlogPostDefinition } from './blogPosts';
 import { aiTools } from './aiTools';
+import { aiInstructionRepairs } from './aiInstructionRepairs';
 
 interface GuideSection {
   title: string;
@@ -29,6 +30,8 @@ interface AiGuideDetail {
   description?: string;
   summary: string;
   purpose: string;
+  intro?: string;
+  extraSections?: GuideSection[];
   enter: string[];
   read: string[];
   mistakes: string[];
@@ -183,21 +186,36 @@ const guideDetails: Record<string, AiGuideDetail> = {
       'Learn how to use the browser language detector, why short samples fail, and how to read alternative language guesses.',
     purpose:
       'The Language Detector guesses the language of pasted text. It helps when you have a paragraph or sentence and want a quick clue before translation, sorting, or research.',
+    intro:
+      'Found a paragraph in an unfamiliar language? Paste the text to get a language name and code before choosing a translation language. A longer passage in one language is more useful than a name or greeting.',
     enter: [
-      'Paste a full sentence or paragraph when possible.',
+      'Paste a sentence or paragraph into Text to detect. The tool requires at least 20 characters after trimming spaces at the ends.',
       'Press Detect language.',
-      'Read the top result and the alternative guesses.',
+      'Read the language name, Language code, and up to three ranked guesses in Alternatives.',
       'Use more text if the result is unknown or surprising.',
     ],
     read: [
-      'The top result is the closest match from the detector.',
+      'The top result is the closest match among the supported languages. A three-letter code such as spa identifies Spanish.',
       'Alternatives are useful when related languages look similar.',
-      'Unknown usually means the text is too short, too mixed, or too code-like.',
+      'The values labelled distance are rounded relative match scores, not a confidence percentage or proof of accuracy. Different guesses can show the same rounded value.',
+      'Unknown, with code und, means the detector did not identify a supported language. Add a longer passage of ordinary prose and check again.',
     ],
     mistakes: [
       'Do not use one word as proof of a language.',
       'Do not use language detection to guess identity or nationality.',
       'Do not trust mixed-language, romanized, or heavily abbreviated text without checking.',
+      'The compact franc-min package covers a limited set of supported languages. An unsupported language can receive an incorrect supported-language guess.',
+    ],
+    extraSections: [
+      {
+        title: 'Worked example: the Spanish sample',
+        paragraphs: [
+          'Choose the Spanish sample or paste "Esta herramienta funciona en el navegador." and press Detect language. This 42-character sample returns Spanish with language code spa in the current detector.',
+          'The Alternatives line also includes Portuguese (por) and Dutch (nld). Those are lower-ranked comparisons, not additional languages proven to be present in the sentence.',
+          'Use Spanish as a starting point for a translation preview, then check that the translation makes sense. For an important document, ask a fluent reader or qualified translator.',
+        ],
+        links: [{ href: '/tools/language-detector/', label: 'Try the Spanish sample in the Language Detector' }],
+      },
     ],
     sources: [sourceLinks.franc, sourceLinks.googleHelpfulContent],
   },
@@ -238,7 +256,7 @@ const guideDetails: Record<string, AiGuideDetail> = {
     ],
     read: [
       'Higher counts mean a term appears more often in the pasted text, not that people search for it.',
-      'A phrase like "refund policy" appearing 5 times means the draft repeats that phrase.',
+      'A "refund policy" count of 5 means that pair appears five times after filtering. Removing words or punctuation can join tokens, so it may not be a verbatim phrase in the original draft.',
       'Phrases such as "shipping delay," "battery life," or "charging time" can show repeated topics better than single words.',
       'The result is not search volume, keyword difficulty, or ranking advice.',
     ],
@@ -465,6 +483,7 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
 
   const isOcrTool = tool.slug === 'image-to-text-ocr-tool';
   const isReadingLevelTool = tool.slug === 'reading-level-checker';
+  const isLanguageTool = tool.slug === 'language-detector';
   const isBrowserTtsTool = tool.slug === 'text-to-speech-audiobook-generator';
   const isBrowserTranscriber = tool.slug === 'audio-video-transcriber';
 
@@ -475,12 +494,14 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
     title: detail.title ?? `How to use the ${tool.name}`,
     description: detail.description ?? buildAiMetaDescription(tool, detail.summary),
     path: `/blog/how-to-use-${tool.slug}/`,
-    intro: `${detail.purpose} Use this guide to understand what to enter, how to read the output, and what to double-check before relying on the result.`,
-    quickStart: detail.enter,
+    intro: detail.intro ?? `${detail.purpose} Use this guide to understand what to enter, how to read the output, and what to double-check before relying on the result.`,
+    quickStart: aiInstructionRepairs[tool.slug]?.instructions ?? detail.enter,
     sections: [
       {
         title: isOcrTool
           ? 'What this OCR tool does'
+          : isLanguageTool
+            ? 'What this language detector does'
           : isReadingLevelTool
             ? 'What this readability tool does'
             : isBrowserTtsTool
@@ -490,8 +511,11 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
               : 'What this AI tool does',
         paragraphs: [
           detail.purpose,
+          ...(aiInstructionRepairs[tool.slug]?.guidePrivacyParagraphs ?? [
           isOcrTool
             ? 'The important privacy idea is simple: the image is read in your browser tab. Access Free Tools does not need to receive the selected image for OCR to work.'
+            : isLanguageTool
+              ? 'Your pasted text is checked in this browser tab with franc-min. The tool does not send the text to a language-detection server.'
             : isReadingLevelTool
               ? 'Your text stays in the browser tab. The checker uses local English formulas and sentence counts, so it does not need a server model or text upload.'
               : isBrowserTtsTool
@@ -501,6 +525,8 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
                 : 'The important privacy idea is simple: your input runs in the browser tab. Access Free Tools does not need to receive the image or text for the tool to work.',
           isOcrTool
             ? 'The OCR worker, WebAssembly core, and language files are served from Access Free Tools after you press Read text. That first run can take longer than a normal calculator.'
+            : isLanguageTool
+              ? 'The detector compares character patterns with local language profiles. Its package loads when you run detection; it needs no server model or OCR language files.'
             : isReadingLevelTool
               ? 'The result uses word count, sentence count, and an English syllable estimate. Names, abbreviations, numbers, and mixed-language text can make that estimate less reliable.'
               : isBrowserTtsTool
@@ -508,6 +534,7 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
                 : isBrowserTranscriber
                   ? 'Mediabunny checks the container and audio codec before the speech model downloads. Supported containers can still fail when the current browser cannot decode the audio track inside them.'
                 : 'For this first self-hosted pass, OCR files and the starter text classifier files are served from Access Free Tools after you click the tool button. Heavier experimental model tools may still download model files from a third-party model host until we self-host more models.',
+          ]),
         ],
       },
       {
@@ -515,6 +542,8 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
         paragraphs: [
           isOcrTool
             ? 'Start with the extracted text, then check the original image. OCR is useful, but it can still miss punctuation, split columns badly, or swap similar-looking characters.'
+            : isLanguageTool
+              ? 'Start with the language name and three-letter code, then inspect Alternatives. The ranking can help you choose what to check next, but it cannot certify the language.'
             : isReadingLevelTool
               ? 'Start with the grade and reading-ease estimates, then use the sentence preview and counts to choose one edit. Recheck the same passage so the comparison uses the same sample.'
               : isBrowserTtsTool
@@ -532,6 +561,7 @@ function makeGuide(toolSlug: string): AiGuideDefinition {
         ],
         bullets: detail.mistakes,
       },
+      ...(detail.extraSections ?? []),
       {
         title: 'Research and references',
         paragraphs: [

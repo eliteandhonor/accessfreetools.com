@@ -8071,6 +8071,10 @@ main {
   width: 100%;
 }
 
+.percentage-tool-art .tool-art-figure {
+  max-width: 480px;
+}
+
 .tool-art-figure figcaption {
   align-items: center;
   display: flex;

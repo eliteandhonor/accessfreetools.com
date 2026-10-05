@@ -919,7 +919,7 @@ describe('site content audit guardrails', () => {
     expect(AI_BROWSER_TOOL_SOURCE).toContain("eyebrow: 'Browser-only formulas'");
     expect(TOOLS_ROUTE_SOURCE).toContain('Browser-side readability formulas');
     expect(TOOLS_ROUTE_SOURCE).toContain('Longest sentence first');
-    expect(TOOLS_ROUTE_SOURCE).toContain("isReadingLevelTool ? 'formula' : 'model'");
+    expect(TOOLS_ROUTE_SOURCE).toContain("isReadingLevelTool ? 'formula'");
     expect(`${tool?.seoTitle}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
     expect(tool?.seoDescription?.length).toBeLessThanOrEqual(META_DESCRIPTION_MAX);
     expect(`${guide?.title}${SITE_SUFFIX}`.length).toBeLessThanOrEqual(PAGE_TITLE_MAX);
@@ -1445,7 +1445,8 @@ describe('site content audit guardrails', () => {
       }
 
       const faqText = tool.faq.flatMap((faq) => [faq.question, faq.answer]).join(' ');
-      for (const requiredPhrase of ['browser tab', 'model', 'uploaded', 'double-check']) {
+      const processingPhrase = tool.slug === 'image-to-text-ocr-tool' ? 'tesseract.js' : 'model';
+      for (const requiredPhrase of ['browser tab', processingPhrase, 'upload', 'double-check']) {
         if (!faqText.toLowerCase().includes(requiredPhrase)) {
           issues.push(`${tool.slug} FAQ should mention ${requiredPhrase}`);
         }
