@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "approvalType": "Publication of the reviewed combined second and third repair bundle",
+  "status": "approved",
+  "by": "Brendan Chambers",
+  "approvedAt": "2026-10-05T06:29:39.349Z",
+  "timestampMeaning": "Time the executing agent recorded the received publication authorization; source-review timestamps remain unchanged.",
+  "recordedBy": "Codex agent /root",
+  "contentCommit": "d823ab570d4da078e0a0a5f687d9077177b403a0",
+  "previouslyPublishedCommit": "c23ac9f3479517a62f9e9c9795d4ace0407248d0",
+  "secondRepairCommit": "8ceafc7b17fc35fdc8feda7538ea0b04f956476a",
+  "authorizationEvidence": {
+    "sourceThreadId": "01a1098f-7b41-7433-b2a4-ac86ee09c028",
+    "userMessageId": "Sentinel_f81c8dbf46f08191943fe30f5c5f0588",
+    "context": "The assistant described the completed Markdown, OCR, guidance and seven-article repairs and asked whether to publish this combined bundle. Brendan explicitly answered yes and delegated routine project decisions. The parent agent relayed that publication authorization to this executor.",
+    "scope": "Publish the exact reviewed bundle through the existing GitHub main and Hostinger automatic deployment workflow after the resulting approval-only commit passes complete checks.",
+    "evidenceHandling": "References identify the authorized conversation evidence without copying the private conversation."
+  },
+  "articles": [
+    {
+      "slug": "browser-ai-vs-local-ai-privacy",
+      "articleSha256": "f857c1ab4394e83d7a660bae16077f27794f7e3967ddcb8705818f46dd2c0b36",
+      "sourceReview": "docs/editorial-source-reviews/browser-ai-vs-local-ai-privacy.json"
+    },
+    {
+      "slug": "browser-text-to-speech-kokoro-vs-supertonic",
+      "articleSha256": "ce2f3406c69622d67f5660a452e9b8436ab8e00b0ce178c06f5cfe8b1c694607",
+      "sourceReview": "docs/editorial-source-reviews/browser-text-to-speech-kokoro-vs-supertonic.json"
+    },
+    {
+      "slug": "free-ai-skills-open-source-tools-organic-growth",
+      "articleSha256": "abea3450feb4170bb8f5597168b767f0321baa48a21dbf657e2b4a30cc91efa5",
+      "sourceReview": "docs/editorial-source-reviews/free-ai-skills-open-source-tools-organic-growth.json"
+    },
+    {
+      "slug": "how-to-check-github-project-before-installing",
+      "articleSha256": "63b64b14f94bb41c257e598b6cdafc9015d8c88a09a40a44c8c14d2bb2ee5dfc",
+      "sourceReview": "docs/editorial-source-reviews/how-to-check-github-project-before-installing.json"
+    },
+    {
+      "slug": "open-source-projects-behind-access-free-tools",
+      "articleSha256": "939b881c16483c2fb4c5d2397db8d1c186b20dddf4fff80d83162867a613ef0d",
+      "sourceReview": "docs/editorial-source-reviews/open-source-projects-behind-access-free-tools.json"
+    },
+    {
+      "slug": "remove-ai-writing-tells-before-publishing",
+      "articleSha256": "43bbb15b1d65be88168a8793d73158441790c91594e6143618487526417dead9",
+      "sourceReview": "docs/editorial-source-reviews/remove-ai-writing-tells-before-publishing.json"
+    },
+    {
+      "slug": "tesseract-js-browser-ocr-image-quality",
+      "articleSha256": "2c7974f2a39f2adf1b53e81383f30a15f7669d96d9b4da1c4271eae50e74088a",
+      "sourceReview": "docs/editorial-source-reviews/tesseract-js-browser-ocr-image-quality.json"
+    }
+  ],
+  "limits": [
+    "This is permission to publish the identified bundle, not an attestation that Brendan personally opened or fact-checked every source.",
+    "Agent source-review and runtime-check evidence remain separately attributed to the actual reviewers.",
+    "AdSense and Infolinks remain disabled. This authorization does not include an AdSense submission, spending, new accounts, credential or security changes, or accepting legal agreements.",
+    "The existing Hostinger build-marker clean:false discrepancy remains disclosed and must not be hidden or bypassed."
+  ]
+}

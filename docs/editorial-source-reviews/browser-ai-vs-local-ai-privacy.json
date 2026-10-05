@@ -77,8 +77,10 @@
     }
   ],
   "ownerApproval": {
-    "status": "pending",
-    "by": "Brendan Chambers"
+    "status": "approved",
+    "by": "Brendan Chambers",
+    "approvedAt": "2026-10-05T06:29:39.349Z",
+    "evidenceRef": "docs/editorial-source-reviews/publication-approval-2026-10-05.json"
   },
   "localEvidence": {
     "scope": "Read-only current source inspection at base8ceafc7b17fc35fdc8feda7538ea0b04f956476a; source hashes bind implementation evidence. Final commit and shared-layout binding are recorded by the release reviewer. No live packet capture, private-provider call, or personal testing is claimed.",

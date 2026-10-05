@@ -75,7 +75,9 @@
     "Removing image provenance metadata is a normal writing-cleanup step."
   ],
   "ownerApproval": {
-    "status": "pending",
-    "by": "Brendan Chambers"
+    "status": "approved",
+    "by": "Brendan Chambers",
+    "approvedAt": "2026-10-05T06:29:39.349Z",
+    "evidenceRef": "docs/editorial-source-reviews/publication-approval-2026-10-05.json"
   }
 }
