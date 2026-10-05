@@ -1277,7 +1277,7 @@ describe('site content audit guardrails', () => {
     expect(guideText).toContain('What waste percent means');
     expect(guideText).toContain('What roll coverage means');
     expect(guideText).toContain('Why pattern repeat matters');
-    expect(guideText).toContain('A quick example');
+    expect(guideText).toContain('The prefilled bedroom example');
     expect(guideText).toMatch(/300 square feet|302 square feet/);
   });
 

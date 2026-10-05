@@ -8848,7 +8848,9 @@ export default function UtilityCalculator({ variant }: Props) {
 
         <div className="advanced-note">
           <p>{config.privacyNote}</p>
-          <p>Inputs and recent answers stay in this browser tab and are not sent to a server.</p>
+          <p>{variant === 'wallpaper' || variant === 'markdown-table-generator'
+            ? 'This tool processes inputs and recent answers in this browser tab. See the Privacy Policy for separate site analytics and session-replay handling.'
+            : 'Inputs and recent answers stay in this browser tab and are not sent to a server.'}</p>
         </div>
       </section>
     </section>

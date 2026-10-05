@@ -4094,7 +4094,7 @@ export const utilityTools: ToolDefinition[] = [
       {
         question: 'How much waste percent should I use for wallpaper?',
         answer:
-          'Use 10% as a simple starting point for plain, random-match, or easy peel-and-stick wallpaper. Use about 15% when there is a normal pattern repeat or several corners and openings. Use 20% or more for large pattern repeats, drop matches, older uneven walls, or if you want spare paper for repairs. The product label and installer advice should win when they give a specific number. These are additional allowances; do not add them for losses already included in usable coverage.',
+          'Use the product or installer allowance for your wall height, pattern, cuts, and spare paper. The guide lets you compare 10%, 15%, and 20% scenarios; those values are not rules for particular wallpaper types. Lowe\'s peel-and-stick guide recommends 15% extra and keeping doors and windows in the wall area, so enter 0 for both opening counts when following that method. Do not add losses already included in usable coverage twice.',
       },
       {
         question: 'What does roll coverage mean?',

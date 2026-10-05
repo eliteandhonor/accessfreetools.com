@@ -230,14 +230,14 @@ test('Big Number executes all four operations with exact large integers', async 
   await openTool(page, 'big-number-calculator');
   const workspace = page.locator('.advanced-calculator-big-number');
   for (const example of [
-    { left: '9_007_199_254_740_993', right: '7', operation: /^Add/, result: '9,007,199,254,741,000' },
-    { left: '1000000000000000000000', right: '999999999999999999999', operation: /^Subtract/, result: '1' },
-    { left: '12345678901234567890', right: '10', operation: /^Multiply/, result: '123,456,789,012,345,678,900' },
-    { left: '100000000000000000000', right: '9', operation: /^Divide/, result: '11,111,111,111,111,111,111 remainder 1' },
+    { left: '9_007_199_254_740_993', right: '7', operation: 'Add +', result: '9,007,199,254,741,000' },
+    { left: '1000000000000000000000', right: '999999999999999999999', operation: 'Subtract -', result: '1' },
+    { left: '12345678901234567890', right: '10', operation: 'Multiply x', result: '123,456,789,012,345,678,900' },
+    { left: '100000000000000000000', right: '9', operation: 'Divide /', result: '11,111,111,111,111,111,111 remainder 1' },
   ]) {
     await workspace.getByRole('textbox', { name: 'Left whole number', exact: true }).fill(example.left);
     await workspace.getByRole('textbox', { name: 'Right whole number', exact: true }).fill(example.right);
-    await workspace.getByRole('button', { name: example.operation }).click();
+    await workspace.getByRole('button', { name: example.operation, exact: true }).click();
     await workspace.getByRole('button', { name: 'Calculate big number', exact: true }).click();
     await expect(workspace.locator('.advanced-result-card > strong')).toHaveText(example.result);
   }
@@ -272,7 +272,7 @@ test('Big Number rejects decimal inputs and division by zero with copying disabl
   await expect(workspace.getByRole('button', { name: 'Copy raw result', exact: true })).toBeDisabled();
   await workspace.getByRole('textbox', { name: 'Left whole number', exact: true }).fill('100');
   await workspace.getByRole('textbox', { name: 'Right whole number', exact: true }).fill('0');
-  await workspace.getByRole('button', { name: /^Divide/ }).click();
+  await workspace.getByRole('button', { name: 'Divide /', exact: true }).click();
   await workspace.getByRole('button', { name: 'Calculate big number', exact: true }).click();
   await expect(workspace.locator('.advanced-result-card')).toContainText(/zero/i);
   await expect(workspace.getByRole('button', { name: 'Copy raw result', exact: true })).toBeDisabled();

@@ -710,10 +710,6 @@ const sourceLinks = {
     href: 'https://www.asphaltpavement.org/all-about-asphalt/asphalt-facts/engineering/',
     label: 'NAPA: Engineering asphalt pavement',
   },
-  yorkWallpaperRoomChart: {
-    href: 'https://www.yorkwallcoverings.com/documents/how-much-wallpaper.pdf',
-    label: 'York Wallcoverings: Wallpaper room estimate chart',
-  },
   lowesWallpaperInstall: {
     href: 'https://www.lowes.com/pdf/Step-by-Step-Guide-Wallpaper-Installation.pdf',
     label: 'Lowe\'s: Peel-and-stick wallpaper installation guide',
@@ -4393,12 +4389,12 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
         paragraphs: [
           'Waste percent is the extra wallpaper the calculator adds before it figures out how many rolls to buy. If the wall area after openings is 300 square feet and you enter 10% waste, the calculator treats the job like 330 square feet. Then it divides by roll coverage and rounds up to whole rolls.',
           'This extra amount is normal. Wallpaper is not used like paint where every square foot in the can can spread somewhere. You cut strips, trim the top and bottom, work around corners, and sometimes throw away a piece because the pattern needs to start in a different place.',
-          'The percentages below are starting points, not automatic pattern calculations. Follow the product or installer allowance, and check which losses are already included in usable roll coverage.',
+          'Use the product or installer allowance for your wallpaper and wall height. Lowe\'s peel-and-stick guide recommends 15% extra without subtracting doors and windows. If you follow that method, enter 0 for both opening counts. Check which losses are already included in usable roll coverage.',
         ],
         bullets: [
-          'Use around 10% for plain, random-match, or simple peel-and-stick wallpaper.',
-          'Use around 15% for ordinary patterned wallpaper or rooms with several cuts.',
-          'Use 20% or more for large repeats, drop matches, uneven walls, or when you want spare paper for later repairs.',
+          'At 10% additional waste, 300 square feet becomes 330 square feet before dividing by usable coverage.',
+          'At 15% additional waste, the same area becomes 345 square feet.',
+          'At 20% additional waste, it becomes 360 square feet. These are comparison scenarios, not rules for pattern types; product guidance controls the allowance.',
         ],
       },
       {
@@ -4481,7 +4477,6 @@ const guideDetails: Record<string, UtilityGuideDetail> = {
       },
     ],
     sources: [
-      sourceLinks.yorkWallpaperRoomChart,
       sourceLinks.lowesWallpaperInstall,
       sourceLinks.grahamBrownWallpaperAmount,
       sourceLinks.grahamBrownWallpaperBatch,
