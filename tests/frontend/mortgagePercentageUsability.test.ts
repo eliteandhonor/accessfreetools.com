@@ -95,9 +95,9 @@ it('the published 15-year example specifies the inputs needed to reproduce its s
 });
 
 it('Percentage Enter calculates, rejects missing operands, and preserves explicit zero', async () => {
-  await mount(true);const percent = page.getByLabel('Percentage', { exact: true }),value = page.getByLabel('Of value', { exact: true });
+  await mount(true);await ui(page.getByRole('form', { name: 'Percent of a number', exact: true })).toBeVisible();const percent = page.getByLabel('Percentage', { exact: true }),value = page.getByLabel('Of value', { exact: true });
   await percent.fill('18');await value.fill('240');await value.press('Enter');await ui(page.locator('.percentage-result-card strong')).toHaveText('43.2');await ui(copy()).toBeEnabled();
   await percent.fill('');await percent.press('Enter');await ui(page.getByRole('alert')).toHaveText('Percentage is required.');await ui(copy()).toBeDisabled();
   await percent.fill('0');await percent.press('Enter');await ui(page.locator('.percentage-result-card strong')).toHaveText('0');await ui(copy()).toBeEnabled();
-  await page.getByRole('button').filter({ has: page.locator('strong', { hasText: 'What percent?' }) }).click();await page.getByLabel('Whole', { exact: true }).fill('0');await page.getByLabel('Whole', { exact: true }).press('Enter');await ui(page.getByRole('alert')).toHaveText('Whole value cannot be zero');
+  await page.getByRole('button').filter({ has: page.locator('strong', { hasText: 'What percent?' }) }).click();await ui(page.getByRole('form', { name: 'What percent?', exact: true })).toBeVisible();await page.getByLabel('Whole', { exact: true }).fill('0');await page.getByLabel('Whole', { exact: true }).press('Enter');await ui(page.getByRole('alert')).toHaveText('Whole value cannot be zero');
 });

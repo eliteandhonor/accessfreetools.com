@@ -457,7 +457,7 @@ export default function PercentageCalculator() {
           ))}
         </div>
 
-        <form className="percentage-input-card" role="group" aria-labelledby={questionId} aria-describedby={error ? errorId : undefined} noValidate onSubmit={(event) => { event.preventDefault(); calculate(); }}>
+        <form className="percentage-input-card" aria-labelledby={questionId} aria-describedby={error ? errorId : undefined} noValidate onSubmit={(event) => { event.preventDefault(); calculate(); }}>
           <div>
             <h2 id={questionId}>{activeMode.label}</h2>
             <p>{activeMode.description}</p>
