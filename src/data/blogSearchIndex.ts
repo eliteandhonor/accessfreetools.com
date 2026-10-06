@@ -1,4 +1,5 @@
 import { blogPosts } from './blogPosts';
+import { editorialBlogPosts } from './editorialBlogPosts';
 
 export interface BlogSearchItem {
   slug: string;
@@ -6,11 +7,15 @@ export interface BlogSearchItem {
   label: string;
   summary: string;
   searchText: string;
+  kind?: 'guide' | 'editorial';
 }
 
 export function getBlogSearchIndex(): BlogSearchItem[] {
-  return blogPosts.map((post) => ({
+  return [
+    ...editorialBlogPosts.map((post) => ({ ...post, kind: 'editorial' as const })),
+    ...blogPosts.map((post) => ({ ...post, kind: 'guide' as const })),
+  ].map((post) => ({
     ...post,
-    searchText: [post.title, post.label, post.summary].join(' '),
+    searchText: [post.title, post.label, post.summary, post.slug.replace(/-/g, ' ')].join(' '),
   }));
 }

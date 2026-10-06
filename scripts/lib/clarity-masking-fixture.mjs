@@ -38,5 +38,7 @@ export function readPage(relativePath) {
 export function workspaceFor(page, component) {
   const island = page.elements.find((item) => item.name === component);
   if (!island) throw new Error(`Missing ${component} island`);
-  return island.ancestors.findLast((node) => node.openingElement.name.name === 'div');
+  const workspace = island.ancestors.findLast(isMasked);
+  if (!workspace) throw new Error(`Missing explicit privacy boundary for ${component}`);
+  return workspace;
 }

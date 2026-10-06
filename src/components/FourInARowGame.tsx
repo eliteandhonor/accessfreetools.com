@@ -217,7 +217,7 @@ export default function FourInARowGame() {
           <p className="four-row-game__eyebrow">Local browser game</p>
           <h2 id="four-row-heading">Four in a Row</h2>
         </div>
-        <div className="four-row-game__mode" aria-label="Game mode">
+        <div className="four-row-game__mode" role="group" aria-label="Game mode">
           <button
             type="button"
             className={mode === 'computer' ? 'is-active' : ''}
@@ -239,7 +239,7 @@ export default function FourInARowGame() {
         </div>
       </div>
 
-      <div className="four-row-game__score" aria-label="Session score">
+      <div className="four-row-game__score" role="group" aria-label="Session score">
         <span>
           <i className="four-row-piece four-row-piece--one" aria-hidden="true" />
           {mode === 'computer' ? 'You' : 'Player 1'} <strong>{score.one}</strong>
@@ -257,7 +257,7 @@ export default function FourInARowGame() {
         {status}
       </p>
 
-      <div className="four-row-game__column-controls" aria-label="Choose a column">
+      <div className="four-row-game__column-controls" role="group" aria-label="Choose a column">
         {Array.from({ length: FOUR_IN_A_ROW_COLUMNS }, (_, column) => {
           const isFull = !state.playableColumns.includes(column);
           return (

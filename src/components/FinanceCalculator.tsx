@@ -1,4 +1,4 @@
-import { useMemo, useState, type HTMLAttributes, type KeyboardEvent } from 'react';
+import { useMemo, useRef, useState, type HTMLAttributes, type KeyboardEvent } from 'react';
 import {
   calculateAmortizationSummary,
   calculateAdRevenueEstimate,
@@ -5073,6 +5073,7 @@ export default function FinanceCalculator({ variant }: Props) {
   const [error, setError] = useState('');
   const [history, setHistory] = useState<FinanceCalculation[]>([]);
   const [copied, setCopied] = useState(false);
+  const currencyAnswerVersion = useRef(0);
 
   function changeMode(nextMode: FinanceMode) {
     setModeId(nextMode.id);
@@ -5084,11 +5085,16 @@ export default function FinanceCalculator({ variant }: Props) {
 
   function updateInput(key: string, value: string) {
     setInputs((current) => ({ ...current, [key]: value }));
+    if (variant === 'currency') {
+      currencyAnswerVersion.current += 1;
+      setResult(null);
+    }
     setError('');
     setCopied(false);
   }
 
   function runCalculation(nextInputs = inputs) {
+    if (variant === 'currency') currencyAnswerVersion.current += 1;
     try {
       const nextResult = calculateFinance(variant, activeMode.id, nextInputs);
       setResult(nextResult);
@@ -5096,6 +5102,7 @@ export default function FinanceCalculator({ variant }: Props) {
       setError('');
       setCopied(false);
     } catch (calculationError) {
+      if (variant === 'currency') setResult(null);
       setError(calculationError instanceof Error ? calculationError.message : 'Check the inputs and try again.');
       setCopied(false);
     }
@@ -5108,11 +5115,14 @@ export default function FinanceCalculator({ variant }: Props) {
 
   async function copyResult() {
     if (!result || error) return;
+    const answerVersion = currencyAnswerVersion.current;
 
     try {
       await navigator.clipboard?.writeText(`${result.expression} = ${result.answer}`);
+      if (variant === 'currency' && answerVersion !== currencyAnswerVersion.current) return;
       setCopied(true);
     } catch {
+      if (variant === 'currency' && answerVersion !== currencyAnswerVersion.current) return;
       setCopied(false);
       setError('Copy was not available in this browser. You can still select the answer manually.');
     }
@@ -5180,6 +5190,10 @@ export default function FinanceCalculator({ variant }: Props) {
         </div>
 
         {error && <p className="calculator-error" role="alert">{error}</p>}
+
+        {variant === 'currency' && !result && !error && (
+          <p role="status">Inputs changed. Convert currency to update the answer.</p>
+        )}
 
         {result && (
           <article className="advanced-result-card finance-result-card" aria-live="polite">

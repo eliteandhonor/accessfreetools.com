@@ -2112,6 +2112,8 @@ main {
 
 .breadcrumb a {
   color: var(--primary-strong);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .tool-title-row {
@@ -7270,6 +7272,11 @@ main {
   margin: 0;
 }
 
+.trust-note p a {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
 .trust-note-health {
   border-left-color: color-mix(in srgb, var(--accent-2) 80%, var(--primary));
 }
@@ -8164,6 +8171,11 @@ main {
   line-height: 1.14;
   margin-bottom: 10px;
   overflow-wrap: anywhere;
+}
+
+.editorial-article .article-flow-section p a {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .editorial-article .article-source-note {

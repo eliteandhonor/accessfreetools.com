@@ -1,0 +1,42 @@
+.task-first-directory .tools-hero-copy h1 { font-size: clamp(2rem, 4vw, 3.25rem); }
+.task-first-directory .tools-hero-copy p:not(.breadcrumb) { margin: 10px 0 18px; line-height: 1.5; }
+.task-first-directory .tool-discovery-form { margin-bottom: 20px; }
+.task-first-directory .tool-discovery-controls { display: flex; align-items: end; flex-wrap: wrap; gap: 12px; }
+.task-first-directory .launchpad-category-select { display: grid; gap: 6px; width: min(100%, 310px); }
+.tool-discovery-submit, .tool-discovery-reset, .tool-task-grid button, .task-first-directory .empty-results button, .task-first-directory .launchpad-status-note button {
+  background: var(--surface-solid); color: var(--primary-strong); border: 1px solid var(--border); border-radius: 8px;
+  font: inherit; font-weight: 800; cursor: pointer; min-height: 44px; padding: 10px 14px;
+}
+.tool-discovery-submit { background: var(--primary-strong); color: #fff; }
+.task-first-directory .tool-task-chooser { margin-bottom: 24px; }
+.tool-task-chooser h2 { font-size: 1.15rem; margin: 0 0 10px; }
+.tool-task-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.tool-task-grid button { display: flex; align-items: center; text-align: left; gap: 9px; min-width: 0; }
+.tool-task-grid button svg { flex-shrink: 0; }
+.tool-task-grid button span { flex: 1; }
+.tool-task-grid button:hover { border-color: var(--primary); background: var(--surface); }
+.task-first-directory .results-heading h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+.task-first-directory .launchpad-status-note { margin: 0 0 15px; }
+.task-first-directory .launchpad-status-note p { margin-bottom: 10px; }
+.task-first-directory .empty-results { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.task-first-directory .empty-results h3, .task-first-directory .empty-results p { flex-basis: 100%; margin: 0; }
+.task-first-directory .launchpad-show-more:disabled { cursor: progress; opacity: .7; }
+.tools-directory-help, .tools-directory-inventory { max-width: var(--container); margin: 0 auto 24px; padding: 0 22px; }
+.tools-directory-help { display: flex; gap: 20px; flex-wrap: wrap; }
+.tools-directory-help a { font-weight: 800; }
+.tools-directory-inventory summary { cursor: pointer; font-weight: 850; padding: 16px; background: var(--surface-solid); border: 1px solid var(--border); border-radius: 8px; }
+.tools-directory-inventory .tools-az-grid { margin-top: 16px; }
+.tools-directory-inventory p { color: var(--muted); }
+.tool-task-grid button:focus-visible, .tool-discovery-controls button:focus-visible, .tools-directory-inventory summary:focus-visible, .task-first-directory .empty-results button:focus-visible, .task-first-directory .launchpad-status-note button:focus-visible { outline: 3px solid var(--primary-strong); outline-offset: 3px; }
+@media (max-width: 780px) {
+  .tool-task-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tool-task-grid button { font-size: .9rem; padding: 10px; }
+  .tool-task-grid button > svg:last-child { display: none; }
+  .task-first-directory .tool-command-bar { margin-bottom: 10px; }
+}
+@media (max-width: 420px) {
+  .task-first-directory .tool-discovery-controls { gap: 8px; }
+  .task-first-directory .launchpad-category-select { width: calc(100% - 90px); }
+  .tool-discovery-reset { width: 100%; }
+  .tool-task-grid button { gap: 6px; }
+}

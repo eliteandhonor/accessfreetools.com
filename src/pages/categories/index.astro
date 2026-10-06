@@ -2,63 +2,47 @@
 export const prerender = true;
 import BaseLayout from '../../components/BaseLayout.astro';
 import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
-import CategoryCard from '../../components/CategoryCard.astro';
 import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
-import ToolCard from '../../components/ToolCard.astro';
 import { getBlogGuideSlugForTool } from '../../data/blogGuideCanonicals';
 import { blogPosts } from '../../data/blogPosts';
 import { categories } from '../../data/categories';
 import { tools } from '../../data/tools';
+import { toolMatchesDiscoveryCategory } from '../../lib/toolDiscovery';
+import '../../styles/category-index-discovery.css';
 
-const liveCategories = categories.filter((category) =>
-  tools.some((tool) => tool.category === category.slug),
+const liveCategories = categories.filter(category =>
+  tools.some(tool => toolMatchesDiscoveryCategory(tool, category.slug)),
 );
-
-const categoryStats = liveCategories.map((category) => {
-  const categoryTools = tools.filter((tool) => tool.category === category.slug);
-  const guideSlugs = new Set(categoryTools.map((tool) => getBlogGuideSlugForTool(tool.slug)));
-  const guideCount = blogPosts.filter((post) => guideSlugs.has(post.slug)).length;
-
+const categoryStats = liveCategories.map(category => {
+  const categoryTools = tools.filter(tool => toolMatchesDiscoveryCategory(tool, category.slug));
+  const guideSlugs = new Set(categoryTools.map(tool => getBlogGuideSlugForTool(tool.slug)));
   return {
     ...category,
     toolCount: categoryTools.length,
-    guideCount,
-    featuredTools: categoryTools.slice(0, 3),
+    guideCount: blogPosts.filter(post => guideSlugs.has(post.slug)).length,
+    featuredTools: categoryTools.slice(0, category.slug === 'image-tools' ? 5 : 3),
   };
 });
-
-const priorityCategorySlugs = [
-  'calculators',
-  'finance',
-  'health-fitness',
-  'home-projects',
-  'ai-tools',
-  'school-study',
-  'developer-tools',
-];
-const priorityCategories = priorityCategorySlugs
-  .map((slug) => categoryStats.find((category) => category.slug === slug))
-  .filter((category): category is NonNullable<typeof category> => Boolean(category));
 const contextHeavyPaths = [
   {
     href: '/tools/watts-to-amps-calculator/',
     title: 'Watts to Amps Calculator',
-    text: 'Use watts, volts, phase type, and power factor to estimate current, with clear electrical safety limits.',
+    text: 'Use watts, volts, phase type, and power factor to estimate current. This is not an electrical safety check.',
   },
   {
     href: '/blog/how-to-use-watts-to-amps-calculator/',
     title: 'Watts to amps guide',
-    text: 'Read why voltage and phase can change the amps result before using the number around real equipment.',
+    text: 'Read why voltage and phase can change the result, and check the electrical limits before using an estimate around real equipment.',
   },
   {
     href: '/tools/wallpaper-calculator/',
     title: 'Wallpaper Calculator',
-    text: 'Estimate wallpaper rolls from wall size, openings, roll coverage, pattern repeat, and waste percent.',
+    text: 'Estimate rolls from room size, doors, windows, usable roll coverage, and waste percent.',
   },
   {
     href: '/blog/how-to-use-wallpaper-calculator/',
     title: 'Wallpaper calculator guide',
-    text: 'Learn what waste percent, roll coverage, pattern repeat, and dye lots mean before buying rolls.',
+    text: 'Allow for pattern repeat when choosing usable coverage and waste. Check the supplier instructions and dye lots before buying rolls.',
   },
 ];
 ---
@@ -68,104 +52,66 @@ const contextHeavyPaths = [
   description="Browse Access Free Tools by task, including calculators, converters, finance, health, home projects, developer tools, AI tools, and study helpers."
   path="/categories/"
 >
-  <BreadcrumbStructuredData
-    items={[
-      { name: 'Home', path: '/' },
-      { name: 'Categories', path: '/categories/' },
-    ]}
-  />
+  <BreadcrumbStructuredData items={[{ name: 'Home', path: '/' }, { name: 'Categories', path: '/categories/' }]} />
   <CollectionStructuredData
     name="Tool Categories"
     description="Browse Access Free Tools by category."
     path="/categories/"
-    items={liveCategories.map((category) => ({
-      name: category.name,
-      path: `/categories/${category.slug}/`,
-      description: category.summary,
-    }))}
+    items={liveCategories.map(category => ({ name: category.name, path: `/categories/${category.slug}/`, description: category.summary }))}
   />
 
-  <section class="page-intro">
-    <p class="breadcrumb"><a href="/">Home</a> / Categories</p>
-    <h1>Tool Categories</h1>
-    <p>
-      Browse the growing Access Free Tools library by task, then open the tool or guide that
-      matches what you are trying to finish.
-    </p>
-  </section>
+  <div class="category-index-discovery">
+    <section class="category-index-opening" aria-labelledby="category-index-heading">
+      <p class="breadcrumb"><a href="/">Home</a> / Categories</p>
+      <h1 id="category-index-heading">Tool Categories</h1>
+      <p>Choose a subject or search for the task you want to finish.</p>
+      <form class="category-index-search" action="/tools/" method="get" role="search">
+        <label for="category-tool-search">Search free tools</label>
+        <div>
+          <input id="category-tool-search" name="q" type="search" placeholder="Try percentage discount or image to text" />
+          <button class="button-primary" type="submit">Search</button>
+        </div>
+      </form>
+      <nav class="category-index-choices" aria-label="Choose a tool category">
+        {categoryStats.map(category => (
+          <a href={`/categories/${category.slug}/`} data-category-slug={category.slug}>
+            <strong>{category.name}</strong>
+            <span class="category-index-count">{category.toolCount}<span class="sr-only"> tools</span></span>
+          </a>
+        ))}
+      </nav>
+      <p class="category-index-count-note">Numbers show tools available in each category. Some tools fit more than one category.</p>
+    </section>
 
-  <section class="section-band">
-    <div class="section-heading">
-      <h2>Start with the strongest hubs</h2>
-      <p>
-        These are the best entry points for common jobs: quick calculators, money estimates,
-        health estimates, home projects, AI helpers, school work, and developer tasks.
-      </p>
-    </div>
-    <div class="category-link-list">
-      {priorityCategories.map((category) => (
-        <a href={`/categories/${category.slug}/`}>
-          <strong>{category.name}</strong>
-          <span>{category.toolCount} tools and {category.guideCount} guides. {category.summary}</span>
-        </a>
-      ))}
-      <a href="/free-calculator-resources/">
-        <strong>Free Calculator Resources</strong>
-        <span>A curated starting page for students, teachers, writers, and community links.</span>
-      </a>
-    </div>
-  </section>
+    <section class="category-index-examples" aria-labelledby="category-index-examples-heading">
+      <h2 id="category-index-examples-heading">Explore examples</h2>
+      <p>Open the details when you want to compare subjects and see a few tools in each.</p>
+      <details class="category-index-inventory">
+        <summary>View category descriptions and tool examples</summary>
+        <div class="category-index-example-grid">
+          {categoryStats.map(category => (
+            <article data-category-slug={category.slug}>
+              <h3><a href={`/categories/${category.slug}/`}>{category.name}</a></h3>
+              <p>{category.summary}</p>
+              <p class="category-index-example-count">{category.toolCount} tools and {category.guideCount} guides</p>
+              <ul>
+                {category.featuredTools.map(tool => (
+                  <li><a href={`/tools/${tool.slug}/`}>{tool.name}</a><span>{tool.summary}</span></li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </details>
+    </section>
 
-  <section class="section-band section-band-soft">
-    <div class="section-heading">
-      <h2>Browse by task</h2>
-      <p>
-        Categories keep the site readable as the library grows, with calculators, guides, and
-        related utilities grouped together.
-      </p>
-    </div>
-    <div class="category-grid">
-      {liveCategories.map((category) => <CategoryCard category={category} />)}
-    </div>
-  </section>
-
-  <section class="section-band">
-    <div class="section-heading">
-      <h2>Guides where context matters</h2>
-      <p>
-        Some tools need extra explanation because the wrong input can change the result a lot.
-        Start with the tool, then read the guide before using the number for a project or safety-related decision.
-      </p>
-    </div>
-    <div class="category-link-list">
-      {contextHeavyPaths.map((item) => (
-        <a href={item.href}>
-          <strong>{item.title}</strong>
-          <span>{item.text}</span>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <section class="section-band">
-    <div class="section-heading">
-      <h2>Category snapshot</h2>
-      <p>Start with a major section, or jump into one of its most useful tools.</p>
-    </div>
-    <div class="category-snapshot-grid">
-      {categoryStats.map((category) => (
-        <article class="category-snapshot-card">
-          <div>
-            <span>{category.name}</span>
-            <h3><a href={`/categories/${category.slug}/`}>{category.toolCount} tools</a></h3>
-            <p>{category.summary}</p>
-          </div>
-          <p class="category-snapshot-meta">{category.guideCount} guides available</p>
-          <div class="category-snapshot-tools">
-            {category.featuredTools.map((tool) => <ToolCard tool={tool} />)}
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
+    <section class="category-index-context" aria-labelledby="category-index-context-heading">
+      <h2 id="category-index-context-heading">Check the assumptions</h2>
+      <p>Construction and electrical tools provide planning estimates. Use the guide to understand what the result leaves out.</p>
+      <div class="category-index-context-links">
+        {contextHeavyPaths.map(item => <a href={item.href}><strong>{item.title}</strong><span>{item.text}</span></a>)}
+      </div>
+      <p class="category-index-resource"><a href="/free-calculator-resources/">Free Calculator Resources</a> has links for students, teachers, writers, and community projects.</p>
+    </section>
+  </div>
 </BaseLayout>

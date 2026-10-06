@@ -3663,6 +3663,14 @@ export const financeTools: ToolDefinition[] = [
       'The calculator changes the sales tax rate into a decimal, multiplies subtotal by that rate to get tax, then adds tax to subtotal for the final total.',
     limit:
       'This is a manual-rate estimate. It does not look up current local rates, product exemptions, shipping rules, marketplace rules, tax holidays, or official filing amounts.',
+    formulaCheck:
+      'Check that the subtotal is the taxable price before tax and that the rate is a percent. Enter 7.5 for 7.5%, not 0.075.',
+    resultReading:
+      'Total after sales tax is the subtotal plus the calculated tax. Tax amount shows the added tax, Subtotal repeats the before-tax price, and Rate used repeats the manual percentage you entered. Check those lines against the taxable subtotal and rate on your receipt. Different item or basket rounding can change the last cent.',
+    doubleCheck:
+      'Check the taxable subtotal after any applicable discount, the combined local rate, and whether shipping or fees are taxable. Enter the rate as a percent, such as 7.5 for 7.5%, then compare the rounded tax with your receipt. This page does not look up rates or exemptions.',
+    limitFollowup:
+      'Check current local tax rules and receipt rounding when deciding which price and rate to enter. Use official records or filing guidance for tax reporting.',
     useCases: [
       'Quickly answer how much sales tax adds to a purchase.',
       'Estimate sales tax before checkout when you already know the local rate.',

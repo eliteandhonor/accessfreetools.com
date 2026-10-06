@@ -65,11 +65,21 @@ test('BMI guide consistently asks for metric inputs and retains its references',
 for (const path of ['/', '/tools/']) {
   test(`${path} wallpaper teaser describes the supported room estimate`, async ({ page }) => {
     await openPage(page, path);
-    const teaser = page.locator(`${path === '/' ? '.category-link-list' : '.discovery-link-grid'} a[href="/tools/wallpaper-calculator/"]`);
-    await expect(teaser).toContainText('rectangular room');
-    await expect(teaser).toContainText('usable roll coverage');
-    await expect(teaser).toContainText('waste percent you choose');
+    if (path === '/tools/') {
+      await page.getByRole('searchbox', { name: 'Search tools' }).fill('wallpaper rolls');
+    }
+    const teaser = page.locator(`${path === '/' ? '.home-task-shortcuts' : '.launchpad-tool-grid'} a[href="/tools/wallpaper-calculator/"]`);
+    await expect(teaser).toContainText(/wallpaper rolls/i);
+    if (path === '/') {
+      await expect(teaser).toContainText(/room/i);
+      await expect(teaser).toContainText(/coverage/i);
+      await expect(teaser).toContainText(/waste/i);
+    }
     await expect(teaser).not.toContainText('pattern repeat');
+    await teaser.click();
+    await expect(page.locator('.tool-title-row p')).toContainText('rectangular room');
+    await expect(page.locator('.tool-title-row p')).toContainText('usable roll coverage');
+    await expect(page.locator('.tool-title-row p')).toContainText('waste percent');
   });
 }
 

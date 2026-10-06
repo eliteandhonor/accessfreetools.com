@@ -120,7 +120,7 @@ export default function AskToolChat() {
         </div>
       </form>
 
-      <div className="ask-example-row" aria-label="Example questions">
+      <div className="ask-example-row" role="group" aria-label="Example questions">
         {examples.map((example) => (
           <button key={example} onClick={() => setMessage(example)} type="button">
             {example}

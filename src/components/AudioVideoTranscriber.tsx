@@ -522,7 +522,7 @@ export default function AudioVideoTranscriber() {
           <h2 id="browser-transcriber-heading">Turn local audio or video into editable captions</h2>
           <p>The recording stays on this device. Only the pinned speech model downloads after you start.</p>
         </div>
-        <div className="browser-transcriber__limits" aria-label="File limits">
+        <div className="browser-transcriber__limits" role="group" aria-label="File limits">
           <span><Clock3 size={17} aria-hidden="true" /> Up to 60 minutes</span>
           <span><Gauge size={17} aria-hidden="true" /> Up to 250 MB</span>
         </div>
@@ -546,10 +546,10 @@ export default function AudioVideoTranscriber() {
             onDragOver={(event) => event.preventDefault()}
             onDrop={dropFile}
           >
+            <button type="button" onClick={() => fileInputRef.current?.click()} disabled={busy}>Choose file</button>
             {mediaKind(file) === 'video' ? <FileVideo2 size={30} aria-hidden="true" /> : <FileAudio2 size={30} aria-hidden="true" />}
             <strong>{file ? file.name : 'Drop one audio or video file here'}</strong>
             <span>{file ? `${formatBytes(file.size)} selected` : 'MP3, WAV, M4A, FLAC, OGG, MP4, MOV, WebM, or MKV'}</span>
-            <button type="button" onClick={() => fileInputRef.current?.click()} disabled={busy}>Choose file</button>
             <input
               ref={fileInputRef}
               type="file"

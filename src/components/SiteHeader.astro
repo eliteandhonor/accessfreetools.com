@@ -1,22 +1,10 @@
 ---
 import BrandLogo from './BrandLogo.astro';
 import ThemePicker from './ThemePicker';
-
-const navItems = [
-  { href: '/tools/', label: 'Tools' },
-  { href: '/ask/', label: 'Ask Tools' },
-  { href: '/categories/', label: 'Categories' },
-  { href: '/hubs/', label: 'Hubs' },
-  { href: '/free-calculator-resources/', label: 'Resources' },
-  { href: '/categories/calculators/', label: 'Math' },
-  { href: '/categories/finance/', label: 'Finance' },
-  { href: '/categories/health-fitness/', label: 'Health' },
-  { href: '/categories/ai-tools/', label: 'AI' },
-  { href: '/blog/', label: 'Blog' },
-];
+import '../styles/site-navigation.css';
 ---
 
-<header class="site-header">
+<header class="site-header compact-site-header">
   <a class="brand" href="/" aria-label="Access Free Tools home">
     <span class="brand-mark" aria-hidden="true">
       <BrandLogo />
@@ -24,9 +12,47 @@ const navItems = [
     <span>Access Free Tools</span>
   </a>
 
-  <nav class="site-nav" aria-label="Main navigation">
-    {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+  <nav class="site-nav compact-site-nav" aria-label="Main navigation" data-site-navigation>
+    <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation-links" hidden>
+      <span>Menu</span><span class="site-menu-icon" aria-hidden="true">☰</span>
+    </button>
+    <div class="site-navigation-links" id="site-navigation-links" data-navigation-panel>
+      <a class="site-tools-link" href="/tools/">Tools</a>
+      <a href="/ask/">Ask Tools</a>
+      <details class="site-navigation-group" data-navigation-group>
+        <summary>Browse</summary>
+        <div class="site-navigation-submenu">
+          <a href="/categories/">All categories</a>
+          <a href="/hubs/">Tool hubs</a>
+          <a href="/categories/calculators/">Math calculators</a>
+          <a href="/categories/finance/">Finance tools</a>
+          <a href="/categories/health-fitness/">Health tools</a>
+          <a href="/categories/ai-tools/">AI tools</a>
+        </div>
+      </details>
+      <details class="site-navigation-group" data-navigation-group>
+        <summary>Guides</summary>
+        <div class="site-navigation-submenu">
+          <a href="/blog/">Tool guides</a>
+          <a href="/free-calculator-resources/">Calculator resources</a>
+        </div>
+      </details>
+      <details class="site-navigation-group" data-navigation-group>
+        <summary>About</summary>
+        <div class="site-navigation-submenu">
+          <a href="/about/">About Access Free Tools</a>
+          <a href="/why-access-free-tools/">Why use our tools?</a>
+          <a href="/contact/">Contact</a>
+          <a href="/support/">Support</a>
+        </div>
+      </details>
+    </div>
   </nav>
 
   <ThemePicker client:load />
 </header>
+
+<script>
+  import { enhanceSiteNavigation } from './SiteNavigation';
+  document.querySelectorAll<HTMLElement>('[data-site-navigation]').forEach(enhanceSiteNavigation);
+</script>

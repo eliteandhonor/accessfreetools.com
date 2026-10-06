@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useId, useMemo, useRef, useState } from 'react';
 import {
   applyPercentageAdjustment,
   calculatePercentageChange,
@@ -119,11 +119,23 @@ const examples: PercentageExample[] = [
   },
 ];
 
-function parseNumber(value: string, label: string) {
-  const parsed = Number(value.trim());
+class PercentageInputError extends Error {
+  constructor(readonly field: keyof PercentageInputs, message: string) {
+    super(message);
+  }
+}
+
+function parseNumber(value: string, label: string, field: keyof PercentageInputs) {
+  const trimmed = value.trim();
+
+  if (!trimmed) {
+    throw new PercentageInputError(field, `${label} is required.`);
+  }
+
+  const parsed = Number(trimmed);
 
   if (!Number.isFinite(parsed)) {
-    throw new Error(`${label} must be a number`);
+    throw new PercentageInputError(field, `${label} must be a finite number.`);
   }
 
   return parsed;
@@ -146,8 +158,8 @@ function buildPercentageCalculation(
   reverseType: ReversePercentageType,
 ): PercentageCalculation {
   if (mode === 'of') {
-    const percent = parseNumber(inputs.percent, 'Percentage');
-    const value = parseNumber(inputs.value, 'Value');
+    const percent = parseNumber(inputs.percent, 'Percentage', 'percent');
+    const value = parseNumber(inputs.value, 'Of value', 'value');
     const result = calculatePercentageOf(percent, value);
 
     return {
@@ -163,8 +175,8 @@ function buildPercentageCalculation(
   }
 
   if (mode === 'part') {
-    const part = parseNumber(inputs.part, 'Part');
-    const whole = parseNumber(inputs.whole, 'Whole');
+    const part = parseNumber(inputs.part, 'Part', 'part');
+    const whole = parseNumber(inputs.whole, 'Whole', 'whole');
     const result = calculatePercentOf(part, whole);
 
     return {
@@ -180,8 +192,8 @@ function buildPercentageCalculation(
   }
 
   if (mode === 'change') {
-    const originalValue = parseNumber(inputs.originalValue, 'Original value');
-    const newValue = parseNumber(inputs.newValue, 'New value');
+    const originalValue = parseNumber(inputs.originalValue, 'Original value', 'originalValue');
+    const newValue = parseNumber(inputs.newValue, 'New value', 'newValue');
     const result = calculatePercentageChange(originalValue, newValue);
     const change = newValue - originalValue;
     const changeLabel = getChangeLabel(result);
@@ -199,8 +211,8 @@ function buildPercentageCalculation(
   }
 
   if (mode === 'adjust') {
-    const baseValue = parseNumber(inputs.baseValue, 'Base value');
-    const percent = parseNumber(inputs.adjustPercent, 'Percentage');
+    const baseValue = parseNumber(inputs.baseValue, 'Base value', 'baseValue');
+    const percent = parseNumber(inputs.adjustPercent, 'Percentage', 'adjustPercent');
     const result = applyPercentageAdjustment(baseValue, percent, direction);
     const amount = calculatePercentageOf(percent, baseValue);
     const operator = direction === 'increase' ? '+' : '-';
@@ -217,8 +229,11 @@ function buildPercentageCalculation(
     };
   }
 
-  const value = parseNumber(inputs.reverseValue, reverseType === 'part-of-whole' ? 'Known part' : 'Final value');
-  const percent = parseNumber(inputs.reversePercent, 'Percentage');
+  const value = parseNumber(inputs.reverseValue, reverseType === 'part-of-whole' ? 'Known part' : 'Final value', 'reverseValue');
+  const percentLabel = reverseType === 'after-increase'
+    ? 'Increase percentage'
+    : reverseType === 'after-decrease' ? 'Decrease percentage' : 'Percentage of whole';
+  const percent = parseNumber(inputs.reversePercent, percentLabel, 'reversePercent');
 
   if (reverseType === 'part-of-whole') {
     const result = reversePercentageValue(value, percent);
@@ -255,20 +270,30 @@ function buildPercentageCalculation(
 }
 
 function NumberField({
+  id,
   label,
   value,
   onChange,
+  invalid,
+  errorId,
 }: {
+  id: string;
   label: string;
   value: string;
   onChange: (value: string) => void;
+  invalid: boolean;
+  errorId: string;
 }) {
   return (
     <label className="percentage-field">
       <span>{label}</span>
       <input
+        id={id}
+        aria-describedby={invalid ? errorId : undefined}
+        aria-invalid={invalid || undefined}
         inputMode="decimal"
         onChange={(event) => onChange(event.target.value)}
+        required
         value={value}
       />
     </label>
@@ -276,6 +301,9 @@ function NumberField({
 }
 
 export default function PercentageCalculator() {
+  const id = useId();
+  const questionId = `${id}-question`;
+  const errorId = `${id}-error`;
   const [mode, setMode] = useState<PercentageMode>('of');
   const [direction, setDirection] = useState<PercentageAdjustmentDirection>('increase');
   const [reverseType, setReverseType] = useState<ReversePercentageType>('part-of-whole');
@@ -285,25 +313,57 @@ export default function PercentageCalculator() {
   );
   const [history, setHistory] = useState<PercentageCalculation[]>([]);
   const [error, setError] = useState('');
+  const [invalidField, setInvalidField] = useState<keyof PercentageInputs | null>(null);
   const [copied, setCopied] = useState(false);
+  const [isStale, setIsStale] = useState(false);
+  const [copyFeedback, setCopyFeedback] = useState('');
+  const [manualCopyAvailable, setManualCopyAvailable] = useState(false);
+  const answerElement = useRef<HTMLElement>(null);
+  const answerVersion = useRef(0);
 
   const activeMode = useMemo(() => modeLabels[mode], [mode]);
 
-  const updateInput = (key: keyof PercentageInputs, value: string) => {
-    setInputs((current) => ({ ...current, [key]: value }));
+  const resetCopyFeedback = () => {
+    answerVersion.current += 1;
     setCopied(false);
+    setCopyFeedback('');
+    setManualCopyAvailable(false);
   };
 
+  const invalidateAnswer = () => {
+    setIsStale(true);
+    resetCopyFeedback();
+  };
+
+  const updateInput = (key: keyof PercentageInputs, value: string) => {
+    setInputs((current) => ({ ...current, [key]: value }));
+    invalidateAnswer();
+  };
+
+  const numberField = (key: keyof PercentageInputs, label: string) => (
+    <NumberField
+      id={`${id}-${key}`}
+      label={label}
+      value={inputs[key]}
+      onChange={(value) => updateInput(key, value)}
+      invalid={invalidField === key}
+      errorId={errorId}
+    />
+  );
+
   const calculate = () => {
+    resetCopyFeedback();
     try {
       const nextCalculation = buildPercentageCalculation(mode, inputs, direction, reverseType);
       setCalculation(nextCalculation);
       setHistory((items) => [nextCalculation, ...items].slice(0, 6));
       setError('');
-      setCopied(false);
+      setInvalidField(null);
+      setIsStale(false);
     } catch (caughtError) {
       setError(caughtError instanceof Error ? caughtError.message : 'Check the percentage inputs');
-      setCopied(false);
+      setInvalidField(caughtError instanceof PercentageInputError ? caughtError.field : null);
+      setIsStale(true);
     }
   };
 
@@ -320,27 +380,74 @@ export default function PercentageCalculator() {
     setCalculation(nextCalculation);
     setHistory((items) => [nextCalculation, ...items].slice(0, 6));
     setError('');
-    setCopied(false);
+    setInvalidField(null);
+    setIsStale(false);
+    resetCopyFeedback();
   };
 
   const copyAnswer = async () => {
-    if (!navigator.clipboard || error) return;
-    await navigator.clipboard.writeText(calculation.result);
-    setCopied(true);
+    if (error || isStale) return;
+    const copyingVersion = answerVersion.current;
+    setCopied(false);
+    setCopyFeedback('');
+    setManualCopyAvailable(false);
+    try {
+      if (!navigator.clipboard?.writeText) {
+        setCopyFeedback("Copy is not available in this browser. Select the answer, then use your device's Copy command.");
+        setManualCopyAvailable(true);
+        return;
+      }
+      await navigator.clipboard.writeText(calculation.result);
+      if (copyingVersion !== answerVersion.current) return;
+      setCopied(true);
+      setCopyFeedback('Answer copied.');
+    } catch {
+      if (copyingVersion !== answerVersion.current) return;
+      setCopyFeedback("Copy was blocked. Select the answer, then use your device's Copy command.");
+      setManualCopyAvailable(true);
+    }
+  };
+
+  const selectAnswer = () => {
+    if (error || isStale || !answerElement.current) return;
+    const selection = window.getSelection();
+    if (!selection) return;
+    answerElement.current.focus();
+    const range = document.createRange();
+    range.selectNodeContents(answerElement.current);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    setCopyFeedback("Answer selected. Use your device's Copy command.");
+  };
+
+  const changeDirection = (nextDirection: PercentageAdjustmentDirection) => {
+    if (nextDirection === direction) return;
+    setDirection(nextDirection);
+    setError('');
+    setInvalidField(null);
+    invalidateAnswer();
+  };
+
+  const changeReverseType = (nextType: ReversePercentageType) => {
+    if (nextType !== reverseType) invalidateAnswer();
+    setReverseType(nextType);
+    setError('');
+    setInvalidField(null);
   };
 
   return (
     <section className="percentage-calculator" aria-label="Percentage calculator">
       <div className="percentage-panel">
-        <div className="percentage-mode-grid" aria-label="Percentage calculation type">
+        <div className="percentage-mode-grid" role="group" aria-label="Percentage calculation type">
           {(Object.keys(modeLabels) as PercentageMode[]).map((item) => (
             <button
               aria-pressed={mode === item}
               key={item}
               onClick={() => {
+                if (item !== mode) invalidateAnswer();
                 setMode(item);
                 setError('');
-                setCopied(false);
+                setInvalidField(null);
               }}
               type="button"
             >
@@ -350,57 +457,49 @@ export default function PercentageCalculator() {
           ))}
         </div>
 
-        <div className="percentage-input-card">
+        <div className="percentage-input-card" role="group" aria-labelledby={questionId} aria-describedby={error ? errorId : undefined}>
           <div>
-            <h2>{activeMode.label}</h2>
+            <h2 id={questionId}>{activeMode.label}</h2>
             <p>{activeMode.description}</p>
           </div>
 
           <div className="percentage-fields">
             {mode === 'of' && (
               <>
-                <NumberField label="Percentage" value={inputs.percent} onChange={(value) => updateInput('percent', value)} />
-                <NumberField label="Of value" value={inputs.value} onChange={(value) => updateInput('value', value)} />
+                {numberField('percent', 'Percentage')}
+                {numberField('value', 'Of value')}
               </>
             )}
 
             {mode === 'part' && (
               <>
-                <NumberField label="Part" value={inputs.part} onChange={(value) => updateInput('part', value)} />
-                <NumberField label="Whole" value={inputs.whole} onChange={(value) => updateInput('whole', value)} />
+                {numberField('part', 'Part')}
+                {numberField('whole', 'Whole')}
               </>
             )}
 
             {mode === 'change' && (
               <>
-                <NumberField
-                  label="Original value"
-                  value={inputs.originalValue}
-                  onChange={(value) => updateInput('originalValue', value)}
-                />
-                <NumberField label="New value" value={inputs.newValue} onChange={(value) => updateInput('newValue', value)} />
+                {numberField('originalValue', 'Original value')}
+                {numberField('newValue', 'New value')}
               </>
             )}
 
             {mode === 'adjust' && (
               <>
-                <NumberField label="Base value" value={inputs.baseValue} onChange={(value) => updateInput('baseValue', value)} />
-                <NumberField
-                  label="Percentage"
-                  value={inputs.adjustPercent}
-                  onChange={(value) => updateInput('adjustPercent', value)}
-                />
-                <div className="percentage-direction-toggle" aria-label="Adjustment direction">
+                {numberField('baseValue', 'Base value')}
+                {numberField('adjustPercent', 'Percentage')}
+                <div className="percentage-direction-toggle" role="group" aria-label="Adjustment direction">
                   <button
                     aria-pressed={direction === 'increase'}
-                    onClick={() => setDirection('increase')}
+                    onClick={() => changeDirection('increase')}
                     type="button"
                   >
                     Increase
                   </button>
                   <button
                     aria-pressed={direction === 'decrease'}
-                    onClick={() => setDirection('decrease')}
+                    onClick={() => changeDirection('decrease')}
                     type="button"
                   >
                     Decrease
@@ -411,57 +510,37 @@ export default function PercentageCalculator() {
 
             {mode === 'reverse' && (
               <>
-                <div className="percentage-reverse-type" aria-label="Reverse percentage question type">
+                <div className="percentage-reverse-type" role="group" aria-label="Reverse percentage question type">
                   <button
                     aria-pressed={reverseType === 'part-of-whole'}
-                    onClick={() => {
-                      setReverseType('part-of-whole');
-                      setError('');
-                      setCopied(false);
-                    }}
+                    onClick={() => changeReverseType('part-of-whole')}
                     type="button"
                   >
                     Part is % of whole
                   </button>
                   <button
                     aria-pressed={reverseType === 'after-increase'}
-                    onClick={() => {
-                      setReverseType('after-increase');
-                      setError('');
-                      setCopied(false);
-                    }}
+                    onClick={() => changeReverseType('after-increase')}
                     type="button"
                   >
                     After increase
                   </button>
                   <button
                     aria-pressed={reverseType === 'after-decrease'}
-                    onClick={() => {
-                      setReverseType('after-decrease');
-                      setError('');
-                      setCopied(false);
-                    }}
+                    onClick={() => changeReverseType('after-decrease')}
                     type="button"
                   >
                     After decrease
                   </button>
                 </div>
-                <NumberField
-                  label={reverseType === 'part-of-whole' ? 'Known part' : 'Final value'}
-                  value={inputs.reverseValue}
-                  onChange={(value) => updateInput('reverseValue', value)}
-                />
-                <NumberField
-                  label={
+                {numberField('reverseValue', reverseType === 'part-of-whole' ? 'Known part' : 'Final value')}
+                {numberField('reversePercent',
                     reverseType === 'after-increase'
                       ? 'Increase percentage'
                       : reverseType === 'after-decrease'
                         ? 'Decrease percentage'
                         : 'Percentage of whole'
-                  }
-                  value={inputs.reversePercent}
-                  onChange={(value) => updateInput('reversePercent', value)}
-                />
+                )}
               </>
             )}
           </div>
@@ -470,19 +549,25 @@ export default function PercentageCalculator() {
             <button className="button-primary" onClick={calculate} type="button">
               Calculate percentage
             </button>
-            <button className="button-secondary" onClick={copyAnswer} type="button" disabled={Boolean(error)}>
+            <button className="button-secondary" onClick={copyAnswer} type="button" disabled={Boolean(error) || isStale}>
               {copied ? 'Copied' : 'Copy answer'}
             </button>
+            {manualCopyAvailable && !error && !isStale && (
+              <button className="button-secondary" onClick={selectAnswer} type="button">Select answer</button>
+            )}
           </div>
+          <p className={copyFeedback ? undefined : 'sr-only'} role="status">{copyFeedback}</p>
         </div>
 
-        <div className="percentage-result-card" aria-live="polite">
-          <span>{error ? 'Check inputs' : calculation.label}</span>
-          <strong>{error || calculation.result}</strong>
-          {!error && <p>{calculation.supporting}</p>}
+        <div className="percentage-result-card" aria-live={error ? undefined : 'polite'}>
+          <span>{error ? 'Check inputs' : isStale ? 'Inputs changed' : calculation.label}</span>
+          <strong ref={answerElement} tabIndex={!error && !isStale ? -1 : undefined} id={error ? errorId : undefined} role={error ? 'alert' : undefined}>
+            {error || (isStale ? 'Calculate to update the answer.' : calculation.result)}
+          </strong>
+          {!error && !isStale && <p>{calculation.supporting}</p>}
         </div>
 
-        {!error && (
+        {!error && !isStale && (
           <div className="percentage-steps">
             <h2>Steps</h2>
             <ol>

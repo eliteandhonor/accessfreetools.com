@@ -8,40 +8,111 @@ interface Props {
 const { showAdChoices = false } = Astro.props;
 const year = new Date().getFullYear();
 const hasApprovedGallery = toolArtEntries.length > 0;
+const groups = [
+  { label: 'Find tools', links: [
+    { href: '/tools/', label: 'All tools' },
+    { href: '/categories/', label: 'All categories' },
+    { href: '/hubs/', label: 'Tool hubs' },
+    { href: '/ask/', label: 'Ask Tools' },
+  ] },
+  { label: 'Categories', links: [
+    { href: '/categories/calculators/', label: 'Math' },
+    { href: '/categories/date-time/', label: 'Date & Time' },
+    { href: '/categories/converters/', label: 'Converters' },
+    { href: '/categories/text-tools/', label: 'Text' },
+    { href: '/categories/image-tools/', label: 'Image' },
+    { href: '/categories/ai-tools/', label: 'AI' },
+    { href: '/categories/school-study/', label: 'School' },
+    { href: '/categories/developer-tools/', label: 'Developer' },
+    { href: '/categories/finance/', label: 'Finance' },
+    { href: '/categories/health-fitness/', label: 'Health' },
+    { href: '/categories/home-projects/', label: 'Home' },
+  ] },
+  { label: 'Guides', links: [
+    { href: '/blog/', label: 'Tool guides' },
+    ...(hasApprovedGallery ? [{ href: '/gallery/', label: 'Gallery' }] : []),
+    { href: '/free-calculator-resources/', label: 'Resources' },
+    { href: '/feed.xml', label: 'RSS feed' },
+  ] },
+  { label: 'About', links: [
+    { href: '/about/', label: 'About us' },
+    { href: '/why-access-free-tools/', label: 'Why use our tools?' },
+    { href: '/contact/', label: 'Contact' },
+    { href: '/support/', label: 'Support' },
+  ] },
+  { label: 'Policies', links: [
+    { href: '/advertising-disclosure/', label: 'Disclosure' },
+    { href: '/privacy-policy/', label: 'Privacy' },
+    { href: '/terms/', label: 'Terms' },
+  ] },
+];
 ---
 
-<footer class="site-footer">
+<footer class="site-footer grouped-site-footer">
   <div>
     <a class="footer-brand" href="/">Access Free Tools</a>
     <p>Fast, practical browser tools built one useful utility at a time.</p>
   </div>
   <nav aria-label="Footer navigation">
-    <a href="/tools/">Tools</a>
-    <a href="/categories/">Categories</a>
-    <a href="/hubs/">Hubs</a>
-    <a href="/categories/calculators/">Math</a>
-    <a href="/categories/date-time/">Date & Time</a>
-    <a href="/categories/converters/">Converters</a>
-    <a href="/categories/text-tools/">Text</a>
-    <a href="/categories/image-tools/">Image</a>
-    <a href="/categories/ai-tools/">AI</a>
-    <a href="/categories/school-study/">School</a>
-    <a href="/categories/developer-tools/">Developer</a>
-    <a href="/categories/finance/">Finance</a>
-    <a href="/categories/health-fitness/">Health</a>
-    <a href="/categories/home-projects/">Home</a>
-    <a href="/blog/">Blog</a>
-    {hasApprovedGallery && <a href="/gallery/">Gallery</a>}
-    <a href="/free-calculator-resources/">Resources</a>
-    <a href="/feed.xml">RSS</a>
-    <a href="/about/">About</a>
-    <a href="/why-access-free-tools/">Why Us</a>
-    <a href="/contact/">Contact</a>
-    <a href="/support/">Support</a>
-    <a href="/advertising-disclosure/">Disclosure</a>
-    <a href="/privacy-policy/">Privacy</a>
-    <a href="/terms/">Terms</a>
-    {showAdChoices && <a class="footer-ad-choice" data-ad-privacy-open href="/privacy-policy/#publisher-privacy">Ad choices</a>}
+    {groups.map((group) => (
+      <section class:list={['footer-link-group', { 'footer-category-group': group.label === 'Categories' }]}>
+        <h2>{group.label}</h2>
+        <ul>
+          {group.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+          {group.label === 'Policies' && showAdChoices && (
+            <li><a class="footer-ad-choice" data-ad-privacy-open href="/privacy-policy/#publisher-privacy">Ad choices</a></li>
+          )}
+        </ul>
+      </section>
+    ))}
   </nav>
   <p class="footer-note">&copy; {year} Access Free Tools. All rights reserved.</p>
 </footer>
+
+<style>
+  .grouped-site-footer nav {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr;
+  }
+
+  .footer-link-group {
+    min-width: 0;
+  }
+
+  .footer-link-group h2 {
+    color: var(--text);
+    font-size: 1rem;
+    margin: 0 0 12px;
+  }
+
+  .footer-link-group ul {
+    display: grid;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .grouped-site-footer nav a {
+    display: inline-block;
+    line-height: 1.4;
+    white-space: normal;
+  }
+
+  @media (max-width: 900px) {
+    .grouped-site-footer nav {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .footer-category-group {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
+    .footer-category-group ul {
+      column-gap: 24px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

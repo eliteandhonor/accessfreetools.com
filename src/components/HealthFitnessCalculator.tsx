@@ -1,4 +1,4 @@
-import { useMemo, useState, type HTMLAttributes, type KeyboardEvent } from 'react';
+import { useMemo, useRef, useState, type HTMLAttributes, type KeyboardEvent } from 'react';
 import {
   activityLevelFactors,
   addDaysToIsoDate,
@@ -1750,6 +1750,7 @@ function calculateHealth(variant: HealthToolVariant, modeId: string, inputs: Hea
 
 export default function HealthFitnessCalculator({ variant }: Props) {
   const config = healthConfigs[variant];
+  const needsFreshManualResult = variant === 'bmi';
   const [modeId, setModeId] = useState(config.modes[0].id);
   const activeMode = useMemo(
     () => config.modes.find((mode) => mode.id === modeId) ?? config.modes[0],
@@ -1762,8 +1763,16 @@ export default function HealthFitnessCalculator({ variant }: Props) {
   const [error, setError] = useState('');
   const [history, setHistory] = useState<HealthCalculation[]>([]);
   const [copied, setCopied] = useState(false);
+  const answerVersion = useRef(0);
+
+  function invalidateAnswer() {
+    if (!needsFreshManualResult) return;
+    answerVersion.current += 1;
+    setResult(null);
+  }
 
   function changeMode(nextMode: HealthMode) {
+    if (needsFreshManualResult) answerVersion.current += 1;
     setModeId(nextMode.id);
     setInputs(nextMode.defaultInputs);
     setResult(calculateHealth(variant, nextMode.id, nextMode.defaultInputs));
@@ -1773,6 +1782,7 @@ export default function HealthFitnessCalculator({ variant }: Props) {
 
   function updateInput(key: string, value: string) {
     setInputs((current) => ({ ...current, [key]: value }));
+    invalidateAnswer();
     setError('');
     setCopied(false);
   }
@@ -1780,11 +1790,13 @@ export default function HealthFitnessCalculator({ variant }: Props) {
   function runCalculation(nextInputs = inputs) {
     try {
       const nextResult = calculateHealth(variant, activeMode.id, nextInputs);
+      if (needsFreshManualResult) answerVersion.current += 1;
       setResult(nextResult);
       setHistory((current) => [nextResult, ...current].slice(0, 4));
       setError('');
       setCopied(false);
     } catch (calculationError) {
+      invalidateAnswer();
       setError(calculationError instanceof Error ? calculationError.message : 'Check the inputs and try again.');
       setCopied(false);
     }
@@ -1792,16 +1804,20 @@ export default function HealthFitnessCalculator({ variant }: Props) {
 
   function useExample(example: HealthExample) {
     setInputs(example.inputs);
+    invalidateAnswer();
     runCalculation(example.inputs);
   }
 
   async function copyResult() {
     if (!result || error) return;
+    const copyingVersion = answerVersion.current;
 
     try {
       await navigator.clipboard?.writeText(`${result.expression} = ${result.answer}`);
+      if (needsFreshManualResult && copyingVersion !== answerVersion.current) return;
       setCopied(true);
     } catch {
+      if (needsFreshManualResult && copyingVersion !== answerVersion.current) return;
       setCopied(false);
       setError('Copy was not available in this browser. You can still select the answer manually.');
     }
@@ -1869,6 +1885,10 @@ export default function HealthFitnessCalculator({ variant }: Props) {
         </div>
 
         {error && <p className="calculator-error" role="alert">{error}</p>}
+
+        {needsFreshManualResult && !result && !error && (
+          <p className="advanced-note" role="status">Inputs changed. Press {config.buttonLabel} for a new answer.</p>
+        )}
 
         {result && (
           <article className="advanced-result-card health-result-card" aria-live="polite">

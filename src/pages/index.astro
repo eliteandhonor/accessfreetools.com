@@ -1,156 +1,28 @@
 ---
 export const prerender = true;
 import BaseLayout from '../components/BaseLayout.astro';
-import CategoryCard from '../components/CategoryCard.astro';
 import ToolCard from '../components/ToolCard.astro';
 import { categories } from '../data/categories';
 import { toolAliases } from '../data/toolAliases';
 import { tools } from '../data/tools';
+import '../styles/home-blog-discovery.css';
 
-const categoriesWithTools = categories.filter((category) =>
-  tools.some((tool) => tool.category === category.slug),
-);
+const categoriesWithTools = categories.filter(category => tools.some(tool => tool.category === category.slug));
 const publicToolPageCount = tools.length + toolAliases.length;
-const blogGuideCount = tools.length;
 const featuredToolSlugs = [
-  'mortgage-calculator',
-  'loan-calculator',
-  'age-calculator',
-  'date-calculator',
-  'percentage-calculator',
-  'fraction-calculator',
-  'scientific-calculator',
-  'random-number-generator',
-  'password-generator',
-  'conversion-calculator',
-  'statistics-calculator',
-  'triangle-calculator',
-  'bmi-calculator',
-  'calorie-calculator',
-  'compound-interest-calculator',
-  'sales-tax-calculator',
+  'basic-calculator', 'fraction-calculator', 'date-calculator',
+  'bmi-calculator', 'password-generator', 'sales-tax-calculator',
 ];
 const featuredTools = featuredToolSlugs
-  .map((slug) => tools.find((tool) => tool.slug === slug))
+  .map(slug => tools.find(tool => tool.slug === slug))
   .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
-const recentlyAddedToolSlugs = [
-  'underweight-bmi-calculator',
-  'overweight-calculator',
-  'nutrition-points-calculator',
-  'love-calculator',
-  'gdp-calculator',
-  'horsepower-calculator',
-  'engine-horsepower-calculator',
-  'golf-handicap-calculator',
-];
-const recentlyAddedTools = recentlyAddedToolSlugs
-  .map((slug) => tools.find((tool) => tool.slug === slug))
-  .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
-const priorityHubs = [
-  {
-    href: '/categories/calculators/',
-    title: 'Calculator hub',
-    text: 'Math, school, statistics, geometry, number, and everyday calculation tools.',
-  },
-  {
-    href: '/categories/finance/',
-    title: 'Finance calculators',
-    text: 'Mortgage, loan, salary, tax, investment, and interest estimate tools.',
-  },
-  {
-    href: '/categories/health-fitness/',
-    title: 'Health and fitness estimates',
-    text: 'BMI, calorie, body fat, pregnancy, heart-rate, and fitness calculators.',
-  },
-  {
-    href: '/categories/home-projects/',
-    title: 'Home project calculators',
-    text: 'Concrete, paint, flooring, roofing, rebar, wallpaper, and material planning tools.',
-  },
-  {
-    href: '/categories/ai-tools/',
-    title: 'Browser AI tools',
-    text: 'Private browser-side AI helpers for OCR, text, tone, keywords, and reading level.',
-  },
-  {
-    href: '/free-calculator-resources/',
-    title: 'Free calculator resources',
-    text: 'A curated resource page for students, teachers, writers, and community links.',
-  },
-];
-const heroQuickLinks = [
-  {
-    href: '/categories/calculators/',
-    label: 'Free online calculators',
-    detail: 'Math, finance, health, school, and project estimates.',
-  },
-  {
-    href: '/tools/basic-calculator/',
-    label: 'Basic calculator',
-    detail: 'Open the simple browser calculator for everyday math.',
-  },
-  {
-    href: '/tools/percentage-calculator/',
-    label: 'Percentage calculator',
-    detail: 'Discounts, percent change, markups, and reverse percentages.',
-  },
-  {
-    href: '/free-calculator-resources/',
-    label: 'Calculator resources',
-    detail: 'A useful link hub for classrooms, articles, and quick starts.',
-  },
-  {
-    href: '/blog/',
-    label: 'Tool guides',
-    detail: 'Plain examples for calculators, converters, AI tools, and estimates.',
-  },
-  {
-    href: '/tools/image-to-text-ocr-tool/',
-    label: 'Image to text OCR',
-    detail: 'Extract text from an image in the browser, with clear privacy notes.',
-  },
-];
-const priorityDiscoveryLinks = [
-  {
-    href: '/tools/watts-to-amps-calculator/',
-    title: 'Convert watts to amps',
-    text: 'Use watts, voltage, and phase to estimate current, then read the guide before using the number near real electrical work.',
-  },
-  {
-    href: '/blog/how-to-use-watts-to-amps-calculator/',
-    title: 'Watts to amps guide',
-    text: 'See why the same watts can mean different amps when voltage or phase changes.',
-  },
-  {
-    href: '/tools/wallpaper-calculator/',
-    title: 'Plan wallpaper rolls',
-    text: 'Estimate whole rolls for a rectangular room using usable roll coverage and the waste percent you choose.',
-  },
-  {
-    href: '/blog/how-to-use-wallpaper-calculator/',
-    title: 'Wallpaper calculator guide',
-    text: 'Learn what waste percent means and why pattern repeat can change the final roll estimate.',
-  },
-  {
-    href: '/tools/image-to-text-ocr-tool/',
-    title: 'Turn an image into text',
-    text: 'Run OCR in the browser, check image quality, and understand where text recognition can make mistakes.',
-  },
-  {
-    href: '/blog/how-to-use-image-to-text-ocr-tool/',
-    title: 'OCR tool guide',
-    text: 'Use better photos, cleaner contrast, and realistic expectations for browser text recognition.',
-  },
-  {
-    href: '/tools/',
-    title: 'Search the full library',
-    text: 'Find calculators, converters, AI tools, and plain-English guides from one searchable starting point.',
-  },
-  {
-    href: '/blog/',
-    title: 'Read the guide library',
-    text: 'Open tool walkthroughs that explain inputs, examples, mistakes, and result limits.',
-  },
+const taskShortcuts = [
+  { href: '/tools/percentage-calculator/', title: 'Work out a discount', detail: 'Percentages and price changes' },
+  { href: '/tools/mortgage-calculator/', title: 'Estimate a mortgage payment', detail: 'Loan, rate, term, and costs' },
+  { href: '/tools/conversion-calculator/', title: 'Convert pounds to kilograms', detail: 'Weight and other units' },
+  { href: '/tools/image-to-text-ocr-tool/', title: 'Turn an image into text', detail: 'Browser OCR with accuracy limits' },
+  { href: '/tools/wallpaper-calculator/', title: 'Plan wallpaper rolls', detail: 'Room size, coverage, and waste' },
+  { href: '/tools/text-case-converter/', title: 'Change text case', detail: 'Uppercase, lowercase, and more' },
 ];
 ---
 
@@ -158,141 +30,70 @@ const priorityDiscoveryLinks = [
   title="Access Free Tools | Free Online Calculators and Utilities"
   description="Use Access Free Tools for free online calculators, converters, browser AI tools, and plain-English guides for math, finance, health, home projects, and more."
 >
-  <section class="home-hero">
-    <div class="hero-copy">
-      <h1>Access Free Tools</h1>
-      <p>
-        Fast, free calculators and everyday browser utilities with clear controls, helpful
-        guides, privacy-first choices, and no signup.
-      </p>
-      <div class="hero-proof-grid" aria-label="Access Free Tools proof points">
-        <span><strong>{publicToolPageCount}</strong> public tool URLs</span>
-        <span><strong>{blogGuideCount}</strong> matching guides</span>
-        <span><strong>{categoriesWithTools.length}</strong> useful categories</span>
+  <div class="task-first-home">
+    <section class="home-hero" aria-labelledby="home-heading">
+      <div class="hero-copy">
+        <h1 id="home-heading">Access Free Tools</h1>
+        <p>Free calculators and browser utilities for everyday tasks. Choose a task or search for what you need.</p>
       </div>
-      <div class="hero-actions">
-        <a class="button-primary" href="/tools/">Browse tools</a>
-        <a class="button-secondary" href="/blog/">Read guides</a>
-        <a class="button-secondary" href="/why-access-free-tools/">Why this site</a>
+      <form class="home-task-search" action="/tools/" method="get" role="search">
+        <label for="tool-search">Search free tools</label>
+        <div class="home-search-controls">
+          <input id="tool-search" name="q" type="search" placeholder="Try percentage discount or mortgage payment" />
+          <button class="button-primary" type="submit">Search</button>
+        </div>
+        <p>No signup needed. Each tool explains its inputs and limits.</p>
+      </form>
+      <nav class="home-task-shortcuts" aria-label="Choose a task">
+        {taskShortcuts.map(task => <a href={task.href}><strong>{task.title}</strong><span>{task.detail}</span></a>)}
+      </nav>
+    </section>
+
+    <section class="section-band home-category-section" aria-labelledby="home-categories-heading">
+      <div class="section-heading">
+        <h2 id="home-categories-heading">Browse by category</h2>
+        <p>Choose a subject when you do not know the tool name.</p>
       </div>
-    </div>
+      <nav class="home-category-choices" aria-label="Tool categories">
+        {categoriesWithTools.map(category => <a href={`/categories/${category.slug}/`}>{category.name}</a>)}
+      </nav>
+      <p class="home-library-links">
+        <a href="/tools/">Search all {publicToolPageCount} tool URLs</a>
+        <a href="/hubs/">Browse task hubs</a>
+      </p>
+    </section>
 
-    <form class="tool-search" action="/tools/" role="search">
-      <label for="tool-search">Search free tools</label>
-      <input id="tool-search" name="q" type="search" placeholder="Mortgage, BMI, percentage, tax..." />
-      <p>Change colors, use it on a phone, and read what the answer actually means.</p>
-      <div class="hero-quick-links" aria-label="Popular tool starting points">
-        {heroQuickLinks.map((link) => (
-          <a href={link.href}>
-            <strong>{link.label}</strong>
-            <span>{link.detail}</span>
-          </a>
-        ))}
+    <section class="section-band section-band-soft home-selected-tools" aria-labelledby="home-tools-heading">
+      <div class="section-heading">
+        <h2 id="home-tools-heading">More tools to start with</h2>
+        <p>Quick arithmetic, dates, fractions, tax, and everyday checks.</p>
       </div>
-    </form>
-  </section>
+      <div class="tool-grid">{featuredTools.map(tool => <ToolCard tool={tool} />)}</div>
+    </section>
 
-  <section class="section-band section-band-soft">
-    <div class="section-heading">
-      <h2>Every tool should explain itself</h2>
-      <p>
-        A calculator is only useful if you can trust the number. Each page keeps the inputs,
-        formula, example, and limits close to the result.
-      </p>
-    </div>
-    <div class="standout-grid">
-      <article>
-        <span>01</span>
-        <h3>Show the math</h3>
-        <p>If a result uses a formula, the page explains it in normal words and shows a real example.</p>
-      </article>
-      <article>
-        <span>02</span>
-        <h3>Keep private work private</h3>
-        <p>Many tools run in your browser. You do not need an account just to calculate something.</p>
-      </article>
-      <article>
-        <span>03</span>
-        <h3>Make the next click obvious</h3>
-        <p>Search, categories, guides, and related tools help you move from one question to the next.</p>
-      </article>
-      <article>
-        <span>04</span>
-        <h3>Check the basics</h3>
-        <p>The site gets checked for broken links, missing image text, unclear page titles, slow assets, and security mistakes.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="section-band">
-    <div class="section-heading">
-      <h2>Start with the right hub</h2>
-      <p>
-        Pick the closest shelf. If you need money math, home material estimates, health numbers,
-        school formulas, or browser tools, start there.
-      </p>
-    </div>
-    <div class="category-link-list">
-      {priorityHubs.map((hub) => (
-        <a href={hub.href}>
-          <strong>{hub.title}</strong>
-          <span>{hub.text}</span>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <section class="section-band section-band-soft">
-    <div class="section-heading">
-      <h2>Things people usually need fast</h2>
-      <p>
-        Shortcuts for the stuff that comes up a lot: discounts, loans, wallpaper rolls, OCR,
-        power conversions, and quick guides.
-      </p>
-    </div>
-    <div class="category-link-list">
-      {priorityDiscoveryLinks.map((item) => (
-        <a href={item.href}>
-          <strong>{item.title}</strong>
-          <span>{item.text}</span>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <section class="section-band section-band-soft">
-    <div class="section-heading">
-      <h2>Recently added tools</h2>
-      <p>New tools for BMI checks, power conversions, golf handicaps, economics, and everyday finance math.</p>
-    </div>
-    <div class="tool-grid">
-      {recentlyAddedTools.map((tool) => <ToolCard tool={tool} />)}
-    </div>
-    <div class="section-actions">
-      <a class="button-secondary" href="/tools/">Browse all new tools</a>
-    </div>
-  </section>
-
-  <section class="section-band">
-    <div class="section-heading">
-      <h2>Quick calculators people open a lot</h2>
-      <p>Start with a common calculator, or use search when you need something more specific.</p>
-    </div>
-    <div class="tool-grid">
-      {featuredTools.map((tool) => <ToolCard tool={tool} />)}
-    </div>
-    <div class="section-actions">
-      <a class="button-secondary" href="/tools/">Browse all {publicToolPageCount} tools</a>
-    </div>
-  </section>
-
-  <section class="section-band section-band-soft">
-    <div class="section-heading">
-      <h2>Browse Categories</h2>
-      <p>Find tools by the task you want to complete.</p>
-    </div>
-    <div class="category-grid">
-      {categoriesWithTools.map((category) => <CategoryCard category={category} />)}
-    </div>
-  </section>
+    <section class="section-band home-tool-explanations" aria-labelledby="home-help-heading">
+      <div class="section-heading">
+        <h2 id="home-help-heading">Check what the answer means</h2>
+        <p>Useful numbers need context. Read the example, assumptions, and limits before relying on a result.</p>
+      </div>
+      <div class="home-help-grid">
+        <article>
+          <h3>Follow an example</h3>
+          <p>The {tools.length} matching tool guides explain inputs, formulas, common mistakes, and estimates.</p>
+          <a href="/blog/">Find a guide or article</a>
+        </article>
+        <article>
+          <h3>Understand privacy</h3>
+          <p>Many tools run in your browser. AI tools explain model downloads and where your work is processed.</p>
+          <a href="/privacy-policy/">Read the privacy notes</a>
+        </article>
+        <article>
+          <h3>Learn about the site</h3>
+          <p>Access Free Tools is a growing library of practical utilities with plain-language help.</p>
+          <a href="/why-access-free-tools/">Why this site exists</a>
+          <a href="/free-calculator-resources/">Calculator resources</a>
+        </article>
+      </div>
+    </section>
+  </div>
 </BaseLayout>
