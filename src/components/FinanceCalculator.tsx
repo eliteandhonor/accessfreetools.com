@@ -5273,10 +5273,6 @@ export default function FinanceCalculator({ variant }: Props) {
           )}
         </div>
         {variant === 'mortgage' && <p className={copyFeedback ? undefined : 'sr-only'} role="status">{copyFeedback}</p>}
-        {variant === 'mortgage' && copyFallback && result && !error && (
-          <pre className="utility-text-output" tabIndex={-1} ref={copyTextElement}>{result.copyText}</pre>
-        )}
-
         {error && <p id={errorId} className="calculator-error" role="alert">{error}</p>}
 
         {variant === 'currency' && !result && !error && (
@@ -5300,6 +5296,9 @@ export default function FinanceCalculator({ variant }: Props) {
               ))}
             </dl>
             {result.note && <p>{result.note}</p>}
+            {variant === 'mortgage' && copyFallback && !error && (
+              <pre className="utility-text-output" tabIndex={-1} ref={copyTextElement}>{result.copyText}</pre>
+            )}
           </article>
         )}
 
