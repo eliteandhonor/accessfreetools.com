@@ -457,7 +457,7 @@ export default function PercentageCalculator() {
           ))}
         </div>
 
-        <div className="percentage-input-card" role="group" aria-labelledby={questionId} aria-describedby={error ? errorId : undefined}>
+        <form className="percentage-input-card" aria-labelledby={questionId} aria-describedby={error ? errorId : undefined} noValidate onSubmit={(event) => { event.preventDefault(); calculate(); }}>
           <div>
             <h2 id={questionId}>{activeMode.label}</h2>
             <p>{activeMode.description}</p>
@@ -546,7 +546,7 @@ export default function PercentageCalculator() {
           </div>
 
           <div className="percentage-actions">
-            <button className="button-primary" onClick={calculate} type="button">
+            <button className="button-primary" type="submit">
               Calculate percentage
             </button>
             <button className="button-secondary" onClick={copyAnswer} type="button" disabled={Boolean(error) || isStale}>
@@ -557,7 +557,7 @@ export default function PercentageCalculator() {
             )}
           </div>
           <p className={copyFeedback ? undefined : 'sr-only'} role="status">{copyFeedback}</p>
-        </div>
+        </form>
 
         <div className="percentage-result-card" aria-live={error ? undefined : 'polite'}>
           <span>{error ? 'Check inputs' : isStale ? 'Inputs changed' : calculation.label}</span>
