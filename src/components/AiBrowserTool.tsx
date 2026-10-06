@@ -922,7 +922,7 @@ export default function AiBrowserTool({ variant }: Props) {
           <article className="advanced-result-card ai-result-card" aria-live="polite">
             <span>{result.label}</span>
             <strong>{result.answer}</strong>
-            {result.textOutput && <pre ref={outputElement} tabIndex={variant === 'ocr' ? -1 : undefined} aria-label={variant === 'ocr' ? 'Extracted OCR text' : undefined} className="utility-text-output">{result.textOutput}</pre>}
+            {result.textOutput && <pre ref={outputElement} tabIndex={variant === 'ocr' ? 0 : undefined} aria-label={variant === 'ocr' ? 'Extracted OCR text' : undefined} className="utility-text-output">{result.textOutput}</pre>}
             <dl>
               {result.metrics.map((metric) => (
                 <div key={metric.label}>

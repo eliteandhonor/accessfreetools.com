@@ -402,6 +402,7 @@ describe('OCR keyboard recovery and clipboard permission', () => {
     await selectImage();await start();await reply('Receipt total $42.50');await configureClipboard(mode);
     await page.getByRole('button', { name: 'Copy result', exact: true }).click();
     await ui(page.getByRole('status')).toContainText(mode === 'missing' ? 'not available' : 'blocked');await ui(page.getByRole('alert')).toHaveCount(0);await ui(page.locator('pre')).toHaveText('Receipt total $42.50');
+    await page.getByRole('button', { name: 'Copy result', exact: true }).focus();await page.keyboard.press('Tab');await ui(page.locator('pre')).toBeFocused();
     const select = page.getByRole('button', { name: 'Select text', exact: true });await select.focus();await page.keyboard.press('Enter');
     expect(await page.evaluate(() => getSelection()?.toString())).toBe('Receipt total $42.50');await ui(page.locator('pre')).toBeFocused();
     await configureClipboard('resolve');await page.getByRole('button', { name: 'Copy result', exact: true }).click();

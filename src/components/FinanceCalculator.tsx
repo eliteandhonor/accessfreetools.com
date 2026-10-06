@@ -5297,7 +5297,7 @@ export default function FinanceCalculator({ variant }: Props) {
             </dl>
             {result.note && <p>{result.note}</p>}
             {variant === 'mortgage' && copyFallback && !error && (
-              <pre className="utility-text-output" tabIndex={-1} ref={copyTextElement}>{result.copyText}</pre>
+              <pre className="utility-text-output" tabIndex={0} ref={copyTextElement}>{result.copyText}</pre>
             )}
           </article>
         )}

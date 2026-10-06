@@ -63,7 +63,7 @@ it('Mortgage rejects zero price, too-large down payment and negative costs witho
 it.each(['missing', 'reject'])('Mortgage %s clipboard offers full-estimate selection and retry without a math error', async mode => {
   await mount();await clipboard(mode);await copy().click();
   await ui(page.getByRole('status')).toContainText(mode === 'missing' ? 'not available' : 'blocked');await ui(page.getByRole('alert')).toHaveCount(0);await ui(result()).toBeVisible();
-  const select = page.getByRole('button', { name: 'Select estimate', exact: true });await select.focus();await page.keyboard.press('Enter');
+  const select = page.getByRole('button', { name: 'Select estimate', exact: true });await select.focus();await page.keyboard.press('Tab');await ui(page.locator('pre')).toBeFocused();await select.focus();await page.keyboard.press('Enter');
   expect(await page.evaluate(() => getSelection()?.toString())).toContain('Loan term: 30 years');await ui(page.locator('pre')).toBeFocused();
   await clipboard('resolve');await copy().click();await ui(copy()).toHaveText('Copied');await ui(page.getByRole('status')).toHaveText('Estimate copied.');await ui(select).toHaveCount(0);
 });
