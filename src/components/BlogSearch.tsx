@@ -68,15 +68,20 @@ export default function BlogSearch({ posts, searchIndexUrl, totalPostCount }: Pr
   const writeState = (nextQuery: string, nextLimit: number, method: 'pushState' | 'replaceState') => {
     const nextUrl = toolDiscoveryUrl(new URL(window.location.href), { query: nextQuery, category: 'all', limit: nextLimit });
     const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
-    if (currentUrl !== nextUrl) window.history[method](window.history.state, '', nextUrl);
+    const changed = currentUrl !== nextUrl;
+    if (changed) window.history[method](window.history.state, '', nextUrl);
     setQuery(nextQuery);
     setLimit(nextLimit);
+    return changed;
   };
 
   const updateQuery = (nextQuery: string) => {
     revealFocus.current = null;
-    writeState(nextQuery, TOOL_PAGE_SIZE, typingSession.current ? 'replaceState' : 'pushState');
-    typingSession.current = true;
+    const active = typingSession.current;
+    const hasQuery = Boolean(nextQuery.trim());
+    // Clearing preserves the preceding search; URL no-ops do not begin a session.
+    const changed = writeState(nextQuery, TOOL_PAGE_SIZE, active && hasQuery ? 'replaceState' : 'pushState');
+    typingSession.current = hasQuery && (active || changed);
     if (nextQuery.trim()) void loadFullSearchIndex();
   };
 

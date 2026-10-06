@@ -45,10 +45,60 @@ describe('private build-source diagnostic', () => {
     const after = snapshot();
     const marker = { ...identity(before, after), extra: secret };
     const record = createBuildSourceDiagnostics(before, after, marker);
+    expect(record.schemaVersion).toBe(2);
     expect(record.identity.clean).toBe(false);
     expect(record.before.unstagedCount).toBe(1);
     expect(JSON.stringify(record)).not.toContain(secret);
     expect(Object.keys(record.identity)).toEqual(['schemaVersion', 'commit', 'clean', 'builtAt', 'nodeMajor']);
+    expect(record.before.trackedPathLabels).toBeNull();
+    expect(record.after.trackedPathLabels).toBeNull();
+  });
+
+  it('copies only canonical approved labels while leaving public identity and dirty-source guards unchanged', () => {
+    const before = snapshot();
+    Object.assign(before.diagnostics, { trackedPathLabels: ['package.json', 'package-lock.json'],
+      reason: 'tracked_changes', unstagedCount: 2 });
+    before.source.clean = false;
+    const after = snapshot();
+    after.diagnostics.trackedPathLabels = [];
+    const marker = identity(before, after);
+    const record = createBuildSourceDiagnostics(before, after, marker);
+    expect(record.before.trackedPathLabels).toEqual(['package.json', 'package-lock.json']);
+    expect(record.after.trackedPathLabels).toEqual([]);
+    expect(record.identity).toEqual(marker);
+    expect(record.identity.schemaVersion).toBe(1);
+    expect(record.identity.clean).toBe(false);
+    before.diagnostics.trackedPathLabels.push('app.js');
+    expect(record.before.trackedPathLabels).toEqual(['package.json', 'package-lock.json']);
+  });
+
+  it.each([
+    ['private credentials fixture.txt'], ['nested/package.json'], ['package.json', 'package.json'],
+    ['package-lock.json', 'package.json'], ['package.json', 'package-lock.json', 'app.js', 'astro.config.mjs', '.gitignore', 'extra'],
+    [42], 'package.json', {},
+  ].map((labels) => ({ labels })))('rejects invalid private labels without reflecting their values: $labels', ({ labels }) => {
+    const before = snapshot();
+    Object.assign(before.diagnostics, { trackedPathLabels: labels, unstagedCount: 1, reason: 'tracked_changes' });
+    before.source.clean = false;
+    const after = snapshot();
+    expect(() => createBuildSourceDiagnostics(before, after, identity(before, after)))
+      .toThrow('Private build-source diagnostic is invalid or unavailable.');
+  });
+
+  it('rejects labels on failed or unchanged observations and preserves unknown legacy path evidence', () => {
+    const before = snapshot();
+    before.diagnostics.trackedPathLabels = ['package.json'];
+    const after = snapshot();
+    expect(() => createBuildSourceDiagnostics(before, after, identity(before, after))).toThrow();
+    before.source = { commit: null, clean: false };
+    before.diagnostics = { observedAt: timestamp, complete: false, stage: 'head', reason: 'git_unavailable',
+      stagedCount: null, unstagedCount: null, untrackedCount: null, assumeUnchangedCount: null, skipWorktreeCount: null,
+      trackedPathLabels: ['package.json'] };
+    expect(() => createBuildSourceDiagnostics(before, after, identity(before, after))).toThrow();
+    before.diagnostics.trackedPathLabels = null;
+    const record = createBuildSourceDiagnostics(before, after, identity(before, after));
+    expect(record.before.trackedPathLabels).toBeNull();
+    expect(record.after.trackedPathLabels).toBeNull();
   });
 
   it('rejects unbounded reasons, counts and mismatched source identities without reflecting input', () => {
@@ -75,6 +125,21 @@ describe('private build-source diagnostic', () => {
     const record = createBuildSourceDiagnostics(before, after, identity(before, after));
     expect(record.identity.clean).toBe(false);
     expect(record.before.untrackedCount).toBeNull();
+  });
+
+  it('revalidates labels before persisting and does not replace a prior valid record on invalid input', () => {
+    const root = fixture();
+    const before = snapshot();
+    const after = snapshot();
+    const marker = identity(before, after);
+    writeBuildSourceDiagnostics(before, after, marker, root);
+    const path = join(root, BUILD_SOURCE_DIAGNOSTICS_PATH);
+    const prior = readFileSync(path, 'utf8');
+    before.diagnostics.trackedPathLabels = ['private credentials fixture.txt'];
+    expect(() => writeBuildSourceDiagnostics(before, after, marker, root))
+      .toThrow('Private build-source diagnostic is invalid or unavailable.');
+    expect(readFileSync(path, 'utf8')).toBe(prior);
+    expect(readdirSync(dirname(path))).toEqual(['source-status.json']);
   });
 
   it('atomically replaces one server-only record, bounds its size and clears stale evidence', () => {

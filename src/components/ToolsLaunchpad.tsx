@@ -404,8 +404,10 @@ export default function ToolsLaunchpad({ categories, categoryCounts, searchIndex
     if (categorySelectRef.current) categorySelectRef.current.value = next.category;
     const url = toolDiscoveryUrl(new URL(window.location.href), next);
     const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
-    if (url !== current) window.history[historyMode === 'push' ? 'pushState' : 'replaceState'](window.history.state, '', url);
+    const changed = url !== current;
+    if (changed) window.history[historyMode === 'push' ? 'pushState' : 'replaceState'](window.history.state, '', url);
     if (next.query.trim() || next.category !== 'all' || next.limit > TOOL_PAGE_SIZE) void loadFullSearchIndex();
+    return changed;
   };
 
   useEffect(() => {
@@ -481,8 +483,11 @@ export default function ToolsLaunchpad({ categories, categoryCounts, searchIndex
   }, [visibleTools, isSearchIndexLoading, isFullSearchIndexLoaded, searchIndexError]);
 
   const updateQuery = (query: string) => {
-    applyState({ ...stateRef.current, query, limit: TOOL_PAGE_SIZE }, typingSession.current ? 'replace' : 'push');
-    typingSession.current = true;
+    const active = typingSession.current;
+    const hasQuery = Boolean(query.trim());
+    // Clearing preserves the preceding search; URL no-ops do not begin a session.
+    const changed = applyState({ ...stateRef.current, query, limit: TOOL_PAGE_SIZE }, active && hasQuery ? 'replace' : 'push');
+    typingSession.current = hasQuery && (active || changed);
   };
   const chooseCategory = (category: string) => {
     typingSession.current = false;
