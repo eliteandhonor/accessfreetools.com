@@ -382,6 +382,34 @@ async function configureClipboard(mode: 'missing' | 'reject' | 'resolve' | 'pend
 }
 
 describe('OCR keyboard recovery and clipboard permission', () => {
+  it('focuses the committed result when animation callbacks run before React commits', async () => {
+    await selectImage();await start();
+    await page.evaluate(() => {
+      // Reproduce the live ordering: the animation callback sees no mounted result.
+      const state = (window as any).ocrTest;
+      state.earlyFrames = [];
+      window.requestAnimationFrame = callback => {
+        queueMicrotask(() => {
+          state.earlyFrames.push(Boolean(document.querySelector('.ai-result-card pre')));
+          callback(performance.now());
+        });
+        return 0;
+      };
+    });
+    await reply('Committed OCR result');
+    await ui(page.locator('pre')).toHaveText('Committed OCR result');
+    await ui(page.locator('pre')).toBeFocused();
+    expect(await page.evaluate(() => (window as any).ocrTest.earlyFrames)).not.toContain(true);
+  });
+
+  it('keeps focus on copy controls when only copy feedback changes', async () => {
+    await selectImage();await start();await reply('Copy focus fixture');
+    await ui(page.locator('pre')).toBeFocused();await configureClipboard('resolve');
+    await page.getByRole('button', { name: 'Copy result', exact: true }).click();
+    await ui(page.getByRole('button', { name: 'Copied', exact: true })).toBeFocused();
+    await ui(page.locator('pre')).not.toBeFocused();
+  });
+
   it('keeps a missing-file keyboard submission out of loading and focuses the described invalid field', async () => {
     const read = page.getByRole('button', { name: 'Read text', exact: true });
     await read.focus();await page.keyboard.press('Enter');
