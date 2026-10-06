@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Square } from 'lucide-react';
 
-import { prepareOcrImage } from '../lib/browserOcrInput';
+import { prepareOcrImage, validateOcrFile } from '../lib/browserOcrInput';
 import { recognizeOcrImage } from '../lib/browserOcrWorker';
 import { analyzeEnglishReadability, buildPlainLanguageRevisionClues } from '../lib/readability';
 
@@ -669,6 +669,7 @@ async function runImageClassifier(file: File | null): Promise<AiResult> {
 }
 
 export default function AiBrowserTool({ variant }: Props) {
+  const errorId = `${useId()}-error`;
   const config = aiConfigs[variant];
   const [text, setText] = useState('');
   const [language, setLanguage] = useState('eng');
@@ -679,7 +680,27 @@ export default function AiBrowserTool({ variant }: Props) {
   const [status, setStatus] = useState('');
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
+  const [invalidImage, setInvalidImage] = useState(false);
+  const [copyFeedback, setCopyFeedback] = useState('');
+  const [manualCopyAvailable, setManualCopyAvailable] = useState(false);
+  const imageInput = useRef<HTMLInputElement>(null);
+  const outputElement = useRef<HTMLPreElement>(null);
+  const answerVersion = useRef(0);
   const ocrOperation = useRef<AbortController | null>(null);
+
+  function resetCopyFeedback() {
+    answerVersion.current += 1;
+    setCopied(false);
+    setCopyFeedback('');
+    setManualCopyAvailable(false);
+  }
+
+  function reportImageError(message: string) {
+    setError(message);
+    setInvalidImage(true);
+    const version = answerVersion.current;
+    requestAnimationFrame(() => { if (version === answerVersion.current) imageInput.current?.focus(); });
+  }
 
   function invalidateOcr() {
     const previous = ocrOperation.current;
@@ -695,13 +716,26 @@ export default function AiBrowserTool({ variant }: Props) {
     setStatus('');
     setResult(null);
     setError('');
-    setCopied(false);
+    setInvalidImage(false);
+    resetCopyFeedback();
   }
 
   const canCopy = Boolean(result?.textOutput || result?.answer);
   const resultText = useMemo(() => result?.textOutput ?? result?.answer ?? '', [result]);
 
   async function runTool(nextText = text) {
+    if (variant === 'ocr') {
+      setResult(null);
+      setInvalidImage(false);
+      setStatus('');
+      resetCopyFeedback();
+      try {
+        validateOcrFile(file);
+      } catch (caughtError) {
+        reportImageError(caughtError instanceof Error ? caughtError.message : 'Choose a supported image.');
+        return;
+      }
+    }
     const operation = variant === 'ocr' ? new AbortController() : null;
     if (operation) { invalidateOcr(); ocrOperation.current = operation; }
     const isCurrent = () => !operation || (ocrOperation.current === operation && !operation.signal.aborted);
@@ -735,9 +769,15 @@ export default function AiBrowserTool({ variant }: Props) {
       setResult(nextResult);
       setHistory((items) => [nextResult, ...items].slice(0, 4));
       setStatus('Done');
+      if (variant === 'ocr') {
+        const version = answerVersion.current;
+        requestAnimationFrame(() => { if (version === answerVersion.current) outputElement.current?.focus(); });
+      }
     } catch (caughtError) {
       if (!isCurrent()) return;
-      setError(caughtError instanceof Error ? caughtError.message : 'The browser AI tool could not finish. Try a smaller input.');
+      const message = caughtError instanceof Error ? caughtError.message : 'The browser AI tool could not finish. Try a smaller input.';
+      if (variant === 'ocr' && /^(Choose |This image |Resize this image )/.test(message)) reportImageError(message);
+      else setError(message);
       setStatus('');
     } finally {
       if (isCurrent()) {
@@ -753,15 +793,45 @@ export default function AiBrowserTool({ variant }: Props) {
   }
 
   async function copyResult() {
-    if (!navigator.clipboard || !canCopy) return;
+    if (!canCopy || loading) return;
+    const version = answerVersion.current;
+    setCopied(false);
+    setCopyFeedback('');
+    setManualCopyAvailable(false);
+    if (variant === 'ocr' && !navigator.clipboard?.writeText) {
+      setCopyFeedback("Copy is not available in this browser. Use Select text, then your device's Copy command.");
+      setManualCopyAvailable(true);
+      return;
+    }
+    if (!navigator.clipboard) return;
 
     try {
       await navigator.clipboard.writeText(resultText);
+      if (variant === 'ocr' && version !== answerVersion.current) return;
       setCopied(true);
+      if (variant === 'ocr') setCopyFeedback('Text copied.');
     } catch {
+      if (variant === 'ocr' && version !== answerVersion.current) return;
       setCopied(false);
+      if (variant === 'ocr') {
+        setCopyFeedback("Copy was blocked. Use Select text, then your device's Copy command.");
+        setManualCopyAvailable(true);
+        return;
+      }
       setError('Copy was not available in this browser. You can still select the result manually.');
     }
+  }
+
+  function selectText() {
+    if (!canCopy || loading || !outputElement.current) return;
+    const selection = window.getSelection();
+    if (!selection) return;
+    outputElement.current.focus();
+    const range = document.createRange();
+    range.selectNodeContents(outputElement.current);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    setCopyFeedback("Text selected. Use your device's Copy command.");
   }
 
   return (
@@ -778,6 +848,9 @@ export default function AiBrowserTool({ variant }: Props) {
             <label className="advanced-field">
               <span>{config.inputLabel}</span>
               <input
+                ref={imageInput}
+                aria-invalid={invalidImage || undefined}
+                aria-describedby={invalidImage ? errorId : undefined}
                 accept={variant === 'ocr' ? 'image/png,image/jpeg,image/webp' : 'image/*'}
                 onChange={(event) => {
                   if (variant === 'ocr') resetOcrSelection();
@@ -828,24 +901,28 @@ export default function AiBrowserTool({ variant }: Props) {
           <button className="button-primary" disabled={loading} onClick={() => void runTool()} type="button">
             {loading ? 'Working...' : config.buttonLabel}
           </button>
+          {variant === 'ocr' && manualCopyAvailable && canCopy && !loading && (
+            <button className="button-secondary" onClick={selectText} type="button">Select text</button>
+          )}
           <button className="button-secondary" disabled={!canCopy || loading} onClick={copyResult} type="button">
             {copied ? 'Copied' : 'Copy result'}
           </button>
           {variant === 'ocr' && loading && (
-            <button className="button-secondary" type="button" onClick={resetOcrSelection}>
+            <button className="button-secondary" type="button" onClick={() => { resetOcrSelection(); requestAnimationFrame(() => imageInput.current?.focus()); }}>
               <Square size={16} aria-hidden="true" /> Cancel OCR
             </button>
           )}
         </div>
 
         {status && <p className="ai-status" aria-live="polite">{status}</p>}
-        {error && <p className="calculator-error" role="alert">{error}</p>}
+        {variant === 'ocr' && <p className={copyFeedback ? undefined : 'sr-only'} role="status">{copyFeedback}</p>}
+        {error && <p id={errorId} className="calculator-error" role="alert">{error}</p>}
 
         {result && (
           <article className="advanced-result-card ai-result-card" aria-live="polite">
             <span>{result.label}</span>
             <strong>{result.answer}</strong>
-            {result.textOutput && <pre className="utility-text-output">{result.textOutput}</pre>}
+            {result.textOutput && <pre ref={outputElement} tabIndex={variant === 'ocr' ? -1 : undefined} aria-label={variant === 'ocr' ? 'Extracted OCR text' : undefined} className="utility-text-output">{result.textOutput}</pre>}
             <dl>
               {result.metrics.map((metric) => (
                 <div key={metric.label}>

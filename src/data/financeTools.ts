@@ -2565,7 +2565,7 @@ export const financeTools: ToolDefinition[] = [
     examples: [
       { label: 'Starter estimate', expression: '$400,000 home, $80,000 down, 6.5%, 30 years, $4,800 tax/year, $140 insurance, $75 HOA', result: 'About $2,637.62/month total, with $2,022.62 principal and interest and 80% LTV' },
       { label: 'PMI example', expression: '$360,000 home, $40,000 down, 5.9%, 30 years, $3,600 tax/year, $120 insurance, $95 PMI', result: 'About $2,413.04/month total and about 88.89% LTV' },
-      { label: '15-year comparison', expression: '$400,000 home, $80,000 down, 6.1%, 15 years, same tax and insurance', result: 'About $3,332.66/month total but about $169,178.93 total interest' },
+      { label: '15-year comparison', expression: '$400,000 home, $80,000 down, 6.1%, 15 years, $4,800 tax/year, $140 insurance/month, $0 PMI, $75 HOA/month', result: 'About $3,332.66/month total and $169,178.93 total interest. Both the rate and term differ from the starter estimate.' },
     ],
     relatedSlugs: ['loan-calculator', 'amortization-calculator', 'interest-rate-calculator'],
     inputExplanations: [

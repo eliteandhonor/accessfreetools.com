@@ -4140,6 +4140,9 @@ function getCategoryInputAnswer(tool: ToolDefinition) {
 }
 
 function getCategoryReadingAnswer(tool: ToolDefinition) {
+  if (tool.slug === 'image-to-text-ocr-tool') {
+    return 'Start with the extracted text and compare it with the original image. Language is the selected OCR language, Characters counts the extracted text, and Confidence is the OCR engine\'s reported score, not a guarantee that every character is correct. Check names, totals, dates, and codes before using Copy result.';
+  }
   if (tool.slug === 'text-to-speech-audiobook-generator') {
     return 'Check the estimated duration and file size, then allow the selected model download to finish. Listen for names, numbers, abbreviations, and missing lines. Single mode gives one MP3; chapter mode gives separate ordered MP3s and a text-free ZIP.';
   }

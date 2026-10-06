@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, type HTMLAttributes, type KeyboardEvent } from 'react';
+import { useId, useMemo, useRef, useState, type HTMLAttributes, type KeyboardEvent } from 'react';
 import {
   calculateAmortizationSummary,
   calculateAdRevenueEstimate,
@@ -216,6 +216,7 @@ interface FinanceCalculation {
   metrics: Array<{ label: string; value: string }>;
   steps: string[];
   note?: string;
+  copyText?: string;
 }
 
 interface Props {
@@ -2727,13 +2728,17 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
 
       return {
         label: 'Estimated monthly payment',
-        expression: `${compactMoney(homePrice)} home, ${compactMoney(result.loanAmount)} loan at ${percent(annualRatePercent)}`,
+        expression: `${compactMoney(homePrice)} home, ${compactMoney(result.loanAmount)} loan at ${percent(annualRatePercent)} for ${formatCalculatorNumber(loanYears)} years`,
         answer: money(result.totalMonthlyPayment),
         metrics: [
           { label: 'Principal and interest', value: money(result.principalAndInterest) },
           { label: 'Total interest', value: money(result.totalInterest) },
           { label: 'Loan-to-value', value: percent(result.loanToValuePercent) },
           { label: 'Taxes and insurance', value: money(result.monthlyPropertyTax + result.monthlyInsurance) },
+          { label: 'Property tax per month', value: money(result.monthlyPropertyTax) },
+          { label: 'Insurance per month', value: money(result.monthlyInsurance) },
+          { label: 'PMI per month', value: money(result.monthlyPmi) },
+          { label: 'HOA per month', value: money(result.monthlyHoa) },
         ],
         steps: [
           `Loan amount = ${compactMoney(homePrice)} - ${compactMoney(downPayment)} = ${compactMoney(result.loanAmount)}.`,
@@ -2742,6 +2747,23 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
           'Add monthly tax, insurance, PMI, and HOA to principal and interest.',
         ],
         note: 'This is payment math, not a lender Loan Estimate. It leaves out APR, points, closing costs, prepaid interest, escrow setup, tax changes, PMI rules, and approval checks.',
+        copyText: [
+          'Fixed-rate mortgage estimate',
+          `Home price: ${money(homePrice)}`,
+          `Down payment: ${money(downPayment)}`,
+          `Loan amount: ${money(result.loanAmount)}`,
+          `Interest rate: ${percent(annualRatePercent)}`,
+          `Loan term: ${formatCalculatorNumber(loanYears)} years`,
+          `Property tax: ${money(result.monthlyPropertyTax * 12)}/year (${money(result.monthlyPropertyTax)}/month)`,
+          `Insurance: ${money(result.monthlyInsurance)}/month`,
+          `PMI: ${money(result.monthlyPmi)}/month`,
+          `HOA: ${money(result.monthlyHoa)}/month`,
+          `Principal and interest: ${money(result.principalAndInterest)}/month`,
+          `Estimated total monthly payment: ${money(result.totalMonthlyPayment)}`,
+          `Total interest over the full term: ${money(result.totalInterest)}`,
+          `Loan-to-value: ${percent(result.loanToValuePercent)}`,
+          'Payment math only; not a lender quote, approval, or APR disclosure. Costs and rate are held fixed; closing costs and PMI cancellation are not modeled.',
+        ].join('\n'),
       };
     }
     case 'loan': {
@@ -5060,6 +5082,7 @@ function calculateFinance(variant: FinanceToolVariant, modeId: string, inputs: F
 }
 
 export default function FinanceCalculator({ variant }: Props) {
+  const errorId = `${useId()}-error`;
   const config = financeConfigs[variant];
   const [modeId, setModeId] = useState(config.modes[0].id);
   const activeMode = useMemo(
@@ -5073,9 +5096,22 @@ export default function FinanceCalculator({ variant }: Props) {
   const [error, setError] = useState('');
   const [history, setHistory] = useState<FinanceCalculation[]>([]);
   const [copied, setCopied] = useState(false);
+  const [invalidField, setInvalidField] = useState<string | null>(null);
+  const [copyFeedback, setCopyFeedback] = useState('');
+  const [copyFallback, setCopyFallback] = useState(false);
+  const inputRefs = useRef<Record<string, HTMLInputElement | null>>({});
+  const copyTextElement = useRef<HTMLPreElement>(null);
   const currencyAnswerVersion = useRef(0);
+  const protectsAnswer = variant === 'currency' || variant === 'mortgage';
+
+  function resetCopyFeedback() {
+    setCopied(false);
+    setCopyFeedback('');
+    setCopyFallback(false);
+  }
 
   function changeMode(nextMode: FinanceMode) {
+    if (protectsAnswer) currencyAnswerVersion.current += 1;
     setModeId(nextMode.id);
     setInputs(nextMode.defaultInputs);
     setResult(calculateFinance(variant, nextMode.id, nextMode.defaultInputs));
@@ -5085,16 +5121,19 @@ export default function FinanceCalculator({ variant }: Props) {
 
   function updateInput(key: string, value: string) {
     setInputs((current) => ({ ...current, [key]: value }));
-    if (variant === 'currency') {
+    if (protectsAnswer) {
       currencyAnswerVersion.current += 1;
       setResult(null);
     }
     setError('');
-    setCopied(false);
+    setInvalidField(null);
+    resetCopyFeedback();
   }
 
   function runCalculation(nextInputs = inputs) {
-    if (variant === 'currency') currencyAnswerVersion.current += 1;
+    if (protectsAnswer) currencyAnswerVersion.current += 1;
+    resetCopyFeedback();
+    setInvalidField(null);
     try {
       const nextResult = calculateFinance(variant, activeMode.id, nextInputs);
       setResult(nextResult);
@@ -5102,8 +5141,23 @@ export default function FinanceCalculator({ variant }: Props) {
       setError('');
       setCopied(false);
     } catch (calculationError) {
-      if (variant === 'currency') setResult(null);
-      setError(calculationError instanceof Error ? calculationError.message : 'Check the inputs and try again.');
+      if (protectsAnswer) setResult(null);
+      const message = calculationError instanceof Error ? calculationError.message : 'Check the inputs and try again.';
+      setError(message);
+      if (variant === 'mortgage') {
+        const errorFields: Array<[RegExp, string]> = [
+          [/^Home price/, 'homePrice'], [/^Down payment/, 'downPayment'],
+          [/^(Annual )?[Ii]nterest rate/, 'annualRatePercent'], [/^Loan term/, 'years'],
+          [/^(Annual )?[Pp]roperty tax/, 'annualPropertyTax'], [/^Monthly insurance/, 'monthlyInsurance'],
+          [/^Monthly PMI/, 'monthlyPmi'], [/^Monthly HOA/, 'monthlyHoa'],
+        ];
+        const field = errorFields.find(([pattern]) => pattern.test(message))?.[1];
+        if (field) {
+          setInvalidField(field);
+          const version = currencyAnswerVersion.current;
+          requestAnimationFrame(() => { if (version === currencyAnswerVersion.current) inputRefs.current[field]?.focus(); });
+        }
+      }
       setCopied(false);
     }
   }
@@ -5116,16 +5170,40 @@ export default function FinanceCalculator({ variant }: Props) {
   async function copyResult() {
     if (!result || error) return;
     const answerVersion = currencyAnswerVersion.current;
+    resetCopyFeedback();
 
     try {
-      await navigator.clipboard?.writeText(`${result.expression} = ${result.answer}`);
-      if (variant === 'currency' && answerVersion !== currencyAnswerVersion.current) return;
+      if (variant === 'mortgage' && !navigator.clipboard?.writeText) {
+        setCopyFeedback("Copy is not available in this browser. Use Select estimate, then your device's Copy command.");
+        setCopyFallback(true);
+        return;
+      }
+      await navigator.clipboard?.writeText(result.copyText ?? `${result.expression} = ${result.answer}`);
+      if (protectsAnswer && answerVersion !== currencyAnswerVersion.current) return;
       setCopied(true);
+      if (variant === 'mortgage') setCopyFeedback('Estimate copied.');
     } catch {
-      if (variant === 'currency' && answerVersion !== currencyAnswerVersion.current) return;
+      if (protectsAnswer && answerVersion !== currencyAnswerVersion.current) return;
       setCopied(false);
+      if (variant === 'mortgage') {
+        setCopyFeedback("Copy was blocked. Use Select estimate, then your device's Copy command.");
+        setCopyFallback(true);
+        return;
+      }
       setError('Copy was not available in this browser. You can still select the answer manually.');
     }
+  }
+
+  function selectEstimate() {
+    if (!result || error || !copyTextElement.current) return;
+    const selection = window.getSelection();
+    if (!selection) return;
+    copyTextElement.current.focus();
+    const range = document.createRange();
+    range.selectNodeContents(copyTextElement.current);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    setCopyFeedback("Estimate selected. Use your device's Copy command.");
   }
 
   function runOnEnter(event: KeyboardEvent<HTMLInputElement>) {
@@ -5168,6 +5246,9 @@ export default function FinanceCalculator({ variant }: Props) {
                 </select>
               ) : (
                 <input
+                  ref={(element) => { inputRefs.current[field.key] = element; }}
+                  aria-invalid={invalidField === field.key || undefined}
+                  aria-describedby={invalidField === field.key ? errorId : undefined}
                   inputMode={field.inputMode}
                   onChange={(event) => updateInput(field.key, event.target.value)}
                   onKeyDown={runOnEnter}
@@ -5187,12 +5268,22 @@ export default function FinanceCalculator({ variant }: Props) {
           <button className="button-secondary" disabled={!result || Boolean(error)} onClick={copyResult} type="button">
             {copied ? 'Copied' : 'Copy answer'}
           </button>
+          {variant === 'mortgage' && copyFallback && result && !error && (
+            <button className="button-secondary" onClick={selectEstimate} type="button">Select estimate</button>
+          )}
         </div>
+        {variant === 'mortgage' && <p className={copyFeedback ? undefined : 'sr-only'} role="status">{copyFeedback}</p>}
+        {variant === 'mortgage' && copyFallback && result && !error && (
+          <pre className="utility-text-output" tabIndex={-1} ref={copyTextElement}>{result.copyText}</pre>
+        )}
 
-        {error && <p className="calculator-error" role="alert">{error}</p>}
+        {error && <p id={errorId} className="calculator-error" role="alert">{error}</p>}
 
         {variant === 'currency' && !result && !error && (
           <p role="status">Inputs changed. Convert currency to update the answer.</p>
+        )}
+        {variant === 'mortgage' && !result && !error && (
+          <p role="status">Inputs changed. Estimate mortgage to update the answer.</p>
         )}
 
         {result && (
