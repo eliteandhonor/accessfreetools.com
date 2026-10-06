@@ -17,7 +17,7 @@ describe('security dependency overrides', () => {
     ['hono', '4.13.11'],
     ['ip-address', '10.7.1'],
     ['js-yaml', '4.3.2'],
-    ['sharp', '0.35.4'],
+    ['sharp', '0.35.5'],
     ['svgo', '4.1.0'],
   ])('keeps every locked %s installation on the reviewed patched release', (name, version) => {
     const packageJson = readJson('package.json');
@@ -96,6 +96,25 @@ describe('security dependency overrides', () => {
       if (linked) unlinkSync(link);
       if (!resolve(root).startsWith(`${parent}${sep}`)) throw new Error('Unexpected fixture cleanup path');
       rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  it('uses librsvg patched for GHSA-wq5f-xc86-pv6w', () => {
+    const [major, minor, patch] = sharp.versions.rsvg.split('.').map(Number);
+    expect(major > 2 || (major === 2 && (minor > 63 || (minor === 63 && patch >= 2)))).toBe(true);
+  });
+
+  it.each(['png', 'jpeg', 'webp', 'svg'])('decodes and resizes an owned %s fixture with patched Sharp', async format => {
+    const source = format === 'svg'
+      ? Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="#16756b"/></svg>')
+      : await sharp({ create: { width: 16, height: 16, channels: 3, background: '#16756b' } }).toFormat(format).toBuffer();
+    const png = await sharp(source).resize(8, 8).png().toBuffer();
+    const { data, info } = await sharp(png).raw().toBuffer({ resolveWithObject: true });
+    expect(info.width).toBe(8);
+    expect(info.height).toBe(8);
+    expect(data.length).toBe(8 * 8 * info.channels);
+    for (const [channel, expected] of [22, 117, 107].entries()) {
+      expect(Math.abs(data[channel] - expected)).toBeLessThanOrEqual(format === 'jpeg' || format === 'webp' ? 3 : 0);
     }
   });
 

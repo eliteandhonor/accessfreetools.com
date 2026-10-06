@@ -724,6 +724,10 @@ export default function AiBrowserTool({ variant }: Props) {
   const canCopy = Boolean(result?.textOutput || result?.answer);
   const resultText = useMemo(() => result?.textOutput ?? result?.answer ?? '', [result]);
 
+  useEffect(() => {
+    if (variant === 'ocr' && result) outputElement.current?.focus();
+  }, [variant, result]);
+
   async function runTool(nextText = text) {
     if (variant === 'ocr') {
       setResult(null);
@@ -770,10 +774,6 @@ export default function AiBrowserTool({ variant }: Props) {
       setResult(nextResult);
       setHistory((items) => [nextResult, ...items].slice(0, 4));
       setStatus('Done');
-      if (variant === 'ocr') {
-        const version = answerVersion.current;
-        requestAnimationFrame(() => { if (version === answerVersion.current) outputElement.current?.focus(); });
-      }
     } catch (caughtError) {
       if (!isCurrent()) return;
       const message = caughtError instanceof Error ? caughtError.message : 'The browser AI tool could not finish. Try a smaller input.';
