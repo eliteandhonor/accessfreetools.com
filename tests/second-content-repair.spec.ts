@@ -192,22 +192,30 @@ test('Markdown guide describes quoted comma input and pipe handling without the 
   await expect(article).not.toContainText('Clean up quoted commas, escaped quotes, or spreadsheet CSV exports before pasting');
 });
 
-test('Wallpaper validates roll coverage, opening counts and waste without hiding the previous valid estimate', async ({ page }) => {
+test('Wallpaper validates roll coverage, opening counts and waste and restores only a current valid estimate', async ({ page }) => {
   await openTool(page, 'wallpaper-calculator');
   const workspace = page.locator('.advanced-calculator-utility');
+  await expect(workspace.locator('.utility-result-card > strong')).toHaveText('6 rolls');
   for (const example of [
     { field: /^Roll coverage ft2/, invalid: '0', valid: '56', message: /roll coverage/i },
     { field: /^Doors/, invalid: '1.5', valid: '1', message: /doors/i },
     { field: /^Waste percent/, invalid: '101', valid: '10', message: /waste/i },
   ]) {
     await workspace.getByRole('textbox', { name: example.field }).fill(example.invalid);
+    await expect(workspace.locator('.utility-result-card')).toHaveCount(0);
+    await expect(workspace.locator('.advanced-steps')).toHaveCount(0);
+    await expect(workspace.getByRole('status')).toContainText('Inputs changed');
+    await expect(workspace.getByRole('button', { name: 'Copy answer', exact: true })).toBeDisabled();
     await workspace.getByRole('button', { name: 'Estimate wallpaper', exact: true }).click();
     await expect(page.getByRole('alert')).toContainText(example.message);
-    await expect(page.locator('.utility-result-card > strong')).toHaveText('6 rolls');
+    await expect(workspace.locator('.utility-result-card')).toHaveCount(0);
+    await expect(workspace.locator('.advanced-steps')).toHaveCount(0);
     await expect(page.getByRole('button', { name: 'Copy answer', exact: true })).toBeDisabled();
     await workspace.getByRole('textbox', { name: example.field }).fill(example.valid);
     await workspace.getByRole('button', { name: 'Estimate wallpaper', exact: true }).click();
     await expect(page.getByRole('alert')).toHaveCount(0);
+    await expect(workspace.locator('.utility-result-card > strong')).toHaveText('6 rolls');
+    await expect(workspace.getByRole('button', { name: 'Copy answer', exact: true })).toBeEnabled();
   }
 });
 

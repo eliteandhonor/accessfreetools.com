@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import '../styles/tool-discovery.css';
+import { TOOL_PAGE_SIZE, rankDiscoveryItems, readToolDiscoveryState, toolDiscoveryUrl, toolMatchesDiscoveryCategory, type ToolDiscoveryState } from '../lib/toolDiscovery';
 import {
   ArrowRight,
   BookOpen,
@@ -21,10 +23,6 @@ import {
 import type { ToolCategory } from '../data/categories';
 import { getCalculatorIconMark, getCalculatorIconTextLabel, type CalculatorIconMark } from '../data/toolIcons';
 import type { ToolSearchItem } from '../data/toolSearchIndex';
-
-type CategoryFilter = 'all' | ToolCategory['slug'];
-
-const INITIAL_VISIBLE_TOOL_LIMIT = 72;
 
 interface Props {
   categoryCounts: Partial<Record<ToolCategory['slug'], number>>;
@@ -334,329 +332,245 @@ function ToolsTitleGraphic() {
   );
 }
 
-export default function ToolsLaunchpad({
-  categories,
-  categoryCounts,
-  searchIndexUrl,
-  tools,
-  totalToolCount,
-}: Props) {
+const taskExamples = [
+  { label: 'Percentages and discounts', query: 'percentage discount', category: 'calculators' },
+  { label: 'Compare fractions', query: 'fraction compare', category: 'calculators' },
+  { label: 'Monthly mortgage payment', query: 'mortgage monthly payment', category: 'finance' },
+  { label: 'Convert pounds to kg', query: 'convert pounds to kg', category: 'converters' },
+  { label: 'Count words', query: 'word count', category: 'text-tools' },
+  { label: 'Read text from an image', query: 'image text OCR', category: 'ai-tools' },
+  { label: 'Estimate paint', query: 'paint area', category: 'home-projects' },
+  { label: 'Days between dates', query: 'date difference', category: 'date-time' },
+] as const;
+
+export default function ToolsLaunchpad({ categories, categoryCounts, searchIndexUrl, tools, totalToolCount }: Props) {
   const [searchTools, setSearchTools] = useState<ToolSearchItem[]>(tools);
   const [isSearchIndexLoading, setIsSearchIndexLoading] = useState(false);
   const [searchIndexError, setSearchIndexError] = useState('');
-  const [query, setQuery] = useState('');
-  const [category, setCategory] = useState<CategoryFilter>('all');
-  const [showAllTools, setShowAllTools] = useState(false);
+  const [state, setState] = useState<ToolDiscoveryState>({ query: '', category: 'all', limit: TOOL_PAGE_SIZE });
+  const stateRef = useRef(state);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const categorySelectRef = useRef<HTMLSelectElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const typingSession = useRef(false);
+  const fullIndexLoaded = useRef(tools.length >= totalToolCount);
+  const indexRequest = useRef<Promise<void> | null>(null);
+  const indexController = useRef<AbortController | null>(null);
+  const mounted = useRef(true);
   const revealFocus = useRef<{ hrefs: Set<string | null>; trigger: HTMLButtonElement } | null>(null);
-
+  const availableCategories = categories.filter(item => (categoryCounts[item.slug] ?? 0) > 0);
   const isFullSearchIndexLoaded = searchTools.length >= totalToolCount;
 
-  const loadFullSearchIndex = async () => {
-    if (isFullSearchIndexLoaded || isSearchIndexLoading) {
-      return;
-    }
-
+  const loadFullSearchIndex = useCallback(() => {
+    if (fullIndexLoaded.current) return Promise.resolve();
+    if (indexRequest.current) return indexRequest.current;
+    const controller = new AbortController();
+    indexController.current = controller;
     setIsSearchIndexLoading(true);
     setSearchIndexError('');
-
-    try {
-      const response = await fetch(searchIndexUrl);
-
-      if (!response.ok) {
-        throw new Error(`Search index request failed with ${response.status}`);
+    const request = (async () => {
+      try {
+        const response = await fetch(searchIndexUrl, { signal: controller.signal });
+        if (!response.ok) throw new Error('Search index unavailable');
+        const payload = await response.json() as { tools?: ToolSearchItem[] };
+        if (!Array.isArray(payload.tools) || payload.tools.length < totalToolCount || payload.tools.some(tool =>
+          !tool || typeof tool.slug !== 'string' || typeof tool.name !== 'string' || typeof tool.searchText !== 'string')) {
+          throw new Error('Incomplete search index');
+        }
+        if (mounted.current && !controller.signal.aborted) {
+          fullIndexLoaded.current = true;
+          setSearchTools(payload.tools);
+        }
+      } catch {
+        if (mounted.current && !controller.signal.aborted) {
+          setSearchIndexError('The full search could not load. Retry, or browse every tool in the A–Z index below.');
+        }
+      } finally {
+        if (indexController.current === controller) {
+          indexRequest.current = null;
+          if (mounted.current) setIsSearchIndexLoading(false);
+        }
       }
+    })();
+    indexRequest.current = request;
+    return request;
+  }, [searchIndexUrl, totalToolCount]);
 
-      const payload = (await response.json()) as { tools?: ToolSearchItem[] };
-
-      if (!Array.isArray(payload.tools)) {
-        throw new Error('Search index response did not include tools.');
-      }
-
-      setSearchTools(payload.tools);
-    } catch {
-      setSearchIndexError('Full search is loading slowly. The first tools are still available.');
-    } finally {
-      setIsSearchIndexLoading(false);
-    }
+  const applyState = (next: ToolDiscoveryState, historyMode: 'push' | 'replace' = 'push', keepReveal = false) => {
+    if (!keepReveal) revealFocus.current = null;
+    stateRef.current = next;
+    setState(next);
+    if (searchInputRef.current) searchInputRef.current.value = next.query;
+    if (categorySelectRef.current) categorySelectRef.current.value = next.category;
+    const url = toolDiscoveryUrl(new URL(window.location.href), next);
+    const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    if (url !== current) window.history[historyMode === 'push' ? 'pushState' : 'replaceState'](window.history.state, '', url);
+    if (next.query.trim() || next.category !== 'all' || next.limit > TOOL_PAGE_SIZE) void loadFullSearchIndex();
   };
 
   useEffect(() => {
-    const queryFromUrl = new URLSearchParams(window.location.search).get('q')?.trim() ?? '';
-
-    if (queryFromUrl) {
-      setQuery(queryFromUrl);
-      void loadFullSearchIndex();
-    }
-  }, []);
+    mounted.current = true;
+    const restore = (allowNativeRestoration = false) => {
+      const next = readToolDiscoveryState(window.location.search, categories.map(item => item.slug), totalToolCount);
+      // Uncontrolled fields preserve text entered or restored before the island hydrates.
+      // Explicit URL state wins; popstate/pageshow always restore the URL exactly.
+      const params = new URLSearchParams(window.location.search);
+      if (allowNativeRestoration && !params.has('q') && searchInputRef.current?.value) next.query = searchInputRef.current.value;
+      if (allowNativeRestoration && !params.has('category') && categorySelectRef.current?.value !== 'all') {
+        const restoredCategory = categorySelectRef.current?.value;
+        if (restoredCategory && categories.some(item => item.slug === restoredCategory)) next.category = restoredCategory;
+      }
+      typingSession.current = false;
+      applyState(next, 'replace');
+    };
+    restore(true);
+    const restoreFromHistory = () => restore();
+    window.addEventListener('popstate', restoreFromHistory);
+    window.addEventListener('pageshow', restoreFromHistory);
+    return () => {
+      mounted.current = false;
+      indexController.current?.abort();
+      indexController.current = null;
+      indexRequest.current = null;
+      window.removeEventListener('popstate', restoreFromHistory);
+      window.removeEventListener('pageshow', restoreFromHistory);
+    };
+  }, [categories, totalToolCount, loadFullSearchIndex]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (
-        event.key.toLowerCase() !== 'k' ||
-        !event.ctrlKey ||
-        event.altKey ||
-        event.metaKey ||
-        event.shiftKey ||
-        isEditableTarget(event.target)
-      ) {
-        return;
-      }
-
-      const searchInput = document.getElementById('tool-library-search');
-      if (!(searchInput instanceof HTMLInputElement)) return;
-
+      if (event.key.toLowerCase() !== 'k' || !event.ctrlKey || event.altKey || event.metaKey || event.shiftKey || isEditableTarget(event.target)) return;
       event.preventDefault();
-      searchInput.focus();
+      searchInputRef.current?.focus();
     };
-
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const updateQuery = (nextQuery: string) => {
-    setQuery(nextQuery);
-    setShowAllTools(false);
-
-    const url = new URL(window.location.href);
-    const trimmedQuery = nextQuery.trim();
-
-    if (trimmedQuery) {
-      url.searchParams.set('q', trimmedQuery);
-    } else {
-      url.searchParams.delete('q');
-    }
-
-    window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
-
-    if (trimmedQuery) {
-      void loadFullSearchIndex();
-    }
-  };
-
-  const availableCategories = categories.filter((item) => (categoryCounts[item.slug] ?? 0) > 0);
-
-  const filteredTools = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
-
-    return searchTools.filter((tool) => {
-      const matchesQuery =
-        normalizedQuery.length === 0 ||
-        tool.searchText.toLowerCase().includes(normalizedQuery);
-      const matchesCategory = category === 'all' || tool.category === category;
-
-      return matchesQuery && matchesCategory;
-    });
-  }, [category, query, searchTools]);
-
-  const selectedCategory = availableCategories.find((item) => item.slug === category);
-  const shouldLimitInitialResults =
-    !showAllTools &&
-    query.trim().length === 0 &&
-    category === 'all' &&
-    totalToolCount > INITIAL_VISIBLE_TOOL_LIMIT;
-  const visibleTools = shouldLimitInitialResults
-    ? filteredTools.slice(0, INITIAL_VISIBLE_TOOL_LIMIT)
-    : filteredTools;
-  const filteredToolCount = isFullSearchIndexLoaded
-    ? filteredTools.length
-    : category === 'all' && query.trim().length === 0
-      ? totalToolCount
-      : category !== 'all' && query.trim().length === 0
-        ? categoryCounts[category] ?? filteredTools.length
-        : filteredTools.length;
-  const hiddenToolCount = filteredToolCount - visibleTools.length;
+  const filteredTools = useMemo(() => rankDiscoveryItems(
+    searchTools.filter(tool => toolMatchesDiscoveryCategory(tool, state.category)), state.query,
+  ), [searchTools, state.category, state.query]);
+  const visibleTools = filteredTools.slice(0, state.limit);
+  const countIsComplete = isFullSearchIndexLoaded || !state.query.trim();
+  const filteredToolCount = isFullSearchIndexLoaded ? filteredTools.length
+    : state.query.trim() ? filteredTools.length
+    : state.category === 'all' ? totalToolCount : categoryCounts[state.category as ToolCategory['slug']] ?? filteredTools.length;
+  const selectedCategory = categories.find(item => item.slug === state.category);
+  const hasMoreTools = filteredToolCount > visibleTools.length || !isFullSearchIndexLoaded && Boolean(state.query.trim()) && !searchIndexError;
 
   useEffect(() => {
     const pending = revealFocus.current;
-    if (!pending) return;
+    // Wait for final ordering so a delayed index does not move focus twice.
+    if (!pending || isSearchIndexLoading) return;
     if (document.activeElement !== pending.trigger && document.activeElement !== document.body) {
       revealFocus.current = null;
       return;
     }
-    const firstNewLink = [...(resultsRef.current?.querySelectorAll<HTMLAnchorElement>('a') ?? [])]
-      .find((link) => !pending.hrefs.has(link.getAttribute('href')));
-    if (firstNewLink) {
+    if (searchIndexError) {
+      // A disabled loading button can release focus. Restore its keyboard retry
+      // target once it is enabled, unless the visitor has moved elsewhere.
+      pending.trigger.focus();
       revealFocus.current = null;
-      firstNewLink.focus();
+      return;
     }
-  }, [visibleTools]);
+    if (!isFullSearchIndexLoaded) return;
+    const firstNewLink = [...(resultsRef.current?.querySelectorAll<HTMLAnchorElement>('a') ?? [])]
+      .find(link => !pending.hrefs.has(link.getAttribute('href')));
+    revealFocus.current = null;
+    firstNewLink?.focus();
+  }, [visibleTools, isSearchIndexLoading, isFullSearchIndexLoaded, searchIndexError]);
+
+  const updateQuery = (query: string) => {
+    applyState({ ...stateRef.current, query, limit: TOOL_PAGE_SIZE }, typingSession.current ? 'replace' : 'push');
+    typingSession.current = true;
+  };
+  const chooseCategory = (category: string) => {
+    typingSession.current = false;
+    applyState({ ...stateRef.current, category, limit: TOOL_PAGE_SIZE });
+  };
 
   return (
-    <section className="tools-launchpad">
-      <div className="tools-hero">
-        <div className="tools-hero-copy">
-          <p className="breadcrumb">
-            <a href="/">Home</a> / Tools
-          </p>
-          <ToolsTitleGraphic />
-          <p>
-            Search simple browser tools for everyday tasks. Open a utility, browse by category,
-            and get straight to the answer without signup.
-          </p>
+    <section className="tools-launchpad task-first-directory">
+      <div className="tools-hero"><div className="tools-hero-copy">
+        <p className="breadcrumb"><a href="/">Home</a> / Tools</p>
+        <ToolsTitleGraphic />
+        <p>Find a calculator, converter, or browser helper for the job in front of you.</p>
+      </div></div>
+
+      <form className="tool-discovery-form" action="/tools/" method="get" onSubmit={event => {
+        event.preventDefault();
+        typingSession.current = false;
+        applyState({ ...stateRef.current, query: searchInputRef.current?.value ?? '', category: categorySelectRef.current?.value ?? 'all', limit: TOOL_PAGE_SIZE });
+      }}>
+        <div className="tool-command-bar">
+          <Search size={20} strokeWidth={2.4} aria-hidden="true" />
+          <label htmlFor="tool-library-search">Search tools</label>
+          <input id="tool-library-search" name="q" type="search" ref={searchInputRef} defaultValue=""
+            onChange={event => updateQuery(event.target.value)} onBlur={() => { typingSession.current = false; }}
+            placeholder="Try fraction compare or pounds to kg" />
+          <kbd>Ctrl</kbd><kbd>K</kbd>
         </div>
-      </div>
-
-      <div className="tool-command-bar">
-        <Search size={20} strokeWidth={2.4} />
-        <label htmlFor="tool-library-search">Search tools</label>
-        <input
-          id="tool-library-search"
-          onChange={(event) => updateQuery(event.target.value)}
-          placeholder="Search mortgage, loan, tax, BMI, ratio..."
-          type="search"
-          value={query}
-        />
-        <kbd>Ctrl</kbd>
-        <kbd>K</kbd>
-      </div>
-
-      <div className="launchpad-filter-row" aria-label="Tool filters">
-        <button
-          aria-pressed={category === 'all'}
-          onClick={() => {
-            setCategory('all');
-            setShowAllTools(false);
-          }}
-          type="button"
-        >
-          <Grid3X3 size={16} strokeWidth={2.4} /> All
-        </button>
-        {availableCategories.slice(0, 5).map((item) => {
-          const Icon = getCategoryIcon(item.slug);
-
-          return (
-            <button
-              aria-pressed={category === item.slug}
-              key={item.slug}
-              onClick={() => {
-                setCategory(item.slug);
-                setShowAllTools(false);
-                void loadFullSearchIndex();
-              }}
-              type="button"
-            >
-              <Icon size={16} strokeWidth={2.4} /> {item.name}
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="launchpad-grid">
-        <div className="launchpad-category-select">
-          <label htmlFor="tool-category">Tool category</label>
-          <select
-            id="tool-category"
-            value={category}
-            onChange={(event) => {
-              setCategory(event.target.value as CategoryFilter);
-              setShowAllTools(false);
-              void loadFullSearchIndex();
-            }}
-          >
-            <option value="all">All tools ({totalToolCount})</option>
-            {availableCategories.map((item) => (
-              <option key={item.slug} value={item.slug}>{item.name} ({categoryCounts[item.slug] ?? 0})</option>
-            ))}
-          </select>
+        <div className="tool-discovery-controls">
+          <div className="launchpad-category-select">
+            <label htmlFor="tool-category">Tool category</label>
+            <select id="tool-category" name="category" ref={categorySelectRef} defaultValue="all" onChange={event => chooseCategory(event.target.value)}>
+              <option value="all">All categories ({totalToolCount} tool names)</option>
+              {availableCategories.map(item => <option key={item.slug} value={item.slug}>{item.name} ({categoryCounts[item.slug] ?? 0})</option>)}
+            </select>
+          </div>
+          <button className="tool-discovery-submit" type="submit">Search</button>
+          {(state.query || state.category !== 'all' || state.limit > TOOL_PAGE_SIZE) && <button className="tool-discovery-reset" type="button" onClick={() => {
+            typingSession.current = false;
+            applyState({ query: '', category: 'all', limit: TOOL_PAGE_SIZE });
+            searchInputRef.current?.focus();
+          }}>Clear search and category</button>}
         </div>
-        <aside className="category-rail" aria-label="Tool categories">
-          <button
-            aria-pressed={category === 'all'}
-            onClick={() => {
-              setCategory('all');
-              setShowAllTools(false);
-            }}
-            type="button"
-          >
-            <Grid3X3 size={18} strokeWidth={2.4} />
-            <span>All tools</span>
-            <small>{totalToolCount}</small>
-          </button>
-          {availableCategories.map((item) => {
-            const Icon = getCategoryIcon(item.slug);
-            const count = categoryCounts[item.slug] ?? 0;
+      </form>
 
-            return (
-              <button
-                aria-pressed={category === item.slug}
-                key={item.slug}
-                onClick={() => {
-                  setCategory(item.slug);
-                  setShowAllTools(false);
-                  void loadFullSearchIndex();
-                }}
-                type="button"
-              >
-                <Icon size={18} strokeWidth={2.4} />
-                <span>{item.name}</span>
-                {count > 0 && <small>{count}</small>}
-              </button>
-            );
+      {!state.query.trim() && state.category === 'all' && <section className="tool-task-chooser" aria-labelledby="tool-task-heading">
+        <h2 id="tool-task-heading">What do you want to do?</h2>
+        <div className="tool-task-grid">
+          {taskExamples.map(task => {
+            const Icon = getCategoryIcon(task.category);
+            return <button key={task.query} type="button" onClick={() => {
+              typingSession.current = false;
+              applyState({ query: task.query, category: 'all', limit: TOOL_PAGE_SIZE });
+              searchInputRef.current?.focus();
+            }}><Icon size={19} aria-hidden="true" /><span>{task.label}</span><ArrowRight size={16} aria-hidden="true" /></button>;
           })}
-        </aside>
-
-        <div className="library-results">
-          <div className="results-heading">
-            <div>
-              <h2>{selectedCategory?.name ?? 'Available Tools'}</h2>
-              <p aria-atomic="true" aria-live="polite" role="status">
-                {isSearchIndexLoading
-                  ? 'Loading the full searchable library...'
-                  : visibleTools.length === filteredToolCount
-                    ? `Showing ${filteredToolCount} ${filteredToolCount === 1 ? 'tool' : 'tools'}.`
-                    : `Showing first ${visibleTools.length} of ${filteredToolCount} tools. Search, filter, or show all to browse the full library.`}
-              </p>
-            </div>
-          </div>
-          {searchIndexError && <p className="launchpad-status-note">{searchIndexError}</p>}
-
-          <div className="launchpad-tool-grid" ref={resultsRef}>
-            {visibleTools.map((tool) => {
-              const href = `/tools/${tool.slug}/`;
-
-              return (
-                <a className="launchpad-tool-card" href={href} key={tool.slug}>
-                  <div className="card-topline">
-                    <ToolGlyph tool={tool} />
-                  </div>
-                  <strong>{tool.name}</strong>
-                  <p>{tool.summary}</p>
-                  <span className="card-link">
-                    Open tool
-                    <ArrowRight size={15} strokeWidth={2.5} />
-                  </span>
-                </a>
-              );
-            })}
-          </div>
-
-          {hiddenToolCount > 0 && (
-            <button
-              className="launchpad-show-more"
-              onClick={(event) => {
-                revealFocus.current = event.detail === 0 ? {
-                  hrefs: new Set([...resultsRef.current!.querySelectorAll('a')].map((link) => link.getAttribute('href'))),
-                  trigger: event.currentTarget,
-                } : null;
-                setShowAllTools(true);
-                void loadFullSearchIndex();
-              }}
-              type="button"
-            >
-              Show all {filteredToolCount} tools
-            </button>
-          )}
-
-          {filteredTools.length === 0 && (
-            <div className="empty-results">
-              <Sparkles size={22} strokeWidth={2.4} />
-              <h2>No matching tools</h2>
-              <p>Try another search term or choose a different category.</p>
-            </div>
-          )}
         </div>
+      </section>}
+
+      <div className="library-results">
+        <div className="results-heading"><div>
+          <h2>{state.query.trim() ? 'Matching tools' : selectedCategory?.name ?? 'Browse tools'}</h2>
+          <p aria-atomic="true" aria-live="polite" role="status">
+            {isSearchIndexLoading ? 'Loading the full searchable library…'
+              : !countIsComplete ? 'These are matches from the loaded tools. Full search is not available yet.'
+              : `Showing ${visibleTools.length} of ${filteredToolCount} ${filteredToolCount === 1 ? 'tool name' : 'tool names'}${selectedCategory ? ` in ${selectedCategory.name}` : ''}.`}
+          </p>
+        </div>{selectedCategory && <a href={`/categories/${selectedCategory.slug}/`}>Read category guides</a>}</div>
+        {searchIndexError && <div className="launchpad-status-note"><p>{searchIndexError}</p><button type="button" onClick={() => { void loadFullSearchIndex(); }}>Retry full search</button> <a href="#tools-az-heading">Browse the A–Z index</a></div>}
+        <div className="launchpad-tool-grid" ref={resultsRef}>
+          {visibleTools.map(tool => <a className="launchpad-tool-card" href={`/tools/${tool.slug}/`} key={tool.slug}>
+            <div className="card-topline"><ToolGlyph tool={tool} /></div><strong>{tool.name}</strong><p>{tool.summary}</p>
+            <span className="card-link">Open tool<ArrowRight size={15} strokeWidth={2.5} aria-hidden="true" /></span>
+          </a>)}
+        </div>
+        {hasMoreTools && <button className="launchpad-show-more" type="button" disabled={isSearchIndexLoading} onClick={event => {
+          revealFocus.current = event.detail === 0 ? { hrefs: new Set([...resultsRef.current!.querySelectorAll('a')].map(link => link.getAttribute('href'))), trigger: event.currentTarget } : null;
+          typingSession.current = false;
+          applyState({ ...stateRef.current, limit: Math.min(stateRef.current.limit + TOOL_PAGE_SIZE, totalToolCount) }, 'push', true);
+          void loadFullSearchIndex();
+        }}>{isSearchIndexLoading ? 'Loading tools…' : 'Show 12 more tools'}</button>}
+        {isFullSearchIndexLoaded && filteredTools.length === 0 && <div className="empty-results">
+          <h3>No matching tools</h3><p>Try a tool name or fewer words.</p>
+          {state.category !== 'all' && <button type="button" onClick={() => chooseCategory('all')}>Search all categories</button>}
+          <button type="button" onClick={() => { typingSession.current = false; applyState({ query: '', category: 'all', limit: TOOL_PAGE_SIZE }); searchInputRef.current?.focus(); }}>Clear search</button>
+          <a href="#tools-az-heading">Browse every tool by name</a>
+        </div>}
       </div>
+      <noscript><p>Browse the complete A–Z index below. Search and category filtering need JavaScript.</p></noscript>
     </section>
   );
 }

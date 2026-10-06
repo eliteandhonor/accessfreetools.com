@@ -1,4 +1,5 @@
-import { useMemo, useState, type HTMLAttributes, type KeyboardEvent } from 'react';
+import { useMemo, useRef, useState, type HTMLAttributes, type KeyboardEvent } from 'react';
+import '../styles/utility-wallpaper.css';
 import {
   calculateAge,
   calculateAiTokenCost,
@@ -8592,6 +8593,7 @@ function calculateUtility(
 
 export default function UtilityCalculator({ variant }: Props) {
   const config = utilityConfigs[variant];
+  const needsFreshManualResult = variant === 'conversion' || variant === 'wallpaper';
   const waitsForUserAction = variant === 'password-generator' || variant === 'uuid-generator' || variant === 'hash-generator';
   const [modeId, setModeId] = useState(config.modes[0].id);
   const activeMode = useMemo(
@@ -8605,8 +8607,16 @@ export default function UtilityCalculator({ variant }: Props) {
   const [error, setError] = useState('');
   const [history, setHistory] = useState<UtilityCalculation[]>([]);
   const [copied, setCopied] = useState(false);
+  const answerVersion = useRef(0);
+
+  function invalidateAnswer() {
+    if (!needsFreshManualResult) return;
+    answerVersion.current += 1;
+    setResult(null);
+  }
 
   function changeMode(nextMode: UtilityMode) {
+    if (needsFreshManualResult) answerVersion.current += 1;
     setModeId(nextMode.id);
     setInputs(nextMode.defaultInputs);
     setResult(waitsForUserAction ? null : (calculateUtility(variant, nextMode.id, nextMode.defaultInputs) as UtilityCalculation));
@@ -8616,6 +8626,7 @@ export default function UtilityCalculator({ variant }: Props) {
 
   function updateInput(key: string, value: string) {
     setInputs((current) => ({ ...current, [key]: value }));
+    invalidateAnswer();
     setError('');
     setCopied(false);
   }
@@ -8631,11 +8642,13 @@ export default function UtilityCalculator({ variant }: Props) {
   async function runCalculation(nextInputs = inputs) {
     try {
       const nextResult = await Promise.resolve(calculateUtility(variant, activeMode.id, nextInputs));
+      if (needsFreshManualResult) answerVersion.current += 1;
       setResult(nextResult);
       setHistory((current) => (nextResult.keepOutOfHistory ? current : [nextResult, ...current].slice(0, 4)));
       setError('');
       setCopied(false);
     } catch (caughtError) {
+      invalidateAnswer();
       setError(caughtError instanceof Error ? caughtError.message : 'Check the inputs and try again.');
       setCopied(false);
     }
@@ -8643,16 +8656,20 @@ export default function UtilityCalculator({ variant }: Props) {
 
   function useExample(example: UtilityExample) {
     setInputs(example.inputs);
+    invalidateAnswer();
     void runCalculation(example.inputs);
   }
 
   async function copyResult() {
-    if (!result || !navigator.clipboard) return;
+    if (!result || error || !navigator.clipboard) return;
+    const copyingVersion = answerVersion.current;
 
     try {
       await navigator.clipboard.writeText(result.textOutput || variant === 'password-generator' ? result.answer : `${result.expression} = ${result.answer}`);
+      if (needsFreshManualResult && copyingVersion !== answerVersion.current) return;
       setCopied(true);
     } catch {
+      if (needsFreshManualResult && copyingVersion !== answerVersion.current) return;
       setCopied(false);
       setError('Copy was not available in this browser. You can still select the answer manually.');
     }
@@ -8667,16 +8684,13 @@ export default function UtilityCalculator({ variant }: Props) {
 
   return (
     <section
-      className="advanced-calculator advanced-calculator-utility"
+      className={`advanced-calculator advanced-calculator-utility${variant === 'wallpaper' ? ' utility-wallpaper' : ''}`}
       aria-label={`${config.title} workspace`}
       data-clarity-mask={variant === 'love' ? 'true' : undefined}
     >
       <div className="advanced-panel">
-        {variant === 'wallpaper' && (
-          <p className="advanced-note">The prefilled values are a sample: a 12 x 10 foot room with 8-foot walls, one door, two windows, 56 square feet per roll, 10% waste, and $42 per roll gives 6 rolls and $252. Replace them with your room and product details, then press Estimate wallpaper.</p>
-        )}
         {config.modes.length > 1 && (
-          <div className="advanced-mode-grid" aria-label="Calculator modes">
+          <div className="advanced-mode-grid" role="group" aria-label="Calculator modes">
             {config.modes.map((mode) => (
               <button
                 aria-pressed={mode.id === activeMode.id}
@@ -8733,7 +8747,7 @@ export default function UtilityCalculator({ variant }: Props) {
             }
 
             return (
-              <label className={field.type === 'checkbox' ? 'advanced-field advanced-checkbox-field' : 'advanced-field'} key={field.key}>
+              <label className={field.type === 'checkbox' ? 'advanced-field advanced-checkbox-field' : 'advanced-field'} data-field={variant === 'wallpaper' ? field.key : undefined} key={field.key}>
                 {field.type === 'checkbox' ? (
                   <>
                     <input
@@ -8787,7 +8801,15 @@ export default function UtilityCalculator({ variant }: Props) {
           </button>
         </div>
 
+        {variant === 'wallpaper' && (
+          <p className="advanced-note">The prefilled values are a sample: a 12 x 10 foot room with 8-foot walls, one door, two windows, 56 square feet per roll, 10% waste, and $42 per roll gives 6 rolls and $252. Replace them with your room and product details, then press Estimate wallpaper.</p>
+        )}
+
         {error && <p className="calculator-error" role="alert">{error}</p>}
+
+        {needsFreshManualResult && !result && !error && (
+          <p className="advanced-note" role="status">Inputs changed. Press {activeMode.buttonLabel ?? config.buttonLabel} for a new answer.</p>
+        )}
 
         {result && (
           <article className="advanced-result-card utility-result-card" aria-live="polite">

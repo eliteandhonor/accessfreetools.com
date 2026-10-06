@@ -1,0 +1,76 @@
+.category-index-discovery {
+  margin: 0 auto;
+  max-width: var(--container);
+  padding: 22px 22px 32px;
+}
+.category-index-opening .breadcrumb { margin: 0 0 12px; }
+.category-index-opening h1 { font-size: clamp(2rem, 3.4vw, 3.4rem); line-height: 1.1; margin: 0; }
+.category-index-opening > p:not(.breadcrumb) { color: var(--muted); line-height: 1.5; margin: 10px 0 16px; }
+.category-index-search { margin: 0 0 18px; max-width: 760px; }
+.category-index-search label { display: block; font-weight: 850; margin-bottom: 8px; }
+.category-index-search > div { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr) auto; }
+.category-index-search input {
+  background: var(--surface-solid);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font: inherit;
+  min-height: 48px;
+  min-width: 0;
+  padding: 10px 12px;
+}
+.category-index-search button { border: 0; cursor: pointer; }
+.category-index-choices { display: grid; gap: 8px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.category-index-choices > a {
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  line-height: 1.35;
+  min-height: 48px;
+  min-width: 0;
+  padding: 10px 12px;
+}
+.category-index-choices strong { font-size: .95rem; min-width: 0; }
+.category-index-count { color: var(--muted); flex: 0 0 auto; font-size: .82rem; font-weight: 800; }
+.category-index-opening .category-index-count-note { font-size: .88rem; margin: 10px 0 0; }
+.category-index-examples,
+.category-index-context { margin-top: 28px; }
+.category-index-examples > h2,
+.category-index-context > h2 { font-size: clamp(1.4rem, 2.4vw, 2rem); line-height: 1.2; margin: 0; }
+.category-index-examples > p,
+.category-index-context > p { color: var(--muted); line-height: 1.6; margin: 10px 0 14px; }
+.category-index-inventory { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+.category-index-inventory > summary { cursor: pointer; font-weight: 850; line-height: 1.5; min-height: 48px; padding: 14px; }
+.category-index-example-grid { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 4px 16px 16px; }
+.category-index-example-grid > article { border: 1px solid var(--border); border-radius: 8px; min-width: 0; padding: 14px; }
+.category-index-example-grid h3 { font-size: 1.18rem; line-height: 1.3; margin: 0; }
+.category-index-example-grid p { color: var(--muted); font-size: .9rem; line-height: 1.5; margin: 10px 0; }
+.category-index-example-grid .category-index-example-count { font-weight: 800; }
+.category-index-example-grid ul { display: grid; gap: 12px; list-style: none; margin: 12px 0 0; padding: 0; }
+.category-index-example-grid li { display: grid; gap: 4px; }
+.category-index-example-grid li a { display: block; font-weight: 800; line-height: 1.4; }
+.category-index-example-grid li span { color: var(--muted); font-size: .88rem; line-height: 1.5; }
+.category-index-context-links { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.category-index-context-links a { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; display: grid; gap: 8px; padding: 14px; }
+.category-index-context-links strong { line-height: 1.35; }
+.category-index-context-links span { color: var(--muted); font-size: .9rem; line-height: 1.5; }
+.category-index-example-grid h3 a,
+.category-index-example-grid li a,
+.category-index-resource a { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 800px) {
+  .category-index-choices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .category-index-example-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .category-index-discovery { padding-top: 18px; }
+  .category-index-choices > a { gap: 5px; padding: 10px; }
+  .category-index-choices strong { font-size: .9rem; }
+  .category-index-search button { padding-left: 12px; padding-right: 12px; }
+  .category-index-example-grid,
+  .category-index-context-links { grid-template-columns: 1fr; }
+  .category-index-example-grid { padding: 4px 12px 12px; }
+}

@@ -2,11 +2,12 @@
 import BaseLayout from '../../components/BaseLayout.astro';
 import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
 import CollectionStructuredData from '../../components/CollectionStructuredData.astro';
-import ToolCard from '../../components/ToolCard.astro';
+import '../../styles/category-guide-ux.css';
+import { toolMatchesDiscoveryCategory } from '../../lib/toolDiscovery';
 import { getBlogGuideSlugForTool } from '../../data/blogGuideCanonicals';
 import { blogPosts } from '../../data/blogPosts';
 import { categories, getCategory, type ToolCategory } from '../../data/categories';
-import { getToolsByCategory, tools } from '../../data/tools';
+import { tools } from '../../data/tools';
 
 export const prerender = true;
 
@@ -24,7 +25,7 @@ interface Props {
 }
 
 const { category } = Astro.props;
-const categoryTools = getToolsByCategory(category.slug);
+const categoryTools = tools.filter((tool) => toolMatchesDiscoveryCategory(tool, category.slug));
 const categoryName = getCategory(category.slug)?.name ?? category.name;
 const categorySeoOverrides: Partial<
   Record<ToolCategory['slug'], { title: string; heading: string; description: string; intro: string }>
@@ -105,9 +106,9 @@ const categorySeoOverrides: Partial<
     title: 'Free Image Tools And Visual Utilities | Access Free Tools',
     heading: 'Free Image Tools',
     description:
-      'Use free browser image tools for OCR, labels, visual checks, image helper workflows, and guide-linked tool artwork.',
+      'Check color contrast, aspect ratios, and monitor pixel density, or read text and suggest image labels with browser tools.',
     intro:
-      'Use image tools for practical visual tasks such as reading image text, checking labels, and working with approved guide artwork. Public images stay tied to the matching tool or guide so the gallery supports real page context instead of becoming a loose image dump.',
+      'Choose a tool to check color contrast, calculate an aspect ratio or monitor pixel density, read text from an image, or suggest image labels. OCR and image classification are also listed under AI tools; check their accuracy and download notes before using the results.',
   },
   'school-study': {
     title: 'Free School And Study Tools | Access Free Tools',
@@ -150,6 +151,9 @@ const allToolsHeading =
 const toolSlugs = new Set(categoryTools.map((tool) => getBlogGuideSlugForTool(tool.slug)));
 const categoryGuides = blogPosts.filter((post) => toolSlugs.has(post.slug));
 const topTools = categoryTools.slice(0, 6);
+const remainingTools = categoryTools.slice(topTools.length);
+const startingGuides = categoryGuides.slice(0, 6);
+const remainingGuides = categoryGuides.slice(startingGuides.length);
 const calculatorHubLinks = [
   {
     href: '/tools/basic-calculator/',
@@ -551,8 +555,8 @@ const categoryGuideConfig: Partial<
       },
       {
         href: '/blog/browser-text-to-speech-kokoro-vs-supertonic/',
-        title: 'Kokoro versus Supertonic browser test',
-        text: 'Measured Edge and Chrome runs, model downloads, voice choices, and downloadable MP3 results.',
+        title: 'Kokoro versus Supertonic browser comparison',
+        text: 'Compare voice and language choices, model downloads, MP3 controls, privacy limits, and model terms.',
       },
     ],
   },
@@ -832,9 +836,9 @@ const categoryTasks: Record<string, string[]> = {
     'Clear caveats for platform-specific limits, style-guide differences, and canonical URL planning.',
   ],
   'image-tools': [
-    'Design and image planning helpers for contrast checks, aspect ratios, and future visual workflows.',
+    'Design and display checks for color contrast, aspect ratios, and monitor pixel density.',
     'Accessibility-aware outputs that explain pass/fail thresholds instead of hiding the assumptions.',
-    'Practical notes for export dimensions, color states, and platform-specific requirements.',
+    'OCR for reading image text and AI image labels that need checking against the original image.',
   ],
   'ai-tools': [
     'Local browser helpers for OCR, summaries, sentiment, language checks, image labels, and writing feedback.',
@@ -877,12 +881,59 @@ const taskNotes = categoryTasks[category.slug] ?? [
     }))}
   />
 
-  <section class="page-intro">
+  <section class="page-intro task-first-category-intro">
     <p class="breadcrumb"><a href="/">Home</a> / <a href="/categories/">Categories</a></p>
     <h1>{categorySeo.heading}</h1>
     <p>{categorySeo.intro}</p>
+    <form class="category-search" action="/tools/" method="get" role="search">
+      <label for="category-task-search">Search {category.name.toLowerCase()}</label>
+      <input type="hidden" name="category" value={category.slug} />
+      <div>
+        <input id="category-task-search" type="search" name="q" placeholder="Enter a task or tool name" />
+        <button class="button-primary" type="submit">Search</button>
+      </div>
+    </form>
+    <a class="category-browse-link" href={`/tools/?category=${category.slug}`}>Browse and filter {category.name.toLowerCase()}</a>
   </section>
 
+  <section class="section-band category-task-directory" aria-labelledby="category-tools-heading">
+    <div class="section-heading">
+      <h2 id="category-tools-heading">{allToolsHeading}</h2>
+      <p>Choose a tool for your task. Open its matching guide when you need the inputs or results explained.</p>
+    </div>
+    <div class="category-link-list category-task-choices">
+      {topTools.map((tool) => (
+        <a href={`/tools/${tool.slug}/`}>
+          <strong>{tool.name}</strong>
+          <span>{tool.summary}</span>
+        </a>
+      ))}
+    </div>
+    {categoryTrustNote && (
+      <aside class={`trust-note ${categoryTrustNote.className}`} aria-label={`${category.name} trust note`}>
+        <strong>{categoryTrustNote.title}</strong>
+        <p>{categoryTrustNote.text}</p>
+      </aside>
+    )}
+    {remainingTools.length > 0 && (
+      <details class="category-directory">
+        <summary>Browse all {categoryTools.length} {category.name.toLowerCase()}</summary>
+        <p>The {topTools.length} choices above and these {remainingTools.length} tools make up this category.</p>
+        <ul class="category-compact-links">
+          {remainingTools.map((tool) => (
+            <li>
+              <a href={`/tools/${tool.slug}/`}>{tool.name}</a>
+              <span>{tool.summary}</span>
+            </li>
+          ))}
+        </ul>
+      </details>
+    )}
+  </section>
+
+  <details class="section-band category-guidance">
+    <summary>Help choosing a tool and checking its results</summary>
+    <div class="category-guidance-body">
   {
     category.slug === 'calculators' && (
       <section class="visual-seo-strip" aria-labelledby="calculator-intent-heading">
@@ -925,7 +976,7 @@ const taskNotes = categoryTasks[category.slug] ?? [
   }
 
   <section class="category-overview section-band section-band-soft">
-    <div class="category-stat-grid" aria-label={`${category.name} category summary`}>
+    <div class="category-stat-grid">
       <article>
         <span>{categoryTools.length}</span>
         <p>{categoryTools.length === 1 ? 'tool' : 'tools'} available</p>
@@ -941,19 +992,10 @@ const taskNotes = categoryTasks[category.slug] ?? [
     </div>
 
     {
-      categoryTrustNote && (
-        <aside class={`trust-note ${categoryTrustNote.className}`} aria-label={`${category.name} trust note`}>
-          <strong>{categoryTrustNote.title}</strong>
-          <p>{categoryTrustNote.text}</p>
-        </aside>
-      )
-    }
-
-    {
       category.slug === 'calculators' && (
         <div class="category-context-grid">
           <div>
-            <h2>Popular calculator paths</h2>
+            <h2>Calculator paths by task</h2>
             <p>
               These links match the main ways people search for free calculators: simple everyday math, percentage
               problems, scientific functions, money estimates, health estimates, and unit conversion.
@@ -1018,36 +1060,15 @@ const taskNotes = categoryTasks[category.slug] ?? [
       )
     }
 
-    <div class="category-context-grid">
-      <div>
-        <h2>What this category helps with</h2>
-        <ul class="guide-bullet-list">
-          {taskNotes.map((note) => <li>{note}</li>)}
-        </ul>
-      </div>
-      <div>
-        <h2>Start with these tools</h2>
-        <div class="category-link-list">
-          {topTools.map((tool) => (
-            <a href={`/tools/${tool.slug}/`}>
-              <strong>{tool.name}</strong>
-              <span>{tool.summary}</span>
-            </a>
-          ))}
-        </div>
-      </div>
+    <div>
+      <h2>What this category helps with</h2>
+      <ul class="guide-bullet-list">
+        {taskNotes.map((note) => <li>{note}</li>)}
+      </ul>
     </div>
   </section>
-
-  <section class="section-band">
-    <div class="section-heading">
-      <h2>{allToolsHeading}</h2>
-      <p>Open a tool, try the examples, then use the matching guide when you need more explanation.</p>
     </div>
-    <div class="tool-grid">
-      {categoryTools.map((tool) => <ToolCard tool={tool} />)}
-    </div>
-  </section>
+  </details>
 
   {
     categoryGuides.length > 0 && (
@@ -1056,20 +1077,27 @@ const taskNotes = categoryTasks[category.slug] ?? [
           <h2>Guides for this category</h2>
           <p>Each guide uses its matching tool, with example numbers and plain limits.</p>
         </div>
-        <div class="blog-list-grid">
-          {categoryGuides.slice(0, 9).map((post) => (
-            <article class="blog-post-card">
-              <span>{post.label}</span>
-              <h3>
-                <a href={`/blog/${post.slug}/`}>{post.title}</a>
-              </h3>
-              <p>{post.summary}</p>
-              <a class="card-link" href={`/blog/${post.slug}/`}>
-                Read {post.label}
-              </a>
-            </article>
+        <ul class="category-compact-links">
+          {startingGuides.map((post) => (
+            <li>
+              <a href={`/blog/${post.slug}/`}>{post.title}</a>
+              <span>{post.summary}</span>
+            </li>
           ))}
-        </div>
+        </ul>
+        {remainingGuides.length > 0 && (
+          <details class="category-directory">
+            <summary>Browse all {categoryGuides.length} guides in this category</summary>
+            <ul class="category-compact-links">
+              {remainingGuides.map((post) => (
+                <li>
+                  <a href={`/blog/${post.slug}/`}>{post.title}</a>
+                  <span>{post.summary}</span>
+                </li>
+              ))}
+            </ul>
+          </details>
+        )}
       </section>
     )
   }

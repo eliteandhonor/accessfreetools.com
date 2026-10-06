@@ -6,10 +6,11 @@ import CollectionStructuredData from '../../components/CollectionStructuredData.
 import ToolsLaunchpad from '../../components/ToolsLaunchpad';
 import { categories } from '../../data/categories';
 import { getToolSearchIndex } from '../../data/toolSearchIndex';
-import { tools } from '../../data/tools';
+import { TOOL_PAGE_SIZE, toolMatchesDiscoveryCategory } from '../../lib/toolDiscovery';
+import '../../styles/tool-discovery.css';
 
 const searchTools = getToolSearchIndex();
-const initialSearchTools = searchTools.slice(0, 72).map(({ slug, name, category, summary, icon }) => ({
+const initialSearchTools = searchTools.slice(0, TOOL_PAGE_SIZE).map(({ slug, name, category, summary, icon }) => ({
   slug,
   name,
   category,
@@ -32,260 +33,10 @@ const toolsByInitial = Array.from(
 const categoryCounts = Object.fromEntries(
   categories.map((category) => [
     category.slug,
-    searchTools.filter((tool) => tool.category === category.slug).length,
+    searchTools.filter((tool) => toolMatchesDiscoveryCategory(tool, category.slug)).length,
   ]),
 );
-const discoveryHubs = [
-  {
-    href: '/categories/calculators/',
-    title: 'Free online calculators',
-    text: 'Start with basic math, percentages, fractions, statistics, geometry, and number calculators.',
-  },
-  {
-    href: '/categories/finance/',
-    title: 'Finance calculators',
-    text: 'Estimate payments, mortgage costs, interest, taxes, salary, inflation, and investment numbers.',
-  },
-  {
-    href: '/categories/health-fitness/',
-    title: 'Health and fitness calculators',
-    text: 'Use educational BMI, calorie, pregnancy, nutrition, pace, and body-measurement estimates with clear limits.',
-  },
-  {
-    href: '/categories/home-projects/',
-    title: 'Home project calculators',
-    text: 'Plan concrete, wallpaper, paint, rebar, roofing, sand, electrical, and material estimates.',
-  },
-  {
-    href: '/categories/ai-tools/',
-    title: 'Browser AI tools',
-    text: 'Try OCR, language detection, reading level, tone, keywords, and other browser-side helpers.',
-  },
-  {
-    href: '/categories/developer-tools/',
-    title: 'Developer tools',
-    text: 'Run subnet, password, JSON, URL, UTM, token, and formatting helpers without opening a heavy app.',
-  },
-];
-const warmToolLinks = [
-  {
-    href: '/tools/basic-calculator/',
-    title: 'Basic calculator online free',
-    text: 'A simple calculator for everyday arithmetic, keyboard input, and quick result checks.',
-  },
-  {
-    href: '/tools/percentage-calculator/',
-    title: 'Percentage calculator',
-    text: 'Work out discounts, tips, markups, percent change, and reverse percentages.',
-  },
-  {
-    href: '/tools/absolute-value-calculator/',
-    title: 'Absolute value calculator',
-    text: 'Find distance from zero, signed difference, and absolute difference between two numbers.',
-  },
-  {
-    href: '/tools/big-number-calculator/',
-    title: 'Big number calculator',
-    text: 'Add, subtract, multiply, or divide very large whole numbers with exact integer results.',
-  },
-  {
-    href: '/tools/percent-off-calculator/',
-    title: 'Percent off calculator',
-    text: 'Check sale price, stacked discounts, savings before tax, and after-tax checkout totals.',
-  },
-  {
-    href: '/tools/tip-calculator/',
-    title: 'Tip calculator',
-    text: 'Split tips, check totals, and compare common tip percentages without guessing.',
-  },
-  {
-    href: '/tools/age-calculator/',
-    title: 'Age calculator',
-    text: 'Find exact calendar age, total days, and age on a future cutoff date.',
-  },
-  {
-    href: '/tools/mortgage-calculator/',
-    title: 'Mortgage calculator',
-    text: 'Estimate monthly payment, interest, taxes, insurance, PMI, HOA, and loan balance assumptions.',
-  },
-  {
-    href: '/tools/loan-calculator/',
-    title: 'Loan calculator',
-    text: 'Compare loan payment, total interest, term length, and rate scenarios before trusting a quote.',
-  },
-  {
-    href: '/tools/mortgage-calculator-uk/',
-    title: 'UK mortgage calculator',
-    text: 'Estimate UK-style mortgage payments, interest, balance, and overpayment scenarios with clear limits.',
-  },
-  {
-    href: '/tools/roi-calculator/',
-    title: 'ROI calculator',
-    text: 'Compare gain, cost, net return, and ROI percent before treating an investment result as final.',
-  },
-  {
-    href: '/tools/apy-calculator/',
-    title: 'APY calculator',
-    text: 'Estimate annual percentage yield from a stated rate and compounding frequency before comparing deposit offers.',
-  },
-  {
-    href: '/tools/bmi-calculator/',
-    title: 'BMI calculator',
-    text: 'Check the BMI formula, category result, and why it is only a screening estimate.',
-  },
-  {
-    href: '/tools/calorie-calculator/',
-    title: 'Calorie calculator',
-    text: 'Estimate daily calories from age, body size, activity, and goal assumptions with health limits.',
-  },
-  {
-    href: '/tools/underweight-bmi-calculator/',
-    title: 'Underweight BMI calculator',
-    text: 'Check adult BMI below 18.5 with clear eating-disorder and health-safety limits.',
-  },
-  {
-    href: '/tools/gdp-calculator/',
-    title: 'GDP calculator',
-    text: 'Practice C + I + G + net exports, scale checks, and GDP per person examples.',
-  },
-  {
-    href: '/tools/image-to-text-ocr-tool/',
-    title: 'Image to text OCR',
-    text: 'Extract text from screenshots or images in the browser and learn what OCR can miss.',
-  },
-  {
-    href: '/tools/watts-to-amps-calculator/',
-    title: 'Watts to amps calculator',
-    text: 'Convert watts, volts, phase, and power factor into an amps estimate with electrical safety limits.',
-  },
-  {
-    href: '/tools/heat-index-calculator/',
-    title: 'Heat index calculator',
-    text: 'Estimate apparent temperature from heat and humidity, then check official weather guidance.',
-  },
-  {
-    href: '/tools/wallpaper-calculator/',
-    title: 'Wallpaper calculator',
-    text: 'Estimate whole rolls for a rectangular room using usable roll coverage and the waste percent you choose.',
-  },
-  {
-    href: '/tools/prompt-token-estimator/',
-    title: 'Prompt token estimator',
-    text: 'Estimate prompt tokens from text length, then check why exact tokenizer counts can vary by model.',
-  },
-];
-const guideEntryLinks = [
-  {
-    href: '/blog/',
-    title: 'All calculator and utility guides',
-    text: 'Search every guide when you need examples, formulas, input explanations, and result limits.',
-  },
-  {
-    href: '/blog/how-to-use-ad-revenue-calculator/',
-    title: 'Ad revenue calculator guide',
-    text: 'Learn pageviews, RPM, CTR, CPC, and why ad earnings are only estimates.',
-  },
-  {
-    href: '/blog/how-to-use-mortgage-calculator/',
-    title: 'Mortgage calculator guide',
-    text: 'See how loan amount, rate, term, taxes, insurance, PMI, and HOA change the payment estimate.',
-  },
-  {
-    href: '/blog/how-to-use-gdp-calculator/',
-    title: 'GDP calculator guide',
-    text: 'Walk through consumption, investment, government spending, exports, imports, and official-data limits.',
-  },
-  {
-    href: '/blog/how-to-use-underweight-bmi-calculator/',
-    title: 'Underweight BMI guide',
-    text: 'Read the BMI 18.5 screen without treating BMI as a diagnosis or weight goal.',
-  },
-  {
-    href: '/blog/how-to-use-age-calculator/',
-    title: 'Age calculator guide',
-    text: 'Use birth date, as-of date, total days, leap-day notes, and future cutoff examples.',
-  },
-  {
-    href: '/blog/how-to-use-percent-off-calculator/',
-    title: 'Percent off guide',
-    text: 'Check why stacked discounts are not simply added and how tax can change final price.',
-  },
-  {
-    href: '/blog/how-to-use-income-tax-calculator/',
-    title: 'Income tax guide',
-    text: 'Understand taxable income, filing status, deductions, credits, and why tax estimates need caution.',
-  },
-  {
-    href: '/blog/how-to-use-savings-calculator/',
-    title: 'Savings calculator guide',
-    text: 'Check savings goal, deposit schedule, interest rate, compounding, and time assumptions.',
-  },
-  {
-    href: '/blog/how-to-use-apy-calculator/',
-    title: 'APY calculator guide',
-    text: 'Understand stated rate, compounding frequency, estimated APY, term interest, and disclosure limits.',
-  },
-  {
-    href: '/blog/how-to-use-absolute-value-calculator/',
-    title: 'Absolute value guide',
-    text: 'Compare absolute value, signed difference, absolute difference, and distance from zero with worked examples.',
-  },
-  {
-    href: '/blog/how-to-use-cd-calculator/',
-    title: 'CD calculator guide',
-    text: 'Compare deposit, APY, term, interest earned, and early-withdrawal caution.',
-  },
-  {
-    href: '/blog/how-to-use-currency-calculator/',
-    title: 'Currency calculator guide',
-    text: 'Use a manual exchange rate, fee percent, and inverse-rate check without treating it as live FX data.',
-  },
-  {
-    href: '/blog/how-to-use-roofing-calculator/',
-    title: 'Roofing calculator guide',
-    text: 'Estimate roof area, pitch, waste, bundles, sheets, and supplier-check assumptions.',
-  },
-  {
-    href: '/blog/how-to-use-wind-chill-calculator/',
-    title: 'Wind chill guide',
-    text: 'Read temperature, wind speed, formula limits, and cold-weather safety notes.',
-  },
-  {
-    href: '/blog/how-to-use-watts-to-amps-calculator/',
-    title: 'Watts to amps guide',
-    text: 'Use watts, volts, and phase type to understand electrical current estimates.',
-  },
-  {
-    href: '/blog/how-to-use-wallpaper-calculator/',
-    title: 'Wallpaper calculator guide',
-    text: 'Learn waste percent, pattern repeat, roll coverage, openings, and dye lot checks before buying rolls.',
-  },
-  {
-    href: '/blog/how-to-use-image-to-text-ocr-tool/',
-    title: 'OCR tool guide',
-    text: 'Use image quality, language selection, privacy notes, and double-checking to get better OCR results.',
-  },
-  {
-    href: '/blog/how-to-use-amp-hours-to-watt-hours-calculator/',
-    title: 'Amp-hours to watt-hours guide',
-    text: 'Compare battery capacity with voltage so amp-hour labels make more sense.',
-  },
-  {
-    href: '/blog/how-to-use-sand-calculator/',
-    title: 'Sand calculator guide',
-    text: 'Estimate sand volume, bag count, tons, and waste before a small project.',
-  },
-  {
-    href: '/blog/how-to-use-payment-calculator/',
-    title: 'Payment calculator guide',
-    text: 'Break down loan payment inputs, interest, term length, and planning limits.',
-  },
-  {
-    href: '/blog/how-to-use-prompt-token-estimator/',
-    title: 'Prompt token estimator guide',
-    text: 'Understand rough token estimates, context windows, model differences, and why final counts can change.',
-  },
-];
+
 ---
 
 <BaseLayout
@@ -319,79 +70,15 @@ const guideEntryLinks = [
     client:load
   />
 
-  <section class="discovery-panel tools-index-context" aria-labelledby="tools-discovery-heading">
-    <div class="section-heading">
-      <div>
-        <p class="section-kicker">Start here</p>
-        <h2 id="tools-discovery-heading">Find the right free online tool faster</h2>
-      </div>
-      <p>
-        You can search the whole library, but the fastest path is usually a hub. Pick the job
-        first, then open the tool or guide that matches the question.
-      </p>
-    </div>
-    <div class="discovery-link-grid">
-      {discoveryHubs.map((hub) => (
-        <a href={hub.href}>
-          <strong>{hub.title}</strong>
-          <span>{hub.text}</span>
-        </a>
-      ))}
-    </div>
-  </section>
+  <nav class="tools-directory-help" aria-label="More ways to find a tool">
+    <a href="/categories/">Browse category guides</a>
+    <a href="/hubs/">Explore tools by task</a>
+    <a href="/blog/">Read examples and instructions</a>
+  </nav>
 
-  <section class="discovery-panel discovery-panel-quiet" aria-labelledby="warm-tools-heading">
-    <div class="section-heading">
-      <div>
-        <p class="section-kicker">Popular checks</p>
-        <h2 id="warm-tools-heading">Useful tools people search for first</h2>
-      </div>
-      <p>
-        These are simple entry points for common jobs. Each page links to its matching guide.
-      </p>
-    </div>
-    <div class="discovery-link-grid">
-      {warmToolLinks.map((link) => (
-        <a href={link.href}>
-          <strong>{link.title}</strong>
-          <span>{link.text}</span>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <section class="discovery-panel" aria-labelledby="tools-guide-path-heading">
-    <div class="section-heading">
-      <div>
-        <p class="section-kicker">Guides and examples</p>
-        <h2 id="tools-guide-path-heading">Use a guide when the answer needs context</h2>
-      </div>
-      <p>
-        Some searches need more than a number. These guide paths explain what the inputs mean,
-        how to read the result, and which mistakes to avoid before using the answer.
-      </p>
-    </div>
-    <div class="discovery-link-grid">
-      {guideEntryLinks.map((link) => (
-        <a href={link.href}>
-          <strong>{link.title}</strong>
-          <span>{link.text}</span>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <section class="discovery-panel discovery-panel-quiet" aria-labelledby="tools-az-heading">
-    <div class="section-heading">
-      <div>
-        <p class="section-kicker">A-Z index</p>
-        <h2 id="tools-az-heading">Every public tool link</h2>
-      </div>
-      <p>
-        This plain list links to the full library, including alternate-name pages that point to the
-        matching tool.
-      </p>
-    </div>
+  <details class="tools-directory-inventory">
+    <summary id="tools-az-heading">Browse every tool by name: A–Z ({searchTools.length} links)</summary>
+    <p>All public tool pages, including alternate names for the same calculator or utility.</p>
     <div class="tools-az-grid">
       {toolsByInitial.map((group) => (
         <section class="tools-az-group" aria-labelledby={`tools-az-${group.letter}`}>
@@ -406,5 +93,5 @@ const guideEntryLinks = [
         </section>
       ))}
     </div>
-  </section>
+  </details>
 </BaseLayout>

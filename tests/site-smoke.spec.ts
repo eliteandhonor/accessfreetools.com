@@ -69,6 +69,13 @@ function screenshotPath(projectName: string, path: string) {
   return join(directory, `${projectName}-${safePath || 'page'}.png`);
 }
 
+test.beforeEach(async ({ page }) => {
+  // This suite verifies local pages. The external publisher integration is separate.
+  await page.route('https://news.google.com/swg/js/v1/publisher.js', route => route.fulfill({
+    status: 200, contentType: 'application/javascript', body: '',
+  }));
+});
+
 test.describe('site smoke coverage', () => {
   for (const path of smokePages) {
     test(`${path} renders with one main heading and no layout overflow`, async ({ page }) => {
@@ -114,7 +121,7 @@ test.describe('site smoke coverage', () => {
     });
 
     await page.goto('/tools/');
-    await expect(page.getByRole('heading', { name: 'Available Tools' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Browse tools', exact: true })).toBeVisible();
     expect(searchIndexRequests).toHaveLength(0);
 
     await page.getByLabel('Search tools').fill('watts to amps');
@@ -148,10 +155,11 @@ test.describe('site smoke coverage', () => {
 
   test('visual SEO paths expose important internal links', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('link', { name: /Free online calculators/i })).toBeVisible();
-    await expect(page.locator('a[href="/free-calculator-resources/"]').first()).toBeVisible();
+    await expect(page.locator('main a[href="/categories/calculators/"]')).toBeVisible();
+    await expect(page.locator('main a[href="/free-calculator-resources/"]')).toBeVisible();
 
     await page.goto('/categories/calculators/');
+    await page.getByText('Help choosing a tool and checking its results', { exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Find the right calculator faster' })).toBeVisible();
     await expect(page.locator('a[href="/tools/basic-calculator/"]').first()).toBeVisible();
     await expect(page.locator('a[href="/tools/mortgage-calculator/"]').first()).toBeVisible();

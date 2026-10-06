@@ -31,7 +31,7 @@ import RoundingCalculator from '../../components/RoundingCalculator';
 import ScientificCalculator from '../../components/ScientificCalculator';
 import ScientificNotationCalculator from '../../components/ScientificNotationCalculator';
 import StatsCalculator, { type StatsToolVariant } from '../../components/StatsCalculator';
-import ToolCard from '../../components/ToolCard.astro';
+import '../../styles/tool-workspace.css';
 import ToolArtFigure from '../../components/ToolArtFigure.astro';
 import ToolStructuredData from '../../components/ToolStructuredData.astro';
 import UtilityCalculator, { type UtilityToolVariant } from '../../components/UtilityCalculator';
@@ -1996,7 +1996,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
     ]}
   />
 
-  <section class="tool-page">
+  <section class="tool-page task-first-tool-page">
     <p class="breadcrumb">
       <a href="/">Home</a> / <a href="/tools/">Tools</a> /
       <a href={categoryPath}>{categoryName}</a>
@@ -2008,7 +2008,8 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
         <p>{displayDescription}</p>
       </div>
       <div class="tool-title-actions" role="group" aria-label="Tool page actions">
-        <a class="button-primary" href={guidePath}>Read guide</a>
+        {hasInteractiveTool && <a class="button-primary" href="#tool-workspace" data-tool-workspace-link>Use tool</a>}
+        <a class="button-secondary" href={guidePath}>Read guide</a>
         <a class="button-secondary" href="/tools/">All tools</a>
       </div>
     </div>
@@ -2026,7 +2027,82 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
       )
     }
 
-    {toolArt && !isPercentageTool && <ToolArtFigure entry={toolArt} eager={true} />}
+    {hasInteractiveTool && <Fragment set:html="<!--INFOLINKS_OFF-->" />}
+    {hasInteractiveTool && (
+      <section
+        id="tool-workspace"
+        class="tool-interaction-surface"
+        aria-labelledby="tool-workspace-heading"
+        tabindex="-1"
+        data-aft-tool-usage-surface
+        data-clarity-mask="true"
+        data-tool-category={tool.category}
+        data-tool-name={tool.name}
+        data-tool-slug={tool.slug}
+      >
+        <h2 id="tool-workspace-heading" class="workspace-heading">Use the {displayName}</h2>
+        {(financeToolVariant || healthToolVariant || tool.category === 'home-projects') && (
+          <p class="workspace-limit-note">
+            {healthToolVariant
+              ? 'These results are information, not a diagnosis. Check the health limits below.'
+              : financeToolVariant
+                ? 'Use these estimates to compare numbers. They are not financial or tax advice.'
+                : 'Use this for planning. Check measurements, product instructions, and local requirements before buying or building.'}
+            {' '}<a href="#tool-notes">Read assumptions and limits</a>.
+          </p>
+        )}
+        {isCalculatorTool && <BasicCalculator variant={isKawaiiTool ? 'kawaii' : 'standard'} client:load />}
+        {isPercentageTool && <PercentageCalculator client:load />}
+        {isPercentErrorTool && <PercentErrorCalculator client:load />}
+        {isAbsoluteValueTool && <AbsoluteValueCalculator client:load />}
+        {isHalfLifeTool && <HalfLifeCalculator client:load />}
+        {isExponentTool && <ExponentCalculator client:load />}
+        {isLogTool && <LogCalculator client:load />}
+        {isRatioTool && <RatioCalculator client:load />}
+        {isRootTool && <RootCalculator client:load />}
+        {isQuadraticTool && <QuadraticFormulaCalculator client:load />}
+        {isBinaryTool && <BinaryCalculator client:load />}
+        {isHexTool && <HexCalculator client:load />}
+        {isScientificTool && <ScientificCalculator client:load />}
+        {isFractionTool && <FractionCalculator client:load />}
+        {isRandomTool && <RandomNumberGenerator client:load />}
+        {isLeastCommonMultipleTool && <NumberTheoryCalculator variant="lcm" client:load />}
+        {isGreatestCommonFactorTool && <NumberTheoryCalculator variant="gcf" client:load />}
+        {isFactorTool && <NumberTheoryCalculator variant="factor" client:load />}
+        {isPrimeFactorizationTool && <NumberTheoryCalculator variant="prime-factorization" client:load />}
+        {isLongDivisionTool && <NumberTheoryCalculator variant="long-division" client:load />}
+        {isRoundingTool && <RoundingCalculator client:load />}
+        {isMatrixTool && <MatrixCalculator client:load />}
+        {isScientificNotationTool && <ScientificNotationCalculator client:load />}
+        {isBigNumberTool && <BigNumberCalculator client:load />}
+        {statsToolVariant && <StatsCalculator variant={statsToolVariant} client:load />}
+        {geometryToolVariant && <GeometryCalculator variant={geometryToolVariant} client:load />}
+        {healthToolVariant && <HealthFitnessCalculator variant={healthToolVariant} client:load />}
+        {financeToolVariant && <FinanceCalculator variant={financeToolVariant} client:load />}
+        {utilityToolVariant && <UtilityCalculator variant={utilityToolVariant} client:load />}
+        {aiToolVariant && <AiBrowserTool variant={aiToolVariant} client:load />}
+        {isFourInARowGame && <FourInARowGame client:load />}
+        {isJsonToCsvConverter && <JsonToCsvConverter client:load />}
+        {isAudioVideoTranscriber && <AudioVideoTranscriber client:load />}
+        {isTextToSpeechAudiobookGenerator && <TextToSpeechAudiobookGenerator client:load />}
+      </section>
+    )}
+    {hasInteractiveTool && <Fragment set:html="<!--INFOLINKS_ON-->" />}
+
+    {relatedTools.length > 0 && (
+      <nav class="workspace-related" aria-label="Related tools">
+        <h2>Related tools</h2>
+        <ul>
+          {relatedTools.map((relatedTool) => (
+            <li><a href={`/tools/${relatedTool.slug}/`}>{relatedTool.name}</a></li>
+          ))}
+        </ul>
+      </nav>
+    )}
+
+    {toolArt && <ToolArtFigure entry={toolArt} />}
+
+    <div id="tool-notes" class="tool-method-notes">
 
     {
       isKawaiiTool && (
@@ -2053,7 +2129,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isScientificTool && (
-        <div class="scientific-tool-points" aria-label="Scientific calculator highlights">
+        <div class="scientific-tool-points">
           <span>Keyboard support</span>
           <span>DEG / RAD mode</span>
           <span>Expression history</span>
@@ -2064,7 +2140,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isPercentageTool && (
-        <div class="percentage-tool-points" aria-label="Percentage calculator highlights">
+        <div class="percentage-tool-points">
           <span>Percent of</span>
           <span>Percentage change</span>
           <span>Discounts and markups</span>
@@ -2075,7 +2151,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isExponentTool && (
-        <div class="exponent-tool-points" aria-label="Exponent calculator highlights">
+        <div class="exponent-tool-points">
           <span>Positive powers</span>
           <span>Negative exponents</span>
           <span>Fraction exponents</span>
@@ -2086,7 +2162,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isLogTool && (
-        <div class="log-tool-points" aria-label="Log calculator highlights">
+        <div class="log-tool-points">
           <span>Custom bases</span>
           <span>ln and log10</span>
           <span>Change-of-base steps</span>
@@ -2097,7 +2173,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isRatioTool && (
-        <div class="ratio-tool-points" aria-label="Ratio calculator highlights">
+        <div class="ratio-tool-points">
           <span>Simplify ratios</span>
           <span>Equivalent ratios</span>
           <span>Split totals</span>
@@ -2108,7 +2184,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isRootTool && (
-        <div class="root-tool-points" aria-label="Root calculator highlights">
+        <div class="root-tool-points">
           <span>Square roots</span>
           <span>Cube roots</span>
           <span>Nth roots</span>
@@ -2119,7 +2195,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isQuadraticTool && (
-        <div class="quadratic-tool-points" aria-label="Quadratic formula calculator highlights">
+        <div class="quadratic-tool-points">
           <span>Real and complex roots</span>
           <span>Discriminant</span>
           <span>Vertex and axis</span>
@@ -2130,7 +2206,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isBinaryTool && (
-        <div class="binary-tool-points" aria-label="Binary calculator highlights">
+        <div class="binary-tool-points">
           <span>Binary arithmetic</span>
           <span>Decimal conversion</span>
           <span>Remainders</span>
@@ -2141,7 +2217,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isHexTool && (
-        <div class="binary-tool-points hex-tool-points" aria-label="Hex calculator highlights">
+        <div class="binary-tool-points hex-tool-points">
           <span>Hex arithmetic</span>
           <span>Decimal conversion</span>
           <span>Binary output</span>
@@ -2152,7 +2228,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isHalfLifeTool && (
-        <div class="half-life-tool-points" aria-label="Half-life calculator highlights">
+        <div class="half-life-tool-points">
           <span>Remaining amount</span>
           <span>Elapsed time</span>
           <span>Solve half-life</span>
@@ -2163,7 +2239,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isPercentErrorTool && (
-        <div class="percent-error-tool-points" aria-label="Percent error calculator highlights">
+        <div class="percent-error-tool-points">
           <span>Accepted vs measured</span>
           <span>Absolute percent error</span>
           <span>Signed direction</span>
@@ -2174,7 +2250,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isRandomTool && (
-        <div class="random-tool-points" aria-label="Random number generator highlights">
+        <div class="random-tool-points">
           <span>Min and max range</span>
           <span>Multiple results</span>
           <span>Unique mode</span>
@@ -2185,7 +2261,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isFractionTool && (
-        <div class="fraction-tool-points" aria-label="Fraction calculator highlights">
+        <div class="fraction-tool-points">
           <span>Mixed numbers</span>
           <span>Simplified answers</span>
           <span>Decimal conversion</span>
@@ -2221,7 +2297,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isLeastCommonMultipleTool && (
-        <div class="advanced-tool-points" aria-label="Least common multiple calculator highlights">
+        <div class="advanced-tool-points">
           <span>Two or more numbers</span>
           <span>Exact LCM</span>
           <span>Common denominators</span>
@@ -2232,7 +2308,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isGreatestCommonFactorTool && (
-        <div class="advanced-tool-points" aria-label="Greatest common factor calculator highlights">
+        <div class="advanced-tool-points">
           <span>Two or more numbers</span>
           <span>Exact GCF</span>
           <span>Euclidean steps</span>
@@ -2243,7 +2319,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isFactorTool && (
-        <div class="advanced-tool-points" aria-label="Factor calculator highlights">
+        <div class="advanced-tool-points">
           <span>All factors</span>
           <span>Factor pairs</span>
           <span>Prime factorization</span>
@@ -2254,7 +2330,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isPrimeFactorizationTool && (
-        <div class="advanced-tool-points" aria-label="Prime factorization calculator highlights">
+        <div class="advanced-tool-points">
           <span>Prime factors</span>
           <span>Power form</span>
           <span>Prime check</span>
@@ -2265,7 +2341,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isLongDivisionTool && (
-        <div class="advanced-tool-points" aria-label="Long division calculator highlights">
+        <div class="advanced-tool-points">
           <span>Quotient</span>
           <span>Remainder</span>
           <span>Decimal answer</span>
@@ -2276,7 +2352,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isRoundingTool && (
-        <div class="advanced-tool-points" aria-label="Rounding calculator highlights">
+        <div class="advanced-tool-points">
           <span>Decimal places</span>
           <span>Significant figures</span>
           <span>Place value</span>
@@ -2287,7 +2363,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isMatrixTool && (
-        <div class="advanced-tool-points" aria-label="Matrix calculator highlights">
+        <div class="advanced-tool-points">
           <span>2x2 and 3x3</span>
           <span>Multiply matrices</span>
           <span>Determinants</span>
@@ -2298,7 +2374,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isScientificNotationTool && (
-        <div class="advanced-tool-points" aria-label="Scientific notation calculator highlights">
+        <div class="advanced-tool-points">
           <span>To scientific</span>
           <span>To standard</span>
           <span>Coefficient</span>
@@ -2309,7 +2385,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isBigNumberTool && (
-        <div class="advanced-tool-points" aria-label="Big number calculator highlights">
+        <div class="advanced-tool-points">
           <span>Exact integers</span>
           <span>Safe-limit check</span>
           <span>Verified remainders</span>
@@ -2320,7 +2396,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isStatsSuiteTool && (
-        <div class="advanced-tool-points" aria-label={`${tool.name} highlights`}>
+        <div class="advanced-tool-points">
           <span>Inputs to check</span>
           <span>Example numbers</span>
           <span>Copyable answer</span>
@@ -2331,7 +2407,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isGeometryTool && (
-        <div class="advanced-tool-points" aria-label={`${tool.name} highlights`}>
+        <div class="advanced-tool-points">
           <span>{tool.slug === 'triangle-calculator' ? 'Side validity checks' : 'Unit-aware inputs'}</span>
           <span>{tool.slug === 'triangle-calculator' ? 'Third-side range' : 'Formula note'}</span>
           <span>{tool.slug === 'triangle-calculator' ? 'Angle estimates' : 'Example numbers'}</span>
@@ -2342,7 +2418,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isHealthTool && (
-        <div class="advanced-tool-points health-tool-points" aria-label={`${tool.name} highlights`}>
+        <div class="advanced-tool-points health-tool-points">
           <span>Estimate, not diagnosis</span>
           <span>Formula notes</span>
           <span>Example inputs</span>
@@ -2353,7 +2429,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isFinanceTool && (
-        <div class="advanced-tool-points finance-tool-points" aria-label={`${tool.name} highlights`}>
+        <div class="advanced-tool-points finance-tool-points">
           <span>
             {tool.slug === 'debt-ratios-calculator'
               ? 'Statement ratio check'
@@ -2460,7 +2536,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isAbsoluteValueTool && (
-        <div class="absolute-tool-points" aria-label="Absolute value calculator highlights">
+        <div class="absolute-tool-points">
           <span>Distance from zero</span>
           <span>Absolute difference</span>
           <span>Signed difference</span>
@@ -2519,7 +2595,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isUtilityTool && (
-        <div class="advanced-tool-points utility-tool-points" aria-label={`${tool.name} highlights`}>
+        <div class="advanced-tool-points utility-tool-points">
           <span>Inputs explained</span>
           <span>Result checks</span>
           <span>Example values</span>
@@ -2530,7 +2606,7 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
 
     {
       isAiTool && !isTextToSpeechAudiobookGenerator && !isAudioVideoTranscriber && (
-        <div class="advanced-tool-points ai-tool-points" aria-label={`${tool.name} highlights`}>
+        <div class="advanced-tool-points ai-tool-points">
           {aiInstructionRepairs[tool.slug] ? (
             <>
               <span>Browser processing</span>
@@ -4190,67 +4266,15 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
             pronunciation, or guarantee that every device can run either model.
           </p>
           <p>
-            Read the <a href="/blog/browser-text-to-speech-kokoro-vs-supertonic/">tested Kokoro versus Supertonic
-            browser comparison</a> for measured Edge and Chrome runs, model-download details, MP3 results, and the
-            reason both models remain available here.
+            Read the <a href="/blog/browser-text-to-speech-kokoro-vs-supertonic/">Kokoro versus Supertonic
+            browser comparison</a> for the current model choices, download sizes, voice and export options, and
+            privacy and license limits.
           </p>
         </aside>
       )
     }
 
-    {hasInteractiveTool && <Fragment set:html="<!--INFOLINKS_OFF-->" />}
-    {hasInteractiveTool && (
-      <div
-        class="tool-interaction-surface"
-        data-aft-tool-usage-surface
-        data-clarity-mask="true"
-        data-tool-category={tool.category}
-        data-tool-name={tool.name}
-        data-tool-slug={tool.slug}
-      >
-        {isCalculatorTool && <BasicCalculator variant={isKawaiiTool ? 'kawaii' : 'standard'} client:load />}
-        {isPercentageTool && <PercentageCalculator client:load />}
-        {isPercentErrorTool && <PercentErrorCalculator client:load />}
-        {isAbsoluteValueTool && <AbsoluteValueCalculator client:load />}
-        {isHalfLifeTool && <HalfLifeCalculator client:load />}
-        {isExponentTool && <ExponentCalculator client:load />}
-        {isLogTool && <LogCalculator client:load />}
-        {isRatioTool && <RatioCalculator client:load />}
-        {isRootTool && <RootCalculator client:load />}
-        {isQuadraticTool && <QuadraticFormulaCalculator client:load />}
-        {isBinaryTool && <BinaryCalculator client:load />}
-        {isHexTool && <HexCalculator client:load />}
-        {isScientificTool && <ScientificCalculator client:load />}
-        {isFractionTool && <FractionCalculator client:load />}
-        {isRandomTool && <RandomNumberGenerator client:load />}
-        {isLeastCommonMultipleTool && <NumberTheoryCalculator variant="lcm" client:load />}
-        {isGreatestCommonFactorTool && <NumberTheoryCalculator variant="gcf" client:load />}
-        {isFactorTool && <NumberTheoryCalculator variant="factor" client:load />}
-        {isPrimeFactorizationTool && <NumberTheoryCalculator variant="prime-factorization" client:load />}
-        {isLongDivisionTool && <NumberTheoryCalculator variant="long-division" client:load />}
-        {isRoundingTool && <RoundingCalculator client:load />}
-        {isMatrixTool && <MatrixCalculator client:load />}
-        {isScientificNotationTool && <ScientificNotationCalculator client:load />}
-        {isBigNumberTool && <BigNumberCalculator client:load />}
-        {statsToolVariant && <StatsCalculator variant={statsToolVariant} client:load />}
-        {geometryToolVariant && <GeometryCalculator variant={geometryToolVariant} client:load />}
-        {healthToolVariant && <HealthFitnessCalculator variant={healthToolVariant} client:load />}
-        {financeToolVariant && <FinanceCalculator variant={financeToolVariant} client:load />}
-        {utilityToolVariant && <UtilityCalculator variant={utilityToolVariant} client:load />}
-        {aiToolVariant && <AiBrowserTool variant={aiToolVariant} client:load />}
-        {isFourInARowGame && <FourInARowGame client:load />}
-        {isJsonToCsvConverter && <JsonToCsvConverter client:load />}
-        {isAudioVideoTranscriber && <AudioVideoTranscriber client:load />}
-        {isTextToSpeechAudiobookGenerator && <TextToSpeechAudiobookGenerator client:load />}
-      </div>
-    )}
-    {hasInteractiveTool && <Fragment set:html="<!--INFOLINKS_ON-->" />}
-
-    {isPercentageTool && toolArt && (
-      <div class="percentage-tool-art">
-        <ToolArtFigure entry={toolArt} />
-      </div>
-    )}
+    </div>
 
     <section class="content-section">
       <h2>How to use the {tool.name}</h2>
@@ -4406,13 +4430,22 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
       </div>
     </section>
 
-    {relatedTools.length > 0 && (
-      <section class="content-section">
-        <h2>Related tools</h2>
-        <div class="tool-grid">
-          {relatedTools.map((relatedTool) => <ToolCard tool={relatedTool} />)}
-        </div>
-      </section>
-    )}
+
   </section>
 </BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-tool-workspace-link]').forEach((link) => {
+    link.addEventListener('click', () => {
+      requestAnimationFrame(() => {
+        const workspace = document.querySelector<HTMLElement>('#tool-workspace');
+        if (!workspace) return;
+        const controls = workspace.querySelectorAll<HTMLElement>(
+          'input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), select:not([disabled]), button:not([disabled])',
+        );
+        const firstControl = [...controls].find((control) => control.getClientRects().length > 0);
+        (firstControl ?? workspace).focus({ preventScroll: true });
+      });
+    });
+  });
+</script>

@@ -38,6 +38,7 @@ import { verifiedOrganizationSameAs } from './siteEntity';
 import { pinterestFeedItems } from './pinterestFeed';
 import { MAX_TTS_TEXT_CHARACTERS, MAX_TTS_TEXT_FILE_BYTES } from '../lib/browserTtsInput';
 import { browserTtsModels } from '../lib/browserTtsModels';
+import { TOOL_PAGE_SIZE } from '../lib/toolDiscovery';
 
 const PAGE_TITLE_MAX = 70;
 const META_DESCRIPTION_MAX = 170;
@@ -1378,8 +1379,10 @@ describe('site content audit guardrails', () => {
   });
 
   it('keeps launchpad and structured data scalable as the library grows', () => {
-    expect(TOOLS_LAUNCHPAD_SOURCE).toContain('const INITIAL_VISIBLE_TOOL_LIMIT = 72');
-    expect(TOOLS_LAUNCHPAD_SOURCE).toContain('Show all');
+    expect(TOOL_PAGE_SIZE).toBeLessThanOrEqual(12);
+    expect(TOOLS_LAUNCHPAD_SOURCE).toContain('Show 12 more tools');
+    expect(TOOLS_INDEX_SOURCE).toContain('searchTools.slice(0, TOOL_PAGE_SIZE)');
+    expect(TOOLS_INDEX_SOURCE).toContain('<details class="tools-directory-inventory">');
     expect(TOOLS_INDEX_SOURCE).toContain('maxItems={100}');
     expect(TOOLS_INDEX_SOURCE).toContain('client:load');
     expect(TOOLS_INDEX_SOURCE).not.toContain('client:idle');

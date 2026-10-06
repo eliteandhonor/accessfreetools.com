@@ -8,6 +8,7 @@ const argument = process.argv.find(value => value.startsWith('--dist='));
 if (!argument) throw new Error('Pass --dist=dist/client after the coordinator authorizes fresh built-page proof.');
 const root = resolve(argument.slice('--dist='.length));
 assert(existsSync(resolve(root, 'tools/index.html')), 'Missing built tools page');
+const toolInventory = JSON.parse(readFileSync(resolve(root, 'tool-search-index.json'), 'utf8')).tools;
 const output = resolve('output/project-review-followup/UX-02/built-discovery');
 mkdirSync(output, { recursive: true });
 const origin = 'https://discovery.invalid';
@@ -48,20 +49,19 @@ try {
           await hydrated();
           await expect(page.locator('.theme-picker-trigger')).toBeVisible();
           if (route === '/tools/') {
-            if (width <= 980) {
-              const category = page.getByRole('combobox', { name: 'Tool category' });
-              await expect(category).toBeVisible();
-              await expect(page.locator('.category-rail')).toBeHidden();
-              assert.equal(await category.locator('option').count(), await page.locator('.category-rail button').count());
-              if (width === 768) {
-                assert((await page.locator('#tool-library-search').boundingBox()).y < 1024);
-                assert((await page.locator(cards).first().boundingBox()).y < 1024, 'Tablet first result must be visible');
-              }
-            } else await expect(page.locator('.category-rail')).toBeVisible();
+            const category = page.getByRole('combobox', { name: 'Tool category' });
+            await expect(category).toBeVisible();
+            assert.equal(await category.locator('option').count(), new Set(toolInventory.map(tool => tool.category)).size + 1, 'Every category plus all categories is available');
+            assert.equal(await page.locator('.category-rail').count(), 0);
+            await expect(page.locator(cards)).toHaveCount(12);
+            const inventory = page.locator('details.tools-directory-inventory');
+            assert.equal(await inventory.locator('a').count(), toolInventory.length, 'Complete public tool inventory remains in server HTML');
+            await expect(inventory).not.toHaveAttribute('open', '');
+            if (width === 768) assert((await page.locator('#tool-library-search').boundingBox()).y < 1024);
             if (key === 'Enter') await page.screenshot({ path: resolve(output, `tools-default-${width}.png`) });
           }
           const existing = new Set(await page.locator(cards).evaluateAll(links => links.map(link => link.getAttribute('href'))));
-          const reveal = route.startsWith('/gallery') ? page.locator('[data-gallery-reveal="tool-gallery-grid"]') : page.getByRole('button', { name: /^Show all/ });
+          const reveal = route.startsWith('/gallery') ? page.locator('[data-gallery-reveal="tool-gallery-grid"]') : page.getByRole('button', { name: /^Show 12 more/ });
           await reveal.focus(); await page.keyboard.press(key);
           await expect.poll(() => page.locator(cards).evaluateAll((links, old) => {
             const firstNew = links.find(link => !old.includes(link.getAttribute('href')));

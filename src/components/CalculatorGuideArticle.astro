@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import BreadcrumbStructuredData from './BreadcrumbStructuredData.astro';
 import ToolArtFigure from './ToolArtFigure.astro';
+import '../styles/category-guide-ux.css';
 import { getCategory } from '../data/categories';
 import { formatDisplayDate, getBlogDates } from '../data/siteDates';
 import { getDeepAuditRecord } from '../data/toolDeepAudit';
@@ -203,7 +204,7 @@ const articleStructuredData = {
     ]}
   />
 
-  <article class="blog-article">
+  <article class="blog-article task-first-guide">
     <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / {label}</p>
 
     <header class="blog-article-header">
@@ -219,8 +220,6 @@ const articleStructuredData = {
       {tool && <a class="button-primary" href={`/tools/${tool.slug}/`}>Open the {tool.name}</a>}
     </header>
 
-    {guideArt && <ToolArtFigure entry={guideArt} eager={true} />}
-
     <div class="blog-article-layout">
       <div class="blog-article-body">
         <section class="content-section">
@@ -229,6 +228,8 @@ const articleStructuredData = {
             {quickStart.map((step) => <li>{step}</li>)}
           </ol>
         </section>
+
+        {guideArt && <ToolArtFigure entry={guideArt} />}
 
         {useCases.length > 0 && (
           <section class="content-section">
@@ -345,8 +346,8 @@ const articleStructuredData = {
           <ul class="guide-link-list">
             {tool?.slug === 'text-to-speech-audiobook-generator' && (
               <li>
-                <a href="/blog/browser-text-to-speech-kokoro-vs-supertonic/">Kokoro versus Supertonic browser test</a>
-                <span>See measured model loads, Edge and Chrome results, MP3 output, and why the tool keeps both models.</span>
+                <a href="/blog/browser-text-to-speech-kokoro-vs-supertonic/">Kokoro versus Supertonic browser comparison</a>
+                <span>Compare voice and language choices, model downloads, MP3 controls, privacy limits, and model terms.</span>
               </li>
             )}
             {tool && (

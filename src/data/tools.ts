@@ -2033,6 +2033,21 @@ const baseTools: ToolDefinition[] = [
           'The two matrices need the same size. A 2x2 can add to another 2x2, and a 3x3 can add to another 3x3. Each answer spot comes from the matching spot in Matrix A and Matrix B.',
       },
       {
+        question: 'What do the main Matrix Calculator inputs mean?',
+        answer:
+          'Choose 2x2 or 3x3, then enter each value in its row and column in Matrix A. Add, Subtract, and Multiply also use the matching-size Matrix B grid. Determinant and Transpose only use Matrix A. Entries can be positive, negative, whole, or decimal numbers.',
+      },
+      {
+        question: 'How should I read the Matrix Calculator answer?',
+        answer:
+          'Add, Subtract, Multiply, and Transpose return a matrix with rows and columns in square brackets. Determinant returns a single number. Check Operation, Size, and Uses Matrix B below the answer, then read Steps to follow the selected operation.',
+      },
+      {
+        question: 'What should I double-check before trusting the Matrix Calculator?',
+        answer:
+          'Check the selected size and operation, then check every row and column position and negative sign. Keep Matrix A and Matrix B in the intended order for multiplication because A x B can differ from B x A. Press Calculate matrix after changing an entry before copying the answer.',
+      },
+      {
         question: 'Does order matter for matrix multiplication?',
         answer:
           'Yes. Matrix multiplication is order-sensitive. A x B can be different from B x A because each answer entry uses a row from the first matrix and a column from the second.',
