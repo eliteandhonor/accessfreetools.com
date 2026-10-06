@@ -3,17 +3,55 @@ import { readFileSync, realpathSync } from 'node:fs';
 
 export const RELEASE_RECEIPT_PATH = 'output/release/full-check.json';
 export const BUILD_IDENTITY_PATH = '/_build.json';
+export const BUILD_SOURCE_TRACKED_PATH_LABELS = Object.freeze([
+  'package.json', 'package-lock.json', 'app.js', 'astro.config.mjs', '.gitignore',
+]);
 const validCommit = (value) => typeof value === 'string' && /^[a-f0-9]{40}$/.test(value);
 const validDate = (value) => typeof value === 'string' && Number.isFinite(Date.parse(value));
 const nodeMajor = (version) => Number(String(version).split('.')[0]);
 const sameCleanSource = (before, after) => validCommit(before?.commit) && before?.clean === true
   && after?.clean === true && before.commit === after.commit;
 
+function summarizeGitStatus(status) {
+  const result = { stagedCount: 0, unstagedCount: 0, untrackedCount: 0, trackedPathLabels: [] };
+  if (status === '') return result;
+  const malformed = () => { throw new Error('Git status record is invalid.'); };
+  if (!status.endsWith('\0')) malformed();
+  const records = status.split('\0');
+  records.pop();
+  const recognized = new Set();
+  const labels = new Set(BUILD_SOURCE_TRACKED_PATH_LABELS);
+  for (let index = 0; index < records.length; index += 1) {
+    const record = records[index];
+    if (record.length < 4 || record[2] !== ' ') malformed();
+    const statusCode = record.slice(0, 2);
+    const destination = record.slice(3);
+    if (statusCode === '??') {
+      result.untrackedCount += 1;
+      continue;
+    }
+    if (!/^[ MADRCUT]{2}$/.test(statusCode) || statusCode === '  ') malformed();
+    let original;
+    if (/[RC]/.test(statusCode)) {
+      original = records[++index];
+      if (!original) malformed();
+    }
+    if (statusCode[0] !== ' ') result.stagedCount += 1;
+    if (statusCode[1] !== ' ') result.unstagedCount += 1;
+    if (labels.has(destination)) recognized.add(destination);
+    // A rename involves the old path; a copy does not establish that its source changed.
+    if (statusCode.includes('R') && labels.has(original)) recognized.add(original);
+  }
+  result.trackedPathLabels = BUILD_SOURCE_TRACKED_PATH_LABELS.filter((label) => recognized.has(label));
+  return result;
+}
+
 export function captureReleaseSourceSnapshot(cwd = process.cwd()) {
   const diagnostics = {
     observedAt: new Date().toISOString(), complete: false, stage: 'redirect', reason: 'git_redirect_present',
     stagedCount: null, unstagedCount: null, untrackedCount: null,
     assumeUnchangedCount: null, skipWorktreeCount: null,
+    trackedPathLabels: null,
   };
   const unavailable = () => ({ source: { commit: null, clean: false }, diagnostics });
   try {
@@ -37,26 +75,15 @@ export function captureReleaseSourceSnapshot(cwd = process.cwd()) {
       return unavailable();
     }
     diagnostics.stage = 'status';
-    const status = git('status', '--porcelain=v1', '--untracked-files=normal');
+    const status = git('status', '--porcelain=v1', '-z', '--untracked-files=normal');
+    const { stagedCount, unstagedCount, untrackedCount, trackedPathLabels } = summarizeGitStatus(status);
     // Git status deliberately ignores changes hidden by these index flags.
     diagnostics.stage = 'index';
     const indexRows = git('ls-files', '-v', '-z').split('\0');
     const hidden = indexRows.some((row) => /^[a-zS]/.test(row));
-    let stagedCount = 0;
-    let unstagedCount = 0;
-    let untrackedCount = 0;
-    // Count porcelain records, not filenames: normal untracked output can group a directory.
-    // Git quotes embedded newlines; rename records remain one line with two status columns.
-    for (const row of status.split(/\r?\n/)) {
-      if (!row.trim()) continue;
-      if (row.startsWith('??')) untrackedCount += 1;
-      else {
-        if (row[0] !== ' ') stagedCount += 1;
-        if (row[1] !== ' ') unstagedCount += 1;
-      }
-    }
     Object.assign(diagnostics, {
       complete: true, stage: 'complete', stagedCount, unstagedCount, untrackedCount,
+      trackedPathLabels: validCommit(commit) ? trackedPathLabels : null,
       assumeUnchangedCount: indexRows.filter((row) => /^[a-z]/.test(row)).length,
       skipWorktreeCount: indexRows.filter((row) => /^[sS]/.test(row)).length,
     });

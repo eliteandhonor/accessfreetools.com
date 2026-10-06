@@ -1,6 +1,7 @@
 import { closeSync, chmodSync, existsSync, fsyncSync, lstatSync, mkdirSync, openSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import { join } from 'node:path';
+import { BUILD_SOURCE_TRACKED_PATH_LABELS } from './release-identity.mjs';
 
 export const BUILD_SOURCE_DIAGNOSTICS_PATH = 'dist/server/.build-evidence/source-status.json';
 export const MAX_BUILD_SOURCE_DIAGNOSTICS_BYTES = 16 * 1024;
@@ -27,6 +28,17 @@ function observation(snapshot) {
     if (diagnostic.complete ? !Number.isSafeInteger(count) || count < 0 || count > 4 * 1024 * 1024 : count !== null) fail();
     result[field] = count;
   }
+  // Legacy count-only snapshots remain unknown; they must not become an empty known set.
+  const labels = diagnostic.trackedPathLabels ?? null;
+  if (labels !== null) {
+    if (!diagnostic.complete || source.commit === null || !Array.isArray(labels)
+      || labels.length > BUILD_SOURCE_TRACKED_PATH_LABELS.length
+      || labels.some((label) => typeof label !== 'string' || !BUILD_SOURCE_TRACKED_PATH_LABELS.includes(label))) fail();
+    const canonical = BUILD_SOURCE_TRACKED_PATH_LABELS.filter((label) => labels.includes(label));
+    if (canonical.length !== labels.length || canonical.some((label, index) => label !== labels[index])
+      || labels.length > 0 && result.stagedCount + result.unstagedCount === 0) fail();
+  }
+  result.trackedPathLabels = labels === null ? null : [...labels];
   return result;
 }
 
@@ -38,8 +50,8 @@ export function createBuildSourceDiagnostics(before, after, identity) {
   const last = observation(after);
   const expectedClean = first.commit !== null && first.clean && last.clean && first.commit === last.commit;
   if (identity.commit !== last.commit || identity.clean !== expectedClean) fail();
-  // Copy a fixed schema only. Raw collector data, errors, names and environment values cannot be persisted.
-  return { schemaVersion: 1,
+  // Only fixed approved labels can identify paths; arbitrary names and raw data are omitted.
+  return { schemaVersion: 2,
     identity: { schemaVersion: 1, commit: identity.commit, clean: identity.clean,
       builtAt: identity.builtAt, nodeMajor: identity.nodeMajor },
     before: first, after: last };

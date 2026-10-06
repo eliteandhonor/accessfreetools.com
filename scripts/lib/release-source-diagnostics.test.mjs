@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { execFileSync } from 'node:child_process';
 import {
   captureReleaseSource, captureReleaseSourceSnapshot, createBuildIdentity,
-  createCheckReceipt, verifyDeployedIdentity,
+  createCheckReceipt, verifyDeployedIdentity, BUILD_SOURCE_TRACKED_PATH_LABELS,
 } from './release-identity.mjs';
 
 vi.mock('node:child_process', async (importOriginal) => {
@@ -21,7 +21,7 @@ const nullCounts = {
   assumeUnchangedCount: null, skipWorktreeCount: null,
 };
 const zeroCounts = Object.fromEntries(Object.keys(nullCounts).map((key) => [key, 0]));
-const snapshotKeys = ['observedAt', 'complete', 'stage', 'reason', ...Object.keys(nullCounts)].sort();
+const snapshotKeys = ['observedAt', 'complete', 'stage', 'reason', 'trackedPathLabels', ...Object.keys(nullCounts)].sort();
 const secret = 'SYNTHETIC_COOKIE_VALUE_NOT_A_REAL_CREDENTIAL';
 const privateName = 'private credentials fixture.txt';
 
@@ -88,6 +88,7 @@ describe('private release source snapshots', () => {
     const snapshot = captureReleaseSourceSnapshot(root);
     expect(snapshot.source).toEqual({ commit: git(root, 'rev-parse', 'HEAD'), clean: true });
     expect(snapshot.diagnostics).toMatchObject({ complete: true, stage: 'complete', reason: 'clean', ...zeroCounts });
+    expect(snapshot.diagnostics.trackedPathLabels).toEqual([]);
     expect(execFileSync).toHaveBeenCalledTimes(4);
     expect(captureReleaseSource(root)).toEqual(snapshot.source);
     privateProjection(snapshot, root);
@@ -118,9 +119,9 @@ describe('private release source snapshots', () => {
     privateProjection(snapshot, root);
   });
 
-  it('counts quoted control-character names as records without retaining the quoted names', () => {
+  it('counts NUL-delimited control-character names without retaining the names', () => {
     const root = fixture();
-    const rows = 'R  "old\\tname" -> "new\\nname"\n M "another\\rname"\n?? "private\\nname.txt"\n';
+    const rows = 'R  new\nname\0old\tname\0 M another\rname\0?? private\nname.txt\0';
     execFileSync.mockImplementation((command, args, options) => args[0] === 'status'
       ? rows : actualExecFileSync(command, args, options));
     const snapshot = captureReleaseSourceSnapshot(root);
@@ -129,8 +130,78 @@ describe('private release source snapshots', () => {
       complete: true, reason: 'tracked_changes', ...zeroCounts,
       stagedCount: 1, unstagedCount: 1, untrackedCount: 1,
     });
-    privateProjection(snapshot, root, ['old\\tname', 'new\\nname', 'another\\rname', 'private\\nname.txt']);
+    expect(snapshot.diagnostics.trackedPathLabels).toEqual([]);
+    privateProjection(snapshot, root, ['old\tname', 'new\nname', 'another\rname', 'private\nname.txt']);
   });
+
+  it('identifies only the five fixed tracked labels in canonical order without exposing contents', () => {
+    const root = fixture();
+    for (const label of BUILD_SOURCE_TRACKED_PATH_LABELS) writeFileSync(join(root, label), 'initial');
+    git(root, 'add', '.');
+    git(root, '-c', 'commit.gpgsign=false', 'commit', '--quiet', '-m', 'approved paths fixture');
+    for (const label of [...BUILD_SOURCE_TRACKED_PATH_LABELS].reverse()) writeFileSync(join(root, label), secret);
+    const snapshot = captureReleaseSourceSnapshot(root);
+    expect(snapshot.source.clean).toBe(false);
+    expect(snapshot.diagnostics).toMatchObject({ ...zeroCounts, unstagedCount: 5, reason: 'tracked_changes' });
+    expect(snapshot.diagnostics.trackedPathLabels).toEqual(BUILD_SOURCE_TRACKED_PATH_LABELS);
+    expect(captureReleaseSource(root)).toEqual(snapshot.source);
+    privateProjection(snapshot, root);
+  });
+
+  it('does not identify an allowlisted path that is only untracked', () => {
+    const root = fixture();
+    writeFileSync(join(root, 'package-lock.json'), secret);
+    const snapshot = captureReleaseSourceSnapshot(root);
+    expect(snapshot.diagnostics).toMatchObject({ ...zeroCounts, untrackedCount: 1, trackedPathLabels: [] });
+    privateProjection(snapshot, root);
+  });
+
+  it('does not normalize nested paths, lookalikes, quotes, Unicode or control characters into labels', () => {
+    const root = fixture();
+    const names = ['nested/package.json', 'Package.json', './app.js', 'package-lock.json\nprivate',
+      '"astro.config.mjs"', 'naïve\t.gitignore', 'private credentials fixture.txt'];
+    execFileSync.mockImplementation((command, args, options) => args[0] === 'status'
+      ? names.map((name) => ` M ${name}\0`).join('') : actualExecFileSync(command, args, options));
+    const snapshot = captureReleaseSourceSnapshot(root);
+    expect(snapshot.diagnostics).toMatchObject({ ...zeroCounts, unstagedCount: names.length, trackedPathLabels: [] });
+    privateProjection(snapshot, root, names);
+  });
+
+  it.each(['R ', ' R', 'C ', ' C'])('consumes both tokens of a %s record once, including header-looking names', (code) => {
+    const root = fixture();
+    const original = '?? private credentials fixture.txt';
+    const rows = `${code} package-lock.json\0${original}\0 M astro.config.mjs\0`;
+    execFileSync.mockImplementation((command, args, options) => args[0] === 'status'
+      ? rows : actualExecFileSync(command, args, options));
+    const snapshot = captureReleaseSourceSnapshot(root);
+    expect(snapshot.diagnostics).toMatchObject({ ...zeroCounts,
+      stagedCount: code[0] === ' ' ? 0 : 1, unstagedCount: code[1] === ' ' ? 1 : 2,
+      trackedPathLabels: ['package-lock.json', 'astro.config.mjs'] });
+    privateProjection(snapshot, root, [original]);
+  });
+
+  it('recognizes either rename endpoint but only the destination of a copy', () => {
+    const root = fixture();
+    const rows = 'R  package-lock.json\0package.json\0C  private credentials fixture.txt\0app.js\0';
+    execFileSync.mockImplementation((command, args, options) => args[0] === 'status'
+      ? rows : actualExecFileSync(command, args, options));
+    const snapshot = captureReleaseSourceSnapshot(root);
+    expect(snapshot.diagnostics).toMatchObject({ ...zeroCounts, stagedCount: 2,
+      trackedPathLabels: ['package.json', 'package-lock.json'] });
+    privateProjection(snapshot, root);
+  });
+
+  it.each([' M package.json', 'R  package.json\0', ' M package.json\0\0', 'XX package.json\0'])
+    ('fails closed for malformed or truncated status without retaining partial labels', (rows) => {
+      const root = fixture();
+      execFileSync.mockImplementation((command, args, options) => args[0] === 'status'
+        ? rows : actualExecFileSync(command, args, options));
+      const snapshot = captureReleaseSourceSnapshot(root);
+      expect(snapshot.source).toEqual({ commit: null, clean: false });
+      expect(snapshot.diagnostics).toMatchObject({ complete: false, stage: 'status', reason: 'git_command_failed',
+        ...nullCounts, trackedPathLabels: null });
+      privateProjection(snapshot, root);
+    });
 
   it('retains dirty-before and changed-HEAD evidence when the final checkout is clean', () => {
     const root = fixture();
@@ -248,6 +319,7 @@ describe('private release source snapshots', () => {
     const snapshot = captureReleaseSourceSnapshot(root);
     expect(snapshot.source).toEqual({ commit: null, clean: false });
     expect(snapshot.diagnostics).toMatchObject({ complete: false, stage, reason, ...nullCounts });
+    expect(snapshot.diagnostics.trackedPathLabels).toBeNull();
     privateProjection(snapshot, root);
   });
 
@@ -260,6 +332,7 @@ describe('private release source snapshots', () => {
     const snapshot = captureReleaseSourceSnapshot(root);
     expect(snapshot.source).toEqual({ commit: null, clean: false });
     expect(snapshot.diagnostics).toMatchObject({ complete: true, stage: 'complete', reason: 'invalid_commit', ...zeroCounts });
+    expect(snapshot.diagnostics.trackedPathLabels).toBeNull();
     privateProjection(snapshot, root);
   });
 });

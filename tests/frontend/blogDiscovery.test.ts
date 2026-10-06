@@ -97,6 +97,184 @@ it('one typing session, progressive reveal, reset, and Back/Forward restore auth
   expect(await page.evaluate(() => history.state.caller)).toBe('blog-regression');
 });
 
+it('erasing a focused query preserves the preceding search for Back and the empty state for Forward', async () => {
+  await mount();
+  await search().fill('browser local privacy');
+  await ui(search()).toBeFocused();
+  await ui(links()).toHaveCount(1);
+  await ui(links()).toHaveAttribute('href', '/blog/browser-ai-vs-local-ai-privacy/');
+  await search().fill('');
+  await ui(search()).toBeFocused();
+  await ui(links()).toHaveCount(12);
+  expect(new URL(page.url()).searchParams.has('q')).toBe(false);
+  await page.goBack();
+  expect(new URL(page.url()).searchParams.get('q')).toBe('browser local privacy');
+  await ui(search()).toHaveValue('browser local privacy');
+  await ui(links()).toHaveCount(1);
+  await ui(links()).toHaveAttribute('href', '/blog/browser-ai-vs-local-ai-privacy/');
+  await page.goForward();
+  await ui(search()).toHaveValue('');
+  await ui(links()).toHaveCount(12);
+  expect(new URL(page.url()).searchParams.has('q')).toBe(false);
+});
+
+it('sequential Backspace preserves the last focused character query and its results for Back/Forward', async () => {
+  await mount(true, '/blog/?utm_source=qa#search');
+  await page.evaluate(() => history.replaceState({ caller: 'blog-sequential-backspace' }, '', location.href));
+  const query = 'privacy';
+  await search().fill(query);
+  await ui(links().filter({ hasText: 'Browser AI vs Local AI' })).toHaveAttribute('href', '/blog/browser-ai-vs-local-ai-privacy/');
+  await search().press('End');
+  for (let remaining = query.length - 1; remaining > 0; remaining -= 1) {
+    await search().press('Backspace');
+    await ui(search()).toHaveValue(query.slice(0, remaining));
+    await ui(search()).toBeFocused();
+  }
+  expect(new URL(page.url()).searchParams.get('q')).toBe('p');
+  // Single-character search matches exact words; the P-value title outranks prose matches.
+  await ui(links().first()).toHaveAttribute('href', '/blog/how-to-use-p-value-calculator/');
+  const lastQueryHrefs = await links().evaluateAll(items => items.map(link => link.getAttribute('href')));
+  await search().press('Backspace');
+  await ui(search()).toHaveValue('');
+  await ui(search()).toBeFocused();
+  await ui(links()).toHaveCount(12);
+  expect(new URL(page.url()).searchParams.has('q')).toBe(false);
+  await page.goBack();
+  expect(new URL(page.url()).searchParams.get('q')).toBe('p');
+  await ui(search()).toHaveValue('p');
+  await ui.poll(() => links().evaluateAll(items => items.map(link => link.getAttribute('href')))).toEqual(lastQueryHrefs);
+  expect(new URL(page.url()).searchParams.get('utm_source')).toBe('qa');
+  expect(new URL(page.url()).hash).toBe('#search');
+  expect(await page.evaluate(() => history.state.caller)).toBe('blog-sequential-backspace');
+  await page.goForward();
+  await ui(search()).toHaveValue('');
+  await ui(links()).toHaveCount(12);
+  expect(new URL(page.url()).searchParams.has('q')).toBe(false);
+  expect(new URL(page.url()).searchParams.get('utm_source')).toBe('qa');
+  expect(new URL(page.url()).hash).toBe('#search');
+  expect(await page.evaluate(() => history.state.caller)).toBe('blog-sequential-backspace');
+});
+
+it.each([
+  { label: 'empty', value: '' },
+  { label: 'whitespace-only', value: '   ' },
+])('retyping after a focused $label clear preserves the empty state and prior query', async ({ value }) => {
+  await mount();
+  await search().fill('calculator');
+  await ui(search()).toBeFocused();
+  await ui(links()).toHaveCount(12);
+  await search().fill(value);
+  await ui(search()).toBeFocused();
+  await ui(links()).toHaveCount(12);
+  expect(new URL(page.url()).searchParams.has('q')).toBe(false);
+  await search().fill('browser local privacy');
+  await ui(search()).toBeFocused();
+  await ui(links()).toHaveCount(1);
+  await ui(links()).toHaveAttribute('href', '/blog/browser-ai-vs-local-ai-privacy/');
+  await page.goBack();
+  expect(new URL(page.url()).searchParams.has('q')).toBe(false);
+  await ui(search()).toHaveValue('');
+  await ui(links()).toHaveCount(12);
+  expect(new URL(page.url()).searchParams.has('q')).toBe(false);
+  await page.goBack();
+  expect(new URL(page.url()).searchParams.get('q')).toBe('calculator');
+  await ui(search()).toHaveValue('calculator');
+  await ui(links()).toHaveCount(12);
+  await page.goForward();
+  await ui(search()).toHaveValue('');
+  await ui(links()).toHaveCount(12);
+  await page.goForward();
+  await ui(search()).toHaveValue('browser local privacy');
+  await ui(links()).toHaveCount(1);
+  await ui(links()).toHaveAttribute('href', '/blog/browser-ai-vs-local-ai-privacy/');
+});
+
+it('focused query erasure retains the edited search and initial query limit with caller URL state', async () => {
+  await mount(true, '/blog/?q=calculator&limit=24&utm_source=qa#search');
+  await page.evaluate(() => history.replaceState({ caller: 'blog-erasure-regression' }, '', location.href));
+  await ui(search()).toHaveValue('calculator');
+  await ui(links()).toHaveCount(24);
+  await search().fill('calculator guide');
+  await ui(search()).toBeFocused();
+  await ui(links()).toHaveCount(12);
+  await search().fill('');
+  await ui(search()).toBeFocused();
+  await ui(links()).toHaveCount(12);
+  await page.goBack();
+  expect(new URL(page.url()).searchParams.get('q')).toBe('calculator guide');
+  await ui(search()).toHaveValue('calculator guide');
+  await ui(links()).toHaveCount(12);
+  expect(new URL(page.url()).searchParams.has('limit')).toBe(false);
+  await page.goBack();
+  expect(new URL(page.url()).searchParams.get('q')).toBe('calculator');
+  await ui(search()).toHaveValue('calculator');
+  await ui(links()).toHaveCount(24);
+  expect(new URL(page.url()).searchParams.get('limit')).toBe('24');
+  expect(new URL(page.url()).searchParams.get('utm_source')).toBe('qa');
+  expect(new URL(page.url()).hash).toBe('#search');
+  expect(await page.evaluate(() => history.state.caller)).toBe('blog-erasure-regression');
+  await page.goForward();
+  await ui(search()).toHaveValue('calculator guide');
+  await ui(links()).toHaveCount(12);
+  await page.goForward();
+  await ui(search()).toHaveValue('');
+  await ui(links()).toHaveCount(12);
+  expect(new URL(page.url()).searchParams.has('q')).toBe(false);
+  expect(new URL(page.url()).searchParams.has('limit')).toBe(false);
+  expect(new URL(page.url()).searchParams.get('utm_source')).toBe('qa');
+  expect(new URL(page.url()).hash).toBe('#search');
+  expect(await page.evaluate(() => history.state.caller)).toBe('blog-erasure-regression');
+});
+
+it('trailing whitespace in an initial query does not consume the next meaningful typing session', async () => {
+  await mount(true, '/blog/?q=calculator');
+  await ui(search()).toHaveValue('calculator');
+  await ui(links()).toHaveCount(12);
+  const initialLength = await page.evaluate(() => history.length);
+  await search().fill('calculator ');
+  await ui(search()).toBeFocused();
+  await ui(links()).toHaveCount(12);
+  expect(new URL(page.url()).searchParams.get('q')).toBe('calculator');
+  expect(await page.evaluate(() => history.length)).toBe(initialLength);
+  await search().fill('browser local privacy');
+  await ui(search()).toBeFocused();
+  await ui(links()).toHaveCount(1);
+  await ui(links()).toHaveAttribute('href', '/blog/browser-ai-vs-local-ai-privacy/');
+  expect(await page.evaluate(() => history.length)).toBe(initialLength + 1);
+  await page.goBack();
+  expect(new URL(page.url()).searchParams.get('q')).toBe('calculator');
+  await ui(search()).toHaveValue('calculator');
+  await ui(links()).toHaveCount(12);
+  await page.goForward();
+  await ui(search()).toHaveValue('browser local privacy');
+  await ui(links()).toHaveCount(1);
+  await ui(links()).toHaveAttribute('href', '/blog/browser-ai-vs-local-ai-privacy/');
+});
+
+it('whitespace in an empty query preserves the empty baseline before a meaningful search', async () => {
+  await mount();
+  const initialLength = await page.evaluate(() => history.length);
+  await search().fill('   ');
+  await ui(search()).toBeFocused();
+  await ui(links()).toHaveCount(12);
+  expect(new URL(page.url()).searchParams.has('q')).toBe(false);
+  expect(await page.evaluate(() => history.length)).toBe(initialLength);
+  await search().fill('browser local privacy');
+  await ui(search()).toBeFocused();
+  await ui(links()).toHaveCount(1);
+  await ui(links()).toHaveAttribute('href', '/blog/browser-ai-vs-local-ai-privacy/');
+  expect(await page.evaluate(() => history.length)).toBe(initialLength + 1);
+  await page.goBack();
+  expect(new URL(page.url()).searchParams.has('q')).toBe(false);
+  await ui(search()).toHaveValue('');
+  await ui(links()).toHaveCount(12);
+  expect(new URL(page.url()).searchParams.has('q')).toBe(false);
+  await page.goForward();
+  await ui(search()).toHaveValue('browser local privacy');
+  await ui(links()).toHaveCount(1);
+  await ui(links()).toHaveAttribute('href', '/blog/browser-ai-vs-local-ai-privacy/');
+});
+
 it('multiword editorial discovery is accurate and an empty completed search can be reset', async () => {
   await mount();
   await search().fill('browser local privacy');
