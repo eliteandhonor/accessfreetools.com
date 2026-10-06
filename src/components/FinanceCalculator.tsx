@@ -5102,6 +5102,7 @@ export default function FinanceCalculator({ variant }: Props) {
   const inputRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const copyTextElement = useRef<HTMLPreElement>(null);
   const currencyAnswerVersion = useRef(0);
+  const copyAttempt = useRef(0);
   const protectsAnswer = variant === 'currency' || variant === 'mortgage';
 
   function resetCopyFeedback() {
@@ -5170,6 +5171,7 @@ export default function FinanceCalculator({ variant }: Props) {
   async function copyResult() {
     if (!result || error) return;
     const answerVersion = currencyAnswerVersion.current;
+    const attempt = ++copyAttempt.current;
     resetCopyFeedback();
 
     try {
@@ -5179,11 +5181,11 @@ export default function FinanceCalculator({ variant }: Props) {
         return;
       }
       await navigator.clipboard?.writeText(result.copyText ?? `${result.expression} = ${result.answer}`);
-      if (protectsAnswer && answerVersion !== currencyAnswerVersion.current) return;
+      if (attempt !== copyAttempt.current || (protectsAnswer && answerVersion !== currencyAnswerVersion.current)) return;
       setCopied(true);
       if (variant === 'mortgage') setCopyFeedback('Estimate copied.');
     } catch {
-      if (protectsAnswer && answerVersion !== currencyAnswerVersion.current) return;
+      if (attempt !== copyAttempt.current || (protectsAnswer && answerVersion !== currencyAnswerVersion.current)) return;
       setCopied(false);
       if (variant === 'mortgage') {
         setCopyFeedback("Copy was blocked. Use Select estimate, then your device's Copy command.");

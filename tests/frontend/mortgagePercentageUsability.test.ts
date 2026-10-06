@@ -9,7 +9,7 @@ const harness = `
 import React from 'react';import {createRoot} from 'react-dom/client';
 import Mortgage from './src/components/FinanceCalculator';import Percentage from './src/components/PercentageCalculator';
 const mock=window.clipboardMock={mode:'resolve',calls:[],finish:null};
-window.configureClipboard=mode=>{mock.mode=mode;Object.defineProperty(navigator,'clipboard',{configurable:true,value:mode==='missing'?undefined:{writeText:text=>{mock.calls.push(text);if(mock.mode==='reject')return Promise.reject(new Error('Controlled permission denial'));if(mock.mode==='pending')return new Promise((resolve,reject)=>mock.finish=ok=>ok?resolve():reject(new Error('Delayed denial')));return Promise.resolve();}}});};
+window.configureClipboard=mode=>{mock.mode=mode;Object.defineProperty(navigator,'clipboard',{configurable:true,value:mode==='missing'?undefined:{writeText:text=>{mock.calls.push(text);if(mock.mode==='reject')return Promise.reject(new Error('Controlled permission denial'));if(mock.mode==='pending')return new Promise((resolve,reject)=>{const finish=ok=>ok?resolve():reject(new Error('Delayed denial'));mock.finish=finish;(mock.finishes??=[]).push(finish);});return Promise.resolve();}}});};
 window.configureClipboard('resolve');
 createRoot(document.getElementById('root')).render(location.search==='?percentage'?<Percentage/>:<Mortgage variant="mortgage"/>);
 `;
@@ -72,6 +72,21 @@ it.each([true, false])('Mortgage ignores delayed clipboard completion (%s) after
   await mount();await clipboard('pending');await copy().click();await page.getByLabel('Home price ($)', { exact: true }).fill('500000');
   await page.evaluate(ok => (window as any).clipboardMock.finish(ok), succeeds);await ui(copy()).toBeDisabled();await ui(copy()).toHaveText('Copy answer');await ui(page.getByRole('button', { name: 'Select estimate' })).toHaveCount(0);
   await calculate().click();await ui(result().locator('strong')).toHaveText('$3,269.69');
+});
+
+it.each([true, false])('Mortgage keeps the latest overlapping copy feedback (latest succeeds: %s)', async succeeds => {
+  await mount();await clipboard('pending');await copy().click();await copy().click();
+  expect(await page.evaluate(() => (window as any).clipboardMock.calls.length)).toBe(2);
+  await page.evaluate(ok => (window as any).clipboardMock.finishes[1](ok), succeeds);
+  await ui(page.getByRole('status')).toContainText(succeeds ? 'Estimate copied.' : 'Copy was blocked.');
+  await page.evaluate(async ok => {
+    (window as any).clipboardMock.finishes[0](ok);
+    await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+  }, !succeeds);
+  await ui(copy()).toHaveText(succeeds ? 'Copied' : 'Copy answer');
+  await ui(page.getByRole('status')).toContainText(succeeds ? 'Estimate copied.' : 'Copy was blocked.');
+  await ui(page.getByRole('button', { name: 'Select estimate', exact: true })).toHaveCount(succeeds ? 0 : 1);
+  await ui(page.getByRole('alert')).toHaveCount(0);
 });
 
 it('Mortgage exports every assumption and reconciles loan, tax, insurance, PMI and HOA costs', async () => {

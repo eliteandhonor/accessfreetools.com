@@ -371,7 +371,10 @@ async function configureClipboard(mode: 'missing' | 'reject' | 'resolve' | 'pend
       writeText: (text: string) => {
         state.clipboardCalls.push(text);
         if (mode === 'reject') return Promise.reject(new Error('Controlled permission denial'));
-        if (mode === 'pending') return new Promise<void>((resolve, reject) => { state.finishCopy = (success: boolean) => success ? resolve() : reject(new Error('Delayed denial')); });
+        if (mode === 'pending') return new Promise<void>((resolve, reject) => {
+          const finish = (success: boolean) => success ? resolve() : reject(new Error('Delayed denial'));
+          state.finishCopy = finish;(state.finishCopies ??= []).push(finish);
+        });
         return Promise.resolve();
       },
     } });
@@ -415,5 +418,31 @@ describe('OCR keyboard recovery and clipboard permission', () => {
     await page.evaluate(success => (window as any).ocrTest.finishCopy(success), success);
     await ui(page.getByRole('button', { name: 'Copy result', exact: true })).toBeDisabled();await ui(page.getByRole('button', { name: 'Copied', exact: true })).toHaveCount(0);await ui(page.getByRole('status')).toBeEmpty();await ui(page.getByRole('button', { name: 'Select text', exact: true })).toHaveCount(0);
     await start();await reply('Current language text');await ui(page.locator('pre')).toHaveText('Current language text');
+  });
+
+  it.each([true, false])('keeps the latest overlapping copy feedback (latest succeeds: %s)', async succeeds => {
+    await selectImage();await start();await reply('Receipt total $42.50');await configureClipboard('pending');
+    const copy = page.getByRole('button', { name: /^(Copy result|Copied)$/ });
+    await copy.click();await copy.click();expect(await page.evaluate(() => (window as any).ocrTest.clipboardCalls.length)).toBe(2);
+    await page.evaluate(ok => (window as any).ocrTest.finishCopies[1](ok), succeeds);
+    await ui(page.getByRole('status')).toContainText(succeeds ? 'Text copied.' : 'Copy was blocked.');
+    await page.evaluate(async ok => {
+      (window as any).ocrTest.finishCopies[0](ok);
+      await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+    }, !succeeds);
+    await ui(copy).toHaveText(succeeds ? 'Copied' : 'Copy result');
+    await ui(page.getByRole('status')).toContainText(succeeds ? 'Text copied.' : 'Copy was blocked.');
+    await ui(page.getByRole('button', { name: 'Select text', exact: true })).toHaveCount(succeeds ? 0 : 1);
+    await ui(page.getByRole('alert')).toHaveCount(0);await ui(page.locator('pre')).toHaveText('Receipt total $42.50');
+  });
+
+  it('copies the displayed help message for empty recognition', async () => {
+    await selectImage();await start();await reply(' \n ');await configureClipboard('resolve');
+    await ui(page.locator('.ai-result-card strong')).toHaveText('No clear text found');
+    const message = await page.locator('pre').innerText();expect(message).toContain('No readable text was found.');
+    await page.getByRole('button', { name: 'Copy result', exact: true }).click();
+    expect(await page.evaluate(() => (window as any).ocrTest.clipboardCalls)).toEqual([message]);
+    await ui(page.getByRole('status')).toHaveText('Text copied.');
+    await ui(page.locator('.ai-result-card dl > div').filter({ has: page.getByText('Characters', { exact: true }) }).locator('dd')).toHaveText('0');
   });
 });

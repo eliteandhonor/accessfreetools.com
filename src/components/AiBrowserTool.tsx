@@ -686,6 +686,7 @@ export default function AiBrowserTool({ variant }: Props) {
   const imageInput = useRef<HTMLInputElement>(null);
   const outputElement = useRef<HTMLPreElement>(null);
   const answerVersion = useRef(0);
+  const copyAttempt = useRef(0);
   const ocrOperation = useRef<AbortController | null>(null);
 
   function resetCopyFeedback() {
@@ -795,6 +796,7 @@ export default function AiBrowserTool({ variant }: Props) {
   async function copyResult() {
     if (!canCopy || loading) return;
     const version = answerVersion.current;
+    const attempt = ++copyAttempt.current;
     setCopied(false);
     setCopyFeedback('');
     setManualCopyAvailable(false);
@@ -807,11 +809,11 @@ export default function AiBrowserTool({ variant }: Props) {
 
     try {
       await navigator.clipboard.writeText(resultText);
-      if (variant === 'ocr' && version !== answerVersion.current) return;
+      if (attempt !== copyAttempt.current || (variant === 'ocr' && version !== answerVersion.current)) return;
       setCopied(true);
       if (variant === 'ocr') setCopyFeedback('Text copied.');
     } catch {
-      if (variant === 'ocr' && version !== answerVersion.current) return;
+      if (attempt !== copyAttempt.current || (variant === 'ocr' && version !== answerVersion.current)) return;
       setCopied(false);
       if (variant === 'ocr') {
         setCopyFeedback("Copy was blocked. Use Select text, then your device's Copy command.");
