@@ -154,7 +154,7 @@
     "@astrojs/react": "^6.0.2",
     "@huggingface/transformers": "^4.2.0",
     "@kenrick95/c4": "5.1.1",
-    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@modelcontextprotocol/sdk": "^1.31.0",
     "@rgrove/parse-xml": "4.2.3",
     "@zip.js/zip.js": "2.8.52",
     "astro": "7.2.8",
