@@ -2,9 +2,13 @@ import { existsSync, readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { validateSemanticReview } from './lib/daily-editorial-checks.mjs';
 import { reviewerPassed } from './lib/daily-editorial-pipeline.mjs';
+import { auditDailyEditorialPublicAssets } from './lib/daily-editorial-assets.mjs';
+import { approvedDailyEditorialArtwork, artworkJsonHash, validDailyArtworkManifest } from './lib/daily-editorial-artwork.mjs';
 const hash = (value) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const articles = JSON.parse(readFileSync('src/data/dailyEditorialArticles.json', 'utf8'));
 const issues = [];
+const artworkApprovals = JSON.parse(readFileSync('src/data/dailyEditorialArtApprovals.json', 'utf8'));
+if (!validDailyArtworkManifest(artworkApprovals)) issues.push('Daily artwork approval manifest is invalid');
 for (const article of articles) {
   const path = `docs/daily-editorial-reviews/${article.slug}.json`;
   if (!existsSync(path)) { issues.push(`${article.slug}: missing review receipt`); continue; }
@@ -19,8 +23,13 @@ for (const article of articles) {
   });
   if (!/^[a-f0-9]{64}$/.test(review.articleSha256 ?? '') || !validateSemanticReview(semantic, { passed: true, articleSha256: review.articleSha256, claims }).passed) issues.push(`${article.slug}: incomplete TypeSafe review`);
   if (!article.sources.every((s) => review.sourceEvidence?.some((r) => r.id === s.id && r.url === s.url && r.sha256 === s.sha256 && r.fetchedAt === s.fetchedAt))) issues.push(`${article.slug}: source hash mismatch`);
-  for (const extension of ['png', 'webp']) if (!existsSync(`public/social/daily-${article.slug}.${extension}`)) issues.push(`${article.slug}: missing ${extension} illustration`);
+  const approval = approvedDailyEditorialArtwork(article, artworkApprovals);
+  const expectedArtwork = approval && { sha256: artworkJsonHash(approval), articleSha256: approval.articleSha256,
+    publicContentSha256: approval.publicContentSha256, provenanceEvidenceSha256: approval.provenance.evidenceSha256,
+    visualEvidenceSha256: approval.visualReview.evidenceSha256, pngSha256: approval.assets.png.sha256, webpSha256: approval.assets.webp.sha256 };
+  if (!approval || review.articleSha256 !== article.artwork?.articleSha256 || artworkJsonHash(review.artworkApproval ?? null) !== artworkJsonHash(expectedArtwork)) issues.push(`${article.slug}: artwork approval receipt mismatch`);
 }
+issues.push(...await auditDailyEditorialPublicAssets(process.cwd(), articles));
 for (const issue of issues) console.error(issue);
 console.log(`Daily editorial: ${issues.length ? 'fail' : 'pass'}; ${articles.length} published records; no provider calls.`);
 if (issues.length) process.exitCode = 1;

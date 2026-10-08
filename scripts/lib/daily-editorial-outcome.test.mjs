@@ -23,3 +23,10 @@ it('does not print arbitrary errors, URLs or malformed commit receipts', () => {
   expect(publicOutcome(result)).toMatchObject({ status: 'held', reason: 'PIPELINE_HELD', publication: null });
   expect(JSON.stringify(publicOutcome(result))).not.toContain(marker);
 });
+it('retains a fixed artwork hold reason without exposing private approval or asset evidence', () => {
+  const marker = 'PRIVATE_ARTWORK_APPROVAL_AND_ASSET';
+  const outcome = publicOutcome({ status: 'held', reason: 'ARTWORK_APPROVAL_HELD', artwork: marker,
+    error: { message: marker, stack: marker }, approval: marker });
+  expect(outcome).toMatchObject({ status: 'held', reason: 'ARTWORK_APPROVAL_HELD', publication: null });
+  expect(JSON.stringify(outcome)).not.toContain(marker);
+});

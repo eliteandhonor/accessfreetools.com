@@ -8,9 +8,12 @@ import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import type { DailyEditorialArticle } from '../../src/data/dailyEditorialArticles';
 
 // Build the real component, layout, CSS and discovery handlers in memory. The
-// default fixture replaces only the catalog import; an optional advertising
+// default fixture replaces the catalog and uses an empty artwork manifest. An
+// approved image requires explicit synthetic test metadata; optional advertising
 // simulation is confined to this bundle. No public content or dist is written.
-export async function renderDailyEditorialFixture(article: DailyEditorialArticle, options: { advertisingMode?: 'adsense' | 'infolinks' } = {}) {
+export async function renderDailyEditorialFixture(article: DailyEditorialArticle, options: {
+  advertisingMode?: 'adsense' | 'infolinks'; artworkApprovals?: unknown[];
+} = {}) {
   const require = createRequire(import.meta.url);
   const styles = new Map<string, string>();
   const compiledStyles = new Map<string, string>();
@@ -22,8 +25,9 @@ export async function renderDailyEditorialFixture(article: DailyEditorialArticle
       export { getBlogDates } from './src/data/siteDates';
       export { getBlogSearchIndex } from './src/data/blogSearchIndex';
       export { blogSitemapEntries } from './src/data/discovery';
-      export { editorialArticleImages } from './src/data/editorialBlogPosts';
+      export { editorialArticleImages } from './src/data/editorialArticleImages';
       export { GET as feed } from './src/pages/feed.xml';
+      export { GET as imageSitemap } from './src/pages/sitemap-images.xml';
     `, resolveDir: process.cwd() },
     bundle: true, write: false, platform: 'node', format: 'esm', jsx: 'automatic',
     define: { 'import.meta.env': JSON.stringify(options.advertisingMode ? {
@@ -35,6 +39,7 @@ export async function renderDailyEditorialFixture(article: DailyEditorialArticle
     } : {}) },
     plugins: [{ name: 'daily-article-fixture', setup(builder) {
       builder.onLoad({ filter: /dailyEditorialArticles\.json$/ }, () => ({ contents: JSON.stringify([article]), loader: 'json' }));
+      builder.onLoad({ filter: /dailyEditorialArtApprovals\.json$/ }, () => ({ contents: JSON.stringify(options.artworkApprovals ?? []), loader: 'json' }));
       // Simulate approved advertising in memory to test the article boundary.
       // Production approval flags, allowlists and environment stay untouched.
       if (options.advertisingMode) builder.onLoad({ filter: /\/monetization\.ts$/ }, (args) => ({
@@ -87,5 +92,5 @@ export async function renderDailyEditorialFixture(article: DailyEditorialArticle
   const html = markup.replace('</head>', `<style data-fixture-real-css>${css}</style></head>`);
   return { html, defaultLayoutHtml, dates: component.getBlogDates(article.slug), search: component.getBlogSearchIndex(),
     sitemap: component.blogSitemapEntries, images: component.editorialArticleImages,
-    feed: await component.feed().text() };
+    feed: await component.feed().text(), imageSitemap: await component.imageSitemap().text() };
 }

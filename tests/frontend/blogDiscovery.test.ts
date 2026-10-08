@@ -4,6 +4,24 @@ import { build } from 'esbuild';
 import { afterAll, afterEach, beforeAll, beforeEach, expect, it } from 'vitest';
 
 const css = [readFileSync('src/styles/global.css', 'utf8'), readFileSync('src/styles/home-blog-discovery.css', 'utf8')].join('\n');
+// Public metadata only, injected into an in-memory browser bundle. This is
+// never written to the production catalog or paired with artwork approvals.
+const syntheticDailyArticle = {
+  schemaVersion: 1, slug: 'synthetic-catalog-browser-discovery',
+  title: 'Synthetic catalog browser discovery fixture',
+  summary: 'A synthetic text-only browser regression, never a software recommendation.',
+  problem: 'Verify that browser search discovers a nonempty daily catalog without server artwork code.',
+  project: { fullName: 'fixture/browser-discovery', url: 'https://github.com/fixture/browser-discovery',
+    commit: 'a'.repeat(40), license: 'MIT', release: null },
+  researchedAt: '2026-10-08T09:50:00.000Z', publishedAt: '2026-10-08T10:20:00.000Z',
+  artwork: { articleSha256: 'c'.repeat(64) },
+  sections: [{ heading: 'Synthetic source metadata', paragraphs: [{
+    text: 'Only synthetic public metadata is included in this isolated browser fixture.', sourceIds: ['readme'],
+  }] }],
+  sources: ['readme', 'license'].map((kind) => ({ id: kind, kind,
+    url: `https://github.com/fixture/browser-discovery/blob/${'a'.repeat(40)}/${kind}`,
+    fetchedAt: '2026-10-08T09:40:00.000Z', sha256: 'b'.repeat(64) })),
+};
 const harness = `
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -11,10 +29,12 @@ import BlogSearch from './src/components/BlogSearch';
 import { getBlogSearchIndex } from './src/data/blogSearchIndex';
 import { dailyEditorialArticles } from './src/data/dailyEditorialArticles';
 // Keep these legacy navigation scenarios stable as researched articles grow.
-// Daily article discovery is exercised by the real Astro render fixture.
-const dailySlugs = new Set(dailyEditorialArticles.map(article => article.slug));
-const allPosts = getBlogSearchIndex().filter(post => !dailySlugs.has(post.slug));
+// The explicit synthetic-catalog scenario includes daily text discovery.
 const fixture = window.fixture;
+const dailySlugs = new Set(dailyEditorialArticles.map(article => article.slug));
+const index = getBlogSearchIndex();
+const allPosts = fixture.includeDaily ? index : index.filter(post => !dailySlugs.has(post.slug));
+fixture.dailySlugs = [...dailySlugs];
 const requests = [];
 fixture.requestCount = 0;
 fixture.requests = requests;
@@ -51,17 +71,42 @@ afterAll(async () => { await browser?.close(); });
 const links = () => page.locator('.blog-post-card h3 a');
 const search = () => page.getByLabel('Search guides');
 const reveal = () => page.getByRole('button', { name: /^Show 12 more posts/ });
-async function mount(loaded = true, path = '/blog/') {
+async function mount(loaded = true, path = '/blog/', options: { includeDaily?: boolean; script?: string } = {}) {
   await page.goto(`https://blog-discovery.invalid${path}`);
-  await page.evaluate(value => { (window as any).fixture = value; }, { loaded });
+  await page.evaluate(value => { (window as any).fixture = value; }, { loaded, includeDaily: options.includeDaily ?? false });
   await page.addStyleTag({ content: css });
-  await page.addScriptTag({ content: script });
+  await page.addScriptTag({ content: options.script ?? script });
   await ui(search()).toBeVisible();
 }
 async function finish(ok: boolean) {
   await ui.poll(() => page.evaluate(() => (window as any).fixture.requests.length)).toBeGreaterThan(0);
   await page.evaluate(value => (window as any).fixture.finish(value), ok);
 }
+
+it('compiles and discovers synthetic daily text in the real browser without server artwork imports', async () => {
+  const compiled = await build({ stdin: { contents: harness, resolveDir: process.cwd(), loader: 'tsx' },
+    bundle: true, write: false, metafile: true, format: 'iife', platform: 'browser', jsx: 'automatic',
+    loader: { '.css': 'empty' }, plugins: [{ name: 'synthetic-daily-catalog-only', setup(builder) {
+      builder.onLoad({ filter: /dailyEditorialArticles\.json$/ }, () => ({
+        contents: JSON.stringify([syntheticDailyArticle]), loader: 'json',
+      }));
+    } }],
+  });
+  const inputs = Object.keys(compiled.metafile!.inputs);
+  expect(inputs.some((input) => input.endsWith('dailyEditorialArticles.json'))).toBe(true);
+  expect(inputs.some((input) => /(?:dailyEditorialArtwork|editorialArticleImages|dailyEditorialArtApprovals|daily-editorial-artwork)\./.test(input))).toBe(false);
+  await mount(true, '/blog/', { includeDaily: true, script: compiled.outputFiles[0].text });
+  expect(await page.evaluate(() => (window as any).fixture.dailySlugs)).toEqual([syntheticDailyArticle.slug]);
+  await ui(links().filter({ hasText: syntheticDailyArticle.title })).toHaveAttribute('href', `/blog/${syntheticDailyArticle.slug}/`);
+  await search().fill('synthetic catalog browser');
+  await ui(links()).toHaveCount(1);
+  await ui(links()).toHaveText(syntheticDailyArticle.title);
+  await ui(page.getByRole('link', { name: 'Read article', exact: true })).toHaveAttribute('href', `/blog/${syntheticDailyArticle.slug}/`);
+  await ui(page.getByText(syntheticDailyArticle.summary)).toBeVisible();
+  await ui(page.locator('.blog-search-count')).toHaveText('Showing 1 of 1 post.');
+  expect(await page.evaluate(() => (window as any).fixture.requestCount)).toBe(0);
+  await ui(page.locator('img[src*="/social/daily-"]')).toHaveCount(0);
+});
 
 it('all seven editorial routes are in the initial manageable set and native GET search remains available', async () => {
   await mount();

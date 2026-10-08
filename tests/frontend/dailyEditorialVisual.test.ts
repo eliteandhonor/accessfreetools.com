@@ -1,12 +1,12 @@
 import { execFile } from 'node:child_process';
-import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { copyFile, mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { promisify } from 'node:util';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { DailyEditorialArticle } from '../../src/data/dailyEditorialArticles';
 import { editorialArticlePaths } from '../../scripts/lib/article-visual-routes.mjs';
-import { createDailyEditorialAssets } from '../../scripts/lib/daily-editorial-assets.mjs';
+import { prepareSyntheticDailyArtwork, syntheticDailyArtworkApproval } from '../fixtures/dailyEditorialArtwork.mjs';
 import { renderDailyEditorialFixture } from './dailyEditorialFixture';
 
 const exec = promisify(execFile);
@@ -19,6 +19,7 @@ const article: DailyEditorialArticle = {
   problem: 'You need to see which lines changed in a local text file.',
   project: { fullName: 'fixture/comparison', url: 'https://github.com/fixture/comparison', commit: 'a'.repeat(40), license: 'MIT', release: null },
   researchedAt: '2026-10-08T09:50:00.000Z', publishedAt: '2026-10-08T10:20:00.000Z',
+  artwork: { articleSha256: 'c'.repeat(64) },
   sections: [{ heading: 'Compare the files', paragraphs: [{ text: 'This explanation is a synthetic fixture for the actual article layout.', sourceIds: ['readme'] }] }],
   sources: ['readme', 'license'].map((kind) => ({ id: kind, kind: kind as 'readme' | 'license',
     url: `https://github.com/fixture/comparison/blob/${'a'.repeat(40)}/${kind}`,
@@ -26,7 +27,10 @@ const article: DailyEditorialArticle = {
 };
 let rendered: string;
 
-beforeAll(async () => { rendered = (await renderDailyEditorialFixture(article)).html; });
+beforeAll(async () => {
+  const approval = await syntheticDailyArtworkApproval(article);
+  rendered = (await renderDailyEditorialFixture(article, { artworkApprovals: [approval] })).html;
+});
 afterAll(async () => { await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true }))); });
 
 async function fixture(clipped = false) {
@@ -39,9 +43,16 @@ async function fixture(clipped = false) {
   await mkdir(join(dist, 'blog', 'existing-owner-article'), { recursive: true });
   await writeFile(catalogPath, JSON.stringify([article]));
   await writeFile(join(dist, 'index.html'), '<!doctype html><title>Offline test root</title>');
-  await createDailyEditorialAssets(article, { outputDir: join(dist, 'social') });
+  // These rasters and their approval records are explicitly synthetic fixtures,
+  // never production artwork or evidence of a real model/visual review.
+  await prepareSyntheticDailyArtwork(root, article);
+  await mkdir(join(dist, 'social'), { recursive: true });
+  for (const extension of ['png', 'webp']) {
+    await copyFile(join(root, 'src/assets/daily-editorial', `${article.slug}.${extension}`),
+      join(dist, 'social', `daily-${article.slug}.${extension}`));
+  }
   // Browser code and external services are disabled. Actual component markup,
-  // unmodified source CSS and the real generated daily hero remain in the page.
+  // unmodified source CSS and the synthetic approved raster remain in the page.
   const html = rendered.replace('<head>', '<head><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; img-src \'self\' data:; font-src \'none\'">');
   expect(html).toContain('data-fixture-real-css');
   expect(html).toContain('.editorial-article-header h1');
@@ -85,7 +96,7 @@ describe('actual daily route visual coverage', () => {
     expect(() => editorialArticlePaths({ root: dist, catalogPath })).toThrow('missing its built route or marker');
   });
 
-  it('checks real daily CSS, generated hero and readable layout at all four existing viewports', async () => {
+  it('checks real daily CSS, synthetic approved hero and readable layout at all four existing viewports', async () => {
     const { root } = await fixture();
     const { code, report } = await runChecker(root);
     expect(code, JSON.stringify(report)).toBe(0);
