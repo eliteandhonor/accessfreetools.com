@@ -17,9 +17,10 @@ interface Props {
   noindex?: boolean;
   socialImagePath?: string;
   socialImageAlt?: string;
+  renderAdvertising?: boolean;
 }
 
-const { title, description, path = '/', ogType, noindex = false, socialImagePath, socialImageAlt } = Astro.props;
+const { title, description, path = '/', ogType, noindex = false, socialImagePath, socialImageAlt, renderAdvertising = true } = Astro.props;
 const site = Astro.site ?? 'https://accessfreetools.com';
 const canonical = new URL(path, site).toString();
 const robotsContent = robotsContentForPath(path, noindex);
@@ -48,7 +49,7 @@ const pinterestFeedUrl = new URL('/pinterest-feed.xml', site).toString();
 const resolvedOgType = ogType ?? (path.startsWith('/blog/') && path !== '/blog/' ? 'article' : 'website');
 const articleDates = getArticleDatesFromPath(path);
 const shouldRenderClarity = !path.startsWith('/admin/') && path !== '/private-analytics/';
-const shouldRenderAdvertising = isEligiblePublicAdPath(path);
+const shouldRenderAdvertising = renderAdvertising && isEligiblePublicAdPath(path);
 const shouldRenderPreferredSource =
   resolvedOgType === 'article' && !/\bnoindex\b/i.test(robotsContent ?? '');
 const siteStructuredData = {
@@ -335,7 +336,7 @@ const siteStructuredData = {
     </main>
     <Fragment set:html="<!--INFOLINKS_OFF-->" />
     <SiteFooter showAdChoices={shouldRenderAdvertising} />
-    <AdvertisingControls path={path} />
+    {renderAdvertising && <AdvertisingControls path={path} />}
     <Fragment set:html="<!--INFOLINKS_ON-->" />
   </body>
 </html>

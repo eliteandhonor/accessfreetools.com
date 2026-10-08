@@ -1,0 +1,284 @@
+{
+  "schemaVersion": 1,
+  "packageVersion": "localsend-held-pilot-v3",
+  "bundlePrefix": "inputs/localsend-held-pilot/v3/",
+  "pipelineBaseCommit": "02084d3f9fe83a31f9bfac82b087028ec347da95",
+  "articleSha256": "1a53a93a7144fef483bfc909ee8fbd418325c498160a7ed9e2be67a4c490b3fd",
+  "manifestSha256": "d647cdb4990c271bfee2a4ce7ae23966e7ae2b8ef43a7270d1f253584ff9003f",
+  "budgetSha256": "cba9e54d37e39f1f4cfef2ca3b19384daa7dde659fb8154f38ba3078ec52bc25",
+  "executionContractSha256": "a3562d2b2ad446eed4f2127e06aaa0b8837e688243294aaee3d56bbee79ffd7c",
+  "contextRegistrySha256": "c30e1e2f79779943cf460a26c43d084965bffac2161f90af586f3d25e2933a12",
+  "catalogSourceCommit": "02084d3f9fe83a31f9bfac82b087028ec347da95",
+  "files": [
+    {
+      "file": "catalog-build-receipt.json",
+      "bytes": 545,
+      "sha256": "c052909285de0961ceb92fc2b10d9d267304fecec84943f022e88b76bcaf4415"
+    },
+    {
+      "file": "context-independent-review.json",
+      "bytes": 4167,
+      "sha256": "5c9a6e05e5081eae766016e36e18f0976cf7ea76029eea069db683e90a786e1d"
+    },
+    {
+      "file": "context-registry.json",
+      "bytes": 94708,
+      "sha256": "b5c0df1d0a60a7687610c4f778d72ab9eca51bf25324171ddc4094d52f0f581e"
+    },
+    {
+      "file": "duplicate-catalog.json",
+      "bytes": 3789,
+      "sha256": "ac841b84e71137b045194378956026ed02fb4e79d15c5fbef9f3bfb45944d3cc"
+    },
+    {
+      "file": "evidence-contexts.json",
+      "bytes": 116686,
+      "sha256": "2189ddeb13f9ebd1d2f2cd034e8ef87c5a8250be9f2ac4b9a5976d1c3d56d744"
+    },
+    {
+      "file": "execution-contract.json",
+      "bytes": 1640,
+      "sha256": "a3562d2b2ad446eed4f2127e06aaa0b8837e688243294aaee3d56bbee79ffd7c"
+    },
+    {
+      "file": "final-budget-proposal.json",
+      "bytes": 635,
+      "sha256": "cba9e54d37e39f1f4cfef2ca3b19384daa7dde659fb8154f38ba3078ec52bc25"
+    },
+    {
+      "file": "localsend-guide.md",
+      "bytes": 8181,
+      "sha256": "1a53a93a7144fef483bfc909ee8fbd418325c498160a7ed9e2be67a4c490b3fd"
+    },
+    {
+      "file": "pilot-input-manifest.json",
+      "bytes": 10010,
+      "sha256": "d647cdb4990c271bfee2a4ce7ae23966e7ae2b8ef43a7270d1f253584ff9003f"
+    },
+    {
+      "file": "preparation-report.json",
+      "bytes": 1996,
+      "sha256": "82dcb204072e91cf379fecd9d07ae1a728325cc2d7d3eb1d825aa557aee7cfff"
+    },
+    {
+      "file": "provenance/download-route-observation.json",
+      "bytes": 858,
+      "sha256": "0da32bf8ca9956435c0a552ff7df79913d7e520b96d886db944cfd5eb53a412c"
+    },
+    {
+      "file": "provenance/release-tag-ref-observation.json",
+      "bytes": 1193,
+      "sha256": "9a2e6fd213b7361469ce0372ec62492ea2cf8bc8055e5bd85fd9f5e6e7ada7dc"
+    },
+    {
+      "file": "provenance/source-seed-manifest.json",
+      "bytes": 20351,
+      "sha256": "9ba16acd2718dea337795f05c24ff9ca129d62d7db61216d1991e0f71d994955"
+    },
+    {
+      "file": "public-claim-map.json",
+      "bytes": 18227,
+      "sha256": "79640135c60c57a2ef38ad8ee773aa27bcaf8894cab8002ac2889733f417f124"
+    },
+    {
+      "file": "public-sources/aft-blog-search-index.json",
+      "bytes": 160661,
+      "sha256": "6fa3ba5b734020a56a1c7e7f821ddca839d646328429ecd259a17b830a595b19"
+    },
+    {
+      "file": "public-sources/aft-project-install-guide.astro",
+      "bytes": 14409,
+      "sha256": "63b64b14f94bb41c257e598b6cdafc9015d8c88a09a40a44c8c14d2bb2ee5dfc"
+    },
+    {
+      "file": "public-sources/file-picker.dart",
+      "bytes": 12072,
+      "sha256": "dea0d64e97620e612196d4ce7d366f7f2af50020c6a534166c0b2dbbfd35b0eb"
+    },
+    {
+      "file": "public-sources/first-party-process-record.json",
+      "bytes": 3819,
+      "sha256": "b7ab7f15076113121bd69121b9897b19f8ff0000093ff5d93187c8faf2531c87"
+    },
+    {
+      "file": "public-sources/full-license.txt",
+      "bytes": 11346,
+      "sha256": "38514afa30358fc21ef37551f3119b27d820427ece3c6f0ae014c7e47338c087"
+    },
+    {
+      "file": "public-sources/main-readme.txt",
+      "bytes": 14775,
+      "sha256": "eb42bdce9fab2d64797b3e42ed8b5256cfc6538e7cfbc22d6eba887495da47ed"
+    },
+    {
+      "file": "public-sources/official-download-fresh.html",
+      "bytes": 36586,
+      "sha256": "8dc60bc94de15f7fcbca487c4757c7b438717bf7d81d89e31a0bc948dfa01ff5"
+    },
+    {
+      "file": "public-sources/official-download-route-fresh.js",
+      "bytes": 7288,
+      "sha256": "3cfb8b2b7c0ffa408f3f2bae52faccc47ffa4cdeef4c10c344a253e8e9e92dbd"
+    },
+    {
+      "file": "public-sources/official-home-fresh.html",
+      "bytes": 51716,
+      "sha256": "54624c4a6c3216fa38d5ae43aa724224a31d0a0c40cb6c83ea41f9fc30148e24"
+    },
+    {
+      "file": "public-sources/original-illustration.svg",
+      "bytes": 2486,
+      "sha256": "5e9762546ea85cfe10bac972fa48a63c3540de3b0de9a9070bc2bc7c412ca44a"
+    },
+    {
+      "file": "public-sources/persistence-migrations.dart",
+      "bytes": 1962,
+      "sha256": "a381f092cf549358346a696da9e1cf019c8c81bde4fa86d7dc755b34c00f8cea"
+    },
+    {
+      "file": "public-sources/platform-check.dart",
+      "bytes": 2000,
+      "sha256": "6edc71f1f25e67edad71da76e28700dc8044d81edd156776bf00efc0c2d44c45"
+    },
+    {
+      "file": "public-sources/quick-save-mode.dart",
+      "bytes": 90,
+      "sha256": "65a9a41b82538b3b7d4642767578e76aa858e058b6b941b4b8cdd31c16146dfa"
+    },
+    {
+      "file": "public-sources/receive-controller.dart",
+      "bytes": 27686,
+      "sha256": "6871eccd583691ce0e7a2f40037a233734f1e0b260def6a71eaf65fee7df2c4e"
+    },
+    {
+      "file": "public-sources/receive-screen.dart",
+      "bytes": 17506,
+      "sha256": "7df0774fbe68841c154754d40f570885a42530a62d7b7bca98076dce2202a1be"
+    },
+    {
+      "file": "public-sources/receive-tab.dart",
+      "bytes": 9245,
+      "sha256": "e139698177988cf665e7c6ebceedf2cb2283fdd6237fbabbdc307f471ae2128e"
+    },
+    {
+      "file": "public-sources/release-api-fresh.json",
+      "bytes": 35453,
+      "sha256": "971163ea1841ed87faa1006cdbc3e9c3411b4be1ec0103c11bc3cebdb7b7f2ea"
+    },
+    {
+      "file": "public-sources/release-readme.txt",
+      "bytes": 13520,
+      "sha256": "30ad438ace19b29bcc61a63c59e4f25627aafebf44c5968c22ae054810063f16"
+    },
+    {
+      "file": "public-sources/release-tag-ref-fresh.json",
+      "bytes": 343,
+      "sha256": "8bed33642c4d100727e0b85df3e45187af0dd908eea9377f672f183576de6d19"
+    },
+    {
+      "file": "public-sources/release-ui-labels.json",
+      "bytes": 18706,
+      "sha256": "2e138c462659546fc22f803507f8b85fef16513971f0350b8de567afdb89d54a"
+    },
+    {
+      "file": "public-sources/send-tab.dart",
+      "bytes": 22175,
+      "sha256": "85877dc28bf0b0f6430e261972cc878df2c5a3d5af8e6f49a217a25f14d00232"
+    },
+    {
+      "file": "public-sources/settings-persistence.dart",
+      "bytes": 19380,
+      "sha256": "73b50daf36e8f8aacc1db473cc4a496b7b4d02efee84fe5451bdbe7bd21ee9ef"
+    },
+    {
+      "file": "public-sources/settings-provider.dart",
+      "bytes": 9165,
+      "sha256": "fad976373d67a6b3f1b563249b37ebcec54cb0abcc9f4ac755fb047ab6764819"
+    },
+    {
+      "file": "public-sources/settings-tab.dart",
+      "bytes": 32539,
+      "sha256": "f18ef3364478a181ee76426a2896b8f688202c78c1f877fa8d9e62112a339dff"
+    },
+    {
+      "file": "README.md",
+      "bytes": 606,
+      "sha256": "76a71fb33a464e2ad9d313caeba42433d3e4360200f9ecc3103113a5c0e33677"
+    },
+    {
+      "file": "requests/jina-main-readme.json",
+      "bytes": 393,
+      "sha256": "d83e57ff862aca7d367b45358b08fc7e6b988915068311a120c8e56bae48ef7b"
+    },
+    {
+      "file": "requests/jina-release-readme.json",
+      "bytes": 396,
+      "sha256": "bf771564884d4e8b353cd0fd94d7a4739fe151db5143412fda784dfc3bc76090"
+    },
+    {
+      "file": "requests/ollama-exact-draft-review-1.json",
+      "bytes": 55696,
+      "sha256": "1c86f1a53558c19e61e0e68130bf730de90f53861253458bc13cd8713b375f09"
+    },
+    {
+      "file": "requests/ollama-exact-draft-review-2.json",
+      "bytes": 54822,
+      "sha256": "45121d555226ece62b4c15fc7f773c415010a4949f17854397e0d563e5747ce5"
+    },
+    {
+      "file": "requests/ollama-exact-draft-review-3.json",
+      "bytes": 54637,
+      "sha256": "a84363bf214e96cdd1cad390bf591f5699a4a3f9ead1080c46bcfe6ff9db5582"
+    },
+    {
+      "file": "requests/ollama-proposed-writing.json",
+      "bytes": 22203,
+      "sha256": "0fc20646e3b9e04af9ba171948df06d834656f4a5a65b20c1f9064e4c97bf089"
+    },
+    {
+      "file": "requests/typesafe-1.json",
+      "bytes": 24996,
+      "sha256": "0f7f1e99cf8d1d7eb0d8c0867ec92eb8c0f7cfd9c12737e788483d5b2fd427cf"
+    },
+    {
+      "file": "requests/typesafe-2.json",
+      "bytes": 24938,
+      "sha256": "b9411e3d3857bd99f4872da345a8b07db05614c061657353fcc894036f64317a"
+    },
+    {
+      "file": "requests/typesafe-3.json",
+      "bytes": 23622,
+      "sha256": "45d85b56b4ea0e4661b67937cdd8e4acd827117ff0ea2b1fb158b67a82d00e71"
+    },
+    {
+      "file": "requests/typesafe-4.json",
+      "bytes": 24826,
+      "sha256": "d6f7f93f420ae5cddd57ff7a5e504972bd10cb1285a224fb6312975216d7fa93"
+    },
+    {
+      "file": "requests/typesafe-5.json",
+      "bytes": 24375,
+      "sha256": "c413b8c75a8d696fd14a3233cfd7481a6eccd03e92799798b75ae900dba6bc07"
+    },
+    {
+      "file": "requests/typesafe-6.json",
+      "bytes": 21746,
+      "sha256": "e74d9a2264748316950cdfd2ce1a8880cd14192fed51aca0ecf7c55cc1801da7"
+    },
+    {
+      "file": "requests/typesafe-7.json",
+      "bytes": 16196,
+      "sha256": "9e51909bfececcc0a1559af561a1582ef537976532223f4217249aa64a49df41"
+    },
+    {
+      "file": "requests/typesafe-8.json",
+      "bytes": 16454,
+      "sha256": "47bf742c69d0ee44186bce8e526c632900aed7f13e732486933e4d0c2b1f12d9"
+    },
+    {
+      "file": "source-manifest.json",
+      "bytes": 11645,
+      "sha256": "3ae9eeca49a09e02a6494fa3d6a4304d83ab2efae09c8d02ceb150bd3f09d661"
+    }
+  ]
+}

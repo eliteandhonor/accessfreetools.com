@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "enabled": false,
+  "publicationEnabled": false,
+  "repository": "eliteandhonor/accessfreetools.com",
+  "timezone": "Australia/Brisbane",
+  "stateBranch": "automation/aft-editorial-state",
+  "stateRepository": "eliteandhonor/accessfreetools-editorial-state",
+  "privateStoreApproval": null,
+  "statePreflightAllowEmptyBaseline": false,
+  "inputCommit": "c843a6c52434733eb99672088713dd34ae724252",
+  "activationReview": null,
+  "contextReview": null,
+  "sharedBudgetAllocation": null,
+  "allocationProposal": {
+    "approved": false,
+    "purpose": "unpublished-localsend-pilot",
+    "jina": {
+      "calls": 2,
+      "reservedReaderTokens": 10000
+    },
+    "ollama": {
+      "calls": 4,
+      "reservedInputTokens": 524288,
+      "reservedGeneratedTokens": 6000,
+      "units": 530288
+    },
+    "typesafe": {
+      "calls": 8,
+      "reservedInputTokens": 524288
+    }
+  }
+}

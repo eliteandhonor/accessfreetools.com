@@ -141,10 +141,15 @@
     "check:secrets": "node scripts/check-secret-redaction.mjs",
     "security:audit": "npm audit --audit-level=moderate",
     "check": "node scripts/run-verified-check.mjs",
-    "check:steps": "npm run typecheck && npm run typecheck:ts6 && npm test && npm run build && npm run check:links && npm run check:site && npm run check:preferred-sources && npm run check:article-visual && npm run check:editorial-quality && npm run check:key-visual && npm run check:accessibility && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run images:qa && npm run images:sitemap-check && npm run gallery:qa && npm run check:secrets && npm run security:audit",
+    "check:steps": "npm run typecheck && npm run typecheck:ts6 && npm test && npm run build && npm run check:links && npm run check:site && npm run check:preferred-sources && npm run check:article-visual && npm run check:editorial-quality && npm run check:daily-editorial && npm run check:key-visual && npm run check:accessibility && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run images:qa && npm run images:sitemap-check && npm run gallery:qa && npm run check:secrets && npm run security:audit",
     "check:production-sitemap": "node scripts/check-production-sitemap.mjs",
     "promotion:reddit:publish-profile": "node scripts/reddit-publish-profile-post.mjs --confirm-public-post",
-    "automation:chrome-check": "node scripts/check-chrome-control-plugin.mjs"
+    "automation:chrome-check": "node scripts/check-chrome-control-plugin.mjs",
+    "editorial:daily:offline": "node scripts/daily-editorial.mjs --offline",
+    "editorial:daily": "node scripts/daily-editorial.mjs --run",
+    "editorial:pilot:offline": "node scripts/daily-editorial-pilot.mjs --offline",
+    "editorial:pilot": "node scripts/daily-editorial-pilot.mjs --run",
+    "check:daily-editorial": "node scripts/check-daily-editorial.mjs"
   },
   "engines": {
     "node": ">=24 <25"

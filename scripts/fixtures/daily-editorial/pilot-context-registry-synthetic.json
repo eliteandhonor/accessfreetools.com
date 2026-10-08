@@ -1,0 +1,34 @@
+{
+  "registry": {
+    "schemaVersion": 1,
+    "articleSha256": "c708768271aca80586ff441351b31ce623e641897b5632796aa721b9c2cd89a4",
+    "sourceManifestSha256": "6946fa4af5d4a054e49021d050216a45901676aae9dd1fe51438b7f26ef9c015",
+    "publicClaimMapSha256": "41bb9a13548ee467404337bc8d43e4238e3c55563fecc699d87f02473773c108",
+    "preparedBy": "synthetic-fixture-preparer",
+    "units": [
+      {
+        "id": "e-synthetic",
+        "sourceId": "synthetic-source",
+        "sourceSha256": "3e78705b5740fd204fbc6244eb1cfaf0eec723a0931fa14b862894184a0fc883",
+        "blobSha": "5a62d792d032ed28bf68d2f85534cbecb721b1ab",
+        "contextSha256": "3e78705b5740fd204fbc6244eb1cfaf0eec723a0931fa14b862894184a0fc883",
+        "kind": "complete-source-file",
+        "locator": "entire file",
+        "mode": "whole-source",
+        "closure": {
+          "fullSourceReviewed": false,
+          "outerScopeCovered": false,
+          "dependencyClosureReviewed": false,
+          "requiredUnitIds": [],
+          "limitations": [
+            "Context admission establishes exact source/unit coverage for scoped review only. It does not establish factual truth, successful execution, security, testing, permission to publish, or deployment readiness."
+          ]
+        },
+        "claimGroupIds": [
+          "synthetic-group"
+        ]
+      }
+    ]
+  },
+  "registrySha256": "6b2aeb7700e17a498a44492d9c2b314ead7ae69456d13e1c0a1c3c6992e65ef8"
+}

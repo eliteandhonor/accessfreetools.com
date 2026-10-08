@@ -1,8 +1,9 @@
 import { createServer } from 'node:http';
-import { createReadStream, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { createReadStream, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { stat } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright';
+import { editorialArticlePaths } from './lib/article-visual-routes.mjs';
 
 const ROOT = path.resolve('dist');
 const OUTPUT_DIR = path.resolve('output', 'article-visual-layout');
@@ -35,26 +36,13 @@ function fail(message) {
   throw new Error(message);
 }
 
-function editorialArticlePaths() {
-  const blogDir = path.join(ROOT, 'blog');
-  if (!existsSync(blogDir)) return [];
-
-  return readdirSync(blogDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => ({
-      slug: entry.name,
-      route: `/blog/${entry.name}/`,
-      htmlPath: path.join(blogDir, entry.name, 'index.html'),
-    }))
-    .filter((entry) => existsSync(entry.htmlPath))
-    .filter((entry) => readFileSync(entry.htmlPath, 'utf8').includes('data-editorial-slug'));
-}
-
 if (!existsSync(path.join(ROOT, 'index.html'))) {
   fail('Missing dist/index.html. Run `npm run build` before `npm run check:article-visual`.');
 }
 
-const articles = editorialArticlePaths();
+const articles = editorialArticlePaths({
+  root: ROOT, catalogPath: path.resolve('src/data/dailyEditorialArticles.json'),
+});
 if (!articles.length) fail('No built editorial articles were found.');
 mkdirSync(OUTPUT_DIR, { recursive: true });
 

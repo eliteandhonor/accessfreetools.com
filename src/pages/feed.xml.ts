@@ -25,7 +25,7 @@ export const GET: APIRoute = () => {
   <guid isPermaLink="true">${url}</guid>
   <description>${escapeXml(post.summary)}</description>
   <category>${escapeXml(post.label)}</category>
-  <pubDate>${toRfc822Date(post.dates.modified)}</pubDate>
+  <pubDate>${toRfc822Date(post.dates.published)}</pubDate>
 </item>`;
     })
     .join('\n');
