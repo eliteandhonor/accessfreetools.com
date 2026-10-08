@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-08T09:56:16.655Z",
+  "generatedAt": "2026-10-08T11:04:51.641Z",
   "status": "pass-with-warnings",
   "mode": "editorial",
   "target": "docs/daily-editorial-first-article/localsend-guide.md",
@@ -47,7 +47,7 @@
   },
   "summary": {
     "files": 1,
-    "words": 1078,
+    "words": 1088,
     "hardErrors": 0,
     "warnings": 3
   },
@@ -57,8 +57,8 @@
       "mode": "editorial",
       "status": "pass-with-warnings",
       "metrics": {
-        "words": 1078,
-        "sentences": 90,
+        "words": 1088,
+        "sentences": 91,
         "paragraphs": 33,
         "hardErrors": 0,
         "warnings": 3

@@ -5,6 +5,8 @@
   "repository": "eliteandhonor/accessfreetools.com",
   "timezone": "Australia/Brisbane",
   "stateBranch": "automation/aft-editorial-state",
+  "stateRepository": null,
+  "privateStoreApproval": null,
   "activationReview": null,
   "hostingAutoDeployVerified": null,
   "sharedBudgetAllocation": null,

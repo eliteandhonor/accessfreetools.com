@@ -38,7 +38,7 @@ Start with one ordinary file so you can confirm the destination and save locatio
 
 2. **Connect both devices to the same local network.** For this walkthrough, use your own Wi-Fi network. Allow LocalSend's local-network permission when your operating system requests it.
 
-3. **Check the receiver.** Open its **Receive** tab and read its device name. Check **Save to folder** in Settings. To review each file request yourself, turn off **Quick Save** and **Quick Save for Favorites**.
+3. **Check the receiver.** Open its **Receive** tab and read its device name. On desktop or Android, check **Save to folder** in Settings. This option isn't shown on iOS. To review each file request yourself, turn off **Quick Save** and **Quick Save for Favorites**.
 
 4. **Select the file on the sender.** Open **Send**, then choose **File** or **Media**, depending on your platform and what you're sending. Check the selected files and size, then choose the receiver under **Nearby devices**.
 

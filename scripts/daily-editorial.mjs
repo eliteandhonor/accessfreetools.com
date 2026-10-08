@@ -5,6 +5,8 @@ import { createGitStateStore } from './lib/daily-editorial-state.mjs';
 import { runDailyEditorial, reconcilePublicationIntents, EditorialHold } from './lib/daily-editorial-pipeline.mjs';
 import { createGitPublisher, publicArticle } from './lib/daily-editorial-publication.mjs';
 import { waitForDailyPublication } from './lib/daily-editorial-live.mjs';
+import { privateRepositoryMetadata } from './lib/daily-editorial-storage.mjs';
+import { publicOutcome } from './lib/daily-editorial-outcome.mjs';
 
 const root = process.cwd();
 const args = process.argv.slice(2);
@@ -14,13 +16,14 @@ if (args.length !== 1 || !['--offline', '--run'].includes(args[0])) {
 }
 if (args[0] === '--offline') {
   const result = spawnSync(process.execPath, [resolve('node_modules/vitest/vitest.mjs'), 'run', '--configLoader', 'runner',
-    'scripts/lib/daily-editorial-state.test.mjs', 'scripts/lib/daily-editorial-providers.test.mjs',
+    'scripts/lib/daily-editorial-state.test.mjs', 'scripts/lib/daily-editorial-storage.test.mjs', 'scripts/lib/daily-editorial-outcome.test.mjs', 'scripts/lib/daily-editorial-providers.test.mjs',
     'scripts/lib/daily-editorial-checks.test.mjs', 'scripts/lib/daily-editorial-assets.test.mjs',
     'scripts/lib/daily-editorial-pipeline.test.mjs', 'scripts/lib/daily-editorial-publication.test.mjs',
     'scripts/lib/daily-editorial-live.test.mjs'], { stdio: 'inherit' });
   process.exit(result.status === 0 ? 0 : 1);
 }
 
+let store;
 try {
   const config = JSON.parse(readFileSync('config/daily-editorial.json', 'utf8'));
   if (!config.enabled || !config.publicationEnabled || !config.activationReview || !config.hostingAutoDeployVerified || !config.sharedBudgetAllocation ||
@@ -36,7 +39,10 @@ try {
         Number.isFinite(allocation.sharedCaps[provider]) && allocation.aftCaps[provider] + allocation.gtaCaps[provider] <= allocation.sharedCaps[provider] &&
         allocation.aftCallCaps[provider] === config.limits[provider].calls && Number.isSafeInteger(allocation.gtaCallCaps[provider]) && allocation.gtaCallCaps[provider] >= 0 &&
         Number.isSafeInteger(allocation.sharedCallCaps[provider]) && allocation.aftCallCaps[provider] + allocation.gtaCallCaps[provider] <= allocation.sharedCallCaps[provider])) throw new EditorialHold('SHARED_BUDGET_COORDINATION_REQUIRED');
-  const store = await createGitStateStore({ root, branch: config.stateBranch, activated: true });
+  const keys = { jina: process.env.JINA_API_KEY, ollama: process.env.OLLAMA_API_KEY, typesafe: process.env.TYPESAFE_API_KEY };
+  store = await createGitStateStore({ root, branch: config.stateBranch, activated: true,
+    stateRepository: config.stateRepository, privateStoreApproval: config.privateStoreApproval, stateToken: process.env.GITHUB_TOKEN,
+    readRepositoryMetadata: (repository) => privateRepositoryMetadata(repository, { token: process.env.GITHUB_TOKEN }) });
   const state = await store.load();
   // This built catalog covers existing owner posts and guides as well as daily posts.
   const posts = JSON.parse(readFileSync('dist/blog-search-index.json', 'utf8')).posts;
@@ -61,7 +67,7 @@ try {
     await store.checkpoint(state);
     if (!verification.verified) throw new EditorialHold('PRIOR_PUBLICATION_LIVE_UNVERIFIED');
   }
-  const result = await runDailyEditorial({ config, state, store, catalog, keys: { jina: process.env.JINA_API_KEY, ollama: process.env.OLLAMA_API_KEY, typesafe: process.env.TYPESAFE_API_KEY }, publish });
+  const result = await runDailyEditorial({ config, state, store, catalog, keys, publish });
   if (result.status === 'published' && !result.publication.liveVerified) {
     const verification = await waitForDailyPublication({ article: publicArticle(result.article, result.publication.publishedAt), commit: result.publication.commit, imageSha256: result.publication.imageSha256 });
     result.publication.liveVerification = verification;
@@ -70,9 +76,7 @@ try {
     if (published) { published.liveVerified = verification.verified; published.liveVerification = verification; }
     await store.checkpoint(state);
   }
-  const billingFailure = Object.values(result.calls ?? {}).some((call) => call.receipt?.status === 402);
-  const report = { status: result.status === 'published' ? (result.publication.liveVerified ? 'live-verified' : 'committed-pending-live-verification') : result.status, reason: result.reason ?? null, publication: result.publication ?? null, budget: result.budget,
-    fundingNotice: billingFailure ? 'A provider reported a billing failure. Notify the owner to check funding; no purchase was attempted.' : null };
+  const report = publicOutcome(result);
   mkdirSync(resolve('output/daily-editorial'), { recursive: true });
   writeFileSync('output/daily-editorial/latest.json', `${JSON.stringify(report, null, 2)}\n`);
   console.log(`Daily editorial: ${report.status}${report.reason ? ` (${report.reason})` : ''}.`);
@@ -82,4 +86,6 @@ try {
 } catch (error) {
   console.error(`Daily editorial held: ${error.code ?? 'CONFIGURATION_OR_STATE_INVALID'}.`);
   process.exitCode = 1;
+} finally {
+  await store?.dispose?.();
 }

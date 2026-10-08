@@ -275,7 +275,7 @@ export async function typesafeEvaluate(state, questions, { key, fetchImpl, model
   return { data: { model: response.model, answers: response.answers }, usage };
 }
 
-/** Preserve a whole prose paragraph, including qualifiers. Never slice a quote's sentence. */
+/** Preserve the entire checked source or leave it unassessed; never omit qualifiers. */
 export function completeSentenceContext(text, quote, bounds = 4000) {
   const maxBytes = typeof bounds === 'number' ? bounds : bounds?.maxBytes ?? 4000;
   const maxChars = typeof bounds === 'object' ? bounds?.maxChars : undefined;
@@ -283,10 +283,13 @@ export function completeSentenceContext(text, quote, bounds = 4000) {
     !integer(maxBytes, 1, 56_000) || (maxChars !== undefined && !integer(maxChars, 1, 56_000))) return null;
   const start = text.indexOf(quote);
   if (start < 0 || text.indexOf(quote, start + 1) >= 0) return null;
+  if (byteLength(text) > maxBytes || (maxChars !== undefined && text.length > maxChars)) return null;
   const paragraphs = text.split(/\r?\n[\t ]*\r?\n+/u);
   const paragraph = paragraphs.find((part) => part.includes(quote))?.trim();
   if (!paragraph || paragraph.includes('```') || paragraph.includes('~~~') ||
-    !/[.!?]["'\u201d\u2019)\]]*$/u.test(paragraph) || byteLength(paragraph) > maxBytes ||
-    (maxChars !== undefined && paragraph.length > maxChars)) return null;
-  return paragraph;
+    !/[.!?]["'\u201d\u2019)\]]*$/u.test(paragraph)) return null;
+  // A paragraph can be qualified or contradicted anywhere else in this same
+  // document. We cannot identify a safely irrelevant remainder mechanically.
+  // Return exact complete text, including adjacent paragraphs and headings.
+  return text;
 }

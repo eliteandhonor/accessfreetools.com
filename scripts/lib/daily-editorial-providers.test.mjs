@@ -272,11 +272,26 @@ describe('TypeSafe System One typed decision contract', () => {
 });
 
 describe('complete source evidence context', () => {
-  it('preserves the full relevant sentence and the surrounding limitation', () => {
+  it('preserves the entire bounded source, including paragraphs outside the quote', () => {
     const paragraph = 'The project can sync local folders to a server when you configure a supported remote. It does not include a hosted account.';
     const text = `Unrelated introduction.\n\n${paragraph}\n\nAnother paragraph.`;
-    expect(completeSentenceContext(text, 'can sync local folders', 1000)).toBe(paragraph);
+    expect(completeSentenceContext(text, 'can sync local folders', 1000)).toBe(text);
     expect(completeSentenceContext(text, 'can sync local folders', 40)).toBeNull();
+  });
+
+  it.each([
+    ['adjacent restriction', 'The project supports backups.\n\nOnly the paid edition supports backups.'],
+    ['prior warning', 'The next sentence describes an experimental feature disabled in releases.\n\nThe project supports backups.'],
+    ['qualifying heading', '# Paid edition features\n\nThe project supports backups.'],
+    ['distant contradiction', 'The project supports backups.\n\nSetup information.\n\nThe released free edition cannot make backups.'],
+  ])('retains %s instead of presenting selective evidence', (_, text) => {
+    expect(completeSentenceContext(text, 'The project supports backups.', 4000)).toBe(text);
+  });
+
+  it('holds when the complete source exceeds the bound even though the quoted paragraph fits', () => {
+    const text = `The project supports backups.\n\n${'Other source details. '.repeat(200)}\n\nThe released free edition cannot make backups.`;
+    expect(completeSentenceContext(text, 'supports backups', 4000)).toBeNull();
+    expect(completeSentenceContext(text, 'supports backups', { maxBytes: 8000, maxChars: 100 })).toBeNull();
   });
 
   it('holds a long sentence even when a short slice would sound supportive', () => {

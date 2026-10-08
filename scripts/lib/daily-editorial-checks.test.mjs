@@ -93,6 +93,30 @@ test('a recognized-looking license with extra restrictions, missing clauses, or 
   }
 });
 
+test('copyright-line conditions are retained and hold both license and article gates', () => {
+  const conditions = [
+    '. You must send us a fee before use.',
+    '; redistribution requires payment.',
+    ', use only after registering with us.',
+    '. This permission expires after thirty days.',
+    ' users must register before use',
+    ' commercial derivatives require separate permission',
+  ];
+  for (const added of conditions) {
+    const text = MIT.replace('Example Authors', 'Example Authors' + added);
+    assert.equal(assessProjectLicense({ spdxId: 'MIT', text }).passed, false, added);
+    const article = fixture(); article.sources[2].text = text; article.sources[2].sha256 = digest(text);
+    assert.equal(evaluate(article).passed, false, added);
+  }
+  const reviewerNotice = 'Copyright (c) 2026 Offline Fixtures. Additional license condition: every user must pay a fee before use.';
+  const exactReviewCase = MIT.replace(/^Copyright[^\n]*$/m, reviewerNotice);
+  assert.ok(exactReviewCase.includes(reviewerNotice), 'replace the whole notice so a changed fixture owner cannot turn the repro into a no-op');
+  assert.equal(assessProjectLicense({ spdxId: 'MIT', text: exactReviewCase }).passed, false);
+  const article = fixture(); article.sources[2].text = exactReviewCase; article.sources[2].sha256 = digest(exactReviewCase);
+  assert.equal(evaluate(article).passed, false);
+  assert.equal(assessProjectLicense({ spdxId: 'MIT', text: MIT.replace('Example Authors', 'Ambiguous Freeform Copyright Owner') }).passed, false);
+});
+
 test('complete ISC and BSD templates are recognized without accepting restrictive title add-ons', () => {
   const isc = `ISC License
 Copyright (c) 2026 Example Authors
@@ -135,6 +159,10 @@ POSSIBILITY OF SUCH DAMAGE.`;
     assert.equal(assessProjectLicense({ spdxId, text }).passed, true, spdxId);
     assert.equal(assessProjectLicense({ spdxId, text: text + '\nPay a fee before using this software.' }).passed, false);
   }
+  for (const holder of ['Example Authors (redistribution requires payment)', 'Example Authors. Users must pay a fee. The holder',
+    'Example Authors and users must register before use', 'UnverifiedOwner']) {
+    assert.equal(assessProjectLicense({ spdxId: 'BSD-3-Clause', text: bsd3.replace('Neither the name of Example Authors', `Neither the name of ${holder}`) }).passed, false, holder);
+  }
   assert.equal(assessProjectLicense({ spdxId: 'BSD-2-Clause', text: bsd2.replace('"Simplified" License', '(restricted to researchers)') }).passed, false);
 });
 
@@ -146,6 +174,26 @@ test('complete standard Apache 2.0 text is recognized and appended/altered terms
   assert.equal(assessProjectLicense({ spdxId: 'Apache-2.0', text: apache }).passed, true);
   assert.equal(assessProjectLicense({ spdxId: 'Apache-2.0', text: `${apache}\nNo use by competitors.` }).passed, false);
   assert.equal(assessProjectLicense({ spdxId: 'Apache-2.0', text: apache.replace('perpetual', 'temporary') }).passed, false);
+  for (const notice of ['Copyright 2026 Example Authors. You must send us a fee before use.',
+    'Copyright 2026 Example Authors; redistribution requires payment.', 'Copyright 2026 Example Authors users must register before use',
+    'Copyright [yyyy] [name of copyright owner] every user must obtain separate permission']) {
+    assert.equal(assessProjectLicense({ spdxId: 'Apache-2.0', text: apache.replace('Copyright [yyyy] [name of copyright owner]', notice) }).passed, false, notice);
+  }
+});
+
+test('the reviewed complete LocalSend Apache license passes only at its exact immutable digest', () => {
+  // LICENSE at LocalSend commit af0416be50770a97760f7070684bc667b759a15c;
+  // Git blob 129b09014da391f203d75f06b86f27eaf13c5154, independently reviewed.
+  const text = readFileSync(new URL('../fixtures/daily-editorial/localsend-apache-2.0.txt', import.meta.url), 'utf8');
+  assert.equal(digest(text), '38514afa30358fc21ef37551f3119b27d820427ece3c6f0ae014c7e47338c087');
+  assert.equal(assessProjectLicense({ spdxId: 'Apache-2.0', text }).passed, true);
+  for (const modified of [text + '\nEvery user must pay a fee before use.',
+    text.replace('Copyright 2022-2026 Tien Do Nam', 'Copyright 2022-2026 Tien Do Nam every user must pay a fee before use'),
+    text.replace('Copyright 2022-2026 Tien Do Nam', 'Copyright 2022-2026 Tien Do Nam; redistribution requires payment.')]) {
+    assert.equal(assessProjectLicense({ spdxId: 'Apache-2.0', text: modified }).passed, false);
+  }
+  assert.equal(assessProjectLicense({ spdxId: 'MIT', text }).passed, false);
+  assert.equal(assessProjectLicense({ spdxId: 'NOASSERTION', text }).passed, false);
 });
 
 test('authored fields reject HTML, code, URLs, and unknown schema fields', () => {
@@ -260,6 +308,22 @@ test('partial quote selection retains full nearby negation instead of a 160-char
   const request = semanticRequest(article);
   assert.equal(request.passed, true);
   assert.ok(request.claims.every(({ context }) => context.includes('Do not assume that') && context.includes('does not validate')));
+});
+
+test('every TypeSafe claim retains adjacent and distant contradictory source paragraphs or holds the complete source', () => {
+  const article = fixture();
+  const contradiction = 'Important: this no-account workflow is disabled in released builds. A web account is required for normal use.';
+  article.sources[0].text = SOURCE_TEXT.replace('\n\n', `\n\n${contradiction}\n\n`);
+  article.sources[0].sha256 = digest(article.sources[0].text);
+  const request = semanticRequest(article);
+  assert.equal(request.passed, true);
+  assert.ok(request.claims.every(({ context }) => context.includes(contradiction)));
+  assert.ok(request.claims.every(({ context }) => context.includes(article.sources[0].text)));
+  article.sources[0].text += `\n\n${'Other details. '.repeat(400)}\n\n${contradiction}`;
+  article.sources[0].sha256 = digest(article.sources[0].text);
+  const oversized = semanticRequest(article);
+  assert.equal(oversized.passed, false);
+  assert.ok(oversized.issues.some((issue) => /unassessed/.test(issue)));
 });
 
 test('ambiguous, incomplete, and oversized source contexts are unassessed and hold', () => {

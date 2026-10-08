@@ -58,6 +58,7 @@ jobs:
       - run: npm run build
       - name: Research, check, hold or commit one article
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
           TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}

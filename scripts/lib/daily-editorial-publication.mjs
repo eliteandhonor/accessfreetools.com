@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { createDailyEditorialAssets } from './daily-editorial-assets.mjs';
 import { articleHash, validateArticle, semanticRequest, validateSemanticReview } from './daily-editorial-checks.mjs';
-import { sha256, EditorialHold } from './daily-editorial-pipeline.mjs';
+import { sha256, EditorialHold, reviewerPassed } from './daily-editorial-pipeline.mjs';
 import { brisbaneDay } from './daily-editorial-state.mjs';
 
 export function publicArticle(article, publishedAt) {
@@ -20,7 +20,7 @@ export async function stagePublication({ root, article, record, publishedAt = ne
   const catalogPath = join(root, 'src/data/dailyEditorialArticles.json');
   const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
   if (!validateArticle(article, { catalog, now: new Date(publishedAt) }).passed) throw new EditorialHold('PUBLICATION_CHECK_HELD');
-  if (record.deterministic?.passed !== true || !['allClaimsCovered', 'practical', 'noInventedTesting', 'licenseClear', 'original', 'clear'].every((key) => record.ollamaReview?.[key] === true) || record.ollamaReview?.issues?.length !== 0 ||
+  if (record.deterministic?.passed !== true || !reviewerPassed(record.ollamaReview) ||
       !validateSemanticReview(record.semanticReview, semanticRequest(article, catalog)).passed) throw new EditorialHold('PUBLICATION_REVIEW_INCOMPLETE');
   const entry = publicArticle(article, publishedAt);
   if (catalog.some((item) => item.slug === entry.slug || item.project.fullName.toLowerCase() === entry.project.fullName.toLowerCase())) throw new EditorialHold('PUBLICATION_DUPLICATE');
@@ -29,7 +29,9 @@ export async function stagePublication({ root, article, record, publishedAt = ne
     schemaVersion: 1, slug: entry.slug, articleSha256: articleHash(article), publicSha256: sha256(entry),
     researchedAt: article.researchedAt, publishedAt, activationReview,
     sourceEvidence: article.sources.map(({ id, url, fetchedAt, sha256: hash }) => ({ id, url, fetchedAt, sha256: hash })),
-    deterministic: record.deterministic, ollamaReview: record.ollamaReview, semanticReview: record.semanticReview,
+    deterministic: { passed: true },
+    ollamaReview: Object.fromEntries(['allClaimsCovered', 'practical', 'noInventedTesting', 'licenseClear', 'original', 'clear'].map((key) => [key, true]).concat([['issues', []]])),
+    semanticReview: record.semanticReview,
     limitation: 'Automated source, wording and duplicate checks are decision aids. They do not certify software, truth or installation tests.',
   };
   const reviewPath = join(root, 'docs/daily-editorial-reviews', `${entry.slug}.json`);

@@ -5,7 +5,7 @@ export const fixtureName = 'offline-fixtures/task-notes';
 export const fixtureCommit = 'a'.repeat(40);
 export const fixtureLicense = `MIT License
 
-Copyright (c) 2026 Offline Fixtures
+Copyright (c) 2026 OfflineFixtures Authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -396,7 +396,69 @@ describe('Git checkpoint compare-and-swap with local bare fixtures only', () => 
   it('requires explicit production activation before any state push', async () => {
     const fixture = await gitFixture();
     await run('git', ['-C', fixture.root, 'remote', 'set-url', 'origin', 'https://github.com/eliteandhonor/accessfreetools.com.git']);
-    const store = await createGitStateStore({ root: fixture.root });
-    await expect(store.checkpoint(newState())).rejects.toMatchObject({ code: 'NOT_ACTIVATED' });
+    const store = await createGitStateStore({ root: fixture.root, stateRepository: 'eliteandhonor/aft-private-state-fixture',
+      privateStoreApproval: 'offline-fixture-review', readRepositoryMetadata: async () => ({ full_name: 'eliteandhonor/aft-private-state-fixture', private: true, visibility: 'private' }) });
+    try { await expect(store.checkpoint(newState())).rejects.toMatchObject({ code: 'NOT_ACTIVATED' }); }
+    finally { await store.dispose(); }
+  });
+
+  it('fails closed when no approved private repository/access route exists, including a public AFT target', async () => {
+    const fixture = await gitFixture();
+    await run('git', ['-C', fixture.root, 'remote', 'set-url', 'origin', 'https://github.com/eliteandhonor/accessfreetools.com.git']);
+    const options = { root: fixture.root, privateStoreApproval: 'offline-fixture-review', readRepositoryMetadata: async () => ({ private: true, visibility: 'private' }) };
+    await expect(createGitStateStore({ root: fixture.root })).rejects.toMatchObject({ code: 'PRIVATE_STATE_SETUP_REQUIRED' });
+    await expect(createGitStateStore({ ...options, stateRepository: 'eliteandhonor/accessfreetools.com' })).rejects.toMatchObject({ code: 'PRIVATE_STATE_SETUP_REQUIRED' });
+    await expect(createGitStateStore({ ...options, stateRepository: 'eliteandhonor/access-free-tools' })).rejects.toMatchObject({ code: 'PRIVATE_STATE_SETUP_REQUIRED' });
+    await expect(createGitStateStore({ ...options, stateRepository: 'eliteandhonor/aft-private-state-fixture', privateStoreApproval: null })).rejects.toMatchObject({ code: 'PRIVATE_STATE_SETUP_REQUIRED' });
+  });
+
+  it('requires actual current private metadata instead of trusting a configured repository name or approval', async () => {
+    const fixture = await gitFixture();
+    await run('git', ['-C', fixture.root, 'remote', 'set-url', 'origin', 'https://github.com/eliteandhonor/accessfreetools.com.git']);
+    const options = { root: fixture.root, stateRepository: 'eliteandhonor/aft-private-state-fixture', privateStoreApproval: 'offline-fixture-review' };
+    await expect(createGitStateStore({ ...options, readRepositoryMetadata: async () => { throw new Error('Offline simulated missing access.'); } })).rejects.toMatchObject({ code: 'PRIVATE_STATE_METADATA_UNAVAILABLE' });
+    await expect(createGitStateStore({ ...options, readRepositoryMetadata: async () => ({ full_name: options.stateRepository, private: false, visibility: 'public' }) })).rejects.toMatchObject({ code: 'PRIVATE_STATE_REPOSITORY_NOT_PRIVATE' });
+    await expect(createGitStateStore({ ...options, readRepositoryMetadata: async () => ({ full_name: 'owner/different', private: true, visibility: 'private' }) })).rejects.toMatchObject({ code: 'PRIVATE_STATE_REPOSITORY_NOT_PRIVATE' });
+    await expect(createGitStateStore({ ...options, readRepositoryMetadata: async () => ({ full_name: options.stateRepository, private: true }) })).rejects.toMatchObject({ code: 'PRIVATE_STATE_REPOSITORY_NOT_PRIVATE' });
+  });
+
+  it('rechecks visibility before load/checkpoint and does not continue when a private repository becomes public', async () => {
+    const fixture = await gitFixture();
+    await run('git', ['-C', fixture.root, 'remote', 'set-url', 'origin', 'https://github.com/eliteandhonor/accessfreetools.com.git']);
+    let isPrivate = true;
+    let requests = 0;
+    const repository = 'eliteandhonor/aft-private-state-fixture';
+    const store = await createGitStateStore({ root: fixture.root, stateRepository: repository, privateStoreApproval: 'offline-fixture-review', activated: true,
+      readRepositoryMetadata: async (requested) => {
+        expect(requested).toBe(repository);
+        requests += 1;
+        return { full_name: repository, private: isPrivate, visibility: isPrivate ? 'private' : 'public' };
+      } });
+    try {
+      expect(requests).toBe(1);
+      isPrivate = false;
+      await expect(store.load()).rejects.toMatchObject({ code: 'PRIVATE_STATE_REPOSITORY_NOT_PRIVATE' });
+      await expect(store.checkpoint(newState())).rejects.toMatchObject({ code: 'PRIVATE_STATE_REPOSITORY_NOT_PRIVATE' });
+      expect(requests).toBe(3);
+      // These metadata failures happen before any Git network request or payload object write.
+      const { stdout } = await run('git', ['-C', fixture.root, 'count-objects', '-v']);
+      expect(stdout).toContain('count: 0');
+    } finally { await store.dispose(); }
+    await expect(store.load()).rejects.toMatchObject({ code: 'STATE_STORE_DISPOSED' });
+  });
+
+  it('rejects token header injection without exposing the credential in errors or writing it to Git config', async () => {
+    const fixture = await gitFixture();
+    await run('git', ['-C', fixture.root, 'remote', 'set-url', 'origin', 'https://github.com/eliteandhonor/accessfreetools.com.git']);
+    const options = { root: fixture.root, stateRepository: 'eliteandhonor/aft-private-state-fixture', privateStoreApproval: 'offline-fixture-review',
+      readRepositoryMetadata: async () => ({ full_name: 'eliteandhonor/aft-private-state-fixture', private: true, visibility: 'private' }) };
+    const sentinel = 'offline-private-token-sentinel';
+    await expect(createGitStateStore({ ...options, stateToken: `${sentinel}\nX-Untrusted: header` })).rejects.toMatchObject({ code: 'PRIVATE_STATE_ACCESS_INVALID' });
+    const store = await createGitStateStore({ ...options, stateToken: sentinel });
+    try {
+      const config = await readFile(join(fixture.root, '.git', 'config'), 'utf8');
+      expect(config).not.toContain(sentinel);
+      expect(config).not.toContain(Buffer.from(`x-access-token:${sentinel}`).toString('base64'));
+    } finally { await store.dispose(); }
   });
 });

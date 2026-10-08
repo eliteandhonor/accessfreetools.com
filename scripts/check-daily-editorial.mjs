@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { validateSemanticReview } from './lib/daily-editorial-checks.mjs';
+import { reviewerPassed } from './lib/daily-editorial-pipeline.mjs';
 const hash = (value) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const articles = JSON.parse(readFileSync('src/data/dailyEditorialArticles.json', 'utf8'));
 const issues = [];
@@ -9,7 +10,7 @@ for (const article of articles) {
   if (!existsSync(path)) { issues.push(`${article.slug}: missing review receipt`); continue; }
   const review = JSON.parse(readFileSync(path, 'utf8'));
   if (review.schemaVersion !== 1 || review.slug !== article.slug || review.publicSha256 !== hash(article) || !review.activationReview || review.publishedAt !== article.publishedAt || review.researchedAt !== article.researchedAt) issues.push(`${article.slug}: receipt mismatch`);
-  if (review.deterministic?.passed !== true || !['allClaimsCovered', 'practical', 'noInventedTesting', 'licenseClear', 'original', 'clear'].every((key) => review.ollamaReview?.[key] === true) || review.ollamaReview?.issues?.length !== 0) issues.push(`${article.slug}: incomplete source/writing review`);
+  if (review.deterministic?.passed !== true || !reviewerPassed(review.ollamaReview)) issues.push(`${article.slug}: incomplete source/writing review`);
   const semantic = review.semanticReview;
   const claims = ['title', 'summary', 'problem'].map((id) => ({ id }));
   article.sections.forEach((section, sectionIndex) => {

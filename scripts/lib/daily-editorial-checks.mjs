@@ -98,6 +98,18 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.`;
 
+function recognizedCopyrightOwner(owner) {
+  // Free-form prose cannot establish where an owner name ends and added terms
+  // begin. Accept only an identifier plus a fixed optional ownership suffix.
+  // More complex legitimate names stay unrecognized and require license review.
+  return /^(?:The )?[\p{L}\p{N}][\p{L}\p{N}_'’-]{0,79}(?: (?:Authors|Contributors)|(?:,)? (?:Inc\.|Ltd\.|LLC))?$/iu.test(owner);
+}
+
+function copyrightNoticeOwner(line) {
+  const notice = line.trim().match(/^Copyright\s+(?:(?:\([cC]\)|©)\s+)?\d{4}(?:[ \t]*[-,][ \t]*\d{4})*(?:[ \t]*-[ \t]*present)?[ \t]+([^\n]+)$/iu);
+  return notice !== null && recognizedCopyrightOwner(notice[1].trim()) ? notice[1].trim() : null;
+}
+
 function stripLicenseHeader(text, spdxId) {
   let body = text.replace(/\r\n?/g, '\n').trim();
   const headers = {
@@ -108,9 +120,14 @@ function stripLicenseHeader(text, spdxId) {
   };
   body = body.replace(new RegExp(`^SPDX-License-Identifier: ${spdxId.replaceAll('.', '\\.')}\\s*\\n`, 'i'), '');
   if (headers[spdxId]) body = body.replace(headers[spdxId], '');
-  // Only leading copyright notices are variable. The operative grant and every
-  // condition/disclaimer must match the complete recognized template below.
-  body = body.replace(/^(?:\s*Copyright\s+(?:\([cC]\)\s*)?\d{4}(?:[-,\s]+\d{4})*[^\n]{1,180}\n)+/i, '');
+  // Remove only whole, narrowly recognized notices. An ambiguous owner or any
+  // appended words/punctuation remain in the template comparison and hold.
+  body = body.trimStart();
+  while (true) {
+    const leading = body.match(/^([^\n]*)\n/u);
+    if (!leading || !copyrightNoticeOwner(leading[1])) break;
+    body = body.slice(leading[0].length).trimStart();
+  }
   if (spdxId.startsWith('BSD-')) body = body.replace(/^\s*All rights reserved\.\s*\n/i, '');
   return body.trim();
 }
@@ -123,6 +140,15 @@ export function assessProjectLicense({ spdxId, text } = {}) {
   }
   if (!nonempty(text)) issues.push('The complete actual license text is missing.');
   if (issues.length) return { passed: false, issues };
+  // Exact complete LocalSend Apache-2.0 license independently reviewed at commit
+  // af0416be50770a97760f7070684bc667b759a15c, LICENSE Git blob
+  // 129b09014da391f203d75f06b86f27eaf13c5154. Its appendix names Tien Do Nam,
+  // outside the narrow generic owner grammar. Recognize complete exact UTF-8
+  // bytes, never strip that arbitrary owner prose. Any alteration/added term
+  // changes this digest and returns to the conservative template hold below.
+  if (spdxId === 'Apache-2.0' && hash(text) === '38514afa30358fc21ef37551f3119b27d820427ece3c6f0ae014c7e47338c087') {
+    return { passed: true, issues: [] };
+  }
   if (/\b(?:non[- ]commercial|no commercial|not for commercial|commercial use (?:is )?(?:prohibited|forbidden)|ethical use|no military|business source license|commons clause|fair source|polyform|no redistribution)\b/iu.test(text)) {
     return { passed: false, issues: ['License text contains a restrictive or source-available condition.'] };
   }
@@ -132,8 +158,10 @@ export function assessProjectLicense({ spdxId, text } = {}) {
   if (spdxId === 'ISC') recognized = normalizedLicense(body) === normalizedLicense(ISC);
   if (spdxId === 'BSD-2-Clause') recognized = normalizedLicense(body) === normalizedLicense(`${BSD_HEAD}\n${BSD_TAIL}`);
   if (spdxId === 'BSD-3-Clause') {
-    body = body.replace(/(3\.\s+Neither the name of )([\p{L}\p{N}\s.,&'"()_-]{1,180}?)(\s+nor the names of its)/iu,
-      (all, before, holder, after) => /\b(?:only|unless|provided|condition|prohibited|forbidden)\b/iu.test(holder) ? all : `${before}<holder>${after}`);
+    const owners = new Set(text.split(/\r?\n/u).map(copyrightNoticeOwner).filter(nonempty));
+    body = body.replace(/(3\.\s+Neither the name of )([^\n]{1,180}?)(\s+nor the names of its)/iu,
+      (all, before, holder, after) => owners.has(holder.trim()) || holder.trim() === 'the copyright holder'
+        ? `${before}<holder>${after}` : all);
     recognized = normalizedLicense(body) === normalizedLicense(`${BSD_HEAD}\n${BSD_THIRD}\n${BSD_TAIL}`);
   }
   if (spdxId === 'Apache-2.0') {
@@ -142,7 +170,8 @@ export function assessProjectLicense({ spdxId, text } = {}) {
     // License version 2.0, January 2004. An extra or altered condition fails.
     const split = body.split(/APPENDIX:/i);
     const normative = split[0].replace('https://www.apache.org/licenses/', 'http://www.apache.org/licenses/');
-    const appendix = split.length === 2 ? `APPENDIX:${split[1]}`.replace(/^\s*Copyright\s+[^\n]*$/gm, 'Copyright <notice>')
+    const appendix = split.length === 2 ? `APPENDIX:${split[1]}`.replace(/^[ \t]*Copyright[^\n]*$/gm,
+      (line) => line.trim() === 'Copyright [yyyy] [name of copyright owner]' || copyrightNoticeOwner(line) ? 'Copyright <notice>' : line)
       .replace('https://www.apache.org/licenses/LICENSE-2.0', 'http://www.apache.org/licenses/LICENSE-2.0') : null;
     recognized = split.length <= 2 && hash(normalizedLicense(normative)) === 'c03f0722ba1a1382a579c6d90a9d9fbeb7158f5204edf44a097f06bb1e6e0cc6' &&
       (split.length === 1 || hash(normalizedLicense(appendix)) === 'f7cfa30205e7c85438b5a3cdf876c95f09a806a926425700a15588b7bd4a48e3');

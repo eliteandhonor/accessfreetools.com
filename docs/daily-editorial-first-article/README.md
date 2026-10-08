@@ -1,15 +1,15 @@
 # First daily editorial article: LocalSend
 
-Research and final draft review completed on 2026-10-08. This package is a checked content draft for the Access Free Tools daily editorial pipeline. It is not a publication record.
+Research and original draft review completed on 2026-10-08. A narrow platform correction was added later that day; full independent review of the revised hash is pending. This package is a checked content draft for the Access Free Tools daily editorial pipeline. It is not a publication record.
 
 ## Deliverables
 
 - `localsend-guide.md`: original practical article and proposed metadata. It explains the native app's local transfer workflow, a hypothetical 12-photo example, discovery problems, configurable encryption, automatic acceptance and the iOS foreground requirement. It contains no Brendan personal anecdotes, install-test claims, benchmarks or security certification claims.
-- `source-ledger.json`: 16 claim findings, 11 source records, immutable repository commits/blob identifiers and the independent review tied to the exact article hash. Twelve complete source-sentence excerpts are retained. Missing provider reviews are explicit.
+- `source-ledger.json`: 16 claim findings, 13 source records, immutable repository commits/blob identifiers and the independent review tied to the exact article hash. Twelve complete source-sentence excerpts and the platform-setting conditional/helper are retained. Missing provider reviews are explicit.
 - `localsend-transfer-diagram.svg`: an original 1200 × 630 conceptual illustration. It contains only authored SVG primitives and text. No upstream screenshot, logo, font file or remote image was copied. The caption says it is an original workflow illustration, not a LocalSend screenshot.
 - `writing-quality-report.json`: the actual local editorial writing-gate result.
 
-Article SHA256: `16faf420489bc186b114887aa2adb7fbeb28479eb955917034c4ad1d0321910b`.
+Article SHA256: `1a53a93a7144fef483bfc909ee8fbd418325c498160a7ed9e2be67a4c490b3fd`.
 
 Illustration SHA256: `5e9762546ea85cfe10bac972fa48a63c3540de3b0de9a9070bc2bc7c412ca44a`.
 
@@ -28,7 +28,7 @@ The GitHub release is not marked immutable. The article's README, licence and ap
 
 `npm run writing:quality -- --mode=editorial docs/daily-editorial-first-article/localsend-guide.md` passed with 0 hard errors and 3 warnings. The warnings flag passive wording in the preparation and untested disclosure; retaining that plain disclosure is appropriate. It is a mechanical writing diagnostic, not a factual or originality guarantee.
 
-Independent reviewer `/root/first_article/localsend_sources` independently retrieved the licence, branch, release and relevant app sources, then reread the final article. Its final review passed against the exact SHA256 above, with no outstanding factual corrections.
+Independent reviewer `/root/first_article/localsend_sources` independently retrieved the licence, branch, release and relevant app sources, then reread the final article. The original full-draft review passed against the prior hash. After the source-verified Save to folder platform correction, full independent review of the new hash above is pending.
 
 Additional local checks passed:
 

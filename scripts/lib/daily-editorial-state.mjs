@@ -1,8 +1,9 @@
 /** Durable editorial state. Callers must checkpoint reservations BEFORE sending a paid request. */
 import { spawn } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
-import { open, readFile, realpath, rename, mkdir, unlink } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
+import { open, readFile, realpath, rename, mkdir, mkdtemp, rm, unlink } from 'node:fs/promises';
+import { dirname, join, resolve } from 'node:path';
+import { tmpdir } from 'node:os';
 
 export const MAX_STATE_BYTES = 1024 * 1024;
 const MAX_RECEIPT_BYTES = 256 * 1024;
@@ -375,11 +376,11 @@ function joinArchivePath(path, sourceHash) {
   return `${path}.archive/${sourceHash}.json`;
 }
 
-function git(root, args, { input = '', acceptedCodes = [0] } = {}) {
+function git(root, args, { input = '', acceptedCodes = [0], environment = {} } = {}) {
   return new Promise((resolvePromise, reject) => {
     const child = spawn('git', ['-c', 'core.hooksPath=/dev/null', ...args], {
       cwd: root,
-      env: { ...process.env, GIT_TERMINAL_PROMPT: '0', GCM_INTERACTIVE: 'Never' },
+      env: { ...process.env, GIT_TERMINAL_PROMPT: '0', GCM_INTERACTIVE: 'Never', ...environment },
       stdio: ['pipe', 'pipe', 'pipe'],
     });
     const chunks = [];
@@ -404,12 +405,19 @@ function allowedRemote(url) {
 }
 
 /**
- * An orphan state branch with append-only commit history and force-with-lease CAS.
+ * An orphan branch in an explicitly approved PRIVATE state repository, with
+ * append-only commit history and force-with-lease CAS. Production Git objects
+ * live in an isolated temporary bare repository, outside the public checkout.
  * load() fetches without merging. Production checkpoint() requires activated:true;
  * its successful push is the durable barrier required before every paid call.
+ * Actual authorized repository metadata must prove private visibility before
+ * construction, every load/checkpoint, and push. Missing access never resets state.
+ * stateToken uses an existing authorized token through scoped child environment
+ * Git config only; it is never persisted, passed in argv, or added to a helper.
  * fixtureRemote is accepted ONLY for a local bare repo named in that explicit option.
  */
-export async function createGitStateStore({ root, branch = 'automation/aft-editorial-state', remote = 'origin', activated = false, fixtureRemote, now = () => new Date() } = {}) {
+export async function createGitStateStore({ root, branch = 'automation/aft-editorial-state', remote = 'origin', activated = false,
+  fixtureRemote, stateRepository, privateStoreApproval, readRepositoryMetadata, stateToken, now = () => new Date() } = {}) {
   if (typeof root !== 'string') fail('INVALID_STORE', 'Git state requires a repository root.');
   const directory = await realpath(root);
   if ((await git(directory, ['rev-parse', '--show-toplevel'])).output !== directory) fail('INVALID_STORE', 'Git state must use the exact repository root.');
@@ -427,42 +435,87 @@ export async function createGitStateStore({ root, branch = 'automation/aft-edito
     }
     fixture = true;
   } else if (fetchUrls.length !== 1 || pushUrls.length !== 1 || !fetchUrls.every(allowedRemote) || !pushUrls.every(allowedRemote)) {
-    fail('INVALID_REMOTE', `Git editorial state is restricted to ${TARGET_REPOSITORY}.`);
+    fail('INVALID_REMOTE', `The public code checkout must be ${TARGET_REPOSITORY}.`);
   }
-  const fetchUrl = fetchUrls[0];
-  const pushUrl = pushUrls[0];
+  let privateUrl;
+  let storageDirectory = directory;
+  const environment = {};
+  async function verifyPrivateRepository() {
+    if (fixture) return;
+    let metadata;
+    try { metadata = await readRepositoryMetadata(stateRepository); }
+    catch { fail('PRIVATE_STATE_METADATA_UNAVAILABLE', 'Authorized private repository metadata is unavailable; state and paid work remain held.'); }
+    if (!object(metadata) || metadata.full_name?.toLowerCase() !== stateRepository.toLowerCase() || metadata.private !== true || metadata.visibility !== 'private') {
+      fail('PRIVATE_STATE_REPOSITORY_NOT_PRIVATE', 'The approved state repository must currently be private; state and paid work remain held.');
+    }
+  }
+  if (!fixture) {
+    if (typeof stateRepository !== 'string' || !/^[A-Za-z0-9_.-]{1,100}\/[A-Za-z0-9_.-]{1,100}$/.test(stateRepository) ||
+      [TARGET_REPOSITORY, 'eliteandhonor/access-free-tools'].includes(stateRepository.toLowerCase()) ||
+      typeof privateStoreApproval !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9_.:/#@-]{0,239}$/.test(privateStoreApproval) || typeof readRepositoryMetadata !== 'function') {
+      fail('PRIVATE_STATE_SETUP_REQUIRED', 'Configure an explicitly approved private state repository and an existing authorized metadata/access route before running.');
+    }
+    privateUrl = `https://github.com/${stateRepository}.git`;
+    if (stateToken !== undefined) {
+      if (typeof stateToken !== 'string' || !stateToken.trim() || stateToken.length > 8192 || /[\r\n\0]/.test(stateToken)) {
+        fail('PRIVATE_STATE_ACCESS_INVALID', 'Existing state access token is invalid.');
+      }
+      environment.GIT_CONFIG_COUNT = '1';
+      environment.GIT_CONFIG_KEY_0 = `http.${privateUrl}.extraheader`;
+      environment.GIT_CONFIG_VALUE_0 = `AUTHORIZATION: basic ${Buffer.from(`x-access-token:${stateToken}`, 'utf8').toString('base64')}`;
+    }
+    await verifyPrivateRepository();
+    storageDirectory = await mkdtemp(join(tmpdir(), 'aft-private-editorial-state-'));
+    try { await git(directory, ['init', '--bare', storageDirectory]); }
+    catch (error) { await rm(storageDirectory, { recursive: true, force: true }); throw error; }
+  }
+  const fetchUrl = fixture ? fetchUrls[0] : privateUrl;
+  const pushUrl = fixture ? pushUrls[0] : privateUrl;
+  const stateGit = (args, options = {}) => git(storageDirectory, args, { ...options, environment });
   let expected;
   let loaded = false;
   let snapshot;
+  let disposed = false;
   const ref = `refs/heads/${branch}`;
   return {
+    async dispose() {
+      loaded = false;
+      disposed = true;
+      if (!fixture) await rm(storageDirectory, { recursive: true, force: true });
+    },
     async load() {
       loaded = false;
-      const heads = await git(directory, ['ls-remote', '--exit-code', '--heads', fetchUrl, ref], { acceptedCodes: [0, 2] });
+      if (disposed) fail('STATE_STORE_DISPOSED', 'The private state store has been disposed.');
+      await verifyPrivateRepository();
+      const heads = await stateGit(['ls-remote', '--exit-code', '--heads', fetchUrl, ref], { acceptedCodes: [0, 2] });
       if (heads.code === 2) { expected = ''; snapshot = undefined; loaded = true; return newState(); }
       const temporaryRef = `refs/aft-editorial-state/${randomUUID()}`;
       try {
-        await git(directory, ['fetch', '--no-tags', '--no-write-fetch-head', fetchUrl, `${ref}:${temporaryRef}`]);
-        expected = (await git(directory, ['rev-parse', temporaryRef])).output;
-        const state = parseState((await git(directory, ['show', `${expected}:state.json`])).output);
+        await stateGit(['fetch', '--no-tags', '--no-write-fetch-head', fetchUrl, `${ref}:${temporaryRef}`]);
+        expected = (await stateGit(['rev-parse', temporaryRef])).output;
+        const state = parseState((await stateGit(['show', `${expected}:state.json`])).output);
         snapshot = structuredClone(state);
         loaded = true;
         return state;
-      } finally { await git(directory, ['update-ref', '-d', temporaryRef]); }
+      } finally { await stateGit(['update-ref', '-d', temporaryRef]); }
     },
     async checkpoint(state) {
       if (!fixture && activated !== true) fail('NOT_ACTIVATED', 'Production state writes are disabled until activation.');
+      if (disposed) fail('STATE_STORE_DISPOSED', 'The private state store has been disposed.');
+      await verifyPrivateRepository();
       if (!loaded) fail('STATE_NOT_LOADED', 'Load the latest state before checkpointing.');
       const compacted = compactState(state, brisbaneDay(now()), { commit: expected, snapshot });
       const data = serialize(compacted);
-      const blob = (await git(directory, ['hash-object', '-w', '--stdin'], { input: data })).output;
-      const tree = (await git(directory, ['mktree'], { input: `100644 blob ${blob}\tstate.json\n` })).output;
+      const blob = (await stateGit(['hash-object', '-w', '--stdin'], { input: data })).output;
+      const tree = (await stateGit(['mktree'], { input: `100644 blob ${blob}\tstate.json\n` })).output;
       const args = ['-c', 'user.name=AFT Editorial Automation', '-c', 'user.email=editorial-bot@users.noreply.github.com', 'commit-tree', tree];
       if (expected) args.push('-p', expected);
       args.push('-m', 'Checkpoint daily editorial state');
-      const commit = (await git(directory, args)).output;
+      const commit = (await stateGit(args)).output;
+      try { await verifyPrivateRepository(); }
+      catch (error) { loaded = false; throw error; }
       try {
-        await git(directory, ['push', '--porcelain', `--force-with-lease=${ref}:${expected}`, pushUrl, `${commit}:${ref}`]);
+        await stateGit(['push', '--porcelain', `--force-with-lease=${ref}:${expected}`, pushUrl, `${commit}:${ref}`]);
       } catch {
         loaded = false;
         fail('STATE_CONFLICT_OR_UNKNOWN', 'State checkpoint conflicted or its outcome is unknown; reload and reconcile before any paid call.');

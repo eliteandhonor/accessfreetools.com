@@ -29,7 +29,7 @@ invent Brendan's experience or manufacture an owner approval entry.
 - `daily-editorial-checks.mjs`: source hashes, actual licence templates, exact
   claim quotes, clarity, originality and deterministic/semantic duplicates.
 - `daily-editorial-state.mjs`: durable reservations, compare-and-swap Git state,
-  safe restart receipts and immutable archives.
+  safe restart receipts and immutable archives in an approved private store.
 - `daily-editorial-publication.mjs`: public projection, review receipt, original
   illustration and an atomic Git content commit.
 - `daily-editorial-assets.mjs`: original labelled conceptual PNG/WebP media.
@@ -74,7 +74,8 @@ credentials and explicit shared budget allocation. There is no active schedule.
    paragraphs and substantial copied source prose. Ollama independently
    reviews the exact article against the exact evidence.
 8. TypeSafe `jev-1.13.0` Choice assesses every title, summary, problem, heading
-   and paragraph using complete relevant source paragraphs. Context missing,
+   and paragraph using the entire bounded checked source document. Qualifiers
+   and contradictions elsewhere in that document stay present. Context missing,
    ambiguous or too large for the bounded call is unassessed and holds. Score
    assesses clarity; Noul checks duplicate meaning among at most twelve
    lexically nearest intact historical summaries. Deterministic identity and
@@ -94,7 +95,13 @@ credentials and explicit shared budget allocation. There is no active schedule.
 ## Durable state and recovery
 
 The dedicated orphan branch `automation/aft-editorial-state` contains
-`state.json` and append-only Git history. It is separate from website main.
+`state.json` and append-only Git history in an explicitly approved private
+repository. `stateRepository` and `privateStoreApproval` remain null until parent
+coordination supplies that destination and existing authorized runtime access.
+The public AFT repository is rejected as a state destination. Actual repository
+metadata must show private visibility and authorized write access before store
+construction, load, checkpoint and push. Private Git objects are created in a
+separate temporary bare repository, never the public code checkout.
 Every worst-case reservation and request hash is pushed with a compare-and-swap
 lease before dispatching a paid call. A failed durable checkpoint means no paid
 dispatch. Completed matching receipts are reused on safe restarts. Failed
@@ -112,14 +119,26 @@ paid calls and publication intents are never pruned. A lost publication push
 acknowledgement is resolved by reading Git; ambiguity stops before another
 paid call or publication attempt.
 
-The state branch is in a public repository. Its research is limited to public
-primary project materials whose source licence was checked. Do not feed private
-documents, reader information or credential-bearing URLs into this pipeline.
-Raw open-source evidence snapshots are audit material, not website copy.
+Full evidence, provider results, audit quotes and unapproved drafts remain in
+that private store, including immutable archive history. They are never uploaded
+as public Actions artifacts. The public article commit contains only the approved
+article projection and an intentionally sanitized review receipt. Extra Ollama
+review fields hold publication; operational artifacts use an explicit allowlist.
+Do not feed reader documents or credential-bearing URLs into this pipeline.
+
+No existing private state destination or Actions runtime access has been proven.
+The existing AFT `GITHUB_TOKEN` is repository-scoped and cannot authorize a
+separate private state repository. Parent coordination must choose an existing
+authorized private versioned store, or arrange an owner-approved private state
+repository and existing credential/access route. This PR creates no repository,
+credential, permission grant or storage branch. It does not reuse provider API
+keys as storage credentials. Missing access or privacy verification holds before
+paid dispatch and never creates a replacement empty ledger.
 
 ## Credentials and proposed shared daily budget
 
-Credential status for AFT is **unconfirmed**, name only:
+The owner and Edge operator confirmed these AFT credential names on 2026-10-08.
+Their authentication remains untested; values were not opened:
 
 - `JINA_API_KEY`
 - `OLLAMA_API_KEY`
@@ -130,13 +149,14 @@ copied, logged or transferred during setup. The owner enters existing keys in
 the AFT repository through the parent credential workflow if needed. No new
 keys, OAuth changes, purchases, account changes or top-ups are made here.
 
-Proposed combined AFT/GTA grants, subject to parent coordination:
+Proposed AFT grants alongside the parent's current GTA allowances; combined
+unit grants remain pending and are not active:
 
-| Provider | AFT maximum/day | Proposed combined maximum/day |
-| --- | --- | --- |
-| Jina Reader | 100,000 reserved tokens; 10 calls | 200,000 reserved tokens; 20 calls |
-| Ollama Cloud | 120,000 conservative input/output units; 4 calls | 240,000 units; 8 calls |
-| TypeSafe | 100,000 conservative input units; 8 bounded calls | 200,000 units; 16 calls |
+| Provider | AFT proposal/day | Current GTA allowance/day | Combined proposal/day |
+| --- | --- | --- | --- |
+| Jina Reader | 100,000 reserved tokens; 10 calls | 40,000 units; 8 reads | 140,000 units; 18 calls |
+| Ollama Cloud | 120,000 local input/output units; 4 calls | 12 calls; unit grant unconfirmed | 16 calls; units pending |
+| TypeSafe | 100,000 local input units; 8 calls | 2 calls; unit grant unconfirmed | 10 calls; units pending |
 
 Jina reserves the full 10,000 Reader token budget per attempt. Ollama reserves
 UTF-8 request bytes, an overhead margin and the bounded output maximum.
@@ -156,10 +176,12 @@ report for owner notification; the pipeline never buys credit automatically.
 
 ## Activation coordination
 
-Complete these against the final immutable PR head before activation:
+Complete these against the final immutable PR head before activation. Private
+storage and runtime access are required before any paid pilot as well:
 
 1. Independent code/evidence review and the full repository quality check.
-2. Owner entry or name-only confirmation of AFT's three provider credentials.
+2. Name-only confirmation of AFT's three provider credentials (completed),
+   followed by an approved authentication pilot.
 3. Reconcile the shared GTA/AFT provider grants and record the review reference.
 4. Confirm Hostinger's existing automatic deployment from this repository's
    main branch, retaining Astro, Node 24, `dist` and `app.js`. Record fresh proof

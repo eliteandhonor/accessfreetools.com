@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "artifact": "review-draft",
   "articleFile": "localsend-guide.md",
-  "articleSha256": "16faf420489bc186b114887aa2adb7fbeb28479eb955917034c4ad1d0321910b",
+  "articleSha256": "1a53a93a7144fef483bfc909ee8fbd418325c498160a7ed9e2be67a4c490b3fd",
   "checkedAt": "2026-10-08T09:57:12Z",
   "project": "localsend/localsend",
   "spdx": "Apache-2.0",
@@ -114,6 +114,26 @@
       "checkedAt": "2026-10-08T09:57:12Z",
       "primarySource": true,
       "immutable": false
+    },
+    {
+      "id": "settings-tab",
+      "kind": "repository-file",
+      "url": "https://github.com/localsend/localsend/blob/af0416be50770a97760f7070684bc667b759a15c/app/lib/pages/tabs/settings_tab.dart",
+      "commit": "af0416be50770a97760f7070684bc667b759a15c",
+      "blobSha": "a2b92fce4c8ba9b1d2443f77823aaf21f2ea57cf",
+      "sha256": "f18ef3364478a181ee76426a2896b8f688202c78c1f877fa8d9e62112a339dff",
+      "checkedAt": "2026-10-08T11:04:52.624Z",
+      "primarySource": true
+    },
+    {
+      "id": "platform-check",
+      "kind": "repository-file",
+      "url": "https://github.com/localsend/localsend/blob/af0416be50770a97760f7070684bc667b759a15c/app/lib/util/native/platform_check.dart",
+      "commit": "af0416be50770a97760f7070684bc667b759a15c",
+      "blobSha": "782923b1d34b3a4663d9f0708c36ffb165ab4f51",
+      "sha256": "6edc71f1f25e67edad71da76e28700dc8044d81edd156776bf00efc0c2d44c45",
+      "checkedAt": "2026-10-08T11:04:52.624Z",
+      "primarySource": true
     }
   ],
   "claims": [
@@ -185,15 +205,36 @@
     },
     {
       "id": "C06",
-      "claim": "The receiver's Receive tab shows its device name; Settings exposes Save to folder; sender Send offers platform-dependent File/Media selection, count/size and Nearby devices.",
+      "claim": "The receiver's Receive tab shows its device name; desktop/Android Settings exposes Save to folder, while the release hides that option on iOS; sender Send offers platform-dependent File/Media selection, count/size and Nearby devices.",
       "sourceIds": [
         "release-ui-labels",
         "send-tab",
-        "receive-tab"
+        "receive-tab",
+        "settings-tab",
+        "platform-check"
       ],
-      "finding": "Read the release labels and screens. receiveTab.title=Receive; alias label=Device name; settingsTab.receive.destination=Save to folder; sendTab.title=Send, picker file/media labels, selection files/size and nearbyDevices. SendTab sums selected file sizes and shows count. ReceiveTab displays alias. Platform picker options vary, which the draft states. No default save-folder location is promised.",
-      "checkedAt": "2026-10-08T09:57:12Z",
-      "primarySource": true
+      "finding": "Release UI labels and SendTab/ReceiveTab were read. SettingsTab wraps its destination SettingsEntry in checkPlatformWithFileSystem(). The helper returns true for Linux, Windows, Android and macOS, and excludes iOS. The preceding helper comment disagrees about Android, so the recorded finding follows the actual explicit platform list and UI gate rather than that comment. The draft now states desktop/Android scope and says the option is not shown on iOS. No default save-folder location or installation test is promised.",
+      "checkedAt": "2026-10-08T11:04:52.624Z",
+      "primarySource": true,
+      "evidenceUnits": [
+        {
+          "sourceId": "settings-tab",
+          "kind": "complete-dart-conditional-widget",
+          "sourceLines": {
+            "start": 208,
+            "end": 239
+          },
+          "text": "                if (checkPlatformWithFileSystem())\n                  _SettingsEntry(\n                    label: t.settingsTab.receive.destination,\n                    child: TextButton(\n                      style: TextButton.styleFrom(\n                        backgroundColor: Theme.of(context).inputDecorationTheme.fillColor,\n                        shape: RoundedRectangleBorder(borderRadius: Theme.of(context).inputDecorationTheme.borderRadius),\n                        foregroundColor: Theme.of(context).colorScheme.onSurface,\n                      ),\n                      onPressed: () async {\n                        if (vm.settings.destination != null) {\n                          await ref.notifier(settingsProvider).setDestination(null);\n                          if (defaultTargetPlatform == TargetPlatform.macOS) {\n                            await removeExistingDestinationAccess();\n                          }\n                          return;\n                        }\n\n                        final directory = await pickDirectoryPath();\n                        if (directory != null) {\n                          if (defaultTargetPlatform == TargetPlatform.macOS) {\n                            await persistDestinationFolderAccess(directory);\n                          }\n                          await ref.notifier(settingsProvider).setDestination(directory);\n                        }\n                      },\n                      child: Padding(\n                        padding: const EdgeInsets.symmetric(vertical: 5),\n                        child: Text(vm.settings.destination ?? t.settingsTab.receive.downloads, style: Theme.of(context).textTheme.titleMedium),\n                      ),\n                    ),\n                  ),",
+          "sha256": "2690d43083488d17d0b2f047d50256bb4c3972e13461c7ec14e512ea4ee262db"
+        },
+        {
+          "sourceId": "platform-check",
+          "kind": "complete-dart-function",
+          "signature": "bool checkPlatformWithFileSystem()",
+          "text": "bool checkPlatformWithFileSystem() {\n  return checkPlatform([TargetPlatform.linux, TargetPlatform.windows, TargetPlatform.android, TargetPlatform.macOS]);\n}",
+          "sha256": "c9b39726a52b21a166335e21936faac6ba3826ce690477cfdd7e09bfec094567"
+        }
+      ]
     },
     {
       "id": "C07",
@@ -312,11 +353,16 @@
     }
   ],
   "independentReview": {
-    "status": "passed",
-    "reviewer": "/root/first_article/localsend_sources",
-    "articleSha256": "16faf420489bc186b114887aa2adb7fbeb28479eb955917034c4ad1d0321910b",
-    "checkedAt": "2026-10-08T09:57:12Z",
-    "finding": "Reviewer independently retrieved current branch/release/licence and app documentation, then reread the full final exact draft. No outstanding factual corrections."
+    "status": "pending-correction-review",
+    "articleSha256": "1a53a93a7144fef483bfc909ee8fbd418325c498160a7ed9e2be67a4c490b3fd",
+    "previousReview": {
+      "status": "passed",
+      "reviewer": "/root/first_article/localsend_sources",
+      "articleSha256": "16faf420489bc186b114887aa2adb7fbeb28479eb955917034c4ad1d0321910b",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "finding": "Reviewer independently retrieved current branch/release/licence and app documentation, then reread the full final exact draft. No outstanding factual corrections."
+    },
+    "note": "Previous independent review applies only to the prior exact draft. The narrow platform correction is source-verified; full independent review of this new hash is not recorded as passed."
   },
   "paidProviderReviews": {
     "jina": "not-run",
@@ -328,5 +374,16 @@
     "status": "not-published",
     "ownerDraftApproval": "not-recorded",
     "note": "No src catalog entry, reader-facing route, deployment, sitemap/RSS change or publication verification in this article subtask."
-  }
+  },
+  "correctedAt": "2026-10-08T11:04:52.624Z",
+  "corrections": [
+    {
+      "at": "2026-10-08T11:04:52.624Z",
+      "previousArticleSha256": "16faf420489bc186b114887aa2adb7fbeb28479eb955917034c4ad1d0321910b",
+      "articleSha256": "1a53a93a7144fef483bfc909ee8fbd418325c498160a7ed9e2be67a4c490b3fd",
+      "claimId": "C06",
+      "finding": "Corrected Save to folder Settings instruction to desktop/Android and explicitly excluded iOS, based on the release UI gate and platform helper.",
+      "independentFullReview": "pending"
+    }
+  ]
 }

@@ -58,3 +58,26 @@ it('public projection keeps actual publication time and evidence hashes', () => 
   const projected = publicArticle(fixtureArticle(), fixtureNow.toISOString());
   expect(projected.publishedAt).toBe(fixtureNow.toISOString()); expect(projected.sources.every((s) => s.sha256.length === 64)).toBe(true);
 });
+
+it('holds extra private reviewer fields before creating public content', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'aft-private-review-'));
+  try {
+    await mkdir(join(root, 'src/data'), { recursive: true }); await writeFile(join(root, 'src/data/dailyEditorialArticles.json'), '[]');
+    const article = fixtureArticle(), record = reviewedFixture(article);
+    record.ollamaReview.privateReviewerNotes = 'PRIVATE_UNAPPROVED_DRAFT_MARKER';
+    await expect(stagePublication({ root, article, record, publishedAt: fixtureNow.toISOString(), activationReview: 'fixture' })).rejects.toMatchObject({ code: 'PUBLICATION_REVIEW_INCOMPLETE' });
+    expect(JSON.parse(await readFile(join(root, 'src/data/dailyEditorialArticles.json'), 'utf8'))).toEqual([]);
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
+it('projects only intentional deterministic fields into the approved public receipt', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'aft-public-review-'));
+  try {
+    await mkdir(join(root, 'src/data'), { recursive: true }); await writeFile(join(root, 'src/data/dailyEditorialArticles.json'), '[]');
+    const article = fixtureArticle(), record = reviewedFixture(article);
+    record.deterministic.privateEvidence = 'PRIVATE_UNAPPROVED_DRAFT_MARKER';
+    const result = await stagePublication({ root, article, record, publishedAt: fixtureNow.toISOString(), activationReview: 'fixture' });
+    expect(JSON.stringify(result.receipt)).not.toContain('PRIVATE_UNAPPROVED_DRAFT_MARKER');
+    expect(result.receipt.deterministic).toEqual({ passed: true });
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
