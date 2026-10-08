@@ -462,3 +462,14 @@ describe('Git checkpoint compare-and-swap with local bare fixtures only', () => 
     } finally { await store.dispose(); }
   });
 });
+
+it.each(['GIT_DIR', 'GIT_WORK_TREE', 'GIT_INDEX_FILE', 'GIT_COMMON_DIR', 'GIT_OBJECT_DIRECTORY', 'GIT_ALTERNATE_OBJECT_DIRECTORIES'])('rejects inherited %s before storage admission or private Git object writes', async (key) => {
+  const before = process.env[key]; let metadataRead = false;
+  process.env[key] = '/tmp/public-checkout-git-redirect-fixture';
+  try {
+    await expect(createGitStateStore({ root: '/tmp/unused-private-storage-fixture',
+      stateRepository: 'eliteandhonor/private-state-fixture', privateStoreApproval: 'offline-fixture',
+      readRepositoryMetadata: async () => { metadataRead = true; return {}; } })).rejects.toMatchObject({ code: 'STATE_GIT_REDIRECT' });
+    expect(metadataRead).toBe(false);
+  } finally { if (before === undefined) delete process.env[key]; else process.env[key] = before; }
+});

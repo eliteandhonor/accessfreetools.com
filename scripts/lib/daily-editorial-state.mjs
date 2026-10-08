@@ -418,6 +418,10 @@ function allowedRemote(url) {
  */
 export async function createGitStateStore({ root, branch = 'automation/aft-editorial-state', remote = 'origin', activated = false,
   fixtureRemote, stateRepository, privateStoreApproval, readRepositoryMetadata, stateToken, now = () => new Date() } = {}) {
+  if (Object.entries(process.env).some(([key, value]) =>
+    /^(?:GIT_DIR|GIT_WORK_TREE|GIT_INDEX_FILE|GIT_COMMON_DIR|GIT_OBJECT_DIRECTORY|GIT_ALTERNATE_OBJECT_DIRECTORIES)$/i.test(key) && value)) {
+    fail('STATE_GIT_REDIRECT', 'Git filesystem redirects are forbidden for isolated private state.');
+  }
   if (typeof root !== 'string') fail('INVALID_STORE', 'Git state requires a repository root.');
   const directory = await realpath(root);
   if ((await git(directory, ['rev-parse', '--show-toplevel'])).output !== directory) fail('INVALID_STORE', 'Git state must use the exact repository root.');
