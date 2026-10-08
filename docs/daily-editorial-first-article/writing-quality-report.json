@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-08T11:04:51.641Z",
+  "status": "pass-with-warnings",
+  "mode": "editorial",
+  "target": "docs/daily-editorial-first-article/localsend-guide.md",
+  "precedence": [
+    {
+      "id": "factual",
+      "label": "Factual accuracy",
+      "responsibility": "Verify claims and limits against current evidence before style review."
+    },
+    {
+      "id": "brand",
+      "label": "Brand code",
+      "responsibility": "Use clear, practical language without hype or false promises."
+    },
+    {
+      "id": "reader-first",
+      "label": "Reader-first",
+      "responsibility": "Keep public copy useful to the reader and remove internal agent instructions."
+    },
+    {
+      "id": "stop-slop",
+      "label": "Stop Slop",
+      "responsibility": "Remove predictable AI writing patterns while preserving a natural voice."
+    },
+    {
+      "id": "clarity",
+      "label": "Clarity diagnostics",
+      "responsibility": "Flag mechanical readability risks after the higher-priority checks."
+    }
+  ],
+  "modeRules": {
+    "sentenceWordLimit": 34,
+    "paragraphWordLimit": 120,
+    "paragraphSentenceLimit": 6,
+    "warnOnContractions": false
+  },
+  "upstreamReference": {
+    "repository": "https://github.com/woosal1337/blog",
+    "path": "videos/ep01-the-cure-for-ai-slop",
+    "commit": "b912d5fa59f368253683af2ebfac64ad6d08312d",
+    "pinnedUrl": "https://github.com/woosal1337/blog/tree/b912d5fa59f368253683af2ebfac64ad6d08312d/videos/ep01-the-cure-for-ai-slop",
+    "licenseUrl": "https://github.com/woosal1337/blog/blob/b912d5fa59f368253683af2ebfac64ad6d08312d/LICENSE",
+    "note": "Conceptual inspiration only. This is an original heuristic checker, not an official or certified ASD-STE100 checker."
+  },
+  "summary": {
+    "files": 1,
+    "words": 1088,
+    "hardErrors": 0,
+    "warnings": 3
+  },
+  "files": [
+    {
+      "sourcePath": "docs/daily-editorial-first-article/localsend-guide.md",
+      "mode": "editorial",
+      "status": "pass-with-warnings",
+      "metrics": {
+        "words": 1088,
+        "sentences": 91,
+        "paragraphs": 33,
+        "hardErrors": 0,
+        "warnings": 3
+      },
+      "findings": [
+        {
+          "id": "clarity.passive-wording",
+          "layer": "clarity",
+          "severity": "warning",
+          "message": "Name the actor and use active voice when that makes the sentence clearer.",
+          "match": "was prepared",
+          "location": {
+            "line": 79,
+            "column": 31
+          },
+          "excerpt": "ce, and send one file first. ## Sources and how this guide was prepared This guide was prepared with AI assistance from the project's documentation and source files, chec"
+        },
+        {
+          "id": "clarity.passive-wording",
+          "layer": "clarity",
+          "severity": "warning",
+          "message": "Name the actor and use active voice when that makes the sentence clearer.",
+          "match": "was prepared",
+          "location": {
+            "line": 81,
+            "column": 12
+          },
+          "excerpt": "st. ## Sources and how this guide was prepared This guide was prepared with AI assistance from the project's documentation and source files, checked on 8 October 2026. Lo"
+        },
+        {
+          "id": "clarity.passive-wording",
+          "layer": "clarity",
+          "severity": "warning",
+          "message": "Name the actor and use active voice when that makes the sentence clearer.",
+          "match": "was not installed",
+          "location": {
+            "line": 81,
+            "column": 132
+          },
+          "excerpt": "tion and source files, checked on 8 October 2026. LocalSend was not installed or performance-tested for this article. The example is hypothetical. The illustration is original a"
+        }
+      ]
+    }
+  ]
+}

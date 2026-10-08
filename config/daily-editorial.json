@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "enabled": false,
+  "publicationEnabled": false,
+  "repository": "eliteandhonor/accessfreetools.com",
+  "timezone": "Australia/Brisbane",
+  "stateBranch": "automation/aft-editorial-state",
+  "stateRepository": null,
+  "privateStoreApproval": null,
+  "activationReview": null,
+  "hostingAutoDeployVerified": null,
+  "sharedBudgetAllocation": null,
+  "model": "gpt-oss:120b",
+  "typesafeModel": "jev-1.13.0",
+  "maxCandidates": 5,
+  "limits": {
+    "jina": { "units": 100000, "calls": 10 },
+    "ollama": { "units": 120000, "calls": 4 },
+    "typesafe": { "units": 100000, "calls": 8 }
+  },
+  "problems": [
+    { "problem": "Find a file when its name has been forgotten", "query": "file search desktop in:description archived:false fork:false" },
+    { "problem": "Keep personal notes available without a hosted subscription", "query": "notes markdown offline in:description archived:false fork:false" },
+    { "problem": "Back up a folder and understand how to restore it", "query": "backup restore in:description archived:false fork:false" },
+    { "problem": "Read and edit a PDF without uploading private documents", "query": "pdf desktop in:description archived:false fork:false" },
+    { "problem": "Track a small task list on a personal computer", "query": "task manager offline in:description archived:false fork:false" },
+    { "problem": "Organize photos stored on a personal computer", "query": "photo organizer in:description archived:false fork:false" },
+    { "problem": "Check a CSV file before importing its rows", "query": "csv viewer in:description archived:false fork:false" }
+  ]
+}

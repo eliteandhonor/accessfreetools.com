@@ -1,3 +1,5 @@
+import { getDailyEditorialArticle } from './dailyEditorialArticles';
+
 export const SITE_ORIGIN = 'https://accessfreetools.com';
 
 export const SITE_LAUNCH_DATE = '2026-04-28';
@@ -615,6 +617,8 @@ export function getCategoryLastmod(slug: string) {
 }
 
 export function getBlogDates(slug: string) {
+  const daily = getDailyEditorialArticle(slug);
+  if (daily) return { published: daily.publishedAt, modified: daily.publishedAt };
   const isEarlyHandwrittenGuide = [
     'how-to-use-basic-calculator',
     'how-to-use-binary-calculator',
@@ -653,11 +657,11 @@ export function getArticleDatesFromPath(path: string) {
 }
 
 export function toRfc822Date(date: string) {
-  return new Date(`${date}T12:00:00.000Z`).toUTCString();
+  return new Date(toIsoDateTime(date)).toUTCString();
 }
 
 export function toIsoDateTime(date: string) {
-  return `${date}T12:00:00.000Z`;
+  return date.includes('T') ? date : `${date}T12:00:00.000Z`;
 }
 
 export function formatDisplayDate(date: string) {
@@ -666,5 +670,5 @@ export function formatDisplayDate(date: string) {
     day: 'numeric',
     year: 'numeric',
     timeZone: 'UTC',
-  }).format(new Date(`${date}T12:00:00.000Z`));
+  }).format(new Date(toIsoDateTime(date)));
 }

@@ -4,8 +4,11 @@ import { resolve } from 'node:path';
 import { readHostingerLocalEnv } from './lib/hostinger-api.mjs';
 
 const root = process.cwd();
-const hostingerToken = readHostingerLocalEnv().HOSTINGER_API_TOKEN || process.env.HOSTINGER_API_TOKEN || '';
-const ollamaToken = readLocalEnv(resolve(root, '.local', 'ollama.env')).OLLAMA_API_KEY || process.env.OLLAMA_API_KEY || process.env.OLLAMA || '';
+// Cloud/editorial validation must not open local credential files. Keep the
+// existing owner-local exact-value scan available outside that explicit mode.
+const trackedOnly = process.env.AFT_SECRET_SCAN_MODE === 'tracked-only';
+const hostingerToken = trackedOnly ? '' : readHostingerLocalEnv().HOSTINGER_API_TOKEN || process.env.HOSTINGER_API_TOKEN || '';
+const ollamaToken = trackedOnly ? '' : readLocalEnv(resolve(root, '.local', 'ollama.env')).OLLAMA_API_KEY || process.env.OLLAMA_API_KEY || process.env.OLLAMA || '';
 const trackedFiles = execFileSync('git', ['ls-files'], { encoding: 'utf8' })
   .split(/\r?\n/)
   .filter(Boolean);
@@ -61,6 +64,10 @@ for (const file of trackedFiles) {
 
   if (/OLLAMA(?:_API_KEY)?\s*=\s*[A-Za-z0-9._~+/=-]{30,}/.test(text)) {
     issues.push(`${file} appears to contain an inline Ollama API key assignment.`);
+  }
+
+  if (/\b(?:JINA_API_KEY|TYPESAFE_API_KEY)\s*[:=]\s*["']?[A-Za-z0-9._~+/=-]{24,}/.test(text)) {
+    issues.push(`${file} appears to contain an inline research-provider key assignment.`);
   }
 }
 

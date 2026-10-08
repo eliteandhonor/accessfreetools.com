@@ -1,0 +1,389 @@
+{
+  "schemaVersion": 1,
+  "artifact": "review-draft",
+  "articleFile": "localsend-guide.md",
+  "articleSha256": "1a53a93a7144fef483bfc909ee8fbd418325c498160a7ed9e2be67a4c490b3fd",
+  "checkedAt": "2026-10-08T09:57:12Z",
+  "project": "localsend/localsend",
+  "spdx": "Apache-2.0",
+  "siteBaseCommit": "ce3b5f2e9d35a3211eb170c3209263046f5f70a5",
+  "reviewer": "/root/first_article",
+  "sources": [
+    {
+      "id": "release-readme",
+      "kind": "repository-file",
+      "url": "https://github.com/localsend/localsend/blob/af0416be50770a97760f7070684bc667b759a15c/README.md",
+      "commit": "af0416be50770a97760f7070684bc667b759a15c",
+      "blobSha": "5c26041297c0c48f3b432440118862907d3aed7c",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "full-license",
+      "kind": "repository-file",
+      "url": "https://github.com/localsend/localsend/blob/af0416be50770a97760f7070684bc667b759a15c/LICENSE",
+      "commit": "af0416be50770a97760f7070684bc667b759a15c",
+      "blobSha": "129b09014da391f203d75f06b86f27eaf13c5154",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "main-readme",
+      "kind": "repository-file",
+      "url": "https://github.com/localsend/localsend/blob/c1ce322fb3acf08e44f329b8b7208b8b0d91e244/README.md",
+      "commit": "c1ce322fb3acf08e44f329b8b7208b8b0d91e244",
+      "blobSha": "52679699c24b4f58c65322bf0f16ef8607f4937c",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "release-ui-labels",
+      "kind": "repository-file",
+      "url": "https://github.com/localsend/localsend/blob/af0416be50770a97760f7070684bc667b759a15c/app/assets/i18n/en.json",
+      "commit": "af0416be50770a97760f7070684bc667b759a15c",
+      "blobSha": "568cb5aad8b59591bc7ee5ad0fd9b81637a6cdd1",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "receive-screen",
+      "kind": "repository-file",
+      "url": "https://github.com/localsend/localsend/blob/af0416be50770a97760f7070684bc667b759a15c/app/lib/pages/receive_page.dart",
+      "commit": "af0416be50770a97760f7070684bc667b759a15c",
+      "blobSha": "7c576b795ad1f22f346017cdf288ff9620514c61",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "send-tab",
+      "kind": "repository-file",
+      "url": "https://github.com/localsend/localsend/blob/af0416be50770a97760f7070684bc667b759a15c/app/lib/pages/tabs/send_tab.dart",
+      "commit": "af0416be50770a97760f7070684bc667b759a15c",
+      "blobSha": "3fd71cdceb2cdd80a4db26e3e0421e64b4bbbcb2",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "receive-tab",
+      "kind": "repository-file",
+      "url": "https://github.com/localsend/localsend/blob/af0416be50770a97760f7070684bc667b759a15c/app/lib/pages/tabs/receive_tab.dart",
+      "commit": "af0416be50770a97760f7070684bc667b759a15c",
+      "blobSha": "c4c3ac82997030b44f6d961718b5910b4128e1f0",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "settings-persistence",
+      "kind": "repository-file",
+      "url": "https://github.com/localsend/localsend/blob/af0416be50770a97760f7070684bc667b759a15c/app/lib/provider/persistence_provider.dart",
+      "commit": "af0416be50770a97760f7070684bc667b759a15c",
+      "blobSha": "55a6f18d79e5f4821dbf0273b51996c4c8571c7b",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "release-metadata",
+      "kind": "release-api",
+      "url": "https://api.github.com/repos/localsend/localsend/releases/374422528",
+      "displayUrl": "https://github.com/localsend/localsend/releases/tag/v1.18.2",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true,
+      "releaseId": 374422528,
+      "tag": "v1.18.2",
+      "publishedAt": "2026-08-21T14:02:01Z",
+      "updatedAt": "2026-09-12T03:00:00Z",
+      "prerelease": false,
+      "draft": false,
+      "immutable": false,
+      "tagResolvedCommit": "af0416be50770a97760f7070684bc667b759a15c",
+      "limitation": "Release and tag may change; commit-pinned files are the immutable source basis."
+    },
+    {
+      "id": "official-home",
+      "kind": "official-website",
+      "url": "https://localsend.org/",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true,
+      "immutable": false,
+      "limitation": "Homepage read through web tool; marketing claims of security, instant transfer, speed and tracking were not adopted."
+    },
+    {
+      "id": "official-downloads",
+      "kind": "official-website",
+      "url": "https://localsend.org/download",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true,
+      "immutable": false
+    },
+    {
+      "id": "settings-tab",
+      "kind": "repository-file",
+      "url": "https://github.com/localsend/localsend/blob/af0416be50770a97760f7070684bc667b759a15c/app/lib/pages/tabs/settings_tab.dart",
+      "commit": "af0416be50770a97760f7070684bc667b759a15c",
+      "blobSha": "a2b92fce4c8ba9b1d2443f77823aaf21f2ea57cf",
+      "sha256": "f18ef3364478a181ee76426a2896b8f688202c78c1f877fa8d9e62112a339dff",
+      "checkedAt": "2026-10-08T11:04:52.624Z",
+      "primarySource": true
+    },
+    {
+      "id": "platform-check",
+      "kind": "repository-file",
+      "url": "https://github.com/localsend/localsend/blob/af0416be50770a97760f7070684bc667b759a15c/app/lib/util/native/platform_check.dart",
+      "commit": "af0416be50770a97760f7070684bc667b759a15c",
+      "blobSha": "782923b1d34b3a4663d9f0708c36ffb165ab4f51",
+      "sha256": "6edc71f1f25e67edad71da76e28700dc8044d81edd156776bf00efc0c2d44c45",
+      "checkedAt": "2026-10-08T11:04:52.624Z",
+      "primarySource": true
+    }
+  ],
+  "claims": [
+    {
+      "id": "C01",
+      "claim": "LocalSend native app serves nearby Windows, macOS, Linux, Android and iOS devices using the local network; transfer needs neither internet nor a LocalSend account.",
+      "sourceIds": [
+        "release-readme",
+        "release-ui-labels",
+        "official-home"
+      ],
+      "evidenceSentences": [
+        "LocalSend is a free, open-source app that allows you to securely share files and messages with nearby devices over your local network without needing an internet connection.",
+        "This app is available on Android, iOS, macOS, Windows and Linux. You can find all download options on the official homepage.",
+        "No. LocalSend does not require any account or login. Just install and start sharing."
+      ],
+      "finding": "Supported for the native local-network workflow. The source's broad security wording is not adopted; downloading/installing may need internet.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "C02",
+      "claim": "The reviewed LocalSend repository is open source under Apache-2.0, rather than merely public code.",
+      "sourceIds": [
+        "full-license"
+      ],
+      "finding": "Full licence Sections 1-9 and appendix read. Apache License Version 2.0; copyright 2022-2026 Tien Do Nam. No noncommercial or field-of-use restriction found. This is a repository licence finding, not blanket asset clearance or security certification.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "C03",
+      "claim": "The reviewed stable release is v1.18.2, published 21 August 2026, currently resolving to af0416be50770a97760f7070684bc667b759a15c.",
+      "sourceIds": [
+        "release-metadata"
+      ],
+      "finding": "Latest release API returned tag_name v1.18.2, published_at 2026-08-21T14:02:01Z, draft=false and prerelease=false. Commits/v1.18.2 resolved to the recorded commit. Publication date and later release metadata update are distinct; the draft does not claim a new October release.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "C04",
+      "claim": "The README recommends an app store or package manager because the app has no auto-update.",
+      "sourceIds": [
+        "release-readme",
+        "official-downloads"
+      ],
+      "evidenceSentences": [
+        "It is recommended to download the app either from an app store or from a package manager because the app does not have an auto-update."
+      ],
+      "finding": "Direct support; the draft links the official downloads rather than inventing platform install commands.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "C05",
+      "claim": "Both devices need a reachable local network connection; operating-system local-network permission may be needed.",
+      "sourceIds": [
+        "release-ui-labels",
+        "main-readme"
+      ],
+      "evidenceSentences": [
+        "Please ensure that the desired target is also on the same Wi-Fi network.",
+        "LocalSend can't find other devices without having the permission to scan the local network. Please grant this permission in the settings."
+      ],
+      "finding": "Supported. Home Wi-Fi is the walkthrough's illustrative choice, not a claim that Ethernet or other LAN setups cannot work.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "C06",
+      "claim": "The receiver's Receive tab shows its device name; desktop/Android Settings exposes Save to folder, while the release hides that option on iOS; sender Send offers platform-dependent File/Media selection, count/size and Nearby devices.",
+      "sourceIds": [
+        "release-ui-labels",
+        "send-tab",
+        "receive-tab",
+        "settings-tab",
+        "platform-check"
+      ],
+      "finding": "Release UI labels and SendTab/ReceiveTab were read. SettingsTab wraps its destination SettingsEntry in checkPlatformWithFileSystem(). The helper returns true for Linux, Windows, Android and macOS, and excludes iOS. The preceding helper comment disagrees about Android, so the recorded finding follows the actual explicit platform list and UI gate rather than that comment. The draft now states desktop/Android scope and says the option is not shown on iOS. No default save-folder location or installation test is promised.",
+      "checkedAt": "2026-10-08T11:04:52.624Z",
+      "primarySource": true,
+      "evidenceUnits": [
+        {
+          "sourceId": "settings-tab",
+          "kind": "complete-dart-conditional-widget",
+          "sourceLines": {
+            "start": 208,
+            "end": 239
+          },
+          "text": "                if (checkPlatformWithFileSystem())\n                  _SettingsEntry(\n                    label: t.settingsTab.receive.destination,\n                    child: TextButton(\n                      style: TextButton.styleFrom(\n                        backgroundColor: Theme.of(context).inputDecorationTheme.fillColor,\n                        shape: RoundedRectangleBorder(borderRadius: Theme.of(context).inputDecorationTheme.borderRadius),\n                        foregroundColor: Theme.of(context).colorScheme.onSurface,\n                      ),\n                      onPressed: () async {\n                        if (vm.settings.destination != null) {\n                          await ref.notifier(settingsProvider).setDestination(null);\n                          if (defaultTargetPlatform == TargetPlatform.macOS) {\n                            await removeExistingDestinationAccess();\n                          }\n                          return;\n                        }\n\n                        final directory = await pickDirectoryPath();\n                        if (directory != null) {\n                          if (defaultTargetPlatform == TargetPlatform.macOS) {\n                            await persistDestinationFolderAccess(directory);\n                          }\n                          await ref.notifier(settingsProvider).setDestination(directory);\n                        }\n                      },\n                      child: Padding(\n                        padding: const EdgeInsets.symmetric(vertical: 5),\n                        child: Text(vm.settings.destination ?? t.settingsTab.receive.downloads, style: Theme.of(context).textTheme.titleMedium),\n                      ),\n                    ),\n                  ),",
+          "sha256": "2690d43083488d17d0b2f047d50256bb4c3972e13461c7ec14e512ea4ee262db"
+        },
+        {
+          "sourceId": "platform-check",
+          "kind": "complete-dart-function",
+          "signature": "bool checkPlatformWithFileSystem()",
+          "text": "bool checkPlatformWithFileSystem() {\n  return checkPlatform([TargetPlatform.linux, TargetPlatform.windows, TargetPlatform.android, TargetPlatform.macOS]);\n}",
+          "sha256": "c9b39726a52b21a166335e21936faac6ba3826ce690477cfdd7e09bfec094567"
+        }
+      ]
+    },
+    {
+      "id": "C07",
+      "claim": "The receiver can accept or decline a file request when automatic acceptance is off.",
+      "sourceIds": [
+        "receive-screen",
+        "release-ui-labels"
+      ],
+      "finding": "ReceivePage shows sender and file-request context, Accept/Decline, and disables Accept for an empty selected-file list. The draft explicitly tells the reader to turn both Quick Save modes off for manual review and qualifies acceptance with 'when prompted'.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "C08",
+      "claim": "Quick Save automatically accepts requests; Quick Save for Favorites accepts favorite devices.",
+      "sourceIds": [
+        "release-ui-labels",
+        "settings-persistence"
+      ],
+      "evidenceSentences": [
+        "File requests are now accepted automatically. Be aware that everyone on the local network can send you files.",
+        "File requests are now accepted automatically from devices in your favorites list."
+      ],
+      "finding": "Direct warnings confirm the scope of auto-acceptance. The release persistence default is QuickSaveMode.paired, so favorites acceptance is not assumed to be off. The article instructs the manual-review settings rather than promising a default prompt.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "C09",
+      "claim": "AP isolation/guest networks, Apple local-network permissions, firewall incoming TCP+UDP port 53317 and VPN LAN restrictions can affect discovery or transfer.",
+      "sourceIds": [
+        "main-readme"
+      ],
+      "finding": "Current main README Setup gives incoming TCP, UDP port 53317 and router/AP-isolation explanation; troubleshooting covers Windows network classification, Apple permissions and VPN LAN access. VPN advice exists on reviewed main and is cited to main, not backdated to release README. The draft advises own main network/administrator contact and scoped rules without disabling the firewall.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "C10",
+      "claim": "Manual sending can use a receiver IP and may help when discovery fails, provided the receiver remains reachable.",
+      "sourceIds": [
+        "release-ui-labels"
+      ],
+      "evidenceSentences": [
+        "Please make sure that all devices are on the same Wi-Fi network and share the same configuration (port, multicast address, encryption). You can try to type the IP address of the target device manually. If this works, consider adding this device to the favorites so it can be automatically discovered in the future."
+      ],
+      "finding": "Full relevant source sentences retained rather than a truncated character window. This is a documented troubleshooting option, not proof that manual IP overrides isolation/firewalls.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "C11",
+      "claim": "Encryption is configurable; turning it off switches communication to unencrypted HTTP.",
+      "sourceIds": [
+        "release-ui-labels",
+        "settings-persistence"
+      ],
+      "evidenceSentences": [
+        "Communication now takes place via the unencrypted HTTP protocol. To use HTTPS protocol, enable encryption again."
+      ],
+      "finding": "Direct encryptionDisabledNotice text. Persistence defaults isHttps to true; article's narrower advice is leave Encryption enabled on both devices. No certification or unconditional security guarantee.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "C12",
+      "claim": "The v1.18 app notes require the iOS app to remain foreground during transfer.",
+      "sourceIds": [
+        "release-ui-labels"
+      ],
+      "evidenceSentences": [
+        "On Android, transfers continue while the app is in the background or the screen is off. On iOS, the app must still stay in the foreground."
+      ],
+      "finding": "Complete two-sentence v1_18_0 change note preserved. Draft states only the relevant iOS limitation and makes no test claim.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "C13",
+      "claim": "The documented native local-network workflow is not an internet delivery workflow or a backup process.",
+      "sourceIds": [
+        "release-readme",
+        "official-home"
+      ],
+      "evidenceSentences": [
+        "No. LocalSend uses your local WiFi network to transfer files. Your data never leaves your local network."
+      ],
+      "finding": "Official FAQ limits internet transfers. Backup guidance is editorial advice based on the documented one-off transfer job, not a tested recovery guarantee. Browser/Web App sharing is excluded from the article.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": true
+    },
+    {
+      "id": "C14",
+      "claim": "12 hypothetical photos at about 4 MB each are roughly 48 MB.",
+      "sourceIds": [],
+      "finding": "Deterministic arithmetic 12*4=48. Explicitly hypothetical and not measured, with no elapsed-time, compression, or exact-size promise.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": false
+    },
+    {
+      "id": "C15",
+      "claim": "The contextual AFT internal guide explains checking a GitHub source, licence, release and requested access.",
+      "sourceIds": [],
+      "sourceUrl": "https://accessfreetools.com/blog/how-to-check-github-project-before-installing/",
+      "finding": "Read local src/pages/blog/how-to-check-github-project-before-installing.astro at base ce3b5f2e9d35a3211eb170c3209263046f5f70a5. Existing article matches the described checklist. Final public URL verification belongs to release checks.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": false
+    },
+    {
+      "id": "C16",
+      "claim": "This draft uses AI assistance, has no installation/performance-test basis, and includes an original conceptual illustration.",
+      "sourceIds": [],
+      "finding": "This task used authorized read-only GitHub/web research, native AI drafting and repository-local writing check. No Jina/Ollama/TypeSafe paid calls, upstream repository installs/execution, screenshots or copied assets. Illustration primitives were authored in this task and raster preview was visually inspected.",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "primarySource": false
+    }
+  ],
+  "independentReview": {
+    "status": "pending-correction-review",
+    "articleSha256": "1a53a93a7144fef483bfc909ee8fbd418325c498160a7ed9e2be67a4c490b3fd",
+    "previousReview": {
+      "status": "passed",
+      "reviewer": "/root/first_article/localsend_sources",
+      "articleSha256": "16faf420489bc186b114887aa2adb7fbeb28479eb955917034c4ad1d0321910b",
+      "checkedAt": "2026-10-08T09:57:12Z",
+      "finding": "Reviewer independently retrieved current branch/release/licence and app documentation, then reread the full final exact draft. No outstanding factual corrections."
+    },
+    "note": "Previous independent review applies only to the prior exact draft. The narrow platform correction is source-verified; full independent review of this new hash is not recorded as passed."
+  },
+  "paidProviderReviews": {
+    "jina": "not-run",
+    "ollama": "not-run",
+    "typesafe": "not-run",
+    "note": "No paid provider decision is represented as completed. TypeSafe is not a truth guarantee."
+  },
+  "publication": {
+    "status": "not-published",
+    "ownerDraftApproval": "not-recorded",
+    "note": "No src catalog entry, reader-facing route, deployment, sitemap/RSS change or publication verification in this article subtask."
+  },
+  "correctedAt": "2026-10-08T11:04:52.624Z",
+  "corrections": [
+    {
+      "at": "2026-10-08T11:04:52.624Z",
+      "previousArticleSha256": "16faf420489bc186b114887aa2adb7fbeb28479eb955917034c4ad1d0321910b",
+      "articleSha256": "1a53a93a7144fef483bfc909ee8fbd418325c498160a7ed9e2be67a4c490b3fd",
+      "claimId": "C06",
+      "finding": "Corrected Save to folder Settings instruction to desktop/Android and explicitly excluded iOS, based on the release UI gate and platform helper.",
+      "independentFullReview": "pending"
+    }
+  ]
+}

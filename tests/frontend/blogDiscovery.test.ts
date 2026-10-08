@@ -9,7 +9,11 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import BlogSearch from './src/components/BlogSearch';
 import { getBlogSearchIndex } from './src/data/blogSearchIndex';
-const allPosts = getBlogSearchIndex();
+import { dailyEditorialArticles } from './src/data/dailyEditorialArticles';
+// Keep these legacy navigation scenarios stable as researched articles grow.
+// Daily article discovery is exercised by the real Astro render fixture.
+const dailySlugs = new Set(dailyEditorialArticles.map(article => article.slug));
+const allPosts = getBlogSearchIndex().filter(post => !dailySlugs.has(post.slug));
 const fixture = window.fixture;
 const requests = [];
 fixture.requestCount = 0;
