@@ -1,0 +1,71 @@
+name: Daily researched open-source article (dormant)
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Offline checks, or live only after reviewed activation
+        type: choice
+        options: [offline, live]
+        default: offline
+
+# Parent activation adds once-daily `15 22 * * *` (08:15 Brisbane next day).
+# There is intentionally no active schedule in this implementation PR.
+permissions:
+  contents: read
+
+concurrency:
+  group: aft-daily-editorial
+  cancel-in-progress: false
+
+jobs:
+  offline:
+    if: inputs.mode == 'offline'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+        env:
+          ONNXRUNTIME_NODE_INSTALL: skip
+      - run: npm run editorial:daily:offline
+
+  live:
+    if: inputs.mode == 'live' && github.ref == 'refs/heads/main' && vars.AFT_EDITORIAL_ACTIVATED != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    env:
+      AFT_EDITORIAL_ACTIVATED: ${{ vars.AFT_EDITORIAL_ACTIVATED }}
+      AFT_SECRET_SCAN_MODE: tracked-only
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+        env:
+          ONNXRUNTIME_NODE_INSTALL: skip
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - name: Research, check, hold or commit one article
+        env:
+          JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
+          OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+        run: node scripts/daily-editorial.mjs --run
+      - name: Preserve a safe outcome report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-editorial-outcome
+          path: output/daily-editorial/latest.json
+          if-no-files-found: ignore

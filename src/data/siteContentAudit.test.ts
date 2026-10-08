@@ -1784,7 +1784,7 @@ describe('site content audit guardrails', () => {
     expect(PACKAGE_JSON.scripts['security:audit']).toBe('npm audit --audit-level=moderate');
     expect(PACKAGE_JSON.scripts.check).toBe('node scripts/run-verified-check.mjs');
     expect(PACKAGE_JSON.scripts['check:steps']).toBe(
-      'npm run typecheck && npm run typecheck:ts6 && npm test && npm run build && npm run check:links && npm run check:site && npm run check:preferred-sources && npm run check:article-visual && npm run check:editorial-quality && npm run check:key-visual && npm run check:accessibility && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run images:qa && npm run images:sitemap-check && npm run gallery:qa && npm run check:secrets && npm run security:audit',
+      'npm run typecheck && npm run typecheck:ts6 && npm test && npm run build && npm run check:links && npm run check:site && npm run check:preferred-sources && npm run check:article-visual && npm run check:editorial-quality && npm run check:daily-editorial && npm run check:key-visual && npm run check:accessibility && npm run check:structured-data && npm run check:performance && npm run check:ai-assets && npm run images:qa && npm run images:sitemap-check && npm run gallery:qa && npm run check:secrets && npm run security:audit',
     );
     expect(BASE_LAYOUT_SOURCE).toContain('https://news.google.com/swg/js/v1/publisher.js');
     expect(BASE_LAYOUT_SOURCE).toContain('shouldRenderPreferredSource');
