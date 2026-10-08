@@ -1,0 +1,91 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { getDailyEditorialImage, type DailyEditorialArticle } from '../data/dailyEditorialArticles';
+import { formatDisplayDate } from '../data/siteDates';
+
+interface Props { article: DailyEditorialArticle; }
+const { article } = Astro.props;
+const path = `/blog/${article.slug}/`;
+const image = getDailyEditorialImage(article.slug);
+const sourceIndex = new Map(article.sources.map((source, index) => [source.id, index + 1]));
+const articleStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: article.title,
+  description: article.summary,
+  mainEntityOfPage: new URL(path, Astro.site ?? 'https://accessfreetools.com').toString(),
+  image: new URL(image.imagePath, Astro.site ?? 'https://accessfreetools.com').toString(),
+  datePublished: article.publishedAt,
+  dateModified: article.publishedAt,
+  inLanguage: 'en',
+  author: { '@type': 'Organization', name: 'Access Free Tools', url: 'https://accessfreetools.com/about/' },
+  publisher: {
+    '@type': 'Organization', name: 'Access Free Tools', url: 'https://accessfreetools.com/',
+    logo: { '@type': 'ImageObject', url: 'https://accessfreetools.com/favicon.png' },
+  },
+  citation: article.sources.map((source) => source.url),
+};
+// Escaping '<' prevents even plain-text research content closing a JSON-LD script.
+const structuredDataJson = JSON.stringify(articleStructuredData).replace(/</g, '\\u003c');
+const breadcrumbJson = JSON.stringify({
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [
+    { name: 'Home', path: '/' }, { name: 'Blog', path: '/blog/' }, { name: article.title, path },
+  ].map((item, index) => ({
+    '@type': 'ListItem', position: index + 1, name: item.name,
+    item: new URL(item.path, Astro.site ?? 'https://accessfreetools.com').toString(),
+  })),
+}).replace(/</g, '\\u003c');
+---
+
+<BaseLayout title={`${article.title} | Access Free Tools`} description={article.summary} path={path}
+  ogType="article" socialImagePath={image.imagePath} socialImageAlt={image.alt} renderAdvertising={false}>
+  <script type="application/ld+json" set:html={structuredDataJson} />
+  <script type="application/ld+json" set:html={breadcrumbJson} />
+  <article class="blog-article editorial-article" data-daily-editorial={article.slug}>
+    <p class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Open-source software</p>
+    <header class="blog-article-header editorial-article-header">
+      <span>Open-source software guide</span>
+      <h1>{article.title}</h1>
+      <p class="article-meta-line">By <a href="/about/">Access Free Tools</a>. Published <time datetime={article.publishedAt}>{formatDisplayDate(article.publishedAt)}</time>.</p>
+      <p>{article.problem}</p>
+      <p>{article.summary}</p>
+    </header>
+    <figure class="tool-art-figure editorial-hero-figure">
+      <img src={image.imagePath} alt={image.alt} width="1200" height="630" loading="eager" decoding="async" fetchpriority="high" />
+      <figcaption>{image.caption}</figcaption>
+    </figure>
+    <div class="blog-article-layout editorial-article-layout">
+      <div class="blog-article-body editorial-article-body">
+        {article.sections.map((section, index) => (
+          <section class="content-section article-flow-section" aria-labelledby={`${article.slug}-section-${index + 1}`}>
+            <h2 id={`${article.slug}-section-${index + 1}`}>{section.heading}</h2>
+            {section.paragraphs.map((paragraph) => (
+              <p>{paragraph.text}{paragraph.sourceIds.length > 0 && <span class="daily-source-links">{' '}{paragraph.sourceIds.map((id) => (
+                <a href={`#${article.slug}-source-${id}`} aria-label={`Source ${sourceIndex.get(id)}`}>[{sourceIndex.get(id)}]{' '}</a>
+              ))}</span>}</p>
+            ))}
+          </section>
+        ))}
+        <section class="content-section article-flow-section editorial-sources" aria-labelledby={`${article.slug}-sources`}>
+          <h2 id={`${article.slug}-sources`}>Sources and project details</h2>
+          <p>Research checked on <time datetime={article.researchedAt}>{formatDisplayDate(article.researchedAt)}</time>. Project details may change after that date.</p>
+          <p>Repository: <a href={article.project.url} rel="noopener noreferrer" target="_blank">{article.project.fullName}</a>. License: {article.project.license}. Source snapshot: <code>{article.project.commit}</code>.</p>
+          <p>{article.project.release ? `Release checked: ${article.project.release.tag}, published ${formatDisplayDate(article.project.release.publishedAt)}.` : 'No published release was verified for this research.'}</p>
+          <ol class="source-link-list">
+            {article.sources.map((source) => <li id={`${article.slug}-source-${source.id}`}><a href={source.url} rel="noopener noreferrer" target="_blank">{article.project.fullName}: {source.kind}</a> (checked {formatDisplayDate(source.fetchedAt)})</li>)}
+          </ol>
+        </section>
+        <section class="editorial-disclosure" aria-label="Editorial disclosure">
+          <strong>How this article was made</strong>
+          <p>Access Free Tools prepared this guide with AI-assisted research, writing, and review using the linked project sources. We did not install or run this software for the article. Source checks and automated review can miss errors; check the current documentation before using it.</p>
+        </section>
+      </div>
+      <aside aria-label="Related Access Free Tools pages" class="article-sidecar editorial-sidecar">
+        <h2>Before you install</h2>
+        <p><a href="/blog/how-to-check-github-project-before-installing/">Check a GitHub project before installing it</a> for practical source, license, permission, and dependency checks.</p>
+        <p><a href="/blog/">Browse more guides</a> for explanations of useful software and free browser tools.</p>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { blogPosts } from './blogPosts';
-import { editorialBlogPosts } from './editorialBlogPosts';
+import { editorialBlogPosts, ownerEditorialBlogPosts } from './editorialBlogPosts';
+import { dailyEditorialArticles } from './dailyEditorialArticles';
 import { getBlogSearchIndex } from './blogSearchIndex';
 import { rankDiscoveryItems } from '../lib/toolDiscovery';
 
@@ -9,7 +10,8 @@ const searchable = index.map(post => ({ ...post, name: post.title }));
 
 describe('blog discovery inventory', () => {
   it('keeps every existing canonical guide and all seven reviewed editorials discoverable', () => {
-    expect(editorialBlogPosts).toHaveLength(7);
+    expect(ownerEditorialBlogPosts).toHaveLength(7);
+    expect(editorialBlogPosts).toHaveLength(7 + dailyEditorialArticles.length);
     expect(index).toHaveLength(blogPosts.length + editorialBlogPosts.length);
     expect(new Set(index.map(post => post.slug)).size).toBe(index.length);
     expect(index.filter(post => post.kind === 'guide').map(post => post.slug)).toEqual(blogPosts.map(post => post.slug));

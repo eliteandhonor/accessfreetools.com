@@ -1,5 +1,7 @@
 ---
 import CalculatorGuideArticle from '../../components/CalculatorGuideArticle.astro';
+import DailyEditorialArticle from '../../components/DailyEditorialArticle.astro';
+import { dailyEditorialArticles, type DailyEditorialArticle as DailyArticle } from '../../data/dailyEditorialArticles';
 import { aiBlogGuides, type AiGuideDefinition } from '../../data/aiBlogGuides';
 import { isRedirectedBlogGuideSlug } from '../../data/blogGuideCanonicals';
 import { financeBlogGuides, type FinanceGuideDefinition } from '../../data/financeBlogGuides';
@@ -13,20 +15,24 @@ export function getStaticPaths() {
     (guide) => !isRedirectedBlogGuideSlug(guide.slug),
   );
 
-  return dynamicBlogGuides.map((guide) => ({
+  return [...dynamicBlogGuides.map((guide) => ({
     params: { slug: guide.slug },
     props: { guide },
-  }));
+  })), ...dailyEditorialArticles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }))];
 }
 
 interface Props {
-  guide: FinanceGuideDefinition | HealthGuideDefinition | UtilityGuideDefinition | AiGuideDefinition;
+  guide?: FinanceGuideDefinition | HealthGuideDefinition | UtilityGuideDefinition | AiGuideDefinition;
+  article?: DailyArticle;
 }
 
-const { guide } = Astro.props;
+const { guide, article } = Astro.props;
 ---
 
-<CalculatorGuideArticle
+{article ? <DailyEditorialArticle article={article} /> : guide && <CalculatorGuideArticle
   toolSlug={guide.toolSlug}
   label={guide.label}
   title={guide.title}
@@ -39,4 +45,4 @@ const { guide } = Astro.props;
   faqItems={'faqItems' in guide ? guide.faqItems : undefined}
   faqDisplayCount={'faqDisplayCount' in guide ? guide.faqDisplayCount : undefined}
   bestUsesIntro={'bestUsesIntro' in guide ? guide.bestUsesIntro : undefined}
-/>
+/>}

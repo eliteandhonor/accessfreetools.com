@@ -1,6 +1,8 @@
 import type { BlogPostDefinition } from './blogPosts';
+import { blogPosts } from './blogPosts';
+import { dailyEditorialArticles, getDailyEditorialImage } from './dailyEditorialArticles';
 
-export const editorialBlogPosts: BlogPostDefinition[] = [
+export const ownerEditorialBlogPosts: BlogPostDefinition[] = [
   {
     slug: 'remove-ai-writing-tells-before-publishing',
     title: 'How to Edit an AI-Assisted Draft Before Publishing',
@@ -52,14 +54,30 @@ export const editorialBlogPosts: BlogPostDefinition[] = [
   },
 ];
 
+const existingSlugs = new Set([...ownerEditorialBlogPosts, ...blogPosts].map((post) => post.slug));
+if (dailyEditorialArticles.some((article) => existingSlugs.has(article.slug))) {
+  throw new Error('A daily editorial slug collides with an existing canonical blog article');
+}
+
+export const editorialBlogPosts: BlogPostDefinition[] = [
+  ...[...dailyEditorialArticles].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt)).map((article) => ({
+    slug: article.slug, title: article.title, summary: article.summary, label: 'Open-source software guide',
+  })),
+  ...ownerEditorialBlogPosts,
+];
+
 export interface EditorialArticleImageDefinition {
   slug: string;
   pagePath: string;
   imagePath: string;
 }
 
-export const editorialArticleImages: EditorialArticleImageDefinition[] = editorialBlogPosts.map((post) => ({
+export const editorialArticleImages: EditorialArticleImageDefinition[] = [...ownerEditorialBlogPosts.map((post) => ({
   slug: post.slug,
   pagePath: `/blog/${post.slug}/`,
   imagePath: `/social/${post.slug}.webp`,
-}));
+})), ...dailyEditorialArticles.map((article) => ({
+  slug: article.slug,
+  pagePath: `/blog/${article.slug}/`,
+  imagePath: getDailyEditorialImage(article.slug).imagePath,
+}))];
