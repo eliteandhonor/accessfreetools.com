@@ -319,7 +319,7 @@ test('every TypeSafe claim retains adjacent and distant contradictory source par
   assert.equal(request.passed, true);
   assert.ok(request.claims.every(({ context }) => context.includes(contradiction)));
   assert.ok(request.claims.every(({ context }) => context.includes(article.sources[0].text)));
-  article.sources[0].text += `\n\n${'Other details. '.repeat(400)}\n\n${contradiction}`;
+  article.sources[0].text += `\n\n${'Other details. '.repeat(4000)}\n\n${contradiction}`;
   article.sources[0].sha256 = digest(article.sources[0].text);
   const oversized = semanticRequest(article);
   assert.equal(oversized.passed, false);
@@ -327,11 +327,51 @@ test('every TypeSafe claim retains adjacent and distant contradictory source par
 });
 
 test('ambiguous, incomplete, and oversized source contexts are unassessed and hold', () => {
-  for (const text of [SOURCE_TEXT + '\n\n' + SOURCE_TEXT.split('\n\n')[0], SOURCE_TEXT.split('\n\n')[0].slice(0, -1), 'x'.repeat(4100) + ' ' + SOURCE_TEXT.split('\n\n')[0]]) {
+  for (const text of [SOURCE_TEXT + '\n\n' + SOURCE_TEXT.split('\n\n')[0], SOURCE_TEXT.split('\n\n')[0].slice(0, -1), 'x'.repeat(24000) + ' ' + SOURCE_TEXT.split('\n\n')[0]]) {
     const article = fixture(); article.sources[0].text = text; article.sources[0].sha256 = digest(text);
     article.sections[0].paragraphs[0].evidence[0].quote = text.includes('x'.repeat(20)) ? SOURCE_TEXT.split('\n\n')[0] : 'Table Helper converts plain text rows';
     assert.equal(semanticRequest(article).passed, false);
   }
+});
+
+test('real complete LocalSend Apache source above 4 KB is retained once per bounded batch', () => {
+  const text = readFileSync(new URL('../fixtures/daily-editorial/localsend-apache-2.0.txt', import.meta.url), 'utf8');
+  assert.equal(Buffer.byteLength(text), 11346);
+  const article = fixture();
+  const quote = 'copyright license to reproduce';
+  for (const id of ['readme', 'docs']) {
+    const document = article.sources.find((item) => item.id === id);
+    document.text = text; document.sha256 = digest(text);
+  }
+  article.sections = article.sections.map((section) => ({ ...section, paragraphs: [{ ...section.paragraphs[0],
+    sourceIds: ['readme', 'docs'], evidence: ['readme', 'docs'].map((sourceId) => ({ sourceId, quote })) }] }));
+  const request = semanticRequest(article);
+  assert.equal(request.passed, true, request.issues.join('\n'));
+  assert.ok(request.claims.every((claim) => claim.context.includes(text)));
+  for (const batch of request.batches.filter((item) => item.claimIds.length)) {
+    assert.equal(batch.state.sources.length, 1);
+    assert.equal(batch.state.sources[0].text, text);
+    assert.deepEqual(batch.state.sources[0].ids, ['readme', 'docs']);
+    assert.ok(Buffer.byteLength(JSON.stringify(batch)) <= 25000);
+  }
+  assert.ok(request.batches.length <= 8);
+  const result = semanticReviewFromResponses(request, mockResponses(request));
+  assert.equal(validateSemanticReview(result, request).passed, true);
+});
+
+test('large complete source keeps a distant contradiction and batches without duplicated evidence', () => {
+  const article = fixture();
+  const contradiction = 'Important: an account is required in released builds.';
+  const text = SOURCE_TEXT + '\n\n' + 'Other complete source documentation. '.repeat(340) + '\n\n' + contradiction;
+  article.sources[0].text = text; article.sources[0].sha256 = digest(text);
+  const request = semanticRequest(article);
+  assert.ok(Buffer.byteLength(text) > 12000);
+  assert.equal(request.passed, true, request.issues.join('\n'));
+  assert.ok(request.claims.every((claim) => claim.context.includes(contradiction)));
+  assert.ok(request.batches.filter((batch) => batch.claimIds.length).every((batch) => batch.state.sources[0].text === text));
+  article.sources[0].sha256 = '0'.repeat(64);
+  assert.equal(semanticRequest(article).passed, false, 'source drift is not accepted by the semantic builder');
+  assert.equal(semanticRequest(fixture(), [], { maxCallBytes: 56000 }).passed, false);
 });
 
 test('semantic duplicate assessment selects max12 nearest intact summaries and records its coverage limit', () => {

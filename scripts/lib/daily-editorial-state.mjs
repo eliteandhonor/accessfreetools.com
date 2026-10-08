@@ -4,6 +4,7 @@ import { createHash, randomUUID } from 'node:crypto';
 import { open, readFile, realpath, rename, mkdir, mkdtemp, rm, unlink } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
+import { PRIVATE_STATE_GIT_ARGUMENTS, privateStateGitEnvironment } from './private-state-git-environment.mjs';
 
 export const MAX_STATE_BYTES = 1024 * 1024;
 const MAX_RECEIPT_BYTES = 256 * 1024;
@@ -376,11 +377,11 @@ function joinArchivePath(path, sourceHash) {
   return `${path}.archive/${sourceHash}.json`;
 }
 
-function git(root, args, { input = '', acceptedCodes = [0], environment = {} } = {}) {
+function git(root, args, { input = '', acceptedCodes = [0], environment = {}, localFixture = false } = {}) {
   return new Promise((resolvePromise, reject) => {
-    const child = spawn('git', ['-c', 'core.hooksPath=/dev/null', ...args], {
+    const child = spawn('git', [...PRIVATE_STATE_GIT_ARGUMENTS, ...args], {
       cwd: root,
-      env: { ...process.env, GIT_TERMINAL_PROMPT: '0', GCM_INTERACTIVE: 'Never', ...environment },
+      env: privateStateGitEnvironment({ tokenConfiguration: environment, localFixture }),
       stdio: ['pipe', 'pipe', 'pipe'],
     });
     const chunks = [];
@@ -470,12 +471,12 @@ export async function createGitStateStore({ root, branch = 'automation/aft-edito
     }
     await verifyPrivateRepository();
     storageDirectory = await mkdtemp(join(tmpdir(), 'aft-private-editorial-state-'));
-    try { await git(directory, ['init', '--bare', storageDirectory]); }
+    try { await git(directory, ['init', '--bare', '--template=', storageDirectory]); }
     catch (error) { await rm(storageDirectory, { recursive: true, force: true }); throw error; }
   }
   const fetchUrl = fixture ? fetchUrls[0] : privateUrl;
   const pushUrl = fixture ? pushUrls[0] : privateUrl;
-  const stateGit = (args, options = {}) => git(storageDirectory, args, { ...options, environment });
+  const stateGit = (args, options = {}) => git(storageDirectory, args, { ...options, environment, localFixture: fixture });
   let expected;
   let loaded = false;
   let snapshot;
