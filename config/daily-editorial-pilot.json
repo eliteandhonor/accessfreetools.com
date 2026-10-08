@@ -6,10 +6,10 @@
   "timezone": "Australia/Brisbane",
   "stateBranch": "automation/aft-editorial-state",
   "stateRepository": "eliteandhonor/accessfreetools-editorial-state",
-  "privateStoreApproval": null,
-  "statePreflightAllowEmptyBaseline": false,
+  "privateStoreApproval": "aft-storage-only-preflight-v1",
+  "statePreflightAllowEmptyBaseline": true,
   "inputCommit": "c843a6c52434733eb99672088713dd34ae724252",
-  "activationReview": null,
+  "activationReview": "aft-storage-only-preflight-v1",
   "contextReview": null,
   "sharedBudgetAllocation": null,
   "allocationProposal": {
