@@ -1,0 +1,121 @@
+name: LocalSend held editorial pilot (dormant)
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Offline checks, or the exact approved held provider pilot
+        type: choice
+        options: [offline, state-preflight, live-pilot]
+        default: offline
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aft-daily-editorial
+  cancel-in-progress: false
+
+jobs:
+  offline:
+    if: inputs.mode == 'offline'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+        env:
+          ONNXRUNTIME_NODE_INSTALL: skip
+      - run: npm run editorial:pilot:offline
+
+  state-preflight:
+    if: inputs.mode == 'state-preflight' && github.repository == 'eliteandhonor/accessfreetools.com' && github.ref == 'refs/heads/main' && vars.AFT_EDITORIAL_PILOT_APPROVED != '' && github.sha == vars.AFT_EDITORIAL_PILOT_CODE_SHA
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      AFT_EDITORIAL_PILOT_APPROVED: ${{ vars.AFT_EDITORIAL_PILOT_APPROVED }}
+      AFT_EDITORIAL_PILOT_CODE_SHA: ${{ vars.AFT_EDITORIAL_PILOT_CODE_SHA }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Verify the approved private state round trip
+        env:
+          AFT_EDITORIAL_STATE_TOKEN: ${{ secrets.AFT_EDITORIAL_STATE_TOKEN }}
+        run: node scripts/daily-editorial-pilot.mjs --state-preflight
+      - name: Preserve only the safe state proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-editorial-state-preflight
+          path: output/daily-editorial-pilot/state-preflight.json
+          if-no-files-found: ignore
+
+  live-pilot:
+    if: inputs.mode == 'live-pilot' && github.repository == 'eliteandhonor/accessfreetools.com' && github.ref == 'refs/heads/main' && vars.AFT_EDITORIAL_PILOT_APPROVED != '' && github.sha == vars.AFT_EDITORIAL_PILOT_CODE_SHA
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    env:
+      AFT_EDITORIAL_PILOT_APPROVED: ${{ vars.AFT_EDITORIAL_PILOT_APPROVED }}
+      AFT_EDITORIAL_PILOT_CODE_SHA: ${{ vars.AFT_EDITORIAL_PILOT_CODE_SHA }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - name: Verify the exact approved configuration and code
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+          import { readPilotCodeIdentity } from './scripts/lib/daily-editorial-code-admission.mjs';
+          const config = JSON.parse(readFileSync('config/daily-editorial-pilot.json', 'utf8'));
+          const review = process.env.AFT_EDITORIAL_PILOT_APPROVED;
+          const approvedCode = process.env.AFT_EDITORIAL_PILOT_CODE_SHA;
+          const { codeCommit: currentCode, clean } = readPilotCodeIdentity(process.cwd());
+          if (config.enabled !== true || !review || config.activationReview !== review) {
+            throw new Error('PILOT_APPROVAL_REQUIRED');
+          }
+          if (config.contextReview?.decision !== 'context-units-approved' ||
+              typeof config.contextReview.ref !== 'string' || !config.contextReview.ref.trim()) {
+            throw new Error('PILOT_CONTEXT_REVIEW_REQUIRED');
+          }
+          if (!/^[a-f0-9]{40}$/.test(approvedCode ?? '') || currentCode !== approvedCode || !clean) {
+            throw new Error('PILOT_CODE_APPROVAL_REQUIRED');
+          }
+          NODE
+      - run: npm ci
+        env:
+          ONNXRUNTIME_NODE_INSTALL: skip
+      - name: Run the held provider pilot
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          AFT_EDITORIAL_STATE_TOKEN: ${{ secrets.AFT_EDITORIAL_STATE_TOKEN }}
+          JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
+          OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+        run: node scripts/daily-editorial-pilot.mjs --run
+      - name: Preserve only the safe pilot outcome
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-editorial-pilot-outcome
+          path: output/daily-editorial-pilot/latest.json
+          if-no-files-found: ignore

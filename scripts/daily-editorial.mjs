@@ -29,7 +29,7 @@ try {
   if (!config.enabled || !config.publicationEnabled || !config.activationReview || !config.hostingAutoDeployVerified || !config.sharedBudgetAllocation ||
       process.env.AFT_EDITORIAL_ACTIVATED !== config.activationReview || process.env.GITHUB_REPOSITORY !== config.repository ||
       config.repository !== 'eliteandhonor/accessfreetools.com' || process.env.GITHUB_REF !== 'refs/heads/main') throw new EditorialHold('ACTIVATION_REQUIRED');
-  const missing = ['JINA_API_KEY', 'OLLAMA_API_KEY', 'TYPESAFE_API_KEY'].filter((name) => !process.env[name]);
+  const missing = ['JINA_API_KEY', 'OLLAMA_API_KEY', 'TYPESAFE_API_KEY', 'AFT_EDITORIAL_STATE_TOKEN'].filter((name) => !process.env[name]);
   if (missing.length) { console.error(`Missing credential names: ${missing.join(', ')}`); process.exit(1); }
   const allocation = config.sharedBudgetAllocation;
   if (!allocation.reviewRef || !allocation.sharedCaps || !allocation.gtaCaps || !allocation.aftCaps ||
@@ -41,8 +41,8 @@ try {
         Number.isSafeInteger(allocation.sharedCallCaps[provider]) && allocation.aftCallCaps[provider] + allocation.gtaCallCaps[provider] <= allocation.sharedCallCaps[provider])) throw new EditorialHold('SHARED_BUDGET_COORDINATION_REQUIRED');
   const keys = { jina: process.env.JINA_API_KEY, ollama: process.env.OLLAMA_API_KEY, typesafe: process.env.TYPESAFE_API_KEY };
   store = await createGitStateStore({ root, branch: config.stateBranch, activated: true,
-    stateRepository: config.stateRepository, privateStoreApproval: config.privateStoreApproval, stateToken: process.env.GITHUB_TOKEN,
-    readRepositoryMetadata: (repository) => privateRepositoryMetadata(repository, { token: process.env.GITHUB_TOKEN }) });
+    stateRepository: config.stateRepository, privateStoreApproval: config.privateStoreApproval, stateToken: process.env.AFT_EDITORIAL_STATE_TOKEN,
+    readRepositoryMetadata: (repository) => privateRepositoryMetadata(repository, { token: process.env.AFT_EDITORIAL_STATE_TOKEN }) });
   const state = await store.load();
   // This built catalog covers existing owner posts and guides as well as daily posts.
   const posts = JSON.parse(readFileSync('dist/blog-search-index.json', 'utf8')).posts;

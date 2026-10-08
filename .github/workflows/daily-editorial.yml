@@ -59,6 +59,7 @@ jobs:
       - name: Research, check, hold or commit one article
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          AFT_EDITORIAL_STATE_TOKEN: ${{ secrets.AFT_EDITORIAL_STATE_TOKEN }}
           JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
           TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}

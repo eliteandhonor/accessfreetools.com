@@ -126,14 +126,19 @@ article projection and an intentionally sanitized review receipt. Extra Ollama
 review fields hold publication; operational artifacts use an explicit allowlist.
 Do not feed reader documents or credential-bearing URLs into this pipeline.
 
-No existing private state destination or Actions runtime access has been proven.
-The existing AFT `GITHUB_TOKEN` is repository-scoped and cannot authorize a
-separate private state repository. Parent coordination must choose an existing
-authorized private versioned store, or arrange an owner-approved private state
-repository and existing credential/access route. This PR creates no repository,
-credential, permission grant or storage branch. It does not reuse provider API
-keys as storage credentials. Missing access or privacy verification holds before
-paid dispatch and never creates a replacement empty ledger.
+The owner and parent operator verified the private repository
+`eliteandhonor/accessfreetools-editorial-state` and the AFT secret name
+`AFT_EDITORIAL_STATE_TOKEN` on 2026-10-08. Runtime authentication and durable
+checkpoint/read-back proof remain unverified. The token uses Metadata read and
+Contents read/write for that private repository only; its reported expiry is
+2026-11-07. Private storage approval references remain unset.
+
+The AFT `GITHUB_TOKEN` is repository-scoped and serves public code operations.
+Private metadata, input retrieval and checkpoints use the separate state token.
+This implementation creates no repository, credential or permission grant.
+Missing access or privacy verification holds before paid dispatch and never
+creates a replacement empty ledger. The bounded manual state check is described
+in `docs/daily-editorial-pilot.md`.
 
 ## Credentials and proposed shared daily budget
 
@@ -143,6 +148,7 @@ Their authentication remains untested; values were not opened:
 - `JINA_API_KEY`
 - `OLLAMA_API_KEY`
 - `TYPESAFE_API_KEY`
+- `AFT_EDITORIAL_STATE_TOKEN` (private state only)
 
 Their presence in GTA establishes nothing about AFT. No secret values are read,
 copied, logged or transferred during setup. The owner enters existing keys in
