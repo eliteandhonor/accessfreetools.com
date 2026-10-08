@@ -120,6 +120,9 @@ export async function runDailyEditorial({ config, state, store, catalog = [], no
   const day = brisbaneDay(now);
   await reconcilePublicationIntents({ state, store, publish });
   const record = beginDay(state, day);
+  // An unpublished pilot consumes this local day's explicitly separate grant.
+  // It may resume through its own runner; the daily selector cannot reuse it.
+  if (record.purpose === 'unpublished-localsend-pilot') return { ...record, status: 'held', reason: 'DAY_RESERVED_FOR_PILOT' };
   if (['held', 'published', 'skipped'].includes(record.status)) return record;
   await store.checkpoint(state);
   const paid = (params) => paidCall({ state, store, day, config, ...params });

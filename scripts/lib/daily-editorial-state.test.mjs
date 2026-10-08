@@ -1,13 +1,15 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { chmod, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import {
-  MAX_STATE_BYTES, beginDay, brisbaneDay, compactState, completeCall, createGitStateStore,
+  MAX_PILOT_GRANTS, MAX_STATE_BYTES, beginDay, brisbaneDay, compactState, completeCall, createGitStateStore,
   createLocalStateStore, holdDay, markPublished, newState, reserveCall, validateState,
 } from './daily-editorial-state.mjs';
+import { MAX_PRIVATE_INPUT_BYTES, MAX_PRIVATE_INPUT_FILE_BYTES, readPinnedPrivateInputBundle } from './daily-editorial-private-input.mjs';
 
 const run = promisify(execFile);
 const temporaryDirectories = [];
@@ -39,7 +41,83 @@ async function gitFixture() {
   return { root, remote, store: () => createGitStateStore({ root, fixtureRemote: remote }) };
 }
 
+const inputPrefix = 'inputs/localsend-held-pilot/v2/';
+function pilotGrant(index = 0) {
+  return { day: new Date(Date.UTC(2025, 0, 1 + index)).toISOString().slice(0, 10),
+    manifestSha256: index.toString(16).padStart(64, '0'), budgetSha256: 'b'.repeat(64),
+    inputCommit: index.toString(16).padStart(40, '0'), grantReview: `offline-once-only-grant-${index}` };
+}
+async function seedInput(fixture, entries, { executable, link } = {}) {
+  await mkdir(join(fixture.root, inputPrefix), { recursive: true });
+  for (const [name, content] of Object.entries(entries)) await writeFile(join(fixture.root, inputPrefix, name), content);
+  if (executable) await chmod(join(fixture.root, inputPrefix, executable), 0o755);
+  if (link) await symlink('pilot-input-manifest.json', join(fixture.root, inputPrefix, link));
+  await run('git', ['-C', fixture.root, 'add', '--all']);
+  await run('git', ['-C', fixture.root, '-c', 'user.name=Offline input fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-m', 'Immutable private input fixture']);
+  const { stdout } = await run('git', ['-C', fixture.root, 'rev-parse', 'HEAD']);
+  await run('git', ['-C', fixture.root, 'push', fixture.remote, 'HEAD:refs/heads/fixture-inputs']);
+  return stdout.trim();
+}
+
 describe('daily editorial state and conservative budgets', () => {
+  it('validates permanent one-time pilot identities and holds malformed/duplicate/capped grant history', () => {
+    const state = newState();
+    expect(validateState(state)).toBe(state);
+    state.pilotGrants = [pilotGrant()];
+    expect(validateState(state)).toBe(state);
+    for (const mutation of [
+      (grant) => { grant.manifestSha256 = 'malformed'; }, (grant) => { grant.budgetSha256 = 'malformed'; },
+      (grant) => { grant.inputCommit = 'main'; }, (grant) => { grant.grantReview = 'unsafe review\n'; },
+      (grant) => { grant.extraPayload = 'private raw payload'; }, (grant) => { delete grant.grantReview; },
+    ]) {
+      const broken = structuredClone(state); mutation(broken.pilotGrants[0]);
+      expect(() => validateState(broken)).toThrow('exact bounded identity');
+    }
+    for (const key of ['day', 'manifestSha256', 'grantReview']) {
+      const broken = structuredClone(state);
+      const second = pilotGrant(1); second[key] = broken.pilotGrants[0][key]; broken.pilotGrants.push(second);
+      expect(() => validateState(broken)).toThrow('reused day, bundle or grant');
+    }
+    state.pilotGrants = Array.from({ length: MAX_PILOT_GRANTS }, (_, index) => pilotGrant(index));
+    expect(validateState(state)).toBe(state);
+    state.pilotGrants.push(pilotGrant(MAX_PILOT_GRANTS));
+    expect(() => validateState(state)).toThrow('new grants remain held');
+  });
+
+  it('requires a permanent pilot identity to agree with its retained active day metadata', () => {
+    const state = newState();
+    const grant = pilotGrant();
+    const record = beginDay(state, grant.day);
+    record.purpose = 'unpublished-localsend-pilot';
+    record.pilot = { ...grant }; delete record.pilot.day;
+    state.pilotGrants = [grant];
+    expect(validateState(state)).toBe(state);
+    record.pilot.inputCommit = 'e'.repeat(40);
+    expect(() => validateState(state)).toThrow('retained day metadata disagree');
+  });
+
+  it('retains the permanent pilot grant when historic payload is compacted and its entire day is pruned', () => {
+    const state = newState();
+    const grant = pilotGrant();
+    const record = beginDay(state, grant.day);
+    record.purpose = 'unpublished-localsend-pilot';
+    record.pilot = { ...grant, result: 'reviewed-unpublished' }; delete record.pilot.day;
+    record.article = { body: 'Private archived draft fixture.' };
+    state.pilotGrants = [grant];
+    holdDay(state, grant.day, 'PILOT_COMPLETE_UNPUBLISHED');
+    for (let index = 1; index < 367; index += 1) {
+      const date = new Date(Date.UTC(2025, 0, 1 + index)).toISOString().slice(0, 10);
+      state.days[date] = { attempt: 1, status: 'held', startedAt: `${date}T00:00:00Z`, calls: {}, budget: { providers: {} }, reason: 'Offline held day.' };
+    }
+    const compacted = compactState(state, '2026-01-03', { commit: 'c'.repeat(40), snapshot: structuredClone(state) });
+    expect(compacted.days[grant.day]).toBeUndefined();
+    expect(compacted.pilotGrants).toEqual([grant]);
+    expect(validateState(compacted)).toBe(compacted);
+    const duplicate = { ...pilotGrant(400), manifestSha256: grant.manifestSha256 };
+    compacted.pilotGrants.push(duplicate);
+    expect(() => validateState(compacted)).toThrow('reused day, bundle or grant');
+  });
+
   it('uses the Brisbane local day at the UTC boundary, independently of daylight saving elsewhere', () => {
     expect(brisbaneDay('2026-10-08T13:59:59Z')).toBe('2026-10-08');
     expect(brisbaneDay('2026-10-08T14:00:00Z')).toBe('2026-10-09');
@@ -304,13 +382,38 @@ describe('automatic historical payload compaction', () => {
 });
 
 describe('Git checkpoint compare-and-swap with local bare fixtures only', () => {
+  it('can append exactly unchanged state for a storage proof without compacting old payload', async () => {
+    const fixture = await gitFixture();
+    const store = await createGitStateStore({ root: fixture.root, fixtureRemote: fixture.remote, now: () => '2026-10-09T00:00:00Z' });
+    const state = await store.load();
+    beginDay(state, day).article = { body: 'Private original fixture must survive unchanged proof.' };
+    holdDay(state, day, 'Offline held fixture.');
+    await store.checkpoint(state, { compact: false });
+    const original = structuredClone(state);
+    const options = { compact: false };
+    const inProgress = store.checkpoint(state, options);
+    options.compact = true;
+    const unchanged = await inProgress;
+    expect(store.currentCommit()).toBe(unchanged.commit);
+    expect(state).toEqual(original);
+    expect(await store.load()).toEqual(original);
+    await expect(store.checkpoint(state, { compact: 'false' })).rejects.toMatchObject({ code: 'INVALID_STORE_OPTION' });
+    await expect(store.checkpoint(state, { unrelated: true })).rejects.toMatchObject({ code: 'INVALID_STORE_OPTION' });
+    await store.checkpoint(state);
+    expect(state.days[day].article).toBeUndefined();
+    expect(state.days[day].archive).toBeDefined();
+  });
+
   it('creates an orphan branch, appends checkpoints, and reloads conservative budgets', async () => {
     const fixture = await gitFixture();
     const store = await fixture.store();
+    expect(() => store.currentCommit()).toThrow('Load the latest state');
     const state = await store.load();
+    expect(store.currentCommit()).toBe('');
     beginDay(state, day);
     reserve(state);
     const first = await store.checkpoint(state);
+    expect(store.currentCommit()).toBe(first.commit);
     expect(first.durable).toBe(true);
     const restart = await fixture.store();
     const recovered = await restart.load();
@@ -460,6 +563,121 @@ describe('Git checkpoint compare-and-swap with local bare fixtures only', () => 
       expect(config).not.toContain(sentinel);
       expect(config).not.toContain(Buffer.from(`x-access-token:${sentinel}`).toString('base64'));
     } finally { await store.dispose(); }
+  });
+});
+
+describe('pinned private pilot inputs with local bare fixtures only', () => {
+  it('snapshots the validated inventory before metadata/transport can mutate the caller array', async () => {
+    const commit = 'a'.repeat(40);
+    const blob = 'b'.repeat(40);
+    const approvedPath = `${inputPrefix}manifest.json`;
+    const files = [approvedPath];
+    const requested = [];
+    let metadataReads = 0;
+    const result = await readPinnedPrivateInputBundle({ commit, files, fetchUrl: '/offline-fixture-only',
+      verifyPrivateRepository: async () => { metadataReads += 1; files[0] = 'outside-approved-prefix.json'; files.push('state.json'); },
+      git: async (args) => {
+        if (args[0] === 'fetch' || args[0] === 'update-ref') return { output: '' };
+        if (args[0] === 'rev-parse') return { output: commit };
+        if (args[0] === 'ls-tree') { requested.push(args.at(-1)); return { output: Buffer.from(`100644 blob ${blob}\t${args.at(-1)}\0`) }; }
+        if (args[1] === '-t') return { output: 'commit' };
+        if (args[1] === '-s') return { output: '3' };
+        return { output: Buffer.from('{}\n') };
+      } });
+    expect(requested).toEqual([approvedPath]);
+    expect(Object.keys(result.files)).toEqual([approvedPath]);
+    expect(metadataReads).toBe(2);
+  });
+
+  it('preserves exact UTF-8 bytes and immutable input despite a moved seed branch, without changing the daily ledger', async () => {
+    const fixture = await gitFixture();
+    const original = '\uFEFF{"privateDraft":"offline-raw-sentinel"}\n\n';
+    const inputCommit = await seedInput(fixture, { 'pilot-input-manifest.json': original, 'final-budget-proposal.json': '{}\n' });
+    const store = await fixture.store();
+    const state = await store.load();
+    beginDay(state, day);
+    reserve(state);
+    const checkpoint = await store.checkpoint(state);
+    await seedInput(fixture, { 'pilot-input-manifest.json': '{"changed":true}\n' });
+    const files = ['pilot-input-manifest.json', 'final-budget-proposal.json'].map((name) => `${inputPrefix}${name}`);
+    const bundle = await store.readInputBundle({ commit: inputCommit, files });
+    expect(bundle.commit).toBe(inputCommit);
+    expect(bundle.files[files[0]]).toBe(original);
+    expect(bundle.sha256[files[0]]).toBe(createHash('sha256').update(original).digest('hex'));
+    expect(bundle.bytes[files[0]]).toBe(Buffer.byteLength(original));
+    expect(bundle.totalBytes).toBe(Buffer.byteLength(original) + 3);
+    expect((await store.load()).days[day].calls['research-1'].status).toBe('pending');
+    const { stdout } = await run('git', ['--git-dir', fixture.remote, 'rev-parse', 'automation/aft-editorial-state']);
+    expect(stdout.trim()).toBe(checkpoint.commit);
+    expect((await run('git', ['-C', fixture.root, 'for-each-ref', '--format=%(refname)', 'refs/aft-editorial-inputs'])).stdout).toBe('');
+  });
+
+  it('rejects missing files, symlinks and executable file modes without following or executing them', async () => {
+    const fixture = await gitFixture();
+    const commit = await seedInput(fixture, { 'pilot-input-manifest.json': '{}\n', 'executable.json': 'untrusted executable fixture\n' }, { executable: 'executable.json', link: 'link.json' });
+    const store = await fixture.store();
+    for (const file of ['missing.json', 'link.json', 'executable.json']) {
+      await expect(store.readInputBundle({ commit, files: [`${inputPrefix}${file}`] })).rejects.toMatchObject({ code: 'PRIVATE_INPUT_FILE_INVALID' });
+    }
+  });
+
+  it('rejects branch names, URL/path injection, traversal, duplicates and oversized inventories before fetch', async () => {
+    const fixture = await gitFixture();
+    const store = await fixture.store();
+    const commit = 'a'.repeat(40);
+    for (const value of ['main', `${commit}:state.json`, `--upload-pack=command`, 'https://example.invalid/source']) {
+      await expect(store.readInputBundle({ commit: value, files: [`${inputPrefix}manifest.json`] })).rejects.toMatchObject({ code: 'PRIVATE_INPUT_COMMIT_REQUIRED' });
+    }
+    for (const files of [[], [`${inputPrefix}../secret.json`], [`${inputPrefix}sub/../../secret.json`], [`${inputPrefix}https://example.invalid/a`],
+      ['state.json'], [`${inputPrefix}manifest.json`, `${inputPrefix}manifest.json`], [`${inputPrefix}manifest.json`, 'inputs/localsend-held-pilot/v1/manifest.json'],
+      Array.from({ length: 65 }, (_, index) => `${inputPrefix}${index}.json`)]) {
+      await expect(store.readInputBundle({ commit, files })).rejects.toMatchObject({ code: 'PRIVATE_INPUT_INVENTORY_INVALID' });
+    }
+    expect((await run('git', ['-C', fixture.root, 'count-objects', '-v'])).stdout).toContain('count: 0');
+  });
+
+  it('rejects invalid UTF-8 and NUL text while preserving the unknown-call ledger', async () => {
+    const fixture = await gitFixture();
+    const commit = await seedInput(fixture, { 'invalid.json': Buffer.from([0xff, 0xfe]), 'nul.json': 'text\0private' });
+    const store = await fixture.store();
+    const state = await store.load();
+    beginDay(state, day);
+    reserve(state);
+    completeCall(state, { day, id: 'research-1', status: 'unknown' });
+    await store.checkpoint(state);
+    for (const name of ['invalid.json', 'nul.json']) {
+      await expect(store.readInputBundle({ commit, files: [`${inputPrefix}${name}`] })).rejects.toMatchObject({ code: 'PRIVATE_INPUT_UTF8_INVALID' });
+    }
+    const recovered = await store.load();
+    expect(recovered.days[day].budget.providers.jina).toEqual({ units: 40, calls: 1 });
+    expect(() => beginDay(recovered, '2026-10-09')).toThrow('unresolved');
+  });
+
+  it('enforces per-file and total bundle byte limits', async () => {
+    const fixture = await gitFixture();
+    const parts = Math.floor(MAX_PRIVATE_INPUT_BYTES / MAX_PRIVATE_INPUT_FILE_BYTES) + 1;
+    const entries = { 'oversize.json': 'x'.repeat(MAX_PRIVATE_INPUT_FILE_BYTES + 1) };
+    for (let index = 0; index < parts; index += 1) entries[`part-${index}.json`] = 'x'.repeat(MAX_PRIVATE_INPUT_FILE_BYTES);
+    const commit = await seedInput(fixture, entries);
+    const store = await fixture.store();
+    const rejected = (files) => store.readInputBundle({ commit, files }).then(() => null, (error) => error.code);
+    expect(await rejected([`${inputPrefix}oversize.json`])).toBe('PRIVATE_INPUT_LIMIT');
+    expect(await rejected(Array.from({ length: parts }, (_, index) => `${inputPrefix}part-${index}.json`))).toBe('PRIVATE_INPUT_LIMIT');
+  });
+
+  it('rechecks actual private metadata before input fetch and blocks a disposed store without network requests', async () => {
+    const fixture = await gitFixture();
+    await run('git', ['-C', fixture.root, 'remote', 'set-url', 'origin', 'https://github.com/eliteandhonor/accessfreetools.com.git']);
+    const repository = 'eliteandhonor/aft-private-state-fixture';
+    let reads = 0;
+    const store = await createGitStateStore({ root: fixture.root, stateRepository: repository, privateStoreApproval: 'offline-fixture-review',
+      readRepositoryMetadata: async () => ({ full_name: repository, private: ++reads === 1, visibility: reads === 1 ? 'private' : 'public' }) });
+    try {
+      await expect(store.readInputBundle({ commit: 'a'.repeat(40), files: [`${inputPrefix}manifest.json`] })).rejects.toMatchObject({ code: 'PRIVATE_STATE_REPOSITORY_NOT_PRIVATE' });
+      expect(reads).toBe(2);
+      expect((await run('git', ['-C', fixture.root, 'count-objects', '-v'])).stdout).toContain('count: 0');
+    } finally { await store.dispose(); }
+    await expect(store.readInputBundle({ commit: 'a'.repeat(40), files: [`${inputPrefix}manifest.json`] })).rejects.toMatchObject({ code: 'STATE_STORE_DISPOSED' });
   });
 });
 

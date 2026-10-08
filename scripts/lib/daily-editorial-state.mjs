@@ -5,8 +5,10 @@ import { open, readFile, realpath, rename, mkdir, mkdtemp, rm, unlink } from 'no
 import { dirname, join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { PRIVATE_STATE_GIT_ARGUMENTS, privateStateGitEnvironment } from './private-state-git-environment.mjs';
+import { readPinnedPrivateInputBundle } from './daily-editorial-private-input.mjs';
 
 export const MAX_STATE_BYTES = 1024 * 1024;
+export const MAX_PILOT_GRANTS = 128;
 const MAX_RECEIPT_BYTES = 256 * 1024;
 const TARGET_REPOSITORY = 'eliteandhonor/accessfreetools.com';
 const DAY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
@@ -103,6 +105,31 @@ export function validateState(state, { checkSize = true } = {}) {
   if (state.published.some((entry) => !state.days[entry.day] && (!COMMIT_PATTERN.test(entry.stateCommit) || !/^[a-f0-9]{64}$/.test(entry.recordHash)))) {
     fail('INVALID_STATE', 'Publication ledger has no corresponding day or immutable archived record.');
   }
+  if (state.pilotGrants !== undefined) {
+    if (!Array.isArray(state.pilotGrants)) fail('INVALID_PILOT_GRANT', 'Permanent pilot grants must be an array.');
+    if (state.pilotGrants.length > MAX_PILOT_GRANTS) fail('PILOT_GRANT_LIMIT', 'Permanent pilot grant history reached its bound; new grants remain held.');
+    const fields = ['day', 'manifestSha256', 'budgetSha256', 'inputCommit', 'grantReview'];
+    const days = new Set();
+    const manifests = new Set();
+    const reviews = new Set();
+    for (const grant of state.pilotGrants) {
+      if (!object(grant) || Object.keys(grant).length !== fields.length || !fields.every((key) => Object.hasOwn(grant, key)) ||
+        !/^[a-f0-9]{64}$/.test(grant.manifestSha256) || !/^[a-f0-9]{64}$/.test(grant.budgetSha256) ||
+        !COMMIT_PATTERN.test(grant.inputCommit) || typeof grant.grantReview !== 'string' ||
+        !/^[A-Za-z0-9][A-Za-z0-9_.:/#@-]{0,239}$/.test(grant.grantReview)) {
+        fail('INVALID_PILOT_GRANT', 'Permanent pilot grants require exact bounded identity metadata.');
+      }
+      validDay(grant.day);
+      if (days.has(grant.day) || manifests.has(grant.manifestSha256) || reviews.has(grant.grantReview)) {
+        fail('INVALID_PILOT_GRANT', 'Permanent pilot grant history contains a reused day, bundle or grant.');
+      }
+      days.add(grant.day); manifests.add(grant.manifestSha256); reviews.add(grant.grantReview);
+      const record = state.days[grant.day];
+      if (record?.purpose === 'unpublished-localsend-pilot' && fields.slice(1).some((key) => record.pilot?.[key] !== grant[key])) {
+        fail('INVALID_PILOT_GRANT', 'Permanent pilot grant and its retained day metadata disagree.');
+      }
+    }
+  }
   if (state.archiveHistory) {
     validDay(state.archiveHistory.throughDay);
     if (!COMMIT_PATTERN.test(state.archiveHistory.stateCommit)) fail('INVALID_ARCHIVE', 'Historical ledger requires an immutable archive proof.');
@@ -133,7 +160,8 @@ function hash(value) {
  * Remove completed historical payloads only with proof of an immutable full prior
  * snapshot. Git commit ancestry (or local content-addressed fixtures) retains the
  * original evidence and every provider budget. Recent 365 day records retain call
- * metadata; the permanent publication ledger retains project/slug duplicate checks.
+ * metadata; permanent publication and pilot grant ledgers retain duplicate checks.
+ * Pilot grants never expire or compact; their cap holds new grants instead.
  */
 export function compactState(state, currentDay, { commit, snapshot } = {}) {
   validateState(state, { checkSize: false });
@@ -190,6 +218,7 @@ function applyCompaction(state, compacted) {
     else if (JSON.stringify(state.days[day]) !== JSON.stringify(compacted.days[day])) state.days[day] = compacted.days[day];
   }
   state.published = compacted.published;
+  if (compacted.pilotGrants !== undefined) state.pilotGrants = compacted.pilotGrants;
   if (compacted.archiveHistory) state.archiveHistory = compacted.archiveHistory;
 }
 
@@ -377,7 +406,7 @@ function joinArchivePath(path, sourceHash) {
   return `${path}.archive/${sourceHash}.json`;
 }
 
-function git(root, args, { input = '', acceptedCodes = [0], environment = {}, localFixture = false } = {}) {
+function git(root, args, { input = '', acceptedCodes = [0], environment = {}, localFixture = false, rawOutput = false } = {}) {
   return new Promise((resolvePromise, reject) => {
     const child = spawn('git', [...PRIVATE_STATE_GIT_ARGUMENTS, ...args], {
       cwd: root,
@@ -394,7 +423,8 @@ function git(root, args, { input = '', acceptedCodes = [0], environment = {}, lo
     child.on('close', (code) => {
       if (overflow) return reject(Object.assign(new Error('Git state output exceeded its bound.'), { code: 'STATE_LIMIT' }));
       if (!acceptedCodes.includes(code)) return reject(Object.assign(new Error(`Git state ${args[0]} failed; paid calls remain blocked.`), { code: 'GIT_FAILED', exitCode: code }));
-      resolvePromise({ output: Buffer.concat(chunks).toString('utf8').trimEnd(), code });
+      const output = Buffer.concat(chunks);
+      resolvePromise({ output: rawOutput ? output : output.toString('utf8').trimEnd(), code });
     });
     child.stdin.on('error', () => {});
     child.stdin.end(input);
@@ -415,6 +445,8 @@ function allowedRemote(url) {
  * construction, every load/checkpoint, and push. Missing access never resets state.
  * stateToken uses an existing authorized token through scoped child environment
  * Git config only; it is never persisted, passed in argv, or added to a helper.
+ * readInputBundle({commit,files}) reads only a caller's fixed approved pilot
+ * inventory at an immutable private commit, preserving exact UTF-8 text bytes.
  * fixtureRemote is accepted ONLY for a local bare repo named in that explicit option.
  */
 export async function createGitStateStore({ root, branch = 'automation/aft-editorial-state', remote = 'origin', activated = false,
@@ -483,10 +515,19 @@ export async function createGitStateStore({ root, branch = 'automation/aft-edito
   let disposed = false;
   const ref = `refs/heads/${branch}`;
   return {
+    currentCommit() {
+      if (disposed) fail('STATE_STORE_DISPOSED', 'The private state store has been disposed.');
+      if (!loaded) fail('STATE_NOT_LOADED', 'Load the latest state before reading its commit.');
+      return expected;
+    },
     async dispose() {
       loaded = false;
       disposed = true;
       if (!fixture) await rm(storageDirectory, { recursive: true, force: true });
+    },
+    async readInputBundle({ commit, files } = {}) {
+      if (disposed) fail('STATE_STORE_DISPOSED', 'The private state store has been disposed.');
+      return readPinnedPrivateInputBundle({ commit, files, git: stateGit, verifyPrivateRepository, fetchUrl });
     },
     async load() {
       loaded = false;
@@ -504,12 +545,16 @@ export async function createGitStateStore({ root, branch = 'automation/aft-edito
         return state;
       } finally { await stateGit(['update-ref', '-d', temporaryRef]); }
     },
-    async checkpoint(state) {
+    async checkpoint(state, options = {}) {
+      if (!object(options) || Object.keys(options).some((key) => key !== 'compact')) fail('INVALID_STORE_OPTION', 'Checkpoint compaction must be an explicit boolean.');
+      const requestedCompaction = options.compact;
+      if (requestedCompaction !== undefined && typeof requestedCompaction !== 'boolean') fail('INVALID_STORE_OPTION', 'Checkpoint compaction must be an explicit boolean.');
+      const shouldCompact = requestedCompaction !== false;
       if (!fixture && activated !== true) fail('NOT_ACTIVATED', 'Production state writes are disabled until activation.');
       if (disposed) fail('STATE_STORE_DISPOSED', 'The private state store has been disposed.');
       await verifyPrivateRepository();
       if (!loaded) fail('STATE_NOT_LOADED', 'Load the latest state before checkpointing.');
-      const compacted = compactState(state, brisbaneDay(now()), { commit: expected, snapshot });
+      const compacted = shouldCompact ? compactState(state, brisbaneDay(now()), { commit: expected, snapshot }) : validateState(structuredClone(state));
       const data = serialize(compacted);
       const blob = (await stateGit(['hash-object', '-w', '--stdin'], { input: data })).output;
       const tree = (await stateGit(['mktree'], { input: `100644 blob ${blob}\tstate.json\n` })).output;
