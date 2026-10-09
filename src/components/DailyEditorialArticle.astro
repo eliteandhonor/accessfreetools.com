@@ -1,12 +1,13 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { getDailyEditorialImage, type DailyEditorialArticle } from '../data/dailyEditorialArticles';
+import type { DailyEditorialArticle } from '../data/dailyEditorialArticles';
+import { getDailyEditorialImage } from '../data/dailyEditorialArtwork';
 import { formatDisplayDate } from '../data/siteDates';
 
 interface Props { article: DailyEditorialArticle; }
 const { article } = Astro.props;
 const path = `/blog/${article.slug}/`;
-const image = getDailyEditorialImage(article.slug);
+const image = getDailyEditorialImage(article);
 const sourceIndex = new Map(article.sources.map((source, index) => [source.id, index + 1]));
 const articleStructuredData = {
   '@context': 'https://schema.org',
@@ -14,7 +15,7 @@ const articleStructuredData = {
   headline: article.title,
   description: article.summary,
   mainEntityOfPage: new URL(path, Astro.site ?? 'https://accessfreetools.com').toString(),
-  image: new URL(image.imagePath, Astro.site ?? 'https://accessfreetools.com').toString(),
+  ...(image ? { image: new URL(image.imagePath, Astro.site ?? 'https://accessfreetools.com').toString() } : {}),
   datePublished: article.publishedAt,
   dateModified: article.publishedAt,
   inLanguage: 'en',
@@ -39,7 +40,8 @@ const breadcrumbJson = JSON.stringify({
 ---
 
 <BaseLayout title={`${article.title} | Access Free Tools`} description={article.summary} path={path}
-  ogType="article" socialImagePath={image.imagePath} socialImageAlt={image.alt} renderAdvertising={false}>
+  ogType="article" socialImagePath={image?.imagePath} socialImageAlt={image?.alt}
+  renderSocialImage={image !== null} renderAdvertising={false}>
   <script type="application/ld+json" set:html={structuredDataJson} />
   <script type="application/ld+json" set:html={breadcrumbJson} />
   <article class="blog-article editorial-article" data-daily-editorial={article.slug}>
@@ -51,10 +53,10 @@ const breadcrumbJson = JSON.stringify({
       <p>{article.problem}</p>
       <p>{article.summary}</p>
     </header>
-    <figure class="tool-art-figure editorial-hero-figure">
-      <img src={image.imagePath} alt={image.alt} width="1200" height="630" loading="eager" decoding="async" fetchpriority="high" />
+    {image && <figure class="tool-art-figure editorial-hero-figure">
+      <img src={image.imagePath} alt={image.alt} width={image.width} height={image.height} loading="eager" decoding="async" fetchpriority="high" />
       <figcaption>{image.caption}</figcaption>
-    </figure>
+    </figure>}
     <div class="blog-article-layout editorial-article-layout">
       <div class="blog-article-body editorial-article-body">
         {article.sections.map((section, index) => (

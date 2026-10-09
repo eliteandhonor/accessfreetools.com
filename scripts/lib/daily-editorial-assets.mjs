@@ -1,106 +1,111 @@
 import { createHash } from 'node:crypto';
-import { mkdir, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { lstat, mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
+import { join, resolve, relative } from 'node:path';
 import sharp from 'sharp';
+import { EditorialHold } from './daily-editorial-pipeline.mjs';
+import { approvedDailyEditorialArtwork, artworkJsonHash, dailyArtworkPaths, generationEvidenceFor, visualEvidenceFor } from './daily-editorial-artwork.mjs';
 
-const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const escapeXml = (value) => String(value).replace(/[&<>"']/g, (character) => ({
-  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;',
-})[character]);
+const hash = (bytes) => createHash('sha256').update(bytes).digest('hex');
+const held = () => new EditorialHold('ARTWORK_APPROVAL_HELD');
 
-function lines(value, maxCharacters, maxLines) {
-  // A wide uppercase repository name must fit as well as normal prose.
-  // Units conservatively approximate sans-serif glyph widths at the fixed size.
-  const units = (text) => [...text].reduce((sum, character) => sum +
-    (/[MWmw@%]/.test(character) ? 1.9 : /[A-Z]/.test(character) ? 1.5 : /[^\x20-\x7e]/.test(character) ? 2 : 1), 0);
-  const words = String(value).replace(/[\r\n\t]+/g, ' ').trim().split(/\s+/);
-  const output = [];
-  let line = '';
-  for (const word of words) {
-    if (line && units(`${line} ${word}`) > maxCharacters) {
-      output.push(line);
-      line = '';
-      if (output.length === maxLines) break;
+// Fixed paths stay within the checkout. Every component must be a real
+// directory/file; a review cannot approve symlinks to different external bytes.
+async function checkedPath(root, path, { file = true } = {}) {
+  const base = resolve(root), destination = resolve(base, path);
+  const parts = relative(base, destination).split(/[\\/]/u);
+  if (!parts.length || parts.some((part) => !part || part === '..' || part === '.')) throw held();
+  const rootInfo = await lstat(base);
+  if (!rootInfo.isDirectory() || rootInfo.isSymbolicLink()) throw held();
+  let current = base;
+  for (const [index, part] of parts.entries()) {
+    current = join(current, part);
+    const info = await lstat(current);
+    if (info.isSymbolicLink() || (index === parts.length - 1 && file ? !info.isFile() : !info.isDirectory())) throw held();
+  }
+  return destination;
+}
+
+async function boundedFile(root, path, maximum) {
+  const absolute = await checkedPath(root, path);
+  const info = await lstat(absolute);
+  if (info.size < 1 || info.size > maximum) throw held();
+  const bytes = await readFile(absolute);
+  if (bytes.length !== info.size || bytes.length > maximum) throw held();
+  return { absolute, bytes };
+}
+
+export async function verifyDailyEditorialArtwork(article, { root, articleSha256, location = 'prepared' } = {}) {
+  try {
+    if (typeof root !== 'string' || !root.trim() || !['prepared', 'public'].includes(location)) throw held();
+    const manifest = await boundedFile(root, 'src/data/dailyEditorialArtApprovals.json', 1024 * 1024);
+    const bound = { ...article, artwork: { articleSha256: articleSha256 ?? article.artwork?.articleSha256 } };
+    const approval = approvedDailyEditorialArtwork(bound, JSON.parse(manifest.bytes.toString('utf8')));
+    if (!approval) throw held();
+    const paths = dailyArtworkPaths(article.slug);
+    for (const [type, expected] of [['provenance', generationEvidenceFor(approval)], ['visualReview', visualEvidenceFor(approval)]]) {
+      const evidence = approval[type];
+      const { bytes } = await boundedFile(root, evidence.evidencePath, 32 * 1024);
+      if (hash(bytes) !== evidence.evidenceSha256 || artworkJsonHash(JSON.parse(bytes.toString('utf8'))) !== artworkJsonHash(expected)) throw held();
     }
-    line = `${line}${line ? ' ' : ''}${word}`;
+    const files = [];
+    for (const format of ['png', 'webp']) {
+      const path = location === 'prepared' ? paths[`${format}Input`] : `public${format === 'png' ? paths.imagePath : paths.webpPath}`;
+      const { absolute, bytes } = await boundedFile(root, path, 5 * 1024 * 1024);
+      if (bytes.length !== approval.assets[format].bytes || hash(bytes) !== approval.assets[format].sha256) throw held();
+      const hasHeader = format === 'png' ? bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))
+        : bytes.length >= 12 && bytes.toString('ascii', 0, 4) === 'RIFF' && bytes.toString('ascii', 8, 12) === 'WEBP';
+      if (!hasHeader) throw held();
+      const metadata = await sharp(bytes, { limitInputPixels: 1200 * 630, failOn: 'warning' }).metadata();
+      if (metadata.format !== format || metadata.width !== approval.width || metadata.height !== approval.height ||
+          (metadata.pages ?? 1) !== 1 || (metadata.orientation ?? 1) !== 1) throw held();
+      // Header metadata alone can describe a truncated/corrupt image. Fully
+      // decode bounded pixels before any reviewed bytes are publicly copied.
+      await sharp(bytes, { limitInputPixels: 1200 * 630, failOn: 'warning' }).raw().toBuffer();
+      files.push({ name: `daily-${article.slug}.${format}`, path: absolute, sha256: approval.assets[format].sha256, bytes });
+    }
+    return { imagePath: approval.imagePath, webpPath: approval.webpPath, alt: approval.alt, caption: approval.caption,
+      width: approval.width, height: approval.height, approval, files };
+  } catch { throw held(); }
+}
+
+// Publication copies only reviewed prepared bytes. It never generates artwork
+// or turns automated format/crop checks into visual approval.
+export async function createDailyEditorialAssets(article, options = {}) {
+  const approved = await verifyDailyEditorialArtwork(article, options);
+  const root = resolve(options.root), directory = join(root, 'public/social');
+  // Validate existing ancestors and targets before any mkdir/write.
+  for (const path of ['public', 'public/social', ...approved.files.map((file) => `public/social/${file.name}`)]) {
+    try { await checkedPath(root, path, { file: path.endsWith('.png') || path.endsWith('.webp') }); }
+    catch (error) {
+      if (error.code !== 'ENOENT') throw held();
+      const parts = path.split('/');
+      for (let length = 1; length < parts.length; length++) {
+        try { await checkedPath(root, parts.slice(0, length).join('/'), { file: false }); }
+        catch (ancestorError) { if (ancestorError.code !== 'ENOENT') throw held(); }
+      }
+    }
   }
-  if (output.length < maxLines && line) output.push(line);
-  return output.map((line) => {
-    if (units(line) <= maxCharacters) return line;
-    let shortened = line;
-    while (shortened && units(`${shortened}…`) > maxCharacters) shortened = shortened.slice(0, -1);
-    return `${shortened}…`;
-  });
-}
-
-function textLines(values, x, y, size, color) {
-  return values.map((value, index) => `<text x="${x}" y="${y + index * (size + 9)}" font-family="sans-serif" font-size="${size}" fill="${color}">${escapeXml(value)}</text>`).join('');
-}
-
-export function dailyEditorialImageInfo(article) {
-  if (!article || !slugPattern.test(article.slug) || article.slug.length > 100) throw new Error('Invalid daily image slug');
-  if (typeof article.problem !== 'string' || !article.problem.trim() || article.problem.length > 1200 ||
-      !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(article.project?.fullName)) {
-    throw new Error('A conceptual image requires the article problem and exact project name');
+  await mkdir(directory, { recursive: true });
+  const files = [];
+  for (const file of approved.files) {
+    const path = join(directory, file.name);
+    await writeFile(path, file.bytes);
+    files.push({ name: file.name, path, sha256: file.sha256 });
   }
-  return {
-    imagePath: `/social/daily-${article.slug}.png`,
-    webpPath: `/social/daily-${article.slug}.webp`,
-    alt: 'Original diagram linking a practical problem, a GitHub project, and a decision to evaluate it.',
-    caption: 'Original Access Free Tools conceptual diagram. This is an illustration, not a project screenshot or a test result.',
-  };
+  return { imagePath: approved.imagePath, webpPath: approved.webpPath, alt: approved.alt, caption: approved.caption,
+    width: approved.width, height: approved.height, approval: approved.approval, files };
 }
 
-// All shapes are authored here. No project logo, screenshot, copied asset, model
-// image service, fetched URL, external SVG reference, or installed project is used.
-export function buildDailyEditorialSvg(article) {
-  dailyEditorialImageInfo(article);
-  const digest = createHash('sha256').update(`${article.project.fullName}\n${article.problem}`).digest();
-  const colors = ['#0d7c73', '#375ea8', '#8354a5', '#a65a2e'];
-  const accent = colors[digest[0] % colors.length];
-  const problem = textLines(lines(article.problem, 26, 3), 90, 390, 19, '#243a41');
-  const repository = textLines(lines(article.project.fullName.replace('/', ' / '), 24, 3), 465, 390, 19, '#243a41');
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#eef7f6"/>
-  <circle cx="1110" cy="50" r="210" fill="${accent}" opacity=".06"/>
-  <circle cx="40" cy="625" r="210" fill="${accent}" opacity=".06"/>
-  <path d="M345 305H443M715 305H813" stroke="${accent}" stroke-width="7" fill="none"/>
-  <path d="m426 290 17 15-17 15m370-30 17 15-17 15" stroke="${accent}" stroke-width="7" fill="none"/>
-  <g fill="#fff" stroke="#cde0de" stroke-width="2">
-    <rect x="60" y="125" width="285" height="390" rx="28"/>
-    <rect x="445" y="125" width="270" height="390" rx="28"/>
-    <rect x="815" y="125" width="325" height="390" rx="28"/>
-  </g>
-  <g stroke="${accent}" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M167 214h65v104h-65zM181 235h38M181 254h28M181 273h38"/>
-    <circle cx="572" cy="240" r="13"/><circle cx="608" cy="278" r="13"/><circle cx="552" cy="314" r="13"/>
-    <path d="M572 253v14q0 11-11 18l-9 9M585 244q23 0 23 21"/>
-    <circle cx="973" cy="264" r="53"/><path d="m945 266 19 19 39-43"/>
-  </g>
-  ${textLines(['Your problem'], 90, 170, 23, '#172f36')}
-  ${textLines(['Project sources'], 465, 170, 23, '#172f36')}
-  ${textLines(['Your decision'], 845, 170, 23, '#172f36')}
-  ${problem}${repository}
-  ${textLines(['Check whether it fits', 'your task and limits.'], 845, 390, 19, '#243a41')}
-  ${textLines(['Original conceptual diagram · Access Free Tools'], 60, 575, 17, '#536c73')}
-  </svg>`;
-}
-
-export async function createDailyEditorialAssets(article, { outputDir } = {}) {
-  if (typeof outputDir !== 'string' || !outputDir.trim()) throw new Error('An explicit staging outputDir is required');
-  const info = dailyEditorialImageInfo(article);
-  const svg = Buffer.from(buildDailyEditorialSvg(article));
-  const [png, webp] = await Promise.all([
-    sharp(svg).png({ compressionLevel: 9 }).toBuffer(),
-    sharp(svg).webp({ quality: 88, effort: 6 }).toBuffer(),
-  ]);
-  await mkdir(outputDir, { recursive: true });
-  const pngName = `daily-${article.slug}.png`;
-  const webpName = `daily-${article.slug}.webp`;
-  await writeFile(join(outputDir, pngName), png);
-  await writeFile(join(outputDir, webpName), webp);
-  return { ...info, files: [
-    { name: pngName, path: join(outputDir, pngName), sha256: createHash('sha256').update(png).digest('hex') },
-    { name: webpName, path: join(outputDir, webpName), sha256: createHash('sha256').update(webp).digest('hex') },
-  ] };
+export async function auditDailyEditorialPublicAssets(root, articles) {
+  const issues = [];
+  for (const article of articles) {
+    try { await verifyDailyEditorialArtwork(article, { root, location: 'public' }); }
+    catch { issues.push(`${article.slug}: artwork approval or exact reviewed bytes missing/mismatched`); }
+  }
+  const expected = new Set(articles.flatMap((article) => ['png', 'webp'].map((format) => `daily-${article.slug}.${format}`)));
+  try {
+    const directory = await checkedPath(root, 'public/social', { file: false });
+    for (const name of await readdir(directory)) if (name.startsWith('daily-') && !expected.has(name)) issues.push(`Orphan or unsupported daily artwork: ${name}`);
+  } catch (error) { if (error.code !== 'ENOENT') issues.push('Daily artwork public directory is unsafe'); }
+  return issues;
 }

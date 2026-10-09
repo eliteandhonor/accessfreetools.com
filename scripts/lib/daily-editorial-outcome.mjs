@@ -1,5 +1,9 @@
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
 /** The public Actions artifact contains only intentional operational metadata. */
 const REASONS = new Set(('PIPELINE_HELD PROVIDER_FAILED HTTP_ERROR REQUEST_TIMEOUT REQUEST_FAILED RESPONSE_TOO_LARGE INVALID_RESPONSE INVALID_REQUEST REQUEST_TOO_LARGE REDIRECT_REJECTED CREDENTIAL_REQUIRED URL_NOT_ALLOWED SOURCE_UNAVAILABLE ' +
+  'ACTIVATION_REQUIRED SHARED_BUDGET_COORDINATION_REQUIRED PUBLICATION_CATALOG_REQUIRED LIVE_VERIFICATION_ARTICLE_REQUIRED PRIOR_PUBLICATION_LIVE_UNVERIFIED LIVE_POLL_INPUT_INVALID CONFIGURATION_OR_STATE_INVALID OUTCOME_UNKNOWN PUBLICATION_OUTCOME_UNKNOWN DAY_RESERVED_FOR_PILOT ARTWORK_APPROVAL_HELD ' +
   'BUDGET_EXHAUSTED CALL_NOT_REPLAYABLE PROVIDER_USAGE_BOUND_EXCEEDED SOURCE_CONTENT_INVALID SOURCE_CONTENT_INCOMPLETE PROJECT_NAME_INVALID PROJECT_UNSUITABLE PROJECT_COMMIT_INVALID LICENSE_UNCERTAIN RELEASE_INVALID ' +
   'NO_USEFUL_CANDIDATE NO_VERIFIED_CANDIDATE JINA_SOURCE_INCOMPLETE DETERMINISTIC_CHECK_HELD OLLAMA_REVIEW_HELD TYPESAFE_CONTEXT_UNASSESSED TYPESAFE_REVIEW_HELD LOCAL_DAY_CHANGED ' +
   'PUBLICATION_CHECK_HELD PUBLICATION_REVIEW_INCOMPLETE PUBLICATION_DUPLICATE GIT_PUBLICATION_FAILED PUBLICATION_NOT_ACTIVATED PUBLICATION_REPOSITORY_MISMATCH PUBLICATION_OUTCOME_UNRESOLVED SOURCE_MAIN_MOVED ACTIVATION_CONFIG_CHANGED PUBLICATION_QUALITY_FAILED ' +
@@ -33,4 +37,29 @@ export function publicOutcome(result) {
   return { status: status === 'published' ? (publication?.liveVerified ? 'live-verified' : 'committed-pending-live-verification') : status,
     reason, publication, budget: { providers },
     fundingNotice: billingFailure ? 'A provider reported a billing failure. Notify the owner to check funding; no purchase was attempted.' : null };
+}
+
+/** Reporting never changes the private ledger or retries a publication/provider. */
+export function writePublicOutcome(result, { root, summaryFile, logger = console } = {}) {
+  const report = publicOutcome(result);
+  let artifactWritten = false;
+  let summaryWritten = !summaryFile;
+  try {
+    mkdirSync(resolve(root, 'output/daily-editorial'), { recursive: true });
+    writeFileSync(resolve(root, 'output/daily-editorial/latest.json'), `${JSON.stringify(report, null, 2)}\n`);
+    artifactWritten = true;
+  } catch {
+    logger.error('Daily editorial outcome artifact could not be written.');
+  }
+  if (summaryFile) {
+    try {
+      writeFileSync(summaryFile, `Daily editorial: ${report.status}\n\n${report.reason ?? (report.publication ? 'One checked article committed.' : '')}\n\n${report.publication?.liveVerified ? report.publication.url : ''}\n\n${report.fundingNotice ?? ''}\n`);
+      summaryWritten = true;
+    } catch {
+      logger.error('Daily editorial step summary could not be written.');
+    }
+  }
+  logger.log(`Daily editorial: ${report.status}${report.reason ? ` (${report.reason})` : ''}.`);
+  if (report.publication) logger.log(`Content commit ${report.publication.commit}; live verified: ${report.publication.liveVerified}.`);
+  return { report, artifactWritten, summaryWritten };
 }

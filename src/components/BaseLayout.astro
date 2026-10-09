@@ -17,10 +17,11 @@ interface Props {
   noindex?: boolean;
   socialImagePath?: string;
   socialImageAlt?: string;
+  renderSocialImage?: boolean;
   renderAdvertising?: boolean;
 }
 
-const { title, description, path = '/', ogType, noindex = false, socialImagePath, socialImageAlt, renderAdvertising = true } = Astro.props;
+const { title, description, path = '/', ogType, noindex = false, socialImagePath, socialImageAlt, renderSocialImage = true, renderAdvertising = true } = Astro.props;
 const site = Astro.site ?? 'https://accessfreetools.com';
 const canonical = new URL(path, site).toString();
 const robotsContent = robotsContentForPath(path, noindex);
@@ -95,18 +96,22 @@ const siteStructuredData = {
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content={resolvedOgType} />
     <meta property="og:site_name" content="Access Free Tools" />
-    <meta property="og:image" content={socialImage} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content={socialImageType} />
-    <meta property="og:image:alt" content={resolvedSocialImageAlt} />
+    {renderSocialImage && <>
+      <meta property="og:image" content={socialImage} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:type" content={socialImageType} />
+      <meta property="og:image:alt" content={resolvedSocialImageAlt} />
+    </>}
     {resolvedOgType === 'article' && <meta property="article:published_time" content={toIsoDateTime(articleDates.published)} />}
     {resolvedOgType === 'article' && <meta property="article:modified_time" content={toIsoDateTime(articleDates.modified)} />}
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content={renderSocialImage ? 'summary_large_image' : 'summary'} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={socialImage} />
-    <meta name="twitter:image:alt" content={resolvedSocialImageAlt} />
+    {renderSocialImage && <>
+      <meta name="twitter:image" content={socialImage} />
+      <meta name="twitter:image:alt" content={resolvedSocialImageAlt} />
+    </>}
     <link rel="icon" href="/favicon.png" type="image/png" sizes="512x512" />
     {
       shouldRenderPreferredSource && (

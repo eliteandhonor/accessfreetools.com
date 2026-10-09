@@ -1,6 +1,6 @@
 export const prerender = true;
 import type { APIRoute } from 'astro';
-import { editorialArticleImages } from '../data/editorialBlogPosts';
+import { editorialArticleImages } from '../data/editorialArticleImages';
 import { toolArtEntries } from '../data/toolArt';
 import { absoluteUrl, escapeXml } from '../data/discovery';
 import { shouldIncludeInXmlSitemap } from '../data/indexationPolicy';

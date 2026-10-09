@@ -41,6 +41,7 @@ export const dailyEditorialArticleSchema = z.strictObject({
   }),
   researchedAt: timestamp,
   publishedAt: timestamp,
+  artwork: z.strictObject({ articleSha256: z.string().regex(/^[a-f0-9]{64}$/) }),
   sections: z.array(z.strictObject({
     heading: shortText(150),
     paragraphs: z.array(z.strictObject({
@@ -92,14 +93,4 @@ export const dailyEditorialArticles = parseDailyEditorialArticles(catalog);
 
 export function getDailyEditorialArticle(slug: string) {
   return dailyEditorialArticles.find((article) => article.slug === slug);
-}
-
-export function getDailyEditorialImage(slug: string) {
-  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error('Invalid daily article image slug');
-  return {
-    imagePath: `/social/daily-${slug}.png`,
-    webpPath: `/social/daily-${slug}.webp`,
-    alt: 'Original diagram linking a practical problem, a GitHub project, and a decision to evaluate it.',
-    caption: 'Original Access Free Tools conceptual diagram. This is an illustration, not a project screenshot or a test result.',
-  };
 }

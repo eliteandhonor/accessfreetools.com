@@ -3,6 +3,7 @@ import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, symlinkSync, rmSyn
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { createDailyEditorialAssets } from './daily-editorial-assets.mjs';
+import { artworkJsonHash } from './daily-editorial-artwork.mjs';
 import { articleHash, validateArticle, semanticRequest, validateSemanticReview } from './daily-editorial-checks.mjs';
 import { sha256, EditorialHold, reviewerPassed } from './daily-editorial-pipeline.mjs';
 import { brisbaneDay } from './daily-editorial-state.mjs';
@@ -11,6 +12,7 @@ export function publicArticle(article, publishedAt) {
   return {
     schemaVersion: 1, slug: article.slug, title: article.title, summary: article.summary, problem: article.problem,
     project: article.project, researchedAt: article.researchedAt, publishedAt,
+    artwork: { articleSha256: articleHash(article) },
     sections: article.sections.map(({ heading, paragraphs }) => ({ heading, paragraphs: paragraphs.map(({ text, sourceIds }) => ({ text, sourceIds })) })),
     sources: article.sources.map(({ id, kind, url, fetchedAt, sha256: hash }) => ({ id, kind, url, fetchedAt, sha256: hash })),
   };
@@ -24,7 +26,7 @@ export async function stagePublication({ root, article, record, publishedAt = ne
       !validateSemanticReview(record.semanticReview, semanticRequest(article, catalog)).passed) throw new EditorialHold('PUBLICATION_REVIEW_INCOMPLETE');
   const entry = publicArticle(article, publishedAt);
   if (catalog.some((item) => item.slug === entry.slug || item.project.fullName.toLowerCase() === entry.project.fullName.toLowerCase())) throw new EditorialHold('PUBLICATION_DUPLICATE');
-  const assets = await createDailyEditorialAssets(entry, { outputDir: join(root, 'public/social') });
+  const assets = await createDailyEditorialAssets(entry, { root, articleSha256: articleHash(article) });
   const receipt = {
     schemaVersion: 1, slug: entry.slug, articleSha256: articleHash(article), publicSha256: sha256(entry),
     researchedAt: article.researchedAt, publishedAt, activationReview,
@@ -32,6 +34,10 @@ export async function stagePublication({ root, article, record, publishedAt = ne
     deterministic: { passed: true },
     ollamaReview: Object.fromEntries(['allClaimsCovered', 'practical', 'noInventedTesting', 'licenseClear', 'original', 'clear'].map((key) => [key, true]).concat([['issues', []]])),
     semanticReview: record.semanticReview,
+    artworkApproval: { sha256: artworkJsonHash(assets.approval), articleSha256: assets.approval.articleSha256,
+      publicContentSha256: assets.approval.publicContentSha256,
+      provenanceEvidenceSha256: assets.approval.provenance.evidenceSha256, visualEvidenceSha256: assets.approval.visualReview.evidenceSha256,
+      pngSha256: assets.approval.assets.png.sha256, webpSha256: assets.approval.assets.webp.sha256 },
     limitation: 'Automated source, wording and duplicate checks are decision aids. They do not certify software, truth or installation tests.',
   };
   const reviewPath = join(root, 'docs/daily-editorial-reviews', `${entry.slug}.json`);

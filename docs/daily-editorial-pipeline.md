@@ -38,9 +38,12 @@ and the separate AdSense application remain unchanged.
   claim quotes, clarity, originality and deterministic/semantic duplicates.
 - `daily-editorial-state.mjs`: durable reservations, compare-and-swap Git state,
   safe restart receipts and immutable archives in an approved private store.
-- `daily-editorial-publication.mjs`: public projection, review receipt, original
-  illustration and an atomic Git content commit.
-- `daily-editorial-assets.mjs`: original labelled conceptual PNG/WebP media.
+- `daily-editorial-publication.mjs`: public projection, review receipt,
+  approved artwork and an atomic Git content commit.
+- `daily-editorial-assets.mjs`: bounded approval-evidence and image-file checks,
+  reviewed input copying and served-file audit.
+- `daily-editorial-artwork.mjs`: exact content identities and artwork approval
+  metadata shared by publication and server rendering.
 - `daily-editorial-live.mjs`: public verification and conservative rollback.
 
 The public projection is `src/data/dailyEditorialArticles.json`, initially `[]`.
@@ -94,11 +97,35 @@ credentials and explicit shared budget allocation. There is no active schedule.
    greater than 0.1. These are uncalibrated decision aids. The earlier three
    claim TypeSafe pilot is too small to establish accuracy. Provider scores
    cannot override missing evidence or prove truth.
-10. A clean isolated checkout stages the public record, review receipt and
-    original image pair in one commit. It runs the full repository check on
+10. A matching artwork approval record binds the exact article and public
+    content to GPT Image provenance, visual QA and the reviewed PNG/WebP bytes.
+    Missing approval or altered image bytes hold before public staging. A clean
+    isolated checkout stages the public record, review receipt and approved
+    image pair in one commit. It runs the full repository check on
     that exact commit before a normal atomic fast-forward update of main.
     Main movement rejects the push. Hosting and live checks remain distinct
     from committing content.
+
+## Publication media approval
+
+Daily article artwork has its own empty-by-default approval manifest. Existing
+canonical tool and guide artwork keeps its current manifest and review workflow.
+The daily manifest is `src/data/dailyEditorialArtApprovals.json`. Approved input
+files belong in `src/assets/daily-editorial/`; publication verifies them before
+copying them to the served image directory. Evidence records contain curated
+metadata and hashes, without full prompts or research bodies.
+Each daily approval must record the actual GPT Image provenance, a completed
+visual review, exact article and public-content identities, and the PNG/WebP
+hashes. Publication uses those reviewed bytes. The artifact check verifies the
+approval and actual files, and the renderer and image discovery use the same
+approved entry. Browser text discovery reads the article catalog without
+importing the server artwork approval or hash code.
+
+Script diagrams remain private planning or synthetic test material. Production
+image generation and visual approval require separate authorized work. The
+LocalSend article and its private illustration remain unchanged; storing that
+illustration does not establish public artwork approval. No daily artwork is
+approved by this code update.
 
 ## Durable state and recovery
 
@@ -142,11 +169,21 @@ Contents read/write for that private repository only; its reported expiry is
 2026-11-07. Private storage approval references remain unset.
 
 The AFT `GITHUB_TOKEN` is repository-scoped and serves public code operations.
+The daily CLI requires that existing token and binds it to the actual default
+GitHub discovery and source-research callable. Missing credentials hold before
+store setup or provider execution. No extra credential or permission is added.
 Private metadata, input retrieval and checkpoints use the separate state token.
 This implementation creates no repository, credential or permission grant.
 Missing access or privacy verification holds before paid dispatch and never
 creates a replacement empty ledger. The bounded manual state check is described
 in `docs/daily-editorial-pilot.md`.
+
+The daily CLI writes a sanitized current outcome for normal completion and
+top-level holds, including setup, load, reconciliation and verification errors.
+It replaces a stale local outcome without retrying providers or checkpointing
+state as part of reporting. Unknown error codes become a fixed safe reason;
+error text, source bodies and credentials stay out of logs, summaries and
+artifacts. Failed artifact writes produce a fixed diagnostic and nonzero exit.
 
 ## Credentials and proposed shared daily budget
 

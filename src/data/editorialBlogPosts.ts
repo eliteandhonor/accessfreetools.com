@@ -1,6 +1,6 @@
 import type { BlogPostDefinition } from './blogPosts';
 import { blogPosts } from './blogPosts';
-import { dailyEditorialArticles, getDailyEditorialImage } from './dailyEditorialArticles';
+import { dailyEditorialArticles } from './dailyEditorialArticles';
 
 export const ownerEditorialBlogPosts: BlogPostDefinition[] = [
   {
@@ -65,19 +65,3 @@ export const editorialBlogPosts: BlogPostDefinition[] = [
   })),
   ...ownerEditorialBlogPosts,
 ];
-
-export interface EditorialArticleImageDefinition {
-  slug: string;
-  pagePath: string;
-  imagePath: string;
-}
-
-export const editorialArticleImages: EditorialArticleImageDefinition[] = [...ownerEditorialBlogPosts.map((post) => ({
-  slug: post.slug,
-  pagePath: `/blog/${post.slug}/`,
-  imagePath: `/social/${post.slug}.webp`,
-})), ...dailyEditorialArticles.map((article) => ({
-  slug: article.slug,
-  pagePath: `/blog/${article.slug}/`,
-  imagePath: getDailyEditorialImage(article.slug).imagePath,
-}))];
