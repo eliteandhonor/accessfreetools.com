@@ -5,6 +5,7 @@ import { artworkJsonHash, publicContentHash } from './daily-editorial-artwork.mj
 import { publicArticle } from './daily-editorial-publication.mjs';
 import { MAX_PRIVATE_INPUT_FILES, MAX_PRIVATE_INPUT_FILE_BYTES, MAX_PRIVATE_INPUT_BYTES } from './daily-editorial-private-input.mjs';
 import { prepareMarkdownProjection } from './daily-editorial-projection.mjs';
+import { prepareCompactMarkdownProjection, resolveCompactMarkdownProjection } from './daily-editorial-compact-projection.mjs';
 
 // Every article, source and review below is synthetic. No fixture grants real
 // generation, artwork, human review, runtime, provider or publication approval.
@@ -289,5 +290,117 @@ describe('held Markdown daily JSON preparation', () => {
       input.pin.descriptorSha256 = hash(input.descriptorBytes);
       expect(() => prepareMarkdownProjection(input)).toThrow(/PROJECTION_INPUT_INVALID/);
     }
+  });
+});
+
+describe('compact private evidence preparation', () => {
+  function resolve(input, compactBytes = prepareCompactMarkdownProjection(input).compactBytes) {
+    return resolveCompactMarkdownProjection({ ...input, compactBytes, compactSha256: hash(compactBytes) });
+  }
+
+  it('reconstructs exact complete research and keeps each identity separate', () => {
+    const input = fixture();
+    const full = prepareMarkdownProjection(input);
+    const compact = prepareCompactMarkdownProjection(input);
+    const result = resolve(input, compact.compactBytes);
+    expect(result.article).toEqual(full.article);
+    expect(result.publicProjection).toEqual(full.publicProjection);
+    expect(compact.receipt.hydratedArticleSha256).toBe(articleHash(full.article));
+    expect(compact.receipt.publicContentSha256).toBe(publicContentHash(full.article));
+    expect(compact.receipt.compactRawSha256).toBe(hash(compact.compactBytes));
+    expect(compact.receipt.compactCanonicalSha256).toBe(artworkJsonHash(compact.compact));
+    expect(compact.receipt.compactCanonicalSha256).not.toBe(compact.receipt.hydratedArticleSha256);
+    expect(compact.receipt.markdownSha256).not.toBe(compact.receipt.hydratedArticleSha256);
+    expect(compact.compact.article.sources[0]).not.toHaveProperty('text');
+    expect(compact.compact.article.sections[0].paragraphs[0]).not.toHaveProperty('evidence');
+    expect(result.article.sections[0].paragraphs[0].evidence).toHaveLength(2);
+    expect(result.article.sources[0].text).toBe(full.article.sources[0].text);
+  });
+
+  it('retains whole-source effective evidence and historical holds', () => {
+    const input = fixture({ wholeSource: true });
+    const compact = prepareCompactMarkdownProjection(input);
+    const result = resolve(input, compact.compactBytes);
+    expect(result.article.sections[0].paragraphs[0].evidence[0].quote).toBe(result.article.sources[0].text);
+    expect(compact.compact.article.sources[0].fetchedAt).toBeNull();
+    expect(compact.compact.article.researchedAt).toBe('2026-10-08');
+    expect(compact.receipt.publicationValidation.passed).toBe(false);
+    expect(compact.receipt.historicalReviewAppliesToNewJson).toBe(false);
+    for (const flag of ['humanOwnerApproval', 'runtimeContractIntegrated', 'publicationAllowed', 'dispatchAllowed']) {
+      expect(compact.compact[flag]).toBe(false);
+    }
+    expect(compact.receipt.providerCalls).toBe(0);
+    expect(compact.receipt.remoteWrites).toBe(0);
+    expect(compact.compact.jsonPublicationReview).toBeNull();
+    expect(compact.compact.artworkApproval).toBeNull();
+    expect(compact.compact.publishedAt).toBeNull();
+    expect(() => publicArticle(compact.compact, now.toISOString())).toThrow();
+  });
+
+  it('verifies unused registry records and files without truncating to paragraph evidence', () => {
+    const input = fixture();
+    edit(input, 'evidence-contexts.json', (record) => record.evidence.push({ ...record.evidence[1], id: 'synthetic-unused' }));
+    edit(input, 'context-registry.json', (record) => record.units.push({ ...record.units[1], id: 'synthetic-unused' }));
+    edit(input, 'context-independent-review.json', (record) => record.unitIds.push('synthetic-unused'));
+    reseal(input);
+    const compact = prepareCompactMarkdownProjection(input);
+    expect(compact.compact.inputPin.contextRegistry.retainedUnitCount).toBe(3);
+    expect(compact.compact.article.sections[0].paragraphs[0].evidenceUnitIds).toHaveLength(2);
+    expect(resolve(input, compact.compactBytes).receipt.contextRegistry.units).toHaveLength(3);
+    edit(input, 'context-registry.json', (record) => { record.units[2].closure.requiredUnitIds = ['missing']; });
+    reseal(input);
+    expect(() => prepareCompactMarkdownProjection(input)).toThrow(/retained registry dependency/);
+    expect(() => resolve(input, compact.compactBytes)).toThrow(/retained registry dependency/);
+    input.files.set('context-registry.json', bytes('changed unused record'));
+    expect(() => resolve(input, compact.compactBytes)).toThrow(/pinned bytes/);
+  });
+
+  it('rejects tampered compact metadata, prose, refs, hashes, dependencies and approvals even after rehashing', () => {
+    const input = fixture();
+    const original = prepareCompactMarkdownProjection(input).compact;
+    const changes = [
+      (c) => { c.format = 'runtime-approved'; },
+      (c) => { c.inputPin.commit = 'c'.repeat(40); },
+      (c) => { c.inputPin.contextRegistry.retainedUnitCount--; },
+      (c) => { c.article.summary += ' Altered wording.'; },
+      (c) => { c.article.sources[0].contentRef = '../unrelated'; },
+      (c) => { c.article.sources[0].fetchedAt = now.toISOString(); },
+      (c) => { c.hydratedArticleSha256 = 'c'.repeat(64); },
+      (c) => { c.publicContentSha256 = 'c'.repeat(64); },
+      (c) => { c.article.sections[0].paragraphs[0].evidenceUnitIds.pop(); },
+      (c) => { c.article.sections[0].paragraphs[0].evidenceUnitIds.reverse(); },
+      (c) => { c.publicationAllowed = true; },
+      (c) => { c.humanOwnerApproval = true; },
+      (c) => { c.extra = 'unapproved extension'; },
+    ];
+    for (const change of changes) {
+      const candidate = structuredClone(original);
+      change(candidate);
+      expect(() => resolve(input, bytes(candidate))).toThrow(/exact compact contract/);
+    }
+  });
+
+  it('requires external raw-byte integrity, strict hash types and original immutable input pins', () => {
+    const input = fixture();
+    const compactBytes = prepareCompactMarkdownProjection(input).compactBytes;
+    for (const compactSha256 of ['c'.repeat(64), [hash(compactBytes)], null]) {
+      expect(() => resolveCompactMarkdownProjection({ ...input, compactBytes, compactSha256 })).toThrow(/hash-bound compact bytes/);
+    }
+    input.pin.commit = 'c'.repeat(40);
+    expect(() => resolve(input, compactBytes)).toThrow(/exact compact contract/);
+    const changed = fixture();
+    changed.files.set('public-sources/synthetic.txt', bytes('shortened source'));
+    expect(() => resolve(changed, compactBytes)).toThrow(/pinned bytes/);
+  });
+
+  it('enforces existing byte limits and rejects malformed or non-UTF-8 compact data', () => {
+    const input = fixture();
+    for (const compactBytes of [Buffer.alloc(MAX_PRIVATE_INPUT_FILE_BYTES + 1, 97), Buffer.from('{'), Buffer.from([255])]) {
+      expect(() => resolve(input, compactBytes)).toThrow();
+    }
+    const oversized = fixture();
+    edit(oversized, 'source-manifest.json', (record) => { record.sources[0].url += 'a'.repeat(MAX_PRIVATE_INPUT_FILE_BYTES); });
+    reseal(oversized);
+    expect(() => prepareCompactMarkdownProjection(oversized)).toThrow(/PROJECTION_INPUT_INVALID/);
   });
 });

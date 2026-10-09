@@ -83,6 +83,30 @@ kinds and URLs rather than inventing evidence to pass the existing daily
 validator. Any resulting publication holds remain in its private receipt;
 resolving them changes the JSON identity and requires a fresh artwork binding.
 
+`prepareCompactMarkdownProjection` in
+`scripts/lib/daily-editorial-compact-projection.mjs` prepares a bounded private
+reference artifact when repeated complete source text and evidence make the
+expanded JSON exceed the existing 256 KiB file limit. It retains source metadata,
+ordered evidence unit IDs, the immutable repository/commit/descriptor pin and
+the complete registry identity. All original bytes remain in the pinned private
+input inventory, including registry units unused by paragraph evidence.
+
+`resolveCompactMarkdownProjection` requires the compact file's separately
+reviewed raw-byte SHA-256 and independently supplied original input bytes and
+pin. It rebuilds the full Markdown projection, verifies every inventoried file,
+and compares the entire compact contract with that fresh derivation. References
+never trigger filesystem or network reads. The resolver returns the complete
+expanded article in memory with its original `articleHash()` and
+`publicContentHash()`; the compact raw-byte and canonical hashes are separate
+identities. Preserve those identities when saving a preparation record.
+
+Both helpers are preparation only. The compact format is not an input to the
+daily runner, state serializer, provider requests, artwork gate or publication
+stager. Their existing validators, evidence bounds and approvals remain intact.
+Compaction preserves missing timestamps, original source kinds and locators,
+complete closed contexts, and every resulting publication hold. It supplies no
+publication timestamp, human review, artwork approval or provider grant.
+
 ## External prerequisites before a paid pilot
 
 Parent coordination must review and record all of these before `live-pilot`:
