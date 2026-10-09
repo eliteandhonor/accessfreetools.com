@@ -4,9 +4,10 @@ This manual pilot reviews one exact LocalSend draft and its complete primary
 evidence with Jina, Ollama and TypeSafe. It produces a held review outcome.
 Publication, deployment and the daily schedule require separate coordination.
 
-The implementation starts dormant: `config/daily-editorial-pilot.json` has
-`enabled:false` and `publicationEnabled:false`; runtime approval references
-remain unset. The
+The implementation remains dormant: `config/daily-editorial-pilot.json` has
+`enabled:false`, `publicationEnabled:false`, `contextReview:null` and
+`sharedBudgetAllocation:null`. Its existing storage-only review reference does
+not approve a provider run. The
 workflow has only `workflow_dispatch`; its default mode is `offline`. No Actions
 variables or provider grant are created by this implementation.
 
@@ -16,8 +17,12 @@ The parent reports that the owner created the private repository
 and Contents read/write for that private repository only, expiring
 2026-11-07. The owner has also verified the AFT secret names `JINA_API_KEY`,
 `OLLAMA_API_KEY` and `TYPESAFE_API_KEY`. These are name and setup observations;
-runtime authentication, private input retrieval and state checkpoints remain
-unverified. No credential values were read for this work.
+provider authentication remains unverified. The separately approved storage-only
+round trip succeeded in Actions run `37859299605`, and its temporary proof
+variables were retired. This proves that specific private state transport; it
+does not approve pilot ledger mutations or provider calls. No credential values
+were read for this work. Another storage-auth test is unnecessary unless a
+concrete access, visibility or transport failure provides a reason.
 
 ## Offline validation
 
@@ -61,6 +66,23 @@ descriptor records maximum request bodies of 24,996 bytes for TypeSafe and
 catalog/build-receipt binding and all request bytes against the immutable
 private commit; old v2 hashes do not identify this reconstructed package.
 
+`prepareMarkdownProjection` in `scripts/lib/daily-editorial-projection.mjs`
+prepares a separate private JSON proposal from those exact inventoried bytes.
+It preserves the two opening paragraphs as `problem` and `summary`, the
+original headings and visible wording, and literal list markers. A private
+receipt retains Markdown spans, original link destinations and complete source
+and context provenance. It never stages or publishes an article.
+
+Keep three identities separate: the accepted raw Markdown SHA-256,
+`articleHash()` of the complete private JSON, and `publicContentHash()` of the
+proposed visible content plus source metadata. Artwork can record the latter
+two only for the actual proposal, with its held status explicit. The new JSON
+needs its own publication review; historic Markdown judgments do not approve
+it. The adapter retains missing fetch timestamps as null and actual source
+kinds and URLs rather than inventing evidence to pass the existing daily
+validator. Any resulting publication holds remain in its private receipt;
+resolving them changes the JSON identity and requires a fresh artwork binding.
+
 ## External prerequisites before a paid pilot
 
 Parent coordination must review and record all of these before `live-pilot`:
@@ -72,16 +94,19 @@ Parent coordination must review and record all of these before `live-pilot`:
    `AFT_EDITORIAL_PILOT_CODE_SHA` to that exact approved main commit; stale code
    is rejected. Both variables remain uncreated by this implementation.
 
-2. Independently review the complete real context registry. Record `contextReview`
-   as an approval object with `decision:'context-units-approved'`, its own `ref`,
-   `reviewer`, `reviewedAt`, `articleSha256`, `registrySha256`, `sourceHashes` and
-   `unitIds`. The runner binds this review to the exact private input hashes and
-   complete unit inventory. Do not derive it from the activation reference or
-   synthesize a passing registry approval from fixture results. Missing or
-   mismatched context approval holds the pilot.
+2. Review and adopt the independently recorded private context review using the
+   metadata-only binding below. The complete eight-field review stays in the
+   accepted private bundle. The resolver verifies its immutable input commit,
+   inventoried byte count and raw SHA-256 before parsing, then checks its exact
+   schema, decision and reference. Context admission also checks independence,
+   date, article and canonical registry hashes, source identities and all units.
+   Do not derive a review from the activation reference or fixture results.
+   Missing, malformed or mismatched review data holds the pilot.
 
-3. Approve `eliteandhonor/accessfreetools-editorial-state` and its separate
-   runtime access, then complete the state-only round trip below.
+3. Approve the pilot's ledger reservations, receipts, validations and terminal
+   checkpoints in `eliteandhonor/accessfreetools-editorial-state`. Retain the
+   successfully tested transport and existing validated ledger; do not repeat
+   the storage-only proof or initialise a replacement baseline.
    Record `stateRepository`, `privateStoreApproval` and immutable `inputCommit`.
    The revised bundle is identified by `inputs/localsend-held-pilot/v3/` and
    the configured immutable private `inputCommit`. Saving the input bundle
@@ -96,12 +121,65 @@ Parent coordination must review and record all of these before `live-pilot`:
 4. Confirm the existing credential names `JINA_API_KEY`, `OLLAMA_API_KEY` and
    `TYPESAFE_API_KEY` in AFT. The owner has verified these names; authentication
    remains untested. `AFT_EDITORIAL_STATE_TOKEN` is the separate private access
-   name reported saved by the owner; runtime proof and approval remain pending. This work
+   name reported saved by the owner; provider authentication and pilot approval
+   remain pending. This work
    reads no values, creates no keys and changes no account permissions.
 
 5. Approve the actual fixed grant below, coordinate shared GTA/AFT allowances,
    and enable only the reviewed pilot config. No quota is borrowed from GTA or
    silently added to the ordinary daily budget.
+
+## Disabled configuration proposal
+
+This preparation does not change the checked-in pilot configuration. A later
+reviewed activation change must adopt the following binding in `contextReview`;
+it identifies an existing private review, not a new approval:
+
+```json
+{
+  "decision": "context-units-approved",
+  "ref": "reviews/localsend-pilot-v3/context-independent-review.json#case-sha256-83fe0399abb17252651de5cad50235d4752c5e642a4debf673cf2d6de281e753",
+  "file": "context-independent-review.json",
+  "bytes": 4167,
+  "sha256": "5c9a6e05e5081eae766016e36e18f0976cf7ea76029eea069db683e90a786e1d",
+  "inputCommit": "c843a6c52434733eb99672088713dd34ae724252"
+}
+```
+
+The resolver reads only this already inventoried private file at `inputCommit`.
+It never interprets `ref` as a URL, filesystem path or remote fetch instruction.
+The full review, source hash map and unit inventory are not public configuration.
+Local verification overrides cannot approve runtime access.
+
+For the first unpublished run, parent coordination must assign a review
+reference covering the exact configuration, private ledger writes and safe
+restart behavior. Set that reference in `activationReview` and
+`AFT_EDITORIAL_PILOT_APPROVED`; retain an approved `privateStoreApproval` for
+the ledger purpose. Only after reviewing the final resulting main commit, set
+`AFT_EDITORIAL_PILOT_CODE_SHA` to that exact clean main HEAD. A draft head or
+generated pull-request test merge is insufficient. Set `enabled:true` only for
+that approved pilot and keep `publicationEnabled:false`. The live runner
+requires an existing durable ledger commit before starting the pilot; a missing
+branch holds without creating a replacement. Also set
+`statePreflightAllowEmptyBaseline:false` to retire baseline-initialisation
+permission in the diagnostic mode. Keep the immutable descriptor and private
+bundle unchanged.
+
+`sharedBudgetAllocation` must have purpose `unpublished-localsend-pilot`, a
+separately assigned `reviewRef`, `aftCaps` exactly
+`{"jina":10000,"ollama":530288,"typesafe":524288}` and `aftCallCaps`
+exactly `{"jina":2,"ollama":4,"typesafe":8}`. Parent coordination must
+explicitly supply all three providers' nonnegative safe-integer `gtaCaps` and
+`gtaCallCaps`, and `sharedCaps`/`sharedCallCaps` covering the respective AFT plus
+GTA amounts. No GTA reservation or shared cap is inferred here. Flipping
+`allocationProposal.approved` alone grants nothing. The private package's
+`approvedGrant`, `dispatchAllowed` and budget approval flags remain false;
+runtime permission is a separate reviewed grant, not a replacement of those
+immutable preparation bytes.
+
+Dispatch remains manual through `editorial-pilot.yml` on main with `live-pilot`.
+The daily schedule and publication gates stay disabled. No variable changes,
+dispatch or ledger write is part of this code preparation.
 
 ## Fixed proposed grant
 
@@ -115,14 +193,18 @@ outcome is unknown.
 | Ollama `gpt-oss:120b` | 4 | 524,288 input plus 6,000 generated tokens; 530,288 combined units |
 | TypeSafe `jev-1.13.0` | 8 | 524,288 input units |
 
-These are local context-based reservations, not certified token counts or hard
-invoice ceilings. Provider-reported usage and billing remain authoritative.
+These are conservative internal reservation units. The proposal's input/output
+token labels describe its accounting assumptions; they are not certified
+invoiced token counts or hard invoice ceilings. Provider-reported usage and
+billing remain authoritative.
 This proposal is not an approved grant. Provider failures hold the pilot; no
 top-up, purchase or account change is automatic.
 
 ## Reviewed state-only preflight
 
-This implemented procedure is prepared for parent coordination and has not run.
+This procedure already passed under its separate storage-only approval. It is
+retained as the bounded diagnostic contract, not a prerequisite to repeat for
+this pilot.
 Review the exact trusted code before execution. Keep `enabled:false`,
 `publicationEnabled:false`, and the provider allocation unset. Record the
 approved private store and code review references, then set the matching
@@ -186,6 +268,23 @@ The workflow and ordinary daily workflow share concurrency group
 private ledger and actual Brisbane day, so ordinary daily work cannot spend
 alongside that day's pilot. Restarting or changing a run ID does not reset
 unknown calls or consumed reservations.
+
+A successful fresh fourteen-call path makes 44 logical checkpoints: one
+initial day/grant checkpoint, fourteen durable reservations, fourteen response
+receipts, fourteen validation results and one terminal checkpoint. This is not
+a hard checkpoint limit for a restart: the runner may checkpoint and revalidate
+already completed receipts without sending their paid requests again. Every
+checkpoint uses the private store's existing compare-and-swap guard. Conflicts
+or lost acknowledgement hold rather than overwriting newer state.
+
+Restart only from the same validated ledger and exact bundle, request hashes,
+grant and Brisbane day. A completed matching receipt is reused; pending,
+unknown, failed, mismatched or missing receipts never authorize paid replay.
+Held and completed days remain terminal. A pending or unknown call or unresolved
+publication intent blocks new work across all days. Never delete a day, replace
+the ledger or reset a reservation to retry a possibly sent request. A restart
+after a day change cannot reuse this once-only grant. The normal daily runner
+cannot consume the pilot's reserved day.
 
 The reviewed grant is once-only across Brisbane days. Before any provider
 dispatch, the durable checkpoint records its exact day, manifest hash, budget
