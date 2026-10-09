@@ -4,12 +4,17 @@ This manual pilot reviews one exact LocalSend draft and its complete primary
 evidence with Jina, Ollama and TypeSafe. It produces a held review outcome.
 Publication, deployment and the daily schedule require separate coordination.
 
-The implementation remains dormant: `config/daily-editorial-pilot.json` has
-`enabled:false`, `publicationEnabled:false`, `contextReview:null` and
-`sharedBudgetAllocation:null`. Its existing storage-only review reference does
-not approve a provider run. The
-workflow has only `workflow_dispatch`; its default mode is `offline`. No Actions
-variables or provider grant are created by this implementation.
+`config/daily-editorial-pilot.json` enables the parent-coordinated one-shot
+unpublished grant for UTC 2026-10-09. It pins the reviewed private context and
+retains GTA's full-period allocation. Publication stays disabled, and missing
+ledger initialization is disabled. Runtime admission still requires the matching
+execution review and exact clean main commit in temporary Actions variables.
+The workflow has only `workflow_dispatch`; its default mode is `offline`.
+This configuration change does not set those variables or dispatch providers.
+The grant reference identifies its reviewed UTC day; code does not enforce a
+wall-clock start or expiry. Operators must dispatch within that approved day
+and one Brisbane day, then retire the variables. A later day needs fresh
+coordination; the saved bundle or grant must not be replayed.
 
 The parent reports that the owner created the private repository
 `eliteandhonor/accessfreetools-editorial-state` with a README and saved
@@ -221,8 +226,17 @@ These are conservative internal reservation units. The proposal's input/output
 token labels describe its accounting assumptions; they are not certified
 invoiced token counts or hard invoice ceilings. Provider-reported usage and
 billing remain authoritative.
-This proposal is not an approved grant. Provider failures hold the pilot; no
-top-up, purchase or account change is automatic.
+The immutable private preparation proposal remains unchanged. The separate
+runtime grant in the configuration authorizes these fourteen attempts using
+existing credits; it does not establish measured account capacity. Its combined
+static allocation retains GTA caps of 40,000 Jina units/8 calls, 417,792 internal
+Ollama units/12 calls and 128,000 TypeSafe input units/2 calls. Shared caps are
+50,000/10, 948,080/16 and 652,288/10 respectively. GTA's Ollama figure combines
+393,216 input bytes with 24,576 output tokens under the reviewed internal
+accounting convention. TypeSafe's GTA output allowance is separate; the AFT
+runner meters input and has no output-token grant cap. These figures do not
+replace historical charges or certify invoice usage. Provider failures hold the
+pilot; no retry, top-up, purchase or account change is automatic.
 
 ## Reviewed state-only preflight
 
