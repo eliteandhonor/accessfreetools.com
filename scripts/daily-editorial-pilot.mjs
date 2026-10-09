@@ -6,9 +6,9 @@ import { createGitStateStore } from './lib/daily-editorial-state.mjs';
 import { privateRepositoryMetadata } from './lib/daily-editorial-storage.mjs';
 import { readPilotCodeIdentity } from './lib/daily-editorial-code-admission.mjs';
 import { validatePilotPackage } from './lib/daily-editorial-pilot-package.mjs';
-import { admitPilot, admitStatePreflight, runHeldPilot, pilotOutcome } from './lib/daily-editorial-pilot.mjs';
+import { admitPilot, admitStatePreflight, loadPilotLedger, runHeldPilot, pilotOutcome } from './lib/daily-editorial-pilot.mjs';
 import { stateRoundTripPreflight } from './lib/daily-editorial-state-preflight.mjs';
-import { loadPilotContextBundleFromFiles, validatePilotContextBundle, freezePilotContextSpecs, validateFrozenPilotRequests, validateFrozenPilotDiagnostics } from './lib/daily-editorial-pilot-context.mjs';
+import { loadPilotContextBundleFromFiles, validatePilotContextBundle, freezePilotContextSpecs, validateFrozenPilotRequests, validateFrozenPilotDiagnostics, validatePilotContextReviewPin, resolvePilotContextReview } from './lib/daily-editorial-pilot-context.mjs';
 import { MAX_PRIVATE_INPUT_FILES, MAX_PRIVATE_INPUT_FILE_BYTES, MAX_PRIVATE_INPUT_BYTES } from './lib/daily-editorial-private-input.mjs';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -85,6 +85,8 @@ async function main(args) {
       const result = spawnSync(process.execPath, ['node_modules/vitest/vitest.mjs', 'run', '--configLoader', 'runner',
         'scripts/lib/daily-editorial-pilot-package.test.mjs', 'scripts/lib/daily-editorial-pilot-reviews.test.mjs',
         'scripts/lib/daily-editorial-pilot-context.test.mjs', 'scripts/lib/daily-editorial-pilot.test.mjs',
+        'scripts/lib/daily-editorial-pilot-context-review.test.mjs',
+        'scripts/lib/daily-editorial-projection.test.mjs',
         'scripts/lib/daily-editorial-code-admission.test.mjs',
         'scripts/lib/daily-editorial-local-input.test.mjs',
         'scripts/lib/daily-editorial-state-preflight.test.mjs',
@@ -98,7 +100,8 @@ async function main(args) {
       const files = loadLocalPilotFiles(supplied, pinned);
       const pkg = validatePilotPackage(files, pinned);
       const config = JSON.parse(readFileSync(configPath, 'utf8'));
-      const localReview = options.contextReviewFile ? JSON.parse(readFileSync(options.contextReviewFile, 'utf8')) : config.contextReview;
+      const localReview = options.contextReviewFile ? JSON.parse(readFileSync(options.contextReviewFile, 'utf8')) :
+        resolvePilotContextReview(config.contextReview, pkg, { inputCommit: config.inputCommit });
       const context = contextPreflight(pkg, localReview);
       // This command cannot contact providers or approve the registry.
       console.log(JSON.stringify({ inputIntegrity: true, articleSha256: pinned.articleSha256, manifestSha256: pinned.manifestSha256,
@@ -128,17 +131,18 @@ async function main(args) {
       return;
     }
     admitPilot(config, admission);
+    const pinned = descriptor();
+    const contextPin = validatePilotContextReviewPin(config.contextReview, { inputCommit: config.inputCommit, descriptor: pinned });
     const stateToken = process.env.AFT_EDITORIAL_STATE_TOKEN;
     store = await createGitStateStore({ root, branch: config.stateBranch, activated: true,
       stateRepository: config.stateRepository, privateStoreApproval: config.privateStoreApproval, stateToken,
       readRepositoryMetadata: (repository) => privateRepositoryMetadata(repository, { token: stateToken }) });
-    const pinned = descriptor();
     const paths = pinned.files.map(({ file }) => pinned.bundlePrefix + file);
     const bundle = await store.readInputBundle({ commit: config.inputCommit, files: paths });
     const files = Object.fromEntries(pinned.files.map(({ file }) => [file, bundle.files[pinned.bundlePrefix + file]]));
     const pkg = validatePilotPackage(files, pinned);
-    contextPreflight(pkg, config.contextReview);
-    const state = await store.load();
+    contextPreflight(pkg, resolvePilotContextReview(contextPin, pkg, { inputCommit: config.inputCommit }));
+    const state = await loadPilotLedger(store);
     const record = await runHeldPilot({ config, state, store, pkg, ...admission, keys: {
       jina: process.env.JINA_API_KEY, ollama: process.env.OLLAMA_API_KEY, typesafe: process.env.TYPESAFE_API_KEY,
     } });

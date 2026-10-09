@@ -2,7 +2,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
-import { admitPilot, admitStatePreflight, runHeldPilot, pilotOutcome } from './daily-editorial-pilot.mjs';
+import { admitPilot, admitStatePreflight, loadPilotLedger, runHeldPilot, pilotOutcome } from './daily-editorial-pilot.mjs';
 import { PILOT_LIMITS, validatePilotPackage } from './daily-editorial-pilot-package.mjs';
 import { beginDay, brisbaneDay, compactState, createLocalStateStore, holdDay, newState, validateState } from './daily-editorial-state.mjs';
 import { runDailyEditorial, sha256 } from './daily-editorial-pipeline.mjs';
@@ -156,6 +156,49 @@ function mockProviders(context, { onDispatch = () => {}, editResponse = () => {}
 
 const run = (context, providers, extra = {}) => runHeldPilot({ ...context, ...context.admission,
   now: context.now ?? NOW, clock: () => context.now ?? NOW, providers, ...extra });
+
+describe('live pilot ledger baseline', () => {
+  it.each([undefined, null, '', 'main', 'a'.repeat(39), 'A'.repeat(40), ['a'.repeat(40)], 123])('rejects absent or nonimmutable baseline %j before runner/provider/checkpoint', async (commit) => {
+    const context = setup();
+    const { providers, dispatched } = mockProviders(context);
+    const store = { load: vi.fn(async () => newState()), currentCommit: vi.fn(() => commit), checkpoint: vi.fn() };
+    const execute = async () => {
+      const state = await loadPilotLedger(store);
+      return runHeldPilot({ ...context, ...context.admission, state, store, providers, now: NOW, clock: () => NOW });
+    };
+    await expect(execute()).rejects.toMatchObject({ code: 'PILOT_LEDGER_BASELINE_REQUIRED' });
+    expect(store.load).toHaveBeenCalledOnce();
+    expect(store.currentCommit).toHaveBeenCalledOnce();
+    expect(store.checkpoint).not.toHaveBeenCalled();
+    expect(dispatched).toEqual([]);
+    expect(context.store.snapshots).toEqual([]);
+    expect(context.state.pilotGrants).toBeUndefined();
+    expect(pilotOutcome(undefined, 'PILOT_LEDGER_BASELINE_REQUIRED')).toMatchObject({
+      status: 'held', reason: 'PILOT_LEDGER_BASELINE_REQUIRED', published: false, providers: {},
+    });
+  });
+
+  it('requires a baseline method and reads a valid immutable baseline only after loading', async () => {
+    const state = newState();
+    await expect(loadPilotLedger({ load: async () => state })).rejects.toMatchObject({ code: 'PILOT_LEDGER_BASELINE_REQUIRED' });
+    const order = [];
+    const store = { load: async () => { order.push('load'); return state; },
+      currentCommit: () => { order.push('commit'); return 'a'.repeat(40); }, checkpoint: vi.fn() };
+    expect(await loadPilotLedger(store)).toBe(state);
+    expect(order).toEqual(['load', 'commit']);
+    expect(store.checkpoint).not.toHaveBeenCalled();
+  });
+
+  it('propagates a failed ledger load without consulting a commit or writing/retrying state', async () => {
+    const failure = Object.assign(new Error('Synthetic private ledger failure body'), { code: 'STATE_CONFLICT_OR_UNKNOWN' });
+    const store = { load: vi.fn(async () => { throw failure; }), currentCommit: vi.fn(), checkpoint: vi.fn() };
+    await expect(loadPilotLedger(store)).rejects.toBe(failure);
+    expect(store.load).toHaveBeenCalledOnce();
+    expect(store.currentCommit).not.toHaveBeenCalled();
+    expect(store.checkpoint).not.toHaveBeenCalled();
+    expect(JSON.stringify(pilotOutcome(undefined, failure.code))).not.toContain(failure.message);
+  });
+});
 
 describe('held pilot admission', () => {
   it('requires independent context approval and an exact clean reviewed code identity', () => {

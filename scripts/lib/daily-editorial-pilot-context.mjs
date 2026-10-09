@@ -29,6 +29,52 @@ export class PilotContextError extends Error {
 function check(condition, code) { if (!condition) throw new PilotContextError(code); }
 function sameKeys(value, allowed) { return record(value) && Object.keys(value).every((key) => allowed.includes(key)); }
 
+/** A checked-in pointer names one inventoried private review, never a path to read. */
+export function validatePilotContextReviewPin(pin, { inputCommit, descriptor } = {}) {
+  if (pin === null || pin === undefined) return null;
+  const keys = ['decision', 'ref', 'file', 'bytes', 'sha256', 'inputCommit'];
+  check(sameKeys(pin, keys) && Object.keys(pin).length === keys.length &&
+    pin.decision === 'context-units-approved' && typeof pin.ref === 'string' && /^[A-Za-z0-9][A-Za-z0-9_.:/#@-]{0,239}$/u.test(pin.ref) &&
+    pin.file === 'context-independent-review.json' && Number.isSafeInteger(pin.bytes) && pin.bytes > 0 && pin.bytes <= 256 * 1024 &&
+    typeof pin.sha256 === 'string' && HEX64.test(pin.sha256) && typeof pin.inputCommit === 'string' && HEX40.test(pin.inputCommit) && pin.inputCommit === inputCommit,
+  'PILOT_CONTEXT_UNASSESSED');
+  check(Array.isArray(descriptor?.files), 'PILOT_CONTEXT_UNASSESSED');
+  const entries = descriptor.files.filter((entry) => entry?.file === pin.file);
+  check(entries.length === 1 && entries[0].bytes === pin.bytes && entries[0].sha256 === pin.sha256,
+    'PILOT_CONTEXT_UNASSESSED');
+  return Object.freeze({ ...pin });
+}
+
+/** Resolve only validated in-memory inventory bytes; this is no runtime grant. */
+export function resolvePilotContextReview(pin, pkg, { inputCommit, now = new Date() } = {}) {
+  const binding = validatePilotContextReviewPin(pin, { inputCommit, descriptor: pkg?.descriptor });
+  if (!binding) return null;
+  const text = pkg?.files?.[binding.file];
+  check(typeof text === 'string' && !text.includes('\0') && bytes(text) === binding.bytes && hash(text) === binding.sha256,
+    'PILOT_CONTEXT_UNASSESSED');
+  let review, frozen, sources;
+  try {
+    review = JSON.parse(text);
+    frozen = freezePilotContextSpecs(JSON.parse(pkg.files['context-registry.json']));
+    sources = JSON.parse(pkg.files['source-manifest.json']).sources;
+  } catch { throw new PilotContextError('PILOT_CONTEXT_UNASSESSED'); }
+  const keys = ['decision', 'ref', 'reviewer', 'reviewedAt', 'articleSha256', 'registrySha256', 'sourceHashes', 'unitIds'];
+  const clock = new Date(now).getTime();
+  check(sameKeys(review, keys) && Object.keys(review).length === keys.length && review.decision === binding.decision && review.ref === binding.ref &&
+    nonempty(review.reviewer) && nonempty(review.reviewedAt) && Number.isFinite(clock) &&
+    typeof review.articleSha256 === 'string' && HEX64.test(review.articleSha256) && typeof review.registrySha256 === 'string' && HEX64.test(review.registrySha256) && record(review.sourceHashes) &&
+    Array.isArray(review.unitIds) && review.unitIds.length <= 100 && review.unitIds.every((id) => typeof id === 'string' && ID.test(id)) &&
+    new Set(review.unitIds).size === review.unitIds.length && Array.isArray(sources) && sources.length <= 50 &&
+    Object.entries(review.sourceHashes).every(([id, digest]) => ID.test(id) && typeof digest === 'string' && HEX64.test(digest)), 'PILOT_CONTEXT_UNASSESSED');
+  check(frozen.registrySha256 === pkg.descriptor.contextRegistrySha256 &&
+    reviewReasons(review, frozen.registry, frozen.registrySha256, pkg.descriptor.articleSha256, clock).length === 0 &&
+    review.unitIds.length === frozen.registry.units.length && frozen.registry.units.every(({ id }) => review.unitIds.includes(id)) &&
+    Object.keys(review.sourceHashes).length === sources.length && sources.every((source) =>
+      Object.hasOwn(review.sourceHashes, source.id) && review.sourceHashes[source.id] === source.sha256),
+  'PILOT_CONTEXT_UNASSESSED');
+  return deepFreeze(review);
+}
+
 function readPrivate(root, file) {
   check(nonempty(file) && !isAbsolute(file), 'PRIVATE_FILE_PATH_INVALID');
   const target = realpathSync(resolve(root, file));

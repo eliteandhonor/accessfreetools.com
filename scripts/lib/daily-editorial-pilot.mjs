@@ -10,6 +10,7 @@ const REF = /^[A-Za-z0-9][A-Za-z0-9_.:/#@-]{0,239}$/;
 const COMMIT = /^[a-f0-9]{40}$/;
 const SAFE_CODES = new Set([
   'PILOT_APPROVAL_REQUIRED', 'PILOT_CODE_APPROVAL_REQUIRED', 'PILOT_STORAGE_REQUIRED', 'PILOT_INPUT_COMMIT_REQUIRED',
+  'PILOT_LEDGER_BASELINE_REQUIRED',
   'PILOT_SHARED_ALLOCATION_REQUIRED', 'PILOT_GRANT_ALREADY_USED', 'PILOT_CONTEXT_UNASSESSED', 'PILOT_WEBSITE_EVIDENCE_REQUIRED',
   'PILOT_ARTICLE_REVIEW_REQUIRED', 'PILOT_FROZEN_REQUEST_UNASSESSED', 'PILOT_DAY_IN_USE', 'PILOT_DAY_CHANGED',
   'PILOT_JINA_SOURCE_CHANGED', 'PILOT_JINA_SOURCE_INCOMPLETE', 'PILOT_REVIEW_SCHEMA', 'PILOT_REVIEW_HASH',
@@ -53,6 +54,15 @@ export function admitStatePreflight(config, { approval, approvedCode, codeCommit
   requireCondition(config.stateRepository === 'eliteandhonor/accessfreetools-editorial-state' &&
     REF.test(config.privateStoreApproval ?? ''), 'PILOT_STORAGE_REQUIRED');
   return true;
+}
+
+/** Live execution requires a committed ledger and cannot initialize an absent branch. */
+export async function loadPilotLedger(store) {
+  const state = await store.load();
+  const commit = typeof store.currentCommit === 'function' ? store.currentCommit() : null;
+  requireCondition(typeof commit === 'string' && COMMIT.test(commit),
+    'PILOT_LEDGER_BASELINE_REQUIRED');
+  return state;
 }
 
 /** No public content mutation. A possibly sent unknown call blocks every future day. */
