@@ -1,17 +1,57 @@
 {
   "schemaVersion": 1,
-  "enabled": false,
+  "enabled": true,
   "publicationEnabled": false,
   "repository": "eliteandhonor/accessfreetools.com",
   "timezone": "Australia/Brisbane",
   "stateBranch": "automation/aft-editorial-state",
   "stateRepository": "eliteandhonor/accessfreetools-editorial-state",
-  "privateStoreApproval": "aft-storage-only-preflight-v1",
-  "statePreflightAllowEmptyBaseline": true,
+  "privateStoreApproval": "aft-localsend-md-pilot-private-checkpoints-20261009-v1",
+  "statePreflightAllowEmptyBaseline": false,
   "inputCommit": "c843a6c52434733eb99672088713dd34ae724252",
-  "activationReview": "aft-storage-only-preflight-v1",
-  "contextReview": null,
-  "sharedBudgetAllocation": null,
+  "activationReview": "aft-localsend-md-pilot-20261009-14-attempts-v1",
+  "contextReview": {
+    "decision": "context-units-approved",
+    "ref": "reviews/localsend-pilot-v3/context-independent-review.json#case-sha256-83fe0399abb17252651de5cad50235d4752c5e642a4debf673cf2d6de281e753",
+    "file": "context-independent-review.json",
+    "bytes": 4167,
+    "sha256": "5c9a6e05e5081eae766016e36e18f0976cf7ea76029eea069db683e90a786e1d",
+    "inputCommit": "c843a6c52434733eb99672088713dd34ae724252"
+  },
+  "sharedBudgetAllocation": {
+    "reviewRef": "aft-localsend-md-pilot-shared-grant-20261009-14-attempts-v1",
+    "purpose": "unpublished-localsend-pilot",
+    "aftCaps": {
+      "jina": 10000,
+      "ollama": 530288,
+      "typesafe": 524288
+    },
+    "aftCallCaps": {
+      "jina": 2,
+      "ollama": 4,
+      "typesafe": 8
+    },
+    "gtaCaps": {
+      "jina": 40000,
+      "ollama": 417792,
+      "typesafe": 128000
+    },
+    "gtaCallCaps": {
+      "jina": 8,
+      "ollama": 12,
+      "typesafe": 2
+    },
+    "sharedCaps": {
+      "jina": 50000,
+      "ollama": 948080,
+      "typesafe": 652288
+    },
+    "sharedCallCaps": {
+      "jina": 10,
+      "ollama": 16,
+      "typesafe": 10
+    }
+  },
   "allocationProposal": {
     "approved": false,
     "purpose": "unpublished-localsend-pilot",
