@@ -8,6 +8,33 @@ export const HILLTOPADS_BANNER_SCRIPT_URL =
 export const HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL =
   'https://unfoldedtrade.com/bzX_Vzs.dFG/lu0YYWWncR/IeVm/9xuLZ/U/lHkpPYTdcg1kMBzAQ/5/NeTDMzt-NxzVUxzjNkDzki1ON/wX';
 
+export const AD_CONSENT_STORAGE_KEY = 'aft-hilltopads-consent';
+// GDPR/UK GDPR visitors must opt in before ads load. Detected from the device
+// time zone: every Europe/* zone, plus EEA islands and EU outermost regions.
+export const CONSENT_REGION_EXTRA_TIME_ZONES = [
+  'Arctic/Longyearbyen',
+  'Asia/Famagusta',
+  'Asia/Nicosia',
+  'Atlantic/Azores',
+  'Atlantic/Canary',
+  'Atlantic/Faroe',
+  'Atlantic/Madeira',
+  'Atlantic/Reykjavik',
+  'America/Cayenne',
+  'America/Guadeloupe',
+  'America/Martinique',
+  'America/Marigot',
+  'Indian/Mayotte',
+  'Indian/Reunion',
+] as const;
+
+export function isConsentRegionTimeZone(timeZone: string | undefined) {
+  // An unknown zone is treated as needing consent.
+  if (!timeZone) return true;
+  return timeZone.startsWith('Europe/') ||
+    (CONSENT_REGION_EXTRA_TIME_ZONES as readonly string[]).includes(timeZone);
+}
+
 const PRIVATE_PATHS = new Set(['/404/', '/mcp/', '/private-analytics/']);
 const PRIVATE_PREFIXES = ['/admin/', '/api/'];
 const TRUE_VALUES = new Set(['1', 'on', 'true', 'yes']);
