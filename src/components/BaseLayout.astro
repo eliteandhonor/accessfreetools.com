@@ -3,7 +3,7 @@ import SiteFooter from './SiteFooter.astro';
 import SiteHeader from './SiteHeader.astro';
 import AdvertisingControls from './AdvertisingControls.astro';
 import PreferredSourceCallout from './PreferredSourceCallout.astro';
-import { ADSENSE_VERIFICATION_ACCOUNT, isEligiblePublicAdPath } from '../lib/monetization';
+import { ADSENSE_VERIFICATION_ACCOUNT, HILLTOPADS_VERIFICATION_TOKEN, isEligiblePublicAdPath } from '../lib/monetization';
 import { robotsContentForPath } from '../data/indexationPolicy';
 import { verifiedOrganizationSameAs } from '../data/siteEntity';
 import { getArticleDatesFromPath, toIsoDateTime } from '../data/siteDates';
@@ -84,6 +84,7 @@ const siteStructuredData = {
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="google-adsense-account" content={ADSENSE_VERIFICATION_ACCOUNT} />
+    <meta name={HILLTOPADS_VERIFICATION_TOKEN} content={HILLTOPADS_VERIFICATION_TOKEN} />
     {robotsContent && <meta name="robots" content={robotsContent} />}
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0d7c73" />
