@@ -2,6 +2,8 @@ export const DEFAULT_INFOLINKS_PID = 3447500;
 export const DEFAULT_INFOLINKS_WSID = 0;
 export const INFOLINKS_SCRIPT_URL = 'https://resources.infolinks.com/js/infolinks_main.js';
 export const ADSENSE_VERIFICATION_ACCOUNT = 'ca-pub-4461993577253590';
+// HilltopAds site 925379 ownership meta tag. Verification only; no ad code.
+export const HILLTOPADS_VERIFICATION_TOKEN = 'afc0abb760e5deb790430f9ff0b43d0da529a373';
 // September 13: neither publisher account is approved. Recheck before changing.
 export const INFOLINKS_ACCOUNT_APPROVED = false;
 export const ADSENSE_ACCOUNT_APPROVED = false;
