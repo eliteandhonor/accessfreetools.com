@@ -1,11 +1,6 @@
 ---
 import { toolArtEntries } from '../data/toolArt';
 
-interface Props {
-  showAdChoices?: boolean;
-}
-
-const { showAdChoices = false } = Astro.props;
 const year = new Date().getFullYear();
 const hasApprovedGallery = toolArtEntries.length > 0;
 const groups = [
@@ -59,9 +54,6 @@ const groups = [
         <h2>{group.label}</h2>
         <ul>
           {group.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
-          {group.label === 'Policies' && showAdChoices && (
-            <li><a class="footer-ad-choice" data-ad-privacy-open href="/privacy-policy/#publisher-privacy">Ad choices</a></li>
-          )}
         </ul>
       </section>
     ))}

@@ -2167,11 +2167,10 @@ describe('site content audit guardrails', () => {
   });
 
   it('keeps Privacy, Terms, Contact, and Disclosure ready for ads and affiliate links', () => {
-    expect(PRIVACY_POLICY_SOURCE).toContain('Third-party vendors, including Google');
-    expect(PRIVACY_POLICY_SOURCE).toContain("Google's use of advertising cookies");
-    expect(PRIVACY_POLICY_SOURCE).toContain('Google-certified Consent Management Platform');
-    expect(PRIVACY_POLICY_SOURCE).toContain('Google Ads Settings');
-    expect(PRIVACY_POLICY_SOURCE).toContain('aboutads.info');
+    expect(PRIVACY_POLICY_SOURCE).toContain('Advertising with HilltopAds');
+    expect(PRIVACY_POLICY_SOURCE).toContain('https://hilltopads.com/privacy-policy');
+    expect(PRIVACY_POLICY_SOURCE).toContain('Network');
+    expect(PRIVACY_POLICY_SOURCE).not.toContain('Infolinks');
     expect(PRIVACY_POLICY_SOURCE).toContain('affiliate links');
     expect(PRIVACY_POLICY_SOURCE).toContain('If you use the contact form');
     expect(PRIVACY_POLICY_SOURCE).toContain('Ask tool routing');
@@ -2185,6 +2184,7 @@ describe('site content audit guardrails', () => {
     expect(TERMS_SOURCE).toContain('Third-party products and links');
     expect(TERMS_SOURCE).toContain('contact@accessfreetools.com');
 
+    expect(ADVERTISING_DISCLOSURE_SOURCE).toContain('HilltopAds is the only ad network');
     expect(ADVERTISING_DISCLOSURE_SOURCE).toContain('I may');
     expect(ADVERTISING_DISCLOSURE_SOURCE).toContain('earn a commission');
     expect(ADVERTISING_DISCLOSURE_SOURCE).toContain('Affiliate disclosures should appear close to affiliate links');

@@ -1,37 +1,17 @@
-export const DEFAULT_INFOLINKS_PID = 3447500;
-export const DEFAULT_INFOLINKS_WSID = 0;
-export const INFOLINKS_SCRIPT_URL = 'https://resources.infolinks.com/js/infolinks_main.js';
-export const ADSENSE_VERIFICATION_ACCOUNT = 'ca-pub-4461993577253590';
-// HilltopAds site 925379 ownership meta tag. Verification only; no ad code.
+// HilltopAds is the only ad network. Site 925379, verified October 20 2026.
+// Zone scripts come from the HilltopAds dashboard; ads load on every public page.
 export const HILLTOPADS_VERIFICATION_TOKEN = 'afc0abb760e5deb790430f9ff0b43d0da529a373';
-// September 13: neither publisher account is approved. Recheck before changing.
-export const INFOLINKS_ACCOUNT_APPROVED = false;
-export const ADSENSE_ACCOUNT_APPROVED = false;
-export const AD_CONSENT_STORAGE_KEY = 'access-free-tools-ad-consent';
-export const AD_OWNER_SUPPRESSION_KEY = 'access-free-tools-owner-ads-disabled';
-
-export const ADSENSE_TOOL_PATHS = [
-  '/tools/date-calculator/',
-  '/tools/gas-mileage-calculator/',
-  '/tools/mileage-calculator/',
-  '/tools/hex-calculator/',
-  '/tools/percentage-calculator/',
-] as const;
+// Zone 7534937: MultiTag banner 300x250, rendered in the slot above the footer.
+export const HILLTOPADS_BANNER_SCRIPT_URL =
+  'https://unfoldedtrade.com/brXOV.sZdaGYlX0eYNW-cv/reUm/9lulZ/U/lMkhPUT/c-1mM/zqQV5jMRz/cytyN/ziULzcN/DzkZ0UMMQv';
+// Zone 7534953: MultiTag In-Page Push. No popunder zone by design.
+export const HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL =
+  'https://unfoldedtrade.com/bzX_Vzs.dFG/lu0YYWWncR/IeVm/9xuLZ/U/lHkpPYTdcg1kMBzAQ/5/NeTDMzt-NxzVUxzjNkDzki1ON/wX';
 
 const PRIVATE_PATHS = new Set(['/404/', '/mcp/', '/private-analytics/']);
 const PRIVATE_PREFIXES = ['/admin/', '/api/'];
 const TRUE_VALUES = new Set(['1', 'on', 'true', 'yes']);
 const FALSE_VALUES = new Set(['0', 'off', 'false', 'no']);
-
-export type AdMode = 'adsense' | 'infolinks' | 'none';
-
-export interface AdModeOptions {
-  adsenseClient: string;
-  adsenseCmpReady: boolean;
-  adsenseEnabled: boolean;
-  adsenseSlot: string;
-  infolinksEnabled: boolean;
-}
 
 export function normalizePublicPath(value: string) {
   try {
@@ -62,28 +42,8 @@ export function parsePublicFlag(value: string | undefined, fallback = false) {
   return false;
 }
 
-export function hasValidAdSenseConfiguration(options: AdModeOptions) {
-  return (
-    ADSENSE_ACCOUNT_APPROVED &&
-    options.adsenseEnabled &&
-    options.adsenseCmpReady &&
-    /^ca-pub-\d{16}$/.test(options.adsenseClient.trim()) &&
-    /^\d{10}$/.test(options.adsenseSlot.trim())
-  );
-}
-
-export function resolveAdMode(path: string, options: AdModeOptions): AdMode {
-  const normalizedPath = normalizePublicPath(path);
-  if (!isEligiblePublicAdPath(normalizedPath)) return 'none';
-
-  if (
-    ADSENSE_TOOL_PATHS.includes(normalizedPath as (typeof ADSENSE_TOOL_PATHS)[number]) &&
-    hasValidAdSenseConfiguration(options)
-  ) {
-    return 'adsense';
-  }
-
-  return INFOLINKS_ACCOUNT_APPROVED && options.infolinksEnabled ? 'infolinks' : 'none';
+export function shouldServeHilltopAds(path: string, enabled: boolean) {
+  return enabled && isEligiblePublicAdPath(path);
 }
 
 export function sanitizeKoFiUrl(value: string | undefined) {

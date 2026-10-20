@@ -105,7 +105,7 @@ function fixtureHtml(variant) {
     <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/fixture.css">
     </head><body data-variant="${variant}"><main>
     <h1>SEC-02 isolated component fixture</h1><p id="public-prose">Public explanation outside the workspace.</p>
-    <!--INFOLINKS_OFF-->${boundary}<!--INFOLINKS_ON-->
+    ${boundary}
     </main><script src="/analytics.js"></script><script src="/fixture.js"></script></body></html>`;
 }
 

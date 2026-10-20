@@ -30,6 +30,12 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 - Run `npm run automation:env-check` before reporting automation environment failures. Use `output/automation-environment.md` to distinguish a real account/site issue from stale memory or a temporary automation network/OAuth problem.
 - Never let automation output become reader-facing copy. Public content should follow the brand code and should not include internal instructions such as "this Medium post should" or "agent should".
 
+## Advertising
+
+- Owner decision 2026-10-20: HilltopAds (site 925379) is the only ad network, and ads run on every public page with no consent gate. Zones: 7534937 banner 300x250 above the footer and 7534953 In-Page Push. Do not add a popunder zone without owner approval.
+- Google AdSense and Infolinks code, consent panel, ads.txt and readiness scripts were removed on purpose. Do not reintroduce them, and treat older AdSense/Infolinks notes in `docs/` and `agents/` as history only.
+- Ad config lives in `src/lib/monetization.ts` and `src/components/AdvertisingControls.astro`. `PUBLIC_HILLTOPADS_ENABLED=false` is the off switch.
+
 ## SEO Data Sources
 
 - Use Google Search Console for real indexing, click, impression, CTR, and average-position data.

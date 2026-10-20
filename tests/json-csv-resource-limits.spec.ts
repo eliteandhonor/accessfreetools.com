@@ -12,7 +12,6 @@ function evidenceDirectory(testInfo: TestInfo) {
 async function retainScreenshot(region: Locator, testInfo: TestInfo, name: string) {
   const keepAdsOff = region.page().getByRole('button', { name: 'Keep ads off', exact: true });
   if (await keepAdsOff.isVisible()) await keepAdsOff.click();
-  await expect(region.page().locator('[data-advertising-choice]')).toBeHidden();
   const directory = evidenceDirectory(testInfo);
   await mkdir(directory, { recursive: true });
   const path = resolve(directory, `${name}.png`);
