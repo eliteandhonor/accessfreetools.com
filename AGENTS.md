@@ -32,8 +32,8 @@ This repo is a long-running utility-site project. Future Codex agents should kee
 
 ## Advertising
 
-- Owner decision 2026-10-20: HilltopAds (site 925379) is the only ad network, and ads run on every public page with no consent gate. Zones: 7534937 banner 300x250 above the footer and 7534953 In-Page Push. Do not add a popunder zone without owner approval.
-- Google AdSense and Infolinks code, consent panel, ads.txt and readiness scripts were removed on purpose. Do not reintroduce them, and treat older AdSense/Infolinks notes in `docs/` and `agents/` as history only.
+- Owner decision 2026-10-20: HilltopAds (site 925379) is the only ad network, and ads run on every public page. Visitors whose device time zone is in the EEA/UK/Switzerland (`isConsentRegionTimeZone`) must press Accept ads first; everyone else gets ads automatically. Zones: 7534937 banner 300x250 above the footer and 7534953 In-Page Push. Do not add a popunder zone without owner approval.
+- Google AdSense and Infolinks code, the old site-wide consent panel, ads.txt and readiness scripts were removed on purpose. Do not reintroduce them, and treat older AdSense/Infolinks notes in `docs/` and `agents/` as history only.
 - Ad config lives in `src/lib/monetization.ts` and `src/components/AdvertisingControls.astro`. `PUBLIC_HILLTOPADS_ENABLED=false` is the off switch.
 
 ## SEO Data Sources

@@ -5,6 +5,7 @@ import {
   HILLTOPADS_BANNER_SCRIPT_URL,
   HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL,
   HILLTOPADS_VERIFICATION_TOKEN,
+  isConsentRegionTimeZone,
   isEligiblePublicAdPath,
   parsePublicFlag,
   sanitizeKoFiUrl,
@@ -49,6 +50,18 @@ describe('HilltopAds configuration', () => {
     expect(HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL).toMatch(/^https:\/\/unfoldedtrade\.com\//);
     expect(HILLTOPADS_BANNER_SCRIPT_URL).not.toBe(HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL);
     expect(HILLTOPADS_VERIFICATION_TOKEN).toMatch(/^[0-9a-f]{40}$/);
+  });
+
+  it('asks EEA, UK and Swiss time zones for consent before ads load', () => {
+    for (const zone of ['Europe/London', 'Europe/Berlin', 'Europe/Zurich', 'Europe/Dublin',
+      'Atlantic/Canary', 'Atlantic/Reykjavik', 'Asia/Nicosia', 'Indian/Reunion']) {
+      expect(isConsentRegionTimeZone(zone)).toBe(true);
+    }
+    expect(isConsentRegionTimeZone('')).toBe(true);
+    expect(isConsentRegionTimeZone(undefined)).toBe(true);
+    for (const zone of ['America/New_York', 'Australia/Sydney', 'Asia/Tokyo', 'America/Sao_Paulo']) {
+      expect(isConsentRegionTimeZone(zone)).toBe(false);
+    }
   });
 
   it('no longer publishes the retired AdSense ads.txt seller line', () => {
