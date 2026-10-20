@@ -12,7 +12,7 @@ import type { DailyEditorialArticle } from '../../src/data/dailyEditorialArticle
 // approved image requires explicit synthetic test metadata; optional advertising
 // simulation is confined to this bundle. No public content or dist is written.
 export async function renderDailyEditorialFixture(article: DailyEditorialArticle, options: {
-  advertisingMode?: 'adsense' | 'infolinks'; artworkApprovals?: unknown[];
+  advertisingMode?: 'adsense' | 'hilltopads' | 'infolinks'; artworkApprovals?: unknown[];
 } = {}) {
   const require = createRequire(import.meta.url);
   const styles = new Map<string, string>();
@@ -35,6 +35,7 @@ export async function renderDailyEditorialFixture(article: DailyEditorialArticle
       PUBLIC_ADSENSE_CMP_READY: 'true',
       PUBLIC_ADSENSE_CLIENT_ID: 'ca-pub-1234567890123456',
       PUBLIC_ADSENSE_CONTENT_SLOT_ID: '1234567890',
+      PUBLIC_HILLTOPADS_ENABLED: options.advertisingMode === 'hilltopads' ? 'true' : 'false',
       PUBLIC_INFOLINKS_ENABLED: options.advertisingMode === 'infolinks' ? 'true' : 'false',
     } : {}) },
     plugins: [{ name: 'daily-article-fixture', setup(builder) {

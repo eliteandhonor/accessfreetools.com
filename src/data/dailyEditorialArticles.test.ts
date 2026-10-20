@@ -71,7 +71,7 @@ describe('honest publication timestamps', () => {
 });
 
 describe('actual article rendering and discovery', () => {
-  it.each(['adsense', 'infolinks'] as const)('keeps automatic articles ad-free even when %s is approved for ordinary pages', async (advertisingMode) => {
+  it.each(['adsense', 'hilltopads', 'infolinks'] as const)('keeps automatic articles ad-free even when %s is approved for ordinary pages', async (advertisingMode) => {
     const article = parseDailyEditorialArticles([syntheticDailyArticle()])[0];
     const approval = await syntheticDailyArtworkApproval(article);
     const { html, defaultLayoutHtml } = await renderDailyEditorialFixture(article, { advertisingMode, artworkApprovals: [approval] });
@@ -83,7 +83,7 @@ describe('actual article rendering and discovery', () => {
     expect(defaultLayoutHtml).toContain('property="og:image"');
     expect(defaultLayoutHtml).toContain('name="twitter:image"');
     for (const marker of ['data-advertising-choice', 'data-ad-privacy-open', 'aft:ads-ready',
-      'adsbygoogle.js', 'infolinks_main.js', 'data-adsense-placement']) expect(html).not.toContain(marker);
+      'adsbygoogle.js', 'infolinks_main.js', 'unfoldedtrade.com', 'data-hilltopads-banner', 'data-adsense-placement']) expect(html).not.toContain(marker);
     expect(html).toContain('name="google-adsense-account"');
     expect(html).toContain('AI-assisted research, writing, and review');
     expect(html).not.toMatch(/(?:human|owner|manually)[ -]reviewed/i);
