@@ -2,8 +2,15 @@ export const DEFAULT_INFOLINKS_PID = 3447500;
 export const DEFAULT_INFOLINKS_WSID = 0;
 export const INFOLINKS_SCRIPT_URL = 'https://resources.infolinks.com/js/infolinks_main.js';
 export const ADSENSE_VERIFICATION_ACCOUNT = 'ca-pub-4461993577253590';
-// HilltopAds site 925379 ownership meta tag. Verification only; no ad code.
+// HilltopAds site 925379, verified October 20 2026. Zone scripts come from the dashboard.
 export const HILLTOPADS_VERIFICATION_TOKEN = 'afc0abb760e5deb790430f9ff0b43d0da529a373';
+export const HILLTOPADS_ACCOUNT_APPROVED = true;
+// Zone 7534937: MultiTag banner 300x250, rendered in the page's ad slot.
+export const HILLTOPADS_BANNER_SCRIPT_URL =
+  'https://unfoldedtrade.com/brXOV.sZdaGYlX0eYNW-cv/reUm/9lulZ/U/lMkhPUT/c-1mM/zqQV5jMRz/cytyN/ziULzcN/DzkZ0UMMQv';
+// Zone 7534953: MultiTag In-Page Push. No popunder zone by design.
+export const HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL =
+  'https://unfoldedtrade.com/bzX_Vzs.dFG/lu0YYWWncR/IeVm/9xuLZ/U/lHkpPYTdcg1kMBzAQ/5/NeTDMzt-NxzVUxzjNkDzki1ON/wX';
 // September 13: neither publisher account is approved. Recheck before changing.
 export const INFOLINKS_ACCOUNT_APPROVED = false;
 export const ADSENSE_ACCOUNT_APPROVED = false;
@@ -23,13 +30,14 @@ const PRIVATE_PREFIXES = ['/admin/', '/api/'];
 const TRUE_VALUES = new Set(['1', 'on', 'true', 'yes']);
 const FALSE_VALUES = new Set(['0', 'off', 'false', 'no']);
 
-export type AdMode = 'adsense' | 'infolinks' | 'none';
+export type AdMode = 'adsense' | 'hilltopads' | 'infolinks' | 'none';
 
 export interface AdModeOptions {
   adsenseClient: string;
   adsenseCmpReady: boolean;
   adsenseEnabled: boolean;
   adsenseSlot: string;
+  hilltopadsEnabled?: boolean;
   infolinksEnabled: boolean;
 }
 
@@ -82,6 +90,8 @@ export function resolveAdMode(path: string, options: AdModeOptions): AdMode {
   ) {
     return 'adsense';
   }
+
+  if (HILLTOPADS_ACCOUNT_APPROVED && options.hilltopadsEnabled) return 'hilltopads';
 
   return INFOLINKS_ACCOUNT_APPROVED && options.infolinksEnabled ? 'infolinks' : 'none';
 }

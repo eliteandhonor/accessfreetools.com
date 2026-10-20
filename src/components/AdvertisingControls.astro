@@ -4,6 +4,8 @@ import {
   AD_OWNER_SUPPRESSION_KEY,
   DEFAULT_INFOLINKS_PID,
   DEFAULT_INFOLINKS_WSID,
+  HILLTOPADS_BANNER_SCRIPT_URL,
+  HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL,
   INFOLINKS_SCRIPT_URL,
   parsePublicFlag,
   resolveAdMode,
@@ -25,17 +27,21 @@ const adsenseEnabled = parsePublicFlag(import.meta.env.PUBLIC_ADSENSE_ENABLED, f
 const adsenseCmpReady = parsePublicFlag(import.meta.env.PUBLIC_ADSENSE_CMP_READY, false);
 const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT_ID?.trim() ?? '';
 const adsenseSlot = import.meta.env.PUBLIC_ADSENSE_CONTENT_SLOT_ID?.trim() ?? '';
+const hilltopadsEnabled = parsePublicFlag(import.meta.env.PUBLIC_HILLTOPADS_ENABLED, true);
 const adMode = resolveAdMode(path, {
   adsenseClient,
   adsenseCmpReady,
   adsenseEnabled,
   adsenseSlot,
+  hilltopadsEnabled,
   infolinksEnabled,
 });
 const clientConfig = JSON.stringify({
   adMode,
   adsenseClient,
   consentKey: AD_CONSENT_STORAGE_KEY,
+  hilltopadsBannerScriptUrl: HILLTOPADS_BANNER_SCRIPT_URL,
+  hilltopadsInPagePushScriptUrl: HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL,
   infolinksPid,
   infolinksScriptUrl: INFOLINKS_SCRIPT_URL,
   infolinksWsid,
@@ -46,10 +52,19 @@ const clientConfig = JSON.stringify({
 {
   adMode !== 'none' && (
     <>
-      <p class="advertising-page-notice" data-advertising-page-notice hidden>
-        Advertising notice: some double-underlined words may open sponsored ads.
-        <a href="/advertising-disclosure/">How advertising works</a>.
-      </p>
+      {adMode === 'hilltopads' ? (
+        <aside aria-label="Advertisement" class="advertising-banner" data-hilltopads-banner hidden>
+          <p class="advertising-banner__label">
+            Advertisement · <a href="/advertising-disclosure/">How advertising works</a>
+          </p>
+          <div class="advertising-banner__slot" data-hilltopads-banner-slot></div>
+        </aside>
+      ) : (
+        <p class="advertising-page-notice" data-advertising-page-notice hidden>
+          Advertising notice: some double-underlined words may open sponsored ads.
+          <a href="/advertising-disclosure/">How advertising works</a>.
+        </p>
+      )}
 
       <section
         aria-labelledby="advertising-choice-title"
@@ -59,18 +74,28 @@ const clientConfig = JSON.stringify({
       >
         <div>
           <strong id="advertising-choice-title">Advertising choice</strong>
-          <p>
-            Infolinks can turn a small number of words in public page copy into sponsored links.
-            Allowing ads lets Infolinks and its partners use cookies and device data. Tool entries,
-            results, Ask messages, and contact forms stay outside ad scanning.
-          </p>
+          {adMode === 'hilltopads' ? (
+            <p>
+              HilltopAds can show a banner near the end of the page and a small dismissible notification-style
+              ad. Allowing ads lets HilltopAds and its partners use cookies and device data. Tools work
+              the same either way.
+            </p>
+          ) : (
+            <p>
+              Infolinks can turn a small number of words in public page copy into sponsored links.
+              Allowing ads lets Infolinks and its partners use cookies and device data. Tool entries,
+              results, Ask messages, and contact forms stay outside ad scanning.
+            </p>
+          )}
           <p class="advertising-choice__links">
             <a href="/privacy-policy/">Privacy policy</a>
             <a href="/advertising-disclosure/">Advertising disclosure</a>
           </p>
         </div>
         <div class="advertising-choice__actions">
-          <button class="button-primary" data-ad-consent="granted" type="button">Allow contextual ads</button>
+          <button class="button-primary" data-ad-consent="granted" type="button">
+            {adMode === 'hilltopads' ? 'Allow ads' : 'Allow contextual ads'}
+          </button>
           <button class="button-secondary" data-ad-consent="denied" type="button">Keep ads off</button>
         </div>
       </section>
@@ -156,6 +181,32 @@ const clientConfig = JSON.stringify({
             document.head.append(script);
           };
 
+          const insertHilltopAdsScript = (id, src, parent) => {
+            const script = document.createElement('script');
+            script.async = true;
+            script.id = id;
+            script.referrerPolicy = 'no-referrer-when-downgrade';
+            Reflect.set(script, 'settings', {});
+            script.src = src;
+            script.addEventListener('load', () => {
+              remoteScriptLoaded = true;
+              dispatchAdReady('hilltopads');
+            }, { once: true });
+            parent.append(script);
+          };
+
+          const loadHilltopAds = () => {
+            if (config.adMode !== 'hilltopads' || document.getElementById('hilltopads-push-script')) return;
+
+            const banner = document.querySelector('[data-hilltopads-banner]');
+            const bannerSlot = document.querySelector('[data-hilltopads-banner-slot]');
+            if (banner instanceof HTMLElement && bannerSlot instanceof HTMLElement) {
+              banner.hidden = false;
+              insertHilltopAdsScript('hilltopads-banner-script', config.hilltopadsBannerScriptUrl, bannerSlot);
+            }
+            insertHilltopAdsScript('hilltopads-push-script', config.hilltopadsInPagePushScriptUrl, document.body);
+          };
+
           const applyChoice = () => {
             const choice = readValue(config.consentKey);
             const mayLoad = choice === 'granted' && canLoadRemoteAds();
@@ -167,6 +218,7 @@ const clientConfig = JSON.stringify({
             if (!mayLoad) return;
             loadInfolinks();
             loadAdSense();
+            loadHilltopAds();
           };
 
           document.querySelectorAll('[data-ad-consent]').forEach((button) => {
@@ -178,7 +230,8 @@ const clientConfig = JSON.stringify({
               const remoteScriptPresent =
                 remoteScriptLoaded ||
                 document.getElementById('infolinks-script') !== null ||
-                document.getElementById('adsense-script') !== null;
+                document.getElementById('adsense-script') !== null ||
+                document.getElementById('hilltopads-push-script') !== null;
               if (choice === 'denied' && remoteScriptPresent) location.reload();
               else applyChoice();
             });

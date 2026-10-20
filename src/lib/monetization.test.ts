@@ -6,6 +6,8 @@ import {
   ADSENSE_TOOL_PATHS,
   DEFAULT_INFOLINKS_PID,
   DEFAULT_INFOLINKS_WSID,
+  HILLTOPADS_BANNER_SCRIPT_URL,
+  HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL,
   INFOLINKS_SCRIPT_URL,
   isEligiblePublicAdPath,
   parsePublicFlag,
@@ -78,6 +80,27 @@ describe('monetization configuration', () => {
       adsenseSlot: '1234567890',
       infolinksEnabled: true,
     })).toBe('none');
+  });
+
+  it('serves HilltopAds on public pages only when enabled', () => {
+    const options = {
+      adsenseClient: '',
+      adsenseCmpReady: false,
+      adsenseEnabled: false,
+      adsenseSlot: '',
+      hilltopadsEnabled: true,
+      infolinksEnabled: false,
+    };
+    expect(resolveAdMode('/', options)).toBe('hilltopads');
+    expect(resolveAdMode('/tools/date-calculator/', options)).toBe('hilltopads');
+    expect(resolveAdMode('/admin/', options)).toBe('none');
+    expect(resolveAdMode('/', { ...options, hilltopadsEnabled: false })).toBe('none');
+  });
+
+  it('pins HilltopAds banner and in-page push zone scripts to HTTPS', () => {
+    expect(HILLTOPADS_BANNER_SCRIPT_URL).toMatch(/^https:\/\/unfoldedtrade\.com\//);
+    expect(HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL).toMatch(/^https:\/\/unfoldedtrade\.com\//);
+    expect(HILLTOPADS_BANNER_SCRIPT_URL).not.toBe(HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL);
   });
 
   it('publishes only the exact AdSense dashboard-supplied seller line', () => {

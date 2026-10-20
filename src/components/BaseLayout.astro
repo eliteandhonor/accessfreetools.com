@@ -341,8 +341,8 @@ const siteStructuredData = {
       {shouldRenderPreferredSource && <PreferredSourceCallout />}
     </main>
     <Fragment set:html="<!--INFOLINKS_OFF-->" />
-    <SiteFooter showAdChoices={shouldRenderAdvertising} />
     {renderAdvertising && <AdvertisingControls path={path} />}
+    <SiteFooter showAdChoices={shouldRenderAdvertising} />
     <Fragment set:html="<!--INFOLINKS_ON-->" />
   </body>
 </html>

@@ -7355,7 +7355,27 @@ main {
   padding: 0 22px;
 }
 
+.advertising-banner {
+  margin: 28px auto 0;
+  max-width: var(--container);
+  padding: 0 22px;
+  text-align: center;
+}
+
+.advertising-banner__label {
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin: 0 0 8px;
+}
+
+.advertising-banner__slot {
+  display: flex;
+  justify-content: center;
+  min-height: 250px;
+}
+
 .advertising-page-notice a,
+.advertising-banner a,
 .advertising-choice a {
   color: var(--primary-strong);
   font-weight: 800;
