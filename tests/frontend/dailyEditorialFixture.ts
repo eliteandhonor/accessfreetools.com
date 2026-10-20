@@ -9,10 +9,10 @@ import type { DailyEditorialArticle } from '../../src/data/dailyEditorialArticle
 
 // Build the real component, layout, CSS and discovery handlers in memory. The
 // default fixture replaces the catalog and uses an empty artwork manifest. An
-// approved image requires explicit synthetic test metadata; optional advertising
-// simulation is confined to this bundle. No public content or dist is written.
+// approved image requires explicit synthetic test metadata. No public content or
+// dist is written.
 export async function renderDailyEditorialFixture(article: DailyEditorialArticle, options: {
-  advertisingMode?: 'adsense' | 'hilltopads' | 'infolinks'; artworkApprovals?: unknown[];
+  artworkApprovals?: unknown[];
 } = {}) {
   const require = createRequire(import.meta.url);
   const styles = new Map<string, string>();
@@ -30,26 +30,10 @@ export async function renderDailyEditorialFixture(article: DailyEditorialArticle
       export { GET as imageSitemap } from './src/pages/sitemap-images.xml';
     `, resolveDir: process.cwd() },
     bundle: true, write: false, platform: 'node', format: 'esm', jsx: 'automatic',
-    define: { 'import.meta.env': JSON.stringify(options.advertisingMode ? {
-      PUBLIC_ADSENSE_ENABLED: options.advertisingMode === 'adsense' ? 'true' : 'false',
-      PUBLIC_ADSENSE_CMP_READY: 'true',
-      PUBLIC_ADSENSE_CLIENT_ID: 'ca-pub-1234567890123456',
-      PUBLIC_ADSENSE_CONTENT_SLOT_ID: '1234567890',
-      PUBLIC_HILLTOPADS_ENABLED: options.advertisingMode === 'hilltopads' ? 'true' : 'false',
-      PUBLIC_INFOLINKS_ENABLED: options.advertisingMode === 'infolinks' ? 'true' : 'false',
-    } : {}) },
+    define: { 'import.meta.env': '{}' },
     plugins: [{ name: 'daily-article-fixture', setup(builder) {
       builder.onLoad({ filter: /dailyEditorialArticles\.json$/ }, () => ({ contents: JSON.stringify([article]), loader: 'json' }));
       builder.onLoad({ filter: /dailyEditorialArtApprovals\.json$/ }, () => ({ contents: JSON.stringify(options.artworkApprovals ?? []), loader: 'json' }));
-      // Simulate approved advertising in memory to test the article boundary.
-      // Production approval flags, allowlists and environment stay untouched.
-      if (options.advertisingMode) builder.onLoad({ filter: /\/monetization\.ts$/ }, (args) => ({
-        contents: readFileSync(args.path, 'utf8')
-          .replace('export const ADSENSE_ACCOUNT_APPROVED = false;', 'export const ADSENSE_ACCOUNT_APPROVED = true;')
-          .replace('export const INFOLINKS_ACCOUNT_APPROVED = false;', 'export const INFOLINKS_ACCOUNT_APPROVED = true;')
-          .replace('export const ADSENSE_TOOL_PATHS = [', `export const ADSENSE_TOOL_PATHS = [${JSON.stringify(`/blog/${article.slug}/`)},`),
-        loader: 'ts',
-      }));
       builder.onResolve({ filter: /\.css(?:$|\?)/ }, (args) => ({
         path: isAbsolute(args.path) ? args.path : args.path.startsWith('.') ? resolve(args.resolveDir, args.path) : require.resolve(args.path),
         namespace: 'fixture-css',
@@ -85,13 +69,9 @@ export async function renderDailyEditorialFixture(article: DailyEditorialArticle
   const markup = await container.renderToString(component.default, {
     request: new Request(`https://accessfreetools.com/blog/${article.slug}/`), partial: false, props: { article },
   });
-  const defaultLayoutHtml = options.advertisingMode ? await container.renderToString(component.baseLayout, {
-    request: new Request(`https://accessfreetools.com/blog/${article.slug}/`), partial: false,
-    props: { title: 'Ordinary layout fixture', description: 'Offline advertising control fixture.', path: `/blog/${article.slug}/` },
-  }) : undefined;
   const css = [...styles.values()].join('\n');
   const html = markup.replace('</head>', `<style data-fixture-real-css>${css}</style></head>`);
-  return { html, defaultLayoutHtml, dates: component.getBlogDates(article.slug), search: component.getBlogSearchIndex(),
+  return { html, dates: component.getBlogDates(article.slug), search: component.getBlogSearchIndex(),
     sitemap: component.blogSitemapEntries, images: component.editorialArticleImages,
     feed: await component.feed().text(), imageSitemap: await component.imageSitemap().text() };
 }

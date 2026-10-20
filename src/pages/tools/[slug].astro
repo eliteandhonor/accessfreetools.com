@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../components/BaseLayout.astro';
-import AdSenseSlot from '../../components/AdSenseSlot.astro';
 import AiBrowserTool, { type AiToolVariant } from '../../components/AiBrowserTool';
 import AbsoluteValueCalculator from '../../components/AbsoluteValueCalculator';
 import BreadcrumbStructuredData from '../../components/BreadcrumbStructuredData.astro';
@@ -2027,7 +2026,6 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
       )
     }
 
-    {hasInteractiveTool && <Fragment set:html="<!--INFOLINKS_OFF-->" />}
     {hasInteractiveTool && (
       <section
         id="tool-workspace"
@@ -2087,7 +2085,6 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
         {isTextToSpeechAudiobookGenerator && <TextToSpeechAudiobookGenerator client:load />}
       </section>
     )}
-    {hasInteractiveTool && <Fragment set:html="<!--INFOLINKS_ON-->" />}
 
     {relatedTools.length > 0 && (
       <nav class="workspace-related" aria-label="Related tools">
@@ -4305,7 +4302,6 @@ const toolInstructions = audioVideoTranscriberInstructions ?? textToSpeechInstru
       </div>
     </section>
 
-    <AdSenseSlot path={currentPath} />
 
     {
       isInterestRateTool && (

@@ -5,7 +5,6 @@ import { resolve } from 'node:path';
 async function retainScreenshot(region: Locator, testInfo: TestInfo, name: string) {
   const keepAdsOff = region.page().getByRole('button', { name: 'Keep ads off', exact: true });
   if (await keepAdsOff.isVisible()) await keepAdsOff.click();
-  await expect(region.page().locator('[data-advertising-choice]')).toBeHidden();
   const directory = resolve('output/project-review-followup/browser-acceptance', testInfo.project.name,
     `${testInfo.testId.replace(/[^a-zA-Z0-9_-]/g, '-')}-retry-${testInfo.retry}`);
   await mkdir(directory, { recursive: true });

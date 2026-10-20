@@ -1,22 +1,18 @@
-import { readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 import {
-  ADSENSE_VERIFICATION_ACCOUNT,
-  ADSENSE_TOOL_PATHS,
-  DEFAULT_INFOLINKS_PID,
-  DEFAULT_INFOLINKS_WSID,
   HILLTOPADS_BANNER_SCRIPT_URL,
   HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL,
-  INFOLINKS_SCRIPT_URL,
+  HILLTOPADS_VERIFICATION_TOKEN,
   isEligiblePublicAdPath,
   parsePublicFlag,
-  resolveAdMode,
   sanitizeKoFiUrl,
+  shouldServeHilltopAds,
 } from './monetization';
 
 describe('public advertising route policy', () => {
-  it('allows Infolinks on ordinary public pages', () => {
+  it('allows ads on ordinary public pages', () => {
     expect(isEligiblePublicAdPath('/')).toBe(true);
     expect(isEligiblePublicAdPath('/tools/percentage-calculator/')).toBe(true);
     expect(isEligiblePublicAdPath('/blog/remove-ai-writing-tells-before-publishing/')).toBe(true);
@@ -40,12 +36,23 @@ describe('public advertising route policy', () => {
   });
 });
 
-describe('monetization configuration', () => {
-  it('keeps supplied identifiers separate from publisher approval', () => {
-    expect(DEFAULT_INFOLINKS_PID).toBe(3447500);
-    expect(DEFAULT_INFOLINKS_WSID).toBe(0);
-    expect(INFOLINKS_SCRIPT_URL).toBe('https://resources.infolinks.com/js/infolinks_main.js');
-    expect(ADSENSE_VERIFICATION_ACCOUNT).toBe('ca-pub-4461993577253590');
+describe('HilltopAds configuration', () => {
+  it('serves HilltopAds on every public page unless switched off', () => {
+    expect(shouldServeHilltopAds('/', true)).toBe(true);
+    expect(shouldServeHilltopAds('/tools/date-calculator/', true)).toBe(true);
+    expect(shouldServeHilltopAds('/admin/', true)).toBe(false);
+    expect(shouldServeHilltopAds('/', false)).toBe(false);
+  });
+
+  it('pins the dashboard-supplied zone scripts and verification token', () => {
+    expect(HILLTOPADS_BANNER_SCRIPT_URL).toMatch(/^https:\/\/unfoldedtrade\.com\//);
+    expect(HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL).toMatch(/^https:\/\/unfoldedtrade\.com\//);
+    expect(HILLTOPADS_BANNER_SCRIPT_URL).not.toBe(HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL);
+    expect(HILLTOPADS_VERIFICATION_TOKEN).toMatch(/^[0-9a-f]{40}$/);
+  });
+
+  it('no longer publishes the retired AdSense ads.txt seller line', () => {
+    expect(existsSync(new URL('../../public/ads.txt', import.meta.url))).toBe(false);
   });
 
   it('parses explicit public feature flags without treating arbitrary text as enabled', () => {
@@ -54,70 +61,6 @@ describe('monetization configuration', () => {
     expect(parsePublicFlag('1', false)).toBe(true);
     expect(parsePublicFlag('yes', false)).toBe(true);
     expect(parsePublicFlag('maybe', false)).toBe(false);
-  });
-
-  it('blocks the unapproved Infolinks account even with an old enabled flag', () => {
-    expect(resolveAdMode('/tools/date-calculator/', {
-      adsenseClient: '',
-      adsenseCmpReady: false,
-      adsenseEnabled: false,
-      adsenseSlot: '',
-      infolinksEnabled: true,
-    })).toBe('none');
-
-    expect(resolveAdMode('/tools/date-calculator/', {
-      adsenseClient: 'ca-pub-1234567890123456',
-      adsenseCmpReady: true,
-      adsenseEnabled: true,
-      adsenseSlot: '1234567890',
-      infolinksEnabled: true,
-    })).toBe('none');
-
-    expect(resolveAdMode('/blog/', {
-      adsenseClient: 'ca-pub-1234567890123456',
-      adsenseCmpReady: true,
-      adsenseEnabled: true,
-      adsenseSlot: '1234567890',
-      infolinksEnabled: true,
-    })).toBe('none');
-  });
-
-  it('serves HilltopAds on public pages only when enabled', () => {
-    const options = {
-      adsenseClient: '',
-      adsenseCmpReady: false,
-      adsenseEnabled: false,
-      adsenseSlot: '',
-      hilltopadsEnabled: true,
-      infolinksEnabled: false,
-    };
-    expect(resolveAdMode('/', options)).toBe('hilltopads');
-    expect(resolveAdMode('/tools/date-calculator/', options)).toBe('hilltopads');
-    expect(resolveAdMode('/admin/', options)).toBe('none');
-    expect(resolveAdMode('/', { ...options, hilltopadsEnabled: false })).toBe('none');
-  });
-
-  it('pins HilltopAds banner and in-page push zone scripts to HTTPS', () => {
-    expect(HILLTOPADS_BANNER_SCRIPT_URL).toMatch(/^https:\/\/unfoldedtrade\.com\//);
-    expect(HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL).toMatch(/^https:\/\/unfoldedtrade\.com\//);
-    expect(HILLTOPADS_BANNER_SCRIPT_URL).not.toBe(HILLTOPADS_IN_PAGE_PUSH_SCRIPT_URL);
-  });
-
-  it('publishes only the exact AdSense dashboard-supplied seller line', () => {
-    const text = readFileSync(new URL('../../public/ads.txt', import.meta.url), 'utf8');
-    expect(text.replace(/\r\n/g, '\n')).toBe('google.com, pub-4461993577253590, DIRECT, f08c47fec0942fa0\n');
-    expect(text).not.toContain('3447500');
-  });
-
-  it('requires a complete approved AdSense configuration', () => {
-    expect(ADSENSE_TOOL_PATHS).toContain('/tools/percentage-calculator/');
-    expect(resolveAdMode('/tools/percentage-calculator/', {
-      adsenseClient: 'ca-pub-1234567890123456',
-      adsenseCmpReady: false,
-      adsenseEnabled: true,
-      adsenseSlot: '1234567890',
-      infolinksEnabled: false,
-    })).toBe('none');
   });
 
   it('accepts only HTTPS Ko-fi profile or page URLs', () => {

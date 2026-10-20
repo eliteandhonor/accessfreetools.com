@@ -71,20 +71,14 @@ describe('honest publication timestamps', () => {
 });
 
 describe('actual article rendering and discovery', () => {
-  it.each(['adsense', 'hilltopads', 'infolinks'] as const)('keeps automatic articles ad-free even when %s is approved for ordinary pages', async (advertisingMode) => {
+  it('renders automatic articles with the HilltopAds banner like every public page', async () => {
     const article = parseDailyEditorialArticles([syntheticDailyArticle()])[0];
     const approval = await syntheticDailyArtworkApproval(article);
-    const { html, defaultLayoutHtml } = await renderDailyEditorialFixture(article, { advertisingMode, artworkApprovals: [approval] });
-    // The positive control proves these checks would detect ad inclusion even
-    // though actual publisher approval is currently off in production.
-    expect(defaultLayoutHtml).toContain(`\"adMode\":\"${advertisingMode}\"`);
-    expect(defaultLayoutHtml).toContain('data-advertising-choice');
-    expect(defaultLayoutHtml).toContain('data-ad-privacy-open');
-    expect(defaultLayoutHtml).toContain('property="og:image"');
-    expect(defaultLayoutHtml).toContain('name="twitter:image"');
-    for (const marker of ['data-advertising-choice', 'data-ad-privacy-open', 'aft:ads-ready',
-      'adsbygoogle.js', 'infolinks_main.js', 'unfoldedtrade.com', 'data-hilltopads-banner', 'data-adsense-placement']) expect(html).not.toContain(marker);
-    expect(html).toContain('name="google-adsense-account"');
+    const { html } = await renderDailyEditorialFixture(article, { artworkApprovals: [approval] });
+    expect(html).toContain('data-hilltopads-banner-slot');
+    expect(html).toContain('unfoldedtrade.com');
+    for (const marker of ['adsbygoogle.js', 'infolinks_main.js', 'google-adsense-account', 'data-advertising-choice'])
+      expect(html).not.toContain(marker);
     expect(html).toContain('AI-assisted research, writing, and review');
     expect(html).not.toMatch(/(?:human|owner|manually)[ -]reviewed/i);
   });

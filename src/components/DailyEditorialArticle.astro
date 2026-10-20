@@ -41,7 +41,7 @@ const breadcrumbJson = JSON.stringify({
 
 <BaseLayout title={`${article.title} | Access Free Tools`} description={article.summary} path={path}
   ogType="article" socialImagePath={image?.imagePath} socialImageAlt={image?.alt}
-  renderSocialImage={image !== null} renderAdvertising={false}>
+  renderSocialImage={image !== null}>
   <script type="application/ld+json" set:html={structuredDataJson} />
   <script type="application/ld+json" set:html={breadcrumbJson} />
   <article class="blog-article editorial-article" data-daily-editorial={article.slug}>

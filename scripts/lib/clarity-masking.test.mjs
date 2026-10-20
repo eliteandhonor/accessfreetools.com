@@ -46,16 +46,6 @@ describe('SEC-02 explicit page privacy boundaries', () => {
     }
   });
 
-  it.each([['tool', tools, 'AiBrowserTool'], ['Ask', ask, 'AskToolChat']])(
-    'preserves separate %s Infolinks exclusions around the workspace', (_, page, component) => {
-      const island = page.elements.find(({ name }) => name === component).node;
-      const adBoundary = (value) => page.elements.find(({ node }) =>
-        attribute(node, 'set:html')?.value?.value === value)?.node;
-      expect(adBoundary('<!--INFOLINKS_OFF-->')?.end).toBeLessThan(island.start);
-      expect(adBoundary('<!--INFOLINKS_ON-->')?.start).toBeGreaterThan(island.end);
-    },
-  );
-
   it.each([['tool', tools], ['Ask', ask]])('does not add a %s unmask override', (_, page) => {
     expect(page.elements.filter(({ node }) => attribute(node, 'data-clarity-unmask'))).toHaveLength(0);
   });
